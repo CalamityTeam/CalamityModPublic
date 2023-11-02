@@ -11,6 +11,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon.Whips;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
+using CalamityMod.Graphics.Drawers;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
@@ -5660,28 +5661,9 @@ namespace CalamityMod.NPCs
                 else
                     VulnerabilityHexFireDrawer = null;
 
-                // Miracle Blight will not attempt to use its shader on bosses from other mods. It still works on vanilla bosses.
-                Mod sourceMod = npc.ModNPC?.Mod ?? null;
-                bool otherModBoss = npc.IsABoss() && sourceMod != CalamityMod.Instance;
-                // Setting the NPC immune to Miracle Blight also makes the shader immediately disappear.
-                bool useMiracleBlightShader = !npc.buffImmune[BuffType<MiracleBlight>()] && !otherModBoss;
-                if (useMiracleBlightShader && npc.Calamity().miracleBlight > 0)
-                {
-                    // this is horrible but I can't figure out a better way to do it
-                    Main.spriteBatch.End();
-                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-
-                    MiscShaderData msd = GameShaders.Misc["CalamityMod:MiracleBlight"];
-                    msd.SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons"), 1);
-                    msd.UseOpacity(0.7f);
-                    DrawData dd = new()
-                    {
-                        texture = TextureAssets.Npc[npc.type].Value,
-                        position = npc.position - Main.screenPosition,
-                        sourceRect = npc.frame,
-                    };
-                    msd.Apply(dd);
-                }
+                // Only draw the NPC if told to by the miracle blight drawer.
+                if (MiracleBlightDrawer.ValidToDraw(npc))
+                    return MiracleBlightDrawer.ActuallyDoPreDraw;
             }
 
             // Draw a pillar of light and fade the background as an animation when skipping things in the DD2 event.
