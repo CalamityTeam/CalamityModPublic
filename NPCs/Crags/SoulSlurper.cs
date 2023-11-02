@@ -75,36 +75,36 @@ namespace CalamityMod.NPCs.Crags
             {
                 NPC.TargetClosest(true);
             }
-            float num = 5f;
-            float num2 = 0.07f;
-            Vector2 source = NPC.Center;
-            float num4 = target.Center.X;
-            float num5 = target.Center.Y;
-            num4 = (float)((int)(num4 / 8f) * 8);
-            num5 = (float)((int)(num5 / 8f) * 8);
-            source.X = (float)((int)(source.X / 8f) * 8);
-            source.Y = (float)((int)(source.Y / 8f) * 8);
-            num4 -= source.X;
-            num5 -= source.Y;
-            float num6 = (float)Math.Sqrt((double)(num4 * num4 + num5 * num5));
-            float num7 = num6;
-            bool flag = false;
-            if (num6 > 600f)
+            float npcSpeed = 5f;
+            float npcAcceleration = 0.07f;
+            Vector2 npcCenter = NPC.Center;
+            float targetX = target.Center.X;
+            float targetY = target.Center.Y;
+            targetX = (float)((int)(targetX / 8f) * 8);
+            targetY = (float)((int)(targetY / 8f) * 8);
+            npcCenter.X = (float)((int)(npcCenter.X / 8f) * 8);
+            npcCenter.Y = (float)((int)(npcCenter.Y / 8f) * 8);
+            targetX -= npcCenter.X;
+            targetY -= npcCenter.Y;
+            float targetDistance = (float)Math.Sqrt((double)(targetX * targetX + targetY * targetY));
+            float accelerateDistance = targetDistance;
+            bool tooFar = false;
+            if (targetDistance > 600f)
             {
-                flag = true;
+                tooFar = true;
             }
-            if (num6 == 0f)
+            if (targetDistance == 0f)
             {
-                num4 = NPC.velocity.X;
-                num5 = NPC.velocity.Y;
+                targetX = NPC.velocity.X;
+                targetY = NPC.velocity.Y;
             }
             else
             {
-                num6 = num / num6;
-                num4 *= num6;
-                num5 *= num6;
+                targetDistance = npcSpeed / targetDistance;
+                targetX *= targetDistance;
+                targetY *= targetDistance;
             }
-            if (num7 > 100f)
+            if (accelerateDistance > 100f)
             {
                 NPC.ai[0] += 1f;
                 if (NPC.ai[0] > 0f)
@@ -130,24 +130,24 @@ namespace CalamityMod.NPCs.Crags
             }
             if (target.dead)
             {
-                num4 = (float)NPC.direction * num / 2f;
-                num5 = -num / 2f;
+                targetX = (float)NPC.direction * npcSpeed / 2f;
+                targetY = -npcSpeed / 2f;
             }
-            if (NPC.velocity.X < num4)
+            if (NPC.velocity.X < targetX)
             {
-                NPC.velocity.X += num2;
+                NPC.velocity.X += npcAcceleration;
             }
-            else if (NPC.velocity.X > num4)
+            else if (NPC.velocity.X > targetX)
             {
-                NPC.velocity.X -= num2;
+                NPC.velocity.X -= npcAcceleration;
             }
-            if (NPC.velocity.Y < num5)
+            if (NPC.velocity.Y < targetY)
             {
-                NPC.velocity.Y += num2;
+                NPC.velocity.Y += npcAcceleration;
             }
-            else if (NPC.velocity.Y > num5)
+            else if (NPC.velocity.Y > targetY)
             {
-                NPC.velocity.Y -= num2;
+                NPC.velocity.Y -= npcAcceleration;
             }
             NPC.localAI[0] += 1f;
             if (NPC.justHit)
@@ -165,32 +165,32 @@ namespace CalamityMod.NPCs.Crags
                         dmg = 22;
                     }
                     int projType = ModContent.ProjectileType<BrimstoneBarrage>();
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), source.X, source.Y, num4, num5, projType, dmg + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npcCenter.X, npcCenter.Y, targetX, targetY, projType, dmg + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
                 }
             }
-            int num10 = (int)NPC.Center.X;
-            int num11 = (int)NPC.Center.Y;
-            num10 /= 16;
-            num11 /= 16;
-            if (!WorldGen.SolidTile(num10, num11))
+            int npcTileX = (int)NPC.Center.X;
+            int npcTileY = (int)NPC.Center.Y;
+            npcTileX /= 16;
+            npcTileY /= 16;
+            if (!WorldGen.SolidTile(npcTileX, npcTileY))
             {
                 Lighting.AddLight((int)NPC.Center.X / 16, (int)NPC.Center.Y / 16, 0.75f, 0f, 0f);
             }
-            if (num4 > 0f)
+            if (targetX > 0f)
             {
                 NPC.spriteDirection = 1;
-                NPC.rotation = (float)Math.Atan2((double)num5, (double)num4);
+                NPC.rotation = (float)Math.Atan2((double)targetY, (double)targetX);
             }
-            if (num4 < 0f)
+            if (targetX < 0f)
             {
                 NPC.spriteDirection = -1;
-                NPC.rotation = (float)Math.Atan2((double)num5, (double)num4) + MathHelper.Pi;
+                NPC.rotation = (float)Math.Atan2((double)targetY, (double)targetX) + MathHelper.Pi;
             }
-            float num12 = 0.7f;
+            float recoilSpeed = 0.7f;
             if (NPC.collideX)
             {
                 NPC.netUpdate = true;
-                NPC.velocity.X = NPC.oldVelocity.X * -num12;
+                NPC.velocity.X = NPC.oldVelocity.X * -recoilSpeed;
                 if (NPC.direction == -1 && NPC.velocity.X > 0f && NPC.velocity.X < 2f)
                 {
                     NPC.velocity.X = 2f;
@@ -203,7 +203,7 @@ namespace CalamityMod.NPCs.Crags
             if (NPC.collideY)
             {
                 NPC.netUpdate = true;
-                NPC.velocity.Y = NPC.oldVelocity.Y * -num12;
+                NPC.velocity.Y = NPC.oldVelocity.Y * -recoilSpeed;
                 if (NPC.velocity.Y > 0f && NPC.velocity.Y < 1.5f)
                 {
                     NPC.velocity.Y = 2f;
@@ -213,9 +213,9 @@ namespace CalamityMod.NPCs.Crags
                     NPC.velocity.Y = -2f;
                 }
             }
-            if (flag)
+            if (tooFar)
             {
-                if ((NPC.velocity.X > 0f && num4 > 0f) || (NPC.velocity.X < 0f && num4 < 0f))
+                if ((NPC.velocity.X > 0f && targetX > 0f) || (NPC.velocity.X < 0f && targetX < 0f))
                 {
                     if (Math.Abs(NPC.velocity.X) < 12f)
                     {
@@ -240,49 +240,47 @@ namespace CalamityMod.NPCs.Crags
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2((float)(texture.Width / 2), (float)(texture.Height / 2));
-            Color color36 = Color.White;
-            float amount9 = 0.5f;
-            int num153 = 5;
+            Vector2 halfSizeTexture = new Vector2((float)(texture.Width / 2), (float)(texture.Height / 2));
+            int afterimageAmt = 5;
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int num155 = 1; num155 < num153; num155 += 2)
+                for (int i = 1; i < afterimageAmt; i += 2)
                 {
-                    Color color38 = drawColor;
-                    color38 = Color.Lerp(color38, color36, amount9);
-                    color38 = NPC.GetAlpha(color38);
-                    color38 *= (float)(num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
-                    vector41 -= new Vector2((float)texture.Width, (float)(texture.Height)) * NPC.scale / 2f;
-                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    Color afterimageColor = drawColor;
+                    afterimageColor = Color.Lerp(afterimageColor, Color.White, 0.5f);
+                    afterimageColor = NPC.GetAlpha(afterimageColor);
+                    afterimageColor *= (float)(afterimageAmt - i) / 15f;
+                    Vector2 afterimagePos = NPC.oldPos[i] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
+                    afterimagePos -= new Vector2((float)texture.Width, (float)(texture.Height)) * NPC.scale / 2f;
+                    afterimagePos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture, afterimagePos, NPC.frame, afterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2((float)texture.Width, (float)(texture.Height)) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2((float)texture.Width, (float)(texture.Height)) * NPC.scale / 2f;
+            drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture, drawLocation, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crags/SoulSlurperGlow").Value;
-            Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
+            Color redGlow = Color.Lerp(Color.White, Color.Red, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int num163 = 1; num163 < num153; num163++)
+                for (int j = 1; j < afterimageAmt; j++)
                 {
-                    Color color41 = color37;
-                    color41 = Color.Lerp(color41, color36, amount9);
-                    color41 *= (float)(num153 - num163) / 15f;
-                    Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
-                    vector44 -= new Vector2((float)texture.Width, (float)(texture.Height)) * NPC.scale / 2f;
-                    vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                    Color glowmaskAfterimageColor = redGlow;
+                    glowmaskAfterimageColor = Color.Lerp(glowmaskAfterimageColor, color36, amount9);
+                    glowmaskAfterimageColor *= (float)(afterimageAmt - j) / 15f;
+                    Vector2 glowmaskAfterimagePos = NPC.oldPos[j] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
+                    glowmaskAfterimagePos -= new Vector2((float)texture.Width, (float)(texture.Height)) * NPC.scale / 2f;
+                    glowmaskAfterimagePos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture, glowmaskAfterimagePos, NPC.frame, glowmaskAfterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
                 }
             }
 
-            spriteBatch.Draw(texture, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(texture, drawLocation, NPC.frame, redGlow, NPC.rotation, halfSizeTexture, NPC.scale, NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 
             return false;
         }
@@ -325,23 +323,23 @@ namespace CalamityMod.NPCs.Crags
                 NPC.height = 50;
                 NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
-                for (int num621 = 0; num621 < 10; num621++)
+                for (int i = 0; i < 10; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int brimDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    Main.dust[brimDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[brimDust].scale = 0.5f;
+                        Main.dust[brimDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 20; num623++)
+                for (int j = 0; j < 20; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int brimDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 3f);
+                    Main.dust[brimDust2].noGravity = true;
+                    Main.dust[brimDust2].velocity *= 5f;
+                    brimDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    Main.dust[brimDust2].velocity *= 2f;
                 }
             }
         }

@@ -139,33 +139,33 @@ namespace CalamityMod.NPCs.GreatSandShark
                     NPC.netUpdate = true;
                 }
 
-                int num2 = expertMode ? 35 : 50;
-                float num3 = expertMode ? 0.5f : 0.42f;
-                float scaleFactor = expertMode ? 7.5f : 6.7f;
-                int num4 = expertMode ? 28 : 30;
-                float num5 = expertMode ? 15.5f : 14f;
+                int chargeTime = expertMode ? 35 : 50;
+                float chargeAcceleration = expertMode ? 0.5f : 0.42f;
+                float chargeThreshold = expertMode ? 7.5f : 6.7f;
+                int chargeDelay = expertMode ? 28 : 30;
+                float chargeVelocity = expertMode ? 15.5f : 14f;
                 if (revenge || lowerLife)
                 {
-                    num3 *= 1.1f;
-                    scaleFactor *= 1.1f;
-                    num5 *= 1.1f;
+                    chargeAcceleration *= 1.1f;
+                    chargeThreshold *= 1.1f;
+                    chargeVelocity *= 1.1f;
                 }
                 if (death)
                 {
-                    num3 *= 1.1f;
-                    scaleFactor *= 1.1f;
-                    num5 *= 1.1f;
-                    num4 = 25;
+                    chargeAcceleration *= 1.1f;
+                    chargeThreshold *= 1.1f;
+                    chargeVelocity *= 1.1f;
+                    chargeDelay = 25;
                 }
                 if (youMustDie)
                 {
-                    num3 *= 1.5f;
-                    scaleFactor *= 1.5f;
-                    num5 *= 1.5f;
-                    num4 = 20;
+                    chargeAcceleration *= 1.5f;
+                    chargeThreshold *= 1.5f;
+                    chargeVelocity *= 1.5f;
+                    chargeDelay = 20;
                 }
 
-                Vector2 vector = NPC.Center;
+                Vector2 shorkCenter = NPC.Center;
                 Player player = Main.player[NPC.target];
 
                 if (NPC.target < 0 || NPC.target == Main.maxPlayers || player.dead || !player.active)
@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     NPC.netUpdate = true;
                 }
 
-                if (player.dead || Vector2.Distance(player.Center, vector) > 5600f)
+                if (player.dead || Vector2.Distance(player.Center, shorkCenter) > 5600f)
                 {
                     NPC.velocity.Y += 0.4f;
                     if (NPC.timeLeft > 10)
@@ -185,82 +185,82 @@ namespace CalamityMod.NPCs.GreatSandShark
                     NPC.ai[2] = 0f;
                 }
 
-                float num17 = (float)Math.Atan2(player.Center.Y - vector.Y, player.Center.X - vector.X);
+                float getRotatedIdiot = (float)Math.Atan2(player.Center.Y - shorkCenter.Y, player.Center.X - shorkCenter.X);
                 if (NPC.spriteDirection == 1)
-                    num17 += MathHelper.Pi;
-                if (num17 < 0f)
-                    num17 += MathHelper.TwoPi;
-                if (num17 > MathHelper.TwoPi)
-                    num17 -= MathHelper.TwoPi;
+                    getRotatedIdiot += MathHelper.Pi;
+                if (getRotatedIdiot < 0f)
+                    getRotatedIdiot += MathHelper.TwoPi;
+                if (getRotatedIdiot > MathHelper.TwoPi)
+                    getRotatedIdiot -= MathHelper.TwoPi;
 
-                float num18 = 0.04f;
+                float rotationSpeed = 0.04f;
                 if (NPC.ai[0] == 1f)
-                    num18 = 0f;
+                    rotationSpeed = 0f;
 
-                if (NPC.rotation < num17)
+                if (NPC.rotation < getRotatedIdiot)
                 {
-                    if ((double)(num17 - NPC.rotation) > MathHelper.Pi)
-                        NPC.rotation -= num18;
+                    if ((double)(getRotatedIdiot - NPC.rotation) > MathHelper.Pi)
+                        NPC.rotation -= rotationSpeed;
                     else
-                        NPC.rotation += num18;
+                        NPC.rotation += rotationSpeed;
                 }
-                if (NPC.rotation > num17)
+                if (NPC.rotation > getRotatedIdiot)
                 {
-                    if ((double)(NPC.rotation - num17) > MathHelper.Pi)
-                        NPC.rotation += num18;
+                    if ((double)(NPC.rotation - getRotatedIdiot) > MathHelper.Pi)
+                        NPC.rotation += rotationSpeed;
                     else
-                        NPC.rotation -= num18;
+                        NPC.rotation -= rotationSpeed;
                 }
 
-                if (NPC.rotation > num17 - num18 && NPC.rotation < num17 + num18)
-                    NPC.rotation = num17;
+                if (NPC.rotation > getRotatedIdiot - rotationSpeed && NPC.rotation < getRotatedIdiot + rotationSpeed)
+                    NPC.rotation = getRotatedIdiot;
 
                 if (NPC.rotation < 0f)
                     NPC.rotation += MathHelper.TwoPi;
                 if (NPC.rotation > MathHelper.TwoPi)
                     NPC.rotation -= MathHelper.TwoPi;
 
-                if (NPC.rotation > num17 - num18 && NPC.rotation < num17 + num18)
-                    NPC.rotation = num17;
+                if (NPC.rotation > getRotatedIdiot - rotationSpeed && NPC.rotation < getRotatedIdiot + rotationSpeed)
+                    NPC.rotation = getRotatedIdiot;
 
                 if (NPC.ai[0] == 0f && !player.dead)
                 {
                     if (NPC.ai[1] == 0f)
-                        NPC.ai[1] = 300 * Math.Sign((vector - player.Center).X);
+                        NPC.ai[1] = 300 * Math.Sign((shorkCenter - player.Center).X);
 
-                    Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(NPC.ai[1], -200f) - vector - NPC.velocity) * scaleFactor;
-                    if (NPC.velocity.X < vector3.X)
+                    Vector2 chargeDirection = Vector2.Normalize(player.Center + new Vector2(NPC.ai[1], -200f) - shorkCenter - NPC.velocity) * chargeThreshold;
+                    if (NPC.velocity.X < chargeDirection.X)
                     {
-                        NPC.velocity.X += num3;
-                        if (NPC.velocity.X < 0f && vector3.X > 0f)
-                            NPC.velocity.X += num3;
+                        NPC.velocity.X += chargeAcceleration;
+                        if (NPC.velocity.X < 0f && chargeDirection.X > 0f)
+                            NPC.velocity.X += chargeAcceleration;
                     }
-                    else if (NPC.velocity.X > vector3.X)
+                    else if (NPC.velocity.X > chargeDirection.X)
                     {
-                        NPC.velocity.X -= num3;
-                        if (NPC.velocity.X > 0f && vector3.X < 0f)
-                            NPC.velocity.X -= num3;
+                        NPC.velocity.X -= chargeAcceleration;
+                        if (NPC.velocity.X > 0f && chargeDirection.X < 0f)
+                            NPC.velocity.X -= chargeAcceleration;
                     }
-                    if (NPC.velocity.Y < vector3.Y)
+                    if (NPC.velocity.Y < chargeDirection.Y)
                     {
-                        NPC.velocity.Y += num3;
-                        if (NPC.velocity.Y < 0f && vector3.Y > 0f)
-                            NPC.velocity.Y += num3;
+                        NPC.velocity.Y += chargeAcceleration;
+                        if (NPC.velocity.Y < 0f && chargeDirection.Y > 0f)
+                            NPC.velocity.Y += chargeAcceleration;
                     }
-                    else if (NPC.velocity.Y > vector3.Y)
+                    else if (NPC.velocity.Y > chargeDirection.Y)
                     {
-                        NPC.velocity.Y -= num3;
-                        if (NPC.velocity.Y > 0f && vector3.Y < 0f)
-                            NPC.velocity.Y -= num3;
+                        NPC.velocity.Y -= chargeAcceleration;
+                        if (NPC.velocity.Y > 0f && chargeDirection.Y < 0f)
+                            NPC.velocity.Y -= chargeAcceleration;
                     }
 
-                    int num22 = Math.Sign(player.Center.X - vector.X);
-                    if (num22 != 0)
+                    int shorkFaceDirection = Math.Sign(player.Center.X - shorkCenter.X);
+                    if (shorkFaceDirection != 0)
                     {
-                        if (NPC.ai[2] == 0f && num22 != NPC.direction)
+                        if (NPC.ai[2] == 0f && shorkFaceDirection != NPC.direction)
                             NPC.rotation += MathHelper.Pi;
 
-                        NPC.direction = num22;
+                        NPC.direction = shorkFaceDirection;
                         if (NPC.spriteDirection != -NPC.direction)
                             NPC.rotation += MathHelper.Pi;
 
@@ -268,17 +268,17 @@ namespace CalamityMod.NPCs.GreatSandShark
                     }
 
                     NPC.ai[2] += 1f;
-                    if (NPC.ai[2] >= num2)
+                    if (NPC.ai[2] >= chargeTime)
                     {
                         NPC.ai[0] = 1f;
                         NPC.ai[1] = 0f;
                         NPC.ai[2] = 0f;
-                        NPC.velocity = Vector2.Normalize(player.Center - vector) * num5;
+                        NPC.velocity = Vector2.Normalize(player.Center - shorkCenter) * chargeVelocity;
                         NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X);
 
-                        if (num22 != 0)
+                        if (shorkFaceDirection != 0)
                         {
-                            NPC.direction = num22;
+                            NPC.direction = shorkFaceDirection;
                             if (NPC.spriteDirection == 1)
                                 NPC.rotation += MathHelper.Pi;
 
@@ -292,7 +292,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                 else if (NPC.ai[0] == 1f)
                 {
                     NPC.ai[2] += 1f;
-                    if (NPC.ai[2] >= num4)
+                    if (NPC.ai[2] >= chargeDelay)
                     {
                         NPC.localAI[3] += 1f;
                         if (NPC.localAI[3] >= 2f)
@@ -312,15 +312,15 @@ namespace CalamityMod.NPCs.GreatSandShark
                 if (NPC.direction == 0)
                     NPC.TargetClosest();
 
-                Point point15 = NPC.Center.ToTileCoordinates();
-                Tile tileSafely = Framing.GetTileSafely(point15);
-                bool flag121 = tileSafely.HasUnactuatedTile || tileSafely.LiquidAmount > 0;
-                bool flag122 = false;
+                Point shorkTileCenter = NPC.Center.ToTileCoordinates();
+                Tile tileSafely = Framing.GetTileSafely(shorkTileCenter);
+                bool isInSolidTile = tileSafely.HasUnactuatedTile || tileSafely.LiquidAmount > 0;
+                bool shouldDoLunge = false;
                 NPC.TargetClosest(false);
 
-                Vector2 vector260 = NPC.targetRect.Center.ToVector2();
-                if (Main.player[NPC.target].velocity.Y > -0.1f && !Main.player[NPC.target].dead && NPC.Distance(vector260) > 150f)
-                    flag122 = true;
+                Vector2 targetLungeDirection = NPC.targetRect.Center.ToVector2();
+                if (Main.player[NPC.target].velocity.Y > -0.1f && !Main.player[NPC.target].dead && NPC.Distance(targetLungeDirection) > 150f)
+                    shouldDoLunge = true;
 
                 NPC.localAI[1] += 1f;
 
@@ -364,25 +364,24 @@ namespace CalamityMod.NPCs.GreatSandShark
                     NPC.netUpdate = true;
                 }
 
-                if (NPC.localAI[0] == -1f && !flag121)
+                if (NPC.localAI[0] == -1f && !isInSolidTile)
                     NPC.localAI[0] = 20f;
                 if (NPC.localAI[0] > 0f)
                     NPC.localAI[0] -= 1f;
 
-                if (flag121)
+                if (isInSolidTile)
                 {
-                    float num1534 = NPC.ai[1];
-                    bool flag123 = false;
-                    point15 = (NPC.Center + new Vector2(0f, 24f)).ToTileCoordinates();
-                    tileSafely = Framing.GetTileSafely(point15.X, point15.Y - 2);
+                    bool lungeShouldDecelerate = false;
+                    shorkTileCenter = (NPC.Center + new Vector2(0f, 24f)).ToTileCoordinates();
+                    tileSafely = Framing.GetTileSafely(shorkTileCenter.X, shorkTileCenter.Y - 2);
                     if (tileSafely.HasUnactuatedTile)
-                        flag123 = true;
+                        lungeShouldDecelerate = true;
 
-                    NPC.ai[1] = flag123.ToInt();
+                    NPC.ai[1] = lungeShouldDecelerate.ToInt();
                     if (NPC.ai[2] < 30f)
                         NPC.ai[2] += 1f;
 
-                    if (flag122)
+                    if (shouldDoLunge)
                     {
                         NPC.TargetClosest();
                         NPC.velocity.X += NPC.direction * 0.15f;
@@ -416,34 +415,34 @@ namespace CalamityMod.NPCs.GreatSandShark
                         }
                         NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -velocityX, velocityX);
                         NPC.velocity.Y = MathHelper.Clamp(NPC.velocity.Y, -velocityY, velocityY);
-                        Vector2 vec4 = NPC.Center + NPC.velocity.SafeNormalize(Vector2.Zero) * NPC.Size.Length() / 2f + NPC.velocity;
-                        point15 = vec4.ToTileCoordinates();
-                        tileSafely = Framing.GetTileSafely(point15);
-                        bool flag124 = tileSafely.HasUnactuatedTile;
-                        if (!flag124 && Math.Sign(NPC.velocity.X) == NPC.direction && (NPC.Distance(vector260) < 600f || youMustDie) && (NPC.ai[2] >= 30f || NPC.ai[2] < 0f))
+                        Vector2 shorkDirection = NPC.Center + NPC.velocity.SafeNormalize(Vector2.Zero) * NPC.Size.Length() / 2f + NPC.velocity;
+                        shorkTileCenter = shorkDirection.ToTileCoordinates();
+                        tileSafely = Framing.GetTileSafely(shorkTileCenter);
+                        bool isInTile = tileSafely.HasUnactuatedTile;
+                        if (!isInTile && Math.Sign(NPC.velocity.X) == NPC.direction && (NPC.Distance(targetLungeDirection) < 600f || youMustDie) && (NPC.ai[2] >= 30f || NPC.ai[2] < 0f))
                         {
                             if (NPC.localAI[0] == 0f)
                             {
                                 SoundEngine.PlaySound(SoundID.NPCDeath15, NPC.position);
                                 NPC.localAI[0] = -1f;
-                                for (int num621 = 0; num621 < 25; num621++)
+                                for (int i = 0; i < 25; i++)
                                 {
-                                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 32, 0f, 0f, 100, default, 2f);
-                                    Main.dust[num622].velocity.Y *= 6f;
-                                    Main.dust[num622].velocity.X *= 3f;
+                                    int burrowDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 32, 0f, 0f, 100, default, 2f);
+                                    Main.dust[burrowDust].velocity.Y *= 6f;
+                                    Main.dust[burrowDust].velocity.X *= 3f;
                                     if (Main.rand.NextBool())
                                     {
-                                        Main.dust[num622].scale = 0.5f;
-                                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                                        Main.dust[burrowDust].scale = 0.5f;
+                                        Main.dust[burrowDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                                     }
                                 }
-                                for (int num623 = 0; num623 < 50; num623++)
+                                for (int j = 0; j < 50; j++)
                                 {
-                                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 85, 0f, 0f, 100, default, 3f);
-                                    Main.dust[num624].noGravity = true;
-                                    Main.dust[num624].velocity.Y *= 10f;
-                                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 268, 0f, 0f, 100, default, 2f);
-                                    Main.dust[num624].velocity.X *= 2f;
+                                    int burrowDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 85, 0f, 0f, 100, default, 3f);
+                                    Main.dust[burrowDust2].noGravity = true;
+                                    Main.dust[burrowDust2].velocity.Y *= 10f;
+                                    burrowDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 268, 0f, 0f, 100, default, 2f);
+                                    Main.dust[burrowDust2].velocity.X *= 2f;
                                 }
                                 int spawnX = (int)(NPC.width / 2);
                                 int projType = Main.zenithWorld ? ModContent.ProjectileType<AstralMeteorProj>() : ModContent.ProjectileType<GreatSandBlast>();
@@ -453,34 +452,34 @@ namespace CalamityMod.NPCs.GreatSandShark
                             }
                             NPC.ai[2] = -30f;
 
-                            Vector2 upwardChargeDirection = NPC.SafeDirectionTo(vector260 + new Vector2(0f, -80f), -Vector2.UnitY);
+                            Vector2 upwardChargeDirection = NPC.SafeDirectionTo(targetLungeDirection + new Vector2(0f, -80f), -Vector2.UnitY);
                             NPC.velocity = upwardChargeDirection * 18f;
                         }
                     }
                     else
                     {
-                        float num1535 = 6f;
+                        float decelerationXThreshold = 6f;
                         NPC.velocity.X += NPC.direction * 0.1f;
-                        if (NPC.velocity.X < -num1535 || NPC.velocity.X > num1535)
+                        if (NPC.velocity.X < -decelerationXThreshold || NPC.velocity.X > decelerationXThreshold)
                             NPC.velocity.X *= 0.95f;
 
-                        if (flag123)
+                        if (lungeShouldDecelerate)
                             NPC.ai[0] = -1f;
                         else
                             NPC.ai[0] = 1f;
 
-                        float num1536 = 0.06f;
-                        float num1537 = 0.01f;
+                        float decelerationYThreshold = 0.06f;
+                        float decelerationAmt = 0.01f;
                         if (NPC.ai[0] == -1f)
                         {
-                            NPC.velocity.Y -= num1537;
-                            if (NPC.velocity.Y < -num1536)
+                            NPC.velocity.Y -= decelerationAmt;
+                            if (NPC.velocity.Y < -decelerationYThreshold)
                                 NPC.ai[0] = 1f;
                         }
                         else
                         {
-                            NPC.velocity.Y += num1537;
-                            if (NPC.velocity.Y > num1536)
+                            NPC.velocity.Y += decelerationAmt;
+                            if (NPC.velocity.Y > decelerationYThreshold)
                                 NPC.ai[0] = -1f;
                         }
 
@@ -492,12 +491,12 @@ namespace CalamityMod.NPCs.GreatSandShark
                 {
                     if (NPC.velocity.Y == 0f)
                     {
-                        if (flag122)
+                        if (shouldDoLunge)
                             NPC.TargetClosest();
 
-                        float num1538 = 1f;
+                        float smallDecelerationXThreshold = 1f;
                         NPC.velocity.X += NPC.direction * 0.1f;
-                        if (NPC.velocity.X < -num1538 || NPC.velocity.X > num1538)
+                        if (NPC.velocity.X < -smallDecelerationXThreshold || NPC.velocity.X > smallDecelerationXThreshold)
                             NPC.velocity.X *= 0.95f;
                     }
 
@@ -586,46 +585,44 @@ namespace CalamityMod.NPCs.GreatSandShark
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Color color24 = NPC.GetAlpha(drawColor);
-            Color color25 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
+            Color mainAfterimageColor = NPC.GetAlpha(drawColor);
+            Color extraAfterimageColor = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
             if (Main.zenithWorld)
             {
-                color24 = Color.Silver;
-                color25 = Color.Orange;
+                mainAfterimageColor = Color.Silver;
+                extraAfterimageColor = Color.Orange;
             }
             Texture2D texture2D3 = TextureAssets.Npc[NPC.type].Value;
-            int num156 = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
-            int y3 = num156 * (int)NPC.frameCounter;
-            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
-            Vector2 origin2 = rectangle.Size() / 2f;
-            int num157 = 8;
-            int num158 = 2;
-            int num159 = 1;
-            float num160 = 0f;
-            int num161 = num159;
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
+            int currentFrame = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
+            int y3 = currentFrame * (int)NPC.frameCounter;
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, currentFrame);
+            Vector2 halfRectSize = rectangle.Size() / 2f;
+            int eightConst = 8;
+            int afterimageInc = 2;
+            int afterimageCounter = 1;
+            while (((afterimageInc > 0 && afterimageCounter < eightConst) || (afterimageInc < 0 && afterimageCounter > eightConst)) && CalamityConfig.Instance.Afterimages)
             {
-                Color color26 = NPC.GetAlpha(color25);
+                Color alphaAfterimageColor = NPC.GetAlpha(extraAfterimageColor);
                 {
                     goto IL_6899;
                 }
                 IL_6881:
-                num161 += num158;
+                afterimageCounter += afterimageInc;
                 continue;
                 IL_6899:
-                float num164 = (float)(num157 - num161);
-                if (num158 < 0)
+                float afterimagesRemaining = (float)(eightConst - afterimageCounter);
+                if (afterimageInc < 0)
                 {
-                    num164 = (float)(num159 - num161);
+                    afterimagesRemaining = (float)(1 - afterimageCounter);
                 }
-                color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[NPC.type] * 1.5f);
-                Vector2 value4 = NPC.oldPos[num161];
-                float num165 = NPC.rotation;
-                Main.spriteBatch.Draw(texture2D3, value4 + NPC.Size / 2f - screenPos + new Vector2(0, NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + NPC.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, NPC.scale, spriteEffects, 0f);
+                alphaAfterimageColor *= afterimagesRemaining / ((float)NPCID.Sets.TrailCacheLength[NPC.type] * 1.5f);
+                Vector2 afterimagePos = NPC.oldPos[afterimageCounter];
+                float afterimageRotation = NPC.rotation;
+                Main.spriteBatch.Draw(texture2D3, afterimagePos + NPC.Size / 2f - screenPos + new Vector2(0, NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), alphaAfterimageColor, afterimageRotation + NPC.rotation * 0f * (float)(afterimageCounter - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), halfRectSize, NPC.scale, spriteEffects, 0f);
                 goto IL_6881;
             }
             var something = NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(texture2D3, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, color24, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, something, 0);
+            spriteBatch.Draw(texture2D3, NPC.Center - screenPos + new Vector2(0, NPC.gfxOffY), NPC.frame, mainAfterimageColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, something, 0);
 
             return false;
         }
@@ -638,23 +635,23 @@ namespace CalamityMod.NPCs.GreatSandShark
             }
             if (NPC.life <= 0)
             {
-                for (int num621 = 0; num621 < 50; num621++)
+                for (int i = 0; i < 50; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int burrowDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 2f);
+                    Main.dust[burrowDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[burrowDust].scale = 0.5f;
+                        Main.dust[burrowDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 100; num623++)
+                for (int j = 0; j < 100; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int burrowDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 3f);
+                    Main.dust[burrowDust2].noGravity = true;
+                    Main.dust[burrowDust2].velocity *= 5f;
+                    burrowDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 5, 0f, 0f, 100, default, 2f);
+                    Main.dust[burrowDust2].velocity *= 2f;
                 }
             }
         }
