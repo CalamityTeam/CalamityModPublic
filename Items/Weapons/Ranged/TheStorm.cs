@@ -12,12 +12,17 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class TheStorm : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
+
+	public override void SetStaticDefaults()
+	{
+	    Main.RegisterItemAnimation(Type, new DrawAnimationVertical(5, 9));
+	}
         public override void SetDefaults()
         {
             Item.damage = 35;
             Item.DamageType = DamageClass.Ranged;
-            Item.width = 34;
-            Item.height = 50;
+            Item.width = 54;
+            Item.height = 90;
             Item.useTime = 7;
             Item.useAnimation = 14;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -30,6 +35,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shoot = ModContent.ProjectileType<Bolt>();
             Item.shootSpeed = 28f;
             Item.useAmmo = AmmoID.Arrow;
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-10, 0);
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
