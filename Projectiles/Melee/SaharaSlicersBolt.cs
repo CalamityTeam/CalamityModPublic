@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -32,6 +33,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             Player Owner = Main.player[Projectile.owner];
+            float playerDist = Vector2.Distance(Owner.Center, Projectile.Center);
 
             // Shot Mode
             if (Projectile.ai[0] == 1)
@@ -45,10 +47,11 @@ namespace CalamityMod.Projectiles.Melee
                     dust.noGravity = true;
                     dust.velocity = -Projectile.velocity * 0.5f;
                 }
-                Dust dust2 = Dust.NewDustPerfect(Projectile.Center - Projectile.velocity, 313);
-                dust2.scale = Main.rand.NextFloat(0.4f, 0.6f);
-                dust2.noGravity = true;
-                dust2.velocity = -Projectile.velocity * Main.rand.NextFloat(0.45f, 0.85f);
+                if (Projectile.timeLeft % 2 == 0 && playerDist < 1400f)
+                {
+                    SparkParticle spark = new SparkParticle(Projectile.Center - Projectile.velocity * 3f, -Projectile.velocity * 0.05f, false, 9, 1f, Color.White * 0.1f);
+                    GeneralParticleHandler.SpawnParticle(spark);
+                }
             }
             else // "Quiver" mode
             {
@@ -85,12 +88,12 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
                 for (int i = 0; i <= 5; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool() ? 288 : 207, -Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.2f, 1f));
-                    dust.noGravity = false;
-                    dust.scale = Main.rand.NextFloat(0.8f, 1.5f);
-                    Dust dust2 = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool() ? 288 : 207, -Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(35f)) * Main.rand.NextFloat(0.05f, 0.4f));
-                    dust2.noGravity = false;
-                    dust2.scale = Main.rand.NextFloat(0.8f, 1.5f);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool() ? 216 : 207, -Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.2f, 1f));
+                    dust.noGravity = true;
+                    dust.scale = Main.rand.NextFloat(1.1f, 1.8f);
+                    Dust dust2 = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool() ? 216 : 207, -Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(35f)) * Main.rand.NextFloat(0.05f, 0.4f));
+                    dust2.noGravity = true;
+                    dust2.scale = Main.rand.NextFloat(1.1f, 1.8f);
                 }
             }
         }

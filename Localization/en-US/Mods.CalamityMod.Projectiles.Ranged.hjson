@@ -16,8 +16,10 @@ AstralSandgun.DisplayName: Astral Sandgun
 AstrealArrow.DisplayName: Astreal Arrow
 AstrealFlame.DisplayName: Astreal Flame
 AuralisBullet.DisplayName: Auralis Bullet
+AuricBullet.DisplayName: Auric Bullet
 AuroraFire.DisplayName: Aurora Blaze
 BallistaGreatArrow.DisplayName: Ballista Great Arrow
+BarinadeArrow.DisplayName: Fin Arrow
 BeeRPG.DisplayName: Bee RPG
 BigCoral.DisplayName: Big Coral
 BigNuke.DisplayName: Big Nuke
@@ -160,6 +162,7 @@ PrismMine.DisplayName: Mine
 PristineFire.DisplayName: Pristine Fire
 PristineSecondary.DisplayName: Pristine Lingering Fire
 PumplerGrenade.DisplayName: Squash Shell
+P90Round.DisplayName: Armor-piercing Round
 RainbowBlast.DisplayName: Blast
 RainbowFront.DisplayName: Rainbow
 RainbowTrail.DisplayName: Rainbow
@@ -237,5 +240,3 @@ Voidragon.DisplayName: Voidragon Blast
 VoidragonTentacle.DisplayName: Voidragon Tentacle
 WaterSpout.DisplayName: Spout
 WulfrumScrapBullet.DisplayName: High Speed Scrap
-AuricBullet.DisplayName: Auric Bullet
-P90Round.DisplayName: Armor-piercing Round

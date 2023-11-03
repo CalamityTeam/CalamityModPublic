@@ -728,7 +728,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 {
                     ModContent.ItemType<SaharaSlicers>(),
                     ModContent.ItemType<Barinade>(),
-                    ModContent.ItemType<StormSpray>(),
+                    ModContent.ItemType<SandstreamScepter>(),
                     ModContent.ItemType<SeaboundStaff>(),
                     ModContent.ItemType<ScourgeoftheDesert>()
                 };
