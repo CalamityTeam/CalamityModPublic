@@ -383,8 +383,8 @@ namespace CalamityMod.Tiles
                     foreach (Item item in itemDrops)
                     {
                         item.Prefix(-1); // You're twisted if you have a prefixable item inside ores but fuck it
-                        int num = Item.NewItem(source, pos, item);
-                        Main.item[num].TryCombiningIntoNearbyItems(num);
+                        int moddedOre = Item.NewItem(source, pos, item);
+                        Main.item[moddedOre].TryCombiningIntoNearbyItems(moddedOre);
                     }
                 }
                 else // Fetch normal tile-item relationships (all vanilla ores are normal thankfully)
@@ -476,19 +476,19 @@ namespace CalamityMod.Tiles
                 return;
             }
 
-            int num = tileSafely.TileFrameX / 22;
-            int num2 = tileSafely.TileFrameY / 22;
-            if (num == 3 && num2 <= 2)
+            int treeTileX = tileSafely.TileFrameX / 22;
+            int treeTileY = tileSafely.TileFrameY / 22;
+            if (treeTileX == 3 && treeTileY <= 2)
                 x++;
-            else if (num == 4 && num2 >= 3 && num2 <= 5)
+            else if (treeTileX == 4 && treeTileY >= 3 && treeTileY <= 5)
                 x--;
-            else if (num == 1 && num2 >= 6 && num2 <= 8)
+            else if (treeTileX == 1 && treeTileY >= 6 && treeTileY <= 8)
                 x--;
-            else if (num == 2 && num2 >= 6 && num2 <= 8)
+            else if (treeTileX == 2 && treeTileY >= 6 && treeTileY <= 8)
                 x++;
-            else if (num == 2 && num2 >= 9)
+            else if (treeTileX == 2 && treeTileY >= 9)
                 x++;
-            else if (num == 3 && num2 >= 9)
+            else if (treeTileX == 3 && treeTileY >= 9)
                 x--;
 
             tileSafely = Framing.GetTileSafely(x, y);

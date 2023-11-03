@@ -67,36 +67,36 @@ namespace CalamityMod.Tiles.Abyss
                 {
                     if (Main.tile[i, j + 1].LiquidAmount >= 128 && Main.tile[i, j + 1].LiquidType != LiquidID.Lava)
                     {
-                        bool flag13 = false;
-                        for (int num52 = j; num52 > j - 10; j--)
+                        bool canGrowVine = false;
+                        for (int k = j; k > j - 10; j--)
                         {
-                            if (Main.tile[i, num52].BottomSlope)
+                            if (Main.tile[i, k].BottomSlope)
                             {
-                                flag13 = false;
+                                canGrowVine = false;
                                 break;
                             }
-                            if (Main.tile[i, num52].HasTile && !Main.tile[i, num52].BottomSlope)
+                            if (Main.tile[i, k].HasTile && !Main.tile[i, k].BottomSlope)
                             {
-                                flag13 = true;
+                                canGrowVine = true;
                                 break;
                             }
                         }
-                        if (flag13)
+                        if (canGrowVine)
                         {
-                            int num53 = i;
-                            int num54 = j + 1;
-                            Main.tile[num53, num54].TileType = (ushort)ModContent.TileType<ViperVines>();
-                            Main.tile[num53, num54].TileFrameX = (short)(WorldGen.genRand.Next(8) * 18);
-                            Main.tile[num53, num54].TileFrameY = (short)(4 * 18);
-                            Main.tile[num53, num54 - 1].TileFrameX = (short)(WorldGen.genRand.Next(12) * 18);
-                            Main.tile[num53, num54 - 1].TileFrameY = (short)(WorldGen.genRand.Next(4) * 18);
-                            Main.tile[num53, num54].Get<TileWallWireStateData>().HasTile = true;
-                            WorldGen.SquareTileFrame(num53, num54, true);
-                            WorldGen.SquareTileFrame(num53, num54 - 1, true);
+                            int vineX = i;
+                            int vineY = j + 1;
+                            Main.tile[vineX, vineY].TileType = (ushort)ModContent.TileType<ViperVines>();
+                            Main.tile[vineX, vineY].TileFrameX = (short)(WorldGen.genRand.Next(8) * 18);
+                            Main.tile[vineX, vineY].TileFrameY = (short)(4 * 18);
+                            Main.tile[vineX, vineY - 1].TileFrameX = (short)(WorldGen.genRand.Next(12) * 18);
+                            Main.tile[vineX, vineY - 1].TileFrameY = (short)(WorldGen.genRand.Next(4) * 18);
+                            Main.tile[vineX, vineY].Get<TileWallWireStateData>().HasTile = true;
+                            WorldGen.SquareTileFrame(vineX, vineY, true);
+                            WorldGen.SquareTileFrame(vineX, vineY - 1, true);
                             if (Main.netMode == NetmodeID.Server)
                             {
-                                NetMessage.SendTileSquare(-1, num53, num54, 3, TileChangeType.None);
-                                NetMessage.SendTileSquare(-1, num53, num54 - 1, 3, TileChangeType.None);
+                                NetMessage.SendTileSquare(-1, vineX, vineY, 3, TileChangeType.None);
+                                NetMessage.SendTileSquare(-1, vineX, vineY - 1, 3, TileChangeType.None);
                             }
                         }
                     }
