@@ -342,7 +342,7 @@ namespace CalamityMod.Effects
             RegisterMiscShader(MetaballEdgeShader, "ParticlePass", "MetaballEdge");
 
             AdditiveMetaballEdgeShader = LoadShader("Metaballs/AdditiveMetaballEdgeShader");
-            RegisterMiscShader(AdditiveMetaballEdgeShader, "ParticlePass", "AdditiveFusableParticleEdge");
+            RegisterMiscShader(AdditiveMetaballEdgeShader, "ParticlePass", "AdditiveMetaballEdge");
 
             // This shader is not registered with the game but is invoked directly to render the results of fluid simulation.
             FluidShaders = LoadShader("FluidShaders");
