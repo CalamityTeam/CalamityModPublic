@@ -49,7 +49,6 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
-using CalamityMod.Particles.Metaballs;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Schematics;
@@ -345,7 +344,6 @@ namespace CalamityMod
             // However, render targets and certain other graphical objects can only be created on the main thread.
             Main.QueueMainThreadAction(() =>
             {
-                FusableParticleManager.LoadParticleRenderSets();
                 Main.OnPreDraw += PrepareRenderTargets;
             });
 
@@ -376,7 +374,7 @@ namespace CalamityMod
             GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) =>
-            { 
+            {
                 float flightTimeInterpolant = player.wingTime / player.wingTimeMax;
                 if (player.mount.Active)
                     flightTimeInterpolant = 1f;
@@ -449,7 +447,6 @@ namespace CalamityMod
 
             Main.QueueMainThreadAction(() =>
             {
-                FusableParticleManager.UnloadParticleRenderSets();
                 Main.OnPreDraw -= PrepareRenderTargets;
             });
 
@@ -499,7 +496,6 @@ namespace CalamityMod
 
         public static void PrepareRenderTargets(GameTime gameTime)
         {
-            FusableParticleManager.PrepareFusableParticleTargets();
             DeathAshParticle.PrepareRenderTargets();
             FluidFieldManager.Update();
         }
@@ -517,7 +513,8 @@ namespace CalamityMod
                     saveMethodInfo.Invoke(null, new object[] { cfg });
                 else
                     Instance.Logger.Error("TML ConfigManager.Save reflection failed. Method signature has changed. Notify Calamity Devs if you see this in your log.");
-            } catch
+            }
+            catch
             {
                 Instance.Logger.Error("An error occurred while manually saving Calamity mod configuration. This may be due to a complex mod conflict. It is safe to ignore this error.");
             }
