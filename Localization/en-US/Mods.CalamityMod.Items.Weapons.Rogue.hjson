@@ -978,7 +978,7 @@ ScourgeoftheDesert: {
 	Tooltip:
 		'''
 		A javelin that will burrow through the ground and launch itself at enemies
-Stealth strikes throw three javelins that will burrow multiple times
+		Stealth strikes throw three javelins that will burrow multiple times
 		'''
 }
 

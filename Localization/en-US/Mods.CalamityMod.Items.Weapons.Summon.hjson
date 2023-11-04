@@ -88,6 +88,17 @@ BorealisBomber: {
 		'''
 }
 
+BrittleStarStaff: {
+	DisplayName: Brittle Star Staff
+	Tooltip:
+        '''
+        Summons a small brittle starfish that will dash through enemies until it shatters
+        Starfish will quickly regenerate after shattering
+        Holding right click will swap starfish between dashing and circling you
+        When the starfish are circling, each one provides you with 3 defense
+        '''
+}
+
 CadaverousCarrion: {
 	DisplayName: Cadaverous Carrion
 	Tooltip: Summons a gross, shark-puking Old Duke head on the ground
@@ -578,11 +589,6 @@ SarosPossession: {
 ScabRipper: {
 	DisplayName: Scab Ripper
 	Tooltip: Summons a baby blood crawler to protect you
-}
-
-SeaboundStaff: {
-	DisplayName: Seabound Staff
-	Tooltip: Summons a brittle star to fight for you
 }
 
 ShellfishStaff: {

@@ -71,7 +71,7 @@ namespace CalamityMod.Items.TreasureBags
                 ModContent.ItemType<SaharaSlicers>(),
                 ModContent.ItemType<Barinade>(),
                 ModContent.ItemType<SandstreamScepter>(),
-                ModContent.ItemType<SeaboundStaff>(),
+                ModContent.ItemType<BrittleStarStaff>(),
                 ModContent.ItemType<ScourgeoftheDesert>()
             }));
 
