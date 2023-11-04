@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Magic
         }
         public override void OnKill(int timeLeft)
         {
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandstreamScepterExplosion>(), Projectile.damage / 3, Projectile.knockBack * 3, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandstreamScepterExplosion>(), Projectile.damage / 3, Projectile.knockBack * 4, Projectile.owner);
             float numberOfDusts = 20f;
             float rotFactor = 360f / numberOfDusts;
             for (int i = 0; i < numberOfDusts; i++)

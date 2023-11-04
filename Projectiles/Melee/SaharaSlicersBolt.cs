@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 if (Projectile.timeLeft % 2 == 0 && playerDist < 1400f)
                 {
-                    SparkParticle spark = new SparkParticle(Projectile.Center - Projectile.velocity * 3f, -Projectile.velocity * 0.05f, false, 9, 1f, Color.White * 0.1f);
+                    SparkParticle spark = new SparkParticle(Projectile.Center - Projectile.velocity * 3f, -Projectile.velocity * 0.05f, false, 10, 1f, Color.White * 0.135f);
                     GeneralParticleHandler.SpawnParticle(spark);
                 }
             }

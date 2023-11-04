@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -27,6 +28,8 @@ namespace CalamityMod.Projectiles.Summon
         public bool MoveSize = false;
         public int ReformingTimer = 25;
         public bool Reforming = false;
+        public int Time = 0;
+        public float ProjKnock;
         public override void SetDefaults()
         {
             Projectile.width = 30;
@@ -49,13 +52,17 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void MinionAI()
         {
+            Time++;
+            if (Time == 1)
+                ProjKnock = Projectile.knockBack;
+            Projectile.knockBack = ProjKnock * (MinionBuffMode ? 2.5f : 1f);
             if (ReformingTimer < 25)
             {
                 Projectile.alpha = 255;
                 Reforming = true;
                 ReformingTimer++;
             }
-            if (ReformingTimer == 24)
+            if (ReformingTimer == 24) // Dust effect and positioning after reforming
             {
                 Reforming = false;
                 Projectile.Center = Owner.Center + Main.rand.NextVector2Circular(160, 160);
@@ -79,7 +86,7 @@ namespace CalamityMod.Projectiles.Summon
                 Reforming = false;
             }
 
-            if (MoveWidth <= 0.7f)
+            if (MoveWidth <= 0.7f) // Used for the rotation and movement of stars while circling player
             {
                 MoveSize = true;
             }
@@ -89,7 +96,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             MoveWidth += (MoveSize ? Main.rand.NextFloat(0.02f, 0.04f) : Main.rand.NextFloat(-0.02f, -0.04f));
 
-            if (Projectile.ai[2] == 0 && Owner.Calamity().mouseRight && Owner.HeldItem.type == ModContent.ItemType<BrittleStarStaff>()) // Right click
+            // Right click, only runs on the first minion spawned so that it functions propperly
+            if (Projectile.ai[2] == 0 && Owner.Calamity().mouseRight && Owner.HeldItem.type == ModContent.ItemType<BrittleStarStaff>())
             {
                 if (BuffModeBuffer > 0)
                 {
@@ -105,7 +113,7 @@ namespace CalamityMod.Projectiles.Summon
             else if (BuffModeBuffer < 30)
                 BuffModeBuffer = 30;
 
-            if (MinionBuffMode)
+            if (MinionBuffMode) // Minion when circling
             {
                 Projectile.localNPCHitCooldown = 25;
                 Reforming = false;
@@ -119,7 +127,7 @@ namespace CalamityMod.Projectiles.Summon
                 Owner.statDefense += 3;
                 Projectile.rotation += MoveWidth * 0.2f;
             }
-            if (!MinionBuffMode && !Reforming)
+            if (!MinionBuffMode && !Reforming) // Minion when ramming
             {
                 Projectile.localNPCHitCooldown = 15;
                 Projectile.MinionAntiClump();
@@ -141,16 +149,12 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     if (Projectile.WithinRange(Target.Center, 160f))
                     {
-                        if (Main.rand.NextBool(2))
-                        {
-                            Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(12, 12), Main.rand.NextBool() ? 288 : 207);
-                            dust.scale = Main.rand.NextFloat(0.25f, 0.45f);
-                            dust.noGravity = true;
-                            dust.velocity = -Projectile.velocity * 0.5f;
-                        }
+                        SparkParticle spark = new SparkParticle(Projectile.Center - Projectile.velocity * 2, -Projectile.velocity * 0.05f, false, 2, 1.2f, Color.White * 0.2f);
+                        GeneralParticleHandler.SpawnParticle(spark);
+                        spark.Scale -= 0.1f;
                     }
                 }
-                else
+                else // Idol state
                 {
                     Projectile.rotation += Projectile.velocity.X * 0.06f; // Spins faster the faster it moves in the X-axis.
 
@@ -169,7 +173,7 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!MinionBuffMode)
+            if (!MinionBuffMode) // "Break" the minion after every 3 hits if in charging
             {
                 HitCounter++;
                 if (HitCounter >= 3)

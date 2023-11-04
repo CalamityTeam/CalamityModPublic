@@ -91,12 +91,12 @@ BorealisBomber: {
 BrittleStarStaff: {
 	DisplayName: Brittle Star Staff
 	Tooltip:
-        '''
-        Summons a small brittle starfish that will dash through enemies until it shatters
-        Starfish will quickly regenerate after shattering
-        Holding right click will swap starfish between dashing and circling you
-        When the starfish are circling, each one provides you with 3 defense
-        '''
+		'''
+		Summons a small brittle starfish that will dash through enemies until it shatters
+		Starfish will quickly regenerate after shattering
+		Holding right click will swap starfish between dashing and circling you
+		When the starfish are circling, each one provides you with 3 defense
+		'''
 }
 
 CadaverousCarrion: {

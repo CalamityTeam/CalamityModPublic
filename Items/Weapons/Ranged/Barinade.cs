@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
-            Item.knockBack = 2f;
+            Item.knockBack = 2.2f;
             Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item5;
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override Vector2? HoldoutOffset() => new Vector2(0, 4);
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position + velocity.RotatedBy(-0.25f) * 1.5f, velocity.RotatedBy(0.025f), ModContent.ProjectileType<BarinadeArrow>(), damage, knockback, player.whoAmI);
-            Projectile.NewProjectile(source, position + velocity.RotatedBy(0.25f) * 1.5f, velocity.RotatedBy(-0.025f), ModContent.ProjectileType<BarinadeArrow>(), damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position + velocity.RotatedBy(-0.55f), velocity.RotatedBy(0.025f), ModContent.ProjectileType<BarinadeArrow>(), damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position + velocity.RotatedBy(0.55f), velocity.RotatedBy(-0.025f), ModContent.ProjectileType<BarinadeArrow>(), damage, knockback, player.whoAmI);
             return false;
         }
     }

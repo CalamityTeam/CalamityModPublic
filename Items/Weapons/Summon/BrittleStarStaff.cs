@@ -9,20 +9,20 @@ using static Humanizer.In;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
+    [LegacyName("SeaboundStaff")]
     public class BrittleStarStaff : ModItem, ILocalizedModType
     {
-        [LegacyName("SeaboundStaff")]
         public new string LocalizationCategory => "Items.Weapons.Summon";
+        public float Knockback = 2f;
         public override void SetDefaults()
         {
-            Item.damage = 11;
+            Item.damage = 8;
             Item.mana = 10;
             Item.width = Item.height = 44;
-            Item.useTime = Item.useAnimation = 25;
-            Item.reuseDelay = 15;
+            Item.useTime = Item.useAnimation = 32;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
-            Item.knockBack = 2f;
+            Item.knockBack = Knockback;
             Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item44 with { Pitch = 0.5f};
@@ -40,12 +40,17 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
+                Item.noUseGraphic = false;
                 position = Main.MouseWorld;
                 velocity = Vector2.Zero;
                 int SummonNumber = player.ownedProjectileCounts[type];
                 int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0, 0, SummonNumber);
                 if (Main.projectile.IndexInRange(p))
                     Main.projectile[p].originalDamage = Item.damage;
+            }
+            if (player.altFunctionUse == 2)
+            {
+                Item.noUseGraphic = true;
             }
             int bladeIndex = 0;
             for (int i = 0; i < Main.maxProjectiles; i++)
