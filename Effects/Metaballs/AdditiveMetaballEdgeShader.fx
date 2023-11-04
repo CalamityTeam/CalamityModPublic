@@ -12,25 +12,16 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
-float edgeBorderSize;
-bool borderShouldBeSolid;
-float3 edgeBorderColor;
-float2 screenArea;
-float2 renderTargetArea;
-float2 screenMoveOffset;
-float2 generalBackgroundOffset;
-bool invertedScreen;
-float2 upscaleFactor;
 float4 uShaderSpecificData;
+
+float2 screenArea;
+float2 layerOffset;
+float2 singleFrameScreenOffset;
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 originalCoords = coords;
-    if (invertedScreen)
-        coords.y = 1 - coords.y;
-    
-    // Account for screen movements. Not doing this causes the scene to move based on that.
-    coords += screenMoveOffset / renderTargetArea;
+    coords += layerOffset + singleFrameScreenOffset;
     
     float2 offset = 3 / screenArea;
     float4 color = tex2D(uImage0, coords);

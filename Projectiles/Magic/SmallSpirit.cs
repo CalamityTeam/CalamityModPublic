@@ -1,5 +1,4 @@
-﻿using CalamityMod.Particles;
-using CalamityMod.Particles.Metaballs;
+﻿using CalamityMod.Graphics.Metaballs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -49,7 +48,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            float radius = MathHelper.SmoothStep(84f, 44f, (float)Math.Sqrt(1f - Projectile.timeLeft / 360f));
+            float radius = MathHelper.SmoothStep(67f, 32f, (float)Math.Sqrt(1f - Projectile.timeLeft / 360f));
 
             // Handle frames.
             Projectile.frameCounter++;
@@ -68,7 +67,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.hostile = false;
 
-                radius += 54f;
+                radius += 36f;
 
                 target = ProjectileOwner;
                 flySpeed = 29f;
@@ -109,7 +108,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Emit particles.
             Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2Circular(5f, 5f) * radius / 130f;
-            FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>()?.SpawnParticle(spawnPosition, radius);
+            GruesomeMetaball.SpawnParticle(spawnPosition, Main.rand.NextVector2Circular(6f, 6f), radius);
         }
 
         public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.Opacity;
