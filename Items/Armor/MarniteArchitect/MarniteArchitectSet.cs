@@ -39,6 +39,10 @@ namespace CalamityMod.Items.Armor.MarniteArchitect
         {
             Terraria.On_Player.QuickMount += ActivateLift;
         }
+        public override void Unload()
+        {
+            Terraria.On_Player.QuickMount -= ActivateLift;
+        }
 
         public override void SetStaticDefaults()
         {
