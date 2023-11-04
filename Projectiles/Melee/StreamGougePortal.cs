@@ -7,14 +7,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Particles.Metaballs;
+using CalamityMod.Graphics.Metaballs;
 
 namespace CalamityMod.Projectiles.Melee
 {
     public class StreamGougePortal : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        public static readonly SoundStyle SpawnSound = new SoundStyle("CalamityMod/Sounds/Custom/SwiftSlice")
+
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/SwiftSlice")
         {
             PitchVariance = 0.1f
         };
@@ -43,7 +44,8 @@ namespace CalamityMod.Projectiles.Melee
             // Play a slice sound when spawning.
             if (Projectile.localAI[0] == 0f)
             {
-                SoundEngine.PlaySound(SpawnSound, Projectile.Center);
+                float volume = Utils.Remap(Main.LocalPlayer.Distance(Projectile.Center), 600f, 100f, 0.12f, 0.5f);
+                SoundEngine.PlaySound(SpawnSound with { Volume = volume }, Projectile.Center);
                 Projectile.localAI[0] = 1f;
             }
 
@@ -106,11 +108,12 @@ namespace CalamityMod.Projectiles.Melee
             for (int i = 0; i < 20; i++)
             {
                 Vector2 spawnPosition = target.Center + Main.rand.NextVector2Circular(30f, 30f);
-                FusableParticleManager.GetParticleSetByType<StreamGougeParticleSet>()?.SpawnParticle(spawnPosition, 60f);
+                StreamGougeMetaball.SpawnParticle(spawnPosition, Main.rand.NextVector2Circular(3f, 3f), 60f);
 
                 float scale = MathHelper.Lerp(24f, 64f, CalamityUtils.Convert01To010(i / 19f));
                 spawnPosition = target.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(-40f, 90f, i / 19f);
-                FusableParticleManager.GetParticleSetByType<StreamGougeParticleSet>()?.SpawnParticle(spawnPosition, scale);
+                Vector2 particleVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(0.23f) * Main.rand.NextFloat(2.5f, 9f);
+                StreamGougeMetaball.SpawnParticle(spawnPosition, particleVelocity, scale);
             }
         }
 

@@ -1,10 +1,10 @@
 ﻿using CalamityMod.CalPlayer;
-using CalamityMod.Particles.Metaballs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Graphics.Metaballs;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public new string LocalizationCategory => "Projectiles.Typeless";
         public bool start = true;
-        public BaseFusableParticleSet.FusableParticle voidaura;
+        public StreamGougeMetaball.CosmicParticle VoidAura;
 
         public override void SetDefaults()
         {
@@ -78,14 +78,14 @@ namespace CalamityMod.Projectiles.Typeless
                 }
             }
 
-            if (voidaura == null)
+            if (VoidAura == null)
             {
-                voidaura = FusableParticleManager.GetParticleSetByType<VoidGeneratorParticleSet>()?.SpawnParticle(Projectile.Center, 500);
+                VoidAura = VoidGeneratorMetaball.SpawnParticle(Projectile.Center, Vector2.Zero, 120f);
             }
             else
             {
-                voidaura.Center = Projectile.Center;
-                voidaura.Size = 500;
+                VoidAura.Center = Projectile.Center;
+                VoidAura.Size = 120f;
             }
         }
         public override bool? CanCutTiles() => false;

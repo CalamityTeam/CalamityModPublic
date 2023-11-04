@@ -7,7 +7,6 @@ using CalamityMod.Events;
 using CalamityMod.ExtraJumps;
 using CalamityMod.Items;
 using CalamityMod.Particles;
-using CalamityMod.Particles.Metaballs;
 using CalamityMod.Systems;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
@@ -577,13 +576,13 @@ namespace CalamityMod
         public static float AddMaxStealth(Player p, float add) => p is null ? 0f : (p.Calamity().rogueStealthMax += add);
 
         public static bool CanStealthStrike(Player p) => p?.Calamity()?.StealthStrikeAvailable() ?? false;
-        
+
         public static void SetStealthProjectile(Projectile projectile, bool enabled)
         {
             if (projectile != null)
                 projectile.Calamity().stealthStrike = enabled;
         }
-        
+
         public static bool GetStealthProjectile(Projectile projectile) => projectile?.Calamity()?.stealthStrike ?? false;
         #endregion
 
@@ -992,7 +991,7 @@ namespace CalamityMod
             if (setBonus == "victide_summon" || setBonus == "victide summon")
             {
                 mp.victideSet = enabled;
-                mp.victideSummoner = enabled; 
+                mp.victideSummoner = enabled;
                 return true;
             }
             else if (setBonus == "victide" || setBonus.StartsWith("victide_") || setBonus.StartsWith("victide "))
@@ -1364,24 +1363,24 @@ namespace CalamityMod
                     mp.silvaSet = enabled;
                     mp.silvaSummon = enabled; // LATER -- remove this when player.silvaSummon actually controls silva crystal
                     return true;
-                // Silva Melee, Ranged and Rogue were removed in the Draedon Update
-                /*
-                case "silva_melee":
-                case "silva melee":
-                    mp.silvaSet = enabled;
-                    mp.silvaMelee = enabled;
-                    return true;
-                case "silva_ranged":
-                case "silva ranged":
-                    mp.silvaSet = enabled;
-                    mp.silvaRanged = enabled;
-                    return true;
-                case "silva_rogue":
-                case "silva rogue":
-                    mp.silvaSet = enabled;
-                    mp.silvaThrowing = enabled;
-                    return true;
-                */
+                    // Silva Melee, Ranged and Rogue were removed in the Draedon Update
+                    /*
+                    case "silva_melee":
+                    case "silva melee":
+                        mp.silvaSet = enabled;
+                        mp.silvaMelee = enabled;
+                        return true;
+                    case "silva_ranged":
+                    case "silva ranged":
+                        mp.silvaSet = enabled;
+                        mp.silvaRanged = enabled;
+                        return true;
+                    case "silva_rogue":
+                    case "silva rogue":
+                        mp.silvaSet = enabled;
+                        mp.silvaThrowing = enabled;
+                        return true;
+                    */
             }
 
             // Auric Tesla (includes all components)
@@ -1759,7 +1758,7 @@ namespace CalamityMod
         #endregion
 
         #region Summoner Cross Class Nerf Disabling
-            public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
+        public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
         {
             if (disableNerf && !CalamityLists.DisabledSummonerNerfMinions.Contains(type))
             {
@@ -1913,7 +1912,7 @@ namespace CalamityMod
                 case "AddDifficultyToUI":
                     if (args.Length < 2)
                         return new ArgumentException("ERROR: Not enough arguements provided");
-  
+
                     if (args[1] is not DifficultyMode mode)
                         return new ArgumentException("ERROR: A class inheriting from 'DifficultyMode' must be provided.");
                     AddCustomDifficulty(mode);
@@ -1927,7 +1926,7 @@ namespace CalamityMod
                 case "GetAbyssLightStrength":
                     if (args.Length < 2)
                         return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
-                    if(!isValidPlayerArg(args[1]))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The argument to \"GetLightStrength\" must be a Player or an int.");
                     return GetLightStrength(castPlayer(args[1]));
 
@@ -1968,7 +1967,7 @@ namespace CalamityMod
                 case "GetWearingRogueArmor":
                     if (args.Length < 2)
                         return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
-                    if(!isValidPlayerArg(args[1]))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The argument to \"GetRogueArmor\" must be a Player or an int.");
                     return GetWearingRogueArmor(castPlayer(args[1]));
 
@@ -1996,7 +1995,7 @@ namespace CalamityMod
                 case "GetWearingPostMoonLordSummonerArmor":
                     if (args.Length < 2)
                         return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
-                    if(!isValidPlayerArg(args[1]))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The argument to \"GetPostMoonLordSummonerArmor\" must be a Player or an int.");
                     return GetWearingPostMLSummonerArmor(castPlayer(args[1]));
 
@@ -2507,7 +2506,7 @@ namespace CalamityMod
                 case "CanFirePointBlank":
                 case "CanFirePointBlankShots":
                     if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item in the Main.item array).");;
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item in the Main.item array)."); ;
                     if (!isValidItemArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"CanFirePointBlank\" must be an Item or an int.");
                     return CanFirePointBlank(castItem(args[1]));
@@ -2715,8 +2714,6 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify a Mod instance to load particles from.");
 
                     GeneralParticleHandler.LoadModParticleInstances(args[1] as Mod);
-                    FusableParticleManager.ExtraModsToLoadSetsFrom.Add(args[1] as Mod);
-                    FusableParticleManager.LoadParticleRenderSets();
                     return null;
 
                 case "RegisterModCooldowns":

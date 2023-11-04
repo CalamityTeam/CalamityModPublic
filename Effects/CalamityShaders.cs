@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Skies;
-using Iced.Intel;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
@@ -124,14 +123,14 @@ namespace CalamityMod.Effects
         // Used by Devourer of Gods. Renders the portal that he escapes through at the end of phase 1.
         internal static Effect DoGPortalShader;
 
-        // Fusable particles. See the FusableParticleManager for comments on how this system works.
-        // These shaders are leveraged to render the results of the fusable particle simulation to the screen.
+        // Metaballs. See the MetaballManager class for comments on how this system works.
+        // These shaders are leveraged to render the results of the metaball simulation to the screen.
         // The "Base" shader draws the particles themselves.
         // The "Additive" shader actually FUSES the particles into their blobby mess.
         //
         // Backing textures vary. The primary use of this system is Gruesome Eminence.
-        internal static Effect BaseFusableParticleEdgeShader;
-        internal static Effect AdditiveFusableParticleEdgeShader;
+        internal static Effect MetaballEdgeShader;
+        internal static Effect AdditiveMetaballEdgeShader;
 
         // Used to render the results of Navier-Stokes fluid simulations.
         internal static Effect FluidShaders;
@@ -177,7 +176,7 @@ namespace CalamityMod.Effects
         #region Aqua's Shaders
         internal static Effect CircularGradientWithEdge;
         #endregion
-        
+
         //
         // All below shaders were added by Amber
         // Authorship goes to Toasty
@@ -186,7 +185,7 @@ namespace CalamityMod.Effects
         #region Amber's Shaders
         internal static Effect PrimitiveClearShader;
         #endregion
-        
+
         // Shorthand to register a loaded shader in Terraria's graphics engine
         // All shaders registered this way are accessible under GameShaders.Misc
         // They will use the prefix described above
@@ -339,11 +338,11 @@ namespace CalamityMod.Effects
             RegisterMiscShader(DoGPortalShader, "ScreenPass", "DoGPortal");
 
             // These two shaders are often (but not always) used together.
-            BaseFusableParticleEdgeShader = LoadShader("ParticleFusion/BaseFusableParticleEdgeShader");
-            RegisterMiscShader(BaseFusableParticleEdgeShader, "ParticlePass", "BaseFusableParticleEdge");
+            MetaballEdgeShader = LoadShader("Metaballs/MetaballEdgeShader");
+            RegisterMiscShader(MetaballEdgeShader, "ParticlePass", "MetaballEdge");
 
-            AdditiveFusableParticleEdgeShader = LoadShader("ParticleFusion/AdditiveFusableParticleEdgeShader");
-            RegisterMiscShader(AdditiveFusableParticleEdgeShader, "ParticlePass", "AdditiveFusableParticleEdge");
+            AdditiveMetaballEdgeShader = LoadShader("Metaballs/AdditiveMetaballEdgeShader");
+            RegisterMiscShader(AdditiveMetaballEdgeShader, "ParticlePass", "AdditiveMetaballEdge");
 
             // This shader is not registered with the game but is invoked directly to render the results of fluid simulation.
             FluidShaders = LoadShader("FluidShaders");
@@ -384,7 +383,7 @@ namespace CalamityMod.Effects
             CircularGradientWithEdge = LoadShader("CircularGradientWithEdge");
             RegisterMiscShader(CircularGradientWithEdge, "CircularGradientWithEdgePass", "CircularGradientWithEdge");
             #endregion
-            
+
             #region Loading Amber's Shaders
             PrimitiveClearShader = LoadShader("PrimitiveClearShader");
             RegisterScreenShader(PrimitiveClearShader, "SightLinePass", "PrimitiveClearShader");
