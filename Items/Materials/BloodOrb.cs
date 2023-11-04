@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -10,12 +11,13 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 100;
+            Main.RegisterItemAnimation(Type, new DrawAnimationVertical(6, 4));
         }
 
         public override void SetDefaults()
         {
-            Item.width = 18;
-            Item.height = 18;
+            Item.width = 16;
+            Item.height = 28;
             Item.maxStack = 9999;
             Item.value = Item.sellPrice(silver: 1, copper: 20);
             Item.rare = ItemRarityID.Blue;

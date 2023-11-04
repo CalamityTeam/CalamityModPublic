@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 	public override void SetStaticDefaults()
 	{
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
 	    Main.RegisterItemAnimation(Type, new DrawAnimationVertical(5, 9));
 	}
         public override void SetDefaults()
