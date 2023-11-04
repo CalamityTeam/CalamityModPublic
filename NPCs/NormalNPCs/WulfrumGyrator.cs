@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 //GOTTA GO FAST (Legendary only)
                 if (CalamityWorld.LegendaryMode)
                 {
-                    NPC.velocity *= 1.05f;
+                    NPC.velocity *= 1.01f;
                     //Overcharged
                     if (Supercharged && Main.rand.NextBool(3))
                     {
