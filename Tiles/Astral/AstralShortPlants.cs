@@ -64,5 +64,11 @@ namespace CalamityMod.Tiles.Astral
                     yield return new Item(ModContent.ItemType<Items.Placeables.AstralGrassSeeds>());
             }
         }
+
+        public override bool IsTileBiomeSightable(int i, int j, ref Color sightColor)
+        {
+            sightColor = Color.Cyan;
+            return true;
+        }
     }
 }

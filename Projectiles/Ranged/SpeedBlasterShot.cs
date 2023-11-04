@@ -1,9 +1,6 @@
-﻿using CalamityMod.Items.Weapons.Ranged;
+﻿using CalamityMod.Graphics.Metaballs;
 using CalamityMod.Particles;
-using CalamityMod.Particles.Metaballs;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
@@ -140,7 +137,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (!DashShot)
                 SoundEngine.PlaySound(ShotImpact, Projectile.position);
-            
+
             for (int i = 0; i <= 8; i++)
             {
                 Dust dust = Dust.NewDustPerfect(Projectile.position, 192, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(20f)) * Main.rand.NextFloat(0.05f, 0.3f), 0, default, Main.rand.NextFloat(0.6f, 1.2f));
@@ -154,23 +151,23 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Vector2 paintPos = Projectile.Center + Main.rand.NextVector2Circular(12f, 12f) + (Projectile.velocity.SafeNormalize(Vector2.UnitY)).RotatedByRandom(MathHelper.ToRadians(30f)) * Main.rand.NextFloat(4f, 20f);
                 float paintSize = Main.rand.NextFloat(60f, 100f);
-                switch(Projectile.ai[0])
+                switch (Projectile.ai[0])
                 {
                     case 0:
                     default:
-                        FusableParticleManager.GetParticleSetByType<CyanPaint>()?.SpawnParticle(paintPos, paintSize);
+                        ModContent.GetInstance<CyanPaint>().SpawnParticle(paintPos, paintSize);
                         break;
                     case 1:
-                        FusableParticleManager.GetParticleSetByType<BluePaint>()?.SpawnParticle(paintPos, paintSize);
+                        ModContent.GetInstance<BluePaint>().SpawnParticle(paintPos, paintSize);
                         break;
                     case 2:
-                        FusableParticleManager.GetParticleSetByType<MagentaPaint>()?.SpawnParticle(paintPos, paintSize);
+                        ModContent.GetInstance<MagentaPaint>().SpawnParticle(paintPos, paintSize);
                         break;
                     case 3:
-                        FusableParticleManager.GetParticleSetByType<LimePaint>()?.SpawnParticle(paintPos, paintSize);
+                        ModContent.GetInstance<LimePaint>().SpawnParticle(paintPos, paintSize);
                         break;
                     case 4:
-                        FusableParticleManager.GetParticleSetByType<YellowPaint>()?.SpawnParticle(paintPos, paintSize);
+                        ModContent.GetInstance<YellowPaint>().SpawnParticle(paintPos, paintSize);
                         break;
                 }
             }

@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnKill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
+            //SoundEngine.PlaySound(SoundID.Item27, Projectile.Center);
 
             if (Projectile.owner == Main.myPlayer)
             {

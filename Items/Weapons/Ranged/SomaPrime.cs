@@ -64,8 +64,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<P90>().
-                AddIngredient<Minigun>().
+                AddIngredient<Kingsbane>().
+                AddIngredient<ClockGatlignum>().
                 AddIngredient<ShadowspecBar>(5).
                 AddTile<DraedonsForge>().
                 Register();

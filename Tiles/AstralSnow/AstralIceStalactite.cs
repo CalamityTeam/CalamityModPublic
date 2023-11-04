@@ -44,5 +44,11 @@ namespace CalamityMod.Tiles.AstralSnow
         {
             num = fail ? 1 : 4;
         }
+
+        public override bool IsTileBiomeSightable(int i, int j, ref Color sightColor)
+        {
+            sightColor = Color.Cyan;
+            return true;
+        }
     }
 }
