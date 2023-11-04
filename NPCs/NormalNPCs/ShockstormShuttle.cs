@@ -298,7 +298,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     float pixelsUpAmt2 = (float)(upwardsMovement * 16);
                     if (pixelsUpAmt2 < 170f)
                     {
-                        targetingCenter2.Y -= num1594 - pixelsUpAmt2;
+                        targetingCenter2.Y -= 170f - pixelsUpAmt2;
                     }
                     if (targetingCenter2.Length() < 70f)
                     {

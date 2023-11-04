@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             if (projChoice == 0)
             {
-                Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, tentacleVelocity.X, tentacleVelocity.Y, ModContent.ProjectileType<BrimstoneTentacle>(), (int)((double)num73 * 1.5f), playerKnockback, i, tentacleXDirection, tentacleYDirection);
+                Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, tentacleVelocity.X, tentacleVelocity.Y, ModContent.ProjectileType<BrimstoneTentacle>(), (int)((double)damage * 1.5f), playerKnockback, i, tentacleXDirection, tentacleYDirection);
             }
             else
             {

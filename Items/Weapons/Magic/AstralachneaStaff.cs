@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
-            int i = Main.myPlayer;
+            int j = Main.myPlayer;
             float fangSpeed = Item.shootSpeed;
             float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
             float mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;

@@ -4546,43 +4546,43 @@ namespace CalamityMod.NPCs
             }
 
             float wormSpeed = 10f;
-            float acceleration = 0.09f;
+            float wormAccel = 0.09f;
             if (npc.type == NPCID.DiggerHead)
             {
                 wormSpeed = 6.5f;
-                acceleration = 0.05f;
+                wormAccel = 0.05f;
             }
             if (npc.type == NPCID.GiantWormHead)
             {
                 wormSpeed = 7.5f;
-                acceleration = 0.06f;
+                wormAccel = 0.06f;
             }
             if (npc.type == NPCID.TombCrawlerHead)
             {
                 wormSpeed = 8f;
-                acceleration = 0.13f;
+                wormAccel = 0.13f;
             }
             if (npc.type == NPCID.DuneSplicerHead)
             {
                 if (!Main.player[npc.target].dead && Main.player[npc.target].ZoneSandstorm)
                 {
                     wormSpeed = 16f;
-                    acceleration = 0.35f;
+                    wormAccel = 0.35f;
                 }
                 else
                 {
-                    acceleration = 0.25f;
+                    wormAccel = 0.25f;
                 }
             }
             if (npc.type == NPCID.WyvernHead)
             {
                 wormSpeed = 11f;
-                acceleration = 0.3f;
+                wormAccel = 0.3f;
             }
             if (npc.type == NPCID.StardustWormHead)
             {
                 wormSpeed = 9f;
-                acceleration = 0.25f;
+                wormAccel = 0.25f;
             }
             if (npc.type == NPCID.LeechHead && Main.wofNPCIndex >= 0)
             {
@@ -4590,29 +4590,29 @@ namespace CalamityMod.NPCs
                 if (lifeRatio < 0.75f)
                 {
                     wormSpeed += 1f;
-                    acceleration += 0.1f;
+                    wormAccel += 0.1f;
                 }
                 if (lifeRatio < 0.5f)
                 {
                     wormSpeed += 1f;
-                    acceleration += 0.1f;
+                    wormAccel += 0.1f;
                 }
                 if (lifeRatio < 0.25f)
                 {
                     wormSpeed += 2f;
-                    acceleration += 0.1f;
+                    wormAccel += 0.1f;
                 }
             }
             if (npc.type == NPCID.BloodEelHead)
             {
                 wormSpeed = 18f;
-                acceleration = 0.6f;
+                wormAccel = 0.6f;
             }
 
             if (CalamityWorld.death)
             {
                 wormSpeed *= 1.25f;
-                acceleration *= 1.25f;
+                wormAccel *= 1.25f;
             }
 
             Vector2 segmentPosition = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -4622,7 +4622,7 @@ namespace CalamityMod.NPCs
             if (npc.type == NPCID.SolarCrawltipedeHead)
             {
                 wormSpeed = 12f;
-                acceleration = 0.32f;
+                wormAccel = 0.32f;
                 int crawltipedeTargetY = -1;
                 int targetTileX = (int)(Main.player[npc.target].Center.X / 16f);
                 int targetTileY = (int)(Main.player[npc.target].Center.Y / 16f);
@@ -4664,7 +4664,7 @@ namespace CalamityMod.NPCs
                 else
                 {
                     wormSpeed = 28f;
-                    acceleration = 0.8f;
+                    wormAccel = 0.8f;
                 }
                 float maxWormSpeed = wormSpeed * 1.3f;
                 float minWormSpeed = wormSpeed * 0.7f;
@@ -4784,33 +4784,33 @@ namespace CalamityMod.NPCs
                     {
                         if (npc.velocity.X < 0f)
                         {
-                            npc.velocity.X = npc.velocity.X - acceleration * 1.1f;
+                            npc.velocity.X = npc.velocity.X - wormAccel * 1.1f;
                         }
                         else
                         {
-                            npc.velocity.X = npc.velocity.X + acceleration * 1.1f;
+                            npc.velocity.X = npc.velocity.X + wormAccel * 1.1f;
                         }
                     }
                     else if (npc.velocity.Y == wormSpeed)
                     {
                         if (npc.velocity.X < wormTargetX)
                         {
-                            npc.velocity.X = npc.velocity.X + acceleration;
+                            npc.velocity.X = npc.velocity.X + wormAccel;
                         }
                         else if (npc.velocity.X > wormTargetX)
                         {
-                            npc.velocity.X = npc.velocity.X - acceleration;
+                            npc.velocity.X = npc.velocity.X - wormAccel;
                         }
                     }
                     else if (npc.velocity.Y > 4f)
                     {
                         if (npc.velocity.X < 0f)
                         {
-                            npc.velocity.X = npc.velocity.X + acceleration * 0.9f;
+                            npc.velocity.X = npc.velocity.X + wormAccel * 0.9f;
                         }
                         else
                         {
-                            npc.velocity.X = npc.velocity.X - acceleration * 0.9f;
+                            npc.velocity.X = npc.velocity.X - wormAccel * 0.9f;
                         }
                     }
                 }
@@ -4891,7 +4891,7 @@ namespace CalamityMod.NPCs
                     bool shouldSwoopDown = false;
                     if (npc.type == NPCID.WyvernHead)
                     {
-                        if (((npc.velocity.X > 0f && wormTargetX < 0f) || (npc.velocity.X < 0f && wormTargetX > 0f) || (npc.velocity.Y > 0f && wormTargetY < 0f) || (npc.velocity.Y < 0f && wormTargetY > 0f)) && Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) > acceleration / 2f && wormTargetDist < 300f)
+                        if (((npc.velocity.X > 0f && wormTargetX < 0f) || (npc.velocity.X < 0f && wormTargetX > 0f) || (npc.velocity.Y > 0f && wormTargetY < 0f) || (npc.velocity.Y < 0f && wormTargetY > 0f)) && Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) > wormAccel / 2f && wormTargetDist < 300f)
                         {
                             shouldSwoopDown = true;
 
@@ -4910,13 +4910,13 @@ namespace CalamityMod.NPCs
                                 npc.velocity.X = npc.velocity.X * 1.1f;
                             }
                             else if (npc.velocity.Y > -wormSpeed)
-                                npc.velocity.Y = npc.velocity.Y - acceleration;
+                                npc.velocity.Y = npc.velocity.Y - wormAccel;
                         }
                     }
 
                     if (npc.type == NPCID.BloodEelHead)
                     {
-                        if (((npc.velocity.X > 0f && wormTargetX < 0f) || (npc.velocity.X < 0f && wormTargetX > 0f) || (npc.velocity.Y > 0f && wormTargetY < 0f) || (npc.velocity.Y < 0f && wormTargetY > 0f)) && Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) > acceleration / 2f && wormTargetDist < 120f)
+                        if (((npc.velocity.X > 0f && wormTargetX < 0f) || (npc.velocity.X < 0f && wormTargetX > 0f) || (npc.velocity.Y > 0f && wormTargetY < 0f) || (npc.velocity.Y < 0f && wormTargetY > 0f)) && Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) > wormAccel / 2f && wormTargetDist < 120f)
                         {
                             shouldSwoopDown = true;
                             if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < wormSpeed)
@@ -4933,7 +4933,7 @@ namespace CalamityMod.NPCs
                                 npc.velocity.X *= 1.1f;
                             }
                             else if (npc.velocity.Y > 0f - wormSpeed)
-                                npc.velocity.Y -= acceleration;
+                                npc.velocity.Y -= wormAccel;
                         }
                     }
 
@@ -4942,59 +4942,59 @@ namespace CalamityMod.NPCs
                         if ((npc.velocity.X > 0f && wormTargetX > 0f) || (npc.velocity.X < 0f && wormTargetX < 0f) || (npc.velocity.Y > 0f && wormTargetY > 0f) || (npc.velocity.Y < 0f && wormTargetY < 0f))
                         {
                             if (npc.velocity.X < wormTargetX)
-                                npc.velocity.X = npc.velocity.X + acceleration;
+                                npc.velocity.X = npc.velocity.X + wormAccel;
                             else if (npc.velocity.X > wormTargetX)
-                                npc.velocity.X = npc.velocity.X - acceleration;
+                                npc.velocity.X = npc.velocity.X - wormAccel;
 
                             if (npc.velocity.Y < wormTargetY)
-                                npc.velocity.Y = npc.velocity.Y + acceleration;
+                                npc.velocity.Y = npc.velocity.Y + wormAccel;
                             else if (npc.velocity.Y > wormTargetY)
-                                npc.velocity.Y = npc.velocity.Y - acceleration;
+                                npc.velocity.Y = npc.velocity.Y - wormAccel;
 
                             if ((double)Math.Abs(wormTargetY) < (double)wormSpeed * 0.2 && ((npc.velocity.X > 0f && wormTargetX < 0f) || (npc.velocity.X < 0f && wormTargetX > 0f)))
                             {
                                 if (npc.velocity.Y > 0f)
-                                    npc.velocity.Y = npc.velocity.Y + acceleration * 2f;
+                                    npc.velocity.Y = npc.velocity.Y + wormAccel * 2f;
                                 else
-                                    npc.velocity.Y = npc.velocity.Y - acceleration * 2f;
+                                    npc.velocity.Y = npc.velocity.Y - wormAccel * 2f;
                             }
 
                             if ((double)Math.Abs(wormTargetX) < (double)wormSpeed * 0.2 && ((npc.velocity.Y > 0f && wormTargetY < 0f) || (npc.velocity.Y < 0f && wormTargetY > 0f)))
                             {
                                 if (npc.velocity.X > 0f)
-                                    npc.velocity.X = npc.velocity.X + acceleration * 2f;
+                                    npc.velocity.X = npc.velocity.X + wormAccel * 2f;
                                 else
-                                    npc.velocity.X = npc.velocity.X - acceleration * 2f;
+                                    npc.velocity.X = npc.velocity.X - wormAccel * 2f;
                             }
                         }
                         else if (absoluteTargetX > absoluteTargetY)
                         {
                             if (npc.velocity.X < wormTargetX)
-                                npc.velocity.X = npc.velocity.X + acceleration * 1.1f;
+                                npc.velocity.X = npc.velocity.X + wormAccel * 1.1f;
                             else if (npc.velocity.X > wormTargetX)
-                                npc.velocity.X = npc.velocity.X - acceleration * 1.1f;
+                                npc.velocity.X = npc.velocity.X - wormAccel * 1.1f;
 
                             if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)wormSpeed * 0.5)
                             {
                                 if (npc.velocity.Y > 0f)
-                                    npc.velocity.Y = npc.velocity.Y + acceleration;
+                                    npc.velocity.Y = npc.velocity.Y + wormAccel;
                                 else
-                                    npc.velocity.Y = npc.velocity.Y - acceleration;
+                                    npc.velocity.Y = npc.velocity.Y - wormAccel;
                             }
                         }
                         else
                         {
                             if (npc.velocity.Y < wormTargetY)
-                                npc.velocity.Y = npc.velocity.Y + acceleration * 1.1f;
+                                npc.velocity.Y = npc.velocity.Y + wormAccel * 1.1f;
                             else if (npc.velocity.Y > wormTargetY)
-                                npc.velocity.Y = npc.velocity.Y - acceleration * 1.1f;
+                                npc.velocity.Y = npc.velocity.Y - wormAccel * 1.1f;
 
                             if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)wormSpeed * 0.5)
                             {
                                 if (npc.velocity.X > 0f)
-                                    npc.velocity.X = npc.velocity.X + acceleration;
+                                    npc.velocity.X = npc.velocity.X + wormAccel;
                                 else
-                                    npc.velocity.X = npc.velocity.X - acceleration;
+                                    npc.velocity.X = npc.velocity.X - wormAccel;
                             }
                         }
                     }

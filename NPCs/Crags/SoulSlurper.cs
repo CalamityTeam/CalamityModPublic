@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.Crags
                 for (int j = 1; j < afterimageAmt; j++)
                 {
                     Color glowmaskAfterimageColor = redGlow;
-                    glowmaskAfterimageColor = Color.Lerp(glowmaskAfterimageColor, color36, amount9);
+                    glowmaskAfterimageColor = Color.Lerp(glowmaskAfterimageColor, Color.White, 0.5f);
                     glowmaskAfterimageColor *= (float)(afterimageAmt - j) / 15f;
                     Vector2 glowmaskAfterimagePos = NPC.oldPos[j] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
                     glowmaskAfterimagePos -= new Vector2((float)texture.Width, (float)(texture.Height)) * NPC.scale / 2f;

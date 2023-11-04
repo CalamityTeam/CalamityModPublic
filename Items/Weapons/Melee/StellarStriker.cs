@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var source = player.GetSource_ItemUse(Item);
             SoundEngine.PlaySound(SoundID.Item88, player.Center);
-            int i = Main.myPlayer;
+            int j = Main.myPlayer;
             float cometSpeed = Item.shootSpeed;
             Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
             float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;

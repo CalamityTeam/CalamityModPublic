@@ -92,11 +92,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             float targetDistance = (float)Math.Sqrt((double)(targetXDist * targetXDist + targetYDist * targetYDist));
             float baseXPos = Main.npc[energyBase].position.X + (float)(Main.npc[energyBase].width / 2);
             float baseYPos = Main.npc[energyBase].position.Y + (float)(Main.npc[energyBase].height / 2);
-            Vector2 basePosition = new Vector2(baseXPos, baseYPos);
+            Vector2 baseCurrentPos = new Vector2(baseXPos, baseYPos);
             float basePosition = baseXPos + NPC.ai[0];
             float newLanternPos = baseYPos + NPC.ai[1];
-            float baseXDist = basePosition - basePosition.X;
-            float baseYDist = newLanternPos - basePosition.Y;
+            float baseXDist = basePosition - baseCurrentPos.X;
+            float baseYDist = newLanternPos - baseCurrentPos.Y;
             float baseDistance = (float)Math.Sqrt((double)(baseXDist * baseXDist + baseYDist * baseYDist));
             baseDistance = lanternSpeed / baseDistance;
             baseXDist *= baseDistance;

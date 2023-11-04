@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var source = player.GetSource_ItemUse(Item);
             SoundEngine.PlaySound(SoundID.Item73, player.Center);
-            int i = Main.myPlayer;
+            int j = Main.myPlayer;
             float flameSpeed = 3f;
             player.itemTime = Item.useTime;
             Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -90,7 +90,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var source = player.GetSource_ItemUse(Item);
             SoundEngine.PlaySound(SoundID.Item73, player.Center);
-            int i = Main.myPlayer;
+            int j = Main.myPlayer;
             float flameSpeed = 3f;
             player.itemTime = Item.useTime;
             Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
-            int i = Main.myPlayer;
+            int j = Main.myPlayer;
             float projSpeed = Item.shootSpeed;
             float playerKnockback = hit.Knockback;
             playerKnockback = player.GetWeaponKnockback(Item, playerKnockback);
@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
-            int i = Main.myPlayer;
+            int j = Main.myPlayer;
             float projSpeed = Item.shootSpeed;
             float playerKnockback = Item.knockBack;
             playerKnockback = player.GetWeaponKnockback(Item, playerKnockback);
