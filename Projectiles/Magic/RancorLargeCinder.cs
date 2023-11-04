@@ -1,5 +1,4 @@
-﻿using CalamityMod.Particles;
-using CalamityMod.Particles.Metaballs;
+﻿using CalamityMod.Graphics.Metaballs;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -45,7 +44,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.velocity.Y += 0.04f;
 
             // Create lava particles.
-            FusableParticleManager.GetParticleSetByType<RancorLavaParticleSet>().SpawnParticle(Projectile.Center + Main.rand.NextVector2Circular(6f, 6f), Projectile.scale * 36f);
+            RancorLavaMetaball.SpawnParticle(Projectile.Center + Main.rand.NextVector2Circular(6f, 6f), Projectile.scale * 36f);
 
             Time++;
         }
