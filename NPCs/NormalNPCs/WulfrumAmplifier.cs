@@ -28,6 +28,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         }
         public const float ChargeRadiusMax = 495f;
         public const float SuperchargeTime = 720f;
+
+        public int laserDelay = 150;
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 6;
@@ -46,7 +48,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.width = 44;
             NPC.height = 44;
             NPC.defense = 4;
-            NPC.lifeMax = 46;
+            NPC.lifeMax = Main.zenithWorld ? 72: 46;
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 1, 50);
             NPC.noGravity = false;
@@ -182,6 +184,17 @@ namespace CalamityMod.NPCs.NormalNPCs
                     {
                         Dust.NewDust(npcAtIndex.position, npcAtIndex.width, npcAtIndex.height, 226);
                     }
+                }
+                if (CalamityWorld.LegendaryMode)
+                {
+                    laserDelay--;
+                    NPC.spriteDirection = (player.Center.X - NPC.Center.X < 0).ToDirectionInt();
+                    for (int times = CalamityWorld.LegendaryMode ? 3 : 2; times > 0 && laserDelay == 0; times--)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.UnitX * 6f * NPC.spriteDirection, NPC.SafeDirectionTo(player.Center, Vector2.UnitY) * 4.5f, ProjectileID.SaucerMissile, 10, 0f);
+                    }
+                    if (laserDelay <= 0)
+                        laserDelay = 150;
                 }
             }
         }
