@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         if (Main.zenithWorld && player.active && !farFromPlayer)
                         {
                             AIState = HovercraftAIState.SwoopDownward;
-                            SoundEngine.PlaySound(SoundID.DD2_KoboldFlyerHurt with { Pitch = SoundID.DD2_KoboldFlyerHurt.Pitch + 0.5f, Volume = SoundID.DD2_KoboldFlyerHurt.Volume - 0.2f}, NPC.Center); 
+                            SoundEngine.PlaySound(SoundID.DD2_KoboldFlyerHurt with { Pitch = SoundID.DD2_KoboldFlyerHurt.Pitch + 0.5f }, NPC.Center); 
                             return;
                         }
                         NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.UnitY * -8f, 0.1f);
