@@ -1,17 +1,11 @@
-﻿using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Graphics.Metaballs;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria.Graphics.Effects;
-using Terraria.DataStructures;
-using CalamityMod.Particles;
 using Terraria.Audio;
-using CalamityMod.Particles.Metaballs;
-using CalamityMod.Items.Weapons.Ranged;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -93,7 +87,9 @@ namespace CalamityMod.Projectiles.Ranged
                     GeneralParticleHandler.SpawnParticle(spark);
                 }
                 if (targetDist < 1400f)
-                    FusableParticleManager.GetParticleSetByType<DragonFlames>()?.SpawnParticle(Projectile.Center, Time * Main.rand.NextFloat(0.85f, 0.95f));
+                {
+                    ModContent.GetInstance<DragonsBreathFlameMetaball>().SpawnParticle(Projectile.Center, Time * Main.rand.NextFloat(0.85f, 0.95f));
+                }
                 Projectile.velocity *= 1.01f;
             }
             if (Projectile.ai[0] == 1) //Welding Mode
@@ -112,7 +108,9 @@ namespace CalamityMod.Projectiles.Ranged
                         dust2.velocity = new Vector2(0, Main.rand.NextFloat(-1, -13));
                     }
                     if (targetDist < 1400f)
-                        FusableParticleManager.GetParticleSetByType<DragonBeam>()?.SpawnParticle(Projectile.Center, beamWidth * 45 + bbbBONUSbeamSizeWOAHH);
+                    {
+                        ModContent.GetInstance<DragonsBreathBeamMetaball>().SpawnParticle(Projectile.Center, beamWidth * 45 + bbbBONUSbeamSizeWOAHH);
+                    }
                 }
                 if (Time == 11)
                 {

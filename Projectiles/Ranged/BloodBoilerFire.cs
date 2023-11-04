@@ -1,13 +1,12 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Graphics.Metaballs;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using Microsoft.Xna.Framework.Graphics;
-using CalamityMod.Particles;
-using CalamityMod.Particles.Metaballs;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -59,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (Projectile.timeLeft < 296) // The main visual of the projectile and the blood mist it produces before turning around
             {
-                FusableParticleManager.GetParticleSetByType<Blood>()?.SpawnParticle(Projectile.Center, particleSize * 2);
+                BloodBoilerMetaball.SpawnParticle(Projectile.Center, particleSize * 2);
 
                 if (Main.rand.NextBool(6) && Projectile.ai[1] == 0f)
                 {
