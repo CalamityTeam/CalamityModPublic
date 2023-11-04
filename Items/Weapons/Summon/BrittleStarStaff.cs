@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class BrittleStarStaff : ModItem, ILocalizedModType
     {
+        [LegacyName("SeaboundStaff")]
         public new string LocalizationCategory => "Items.Weapons.Summon";
         public override void SetDefaults()
         {
