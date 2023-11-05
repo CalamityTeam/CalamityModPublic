@@ -41,11 +41,23 @@ namespace CalamityMod.Projectiles.Ranged
                 AltSparkParticle spark = new AltSparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 2.3f, Color.Black);
                 GeneralParticleHandler.SpawnParticle(spark);
             }
-            if (Projectile.timeLeft % 2 == 0 && Time > 12f && targetDist < 1400f)
+            if (Time > 12f && targetDist < 1400f)
             {
-                SparkParticle spark2 = new SparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 0.9f, InnerColor);
+                Particle orb = new GenericBloom(Projectile.Center + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * Main.rand.NextFloat(0.05f, 0.5f), Color.Black, Main.rand.NextFloat(0.2f, 0.45f), Main.rand.Next(12, 16), true, false);
+                GeneralParticleHandler.SpawnParticle(orb);
+            }
+            
+            if (Projectile.timeLeft % 3 == 0 && Time > 12f && targetDist < 1400f)
+            {
+                LineParticle spark2 = new LineParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 1.7f, InnerColor);
                 GeneralParticleHandler.SpawnParticle(spark2);
             }
+            if (Time > 12f && targetDist < 1400f)
+            {
+                Particle orb2 = new GenericBloom(Projectile.Center + Main.rand.NextVector2Circular(5, 5), Projectile.velocity * Main.rand.NextFloat(0.05f, 0.5f), InnerColor, Main.rand.NextFloat(0.05f, 0.3f), Main.rand.Next(12, 16), true);
+                GeneralParticleHandler.SpawnParticle(orb2);
+            }
+            
             if (Time == 7f)
             {
                 for (int i = 0; i <= 18; i++)
@@ -82,6 +94,16 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Projectile.timeLeft = 15 * Projectile.MaxUpdates;
+            float numberOflines = 5;
+            float rotFactorlines = 360f / numberOflines;
+            for (int i = 0; i < numberOflines; i++)
+            {
+                float rot = MathHelper.ToRadians(i * rotFactorlines);
+                Vector2 offset = new Vector2(Main.rand.NextFloat(1, 3.1f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                Vector2 velOffset = new Vector2(Main.rand.NextFloat(1, 3.1f), 0).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                AltSparkParticle spark = new AltSparkParticle(Projectile.Center + offset, velOffset, false, 20, Main.rand.NextFloat(1.9f, 2.3f), Color.Black);
+                GeneralParticleHandler.SpawnParticle(spark);
+            }
             float numberOfDusts = 25;
             float rotFactor = 360f / numberOfDusts;
             for (int i = 0; i < numberOfDusts; i++)
@@ -98,7 +120,6 @@ namespace CalamityMod.Projectiles.Ranged
             Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, InnerColor, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.1f, 0.9f - (BounceHits * 0.25f), 25);
             GeneralParticleHandler.SpawnParticle(pulse);
             Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.MediumSpringGreen, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.05f, 0.75f - (BounceHits * 0.25f), 25);
-            GeneralParticleHandler.SpawnParticle(pulse2);
 
             if (BounceHits == 0f)
                 SoundEngine.PlaySound(DeadSunsWind.Ricochet, Projectile.Center);
