@@ -10,11 +10,21 @@ namespace CalamityMod.Graphics.Metaballs
 {
     public class DragonsBreathFlameMetaball : DragonsBreathMetaball
     {
-        public override Color EdgeColor => (Main.rand.NextBool() ? Color.OrangeRed : Color.DarkOrange) * 0.8f;
+        // OrangeRed is FF4500
+        // new Color(0xFF, 0x3A, 0x0A);
+        public override Color EdgeColor => Main.rand.NextBool() ? Color.OrangeRed : Color.DarkOrange * 0.65f;
+
+        // Flame metaballs never turn white
+        public override void DrawInstances() => DrawInstancesInternal(0.03f, -1f);
     }
     public class DragonsBreathBeamMetaball : DragonsBreathMetaball
     {
-        public override Color EdgeColor => (Main.rand.NextBool() ? Color.Orange : Color.OrangeRed) * 0.7f;
+        private static float whiteSizeThreshold = 72f;
+
+        public override Color EdgeColor => Main.rand.NextBool() ? Color.Orange : Color.OrangeRed;
+
+        // Laser metaballs very suddenly turn white at a specific size
+        public override void DrawInstances() => DrawInstancesInternal(0.4f, whiteSizeThreshold);
     }
 
     public abstract class DragonsBreathMetaball : Metaball
@@ -60,8 +70,6 @@ namespace CalamityMod.Graphics.Metaballs
 
         public override MetaballDrawLayer DrawContext => MetaballDrawLayer.AfterProjectiles;
 
-        // Edge color is defined in subclasses
-
         public override void Update()
         {
             // Update all particle instances.
@@ -92,9 +100,9 @@ namespace CalamityMod.Graphics.Metaballs
 
         public void SpawnParticle(Vector2 position, float size) => Particles.Add(new(position, size));
 
-        public override void DrawInstances()
+        internal void DrawInstancesInternal(float opacity, float whiteSizeThreshold)
         {
-            float opacity = 0.65f;
+            float pureWhiteIntensity = 0.16f;
             Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Graphics/Metaballs/MetaballMessy").Value;
 
             foreach (DragonsBreathParticle particle in Particles)
@@ -102,8 +110,17 @@ namespace CalamityMod.Graphics.Metaballs
                 Vector2 drawPosition = particle.Center - Main.screenPosition;
                 var origin = tex.Size() * 0.5f;
                 Vector2 scale = Vector2.One * particle.Size / tex.Size();
-                Color drawColor = Color.Lerp(EdgeColor, new Color(0f, 0f, 1f), Utils.GetLerpValue(50f, 100f, particle.Size, true) * 0.1f) * 1.2f;
-                Main.spriteBatch.Draw(tex, drawPosition, null, drawColor * opacity, 0f, origin, scale, SpriteEffects.None, 0f);
+
+                Color drawColor;
+                if (whiteSizeThreshold >= 0f)
+                {
+                    float pureWhiteInterpolant = Utils.GetLerpValue(0.8f * whiteSizeThreshold, whiteSizeThreshold, particle.Size, true) * pureWhiteIntensity;
+                    drawColor = Color.Lerp(EdgeColor, Color.White, pureWhiteInterpolant) * opacity;
+                }
+                else
+                    drawColor = Color.Lerp(EdgeColor, new Color(0xE0, 0x70, 0x10), Utils.GetLerpValue(60f, 100f, particle.Size, true) * 0.2f);
+
+                Main.spriteBatch.Draw(tex, drawPosition, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
             }
         }
     }

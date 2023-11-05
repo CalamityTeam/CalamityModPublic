@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Graphics.Metaballs
 {
-    public abstract class BloodBoilerMetaball : Metaball
+    public class BloodBoilerMetaball : Metaball
     {
         public class BloodBoilerParticle
         {
@@ -84,16 +84,20 @@ namespace CalamityMod.Graphics.Metaballs
 
         public override void DrawInstances()
         {
-            float opacity = 0.65f;
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Graphics/Metaballs/MetaballBase").Value;
+            float pureRedIntensity = 0.15f;
+            float opacity = 0.25f;
+            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SmallGreyscaleCircle").Value;
 
             foreach (BloodBoilerParticle particle in Particles)
             {
                 Vector2 drawPosition = particle.Center - Main.screenPosition;
                 var origin = tex.Size() * 0.5f;
                 Vector2 scale = Vector2.One * particle.Size / tex.Size();
-                Color drawColor = Color.Lerp(EdgeColor, new Color(0f, 0f, 1f), Utils.GetLerpValue(50f, 100f, particle.Size, true) * 0.1f) * 1.2f;
-                Main.spriteBatch.Draw(tex, drawPosition, null, drawColor * opacity, 0f, origin, scale, SpriteEffects.None, 0f);
+
+                float pureRedInterpolant = Utils.GetLerpValue(25f, 60f, particle.Size, true) * pureRedIntensity;
+                Color drawColor = Color.Lerp(EdgeColor, Color.Red, pureRedInterpolant).MultiplyRGBA(new Color(1f, 1f, 1f, opacity));
+
+                Main.spriteBatch.Draw(tex, drawPosition, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
             }
         }
     }
