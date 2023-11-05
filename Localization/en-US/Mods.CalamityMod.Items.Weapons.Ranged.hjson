@@ -716,8 +716,8 @@ Meowthrower: {
 	DisplayName: Meowthrower
 	Tooltip:
 		'''
-		Purrifies your foes with pink and blue smokes
-		Occasionally unleashes homing feline creatures
+		Cooks your foes to purrfection with catty smoke
+		Occasionally launches homing feline entities
 		Uses gel for ammo
 		'''
 }
