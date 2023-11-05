@@ -93,7 +93,7 @@ namespace CalamityMod.Items
                 { ItemID.DemonScythe, Do(AutoReuse, DamageExact(33)) },
                 { ItemID.DyeTradersScimitar, Do(AutoReuse, UseTurn, DamageExact(24)) }, // Exotic Scimitar
                 { ItemID.ElectrosphereLauncher, Do(DamageRatio(1.1f)) },
-                { ItemID.ElfMelter, Do(DamageExact(94), ShootSpeedDelta(+3f)) },
+                { ItemID.ElfMelter, Do(DamageExact(62), ShootSpeedDelta(+3f)) },
                 { ItemID.EmeraldStaff, Do(DamageExact(27)) },
                 { ItemID.EmpressBlade, Do(AutoReuse, DamageExact(60), UseExact(20)) }, // Terraprisma
                 { ItemID.EnchantedBoomerang, Do(DamageExact(24)) },
