@@ -833,9 +833,9 @@ OverloadedBlaster: {
 	DisplayName: Overloaded Blaster
 	Tooltip:
 		'''
-		Fires a spread of shimmering slime that slows down and becomes overloaded when it stops
-		Overloaded slime doesn't pierce, but deals double damage
-		The slime bounces off of walls at high-velocity
+		Converts gel into a spread of energized slime pearls that overload when they come to a stop
+		Overloaded slime pearls deal double damage but no longer pierce
+		Slime pearls bounce off of walls at very high speed
 		Uses gel for ammo
 		25% chance to save ammo
 		'''
