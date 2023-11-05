@@ -937,7 +937,7 @@ PristineFury: {
 	Tooltip:
 		'''
 		Fires an intense helix of flames that explode into a column of smoke
-		Press <right> to disperse short-ranged mists of pure heat
+		Press <right> to disperse intense clouds of profaned heat
 		Uses gel for ammo
 		'''
 }
@@ -1116,7 +1116,7 @@ SpeedBlaster: {
 	Tooltip:
 		'''
 		Rapidly fires phosphorescent paintball shots
-		<right> to eject a powerful glob which propels you while moving
+		Press <right> to eject a powerful glob which propels you while moving
 		This ability has a cooldown of {0} seconds
 		While under cooldown, you fire more rapidly with greater accuracy
 		'''
