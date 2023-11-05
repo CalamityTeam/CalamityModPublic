@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.OnFire3, 240);
-            target.AddBuff(ModContent.BuffType<Buffs.DamageOverTime.BrimstoneFlames>(), 240);
+            target.AddBuff(ModContent.BuffType<Buffs.StatDebuffs.ArmorCrunch>(), 300);
             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode with { Volume = 0.6f, PitchVariance = 0.4f }, Projectile.Center);
 
             for (int i = 0; i <= 8; i++)
