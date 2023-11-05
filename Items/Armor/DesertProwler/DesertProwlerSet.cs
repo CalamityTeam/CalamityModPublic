@@ -44,10 +44,6 @@ namespace CalamityMod.Items.Armor.DesertProwler
         {
             Terraria.On_Player.KeyDoubleTap += ActivateSetBonus;
         }
-        public override void Unload()
-        {
-            Terraria.On_Player.KeyDoubleTap -= ActivateSetBonus;
-        }
 
         private void ActivateSetBonus(Terraria.On_Player.orig_KeyDoubleTap orig, Player player, int keyDir)
         {
