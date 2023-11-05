@@ -144,7 +144,8 @@ BlightSpewer: {
 	DisplayName: Blight Spewer
 	Tooltip:
 		'''
-		Spews toxic clouds of nanomachines that stick to tiles and lock onto enemies they hit
+		Fires clouds of plague nanomachines that stick to tiles
+		Nanomachines aggressively lock onto nearby enemies
 		40% chance to save ammo
 		'''
 }
