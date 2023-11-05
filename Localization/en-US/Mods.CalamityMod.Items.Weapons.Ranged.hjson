@@ -1045,7 +1045,7 @@ Shadethrower: {
 	DisplayName: Shadethrower
 	Tooltip:
 		'''
-		Spews short-ranged clouds of pure darkness
+		Spits clouds of shade which afflict enemies with brain rot
 		Uses gel for ammo
 		'''
 }
