@@ -163,7 +163,7 @@ BloodBoiler: {
 	DisplayName: Blood Boiler
 	Tooltip:
 		'''
-		Fires a dual stream of lifestealing bloodfire that returns to you
+		Fires twin streams of life stealing bloodfire that returns to you
 		Uses your health as ammo
 		'''
 }
