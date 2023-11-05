@@ -115,7 +115,7 @@ AuroraBlazer: {
 	DisplayName: Aurora Blazer
 	Tooltip:
 		'''
-		Spews stellar dusts that travel in star-shaped patterns
+		Spews a nebula stream which forms a star shaped pattern
 		Uses gel for ammo
 		'''
 }
