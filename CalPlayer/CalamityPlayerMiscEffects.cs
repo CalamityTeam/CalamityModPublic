@@ -327,7 +327,8 @@ namespace CalamityMod.CalPlayer
 
             if (oceanCrest)
             {
-                bool GetEffects = (Main.raining || Player.dripping || (Player.wet && !Player.lavaWet && !Player.honeyWet));
+                bool surface = Player.Center.Y < Main.worldSurface * 16.0;
+                bool GetEffects = ((Main.raining && surface) || Player.dripping || (Player.wet && !Player.lavaWet && !Player.honeyWet));
                 if (GetEffects)
                 {
                     if (oceanCrestTimer < 300)
