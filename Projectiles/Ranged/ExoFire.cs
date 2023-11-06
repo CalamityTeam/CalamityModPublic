@@ -1,8 +1,12 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Graphics.Metaballs;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
@@ -11,90 +15,69 @@ namespace CalamityMod.Projectiles.Ranged
     public class ExoFire : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
-        public override string Texture => "CalamityMod/Projectiles/Magic/RancorFog";
-
-        public ref float ColorType => ref Projectile.ai[0];
-        public ref float ScaleFactor => ref Projectile.ai[1];
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public ref float LightPower => ref Projectile.ai[2];
 
-        public float FogRot = 0f;
+        public Color sparkColor;
+        public int Time = 0;
+        public ref int audioCooldown => ref Main.player[Projectile.owner].Calamity().PhotoAudioCooldown;
+        public ref int PhotoTimer => ref Main.player[Projectile.owner].Calamity().PhotoTimer;
 
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 150;
+            Projectile.width = Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
-            Projectile.MaxUpdates = 3;
-            Projectile.timeLeft = 180;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 5;
+            Projectile.MaxUpdates = 180;
+            Projectile.timeLeft = 240;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
         {
-            // Slightly random fog scale/rotation
-            if (FogRot == 0f)
+            sparkColor = Main.rand.Next(4) switch
             {
-                Projectile.scale = Main.rand.NextFloat(0.75f, 0.8f);
-                FogRot = Main.rand.NextFloat(MathHelper.ToRadians(60f));
+                0 => Color.Red,
+                1 => Color.MediumTurquoise,
+                2 => Color.Orange,
+                _ => Color.LawnGreen,
+            };
+            Time++;
+            Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.2f);
+            Player Owner = Main.player[Projectile.owner];
+            float targetDist = Vector2.Distance(Owner.Center, Projectile.Center); //used for some drawing prevention for when it's offscreen since it makes a fuck load of particles
+            if (targetDist < 1400f)
+            {
+                if (PhotoTimer == 0)
+                    PhotoMetaball3.SpawnParticle(Projectile.Center + Owner.velocity, 42 - Time * 0.165f);
+                if (PhotoTimer == 1)
+                    PhotoMetaball3.SpawnParticle(Projectile.Center + Owner.velocity, (37 - Time * (PhotoTimer == 0 ? 0.165f : 0.088f)) - PhotoTimer * 0.2f + (PhotoTimer == 1 ? 20 : 0)); ;
+
+                PhotoMetaball4.SpawnParticle(Projectile.Center + Owner.velocity, (37 - Time * (PhotoTimer == 0 ? 0.165f : 0.088f)) - PhotoTimer * 0.2f + (PhotoTimer == 1 ? 20 : 0));
             }
-            ColorType += Main.rand.NextFloat(0.02f, 0.06f);
-            ScaleFactor += 0.015f;
-            ScaleFactor = MathHelper.Clamp(ScaleFactor, 0f, Projectile.scale);
-            Lighting.AddLight(Projectile.Center, CloudColor(ColorType % 3f).ToVector3() * ScaleFactor);
-            Projectile.rotation = Projectile.velocity.ToRotation() + FogRot;
-
-            Projectile.Opacity = Utils.GetLerpValue(0f, 12f, Projectile.timeLeft, true);
-            if (Projectile.timeLeft < 60)
-                Projectile.velocity *= 0.99f;
-
-            // Calculate light power. This checks below the position of the fog to check if this fog is underground.
-            // Without this, it may render over the fullblack that the game renders for obscured tiles.
-            float lightPowerBelow = Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16 + 6).ToVector3().Length() / (float)Math.Sqrt(3D);
-            LightPower = MathHelper.Lerp(LightPower, lightPowerBelow, 0.15f);
+            if ( Main.rand.NextBool(35) && targetDist < 1400f && Time > 5)
+            {
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 263, new Vector2(0, -5).RotatedByRandom(0.05f) * Main.rand.NextFloat(0.3f, 1.6f));
+                dust.noGravity = true;
+                dust.scale = Main.rand.NextFloat(0.3f, 1f);
+                dust.color = sparkColor;
+            }
         }
-
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, Projectile.width * ScaleFactor * 0.5f, targetHitbox);
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
+            if (audioCooldown == 0)
+            {
+                SoundEngine.PlaySound(Photoviscerator.HitSound, target.Center);
+                audioCooldown = 6;
+            }
+        }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
 
-        public override bool PreDraw(ref Color lightColor)
-        {
-            Main.spriteBatch.SetBlendState(BlendState.Additive);
-
-            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            float opacity = Utils.GetLerpValue(0f, 0.08f, LightPower, true) * Projectile.Opacity * 0.6f;
-            Color drawColor = CloudColor(ColorType % 3f) * opacity;
-            Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, Projectile.rotation, texture.Size() * 0.5f, ScaleFactor, SpriteEffects.None);
-
-            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
-            return false;
-        }
-
-        public static Color CloudColor(float type)
-        {
-            type = MathHelper.Clamp(type, 0f, 3f);
-            Color cloud = Color.White;
-
-            // Cycles with these 3 colors
-            Color Purple = new Color(220, 120, 255);
-            Color Green = new Color(120, 255, 120);
-            Color Yellow = new Color(255, 255, 120);
-
-            if (type >= 2f)
-                cloud = Color.Lerp(Green, Yellow, type - 2f);
-            else if (type >= 1f)
-                cloud = Color.Lerp(Purple, Green, type - 1f);
-            else
-                cloud = Color.Lerp(Yellow, Purple, type);
-
-            return cloud;
-        }
     }
 }

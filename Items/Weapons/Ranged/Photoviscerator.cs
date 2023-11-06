@@ -5,6 +5,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,22 +14,24 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Photoviscerator : ModItem, ILocalizedModType
     {
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PhotoUseSound") { Volume = 0.55f };
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/PhotoHitSound") { Volume = 0.45f };
         public new string LocalizationCategory => "Items.Weapons.Ranged";
 
         // Left-click stats
         public static float AmmoNotConsumeChance = 0.95f;
-        public static int LightBombCooldown = 15;
+        public static int LightBombCooldown = 10;
 
         // Right-click stats
         public static float RightClickVelocityMult = 2.5f;
-        public static int RightClickCooldown = 30;
+        public static int RightClickCooldown = 20;
 
         public override void SetDefaults()
         {
             Item.width = 208;
             Item.height = 66;
 
-            Item.damage = 130;
+            Item.damage = 118;
             Item.DamageType = DamageClass.Ranged;
             Item.useTime = Item.useAnimation = LightBombCooldown;
             Item.shootSpeed = 6f;
@@ -80,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<ElementalEruption>().
-                AddIngredient<CleansingBlaze>().
+                AddIngredient<HalleysInferno>().
                 AddIngredient<DeadSunsWind>().
                 AddIngredient<MiracleMatter>().
                 AddTile<DraedonsForge>().

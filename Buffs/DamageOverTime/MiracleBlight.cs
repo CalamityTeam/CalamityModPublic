@@ -36,7 +36,7 @@ namespace CalamityMod.Buffs.DamageOverTime
 
             var sparkColor = Main.rand.Next(4) switch
             {
-                0 => Color.DarkRed,
+                0 => Color.Red,
                 1 => Color.MediumTurquoise,
                 2 => Color.Orange,
                 _ => Color.LawnGreen,
@@ -75,7 +75,7 @@ namespace CalamityMod.Buffs.DamageOverTime
             Vector2 npcSize = npc.Center + new Vector2(Main.rand.NextFloat(-npc.width / 2, npc.width / 2), Main.rand.NextFloat(-npc.height / 2, npc.height / 2));
             var sparkColor = Main.rand.Next(4) switch
             {
-                0 => Color.DarkRed,
+                0 => Color.Red,
                 1 => Color.MediumTurquoise,
                 2 => Color.Orange,
                 _ => Color.LawnGreen,
