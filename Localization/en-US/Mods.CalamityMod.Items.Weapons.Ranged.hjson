@@ -115,7 +115,7 @@ AuroraBlazer: {
 	DisplayName: Aurora Blazer
 	Tooltip:
 		'''
-		Spews stellar dusts that travel in star-shaped patterns
+		Spews a nebula stream which forms a star shaped pattern
 		Uses gel for ammo
 		'''
 }
@@ -144,7 +144,8 @@ BlightSpewer: {
 	DisplayName: Blight Spewer
 	Tooltip:
 		'''
-		Spews toxic clouds of nanomachines that stick to tiles and lock onto enemies they hit
+		Fires clouds of plague nanomachines that stick to tiles
+		Nanomachines aggressively lock onto nearby enemies
 		40% chance to save ammo
 		'''
 }
@@ -162,7 +163,7 @@ BloodBoiler: {
 	DisplayName: Blood Boiler
 	Tooltip:
 		'''
-		Fires a dual stream of lifestealing bloodfire that returns to you
+		Fires twin streams of life stealing bloodfire that returns to you
 		Uses your health as ammo
 		'''
 }
@@ -716,8 +717,8 @@ Meowthrower: {
 	DisplayName: Meowthrower
 	Tooltip:
 		'''
-		Purrifies your foes with pink and blue smokes
-		Occasionally unleashes homing feline creatures
+		Cooks your foes to purrfection with catty smoke
+		Occasionally launches homing feline entities
 		Uses gel for ammo
 		'''
 }
@@ -833,9 +834,9 @@ OverloadedBlaster: {
 	DisplayName: Overloaded Blaster
 	Tooltip:
 		'''
-		Fires a spread of shimmering slime that slows down and becomes overloaded when it stops
-		Overloaded slime doesn't pierce, but deals double damage
-		The slime bounces off of walls at high-velocity
+		Converts gel into a spread of energized slime pearls that overload when they come to a stop
+		Overloaded slime pearls deal double damage but no longer pierce
+		Slime pearls bounce off of walls at very high speed
 		Uses gel for ammo
 		25% chance to save ammo
 		'''
@@ -936,7 +937,7 @@ PristineFury: {
 	Tooltip:
 		'''
 		Fires an intense helix of flames that explode into a column of smoke
-		Press <right> to disperse short-ranged mists of pure heat
+		Press <right> to disperse intense clouds of profaned heat
 		Uses gel for ammo
 		'''
 }
@@ -1045,7 +1046,7 @@ Shadethrower: {
 	DisplayName: Shadethrower
 	Tooltip:
 		'''
-		Spews short-ranged clouds of pure darkness
+		Spits clouds of shade which afflict enemies with brain rot
 		Uses gel for ammo
 		'''
 }
@@ -1115,7 +1116,7 @@ SpeedBlaster: {
 	Tooltip:
 		'''
 		Rapidly fires phosphorescent paintball shots
-		<right> to eject a powerful glob which propels you while moving
+		Press <right> to eject a powerful glob which propels you while moving
 		This ability has a cooldown of {0} seconds
 		While under cooldown, you fire more rapidly with greater accuracy
 		'''

@@ -1,17 +1,13 @@
 ﻿using System.Collections.Generic;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using static Humanizer.In;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -66,8 +62,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
                 return true;
         }
 
-        //so it looks normal when holding
-        public override Vector2? HoldoutOrigin() => new Vector2(2, 2);
+        public override Vector2? HoldoutOrigin() => new Vector2(7, 7);
 
         public override bool AltFunctionUse(Player player) => Main.zenithWorld ? true : false;
         public override bool CanConsumeAmmo(Item ammo, Player player)
