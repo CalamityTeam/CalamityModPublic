@@ -8,14 +8,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Graphics.Metaballs
 {
-    public class BloodBoilerMetaball : Metaball
+    public class BloodBoilerMetaball2 : Metaball
     {
-        public class BloodBoilerParticle
+        public class BloodBoilerParticle2
         {
             public Vector2 Center;
             public float Size;
 
-            public BloodBoilerParticle(Vector2 center, float size)
+            public BloodBoilerParticle2(Vector2 center, float size)
             {
                 Center = center;
                 Size = size;
@@ -32,7 +32,7 @@ namespace CalamityMod.Graphics.Metaballs
             }
         }
 
-        public static List<BloodBoilerParticle> Particles
+        public static List<BloodBoilerParticle2> Particles
         {
             get;
             private set;
@@ -85,10 +85,10 @@ namespace CalamityMod.Graphics.Metaballs
         public override void DrawInstances()
         {
             float pureRedIntensity = 0.15f;
-            float opacity = 0.5f;
+            float opacity = 0.3f;
             Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SmallGreyscaleCircle").Value;
 
-            foreach (BloodBoilerParticle particle in Particles)
+            foreach (BloodBoilerParticle2 particle in Particles)
             {
                 Vector2 drawPosition = particle.Center - Main.screenPosition;
                 var origin = tex.Size() * 0.5f;

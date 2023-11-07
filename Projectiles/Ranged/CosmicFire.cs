@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Ranged
         public ref float Time => ref Projectile.ai[0];
         public ref float BounceHits => ref Projectile.ai[1];
 
-        public Color InnerColor = Color.Turquoise;
+        public Color InnerColor = Color.LightGreen;
 
         public override void SetDefaults()
         {
@@ -38,23 +38,23 @@ namespace CalamityMod.Projectiles.Ranged
             float targetDist = Vector2.Distance(Owner.Center, Projectile.Center); //used for some drawing prevention for when it's offscreen since it makes a fuck load of particles
             if (Projectile.timeLeft % 3 == 0 && Time > 12f && targetDist < 1400f)
             {
-                AltSparkParticle spark = new AltSparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 2.3f, Color.Black);
+                AltSparkParticle spark = new AltSparkParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 17, 2.3f, Color.Black);
                 GeneralParticleHandler.SpawnParticle(spark);
             }
-            if (Time > 12f && targetDist < 1400f)
+            if (Main.rand.NextBool(3) && Time > 12f && targetDist < 1400f)
             {
-                Particle orb = new GenericBloom(Projectile.Center + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * Main.rand.NextFloat(0.05f, 0.5f), Color.Black, Main.rand.NextFloat(0.2f, 0.45f), Main.rand.Next(12, 16), true, false);
+                Particle orb = new GenericBloom(Projectile.Center + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * Main.rand.NextFloat(0.05f, 0.5f), Color.Black, Main.rand.NextFloat(0.2f, 0.45f), Main.rand.Next(9, 12), true, false);
                 GeneralParticleHandler.SpawnParticle(orb);
             }
             
             if (Projectile.timeLeft % 3 == 0 && Time > 12f && targetDist < 1400f)
             {
-                LineParticle spark2 = new LineParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 20, 1.7f, InnerColor);
+                LineParticle spark2 = new LineParticle(Projectile.Center, -Projectile.velocity * 0.05f, false, 17, 1.7f, InnerColor);
                 GeneralParticleHandler.SpawnParticle(spark2);
             }
-            if (Time > 12f && targetDist < 1400f)
+            if (Main.rand.NextBool(3) && Time > 12f && targetDist < 1400f)
             {
-                Particle orb2 = new GenericBloom(Projectile.Center + Main.rand.NextVector2Circular(5, 5), Projectile.velocity * Main.rand.NextFloat(0.05f, 0.5f), InnerColor, Main.rand.NextFloat(0.05f, 0.3f), Main.rand.Next(12, 16), true);
+                Particle orb2 = new GenericBloom(Projectile.Center + Main.rand.NextVector2Circular(5, 5), Projectile.velocity * Main.rand.NextFloat(0.05f, 0.5f), InnerColor, Main.rand.NextFloat(0.05f, 0.3f), Main.rand.Next(9, 12), true);
                 GeneralParticleHandler.SpawnParticle(orb2);
             }
             
@@ -62,21 +62,22 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int i = 0; i <= 18; i++)
                 {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? 191 : Main.rand.NextBool(4) ? 229 : 156, Projectile.velocity);
+                    int dustStyle = Main.rand.NextBool() ? 66 : 263;
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? 191 : dustStyle, Projectile.velocity);
                     dust.scale = Main.rand.NextFloat(1.5f, 2.3f);
                     dust.velocity = Projectile.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.3f, 2.1f);
                     dust.noGravity = true;
+                    dust.color = dust.type == dustStyle ? InnerColor : default;
                 }
             }
             if (BounceHits > 0f)
             {
-                for (int i = 0; i <= 2; i++)
-                {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(4) ? 229 : 156, -Projectile.velocity);
-                    dust.scale = Main.rand.NextFloat(0.7f, 1.3f);
-                    dust.velocity = -Projectile.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.3f, 1.7f);
-                    dust.noGravity = true;
-                }
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(6) ? 278 : 263, -Projectile.velocity);
+                dust.scale = dust.type == 278 ? Main.rand.NextFloat(0.3f, 0.6f) : Main.rand.NextFloat(0.6f, 1.4f);
+                dust.velocity = -Projectile.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.3f, 1.7f);
+                dust.noGravity = true;
+                dust.color = InnerColor;
+
                 CalamityUtils.HomeInOnNPC(Projectile, false, 600f, 12f, 20f);
             }
         }
@@ -119,7 +120,6 @@ namespace CalamityMod.Projectiles.Ranged
             }
             Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, InnerColor, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.1f, 0.9f - (BounceHits * 0.25f), 25);
             GeneralParticleHandler.SpawnParticle(pulse);
-            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.MediumSpringGreen, new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0.05f, 0.75f - (BounceHits * 0.25f), 25);
 
             if (BounceHits == 0f)
                 SoundEngine.PlaySound(DeadSunsWind.Ricochet, Projectile.Center);

@@ -8,14 +8,34 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Graphics.Metaballs
 {
-    public class BloodBoilerMetaball : Metaball
+    public class DragonsBreathFlameMetaball2 : DragonsBreathMetaball
     {
-        public class BloodBoilerParticle
+        // OrangeRed is FF4500
+        // new Color(0xFF, 0x3A, 0x0A);
+        public override Color EdgeColor => Color.OrangeRed;
+
+        // Flame metaballs never turn white
+        public override void DrawInstances() => DrawInstancesInternal(0.03f, -1f);
+    }
+    public class DragonsBreathBeamMetaball2 : DragonsBreathMetaball2
+    {
+        private static float whiteSizeThreshold = 72f;
+
+        public override Color EdgeColor => Color.OrangeRed * 1.2f;
+
+        // Laser metaballs very suddenly turn white at a specific size
+        public override void DrawInstances() => DrawInstancesInternal(0.4f, whiteSizeThreshold);
+    }
+
+    public abstract class DragonsBreathMetaball2 : Metaball
+    {
+        // Identical behavior to Blood Boiler particles
+        public class DragonsBreathParticle2
         {
             public Vector2 Center;
             public float Size;
 
-            public BloodBoilerParticle(Vector2 center, float size)
+            public DragonsBreathParticle2(Vector2 center, float size)
             {
                 Center = center;
                 Size = size;
@@ -32,7 +52,7 @@ namespace CalamityMod.Graphics.Metaballs
             }
         }
 
-        public static List<BloodBoilerParticle> Particles
+        public List<DragonsBreathParticle2> Particles
         {
             get;
             private set;
@@ -49,8 +69,6 @@ namespace CalamityMod.Graphics.Metaballs
         }
 
         public override MetaballDrawLayer DrawContext => MetaballDrawLayer.AfterProjectiles;
-
-        public override Color EdgeColor => Color.DarkRed;
 
         public override void Update()
         {
@@ -80,22 +98,27 @@ namespace CalamityMod.Graphics.Metaballs
             metaballShader.CurrentTechnique.Passes[0].Apply();
         }
 
-        public static void SpawnParticle(Vector2 position, float size) => Particles.Add(new(position, size));
+        public void SpawnParticle(Vector2 position, float size) => Particles.Add(new(position, size));
 
-        public override void DrawInstances()
+        internal void DrawInstancesInternal(float opacity, float whiteSizeThreshold)
         {
-            float pureRedIntensity = 0.15f;
-            float opacity = 0.5f;
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SmallGreyscaleCircle").Value;
+            float pureWhiteIntensity = 0.16f;
+            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Graphics/Metaballs/MetaballMessy").Value;
 
-            foreach (BloodBoilerParticle particle in Particles)
+            foreach (DragonsBreathParticle2 particle in Particles)
             {
                 Vector2 drawPosition = particle.Center - Main.screenPosition;
                 var origin = tex.Size() * 0.5f;
                 Vector2 scale = Vector2.One * particle.Size / tex.Size();
 
-                float pureRedInterpolant = Utils.GetLerpValue(25f, 60f, particle.Size, true) * pureRedIntensity;
-                Color drawColor = Color.Lerp(EdgeColor, Color.DarkRed, pureRedInterpolant).MultiplyRGBA(new Color(1f, 1f, 1f, opacity));
+                Color drawColor;
+                if (whiteSizeThreshold >= 0f)
+                {
+                    float pureWhiteInterpolant = Utils.GetLerpValue(0.8f * whiteSizeThreshold, whiteSizeThreshold, particle.Size, true) * pureWhiteIntensity;
+                    drawColor = Color.Lerp(EdgeColor, Color.White, pureWhiteInterpolant) * opacity;
+                }
+                else
+                    drawColor = Color.Lerp(EdgeColor, Color.DarkOrange, Utils.GetLerpValue(60f, 100f, particle.Size, true) * 0.3f);
 
                 Main.spriteBatch.Draw(tex, drawPosition, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
             }

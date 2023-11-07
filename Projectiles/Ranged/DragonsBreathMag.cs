@@ -44,6 +44,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void AI()
         {
+            Projectile.extraUpdates = 0;
             Time++;
             Player Owner = Main.player[Projectile.owner];
             if (!TouchedGrass)
@@ -64,11 +65,15 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.zenithWorld)
             {
-                for (int i = 0; i <= 40; i++)
+                for (int i = 0; i <= 30; i++)
                 {
                     SparkParticle spark1 = new SparkParticle(Projectile.Center, new Vector2(4, 4).RotatedByRandom(100) * Main.rand.NextFloat(0.5f, 2.8f), false, 45, 1.4f, Main.rand.NextBool(4) ? Color.Orange : Color.OrangeRed);
                     GeneralParticleHandler.SpawnParticle(spark1);
                 }
+                Particle explosion = new DetailedExplosion(Projectile.Center, Vector2.Zero, Color.DarkOrange, Vector2.One, Main.rand.NextFloat(-5, 5), 0f, 2.8f, 33);
+                GeneralParticleHandler.SpawnParticle(explosion);
+                Particle explosion2 = new DetailedExplosion(Projectile.Center, Vector2.Zero, Color.OrangeRed, Vector2.One, Main.rand.NextFloat(-5, 5), 0f, 3f, 33, false);
+                GeneralParticleHandler.SpawnParticle(explosion2);
             }
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 20);
         }

@@ -58,7 +58,8 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (Projectile.timeLeft < 296) // The main visual of the projectile and the blood mist it produces before turning around
             {
-                BloodBoilerMetaball.SpawnParticle(Projectile.Center, particleSize * 2);
+                BloodBoilerMetaball2.SpawnParticle(Projectile.Center, particleSize * 2.3f);
+                BloodBoilerMetaball.SpawnParticle(Projectile.Center, particleSize * 1.7f);
 
                 if (Main.rand.NextBool(6) && Projectile.ai[1] == 0f)
                 {

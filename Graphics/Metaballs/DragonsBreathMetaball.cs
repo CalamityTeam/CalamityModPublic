@@ -12,7 +12,7 @@ namespace CalamityMod.Graphics.Metaballs
     {
         // OrangeRed is FF4500
         // new Color(0xFF, 0x3A, 0x0A);
-        public override Color EdgeColor => Main.rand.NextBool() ? Color.OrangeRed : Color.DarkOrange * 0.65f;
+        public override Color EdgeColor => Color.Orange;
 
         // Flame metaballs never turn white
         public override void DrawInstances() => DrawInstancesInternal(0.03f, -1f);
@@ -21,7 +21,7 @@ namespace CalamityMod.Graphics.Metaballs
     {
         private static float whiteSizeThreshold = 72f;
 
-        public override Color EdgeColor => Main.rand.NextBool() ? Color.Orange : Color.OrangeRed;
+        public override Color EdgeColor => Color.Orange;
 
         // Laser metaballs very suddenly turn white at a specific size
         public override void DrawInstances() => DrawInstancesInternal(0.4f, whiteSizeThreshold);
@@ -47,7 +47,7 @@ namespace CalamityMod.Graphics.Metaballs
                 Size = MathHelper.Clamp(Size - 0.1f, 0f, 200f) * 0.91f;
 
                 // Once sufficiently small, the particles very rapidly shrink.
-                if (Size < 20f)
+                if (Size < 5f)
                     Size = Size * 0.8f - 1f;
             }
         }
@@ -115,10 +115,10 @@ namespace CalamityMod.Graphics.Metaballs
                 if (whiteSizeThreshold >= 0f)
                 {
                     float pureWhiteInterpolant = Utils.GetLerpValue(0.8f * whiteSizeThreshold, whiteSizeThreshold, particle.Size, true) * pureWhiteIntensity;
-                    drawColor = Color.Lerp(EdgeColor, Color.White, pureWhiteInterpolant) * opacity;
+                    drawColor = Color.Lerp(EdgeColor, Color.DarkOrange, pureWhiteInterpolant) * opacity;
                 }
                 else
-                    drawColor = Color.Lerp(EdgeColor, new Color(0xE0, 0x70, 0x10), Utils.GetLerpValue(60f, 100f, particle.Size, true) * 0.2f);
+                    drawColor = Color.Lerp(EdgeColor, new Color(0xE0, 0x70, 0x10), Utils.GetLerpValue(60f, 100f, particle.Size, true) * 0.75f);
 
                 Main.spriteBatch.Draw(tex, drawPosition, null, drawColor, 0f, origin, scale, SpriteEffects.None, 0f);
             }

@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public void LeftClickAttack(Vector2 armPosition, Vector2 verticalOffset)
         {
-            if (Time == 1 || Time % 59 == 0)
+            if (Time == 1 || Time % 55 == 0)
             {
                 PhotoUseSound = SoundEngine.PlaySound(Photoviscerator.UseSound, Projectile.Center);
             }

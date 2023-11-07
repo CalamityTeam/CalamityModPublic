@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public Player Owner => Main.player[Projectile.owner];
         public ref float ExplosionRadius => ref Projectile.ai[0];
-        public Color color1 = Color.Turquoise;
-        public Color color2 = Color.Indigo;
+        public Color color1 = Color.LightGreen;
+        public Color color2 = Color.Black;
         public override void SetDefaults()
         {
             //These shouldn't matter because its circular
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
             GeneralParticleHandler.SpawnParticle(explosion3);
             Particle orb = new GenericBloom(Projectile.Center, Projectile.velocity, color1, ExplosionRadius * 0.0085f + 0.05f, 10, true);
             GeneralParticleHandler.SpawnParticle(orb);
-            Particle orb2 = new GenericBloom(Projectile.Center, Projectile.velocity, color2, ExplosionRadius * 0.006f + 0.05f, 10, true);
+            Particle orb2 = new GenericBloom(Projectile.Center, Projectile.velocity, color2, ExplosionRadius * 0.006f + 0.05f, 10, true, true);
             GeneralParticleHandler.SpawnParticle(orb2);
             float numberOfDusts = ExplosionRadius * 0.1f + 10;
             float rotFactor = 360f / numberOfDusts;
@@ -50,11 +50,11 @@ namespace CalamityMod.Projectiles.Ranged
                 float rot = MathHelper.ToRadians(i * rotFactor);
                 Vector2 offset = (Vector2.UnitX * Main.rand.NextFloat(ExplosionRadius * 0.2f, 3.1f)).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
                 Vector2 velOffset = (Vector2.UnitX * Main.rand.NextFloat(ExplosionRadius * 0.2f, 3.1f)).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
-                Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, Main.rand.NextBool(4) ? 229 : Projectile.ai[1] == 5 ? 226 : 156, velOffset);
-                dust.noGravity = dust.type == 226? false : true;
-                dust.color = dust.type == 226 ? color1 : default;
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, Main.rand.NextBool(4) ? 263 : Projectile.ai[1] == 5 ? 278 : 66, velOffset);
+                dust.noGravity = dust.type == 278? false : true;
+                dust.color = color1;
                 dust.velocity = velOffset;
-                dust.scale = dust.type == 226 ? Main.rand.NextFloat(0.7f, 1.3f) : Main.rand.NextFloat(1.6f, 2.2f);
+                dust.scale = dust.type == 278 ? Main.rand.NextFloat(0.7f, 1.3f) : Main.rand.NextFloat(1.6f, 2.2f);
             }
         }
 

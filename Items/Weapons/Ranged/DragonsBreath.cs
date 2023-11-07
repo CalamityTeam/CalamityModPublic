@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
         public override bool CanConsumeAmmo(Item ammo, Player player) => !StrongShotMode && Main.rand.NextFloat() > 0.80f;
 
-        public override Vector2? HoldoutOffset() => new Vector2(0, 10.5f);
+        public override Vector2? HoldoutOffset() => new Vector2(18, 10.5f);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -81,6 +81,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                     BetweenShotsPause = 0;
                     Item.reuseDelay = BetweenShotsPause;
                     StrongShotMode = true;
+                    DragonsBreathSetUseTime = 2;
+                    DragonsBreathSetUseAnimation = 2;
                     SoundEngine.PlaySound(ScorchedEarth.ShootSound, player.Center);
                 }
             }
@@ -106,7 +108,9 @@ namespace CalamityMod.Items.Weapons.Ranged
                     WeldingShots = 50;
                     WeldSound?.Stop();
                     StrongShotMode = false;
-                }
+                    DragonsBreathSetUseTime = 5;
+                    DragonsBreathSetUseAnimation = 9;
+    }
             }
             return false;
         }

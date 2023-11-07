@@ -17,8 +17,9 @@ namespace CalamityMod.Projectiles.Ranged
         public int Time = 0;
         public float beamWidth = 1.1f;
         public bool beamsize = false;
-        public float bbbBONUSbeamSizeWOAHH = 60;
+        public float bbbBONUSbeamSizeWOAHH = 50;
         public bool postHit = false;
+        public int beamWeldBloomReduction = 0;
         public ref int audioCooldown => ref Main.player[Projectile.owner].Calamity().DragonsBreathAudioCooldown;
 
         public override void SetDefaults()
@@ -29,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.extraUpdates = 5;
+            Projectile.extraUpdates = 6;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 500;
             Projectile.usesLocalNPCImmunity = true;
@@ -54,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
             Time++;
             if (Projectile.ai[0] == 0) //Fireball Mode
             {
-                if (Time == 14)
+                if (Time == 16)
                 {
                     for (int i = 0; i <= 7; i++)
                     {
@@ -83,12 +84,13 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 if (Time % 5 == 0 && Time > 35f && targetDist < 1400f)
                 {
-                    SparkParticle spark = new SparkParticle(Projectile.Center + Main.rand.NextVector2Circular(1 + (Time * 0.3f), 1 + (Time * 0.3f)), -Projectile.velocity * 0.5f, false, 15, Main.rand.NextFloat(0.3f, 0.5f), Main.rand.NextBool() ? Color.DarkOrange : Color.OrangeRed);
+                    SparkParticle spark = new SparkParticle(Projectile.Center + Main.rand.NextVector2Circular(1 + (Time * 0.3f), 1 + (Time * 0.3f)), -Projectile.velocity * 0.5f, false, 15, Main.rand.NextFloat(0.4f, 0.7f), Main.rand.NextBool() ? Color.DarkOrange : Color.OrangeRed);
                     GeneralParticleHandler.SpawnParticle(spark);
                 }
                 if (targetDist < 1400f)
                 {
-                    ModContent.GetInstance<DragonsBreathFlameMetaball>().SpawnParticle(Projectile.Center, Time * Main.rand.NextFloat(0.85f, 0.95f));
+                    ModContent.GetInstance<DragonsBreathFlameMetaball2>().SpawnParticle(Projectile.Center, Time * 0.9f);
+                    ModContent.GetInstance<DragonsBreathFlameMetaball>().SpawnParticle(Projectile.Center + Projectile.velocity, Time * 0.85f);
                 }
                 Projectile.velocity *= 1.01f;
             }
@@ -96,9 +98,9 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (bbbBONUSbeamSizeWOAHH > 0)
                     bbbBONUSbeamSizeWOAHH -= 0.65f;
-                Projectile.extraUpdates = 15;
+                Projectile.extraUpdates = 170;
 
-                if (Time > 11)
+                if (Time > 13)
                 {
                     Dust dust2 = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(8, 8), Main.rand.NextBool(3) ? 162 : 259);
                     dust2.scale = Main.rand.NextFloat(0.3f, 0.5f);
@@ -109,10 +111,11 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     if (targetDist < 1400f)
                     {
+                        ModContent.GetInstance<DragonsBreathBeamMetaball2>().SpawnParticle(Projectile.Center, beamWidth * 46 + bbbBONUSbeamSizeWOAHH);
                         ModContent.GetInstance<DragonsBreathBeamMetaball>().SpawnParticle(Projectile.Center, beamWidth * 45 + bbbBONUSbeamSizeWOAHH);
                     }
                 }
-                if (Time == 11)
+                if (Time == 13)
                 {
                     for (int i = 0; i <= 4; i++)
                     {
@@ -135,46 +138,45 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Projectile.ai[0] == 1)
             {
-                if (!postHit)
+                if (beamWeldBloomReduction < 3)
                 {
                     if (audioCooldown == 0)
                     {
                         SoundEngine.PlaySound(DragonsBreath.WeldingBurn, Projectile.Center);
                         audioCooldown = 12;
                     }
-                    float OrbSize = Main.rand.NextFloat(0.5f, 0.8f);
+                    float OrbSize = Main.rand.NextFloat(0.5f, 0.8f) - beamWeldBloomReduction * 0.14f;
                     Particle orb = new GenericBloom(target.Center, Vector2.Zero, Color.OrangeRed, OrbSize + 0.6f, 8, true);
                     GeneralParticleHandler.SpawnParticle(orb);
                     Particle orb2 = new GenericBloom(target.Center, Vector2.Zero, Color.White, OrbSize + 0.2f, 8, true);
                     GeneralParticleHandler.SpawnParticle(orb2);
-                    for (int i = 0; i < 3; i++)
+                    if (!postHit)
                     {
-                        Vector2 SpawnPosition = target.Center + Main.rand.NextVector2Circular(target.width, target.height) * 0.04f;
-                        Vector2 splatterDirection = (Projectile.Center - SpawnPosition).SafeNormalize(Vector2.UnitY);
-                        int sparkLifetime = Main.rand.Next(22, 36);
-                        float sparkScale = Main.rand.NextFloat(0.8f, 1.3f);
-                        Color sparkColor = Main.rand.NextBool(4) ? Color.OrangeRed : Color.Orange;
-                        Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 25f);
-                        SparkParticle spark = new SparkParticle(target.Center, sparkVelocity, true, sparkLifetime, sparkScale, sparkColor);
-                        GeneralParticleHandler.SpawnParticle(spark);
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Vector2 SpawnPosition = target.Center + Main.rand.NextVector2Circular(target.width, target.height) * 0.04f;
+                            Vector2 splatterDirection = (Projectile.Center - SpawnPosition).SafeNormalize(Vector2.UnitY);
+                            int sparkLifetime = Main.rand.Next(22, 36);
+                            float sparkScale = Main.rand.NextFloat(0.8f, 1.3f);
+                            Color sparkColor = Main.rand.NextBool(4) ? Color.OrangeRed : Color.Orange;
+                            Vector2 sparkVelocity = splatterDirection.RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 25f);
+                            SparkParticle spark = new SparkParticle(target.Center, sparkVelocity, true, sparkLifetime, sparkScale, sparkColor);
+                            GeneralParticleHandler.SpawnParticle(spark);
+                        }
+                        postHit = true;
                     }
-                    postHit = true;
+                    beamWeldBloomReduction++;
                 }
                 target.AddBuff(ModContent.BuffType<Dragonfire>(), 420);
             }
             else if (!postHit)
             {
-                for (int i = 0; i <= 3; i++)
+                for (int i = 0; i <= 6; i++)
                 {
-                    Vector2 dustyVelocity = new Vector2(0, -3.5f);
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? 293 : 174);
-                    dust.scale = Main.rand.NextFloat(0.8f, 1.75f);
-                    dust.velocity = dustyVelocity.RotatedByRandom(0.6f) * Main.rand.NextFloat(0.3f, 0.8f);
-                    dust.noGravity = false;
-                    Dust dust2 = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool(3) ? 293 : 174);
-                    dust2.scale = Main.rand.NextFloat(1.1f, 1.9f);
-                    dust2.velocity = dustyVelocity.RotatedByRandom(0.07f) * Main.rand.NextFloat(0.8f, 2.1f);
-                    dust2.noGravity = false;
+                    Dust dust = Dust.NewDustPerfect(Projectile.position - Projectile.velocity * 0.5f, Main.rand.NextBool(3) ? 293 : 174, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.5f, 3.5f), 0, default, Main.rand.NextFloat(1.6f, 2.3f));
+                    dust.noGravity = true;
+                    Dust dust2 = Dust.NewDustPerfect(Projectile.position - Projectile.velocity * 0.5f, Main.rand.NextBool(3) ? 293 : 174, Projectile.velocity.RotatedByRandom(MathHelper.ToRadians(5f)) * Main.rand.NextFloat(0.8f, 5.8f), 0, default, Main.rand.NextFloat(1.6f, 2.3f));
+                    dust2.noGravity = true;
                 }
                 postHit = true;
             }
