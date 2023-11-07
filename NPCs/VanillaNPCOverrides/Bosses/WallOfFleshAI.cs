@@ -44,28 +44,27 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 if (NPC.CountNPCS(NPCID.FireImp) < 4)
                 {
-                    int num351 = 1000;
-                    for (int num352 = 0; num352 < num351; num352++)
+                    for (int i = 0; i < 1000; i++)
                     {
-                        int num353 = (int)(npc.Center.X / 16f);
-                        int num354 = (int)(npc.Center.Y / 16f);
+                        int targetTileX = (int)(npc.Center.X / 16f);
+                        int targetTileY = (int)(npc.Center.Y / 16f);
                         if (npc.target >= 0)
                         {
-                            num353 = (int)(Main.player[npc.target].Center.X / 16f);
-                            num354 = (int)(Main.player[npc.target].Center.Y / 16f);
+                            targetTileX = (int)(Main.player[npc.target].Center.X / 16f);
+                            targetTileY = (int)(Main.player[npc.target].Center.Y / 16f);
                         }
 
-                        num353 += Main.rand.Next(-50, 51);
-                        for (num354 += Main.rand.Next(-50, 51); num354 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num353, num354); num354++)
+                        targetTileX += Main.rand.Next(-50, 51);
+                        for (targetTileY += Main.rand.Next(-50, 51); targetTileY < Main.maxTilesY - 10 && !WorldGen.SolidTile(targetTileX, targetTileY); targetTileY++)
                         {
                         }
 
-                        num354--;
-                        if (!WorldGen.SolidTile(num353, num354))
+                        targetTileY--;
+                        if (!WorldGen.SolidTile(targetTileX, targetTileY))
                         {
-                            int num355 = NPC.NewNPC(npc.GetSource_FromAI(), num353 * 16 + 8, num354 * 16, 24);
-                            if (Main.netMode == NetmodeID.Server && num355 < Main.maxNPCs)
-                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num355);
+                            int impSpawn = NPC.NewNPC(npc.GetSource_FromAI(), targetTileX * 16 + 8, targetTileY * 16, 24);
+                            if (Main.netMode == NetmodeID.Server && impSpawn < Main.maxNPCs)
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, impSpawn);
 
                             break;
                         }
@@ -93,17 +92,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Leech spawn
             if (npc.ai[2] > 0f && npc.ai[1] > 60f)
             {
-                int num330 = phase3 ? 3 : 2;
+                int leechAmt = phase3 ? 3 : 2;
 
                 npc.ai[2] += 1f;
                 npc.ai[1] = 0f;
-                if (npc.ai[2] > num330)
+                if (npc.ai[2] > leechAmt)
                     npc.ai[2] = 0f;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num331 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + (npc.height / 2) + 20f), NPCID.LeechHead, 1);
-                    Main.npc[num331].velocity.X = npc.direction * 9;
+                    int leechSpawn = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + (npc.height / 2) + 20f), NPCID.LeechHead, 1);
+                    Main.npc[leechSpawn].velocity.X = npc.direction * 9;
 
                     if (phase2)
                     {
@@ -131,79 +130,79 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             Main.wofNPCIndex = npc.whoAmI;
 
             // Set eye positions
-            int num332 = (int)(npc.position.X / 16f);
-            int num333 = (int)((npc.position.X + npc.width) / 16f);
-            int num334 = (int)((npc.position.Y + (npc.height / 2)) / 16f);
-            int num335 = 0;
-            int num336 = num334 + 7;
-            while (num335 < 15 && num336 > Main.UnderworldLayer)
+            int currentEyeTileCenterX = (int)(npc.position.X / 16f);
+            int currentEyeTileWidthX = (int)((npc.position.X + npc.width) / 16f);
+            int currentEyeTileHeightY = (int)((npc.position.Y + (npc.height / 2)) / 16f);
+            int eyeMovementTries = 0;
+            int eyeMovementTileY = currentEyeTileHeightY + 7;
+            while (eyeMovementTries < 15 && eyeMovementTileY > Main.UnderworldLayer)
             {
-                num336++;
-                for (int num337 = num332; num337 <= num333; num337++)
+                eyeMovementTileY++;
+                for (int eyeMovementTileX = currentEyeTileCenterX; eyeMovementTileX <= currentEyeTileWidthX; eyeMovementTileX++)
                 {
                     try
                     {
-                        if (WorldGen.SolidTile(num337, num336) || Main.tile[num337, num336].LiquidAmount > 0)
-                            num335++;
+                        if (WorldGen.SolidTile(eyeMovementTileX, eyeMovementTileY) || Main.tile[eyeMovementTileX, eyeMovementTileY].LiquidAmount > 0)
+                            eyeMovementTries++;
                     }
                     catch
-                    { num335 += 15; }
+                    { eyeMovementTries += 15; }
                 }
             }
-            num336 += 4;
+            eyeMovementTileY += 4;
             if (Main.wofDrawAreaBottom == -1)
-                Main.wofDrawAreaBottom = num336 * 16;
-            else if (Main.wofDrawAreaBottom > num336 * 16)
+                Main.wofDrawAreaBottom = eyeMovementTileY * 16;
+            else if (Main.wofDrawAreaBottom > eyeMovementTileY * 16)
             {
                 Main.wofDrawAreaBottom--;
-                if (Main.wofDrawAreaBottom < num336 * 16)
-                    Main.wofDrawAreaBottom = num336 * 16;
+                if (Main.wofDrawAreaBottom < eyeMovementTileY * 16)
+                    Main.wofDrawAreaBottom = eyeMovementTileY * 16;
             }
-            else if (Main.wofDrawAreaBottom < num336 * 16)
+            else if (Main.wofDrawAreaBottom < eyeMovementTileY * 16)
             {
                 Main.wofDrawAreaBottom++;
-                if (Main.wofDrawAreaBottom > num336 * 16)
-                    Main.wofDrawAreaBottom = num336 * 16;
+                if (Main.wofDrawAreaBottom > eyeMovementTileY * 16)
+                    Main.wofDrawAreaBottom = eyeMovementTileY * 16;
             }
 
-            num335 = 0;
-            num336 = num334 - 7;
-            while (num335 < 15 && num336 < Main.maxTilesY - 10)
+            eyeMovementTries = 0;
+            eyeMovementTileY = currentEyeTileHeightY - 7;
+            while (eyeMovementTries < 15 && eyeMovementTileY < Main.maxTilesY - 10)
             {
-                num336--;
-                for (int num338 = num332; num338 <= num333; num338++)
+                eyeMovementTileY--;
+                for (int i = currentEyeTileCenterX; i <= currentEyeTileWidthX; i++)
                 {
                     try
                     {
-                        if (WorldGen.SolidTile(num338, num336) || Main.tile[num338, num336].LiquidAmount > 0)
-                            num335++;
+                        if (WorldGen.SolidTile(i, eyeMovementTileY) || Main.tile[i, eyeMovementTileY].LiquidAmount > 0)
+                            eyeMovementTries++;
                     }
                     catch
-                    { num335 += 15; }
+                    { eyeMovementTries += 15; }
                 }
             }
-            num336 -= 4;
+            eyeMovementTileY -= 4;
             if (Main.wofDrawAreaTop == -1)
-                Main.wofDrawAreaTop = num336 * 16;
-            else if (Main.wofDrawAreaTop > num336 * 16)
+                Main.wofDrawAreaTop = eyeMovementTileY * 16;
+            else if (Main.wofDrawAreaTop > eyeMovementTileY * 16)
             {
                 Main.wofDrawAreaTop--;
-                if (Main.wofDrawAreaTop < num336 * 16)
-                    Main.wofDrawAreaTop = num336 * 16;
+                if (Main.wofDrawAreaTop < eyeMovementTileY * 16)
+                    Main.wofDrawAreaTop = eyeMovementTileY * 16;
             }
-            else if (Main.wofDrawAreaTop < num336 * 16)
+            else if (Main.wofDrawAreaTop < eyeMovementTileY * 16)
             {
                 Main.wofDrawAreaTop++;
-                if (Main.wofDrawAreaTop > num336 * 16)
-                    Main.wofDrawAreaTop = num336 * 16;
+                if (Main.wofDrawAreaTop > eyeMovementTileY * 16)
+                    Main.wofDrawAreaTop = eyeMovementTileY * 16;
             }
 
             // Set Y position
-            float num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2 - npc.height / 2;
-            int num340 = (Main.maxTilesY - 180) * 16;
-            if (num339 < num340)
-                num339 = num340;
-            npc.position.Y = num339;
+            float mouthYPosition = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2 - npc.height / 2;
+            int worldBottomTileY = (Main.maxTilesY - 180) * 16;
+            if (mouthYPosition < worldBottomTileY)
+                mouthYPosition = worldBottomTileY;
+            npc.position.Y = mouthYPosition;
 
             float targetPosition = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
             float npcPosition = npc.position.X + (npc.width / 2);
@@ -299,23 +298,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.TargetClosest();
                 if (Main.player[npc.target].dead)
                 {
-                    float num359 = float.PositiveInfinity;
-                    int direction2 = 0;
-                    for (int num360 = 0; num360 < Main.maxPlayers; num360++)
+                    float wallVelocity = float.PositiveInfinity;
+                    int wallDirection = 0;
+                    for (int i = 0; i < Main.maxPlayers; i++)
                     {
                         Player player = Main.player[npc.target];
                         if (player.active)
                         {
-                            float num361 = npc.Distance(player.Center);
-                            if (num359 > num361)
+                            float playerDist = npc.Distance(player.Center);
+                            if (wallVelocity > playerDist)
                             {
-                                num359 = num361;
-                                direction2 = (npc.Center.X < player.Center.X) ? 1 : -1;
+                                wallVelocity = playerDist;
+                                wallDirection = (npc.Center.X < player.Center.X) ? 1 : -1;
                             }
                         }
                     }
 
-                    npc.direction = direction2;
+                    npc.direction = wallDirection;
                 }
 
                 npc.velocity.X = npc.direction;
@@ -356,23 +355,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Direction
             npc.spriteDirection = npc.direction;
-            Vector2 vector37 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-            float num342 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector37.X;
-            float num343 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector37.Y;
-            float num344 = (float)Math.Sqrt(num342 * num342 + num343 * num343);
-            num342 *= num344;
-            num343 *= num344;
+            Vector2 mouthLocation = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+            float mouthTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - mouthLocation.X;
+            float mouthTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - mouthLocation.Y;
+            float mouthTargetDist = (float)Math.Sqrt(mouthTargetX * mouthTargetX + mouthTargetY * mouthTargetY);
+            mouthTargetX *= mouthTargetDist;
+            mouthTargetY *= mouthTargetDist;
 
             // Rotation based on direction
             if (npc.direction > 0)
             {
                 if (Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) > npc.position.X + (npc.width / 2))
-                    npc.rotation = (float)Math.Atan2(-num343, -num342) + MathHelper.Pi;
+                    npc.rotation = (float)Math.Atan2(-mouthTargetY, -mouthTargetX) + MathHelper.Pi;
                 else
                     npc.rotation = 0f;
             }
             else if (Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) < npc.position.X + (npc.width / 2))
-                npc.rotation = (float)Math.Atan2(num343, num342) + MathHelper.Pi;
+                npc.rotation = (float)Math.Atan2(mouthTargetY, mouthTargetX) + MathHelper.Pi;
             else
                 npc.rotation = 0f;
 
@@ -401,44 +400,44 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 if (Main.rand.NextBool(chance))
                 {
-                    int num346 = 0;
+                    int hungryAmt = 0;
                     float[] array = new float[10];
-                    for (int num347 = 0; num347 < Main.maxNPCs; num347++)
+                    for (int j = 0; j < Main.maxNPCs; j++)
                     {
-                        if (num346 < 10 && Main.npc[num347].active && Main.npc[num347].type == NPCID.TheHungry)
+                        if (hungryAmt < 10 && Main.npc[j].active && Main.npc[j].type == NPCID.TheHungry)
                         {
-                            array[num346] = Main.npc[num347].ai[0];
-                            num346++;
+                            array[hungryAmt] = Main.npc[j].ai[0];
+                            hungryAmt++;
                         }
                     }
 
-                    int maxValue = 1 + num346 * 2;
-                    if (num346 < 10 && Main.rand.Next(maxValue) <= 1)
+                    int maxValue = 1 + hungryAmt * 2;
+                    if (hungryAmt < 10 && Main.rand.Next(maxValue) <= 1)
                     {
-                        int num348 = -1;
-                        for (int num349 = 0; num349 < 1000; num349++)
+                        int spawnHungryControl = -1;
+                        for (int k = 0; k < 1000; k++)
                         {
-                            int num350 = Main.rand.Next(10);
-                            float num351 = num350 * 0.1f - 0.05f;
-                            bool flag29 = true;
-                            for (int num352 = 0; num352 < num346; num352++)
+                            int randomHungrySpawnValue = Main.rand.Next(10);
+                            float hungryArrayValue = randomHungrySpawnValue * 0.1f - 0.05f;
+                            bool shouldRespawnHungry = true;
+                            for (int i = 0; i < hungryAmt; i++)
                             {
-                                if (num351 == array[num352])
+                                if (hungryArrayValue == array[i])
                                 {
-                                    flag29 = false;
+                                    shouldRespawnHungry = false;
                                     break;
                                 }
                             }
-                            if (flag29)
+                            if (shouldRespawnHungry)
                             {
-                                num348 = num350;
+                                spawnHungryControl = randomHungrySpawnValue;
                                 break;
                             }
                         }
-                        if (num348 >= 0)
+                        if (spawnHungryControl >= 0)
                         {
-                            int num353 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)num339, NPCID.TheHungry, npc.whoAmI);
-                            Main.npc[num353].ai[0] = num348 * 0.1f - 0.05f;
+                            int hungryRespawns = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)mouthYPosition, NPCID.TheHungry, npc.whoAmI);
+                            Main.npc[hungryRespawns].ai[0] = spawnHungryControl * 0.1f - 0.05f;
                         }
                     }
                 }
@@ -449,25 +448,25 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 npc.localAI[0] = 2f;
 
-                num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
-                num339 = (num339 + Main.wofDrawAreaTop) / 2f;
-                int num354 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)num339, NPCID.WallofFleshEye, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                Main.npc[num354].ai[0] = 1f;
+                mouthYPosition = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
+                mouthYPosition = (mouthYPosition + Main.wofDrawAreaTop) / 2f;
+                int eyeSpawn = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)mouthYPosition, NPCID.WallofFleshEye, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                Main.npc[eyeSpawn].ai[0] = 1f;
 
-                num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
-                num339 = (num339 + Main.wofDrawAreaBottom) / 2f;
-                num354 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)num339, NPCID.WallofFleshEye, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                Main.npc[num354].ai[0] = -1f;
+                mouthYPosition = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
+                mouthYPosition = (mouthYPosition + Main.wofDrawAreaBottom) / 2f;
+                eyeSpawn = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)mouthYPosition, NPCID.WallofFleshEye, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                Main.npc[eyeSpawn].ai[0] = -1f;
 
-                num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
-                num339 = (num339 + Main.wofDrawAreaBottom) / 2f;
+                mouthYPosition = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
+                mouthYPosition = (mouthYPosition + Main.wofDrawAreaBottom) / 2f;
 
-                int num;
-                for (int num355 = 0; num355 < 11; num355 = num + 1)
+                int hungryIncrement;
+                for (int j = 0; j < 11; j = hungryIncrement + 1)
                 {
-                    num354 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)num339, NPCID.TheHungry, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                    Main.npc[num354].ai[0] = num355 * 0.1f - 0.05f;
-                    num = num355;
+                    int hungrySpawn = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)mouthYPosition, NPCID.TheHungry, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                    Main.npc[hungrySpawn].ai[0] = j * 0.1f - 0.05f;
+                    hungryIncrement = j;
                 }
             }
 
@@ -529,35 +528,35 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.position.Y = expectedPosition;
             }
 
-            Vector2 vector38 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-            float num357 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector38.X;
-            float num358 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector38.Y;
-            float num359 = (float)Math.Sqrt(num357 * num357 + num358 * num358);
-            num357 *= num359;
-            num358 *= num359;
+            Vector2 eyeLocation = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+            float eyeTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - eyeLocation.X;
+            float eyeTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - eyeLocation.Y;
+            float wallVelocity = (float)Math.Sqrt(eyeTargetX * eyeTargetX + eyeTargetY * eyeTargetY);
+            eyeTargetX *= wallVelocity;
+            eyeTargetY *= wallVelocity;
 
             // Rotation based on direction and whether to fire lasers or not
-            bool flag30 = true;
+            bool shouldFireLasers = true;
             if (npc.direction > 0)
             {
                 if (Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) > npc.position.X + (npc.width / 2))
                 {
-                    npc.rotation = (float)Math.Atan2(-num358, -num357) + MathHelper.Pi;
+                    npc.rotation = (float)Math.Atan2(-eyeTargetY, -eyeTargetX) + MathHelper.Pi;
                 }
                 else
                 {
                     npc.rotation = 0f;
-                    flag30 = false;
+                    shouldFireLasers = false;
                 }
             }
             else if (Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) < npc.position.X + (npc.width / 2))
             {
-                npc.rotation = (float)Math.Atan2(num358, num357) + MathHelper.Pi;
+                npc.rotation = (float)Math.Atan2(eyeTargetY, eyeTargetX) + MathHelper.Pi;
             }
             else
             {
                 npc.rotation = 0f;
-                flag30 = false;
+                shouldFireLasers = false;
             }
 
             // Fire lasers
@@ -606,7 +605,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.localAI[2] >= 4f)
                         npc.localAI[2] = 0f;
 
-                    if (flag30)
+                    if (shouldFireLasers)
                     {
                         bool phase2 = lifeRatio < 0.5 || bossRush;
                         float velocity = (fireEnragedLasers ? 3f : 4f) + shootBoost;

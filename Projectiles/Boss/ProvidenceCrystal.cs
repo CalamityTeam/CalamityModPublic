@@ -74,12 +74,12 @@ namespace CalamityMod.Projectiles.Boss
                 Color BaseColor = ProvUtils.GetProjectileColor(Projectile.maxPenetrate, 0);
                 float Brightness = 0.8f;
                 Color DustColor = Color.Lerp(BaseColor, Color.White, Brightness);
-                Dust dust34 = Main.dust[Dust.NewDust(Projectile.Top, 0, 0, 267, 0f, 0f, 100, DustColor, 1f)];
-                dust34.velocity.X = 0f;
-                dust34.noGravity = true;
-                dust34.fadeIn = 1f;
-                dust34.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * (4f * Main.rand.NextFloat() + 26f);
-                dust34.scale = 0.5f;
+                Dust crystalDust = Main.dust[Dust.NewDust(Projectile.Top, 0, 0, 267, 0f, 0f, 100, DustColor, 1f)];
+                crystalDust.velocity.X = 0f;
+                crystalDust.noGravity = true;
+                crystalDust.fadeIn = 1f;
+                crystalDust.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * (4f * Main.rand.NextFloat() + 26f);
+                crystalDust.scale = 0.5f;
             }
 
             float lifeRatio = Projectile.ai[0];
@@ -126,18 +126,18 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Color color25 = Lighting.GetColor((int)(Projectile.position.X + Projectile.width * 0.5) / 16, (int)((Projectile.position.Y + Projectile.height * 0.5) / 16.0));
-            Vector2 vector59 = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
+            Color colorArea = Lighting.GetColor((int)(Projectile.position.X + Projectile.width * 0.5) / 16, (int)((Projectile.position.Y + Projectile.height * 0.5) / 16.0));
+            Vector2 drawArea = Projectile.position + new Vector2(Projectile.width, Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D34 = ModContent.Request<Texture2D>(Texture).Value;
-            Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
-            Color alpha5 = Projectile.GetAlpha(color25);
-            Vector2 origin11 = rectangle17.Size() / 2f;
-            float scaleFactor5 = (float)Math.Cos(MathHelper.TwoPi * (Projectile.localAI[0] / 60f)) + 3f + 3f;
-            for (float num286 = 0f; num286 < 4f; num286 += 1f)
+            Rectangle textureRect = texture2D34.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Color colorAlpha = Projectile.GetAlpha(colorArea);
+            Vector2 halfRect = textureRect.Size() / 2f;
+            float scaleFactor = (float)Math.Cos(MathHelper.TwoPi * (Projectile.localAI[0] / 60f)) + 3f + 3f;
+            for (float i = 0f; i < 4f; i += 1f)
             {
-                double angle = num286 * MathHelper.PiOver2;
+                double angle = i * MathHelper.PiOver2;
                 Vector2 center = default;
-                Main.spriteBatch.Draw(texture2D34, vector59 + Vector2.UnitY.RotatedBy(angle, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, Projectile.rotation, origin11, Projectile.scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(texture2D34, drawArea + Vector2.UnitY.RotatedBy(angle, center) * scaleFactor, new Microsoft.Xna.Framework.Rectangle?(textureRect), colorAlpha * 0.2f, Projectile.rotation, halfRect, Projectile.scale, SpriteEffects.None, 0);
             }
             return false;
         }

@@ -32,8 +32,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (SoundEngine.TryGetActiveSound(gatlingLaserLoopID, out var ShootingSound) && ShootingSound.IsPlaying)
                 ShootingSound.Position = Projectile.Center;
             Player player = Main.player[Projectile.owner];
-            float num = MathHelper.PiOver2;
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            Vector2 playerRotation = player.RotatedRelativePoint(player.MountedCenter, true);
             if (Projectile.type == ModContent.ProjectileType<GatlingLaserProj>())
             {
                 if (Projectile.ai[0] < 5f)
@@ -82,26 +81,26 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     if (stillInUse && hasMana && hasCharge)
                     {
                         float scaleFactor = player.ActiveItem().shootSpeed * Projectile.scale;
-                        Vector2 value2 = vector;
-                        Vector2 value3 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY) - value2;
+                        Vector2 laserDirection = playerRotation;
+                        Vector2 aimDirection = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY) - laserDirection;
                         if (player.gravDir == -1f)
                         {
-                            value3.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - value2.Y;
+                            aimDirection.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - laserDirection.Y;
                         }
-                        Vector2 vector3 = Vector2.Normalize(value3);
-                        if (float.IsNaN(vector3.X) || float.IsNaN(vector3.Y))
+                        Vector2 projVelocity = Vector2.Normalize(aimDirection);
+                        if (float.IsNaN(projVelocity.X) || float.IsNaN(projVelocity.Y))
                         {
-                            vector3 = -Vector2.UnitY;
+                            projVelocity = -Vector2.UnitY;
                         }
-                        vector3 *= scaleFactor;
-                        if (vector3.X != Projectile.velocity.X || vector3.Y != Projectile.velocity.Y)
+                        projVelocity *= scaleFactor;
+                        if (projVelocity.X != Projectile.velocity.X || projVelocity.Y != Projectile.velocity.Y)
                         {
                             Projectile.netUpdate = true;
                         }
-                        Projectile.velocity = vector3;
+                        Projectile.velocity = projVelocity;
                         int type = ModContent.ProjectileType<GatlingLaserShot>();
                         float velocity = 3f;
-                        value2 = Projectile.Center;
+                        laserDirection = Projectile.Center;
                         Vector2 spinningpoint = Vector2.Normalize(Projectile.velocity) * velocity;
 
                         double spread = Math.PI / 32D;
@@ -111,19 +110,19 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         {
                             spinningpoint = -Vector2.UnitY;
                         }
-                        Vector2 velocity2 = new Vector2(spinningpoint.X, spinningpoint.Y);
-                        if (velocity2.Length() > 5f)
+                        Vector2 projVelocitySpread = new Vector2(spinningpoint.X, spinningpoint.Y);
+                        if (projVelocitySpread.Length() > 5f)
                         {
-                            velocity2.Normalize();
-                            velocity2 *= 5f;
+                            projVelocitySpread.Normalize();
+                            projVelocitySpread *= 5f;
                         }
-                        float SpeedX = velocity2.X + Main.rand.Next(-1, 2) * 0.005f;
-                        float SpeedY = velocity2.Y + Main.rand.Next(-1, 2) * 0.005f;
+                        float SpeedX = projVelocitySpread.X + Main.rand.Next(-1, 2) * 0.005f;
+                        float SpeedY = projVelocitySpread.Y + Main.rand.Next(-1, 2) * 0.005f;
                         float ai0 = Projectile.ai[0] - 2f; // 0, 1, or 2
 
                         // Use charge when firing a laser.
                         modItem.Charge -= GatlingLaser.HoldoutChargeUse;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), value2.X, value2.Y, SpeedX, SpeedY, type, currentDamage, Projectile.knockBack, Projectile.owner, ai0, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), laserDirection.X, laserDirection.Y, SpeedX, SpeedY, type, currentDamage, Projectile.knockBack, Projectile.owner, ai0, 0f);
                     }
                     else
                     {
@@ -137,7 +136,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
             }
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
-            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Projectile.spriteDirection = Projectile.direction;
             Projectile.timeLeft = 2;
             player.ChangeDir(Projectile.direction);

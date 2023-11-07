@@ -191,131 +191,131 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             else
                 NPC.Opacity = MathHelper.Clamp(NPC.Opacity + 0.165f, 0f, 1f);
 
-            Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-            float num191 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
-            float num192 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
-            float num188 = BossRushEvent.BossRushActive ? 12.5f : 10f;
-            float num189 = BossRushEvent.BossRushActive ? 0.125f : 0.1f;
+            Vector2 segmentLocation = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+            float targetX = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
+            float targetY = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
+            float sepMaxSpeed = BossRushEvent.BossRushActive ? 12.5f : 10f;
+            float sepAcceleration = BossRushEvent.BossRushActive ? 0.125f : 0.1f;
 
-            float num48 = num188 * 1.3f;
-            float num49 = num188 * 0.7f;
-            float num50 = NPC.velocity.Length();
-            if (num50 > 0f)
+            float fasterMaxSpeed = sepMaxSpeed * 1.3f;
+            float slowerMaxSpeed = sepMaxSpeed * 0.7f;
+            float currentSpeed = NPC.velocity.Length();
+            if (currentSpeed > 0f)
             {
-                if (num50 > num48)
+                if (currentSpeed > fasterMaxSpeed)
                 {
                     NPC.velocity.Normalize();
-                    NPC.velocity *= num48;
+                    NPC.velocity *= fasterMaxSpeed;
                 }
-                else if (num50 < num49)
+                else if (currentSpeed < slowerMaxSpeed)
                 {
                     NPC.velocity.Normalize();
-                    NPC.velocity *= num49;
+                    NPC.velocity *= slowerMaxSpeed;
                 }
             }
 
-            num191 = (int)(num191 / 16f) * 16;
-            num192 = (int)(num192 / 16f) * 16;
-            vector18.X = (int)(vector18.X / 16f) * 16;
-            vector18.Y = (int)(vector18.Y / 16f) * 16;
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
-            float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-            float num196 = Math.Abs(num191);
-            float num197 = Math.Abs(num192);
-            float num198 = num188 / num193;
-            num191 *= num198;
-            num192 *= num198;
-            if ((NPC.velocity.X > 0f && num191 > 0f) || (NPC.velocity.X < 0f && num191 < 0f) || (NPC.velocity.Y > 0f && num192 > 0f) || (NPC.velocity.Y < 0f && num192 < 0f))
+            targetX = (int)(targetX / 16f) * 16;
+            targetY = (int)(targetY / 16f) * 16;
+            segmentLocation.X = (int)(segmentLocation.X / 16f) * 16;
+            segmentLocation.Y = (int)(segmentLocation.Y / 16f) * 16;
+            targetX -= segmentLocation.X;
+            targetY -= segmentLocation.Y;
+            float targetDistance = (float)Math.Sqrt(targetX * targetX + targetY * targetY);
+            float absoluteTargetX = Math.Abs(targetX);
+            float absoluteTargetY = Math.Abs(targetY);
+            float timeToReachTarget = sepMaxSpeed / targetDistance;
+            targetX *= timeToReachTarget;
+            targetY *= timeToReachTarget;
+            if ((NPC.velocity.X > 0f && targetX > 0f) || (NPC.velocity.X < 0f && targetX < 0f) || (NPC.velocity.Y > 0f && targetY > 0f) || (NPC.velocity.Y < 0f && targetY < 0f))
             {
-                if (NPC.velocity.X < num191)
+                if (NPC.velocity.X < targetX)
                 {
-                    NPC.velocity.X = NPC.velocity.X + num189;
+                    NPC.velocity.X = NPC.velocity.X + sepAcceleration;
                 }
                 else
                 {
-                    if (NPC.velocity.X > num191)
+                    if (NPC.velocity.X > targetX)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num189;
+                        NPC.velocity.X = NPC.velocity.X - sepAcceleration;
                     }
                 }
-                if (NPC.velocity.Y < num192)
+                if (NPC.velocity.Y < targetY)
                 {
-                    NPC.velocity.Y = NPC.velocity.Y + num189;
+                    NPC.velocity.Y = NPC.velocity.Y + sepAcceleration;
                 }
                 else
                 {
-                    if (NPC.velocity.Y > num192)
+                    if (NPC.velocity.Y > targetY)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num189;
+                        NPC.velocity.Y = NPC.velocity.Y - sepAcceleration;
                     }
                 }
-                if (Math.Abs(num192) < num188 * 0.2 && ((NPC.velocity.X > 0f && num191 < 0f) || (NPC.velocity.X < 0f && num191 > 0f)))
+                if (Math.Abs(targetY) < sepMaxSpeed * 0.2 && ((NPC.velocity.X > 0f && targetX < 0f) || (NPC.velocity.X < 0f && targetX > 0f)))
                 {
                     if (NPC.velocity.Y > 0f)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num189 * 2f;
+                        NPC.velocity.Y = NPC.velocity.Y + sepAcceleration * 2f;
                     }
                     else
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num189 * 2f;
+                        NPC.velocity.Y = NPC.velocity.Y - sepAcceleration * 2f;
                     }
                 }
-                if (Math.Abs(num191) < num188 * 0.2 && ((NPC.velocity.Y > 0f && num192 < 0f) || (NPC.velocity.Y < 0f && num192 > 0f)))
+                if (Math.Abs(targetX) < sepMaxSpeed * 0.2 && ((NPC.velocity.Y > 0f && targetY < 0f) || (NPC.velocity.Y < 0f && targetY > 0f)))
                 {
                     if (NPC.velocity.X > 0f)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num189 * 2f; //changed from 2
+                        NPC.velocity.X = NPC.velocity.X + sepAcceleration * 2f; //changed from 2
                     }
                     else
                     {
-                        NPC.velocity.X = NPC.velocity.X - num189 * 2f; //changed from 2
+                        NPC.velocity.X = NPC.velocity.X - sepAcceleration * 2f; //changed from 2
                     }
                 }
             }
             else
             {
-                if (num196 > num197)
+                if (absoluteTargetX > absoluteTargetY)
                 {
-                    if (NPC.velocity.X < num191)
+                    if (NPC.velocity.X < targetX)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num189 * 1.1f; //changed from 1.1
+                        NPC.velocity.X = NPC.velocity.X + sepAcceleration * 1.1f; //changed from 1.1
                     }
-                    else if (NPC.velocity.X > num191)
+                    else if (NPC.velocity.X > targetX)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num189 * 1.1f; //changed from 1.1
+                        NPC.velocity.X = NPC.velocity.X - sepAcceleration * 1.1f; //changed from 1.1
                     }
-                    if ((Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < num188 * 0.5)
+                    if ((Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < sepMaxSpeed * 0.5)
                     {
                         if (NPC.velocity.Y > 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num189;
+                            NPC.velocity.Y = NPC.velocity.Y + sepAcceleration;
                         }
                         else
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num189;
+                            NPC.velocity.Y = NPC.velocity.Y - sepAcceleration;
                         }
                     }
                 }
                 else
                 {
-                    if (NPC.velocity.Y < num192)
+                    if (NPC.velocity.Y < targetY)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num189 * 1.1f;
+                        NPC.velocity.Y = NPC.velocity.Y + sepAcceleration * 1.1f;
                     }
-                    else if (NPC.velocity.Y > num192)
+                    else if (NPC.velocity.Y > targetY)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num189 * 1.1f;
+                        NPC.velocity.Y = NPC.velocity.Y - sepAcceleration * 1.1f;
                     }
-                    if ((Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < num188 * 0.5)
+                    if ((Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < sepMaxSpeed * 0.5)
                     {
                         if (NPC.velocity.X > 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num189;
+                            NPC.velocity.X = NPC.velocity.X + sepAcceleration;
                         }
                         else
                         {
-                            NPC.velocity.X = NPC.velocity.X - num189;
+                            NPC.velocity.X = NPC.velocity.X - sepAcceleration;
                         }
                     }
                 }
@@ -333,12 +333,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
+            Vector2 halfSizeTexture = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
+            drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             return false;
         }

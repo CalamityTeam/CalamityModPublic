@@ -29,15 +29,15 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            int num103 = (int)Player.FindClosest(Projectile.Center, 1, 1);
+            int originPlayer = (int)Player.FindClosest(Projectile.Center, 1, 1);
             Projectile.ai[1] += 1f;
             if (Projectile.ai[1] < 110f && Projectile.ai[1] > 30f)
             {
                 float scaleFactor2 = Projectile.velocity.Length();
-                Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
-                vector11.Normalize();
-                vector11 *= scaleFactor2;
-                Projectile.velocity = (Projectile.velocity * 24f + vector11) / 25f;
+                Vector2 projDirection = Main.player[originPlayer].Center - Projectile.Center;
+                projDirection.Normalize();
+                projDirection *= scaleFactor2;
+                Projectile.velocity = (Projectile.velocity * 24f + projDirection) / 25f;
                 Projectile.velocity.Normalize();
                 Projectile.velocity *= scaleFactor2;
             }
@@ -48,10 +48,10 @@ namespace CalamityMod.Projectiles.Ranged
                     Projectile.velocity *= 1.02f;
                 }
             }
-            int num192 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 0, default, 1f);
-            Main.dust[num192].noGravity = true;
-            Main.dust[num192].velocity *= 0.2f;
-            Main.dust[num192].position = (Main.dust[num192].position + Projectile.Center) / 2f;
+            int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 0, default, 1f);
+            Main.dust[dust].noGravity = true;
+            Main.dust[dust].velocity *= 0.2f;
+            Main.dust[dust].position = (Main.dust[dust].position + Projectile.Center) / 2f;
             Projectile.frameCounter++;
             if (Projectile.frameCounter >= 2)
             {

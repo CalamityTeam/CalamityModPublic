@@ -32,29 +32,29 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.type == ModContent.ProjectileType<ContagionBow>())
             {
                 Projectile.ai[0] += 1f;
-                int num2 = 0;
+                int fireSpeed = 0;
                 if (Projectile.ai[0] >= 40f)
                 {
-                    num2++;
+                    fireSpeed++;
                 }
                 if (Projectile.ai[0] >= 80f)
                 {
-                    num2++;
+                    fireSpeed++;
                 }
                 if (Projectile.ai[0] >= 120f)
                 {
-                    num2++;
+                    fireSpeed++;
                 }
-                int num3 = 24;
-                int num4 = 6;
+                int delayCompare = 24;
+                int fireSpeedCompare = 6;
                 Projectile.ai[1] += 1f;
-                bool flag = false;
-                if (Projectile.ai[1] >= (float)(num3 - num4 * num2))
+                bool fullSpeed = false;
+                if (Projectile.ai[1] >= (float)(delayCompare - fireSpeedCompare * fireSpeed))
                 {
                     Projectile.ai[1] = 0f;
-                    flag = true;
+                    fullSpeed = true;
                 }
-                Projectile.frameCounter += 1 + num2;
+                Projectile.frameCounter += 1 + fireSpeed;
                 if (Projectile.frameCounter >= 4)
                 {
                     Projectile.frameCounter = 0;
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 if (Projectile.soundDelay <= 0)
                 {
-                    Projectile.soundDelay = num3 - num4 * num2;
+                    Projectile.soundDelay = delayCompare - fireSpeedCompare * fireSpeed;
                     if (Projectile.ai[0] != 1f)
                     {
                         SoundEngine.PlaySound(SoundID.Item5, Projectile.Center);
@@ -74,21 +74,21 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 if (Projectile.ai[1] == 1f && Projectile.ai[0] != 1f)
                 {
-                    Vector2 vector2 = Vector2.UnitX * 24f;
-                    vector2 = vector2.RotatedBy((double)(Projectile.rotation - MathHelper.PiOver2), default);
-                    Vector2 value = Projectile.Center + vector2;
+                    Vector2 rotate = Vector2.UnitX * 24f;
+                    rotate = rotate.RotatedBy((double)(Projectile.rotation - MathHelper.PiOver2), default);
+                    Vector2 value = Projectile.Center + rotate;
                     for (int i = 0; i < 2; i++)
                     {
-                        int num5 = Dust.NewDust(value - Vector2.One * 8f, 16, 16, 44, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f, 100, default, 0.25f);
-                        Main.dust[num5].velocity *= 0.66f;
-                        Main.dust[num5].noGravity = true;
-                        Main.dust[num5].scale = 1.4f;
+                        int dust = Dust.NewDust(value - Vector2.One * 8f, 16, 16, 44, Projectile.velocity.X / 2f, Projectile.velocity.Y / 2f, 100, default, 0.25f);
+                        Main.dust[dust].velocity *= 0.66f;
+                        Main.dust[dust].noGravity = true;
+                        Main.dust[dust].scale = 1.4f;
                     }
                 }
-                if (flag && Main.myPlayer == Projectile.owner)
+                if (fullSpeed && Main.myPlayer == Projectile.owner)
                 {
-                    bool flag2 = player.channel && !player.noItems && !player.CCed;
-                    if (flag2)
+                    bool canUseItem = player.channel && !player.noItems && !player.CCed;
+                    if (canUseItem)
                     {
                         float speed = player.ActiveItem().shootSpeed * Projectile.scale;
                         Vector2 spawnPos = vector;

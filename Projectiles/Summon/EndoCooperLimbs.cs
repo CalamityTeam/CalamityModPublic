@@ -47,12 +47,12 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile body = Main.projectile[(int)Projectile.ai[1]];
             //Apply the buff
-            bool flag64 = Projectile.type == ModContent.ProjectileType<EndoCooperLimbs>();
+            bool isMinion = Projectile.type == ModContent.ProjectileType<EndoCooperLimbs>();
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<EndoCooperBuff>(), 3600);
 
-            if (flag64)
+            if (isMinion)
             {
                 if (player.dead)
                 {

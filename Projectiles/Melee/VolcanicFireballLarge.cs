@@ -42,9 +42,9 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(Projectile.Center, 0.4f, 0f, 0f);
             if (Main.rand.NextBool(4))
             {
-                int num469 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 16 : 174, 0f, 0f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int volcano = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 16 : 174, 0f, 0f);
+                Main.dust[volcano].noGravity = true;
+                Main.dust[volcano].velocity *= 0f;
             }
         }
 
@@ -52,9 +52,9 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int k = 0; k < 5; k++)
             {
-                int num469 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 174, 0f, 0f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int volcano = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 174, 0f, 0f);
+                Main.dust[volcano].noGravity = true;
+                Main.dust[volcano].velocity *= 0f;
             }
         }
 

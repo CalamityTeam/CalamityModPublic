@@ -42,8 +42,6 @@ namespace CalamityMod.Projectiles.Pets
                 Item item = Main.item[itemIndex];
                 if (item.active && item.noGrabDelay == 0 && item.playerIndexTheItemIsReservedFor == Projectile.owner && ItemLoader.CanPickup(item, player))
                 {
-                    int num = defaultItemGrabRange;//Player.defaultItemGrabRange;
-
                     if (new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height).Intersects(new Rectangle((int)item.position.X, (int)item.position.Y, item.width, item.height)))
                     {
                         if (Projectile.owner == Main.myPlayer && (player.ActiveItem().type != ItemID.None || player.itemAnimation <= 0))
@@ -63,16 +61,16 @@ namespace CalamityMod.Projectiles.Pets
                             {
                                 continue;
                                 //Main.PlaySound(7, (int)player.position.X, (int)player.position.Y, 1);
-                                //int num2 = item.buffType;
+                                //int nebulaBuff = item.buffType;
                                 //Main.item[itemIndex] = new Item();
                                 //if (Main.netMode == 1)
                                 //{
-                                //    NetMessage.SendData(102, -1, -1, "", projectile.owner, (float)num2, player.Center.X, player.Center.Y, 0, 0, 0);
+                                //    NetMessage.SendData(102, -1, -1, "", projectile.owner, (float)nebulaBuff, player.Center.X, player.Center.Y, 0, 0, 0);
                                 //    NetMessage.SendData(21, -1, -1, "", itemIndex, 0f, 0f, 0f, 0, 0, 0);
                                 //}
                                 //else
                                 //{
-                                //    player.NebulaLevelup(num2);
+                                //    player.NebulaLevelup(nebulaBuff);
                                 //}
                             }
                             if (item.type == ItemID.Heart || item.type == ItemID.CandyApple || item.type == ItemID.CandyCane)
@@ -149,8 +147,8 @@ namespace CalamityMod.Projectiles.Pets
             for (int index = 0; index < Main.projectile.Length; index++)
             {
                 Projectile proj = Main.projectile[index];
-                bool flag23 = Main.projPet[proj.type];
-                if (index != Projectile.whoAmI && proj.active && proj.owner == Projectile.owner && flag23 && Math.Abs(Projectile.position.X - proj.position.X) + Math.Abs(Projectile.position.Y - proj.position.Y) < (float)Projectile.width)
+                bool isPet = Main.projPet[proj.type];
+                if (index != Projectile.whoAmI && proj.active && proj.owner == Projectile.owner && isPet && Math.Abs(Projectile.position.X - proj.position.X) + Math.Abs(Projectile.position.Y - proj.position.Y) < (float)Projectile.width)
                 {
                     if (Projectile.position.X < proj.position.X)
                     {
@@ -170,17 +168,16 @@ namespace CalamityMod.Projectiles.Pets
                     }
                 }
             }
-            float num16 = 0.5f;
+            float flySpeed = 0.5f;
             Projectile.tileCollide = false;
-            Vector2 vector3 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-            float xDist = player.position.X + (float)(player.width / 2) - vector3.X;
-            float yDist = player.position.Y + (float)(player.height / 2) - vector3.Y;
+            Vector2 flyDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+            float xDist = player.position.X + (float)(player.width / 2) - flyDirection.X;
+            float yDist = player.position.Y + (float)(player.height / 2) - flyDirection.Y;
             yDist += (float)Main.rand.Next(-10, 21);
             xDist += (float)Main.rand.Next(-10, 21);
             xDist += (float)(60 * (float)player.direction);
             yDist -= 60f;
             float playerDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
-            float num21 = 18f;
             if (playerDist < 160f)
                 Projectile.ai[0] = 0f;
             if (playerDist < 100f && player.velocity.Y == 0f &&
@@ -204,52 +201,52 @@ namespace CalamityMod.Projectiles.Pets
                 {
                     Projectile.velocity *= 0.99f;
                 }
-                num16 = 0.01f;
+                flySpeed = 0.01f;
             }
             else
             {
                 if (playerDist < 100f)
                 {
-                    num16 = 0.1f;
+                    flySpeed = 0.1f;
                 }
                 if (playerDist > 300f)
                 {
-                    num16 = 1f;
+                    flySpeed = 1f;
                 }
-                playerDist = num21 / playerDist;
+                playerDist = 18f / playerDist;
                 xDist *= playerDist;
                 yDist *= playerDist;
             }
             if (Projectile.velocity.X < xDist)
             {
-                Projectile.velocity.X = Projectile.velocity.X + num16;
-                if (num16 > 0.05f && Projectile.velocity.X < 0f)
+                Projectile.velocity.X = Projectile.velocity.X + flySpeed;
+                if (flySpeed > 0.05f && Projectile.velocity.X < 0f)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X + num16;
+                    Projectile.velocity.X = Projectile.velocity.X + flySpeed;
                 }
             }
             if (Projectile.velocity.X > xDist)
             {
-                Projectile.velocity.X = Projectile.velocity.X - num16;
-                if (num16 > 0.05f && Projectile.velocity.X > 0f)
+                Projectile.velocity.X = Projectile.velocity.X - flySpeed;
+                if (flySpeed > 0.05f && Projectile.velocity.X > 0f)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X - num16;
+                    Projectile.velocity.X = Projectile.velocity.X - flySpeed;
                 }
             }
             if (Projectile.velocity.Y < yDist)
             {
-                Projectile.velocity.Y = Projectile.velocity.Y + num16;
-                if (num16 > 0.05f && Projectile.velocity.Y < 0f)
+                Projectile.velocity.Y = Projectile.velocity.Y + flySpeed;
+                if (flySpeed > 0.05f && Projectile.velocity.Y < 0f)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y + num16 * 2f;
+                    Projectile.velocity.Y = Projectile.velocity.Y + flySpeed * 2f;
                 }
             }
             if (Projectile.velocity.Y > yDist)
             {
-                Projectile.velocity.Y = Projectile.velocity.Y - num16;
-                if (num16 > 0.05f && Projectile.velocity.Y > 0f)
+                Projectile.velocity.Y = Projectile.velocity.Y - flySpeed;
+                if (flySpeed > 0.05f && Projectile.velocity.Y > 0f)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y - num16 * 2f;
+                    Projectile.velocity.Y = Projectile.velocity.Y - flySpeed * 2f;
                 }
             }
         }
@@ -334,7 +331,7 @@ namespace CalamityMod.Projectiles.Pets
 
             Pickup(); //pickup items
 
-            bool flag24 = false;
+            bool decelerate = false;
             if (Projectile.ai[0] == 2f)
             {
                 Projectile.ai[1] += 1f;
@@ -347,10 +344,10 @@ namespace CalamityMod.Projectiles.Pets
                 }
                 else
                 {
-                    flag24 = true;
+                    decelerate = true;
                 }
             }
-            if (flag24)
+            if (decelerate)
             {
                 return;
             }
@@ -406,32 +403,31 @@ namespace CalamityMod.Projectiles.Pets
                 }
             }
 
-            float num647 = 100f;
+            float separationAnxietyDist = 100f;
             if (foundFood)
             {
-                num647 = 200f;
+                separationAnxietyDist = 200f;
             }
-            if (Vector2.Distance(player.Center, Projectile.Center) > num647)
+            if (Vector2.Distance(player.Center, Projectile.Center) > separationAnxietyDist)
             {
                 Projectile.ai[0] = 1f;
                 Projectile.netUpdate = true;
             }
             if (foundFood && Projectile.ai[0] == 0f)
             {
-                Vector2 vector47 = targetLocation - Projectile.Center;
-                float num648 = vector47.Length();
-                vector47.Normalize();
-                if (num648 > 200f)
+                Vector2 targetDirection = targetLocation - Projectile.Center;
+                float targetDist = targetDirection.Length();
+                targetDirection.Normalize();
+                if (targetDist > 200f)
                 {
                     float scaleFactor2 = 18f;
-                    vector47 *= scaleFactor2;
-                    Projectile.velocity = (Projectile.velocity * 40f + vector47) / 41f;
+                    targetDirection *= scaleFactor2;
+                    Projectile.velocity = (Projectile.velocity * 40f + targetDirection) / 41f;
                 }
                 else
                 {
-                    float num649 = 9f;
-                    vector47 *= -num649;
-                    Projectile.velocity = (Projectile.velocity * 40f + vector47) / 41f;
+                    targetDirection *= -9f;
+                    Projectile.velocity = (Projectile.velocity * 40f + targetDirection) / 41f;
                 }
             }
             else
@@ -455,9 +451,9 @@ namespace CalamityMod.Projectiles.Pets
                     if (Main.myPlayer == Projectile.owner)
                     {
                         Projectile.ai[0] = 2f;
-                        Vector2 value20 = targetLocation - Projectile.Center;
-                        value20.Normalize();
-                        Projectile.velocity = value20 * 12f;
+                        Vector2 targetDest = targetLocation - Projectile.Center;
+                        targetDest.Normalize();
+                        Projectile.velocity = targetDest * 12f;
                         Projectile.netUpdate = true;
                     }
                 }

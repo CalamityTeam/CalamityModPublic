@@ -25,48 +25,47 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            int num487 = (int)Projectile.ai[0];
-            float num488 = 2.5f;
-            Vector2 vector36 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-            float num489 = Main.player[num487].Center.X - vector36.X;
-            float num490 = Main.player[num487].Center.Y - vector36.Y;
-            float num491 = (float)Math.Sqrt((double)(num489 * num489 + num490 * num490));
-            if (num491 < 50f && Projectile.position.X < Main.player[num487].position.X + (float)Main.player[num487].width && Projectile.position.X + (float)Projectile.width > Main.player[num487].position.X && Projectile.position.Y < Main.player[num487].position.Y + (float)Main.player[num487].height && Projectile.position.Y + (float)Projectile.height > Main.player[num487].position.Y)
+            int playerTracker = (int)Projectile.ai[0];
+            Vector2 projDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+            float playerDistX = Main.player[playerTracker].Center.X - projDirection.X;
+            float playerDistY = Main.player[playerTracker].Center.Y - projDirection.Y;
+            float playerDistance = (float)Math.Sqrt((double)(playerDistX * playerDistX + playerDistY * playerDistY));
+            if (playerDistance < 50f && Projectile.position.X < Main.player[playerTracker].position.X + (float)Main.player[playerTracker].width && Projectile.position.X + (float)Projectile.width > Main.player[playerTracker].position.X && Projectile.position.Y < Main.player[playerTracker].position.Y + (float)Main.player[playerTracker].height && Projectile.position.Y + (float)Projectile.height > Main.player[playerTracker].position.Y)
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int num492 = (int)Projectile.ai[1];
-                    Main.player[num487].HealEffect(num492, false);
-                    Main.player[num487].statLife += num492;
-                    if (Main.player[num487].statLife > Main.player[num487].statLifeMax2)
+                    int healAmount = (int)Projectile.ai[1];
+                    Main.player[playerTracker].HealEffect(healAmount, false);
+                    Main.player[playerTracker].statLife += healAmount;
+                    if (Main.player[playerTracker].statLife > Main.player[playerTracker].statLifeMax2)
                     {
-                        Main.player[num487].statLife = Main.player[num487].statLifeMax2;
+                        Main.player[playerTracker].statLife = Main.player[playerTracker].statLifeMax2;
                     }
                     // TODO -- but why
-                    if (Main.player[num487].statLife < 0)
+                    if (Main.player[playerTracker].statLife < 0)
                     {
-                        Main.player[num487].KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ProvidenceAntiHealing").Format(Main.player[num487].name)), 1000.0, 0, false);
+                        Main.player[playerTracker].KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.ProvidenceAntiHealing").Format(Main.player[playerTracker].name)), 1000.0, 0, false);
                     }
-                    NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, num487, (float)num492, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, playerTracker, (float)healAmount, 0f, 0f, 0, 0, 0);
                 }
                 Projectile.Kill();
             }
-            num491 = num488 / num491;
-            num489 *= num491;
-            num490 *= num491;
-            Projectile.velocity.X = (Projectile.velocity.X * 15f + num489) / 16f;
-            Projectile.velocity.Y = (Projectile.velocity.Y * 15f + num490) / 16f;
-            for (int num497 = 0; num497 < 1; num497++)
+            playerDistance = 2.5f / playerDistance;
+            playerDistX *= playerDistance;
+            playerDistY *= playerDistance;
+            Projectile.velocity.X = (Projectile.velocity.X * 15f + playerDistX) / 16f;
+            Projectile.velocity.Y = (Projectile.velocity.Y * 15f + playerDistY) / 16f;
+            for (int i = 0; i < 1; i++)
             {
-                float num498 = Projectile.velocity.X * 0.2f * (float)num497;
-                float num499 = -(Projectile.velocity.Y * 0.2f) * (float)num497;
-                int num500 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 1f);
-                Main.dust[num500].noGravity = true;
-                Main.dust[num500].velocity *= 0f;
-                Dust expr_154F9_cp_0 = Main.dust[num500];
-                expr_154F9_cp_0.position.X -= num498;
-                Dust expr_15518_cp_0 = Main.dust[num500];
-                expr_15518_cp_0.position.Y -= num499;
+                float shortXVel = Projectile.velocity.X * 0.2f * (float)i;
+                float shortYVel = -(Projectile.velocity.Y * 0.2f) * (float)i;
+                int holyFire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 1f);
+                Main.dust[holyFire].noGravity = true;
+                Main.dust[holyFire].velocity *= 0f;
+                Dust expr_154F9_cp_0 = Main.dust[holyFire];
+                expr_154F9_cp_0.position.X -= shortXVel;
+                Dust expr_15518_cp_0 = Main.dust[holyFire];
+                expr_15518_cp_0.position.Y -= shortYVel;
             }
             return;
         }

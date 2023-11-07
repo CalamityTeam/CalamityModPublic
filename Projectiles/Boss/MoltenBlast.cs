@@ -75,13 +75,13 @@ namespace CalamityMod.Projectiles.Boss
             {
                 for (int d = 0; d < 10; d++)
                 {
-                    int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
-                    Main.dust[num622].noGravity = true;
+                    int holyDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                    Main.dust[holyDust].velocity *= 3f;
+                    Main.dust[holyDust].noGravity = true;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[holyDust].scale = 0.5f;
+                        Main.dust[holyDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 Projectile.localAI[1] = 1f;
@@ -94,15 +94,15 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.localAI[0] = 0f;
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * -Projectile.width / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy(l * 3.14159274f / 6f, default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy(Projectile.rotation - 1.57079637f, default);
-                    int num9 = Dust.NewDust(Projectile.Center, 0, 0, dustType, 0f, 0f, 160, default, 1f);
-                    Main.dust[num9].scale = 1.1f;
-                    Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = Projectile.Center + vector3;
-                    Main.dust[num9].velocity = Projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+                    Vector2 dustRotate = Vector2.UnitX * -Projectile.width / 2f;
+                    dustRotate += -Vector2.UnitY.RotatedBy(l * 3.14159274f / 6f, default) * new Vector2(8f, 16f);
+                    dustRotate = dustRotate.RotatedBy(Projectile.rotation - 1.57079637f, default);
+                    int profaned = Dust.NewDust(Projectile.Center, 0, 0, dustType, 0f, 0f, 160, default, 1f);
+                    Main.dust[profaned].scale = 1.1f;
+                    Main.dust[profaned].noGravity = true;
+                    Main.dust[profaned].position = Projectile.Center + dustRotate;
+                    Main.dust[profaned].velocity = Projectile.velocity * 0.1f;
+                    Main.dust[profaned].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[profaned].position) * 1.25f;
                 }
             }
 
@@ -117,10 +117,10 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = (Projectile.maxPenetrate == (int)Providence.BossMode.Day) ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/MoltenBlastNight").Value;
-            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
+            int framing = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y6 = framing * Projectile.frame;
             Projectile.DrawBackglow(ProvUtils.GetProjectileColor(Projectile.maxPenetrate, Projectile.alpha, true), 4f, texture);
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, framing)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, framing / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -141,19 +141,19 @@ namespace CalamityMod.Projectiles.Boss
             SoundEngine.PlaySound(SoundID.Item74, Projectile.Center);
 
             int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);
-            for (int num193 = 0; num193 < 4; num193++)
+            for (int i = 0; i < 4; i++)
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
                 Main.dust[dust].noGravity = true;
             }
-            for (int num194 = 0; num194 < 40; num194++)
+            for (int j = 0; j < 40; j++)
             {
-                int num195 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int killHolyDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
+                Main.dust[killHolyDust].noGravity = true;
+                Main.dust[killHolyDust].velocity *= 3f;
+                killHolyDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
+                Main.dust[killHolyDust].velocity *= 2f;
+                Main.dust[killHolyDust].noGravity = true;
             }
         }
 

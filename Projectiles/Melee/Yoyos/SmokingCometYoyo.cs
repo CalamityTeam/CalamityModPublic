@@ -81,103 +81,103 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             Vector2 vector = Main.player[Projectile.owner].MountedCenter;
             vector.Y += Main.player[Projectile.owner].gfxOffY;
-            float num2 = Projectile.Center.X - vector.X;
-            float num3 = Projectile.Center.Y - vector.Y;
-            Math.Sqrt(num2 * num2 + num3 * num3);
+            float yoyoXVel = Projectile.Center.X - vector.X;
+            float yoyoYVel = Projectile.Center.Y - vector.Y;
+            Math.Sqrt(yoyoXVel * yoyoXVel + yoyoYVel * yoyoYVel);
             if (!Projectile.counterweight)
             {
-                int num5 = -1;
+                int distanceCheck = -1;
                 if (Projectile.position.X + (float)(Projectile.width / 2) < Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2))
-                    num5 = 1;
+                    distanceCheck = 1;
 
-                num5 *= -1;
-                Main.player[Projectile.owner].itemRotation = (float)Math.Atan2(num3 * (float)num5, num2 * (float)num5);
+                distanceCheck *= -1;
+                Main.player[Projectile.owner].itemRotation = (float)Math.Atan2(yoyoYVel * (float)distanceCheck, yoyoXVel * (float)distanceCheck);
             }
 
-            bool flag = true;
-            if (num2 == 0f && num3 == 0f)
+            bool isActive = true;
+            if (yoyoXVel == 0f && yoyoYVel == 0f)
             {
-                flag = false;
+                isActive = false;
             }
             else
             {
-                float num6 = (float)Math.Sqrt(num2 * num2 + num3 * num3);
-                num6 = 12f / num6;
-                num2 *= num6;
-                num3 *= num6;
-                vector.X -= num2 * 0.1f;
-                vector.Y -= num3 * 0.1f;
-                num2 = Projectile.position.X + (float)Projectile.width * 0.5f - vector.X;
-                num3 = Projectile.position.Y + (float)Projectile.height * 0.5f - vector.Y;
+                float yoyoVelocity = (float)Math.Sqrt(yoyoXVel * yoyoXVel + yoyoYVel * yoyoYVel);
+                yoyoVelocity = 12f / yoyoVelocity;
+                yoyoXVel *= yoyoVelocity;
+                yoyoYVel *= yoyoVelocity;
+                vector.X -= yoyoXVel * 0.1f;
+                vector.Y -= yoyoYVel * 0.1f;
+                yoyoXVel = Projectile.position.X + (float)Projectile.width * 0.5f - vector.X;
+                yoyoYVel = Projectile.position.Y + (float)Projectile.height * 0.5f - vector.Y;
             }
 
-            while (flag)
+            while (isActive)
             {
-                float num7 = 12f;
-                float num8 = (float)Math.Sqrt(num2 * num2 + num3 * num3);
-                float num9 = num8;
-                if (float.IsNaN(num8) || float.IsNaN(num9))
+                float chainWidth = 12f;
+                float yoyoVelocityAgain = (float)Math.Sqrt(yoyoXVel * yoyoXVel + yoyoYVel * yoyoYVel);
+                float yoyoVelocityCopy = yoyoVelocityAgain;
+                if (float.IsNaN(yoyoVelocityAgain) || float.IsNaN(yoyoVelocityCopy))
                 {
-                    flag = false;
+                    isActive = false;
                     continue;
                 }
 
-                if (num8 < 20f)
+                if (yoyoVelocityAgain < 20f)
                 {
-                    num7 = num8 - 8f;
-                    flag = false;
+                    chainWidth = yoyoVelocityAgain - 8f;
+                    isActive = false;
                 }
 
-                num8 = 12f / num8;
-                num2 *= num8;
-                num3 *= num8;
-                vector.X += num2;
-                vector.Y += num3;
-                num2 = Projectile.position.X + (float)Projectile.width * 0.5f - vector.X;
-                num3 = Projectile.position.Y + (float)Projectile.height * 0.1f - vector.Y;
-                if (num9 > 12f)
+                yoyoVelocityAgain = 12f / yoyoVelocityAgain;
+                yoyoXVel *= yoyoVelocityAgain;
+                yoyoYVel *= yoyoVelocityAgain;
+                vector.X += yoyoXVel;
+                vector.Y += yoyoYVel;
+                yoyoXVel = Projectile.position.X + (float)Projectile.width * 0.5f - vector.X;
+                yoyoYVel = Projectile.position.Y + (float)Projectile.height * 0.1f - vector.Y;
+                if (yoyoVelocityCopy > 12f)
                 {
-                    float num10 = 0.3f;
-                    float num11 = Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y);
-                    if (num11 > 16f)
-                        num11 = 16f;
+                    float absVelocityCheck = 0.3f;
+                    float absVelocity = Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y);
+                    if (absVelocity > 16f)
+                        absVelocity = 16f;
 
-                    num11 = 1f - num11 / 16f;
-                    num10 *= num11;
-                    num11 = num9 / 80f;
-                    if (num11 > 1f)
-                        num11 = 1f;
+                    absVelocity = 1f - absVelocity / 16f;
+                    absVelocityCheck *= absVelocity;
+                    absVelocity = yoyoVelocityCopy / 80f;
+                    if (absVelocity > 1f)
+                        absVelocity = 1f;
 
-                    num10 *= num11;
-                    if (num10 < 0f)
-                        num10 = 0f;
+                    absVelocityCheck *= absVelocity;
+                    if (absVelocityCheck < 0f)
+                        absVelocityCheck = 0f;
 
-                    num10 *= num11;
-                    num10 *= 0.5f;
-                    if (num3 > 0f)
+                    absVelocityCheck *= absVelocity;
+                    absVelocityCheck *= 0.5f;
+                    if (yoyoYVel > 0f)
                     {
-                        num3 *= 1f + num10;
-                        num2 *= 1f - num10;
+                        yoyoYVel *= 1f + absVelocityCheck;
+                        yoyoXVel *= 1f - absVelocityCheck;
                     }
                     else
                     {
-                        num11 = Math.Abs(Projectile.velocity.X) / 3f;
-                        if (num11 > 1f)
-                            num11 = 1f;
+                        absVelocity = Math.Abs(Projectile.velocity.X) / 3f;
+                        if (absVelocity > 1f)
+                            absVelocity = 1f;
 
-                        num11 -= 0.5f;
-                        num10 *= num11;
-                        if (num10 > 0f)
-                            num10 *= 2f;
+                        absVelocity -= 0.5f;
+                        absVelocityCheck *= absVelocity;
+                        if (absVelocityCheck > 0f)
+                            absVelocityCheck *= 2f;
 
-                        num3 *= 1f + num10;
-                        num2 *= 1f - num10;
+                        yoyoYVel *= 1f + absVelocityCheck;
+                        yoyoXVel *= 1f - absVelocityCheck;
                     }
                 }
 
-                float num4 = (float)Math.Atan2(num3, num2) - MathHelper.PiOver2;
+                float stringHelper = (float)Math.Atan2(yoyoYVel, yoyoXVel) - MathHelper.PiOver2;
                 Texture2D stringTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SmokingCometChain").Value;
-                Main.spriteBatch.Draw(stringTexture, new Vector2(vector.X - Main.screenPosition.X + (float)ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SmokingCometChain").Width() * 0.5f, vector.Y - Main.screenPosition.Y + (float)ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SmokingCometChain").Height() * 0.5f) - new Vector2(6f, 0f), new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SmokingCometChain").Width(), (int)num7), Color.White, num4, new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SmokingCometChain").Width() * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(stringTexture, new Vector2(vector.X - Main.screenPosition.X + (float)ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SmokingCometChain").Width() * 0.5f, vector.Y - Main.screenPosition.Y + (float)ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SmokingCometChain").Height() * 0.5f) - new Vector2(6f, 0f), new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SmokingCometChain").Width(), (int)chainWidth), Color.White, stringHelper, new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/SmokingCometChain").Width() * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
             }
 
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);

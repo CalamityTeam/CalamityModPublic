@@ -725,9 +725,16 @@ MineralMortar: {
 	Tooltip: Shoots an onyx bomb that explodes into sand sharks on death
 }
 
-Minigun: {
-	DisplayName: Minigun
-	Tooltip: 80% chance to save ammo
+Kingsbane: {
+	DisplayName: Kingsbane
+	Tooltip:
+		'''
+		After revving up, rapidly fire bullets
+		When you stop firing you will release a barrage of auric bullets
+		Auric bullets aggressively home in on enemies and ignore 50 points of defense
+		Constantly consumes ammo while in use
+		90% chance to save ammo
+		'''
 }
 
 MolecularManipulator: {
@@ -816,8 +823,9 @@ P90: {
 	DisplayName: P90
 	Tooltip:
 		'''
-		Unleashes a stream of bullets at an incredible rate
-		50% chance to save ammo
+		Unleashes a stream of armor-piercing rounds at an incredible rate
+		Armor-piercing rounds ignore 15 defense
+		75% chance to save ammo
 		'It's a bullet hose'
 		'''
 }

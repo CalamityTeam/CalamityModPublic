@@ -22,16 +22,15 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            int num154 = 14;
-            int num298 = Main.rand.NextBool() ? 107 : 234;
+            int dustType = Main.rand.NextBool() ? 107 : 234;
             if (Main.rand.NextBool(4))
             {
-                num298 = 269;
+                dustType = 269;
             }
             Projectile.ai[0] += 1;
             if (Projectile.ai[0] % 2 == 0)
             {
-                int coolDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width - num154 * 2, Projectile.height - num154 * 2, num298, 0f, 0f, 100, default, 1.5f);
+                int coolDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width - 28, Projectile.height - 28, dustType, 0f, 0f, 100, default, 1.5f);
                 Main.dust[coolDust].noGravity = true;
                 Main.dust[coolDust].velocity *= 0.1f;
                 Main.dust[coolDust].velocity += Projectile.velocity * 0.5f;
@@ -86,14 +85,14 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = Projectile.height = 24;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            int num226 = 36;
-            for (int num227 = 0; num227 < num226; num227++)
+            int constant = 36;
+            for (int i = 0; i < constant; i++)
             {
-                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                Vector2 vector7 = vector6 - Projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 234, vector7.X * 0.5f, vector7.Y * 0.5f, 100, default, 0.75f);
-                Main.dust[num228].noGravity = true;
+                Vector2 rotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                rotate = rotate.RotatedBy((double)((float)(i - (constant / 2 - 1)) * 6.28318548f / (float)constant), default) + Projectile.Center;
+                Vector2 faceDirection = rotate - Projectile.Center;
+                int dust = Dust.NewDust(rotate + faceDirection, 0, 0, 234, faceDirection.X * 0.5f, faceDirection.Y * 0.5f, 100, default, 0.75f);
+                Main.dust[dust].noGravity = true;
             }
         }
 

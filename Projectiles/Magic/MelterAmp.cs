@@ -29,9 +29,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            bool flag64 = Projectile.type == ModContent.ProjectileType<MelterAmp>();
+            bool isProjectile = Projectile.type == ModContent.ProjectileType<MelterAmp>();
             Player player = Main.player[Projectile.owner];
-            if (flag64)
+            if (isProjectile)
             {
                 if (player.dead)
                 {
@@ -64,29 +64,28 @@ namespace CalamityMod.Projectiles.Magic
                 int Damage = Projectile.damage;
                 int type;
                 Projectile.netUpdate = true;
-                float num127 = 20f;
-                Vector2 vector11 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                float num128 = (float)Main.mouseX + Main.screenPosition.X - vector11.X;
-                float num129 = (float)Main.mouseY + Main.screenPosition.Y - vector11.Y;
+                Vector2 projAimDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                float ampXDirection = (float)Main.mouseX + Main.screenPosition.X - projAimDirection.X;
+                float ampYDirection = (float)Main.mouseY + Main.screenPosition.Y - projAimDirection.Y;
                 if (player.gravDir == -1f)
                 {
-                    num129 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector11.Y;
+                    ampYDirection = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - projAimDirection.Y;
                 }
-                float num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
-                if (num130 == 0f)
+                float ampAimDistance = (float)Math.Sqrt((double)(ampXDirection * ampXDirection + ampYDirection * ampYDirection));
+                if (ampAimDistance == 0f)
                 {
-                    vector11 = new Vector2(player.position.X + (float)(player.width / 2), player.position.Y + (float)(player.height / 2));
-                    num128 = Projectile.position.X + (float)Projectile.width * 0.5f - vector11.X;
-                    num129 = Projectile.position.Y + (float)Projectile.height * 0.5f - vector11.Y;
-                    num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
+                    projAimDirection = new Vector2(player.position.X + (float)(player.width / 2), player.position.Y + (float)(player.height / 2));
+                    ampXDirection = Projectile.position.X + (float)Projectile.width * 0.5f - projAimDirection.X;
+                    ampYDirection = Projectile.position.Y + (float)Projectile.height * 0.5f - projAimDirection.Y;
+                    ampAimDistance = (float)Math.Sqrt((double)(ampXDirection * ampXDirection + ampYDirection * ampYDirection));
                 }
-                num130 = num127 / num130;
-                num128 *= num130;
-                num129 *= num130;
-                float VelocityX = num128;
-                float VelocityY = num129;
-                int note = Main.rand.Next(0, 2);
-                if (note == 0)
+                ampAimDistance = 20f / ampAimDistance;
+                ampXDirection *= ampAimDistance;
+                ampYDirection *= ampAimDistance;
+                float VelocityX = ampXDirection;
+                float VelocityY = ampYDirection;
+                int noteType = Main.rand.Next(0, 2);
+                if (noteType == 0)
                 {
                     Damage = (int)(Projectile.damage * 1.5f);
                     type = ModContent.ProjectileType<MelterNote1>();

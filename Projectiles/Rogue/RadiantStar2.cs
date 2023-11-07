@@ -37,34 +37,34 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (Projectile.ai[0] == 1f)
             {
-                float num472 = Projectile.Center.X;
-                float num473 = Projectile.Center.Y;
-                float num474 = Projectile.Calamity().stealthStrike ? 1800f : 600f;
+                float projX = Projectile.Center.X;
+                float projY = Projectile.Center.Y;
+                float homeRange = Projectile.Calamity().stealthStrike ? 1800f : 600f;
                 float homingSpeed = 0.25f;
-                for (int num475 = 0; num475 < Main.maxNPCs; num475++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[num475].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
+                    if (Main.npc[i].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
                     {
-                        float npcCenterX = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-                        float npcCenterY = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
-                        float num478 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcCenterX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcCenterY);
-                        if (num478 < num474)
+                        float npcCenterX = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
+                        float npcCenterY = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
+                        float targetDist = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcCenterX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcCenterY);
+                        if (targetDist < homeRange)
                         {
-                            if (Main.npc[num475].position.X < num472)
+                            if (Main.npc[i].position.X < projX)
                             {
-                                Main.npc[num475].velocity.X += homingSpeed;
+                                Main.npc[i].velocity.X += homingSpeed;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.X -= homingSpeed;
+                                Main.npc[i].velocity.X -= homingSpeed;
                             }
-                            if (Main.npc[num475].position.Y < num473)
+                            if (Main.npc[i].position.Y < projY)
                             {
-                                Main.npc[num475].velocity.Y += homingSpeed;
+                                Main.npc[i].velocity.Y += homingSpeed;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.Y -= homingSpeed;
+                                Main.npc[i].velocity.Y -= homingSpeed;
                             }
                         }
                     }

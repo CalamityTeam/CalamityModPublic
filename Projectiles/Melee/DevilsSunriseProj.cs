@@ -47,11 +47,11 @@ namespace CalamityMod.Projectiles.Melee
                 red = 255;
 
             Player player = Main.player[Projectile.owner];
-            float num = 0f;
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+            float pi = 0f;
+            Vector2 playerRotate = player.RotatedRelativePoint(player.MountedCenter, true);
 
             if (Projectile.spriteDirection == -1)
-                num = 3.14159274f;
+                pi = 3.14159274f;
 
             if (++Projectile.frame >= Main.projFrames[Projectile.type])
                 Projectile.frame = 0;
@@ -72,33 +72,33 @@ namespace CalamityMod.Projectiles.Melee
                     if (player.ActiveItem().shoot == Projectile.type)
                         scaleFactor6 = player.ActiveItem().shootSpeed * Projectile.scale;
 
-                    Vector2 vector13 = Main.MouseWorld - vector;
-                    vector13.Normalize();
-                    if (vector13.HasNaNs())
-                        vector13 = Vector2.UnitX * (float)player.direction;
+                    Vector2 slashDirection = Main.MouseWorld - playerRotate;
+                    slashDirection.Normalize();
+                    if (slashDirection.HasNaNs())
+                        slashDirection = Vector2.UnitX * (float)player.direction;
 
-                    vector13 *= scaleFactor6;
-                    if (vector13.X != Projectile.velocity.X || vector13.Y != Projectile.velocity.Y)
+                    slashDirection *= scaleFactor6;
+                    if (slashDirection.X != Projectile.velocity.X || slashDirection.Y != Projectile.velocity.Y)
                         Projectile.netUpdate = true;
 
-                    Projectile.velocity = vector13;
+                    Projectile.velocity = slashDirection;
                 }
                 else
                     Projectile.Kill();
             }
 
-            Vector2 vector14 = Projectile.Center + Projectile.velocity * 3f;
-            Lighting.AddLight(vector14, (float)((double)red * 0.001), 0.1f, 0.1f);
+            Vector2 dustSpawn = Projectile.Center + Projectile.velocity * 3f;
+            Lighting.AddLight(dustSpawn, (float)((double)red * 0.001), 0.1f, 0.1f);
 
             if (Main.rand.NextBool(3))
             {
-                int dust = Dust.NewDust(vector14 - Projectile.Size / 2f, Projectile.width, Projectile.height, 66, Projectile.velocity.X, Projectile.velocity.Y, 100, new Color(red, greenAndBlue, greenAndBlue), 1f);
+                int dust = Dust.NewDust(dustSpawn - Projectile.Size / 2f, Projectile.width, Projectile.height, 66, Projectile.velocity.X, Projectile.velocity.Y, 100, new Color(red, greenAndBlue, greenAndBlue), 1f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].position -= Projectile.velocity;
             }
 
             Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
-            Projectile.rotation = Projectile.velocity.ToRotation() + num;
+            Projectile.rotation = Projectile.velocity.ToRotation() + pi;
             Projectile.spriteDirection = Projectile.direction;
             Projectile.timeLeft = 2;
             player.ChangeDir(Projectile.direction);

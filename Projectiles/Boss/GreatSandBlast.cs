@@ -54,9 +54,9 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     Projectile.alpha = 0;
                 }
-                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 1f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int sandyDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 1f);
+                Main.dust[sandyDust].noGravity = true;
+                Main.dust[sandyDust].velocity *= 0f;
             }
         }
 
@@ -67,16 +67,16 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.width = Projectile.height = (int)(32 * Projectile.scale);
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            int num226 = 36;
-            for (int num227 = 0; num227 < num226; num227++)
+            int dustAmt = 36;
+            for (int i = 0; i < dustAmt; i++)
             {
-                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                Vector2 vector7 = vector6 - Projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 85, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.2f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                Vector2 dustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                dustRotate = dustRotate.RotatedBy((double)((float)(i - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.Center;
+                Vector2 dustDirection = dustRotate - Projectile.Center;
+                int killSand = Dust.NewDust(dustRotate + dustDirection, 0, 0, 85, dustDirection.X * 1.5f, dustDirection.Y * 1.5f, 100, default, 1.2f);
+                Main.dust[killSand].noGravity = true;
+                Main.dust[killSand].noLight = true;
+                Main.dust[killSand].velocity = dustDirection;
             }
             Projectile.Damage();
         }

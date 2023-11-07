@@ -98,13 +98,13 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < amount; i++)
             {
-                float num463 = (float)Main.rand.Next(-spreadspeed, spreadspeed + 1);
-                float num464 = (float)Main.rand.Next(-spreadspeed, spreadspeed + 1);
-                float num465 = (float)Main.rand.Next(minspeed, maxspeed);
-                float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
-                num466 = num465 / num466;
-                num463 *= num466;
-                num464 *= num466;
+                float random1 = (float)Main.rand.Next(-spreadspeed, spreadspeed + 1);
+                float random2 = (float)Main.rand.Next(-spreadspeed, spreadspeed + 1);
+                float random3 = (float)Main.rand.Next(minspeed, maxspeed);
+                float randomAdjust = (float)Math.Sqrt((double)(random1 * random1 + random2 * random2));
+                randomAdjust = random3 / randomAdjust;
+                random1 *= randomAdjust;
+                random2 *= randomAdjust;
                 int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 75, 0, 0, 0, default, size);
                 Dust dust = Main.dust[d];
                 dust.noGravity = true;
@@ -112,8 +112,8 @@ namespace CalamityMod.Projectiles.Rogue
                 dust.position.Y = Projectile.Center.Y;
                 dust.position.X += (float)Main.rand.Next(-spreadspeed, spreadspeed + 1);
                 dust.position.Y += (float)Main.rand.Next(-spreadspeed, spreadspeed + 1);
-                dust.velocity.X = num463;
-                dust.velocity.Y = num464;
+                dust.velocity.X = random1;
+                dust.velocity.Y = random2;
             }
         }
     }

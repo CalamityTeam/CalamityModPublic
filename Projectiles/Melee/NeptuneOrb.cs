@@ -34,10 +34,10 @@ namespace CalamityMod.Projectiles.Melee
                 int splitDamage = Projectile.damage / 2;
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 15f, ModContent.ProjectileType<DepthOrb2>(), splitDamage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
-            int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 0.4f);
-            Main.dust[num458].noGravity = true;
-            Main.dust[num458].velocity *= 0.5f;
-            Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+            int waterDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 0.4f);
+            Main.dust[waterDust].noGravity = true;
+            Main.dust[waterDust].velocity *= 0.5f;
+            Main.dust[waterDust].velocity += Projectile.velocity * 0.1f;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -64,22 +64,22 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             for (int dustIndex = 0; dustIndex <= 30; dustIndex++)
             {
-                float num463 = (float)Main.rand.Next(-10, 11);
-                float num464 = (float)Main.rand.Next(-10, 11);
-                float num465 = (float)Main.rand.Next(3, 9);
-                float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
-                num466 = num465 / num466;
-                num463 *= num466;
-                num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 1.2f);
-                Dust dust = Main.dust[num467];
+                float rando1 = (float)Main.rand.Next(-10, 11);
+                float rando2 = (float)Main.rand.Next(-10, 11);
+                float rando3 = (float)Main.rand.Next(3, 9);
+                float randoAdjuster = (float)Math.Sqrt((double)(rando1 * rando1 + rando2 * rando2));
+                randoAdjuster = rando3 / randoAdjuster;
+                rando1 *= randoAdjuster;
+                rando2 *= randoAdjuster;
+                int killWatery = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 1.2f);
+                Dust dust = Main.dust[killWatery];
                 dust.noGravity = true;
                 dust.position.X = Projectile.Center.X;
                 dust.position.Y = Projectile.Center.Y;
                 dust.position.X += (float)Main.rand.Next(-10, 11);
                 dust.position.Y += (float)Main.rand.Next(-10, 11);
-                dust.velocity.X = num463;
-                dust.velocity.Y = num464;
+                dust.velocity.X = rando1;
+                dust.velocity.Y = rando2;
             }
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;

@@ -61,8 +61,8 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Projectile.alpha < 40)
             {
-                int num805 = Dust.NewDust(Projectile.Center - Vector2.One * 5f, 10, 10, 244, -Projectile.velocity.X / 3f, -Projectile.velocity.Y / 3f, 150, Color.Transparent, 0.6f);
-                Main.dust[num805].noGravity = true;
+                int laserDust = Dust.NewDust(Projectile.Center - Vector2.One * 5f, 10, 10, 244, -Projectile.velocity.X / 3f, -Projectile.velocity.Y / 3f, 150, Color.Transparent, 0.6f);
+                Main.dust[laserDust].noGravity = true;
             }
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
@@ -121,44 +121,44 @@ namespace CalamityMod.Projectiles.Boss
 
                 float speed = revenge ? 9f : 7.5f;
 
-                Vector2 vector70 = Main.player[(int)Projectile.ai[1]].Center - Projectile.Center;
-                if (vector70.Length() < 20f)
+                Vector2 playerDistance = Main.player[(int)Projectile.ai[1]].Center - Projectile.Center;
+                if (playerDistance.Length() < 20f)
                 {
                     Projectile.Kill();
                     return;
                 }
 
-                vector70.Normalize();
-                vector70 *= 14f;
-                vector70 = Vector2.Lerp(Projectile.velocity, vector70, 0.6f);
-                if (vector70.Y < speed)
-                    vector70.Y = speed;
+                playerDistance.Normalize();
+                playerDistance *= 14f;
+                playerDistance = Vector2.Lerp(Projectile.velocity, playerDistance, 0.6f);
+                if (playerDistance.Y < speed)
+                    playerDistance.Y = speed;
 
-                float num804 = 0.4f;
-                if (Projectile.velocity.X < vector70.X)
+                float projVelocityMult = 0.4f;
+                if (Projectile.velocity.X < playerDistance.X)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X + num804;
-                    if (Projectile.velocity.X < 0f && vector70.X > 0f)
-                        Projectile.velocity.X = Projectile.velocity.X + num804;
+                    Projectile.velocity.X = Projectile.velocity.X + projVelocityMult;
+                    if (Projectile.velocity.X < 0f && playerDistance.X > 0f)
+                        Projectile.velocity.X = Projectile.velocity.X + projVelocityMult;
                 }
-                else if (Projectile.velocity.X > vector70.X)
+                else if (Projectile.velocity.X > playerDistance.X)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X - num804;
-                    if (Projectile.velocity.X > 0f && vector70.X < 0f)
-                        Projectile.velocity.X = Projectile.velocity.X - num804;
+                    Projectile.velocity.X = Projectile.velocity.X - projVelocityMult;
+                    if (Projectile.velocity.X > 0f && playerDistance.X < 0f)
+                        Projectile.velocity.X = Projectile.velocity.X - projVelocityMult;
                 }
 
-                if (Projectile.velocity.Y < vector70.Y)
+                if (Projectile.velocity.Y < playerDistance.Y)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y + num804;
-                    if (Projectile.velocity.Y < 0f && vector70.Y > 0f)
-                        Projectile.velocity.Y = Projectile.velocity.Y + num804;
+                    Projectile.velocity.Y = Projectile.velocity.Y + projVelocityMult;
+                    if (Projectile.velocity.Y < 0f && playerDistance.Y > 0f)
+                        Projectile.velocity.Y = Projectile.velocity.Y + projVelocityMult;
                 }
-                else if (Projectile.velocity.Y > vector70.Y)
+                else if (Projectile.velocity.Y > playerDistance.Y)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y - num804;
-                    if (Projectile.velocity.Y > 0f && vector70.Y < 0f)
-                        Projectile.velocity.Y = Projectile.velocity.Y - num804;
+                    Projectile.velocity.Y = Projectile.velocity.Y - projVelocityMult;
+                    if (Projectile.velocity.Y > 0f && playerDistance.Y < 0f)
+                        Projectile.velocity.Y = Projectile.velocity.Y - projVelocityMult;
                 }
             }
         }
@@ -189,18 +189,18 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.width = Projectile.height = 64;
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
-            for (int num193 = 0; num193 < 2; num193++)
+            for (int i = 0; i < 2; i++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 31, 0f, 0f, 100, default, 1.5f);
             }
-            for (int num194 = 0; num194 < 20; num194++)
+            for (int j = 0; j < 20; j++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int killDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 0, default, 2.5f);
+                Main.dust[killDust].noGravity = true;
+                Main.dust[killDust].velocity *= 3f;
+                killDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 1.5f);
+                Main.dust[killDust].velocity *= 2f;
+                Main.dust[killDust].noGravity = true;
             }
             Projectile.Damage();
         }

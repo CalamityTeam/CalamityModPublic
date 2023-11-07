@@ -50,42 +50,42 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.StickToTiles(false, false);
 
             int target = 0;
-            float num633 = 800f;
-            Vector2 vector46 = Projectile.position;
-            bool flag25 = false;
+            float attackDist = 800f;
+            Vector2 projPos = Projectile.position;
+            bool canAttack = false;
             if (Main.player[Projectile.owner].HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[Main.player[Projectile.owner].MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
                 {
-                    float num646 = Vector2.Distance(npc.Center, Projectile.Center);
-                    if (!flag25 && num646 < num633)
+                    float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
+                    if (!canAttack && targetDist < attackDist)
                     {
-                        vector46 = npc.Center;
-                        flag25 = true;
+                        projPos = npc.Center;
+                        canAttack = true;
                         target = npc.whoAmI;
                     }
                 }
             }
-            if (!flag25)
+            if (!canAttack)
             {
-                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
+                for (int j = 0; j < Main.maxNPCs; j++)
                 {
-                    NPC nPC2 = Main.npc[num645];
+                    NPC nPC2 = Main.npc[j];
                     if (nPC2.CanBeChasedBy(Projectile, false))
                     {
-                        float num646 = Vector2.Distance(nPC2.Center, Projectile.Center);
-                        if (!flag25 && num646 < num633)
+                        float targetDist = Vector2.Distance(nPC2.Center, Projectile.Center);
+                        if (!canAttack && targetDist < attackDist)
                         {
-                            num633 = num646;
-                            vector46 = nPC2.Center;
-                            flag25 = true;
-                            target = num645;
+                            attackDist = targetDist;
+                            projPos = nPC2.Center;
+                            canAttack = true;
+                            target = j;
                         }
                     }
                 }
             }
-            if (Projectile.owner == Main.myPlayer && flag25)
+            if (Projectile.owner == Main.myPlayer && canAttack)
             {
                 if (Projectile.ai[0] != 0f)
                 {

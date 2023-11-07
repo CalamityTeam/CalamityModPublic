@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = Projectile.type == ModContent.ProjectileType<BrimstoneElementalMinion>();
+            bool isActive = Projectile.type == ModContent.ProjectileType<BrimstoneElementalMinion>();
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.brimstoneWaifu && !modPlayer.allWaifus && !modPlayer.brimstoneWaifuVanity && !modPlayer.allWaifusVanity)
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.active = false;
                 return;
             }
-            if (flag64)
+            if (isActive)
             {
                 if (player.dead)
                 {
@@ -62,12 +62,11 @@ namespace CalamityMod.Projectiles.Summon
             dust--;
             if (dust >= 0)
             {
-                int num501 = 50;
-                for (int num502 = 0; num502 < num501; num502++)
+                for (int i = 0; i < 50; i++)
                 {
-                    int num503 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
-                    Main.dust[num503].velocity *= 2f;
-                    Main.dust[num503].scale *= 1.15f;
+                    int brimDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
+                    Main.dust[brimDust].velocity *= 2f;
+                    Main.dust[brimDust].scale *= 1.15f;
                 }
             }
             bool passive = modPlayer.brimstoneWaifuVanity || modPlayer.allWaifusVanity;
@@ -83,19 +82,18 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (!passive)
             {
-                float num = (float)Main.rand.Next(90, 111) * 0.01f;
-                num *= Main.essScale;
-                Lighting.AddLight(Projectile.Center, 1.25f * num, 0f * num, 0.5f * num);
+                float lights = (float)Main.rand.Next(90, 111) * 0.01f;
+                lights *= Main.essScale;
+                Lighting.AddLight(Projectile.Center, 1.25f * lights, 0f * lights, 0.5f * lights);
             }
             if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
                 Projectile.spriteDirection = -Projectile.direction;
             }
-            float num633 = 700f;
-            float num636 = 400f; //150
+            float maxTargetDist = 700f;
             Projectile.MinionAntiClump();
             Vector2 targetCenter = Projectile.position;
-            bool flag25 = false;
+            bool canAttack = false;
             if (Projectile.ai[0] != 1f)
             {
                 Projectile.tileCollide = false;
@@ -109,27 +107,27 @@ namespace CalamityMod.Projectiles.Summon
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
                 {
-                    float num646 = Vector2.Distance(npc.Center, Projectile.Center);
-                    if ((!flag25 && num646 < num633) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
+                    float targetDist = Vector2.Distance(npc.Center, Projectile.Center);
+                    if ((!canAttack && targetDist < maxTargetDist) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
                     {
                         targetCenter = npc.Center;
-                        flag25 = true;
+                        canAttack = true;
                     }
                 }
             }
-            if (!flag25 && !passive)
+            if (!canAttack && !passive)
             {
-                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    NPC nPC2 = Main.npc[num645];
+                    NPC nPC2 = Main.npc[i];
                     if (nPC2.CanBeChasedBy(Projectile, false))
                     {
-                        float num646 = Vector2.Distance(nPC2.Center, Projectile.Center);
-                        if ((!flag25 && num646 < num633) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, nPC2.position, nPC2.width, nPC2.height))
+                        float targetDist = Vector2.Distance(nPC2.Center, Projectile.Center);
+                        if ((!canAttack && targetDist < maxTargetDist) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, nPC2.position, nPC2.width, nPC2.height))
                         {
-                            num633 = num646;
+                            maxTargetDist = targetDist;
                             targetCenter = nPC2.Center;
-                            flag25 = true;
+                            canAttack = true;
                         }
                     }
                 }
@@ -140,39 +138,39 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.tileCollide = false;
                 Projectile.netUpdate = true;
             }
-            bool flag26 = false;
-            if (!flag26)
+            bool isReturning = false;
+            if (!isReturning)
             {
-                flag26 = Projectile.ai[0] == 1f;
+                isReturning = Projectile.ai[0] == 1f;
             }
-            float num650 = 5f; //6
-            if (flag26)
+            float returnSpeed = 5f; //6
+            if (isReturning)
             {
-                num650 = 12f; //15
+                returnSpeed = 12f; //15
             }
             Vector2 center2 = Projectile.Center;
-            Vector2 vector48 = player.Center - center2 + new Vector2(-500f, -60f); //-60
-            float num651 = vector48.Length();
-            if (num651 > 200f && num650 < 6.5f) //200 and 8
+            Vector2 playerDirection = player.Center - center2 + new Vector2(-500f, -60f); //-60
+            float playerDistance = playerDirection.Length();
+            if (playerDistance > 200f && returnSpeed < 6.5f) //200 and 8
             {
-                num650 = 6.5f; //8
+                returnSpeed = 6.5f; //8
             }
-            if (num651 < num636 && flag26 && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+            if (playerDistance < 400f && isReturning && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
                 Projectile.ai[0] = 0f;
                 Projectile.netUpdate = true;
             }
-            if (num651 > 2000f)
+            if (playerDistance > 2000f)
             {
                 Projectile.position.X = Main.player[Projectile.owner].Center.X - (float)(Projectile.width / 2);
                 Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (float)(Projectile.height / 2);
                 Projectile.netUpdate = true;
             }
-            if (num651 > 70f)
+            if (playerDistance > 70f)
             {
-                vector48.Normalize();
-                vector48 *= num650;
-                Projectile.velocity = (Projectile.velocity * 40f + vector48) / 41f;
+                playerDirection.Normalize();
+                playerDirection *= returnSpeed;
+                Projectile.velocity = (Projectile.velocity * 40f + playerDirection) / 41f;
             }
             else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
             {
@@ -197,7 +195,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 float fireballShootSpeed = 14f;
                 int projID = ModContent.ProjectileType<BrimstoneFireballMinion>();
-                if (flag25 && Projectile.ai[1] == 0f && Projectile.localAI[0] >= 120f)
+                if (canAttack && Projectile.ai[1] == 0f && Projectile.localAI[0] >= 120f)
                 {
                     Projectile.ai[1] += 1f;
                     if (Main.myPlayer == Projectile.owner && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, targetCenter, 0, 0))

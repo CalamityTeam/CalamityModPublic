@@ -42,26 +42,26 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell2>(),
                         (int)((double)Projectile.damage * 0.75), Projectile.knockBack * 0.75f, Main.myPlayer, 0f, 0f);
 
-                float num628 = (float)Main.rand.Next(-35, 36) * 0.01f;
-                float num629 = (float)Main.rand.Next(-35, 36) * 0.01f;
-                int num3;
-                for (int num627 = 0; num627 < 2; num627 = num3 + 1)
+                float randVel = (float)Main.rand.Next(-35, 36) * 0.01f;
+                float randVel2 = (float)Main.rand.Next(-35, 36) * 0.01f;
+                int inc;
+                for (int i = 0; i < 2; i = inc + 1)
                 {
-                    if (num627 == 1)
+                    if (i == 1)
                     {
-                        num628 *= 10f;
-                        num629 *= 10f;
+                        randVel *= 10f;
+                        randVel2 *= 10f;
                     }
                     else
                     {
-                        num628 *= -10f;
-                        num629 *= -10f;
+                        randVel *= -10f;
+                        randVel2 *= -10f;
                     }
 
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, randVel, randVel2, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
                         (int)((double)Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Main.myPlayer, 0f, 0f);
 
-                    num3 = num627;
+                    inc = i;
                 }
             }
 
@@ -84,26 +84,26 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell2>(),
                         (int)((double)Projectile.damage * 0.75), Projectile.knockBack * 0.75f, Main.myPlayer, 0f, 0f);
 
-                float num628 = (float)Main.rand.Next(-35, 36) * 0.01f;
-                float num629 = (float)Main.rand.Next(-35, 36) * 0.01f;
-                int num3;
-                for (int num627 = 0; num627 < 2; num627 = num3 + 1)
+                float randVel = (float)Main.rand.Next(-35, 36) * 0.01f;
+                float randVel2 = (float)Main.rand.Next(-35, 36) * 0.01f;
+                int inc;
+                for (int i = 0; i < 2; i = inc + 1)
                 {
-                    if (num627 == 1)
+                    if (i == 1)
                     {
-                        num628 *= 10f;
-                        num629 *= 10f;
+                        randVel *= 10f;
+                        randVel2 *= 10f;
                     }
                     else
                     {
-                        num628 *= -10f;
-                        num629 *= -10f;
+                        randVel *= -10f;
+                        randVel2 *= -10f;
                     }
 
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, randVel, randVel2, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
                         (int)((double)Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Main.myPlayer, 0f, 0f);
 
-                    num3 = num627;
+                    inc = i;
                 }
             }
 
@@ -124,26 +124,26 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell2>(),
                         (int)((double)Projectile.damage * 0.75), Projectile.knockBack * 0.75f, Main.myPlayer, 0f, 0f);
 
-                float num628 = (float)Main.rand.Next(-35, 36) * 0.01f;
-                float num629 = (float)Main.rand.Next(-35, 36) * 0.01f;
-                int num3;
-                for (int num627 = 0; num627 < 2; num627 = num3 + 1)
+                float randVel = (float)Main.rand.Next(-35, 36) * 0.01f;
+                float randVel2 = (float)Main.rand.Next(-35, 36) * 0.01f;
+                int inc;
+                for (int i = 0; i < 2; i = inc + 1)
                 {
-                    if (num627 == 1)
+                    if (i == 1)
                     {
-                        num628 *= 10f;
-                        num629 *= 10f;
+                        randVel *= 10f;
+                        randVel2 *= 10f;
                     }
                     else
                     {
-                        num628 *= -10f;
-                        num629 *= -10f;
+                        randVel *= -10f;
+                        randVel2 *= -10f;
                     }
 
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, randVel, randVel2, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
                         (int)((double)Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Main.myPlayer, 0f, 0f);
 
-                    num3 = num627;
+                    inc = i;
                 }
             }
 

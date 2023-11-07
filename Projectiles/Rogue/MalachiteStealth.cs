@@ -42,11 +42,11 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.localAI[1] += 1f;
                 if (Projectile.localAI[1] > 4f)
                 {
-                    for (int num468 = 0; num468 < 3; num468++)
+                    for (int k = 0; k < 3; k++)
                     {
-                        int num469 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 0.75f);
-                        Main.dust[num469].noGravity = true;
-                        Main.dust[num469].velocity *= 0f;
+                        int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 0.75f);
+                        Main.dust[dust].noGravity = true;
+                        Main.dust[dust].velocity *= 0f;
                     }
                 }
             }

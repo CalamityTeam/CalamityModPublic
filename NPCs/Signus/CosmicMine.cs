@@ -119,18 +119,18 @@ namespace CalamityMod.NPCs.Signus
                 }
             }
 
-            float num1372 = death ? 16f : 14f;
+            float mineSpeed = death ? 16f : 14f;
             Vector2 vector167 = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
-            float num1373 = player.position.X + player.width * 0.5f - vector167.X;
-            float num1374 = player.Center.Y - vector167.Y;
-            float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
-            float num1376 = num1372 / num1375;
-            num1373 *= num1376;
-            num1374 *= num1376;
+            float playerXDist = player.position.X + player.width * 0.5f - vector167.X;
+            float playerYDist = player.Center.Y - vector167.Y;
+            float playerDistance = (float)Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
+            float velocityMult = mineSpeed / playerDistance;
+            playerXDist *= velocityMult;
+            playerYDist *= velocityMult;
             NPC.ai[0] -= 1f;
-            if (num1375 < 200f || NPC.ai[0] > 0f)
+            if (playerDistance < 200f || NPC.ai[0] > 0f)
             {
-                if (num1375 < 200f)
+                if (playerDistance < 200f)
                 {
                     NPC.ai[0] = 20f;
                 }
@@ -145,17 +145,17 @@ namespace CalamityMod.NPCs.Signus
                 return;
             }
 
-            NPC.velocity.X = (NPC.velocity.X * 50f + num1373) / 51f;
-            NPC.velocity.Y = (NPC.velocity.Y * 50f + num1374) / 51f;
-            if (num1375 < 350f)
+            NPC.velocity.X = (NPC.velocity.X * 50f + playerXDist) / 51f;
+            NPC.velocity.Y = (NPC.velocity.Y * 50f + playerYDist) / 51f;
+            if (playerDistance < 350f)
             {
-                NPC.velocity.X = (NPC.velocity.X * 10f + num1373) / 11f;
-                NPC.velocity.Y = (NPC.velocity.Y * 10f + num1374) / 11f;
+                NPC.velocity.X = (NPC.velocity.X * 10f + playerXDist) / 11f;
+                NPC.velocity.Y = (NPC.velocity.Y * 10f + playerYDist) / 11f;
             }
-            if (num1375 < 300f)
+            if (playerDistance < 300f)
             {
-                NPC.velocity.X = (NPC.velocity.X * 7f + num1373) / 8f;
-                NPC.velocity.Y = (NPC.velocity.Y * 7f + num1374) / 8f;
+                NPC.velocity.X = (NPC.velocity.X * 7f + playerXDist) / 8f;
+                NPC.velocity.Y = (NPC.velocity.Y * 7f + playerYDist) / 8f;
             }
         }
 
@@ -171,30 +171,28 @@ namespace CalamityMod.NPCs.Signus
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
-            Color color36 = Color.White;
-            float amount9 = 0.5f;
-            int num153 = 5;
+            Vector2 halfSizeTexture = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
+            int afterimageAmt = 5;
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int num155 = 1; num155 < num153; num155 += 2)
+                for (int i = 1; i < afterimageAmt; i += 2)
                 {
-                    Color color38 = drawColor;
-                    color38 = Color.Lerp(color38, color36, amount9);
-                    color38 = NPC.GetAlpha(color38);
-                    color38 *= (num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                    vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
-                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    Color afterimageColor = drawColor;
+                    afterimageColor = Color.Lerp(afterimageColor, Color.White, 0.5f);
+                    afterimageColor = NPC.GetAlpha(afterimageColor);
+                    afterimageColor *= (afterimageAmt - i) / 15f;
+                    Vector2 afterimagePos = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                    afterimagePos -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+                    afterimagePos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, afterimagePos, NPC.frame, afterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+            drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -208,25 +206,25 @@ namespace CalamityMod.NPCs.Signus
             NPC.width = NPC.height = 256;
             NPC.position.X = NPC.position.X - (NPC.width / 2);
             NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-            for (int num621 = 0; num621 < 10; num621++)
+            for (int i = 0; i < 10; i++)
             {
-                int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int cosmiliteDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                Main.dust[cosmiliteDust].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    Main.dust[cosmiliteDust].scale = 0.5f;
+                    Main.dust[cosmiliteDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
-                Main.dust[num622].noGravity = true;
+                Main.dust[cosmiliteDust].noGravity = true;
             }
-            for (int num623 = 0; num623 < 20; num623++)
+            for (int j = 0; j < 20; j++)
             {
-                int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
-                Main.dust[num624].noGravity = true;
+                int cosmiliteDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
+                Main.dust[cosmiliteDust2].noGravity = true;
+                Main.dust[cosmiliteDust2].velocity *= 5f;
+                cosmiliteDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                Main.dust[cosmiliteDust2].velocity *= 2f;
+                Main.dust[cosmiliteDust2].noGravity = true;
             }
             return true;
         }

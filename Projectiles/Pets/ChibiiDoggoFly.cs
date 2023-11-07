@@ -35,36 +35,34 @@ namespace CalamityMod.Projectiles.Pets
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            Color color25 = Lighting.GetColor((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16));
+            Color colorArea = Lighting.GetColor((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16));
             Texture2D texture2D3 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/ChibiiDoggoFlyMonochrome").Value;
-            int num156 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
-            int y3 = num156 * Projectile.frame;
-            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
+            int textureArea = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y3 = textureArea * Projectile.frame;
+            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, textureArea);
             Vector2 origin2 = rectangle.Size() / 2f;
-            int num157 = 12;
-            int num158 = 2;
-            int num159 = 1;
-            float num160 = 0f;
-            int num161 = num159;
-            while ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157))
+            int twelveCompare = 12;
+            int twoConst = 2;
+            int counter = 1;
+            while ((twoConst > 0 && counter < twelveCompare) || (twoConst < 0 && counter > twelveCompare))
             {
-                Color color26 = color25;
-                color26 = Projectile.GetAlpha(color26);
+                Color colorAlpha = colorArea;
+                colorAlpha = Projectile.GetAlpha(colorAlpha);
                 goto IL_6899;
                 IL_6881:
-                num161 += num158;
+                counter += twoConst;
                 continue;
                 IL_6899:
-                float num164 = (float)(num157 - num161);
-                if (num158 < 0)
+                float trailColorChange = (float)(twelveCompare - counter);
+                if (twoConst < 0)
                 {
-                    num164 = (float)(num159 - num161);
+                    trailColorChange = (float)(1 - counter);
                 }
-                color26 *= num164 / ((float)ProjectileID.Sets.TrailCacheLength[Projectile.type] * 1.5f);
-                Vector2 value4 = Projectile.oldPos[num161];
-                float num165 = Projectile.rotation;
+                colorAlpha *= trailColorChange / ((float)ProjectileID.Sets.TrailCacheLength[Projectile.type] * 1.5f);
+                Vector2 oldDrawPos = Projectile.oldPos[counter];
+                float projRotate = Projectile.rotation;
                 SpriteEffects effects = spriteEffects;
-                Main.spriteBatch.Draw(texture2D3, value4 + Projectile.Size / 2f - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + Projectile.rotation * num160 * (float)(num161 - 1) * Projectile.spriteDirection, origin2, Projectile.scale, effects, 0f);
+                Main.spriteBatch.Draw(texture2D3, oldDrawPos + Projectile.Size / 2f - Main.screenPosition + new Vector2(0, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), colorAlpha, projRotate + Projectile.rotation * 0f * (float)(counter - 1) * Projectile.spriteDirection, origin2, Projectile.scale, effects, 0f);
                 goto IL_6881;
             }
             Main.spriteBatch.Draw(ModContent.Request<Texture2D>(Texture).Value, Projectile.position + Projectile.Size / 2f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, Projectile.rotation, origin2, Projectile.scale, spriteEffects, 0);

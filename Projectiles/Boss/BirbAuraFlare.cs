@@ -40,35 +40,35 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.ai[1] > 0f)
             {
-                int num625 = (int)Projectile.ai[1] - 1;
-                if (num625 < 255)
+                int playerTracker = (int)Projectile.ai[1] - 1;
+                if (playerTracker < 255)
                 {
                     Projectile.localAI[0] += 1f;
                     if (Projectile.localAI[0] > 10f)
                     {
                         // Dust pulse effect
                         Projectile.localAI[1] = (float)Math.Abs(Math.Cos(MathHelper.ToRadians(Projectile.localAI[0] * 2f)));
-                        int num626 = 18;
-                        for (int num627 = 0; num627 < num626; num627++)
+                        int dustAmt = 18;
+                        for (int i = 0; i < dustAmt; i++)
                         {
-                            Vector2 vector45 = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * Projectile.localAI[1];
-                            vector45 = vector45.RotatedBy((num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (float)num626) + Projectile.Center;
-                            Vector2 value15 = ((float)(Main.rand.NextDouble() * Math.PI) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
-                            int num628 = Dust.NewDust(vector45 + value15, 0, 0, 60, value15.X * 2f, value15.Y * 2f, 100, default, 1f);
-                            Main.dust[num628].scale = 1.4f;
-                            Main.dust[num628].noGravity = true;
-                            Main.dust[num628].noLight = true;
-                            Main.dust[num628].velocity /= 4f;
-                            Main.dust[num628].velocity -= Projectile.velocity;
+                            Vector2 dustRotation = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * Projectile.localAI[1];
+                            dustRotation = dustRotation.RotatedBy((i - (dustAmt / 2 - 1)) * 3.1415926535897931 / (float)dustAmt) + Projectile.Center;
+                            Vector2 randomDustPos = ((float)(Main.rand.NextDouble() * Math.PI) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
+                            int lightningDust = Dust.NewDust(dustRotation + randomDustPos, 0, 0, 60, randomDustPos.X * 2f, randomDustPos.Y * 2f, 100, default, 1f);
+                            Main.dust[lightningDust].scale = 1.4f;
+                            Main.dust[lightningDust].noGravity = true;
+                            Main.dust[lightningDust].noLight = true;
+                            Main.dust[lightningDust].velocity /= 4f;
+                            Main.dust[lightningDust].velocity -= Projectile.velocity;
                         }
                     }
 
-                    Vector2 value16 = Main.player[num625].Center - Projectile.Center;
-                    float num629 = 4f;
+                    Vector2 playerDistance = Main.player[playerTracker].Center - Projectile.Center;
+                    float projVelocityMult = 4f;
                     float divisor = 60f - 15f * Projectile.ai[0];
-                    num629 += Projectile.localAI[0] / divisor;
-                    Projectile.velocity = Vector2.Normalize(value16) * num629;
-                    if (value16.Length() < 32f)
+                    projVelocityMult += Projectile.localAI[0] / divisor;
+                    Projectile.velocity = Vector2.Normalize(playerDistance) * projVelocityMult;
+                    if (playerDistance.Length() < 32f)
                     {
                         Projectile.Kill();
                     }
@@ -79,40 +79,39 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, Projectile.Center);
-            int num226 = 36;
-            for (int num227 = 0; num227 < num226; num227++)
+            int killDustAmt = 36;
+            for (int i = 0; i < killDustAmt; i++)
             {
                 Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / num226) + Projectile.Center;
+                vector6 = vector6.RotatedBy((i - (killDustAmt / 2 - 1)) * MathHelper.TwoPi / killDustAmt) + Projectile.Center;
                 Vector2 vector7 = vector6 - Projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 60, vector7.X, vector7.Y, 100, default, 1.4f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                int killLightningDust = Dust.NewDust(vector6 + vector7, 0, 0, 60, vector7.X, vector7.Y, 100, default, 1.4f);
+                Main.dust[killLightningDust].noGravity = true;
+                Main.dust[killLightningDust].noLight = true;
+                Main.dust[killLightningDust].velocity = vector7;
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                int num231 = (int)(Projectile.Center.Y / 16f);
-                int num232 = (int)(Projectile.Center.X / 16f);
-                int num233 = 100;
-                if (num232 < 10)
+                int projTileX = (int)(Projectile.Center.Y / 16f);
+                int projTileY = (int)(Projectile.Center.X / 16f);
+                if (projTileY < 10)
                 {
-                    num232 = 10;
+                    projTileY = 10;
                 }
-                if (num232 > Main.maxTilesX - 10)
+                if (projTileY > Main.maxTilesX - 10)
                 {
-                    num232 = Main.maxTilesX - 10;
+                    projTileY = Main.maxTilesX - 10;
                 }
-                if (num231 < 10)
+                if (projTileX < 10)
                 {
-                    num231 = 10;
+                    projTileX = 10;
                 }
-                if (num231 > Main.maxTilesY - num233 - 10)
+                if (projTileX > Main.maxTilesY - 110)
                 {
-                    num231 = Main.maxTilesY - num233 - 10;
+                    projTileX = Main.maxTilesY - 110;
                 }
-                float x = num232 * 16;
-                float y = num231 * 16 + 900;
+                float x = projTileY * 16;
+                float y = projTileX * 16 + 900;
                 Vector2 laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
                 int type = ModContent.ProjectileType<BirbAura>();
                 int damage = Projectile.GetProjectileDamage(ModContent.NPCType<Bumblefuck>());
@@ -125,9 +124,9 @@ namespace CalamityMod.Projectiles.Boss
                     }
                     laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
                     laserVelocity.Normalize();
-                    int num237 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), x, y, 0f, laserVelocity.Y, type, damage, 0f, Main.myPlayer, x, y);
-                    Main.projectile[num237].timeLeft = 900;
-                    Main.projectile[num237].netUpdate = true;
+                    int thirdPhaseRightLaser = Projectile.NewProjectile(Projectile.GetSource_FromThis(), x, y, 0f, laserVelocity.Y, type, damage, 0f, Main.myPlayer, x, y);
+                    Main.projectile[thirdPhaseRightLaser].timeLeft = 900;
+                    Main.projectile[thirdPhaseRightLaser].netUpdate = true;
 
                     x -= 2000f;
                     if ((int)(x / 16f) < 10)
@@ -136,15 +135,15 @@ namespace CalamityMod.Projectiles.Boss
                     }
                     laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
                     laserVelocity.Normalize();
-                    int num238 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), x, y, 0f, laserVelocity.Y, type, damage, 0f, Main.myPlayer, x, y);
-                    Main.projectile[num238].timeLeft = 900;
-                    Main.projectile[num238].netUpdate = true;
+                    int thirdPhaseLeftLaser = Projectile.NewProjectile(Projectile.GetSource_FromThis(), x, y, 0f, laserVelocity.Y, type, damage, 0f, Main.myPlayer, x, y);
+                    Main.projectile[thirdPhaseLeftLaser].timeLeft = 900;
+                    Main.projectile[thirdPhaseLeftLaser].netUpdate = true;
                 }
                 else
                 {
                     laserVelocity.Normalize();
-                    int num236 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), x, y, 0f, laserVelocity.Y, type, damage, 0f, Main.myPlayer, x, y);
-                    Main.projectile[num236].netUpdate = true;
+                    int secondPhaseLaser = Projectile.NewProjectile(Projectile.GetSource_FromThis(), x, y, 0f, laserVelocity.Y, type, damage, 0f, Main.myPlayer, x, y);
+                    Main.projectile[secondPhaseLaser].netUpdate = true;
                 }
             }
         }

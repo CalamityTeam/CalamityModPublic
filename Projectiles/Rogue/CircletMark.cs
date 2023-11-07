@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -37,34 +37,34 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (Projectile.localAI[1] < 30f)
             {
-                for (int num1134 = 0; num1134 < 1; num1134++)
+                for (int i = 0; i < 1; i++)
                 {
-                    float value79 = -0.5f;
-                    float value80 = 0.9f;
-                    float amount4 = Main.rand.NextFloat();
-                    Vector2 value81 = new Vector2(MathHelper.Lerp(0.1f, 1f, Main.rand.NextFloat()), MathHelper.Lerp(value79, value80, amount4));
-                    value81.X *= MathHelper.Lerp(2.2f, 0.6f, amount4);
-                    value81.X *= -1f;
-                    Vector2 value82 = new Vector2(2f, 10f);
-                    Vector2 position4 = Projectile.Center + new Vector2(60f, 200f) * value81 * 0.5f + value82;
-                    Dust dust34 = Main.dust[Dust.NewDust(position4, 0, 0, 269, 0f, 0f, 0, default, 0.5f)];
-                    dust34.position = position4;
-                    dust34.customData = Projectile.Center + value82;
-                    dust34.fadeIn = 1f;
-                    dust34.scale = 0.3f;
-                    if (value81.X > -1.2f)
+                    float lerpvalue1 = -0.5f;
+                    float lerpvalue2 = 0.9f;
+                    float randomLerp = Main.rand.NextFloat();
+                    Vector2 dustMovement = new Vector2(MathHelper.Lerp(0.1f, 1f, Main.rand.NextFloat()), MathHelper.Lerp(lerpvalue1, lerpvalue2, randomLerp));
+                    dustMovement.X *= MathHelper.Lerp(2.2f, 0.6f, randomLerp);
+                    dustMovement.X *= -1f;
+                    Vector2 dustMovement2 = new Vector2(2f, 10f);
+                    Vector2 position4 = Projectile.Center + new Vector2(60f, 200f) * dustMovement * 0.5f + dustMovement2;
+                    Dust dust = Main.dust[Dust.NewDust(position4, 0, 0, 269, 0f, 0f, 0, default, 0.5f)];
+                    dust.position = position4;
+                    dust.customData = Projectile.Center + dustMovement2;
+                    dust.fadeIn = 1f;
+                    dust.scale = 0.3f;
+                    if (dustMovement.X > -1.2f)
                     {
-                        dust34.velocity.X = 1f + Main.rand.NextFloat();
+                        dust.velocity.X = 1f + Main.rand.NextFloat();
                     }
-                    dust34.velocity.Y = Main.rand.NextFloat() * -0.5f - 1f;
+                    dust.velocity.Y = Main.rand.NextFloat() * -0.5f - 1f;
                 }
             }
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.localAI[0] = 0.8f;
                 Projectile.direction = 1;
-                Point point9 = Projectile.Center.ToTileCoordinates();
-                Projectile.Center = new Vector2((float)(point9.X * 16 + 8), (float)(point9.Y * 16 + 8));
+                Point projCenter = Projectile.Center.ToTileCoordinates();
+                Projectile.Center = new Vector2((float)(projCenter.X * 16 + 8), (float)(projCenter.Y * 16 + 8));
             }
             Projectile.rotation = Projectile.localAI[1] / 40f * 6.28318548f * (float)Projectile.direction;
             if (Projectile.localAI[1] < 33f)
@@ -93,30 +93,30 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Lighting.AddLight(Projectile.Center, newColor3.ToVector3() * 0.5f);
             }
-            for (int num1135 = 0; num1135 < 2; num1135++)
+            for (int j = 0; j < 2; j++)
             {
                 if (Main.rand.NextBool(10))
                 {
-                    Vector2 value83 = Vector2.UnitY.RotatedBy((double)((float)num1135 * 3.14159274f), default).RotatedBy((double)Projectile.rotation, default);
-                    Dust dust35 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 269, 0f, 0f, 225, newColor3, 1f)];
-                    dust35.noGravity = true;
-                    dust35.noLight = true;
-                    dust35.scale = Projectile.Opacity * Projectile.localAI[0];
-                    dust35.position = Projectile.Center;
-                    dust35.velocity = value83 * 2.5f;
+                    Vector2 dustVel = Vector2.UnitY.RotatedBy((double)((float)j * 3.14159274f), default).RotatedBy((double)Projectile.rotation, default);
+                    Dust dusty = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 269, 0f, 0f, 225, newColor3, 1f)];
+                    dusty.noGravity = true;
+                    dusty.noLight = true;
+                    dusty.scale = Projectile.Opacity * Projectile.localAI[0];
+                    dusty.position = Projectile.Center;
+                    dusty.velocity = dustVel * 2.5f;
                 }
             }
-            for (int num1136 = 0; num1136 < 2; num1136++)
+            for (int k = 0; k < 2; k++)
             {
                 if (Main.rand.NextBool(10))
                 {
-                    Vector2 value84 = Vector2.UnitY.RotatedBy((double)((float)num1136 * 3.14159274f), default);
-                    Dust dust36 = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 269, 0f, 0f, 225, newColor3, 1.5f)];
-                    dust36.noGravity = true;
-                    dust36.noLight = true;
-                    dust36.scale = Projectile.Opacity * Projectile.localAI[0];
-                    dust36.position = Projectile.Center;
-                    dust36.velocity = value84 * 2.5f;
+                    Vector2 dustVel2 = Vector2.UnitY.RotatedBy((double)((float)k * 3.14159274f), default);
+                    Dust dustier = Main.dust[Dust.NewDust(Projectile.Center, 0, 0, 269, 0f, 0f, 225, newColor3, 1.5f)];
+                    dustier.noGravity = true;
+                    dustier.noLight = true;
+                    dustier.scale = Projectile.Opacity * Projectile.localAI[0];
+                    dustier.position = Projectile.Center;
+                    dustier.velocity = dustVel2 * 2.5f;
                 }
             }
             if (Projectile.localAI[1] < 33f || Projectile.localAI[1] > 87f)
@@ -138,21 +138,21 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Color color25 = Lighting.GetColor((int)((double)Projectile.position.X + (double)Projectile.width * 0.5) / 16, (int)(((double)Projectile.position.Y + (double)Projectile.height * 0.5) / 16.0));
+            Color originalColor = Lighting.GetColor((int)((double)Projectile.position.X + (double)Projectile.width * 0.5) / 16, (int)(((double)Projectile.position.Y + (double)Projectile.height * 0.5) / 16.0));
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Vector2 vector38 = Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
+            Vector2 drawPos = Projectile.position + new Vector2((float)Projectile.width, (float)Projectile.height) / 2f + Vector2.UnitY * Projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D27 = ModContent.Request<Texture2D>(Texture).Value;
-            Rectangle rectangle11 = texture2D27.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
-            Color alpha5 = Projectile.GetAlpha(color25);
-            Vector2 origin7 = rectangle11.Size() / 2f;
-            Color color47 = Main.hslToRgb(0.25f, 1f, 1f).MultiplyRGBA(new Color(255, 255, 255, 0));
-            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), color47, 0f, origin7, new Vector2(1f, 5f) * Projectile.scale * 2f, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), alpha5, Projectile.rotation, origin7, Projectile.scale, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture2D27, vector38, new Microsoft.Xna.Framework.Rectangle?(rectangle11), alpha5, 0f, origin7, new Vector2(1f, 8f) * Projectile.scale, spriteEffects, 0);
+            Rectangle rectangle = texture2D27.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame);
+            Color alphaColor = Projectile.GetAlpha(originalColor);
+            Vector2 origin7 = rectangle.Size() / 2f;
+            Color sandyColor = Main.hslToRgb(0.25f, 1f, 1f).MultiplyRGBA(new Color(255, 255, 255, 0));
+            Main.spriteBatch.Draw(texture2D27, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), sandyColor, 0f, origin7, new Vector2(1f, 5f) * Projectile.scale * 2f, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture2D27, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), alphaColor, Projectile.rotation, origin7, Projectile.scale, spriteEffects, 0);
+            Main.spriteBatch.Draw(texture2D27, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), alphaColor, 0f, origin7, new Vector2(1f, 8f) * Projectile.scale, spriteEffects, 0);
             return false;
         }
     }

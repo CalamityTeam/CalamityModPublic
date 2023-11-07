@@ -8,7 +8,6 @@ using CalamityMod.ExtraJumps;
 using CalamityMod.Items;
 using CalamityMod.NPCs;
 using CalamityMod.Particles;
-using CalamityMod.Particles.Metaballs;
 using CalamityMod.Systems;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
@@ -579,13 +578,13 @@ namespace CalamityMod
         public static float AddMaxStealth(Player p, float add) => p is null ? 0f : (p.Calamity().rogueStealthMax += add);
 
         public static bool CanStealthStrike(Player p) => p?.Calamity()?.StealthStrikeAvailable() ?? false;
-        
+
         public static void SetStealthProjectile(Projectile projectile, bool enabled)
         {
             if (projectile != null)
                 projectile.Calamity().stealthStrike = enabled;
         }
-        
+
         public static bool GetStealthProjectile(Projectile projectile) => projectile?.Calamity()?.stealthStrike ?? false;
         #endregion
 
@@ -924,7 +923,7 @@ namespace CalamityMod
         #endregion
 
         #region Summoner Cross Class Nerf Disabling
-            public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
+        public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
         {
             if (disableNerf && !CalamityLists.DisabledSummonerNerfMinions.Contains(type))
             {
@@ -958,11 +957,11 @@ namespace CalamityMod
         #endregion
 
         #region Debuff Display support
-        public static void RegisterDebuff(Texture2D texture, Predicate<NPC> debuffCheck)
+        public static void RegisterDebuff(string texturePath, Predicate<NPC> debuffCheck)
         {
-            if (!CalamityGlobalNPC.debuffTextureList.Contains((texture, debuffCheck)))
+            if (!CalamityGlobalNPC.moddedDebuffTextureList.Contains((texturePath, debuffCheck)))
             {
-                CalamityGlobalNPC.debuffTextureList.Add((texture, debuffCheck));
+                CalamityGlobalNPC.moddedDebuffTextureList.Add((texturePath, debuffCheck));
             }
         }
         #endregion
@@ -1098,7 +1097,7 @@ namespace CalamityMod
                 case "AddDifficultyToUI":
                     if (args.Length < 2)
                         return new ArgumentException("ERROR: Not enough arguements provided");
-  
+
                     if (args[1] is not DifficultyMode mode)
                         return new ArgumentException("ERROR: A class inheriting from 'DifficultyMode' must be provided.");
                     AddCustomDifficulty(mode);
@@ -1112,7 +1111,7 @@ namespace CalamityMod
                 case "GetAbyssLightStrength":
                     if (args.Length < 2)
                         return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
-                    if(!isValidPlayerArg(args[1]))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The argument to \"GetLightStrength\" must be a Player or an int.");
                     return GetLightStrength(castPlayer(args[1]));
 
@@ -1153,7 +1152,7 @@ namespace CalamityMod
                 case "GetWearingRogueArmor":
                     if (args.Length < 2)
                         return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
-                    if(!isValidPlayerArg(args[1]))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The argument to \"GetRogueArmor\" must be a Player or an int.");
                     return GetWearingRogueArmor(castPlayer(args[1]));
 
@@ -1181,7 +1180,7 @@ namespace CalamityMod
                 case "GetWearingPostMoonLordSummonerArmor":
                     if (args.Length < 2)
                         return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
-                    if(!isValidPlayerArg(args[1]))
+                    if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The argument to \"GetPostMoonLordSummonerArmor\" must be a Player or an int.");
                     return GetWearingPostMLSummonerArmor(castPlayer(args[1]));
 
@@ -1716,7 +1715,7 @@ namespace CalamityMod
                 case "CanFirePointBlank":
                 case "CanFirePointBlankShots":
                     if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item in the Main.item array).");;
+                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item in the Main.item array)."); ;
                     if (!isValidItemArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"CanFirePointBlank\" must be an Item or an int.");
                     return CanFirePointBlank(castItem(args[1]));
@@ -1924,8 +1923,6 @@ namespace CalamityMod
                         return new ArgumentNullException("ERROR: Must specify a Mod instance to load particles from.");
 
                     GeneralParticleHandler.LoadModParticleInstances(args[1] as Mod);
-                    FusableParticleManager.ExtraModsToLoadSetsFrom.Add(args[1] as Mod);
-                    FusableParticleManager.LoadParticleRenderSets(true);
                     return null;
 
                 case "RegisterModCooldowns":
@@ -2003,11 +2000,11 @@ namespace CalamityMod
                 case "DisplayDebuff":
                 case "DebuffIcon":
                     {
-                        if (args.Length < 2 || args[1] is not Texture2D texture)
-                            return new ArgumentException("ERROR: The first argument to \"RegisterDebuff\" must be the texture of a debuff as a Texture2D");
+                        if (args.Length < 2 || args[1] is not string texturePath)
+                            return new ArgumentException("ERROR: The first argument to \"RegisterDebuff\" must be the texture path to the debuff sprite as a string");
                         if (args.Length != 3 || args[2] is not Predicate<NPC> debuffCheck)
                             return new ArgumentException("ERROR: The second argument to \"RegisterDebuff\" Must be a Predicate<NPC> that checks if an NPC meets the conditions for the debuff.");
-                        RegisterDebuff(texture, debuffCheck);
+                        RegisterDebuff(texturePath, debuffCheck);
                         return null;
                     }
 

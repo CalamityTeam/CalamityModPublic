@@ -71,14 +71,14 @@ namespace CalamityMod.NPCs.Cryogen
 
             if (NPC.type == ModContent.NPCType<CryogenShield>())
             {
-                int num989 = (int)NPC.ai[0];
-                if (Main.npc[num989].active && Main.npc[num989].type == ModContent.NPCType<Cryogen>())
+                int mainCryogen = (int)NPC.ai[0];
+                if (Main.npc[mainCryogen].active && Main.npc[mainCryogen].type == ModContent.NPCType<Cryogen>())
                 {
                     NPC.velocity = Vector2.Zero;
-                    NPC.position = Main.npc[num989].Center;
-                    NPC.ai[1] = Main.npc[num989].velocity.X;
-                    NPC.ai[2] = Main.npc[num989].velocity.Y;
-                    NPC.ai[3] = Main.npc[num989].target;
+                    NPC.position = Main.npc[mainCryogen].Center;
+                    NPC.ai[1] = Main.npc[mainCryogen].velocity.X;
+                    NPC.ai[2] = Main.npc[mainCryogen].velocity.Y;
+                    NPC.ai[3] = Main.npc[mainCryogen].target;
                     NPC.position.X = NPC.position.X - (NPC.width / 2);
                     NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                     return;
@@ -95,18 +95,18 @@ namespace CalamityMod.NPCs.Cryogen
         {
             Rectangle targetHitbox = target.Hitbox;
 
-            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
+            float hitboxTopLeft = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float hitboxTopRight = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float hitboxBotLeft = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float hitboxBotRight = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
 
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
+            float minDist = hitboxTopLeft;
+            if (hitboxTopRight < minDist)
+                minDist = hitboxTopRight;
+            if (hitboxBotLeft < minDist)
+                minDist = hitboxBotLeft;
+            if (hitboxBotRight < minDist)
+                minDist = hitboxBotRight;
 
             return minDist <= (100f * NPC.scale) && NPC.Opacity == 1f;
         }
@@ -156,6 +156,8 @@ namespace CalamityMod.NPCs.Cryogen
             }
         }
 
+        public override bool CheckActive() => false;
+
         public override void HitEffect(NPC.HitInfo hit)
         {
             int dusttype = Main.zenithWorld ? 235 : 67;
@@ -165,24 +167,24 @@ namespace CalamityMod.NPCs.Cryogen
             }
             if (NPC.life <= 0)
             {
-                for (int num621 = 0; num621 < 25; num621++)
+                for (int i = 0; i < 25; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int icyDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
+                    Main.dust[icyDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[icyDust].scale = 0.5f;
+                        Main.dust[icyDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
 
-                for (int num623 = 0; num623 < 50; num623++)
+                for (int j = 0; j < 50; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int icyDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 3f);
+                    Main.dust[icyDust2].noGravity = true;
+                    Main.dust[icyDust2].velocity *= 5f;
+                    icyDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
+                    Main.dust[icyDust2].velocity *= 2f;
                 }
 
                 if (Main.netMode != NetmodeID.Server && !Main.zenithWorld)
@@ -192,11 +194,11 @@ namespace CalamityMod.NPCs.Cryogen
                     Vector2 spinningPoint = new Vector2(0f, -1f);
                     for (int k = 0; k < totalGores; k++)
                     {
-                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+                        Vector2 goreRotation = spinningPoint.RotatedBy(radians * k);
                         for (int x = 1; x <= 4; x++)
                         {
                             float randomSpread = Main.rand.Next(-200, 201) / 100f;
-                            Gore.NewGore(NPC.GetSource_Death(), NPC.Center + Vector2.Normalize(vector255) * 80f, vector255 * new Vector2(NPC.ai[1], NPC.ai[2]) * randomSpread, Mod.Find<ModGore>("CryoShieldGore" + x).Type, NPC.scale);
+                            Gore.NewGore(NPC.GetSource_Death(), NPC.Center + Vector2.Normalize(goreRotation) * 80f, goreRotation * new Vector2(NPC.ai[1], NPC.ai[2]) * randomSpread, Mod.Find<ModGore>("CryoShieldGore" + x).Type, NPC.scale);
                         }
                     }
                 }

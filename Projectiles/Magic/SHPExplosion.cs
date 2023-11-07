@@ -25,31 +25,31 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight(Projectile.Center, 5f * num, 1f * num, 4f * num);
-            float num461 = 25f;
+            float lights = (float)Main.rand.Next(90, 111) * 0.01f;
+            lights *= Main.essScale;
+            Lighting.AddLight(Projectile.Center, 5f * lights, 1f * lights, 4f * lights);
+            float projTimer = 25f;
             if (Projectile.ai[0] > 180f)
             {
-                num461 -= (Projectile.ai[0] - 180f) / 2f;
+                projTimer -= (Projectile.ai[0] - 180f) / 2f;
             }
-            if (num461 <= 0f)
+            if (projTimer <= 0f)
             {
-                num461 = 0f;
+                projTimer = 0f;
                 Projectile.Kill();
             }
-            num461 *= 0.7f;
+            projTimer *= 0.7f;
             Projectile.ai[0] += 4f;
-            int num462 = 0;
-            while ((float)num462 < num461)
+            int timerCounter = 0;
+            while ((float)timerCounter < projTimer)
             {
-                float num463 = (float)Main.rand.Next(-40, 41);
-                float num464 = (float)Main.rand.Next(-40, 41);
-                float num465 = (float)Main.rand.Next(12, 36);
-                float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
-                num466 = num465 / num466;
-                num463 *= num466;
-                num464 *= num466;
+                float rando1 = (float)Main.rand.Next(-40, 41);
+                float rando2 = (float)Main.rand.Next(-40, 41);
+                float rando3 = (float)Main.rand.Next(12, 36);
+                float randoAdjust = (float)Math.Sqrt((double)(rando1 * rando1 + rando2 * rando2));
+                randoAdjust = rando3 / randoAdjust;
+                rando1 *= randoAdjust;
+                rando2 *= randoAdjust;
                 int randomDust = Main.rand.Next(3);
                 if (randomDust == 0)
                 {
@@ -63,17 +63,17 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     randomDust = 187;
                 }
-                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDust, 0f, 0f, 100, default, 2f);
-                Main.dust[num467].noGravity = true;
-                Main.dust[num467].position.X = Projectile.Center.X;
-                Main.dust[num467].position.Y = Projectile.Center.Y;
-                Dust expr_149DF_cp_0 = Main.dust[num467];
+                int EXPLODE = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, randomDust, 0f, 0f, 100, default, 2f);
+                Main.dust[EXPLODE].noGravity = true;
+                Main.dust[EXPLODE].position.X = Projectile.Center.X;
+                Main.dust[EXPLODE].position.Y = Projectile.Center.Y;
+                Dust expr_149DF_cp_0 = Main.dust[EXPLODE];
                 expr_149DF_cp_0.position.X += (float)Main.rand.Next(-10, 11);
-                Dust expr_14A09_cp_0 = Main.dust[num467];
+                Dust expr_14A09_cp_0 = Main.dust[EXPLODE];
                 expr_14A09_cp_0.position.Y += (float)Main.rand.Next(-10, 11);
-                Main.dust[num467].velocity.X = num463;
-                Main.dust[num467].velocity.Y = num464;
-                num462++;
+                Main.dust[EXPLODE].velocity.X = rando1;
+                Main.dust[EXPLODE].velocity.Y = rando2;
+                timerCounter++;
             }
         }
     }

@@ -63,25 +63,25 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.damage /= 4;
                 Projectile.usesLocalNPCImmunity = true;
                 Projectile.localNPCHitCooldown = 10;
-                for (int num194 = 0; num194 < 10; num194++)
+                for (int i = 0; i < 10; i++)
                 {
-                    int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 229, 0f, 0f, 0, default, 1.5f);
-                    Main.dust[num195].noGravity = true;
-                    Main.dust[num195].velocity *= 3f;
-                    num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 229, 0f, 0f, 100, default, 1f);
-                    Main.dust[num195].velocity *= 2f;
-                    Main.dust[num195].noGravity = true;
+                    int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 229, 0f, 0f, 0, default, 1.5f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].velocity *= 3f;
+                    dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 229, 0f, 0f, 100, default, 1f);
+                    Main.dust[dust].velocity *= 2f;
+                    Main.dust[dust].noGravity = true;
                 }
                 Projectile.Damage();
             }
             else
             {
-                for (int i = 0; i < 5; i++)
+                for (int j = 0; j < 5; j++)
                 {
-                    int num304 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 265, 0f, 0f, 100, default, 1f);
-                    Main.dust[num304].noGravity = true;
-                    Main.dust[num304].velocity *= 1.2f;
-                    Main.dust[num304].velocity -= Projectile.oldVelocity * 0.3f;
+                    int dusty = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 265, 0f, 0f, 100, default, 1f);
+                    Main.dust[dusty].noGravity = true;
+                    Main.dust[dusty].velocity *= 1.2f;
+                    Main.dust[dusty].velocity -= Projectile.oldVelocity * 0.3f;
                 }
             }
         }

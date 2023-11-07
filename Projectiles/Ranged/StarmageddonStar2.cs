@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Ranged
                             float dustVelocityX = Main.rand.NextFloat(-StarmageddonBinaryStarCenter.ParticleSpreadMax, StarmageddonBinaryStarCenter.ParticleSpreadMax);
                             float dustVelocityY = top ? -StarmageddonBinaryStarCenter.ParticleVelocityMax : StarmageddonBinaryStarCenter.ParticleVelocityMax;
                             Vector2 dustVelocity = new Vector2(dustVelocityX, dustVelocityY);
-                            GeneralParticleHandler.SpawnParticle(new SparkParticle(Projectile.Center + Vector2.Normalize(dustVelocity) * StarmageddonBinaryStarCenter.ParticleSpawnOffset, dustVelocity, false, 180, 1f, Color.Cyan));
+                            GeneralParticleHandler.SpawnParticle(new SparkParticle(Projectile.Center + Vector2.Normalize(dustVelocity) * StarmageddonBinaryStarCenter.ParticleSpawnOffset, dustVelocity, false, 60, 1.2f, Color.Cyan));
                         }
                     }
 
@@ -123,14 +123,14 @@ namespace CalamityMod.Projectiles.Ranged
 
                             for (int l = 0; l < 12; l++)
                             {
-                                Vector2 vector3 = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
-                                vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * MathHelper.Pi / 6f), default) * new Vector2(8f, 16f);
-                                vector3 = vector3.RotatedBy((double)(speed.ToRotation()), default);
-                                int num9 = Dust.NewDust(position, 0, 0, 221, 0f, 0f, 0, default, 1f);
-                                Main.dust[num9].noGravity = true;
-                                Main.dust[num9].position = position + vector3;
-                                Main.dust[num9].velocity = speed * 0.1f;
-                                Main.dust[num9].velocity = Vector2.Normalize(position - speed * 3f - Main.dust[num9].position) * 1.25f;
+                                Vector2 dustVel = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
+                                dustVel += -Vector2.UnitY.RotatedBy((double)((float)l * MathHelper.Pi / 6f), default) * new Vector2(8f, 16f);
+                                dustVel = dustVel.RotatedBy((double)(speed.ToRotation()), default);
+                                int starDust = Dust.NewDust(position, 0, 0, 221, 0f, 0f, 0, default, 1f);
+                                Main.dust[starDust].noGravity = true;
+                                Main.dust[starDust].position = position + dustVel;
+                                Main.dust[starDust].velocity = speed * 0.1f;
+                                Main.dust[starDust].velocity = Vector2.Normalize(position - speed * 3f - Main.dust[starDust].position) * 1.25f;
                             }
 
                             int type = Utils.SelectRandom(Main.rand, new int[]
@@ -183,18 +183,18 @@ namespace CalamityMod.Projectiles.Ranged
 
             for (int i = 0; i < 4; i++)
             {
-                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 160, 0f, 0f, 100, default(Color), 1.5f);
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 135, 0f, 0f, 100, default(Color), 1.5f);
                 Main.dust[dust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
             }
 
             for (int i = 0; i < 30; i++)
             {
-                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 229, 0f, 0f, 200, default(Color), 3.7f);
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 135, 0f, 0f, 200, default(Color), 3.7f);
                 Main.dust[dust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
                 Main.dust[dust].noGravity = true;
                 Dust dust2 = Main.dust[dust];
                 dust2.velocity *= 3f;
-                dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 229, 0f, 0f, 100, default(Color), 1.5f);
+                dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 135, 0f, 0f, 100, default(Color), 1.5f);
                 Main.dust[dust].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * Projectile.width / 2f;
                 dust2 = Main.dust[dust];
                 dust2.velocity *= 2f;
@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             for (int i = 0; i < 10; i++)
             {
-                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 229, 0f, 0f, 0, default(Color), 2.7f);
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 135, 0f, 0f, 0, default(Color), 2.7f);
                 Main.dust[dust].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
                 Main.dust[dust].noGravity = true;
                 Dust dust2 = Main.dust[dust];
@@ -213,7 +213,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             for (int i = 0; i < 10; i++)
             {
-                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 160, 0f, 0f, 0, default(Color), 1.5f);
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 303, 0f, 0f, 0, default(Color), 1.5f);
                 Main.dust[dust].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(MathHelper.Pi).RotatedBy(Projectile.velocity.ToRotation()) * Projectile.width / 2f;
                 Main.dust[dust].noGravity = true;
                 Dust dust2 = Main.dust[dust];

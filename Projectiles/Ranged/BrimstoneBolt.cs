@@ -47,14 +47,14 @@ namespace CalamityMod.Projectiles.Ranged
             Lighting.AddLight(Projectile.Center, 0.7f, 0f, 0f);
             if (Projectile.localAI[0] > 2f)
             {
-                for (int num121 = 0; num121 < 5; num121++)
+                for (int i = 0; i < 5; i++)
                 {
-                    Dust dust4 = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f)];
-                    dust4.velocity = Vector2.Zero;
-                    dust4.position -= Projectile.velocity / 5f * (float)num121;
-                    dust4.noGravity = true;
-                    dust4.scale = 0.8f;
-                    dust4.noLight = true;
+                    Dust dusty = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1f)];
+                    dusty.velocity = Vector2.Zero;
+                    dusty.position -= Projectile.velocity / 5f * (float)i;
+                    dusty.noGravity = true;
+                    dusty.scale = 0.8f;
+                    dusty.noLight = true;
                 }
             }
             else

@@ -433,78 +433,76 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                 Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
                 Texture2D texture2D16 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianHealerGlow2").Value;
-                Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
-                Color color36 = Color.White;
-                float amount9 = 0.5f;
-                int num153 = 5;
+                Vector2 halfSizeTexture = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
+                int afterimageAmt = 5;
 
                 if (CalamityConfig.Instance.Afterimages)
                 {
-                    for (int num155 = 1; num155 < num153; num155 += 2)
+                    for (int i = 1; i < afterimageAmt; i += 2)
                     {
-                        Color color38 = drawColor;
-                        color38 = Color.Lerp(color38, color36, amount9);
-                        color38 = NPC.GetAlpha(color38);
-                        color38 *= (num153 - num155) / 15f;
+                        Color afterimageColor = drawColor;
+                        afterimageColor = Color.Lerp(afterimageColor, Color.White, 0.5f);
+                        afterimageColor = NPC.GetAlpha(afterimageColor);
+                        afterimageColor *= (afterimageAmt - i) / 15f;
                         if (colorOverride != null)
-                            color38 = colorOverride.Value;
+                            afterimageColor = colorOverride.Value;
 
-                        Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                        vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                        vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
-                        spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                        Vector2 afterimagePos = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                        afterimagePos -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                        afterimagePos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
+                        spriteBatch.Draw(texture2D15, afterimagePos, NPC.frame, afterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
                     }
                 }
 
-                Vector2 vector43 = NPC.Center - screenPos;
-                vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
-                spriteBatch.Draw(texture2D15, vector43, NPC.frame, colorOverride ?? NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                Vector2 drawLocation = NPC.Center - screenPos;
+                drawLocation -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
+                spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, colorOverride ?? NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
                 texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianHealerGlow").Value;
-                Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+                Color timeBasedDrawColor = Color.Lerp(Color.White, Color.Yellow, 0.5f);
                 if (Main.remixWorld)
                 {
                     texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianHealerGlowNight").Value;
-                    color37 = Color.Cyan;
+                    timeBasedDrawColor = Color.Cyan;
                 }
-                Color color42 = Color.Lerp(Color.White, Color.Violet, 0.5f);
+                Color overrideColor = Color.Lerp(Color.White, Color.Violet, 0.5f);
                 if (colorOverride != null)
                 {
-                    color37 = colorOverride.Value;
-                    color42 = colorOverride.Value;
+                    timeBasedDrawColor = colorOverride.Value;
+                    overrideColor = colorOverride.Value;
                 }
 
                 if (CalamityConfig.Instance.Afterimages)
                 {
-                    for (int num163 = 1; num163 < num153; num163++)
+                    for (int j = 1; j < afterimageAmt; j++)
                     {
-                        Color color41 = color37;
-                        color41 = Color.Lerp(color41, color36, amount9);
-                        color41 = NPC.GetAlpha(color41);
-                        color41 *= (num153 - num163) / 15f;
+                        Color timeBasedAfterimageColor = timeBasedDrawColor;
+                        timeBasedAfterimageColor = Color.Lerp(timeBasedAfterimageColor, Color.White, 0.5f);
+                        timeBasedAfterimageColor = NPC.GetAlpha(timeBasedAfterimageColor);
+                        timeBasedAfterimageColor *= (afterimageAmt - j) / 15f;
                         if (colorOverride != null)
-                            color41 = colorOverride.Value;
+                            timeBasedAfterimageColor = colorOverride.Value;
 
-                        Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                        vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                        vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
-                        spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                        Vector2 timeBasedAfterimagePos = NPC.oldPos[j] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                        timeBasedAfterimagePos -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                        timeBasedAfterimagePos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY) + drawOffset;
+                        spriteBatch.Draw(texture2D15, timeBasedAfterimagePos, NPC.frame, timeBasedAfterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
-                        Color color43 = color42;
-                        color43 = Color.Lerp(color43, color36, amount9);
-                        color43 = NPC.GetAlpha(color43);
-                        color43 *= (num153 - num163) / 15f;
+                        Color alphaOverrideColor = overrideColor;
+                        alphaOverrideColor = Color.Lerp(alphaOverrideColor, Color.White, 0.5f);
+                        alphaOverrideColor = NPC.GetAlpha(alphaOverrideColor);
+                        alphaOverrideColor *= (afterimageAmt - j) / 15f;
                         if (colorOverride != null)
-                            color43 = colorOverride.Value;
+                            alphaOverrideColor = colorOverride.Value;
 
-                        spriteBatch.Draw(texture2D16, vector44, NPC.frame, color43, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                        spriteBatch.Draw(texture2D16, timeBasedAfterimagePos, NPC.frame, alphaOverrideColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
                     }
                 }
 
-                spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, timeBasedDrawColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
-                spriteBatch.Draw(texture2D16, vector43, NPC.frame, color42, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                spriteBatch.Draw(texture2D16, drawLocation, NPC.frame, overrideColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
             }
 
             // Draw laser effects
@@ -554,18 +552,18 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             Rectangle targetHitbox = target.Hitbox;
 
-            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
+            float hitboxTopLeft = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float hitboxTopRight = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float hitboxBotLeft = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float hitboxBotRight = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
 
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
+            float minDist = hitboxTopLeft;
+            if (hitboxTopRight < minDist)
+                minDist = hitboxTopRight;
+            if (hitboxBotLeft < minDist)
+                minDist = hitboxBotLeft;
+            if (hitboxBotRight < minDist)
+                minDist = hitboxBotRight;
 
             return minDist <= 80f;
         }

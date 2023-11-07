@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -52,9 +52,9 @@ namespace CalamityMod.Projectiles.Ranged
                     dustType = 57;
                     break;
             }
-            int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2.2f);
-            Main.dust[num469].noGravity = true;
-            Main.dust[num469].velocity *= 0f;
+            int addedDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2.2f);
+            Main.dust[addedDust].noGravity = true;
+            Main.dust[addedDust].velocity *= 0f;
 
             CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
@@ -65,11 +65,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnKill(int timeLeft)
         {
             int height = 40;
-            float num50 = 2.1f;
-            float num51 = 1.1f;
-            float num52 = 2.5f;
-            Vector2 value3 = (Projectile.rotation - 1.57079637f).ToRotationVector2();
-            Vector2 value4 = value3 * Projectile.velocity.Length() * (float)Projectile.MaxUpdates;
+            Vector2 dustRotation = (Projectile.rotation - 1.57079637f).ToRotationVector2();
+            Vector2 dustVel = dustRotation * Projectile.velocity.Length() * (float)Projectile.MaxUpdates;
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = height;
@@ -80,36 +77,36 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.localNPCHitCooldown = 10;
             Projectile.damage /= 2;
             Projectile.Damage();
-            int num3;
-            for (int num53 = 0; num53 < 20; num53 = num3 + 1)
+            int inc;
+            for (int i = 0; i < 20; i = inc + 1)
             {
-                int num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 200, default, num50);
-                Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
-                Main.dust[num54].noGravity = true;
-                Dust dust = Main.dust[num54];
+                int dustID = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 200, default, 2.1f);
+                Main.dust[dustID].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
+                Main.dust[dustID].noGravity = true;
+                Dust dust = Main.dust[dustID];
                 dust.velocity *= 3f;
-                dust = Main.dust[num54];
-                dust.velocity += value4 * Main.rand.NextFloat();
-                num54 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, num51);
-                Main.dust[num54].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
-                dust = Main.dust[num54];
+                dust = Main.dust[dustID];
+                dust.velocity += dustVel * Main.rand.NextFloat();
+                dustID = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 1.1f);
+                Main.dust[dustID].position = Projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)Projectile.width / 2f;
+                dust = Main.dust[dustID];
                 dust.velocity *= 2f;
-                Main.dust[num54].noGravity = true;
-                Main.dust[num54].fadeIn = 1f;
-                dust = Main.dust[num54];
-                dust.velocity += value4 * Main.rand.NextFloat();
-                num3 = num53;
+                Main.dust[dustID].noGravity = true;
+                Main.dust[dustID].fadeIn = 1f;
+                dust = Main.dust[dustID];
+                dust.velocity += dustVel * Main.rand.NextFloat();
+                inc = i;
             }
-            for (int num55 = 0; num55 < 10; num55 = num3 + 1)
+            for (int j = 0; j < 10; j = inc + 1)
             {
-                int num56 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, num52);
-                Main.dust[num56].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 3f;
-                Main.dust[num56].noGravity = true;
-                Dust dust = Main.dust[num56];
+                int dustID = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
+                Main.dust[dustID].position = Projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)Projectile.velocity.ToRotation(), default) * (float)Projectile.width / 3f;
+                Main.dust[dustID].noGravity = true;
+                Dust dust = Main.dust[dustID];
                 dust.velocity *= 0.5f;
-                dust = Main.dust[num56];
-                dust.velocity += value4 * (0.6f + 0.6f * Main.rand.NextFloat());
-                num3 = num55;
+                dust = Main.dust[dustID];
+                dust.velocity += dustVel * (0.6f + 0.6f * Main.rand.NextFloat());
+                inc = j;
             }
         }
     }

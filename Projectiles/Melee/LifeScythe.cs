@@ -33,9 +33,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            float num395 = Main.mouseTextColor / 200f - 0.35f;
-            num395 *= 0.2f;
-            Projectile.scale = num395 + 0.95f;
+            float scaling = Main.mouseTextColor / 200f - 0.35f;
+            scaling *= 0.2f;
+            Projectile.scale = scaling + 0.95f;
 
             Lighting.AddLight(Projectile.Center, 0.1f, 0.5f, 0.15f);
         }

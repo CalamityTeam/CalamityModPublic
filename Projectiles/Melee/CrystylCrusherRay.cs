@@ -242,44 +242,44 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.owner == Main.myPlayer)
             {
                 Vector2 destroyVector = Projectile.Center + Projectile.velocity * (Distance - MOVE_DISTANCE);
-                int num814 = 3;
-                int num815 = (int)(destroyVector.X / 16f - num814);
-                int num816 = (int)(destroyVector.X / 16f + num814);
-                int num817 = (int)(destroyVector.Y / 16f - num814);
-                int num818 = (int)(destroyVector.Y / 16f + num814);
-                if (num815 < 0)
+                int threeMod = 3;
+                int mineXLeft = (int)(destroyVector.X / 16f - threeMod);
+                int mineXRight = (int)(destroyVector.X / 16f + threeMod);
+                int mineXUp = (int)(destroyVector.Y / 16f - threeMod);
+                int mineXDown = (int)(destroyVector.Y / 16f + threeMod);
+                if (mineXLeft < 0)
                 {
-                    num815 = 0;
+                    mineXLeft = 0;
                 }
-                if (num816 > Main.maxTilesX)
+                if (mineXRight > Main.maxTilesX)
                 {
-                    num816 = Main.maxTilesX;
+                    mineXRight = Main.maxTilesX;
                 }
-                if (num817 < 0)
+                if (mineXUp < 0)
                 {
-                    num817 = 0;
+                    mineXUp = 0;
                 }
-                if (num818 > Main.maxTilesY)
+                if (mineXDown > Main.maxTilesY)
                 {
-                    num818 = Main.maxTilesY;
+                    mineXDown = Main.maxTilesY;
                 }
                 AchievementsHelper.CurrentlyMining = true;
-                for (int num824 = num815; num824 <= num816; num824++)
+                for (int i = mineXLeft; i <= mineXRight; i++)
                 {
-                    for (int num825 = num817; num825 <= num818; num825++)
+                    for (int j = mineXUp; j <= mineXDown; j++)
                     {
-                        float num826 = Math.Abs(num824 - destroyVector.X / 16f);
-                        float num827 = Math.Abs(num825 - destroyVector.Y / 16f);
-                        double num828 = Math.Sqrt(num826 * num826 + num827 * num827);
-                        if (num828 < num814)
+                        float destroyTileX = Math.Abs(i - destroyVector.X / 16f);
+                        float destroyTileY = Math.Abs(j - destroyVector.Y / 16f);
+                        double destroyTileArea = Math.Sqrt(destroyTileX * destroyTileX + destroyTileY * destroyTileY);
+                        if (destroyTileArea < threeMod)
                         {
-                            if (Main.tile[num824, num825] != null && Main.tile[num824, num825].HasTile)
+                            if (Main.tile[i, j] != null && Main.tile[i, j].HasTile)
                             {
-                                WorldGen.KillTile(num824, num825, false, false, false);
+                                WorldGen.KillTile(i, j, false, false, false);
                                 DustExplosion(destroyVector);
-                                if (!Main.tile[num824, num825].HasTile && Main.netMode != NetmodeID.SinglePlayer)
+                                if (!Main.tile[i, j].HasTile && Main.netMode != NetmodeID.SinglePlayer)
                                 {
-                                    NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, num824, num825, 0f, 0, 0, 0);
+                                    NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, i, j, 0f, 0, 0, 0);
                                 }
                             }
                         }
@@ -291,8 +291,8 @@ namespace CalamityMod.Projectiles.Melee
 
         private void DustExplosion(Vector2 vector)
         {
-            int num226 = 12;
-            for (int num227 = 0; num227 < num226; num227++)
+            int dustAmt = 12;
+            for (int k = 0; k < dustAmt; k++)
             {
                 int dustType = Main.rand.Next(3);
                 switch (dustType)
@@ -309,13 +309,13 @@ namespace CalamityMod.Projectiles.Melee
                     default:
                         break;
                 }
-                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / num226, default) + vector;
-                Vector2 vector7 = vector6 - vector;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, dustType, vector7.X * 0.5f, vector7.Y * 0.5f, 100, new Color(Main.DiscoR, 0, 255), 1f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                Vector2 rotate = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * 0.75f;
+                rotate = rotate.RotatedBy((k - (dustAmt / 2 - 1)) * MathHelper.TwoPi / dustAmt, default) + vector;
+                Vector2 faceDirection = rotate - vector;
+                int explosionDust = Dust.NewDust(rotate + faceDirection, 0, 0, dustType, faceDirection.X * 0.5f, faceDirection.Y * 0.5f, 100, new Color(Main.DiscoR, 0, 255), 1f);
+                Main.dust[explosionDust].noGravity = true;
+                Main.dust[explosionDust].noLight = true;
+                Main.dust[explosionDust].velocity = faceDirection;
             }
         }
     }

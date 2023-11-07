@@ -30,14 +30,14 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.velocity.Y *= 1.01f;
             if (Projectile.ai[1] == 0f)
             {
-                for (int num621 = 0; num621 < 5; num621++)
+                for (int i = 0; i < 5; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 2f);
+                    Main.dust[dust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[dust].scale = 0.5f;
+                        Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
                 Projectile.ai[1] = 1f;

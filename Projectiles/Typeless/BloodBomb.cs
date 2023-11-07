@@ -29,12 +29,12 @@ namespace CalamityMod.Projectiles.Typeless
                 SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
                 Projectile.localAI[0] += 1f;
             }
-            for (int num457 = 0; num457 < 3; num457++)
+            for (int j = 0; j < 3; j++)
             {
-                int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num458].noGravity = true;
-                Main.dust[num458].velocity *= 0.5f;
-                Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+                int bloody = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 1.2f);
+                Main.dust[bloody].noGravity = true;
+                Main.dust[bloody].velocity *= 0.5f;
+                Main.dust[bloody].velocity += Projectile.velocity * 0.1f;
             }
         }
 

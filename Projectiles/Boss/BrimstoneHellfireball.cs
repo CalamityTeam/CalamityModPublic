@@ -67,10 +67,10 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.localAI[0] += 1f;
             }
 
-            int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 170, default, 1.1f);
-            Main.dust[num458].noGravity = true;
-            Main.dust[num458].velocity *= 0.5f;
-            Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+            int brimDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 170, default, 1.1f);
+            Main.dust[brimDust].noGravity = true;
+            Main.dust[brimDust].velocity *= 0.5f;
+            Main.dust[brimDust].velocity += Projectile.velocity * 0.1f;
         }
 
         public override Color? GetAlpha(Color lightColor)

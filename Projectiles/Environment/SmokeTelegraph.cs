@@ -27,11 +27,11 @@ namespace CalamityMod.Projectiles.Environment
 
         public override void AI()
         {
-            int num1 = Math.Sign(Projectile.velocity.Y);
-            int num2 = num1 == -1 ? 0 : 1;
+            int isActive = Math.Sign(Projectile.velocity.Y);
+            int dustCustomData = isActive == -1 ? 0 : 1;
             if (Projectile.ai[0] == 0f)
             {
-                if (!Collision.SolidCollision(Projectile.position + new Vector2(0f, num1 == -1 ? (float) (Projectile.height - 48) : 0f), Projectile.width, 48) && !Collision.WetCollision(Projectile.position + new Vector2(0f, num1 == -1 ? (float) (Projectile.height - 20) : 0f), Projectile.width, 20))
+                if (!Collision.SolidCollision(Projectile.position + new Vector2(0f, isActive == -1 ? (float) (Projectile.height - 48) : 0f), Projectile.width, 48) && !Collision.WetCollision(Projectile.position + new Vector2(0f, isActive == -1 ? (float) (Projectile.height - 20) : 0f), Projectile.width, 20))
                 {
                     Projectile.velocity = new Vector2(0f, (float) Math.Sign(Projectile.velocity.Y) * (1f / 1000f));
                     Projectile.ai[0] = 1f;
@@ -43,13 +43,13 @@ namespace CalamityMod.Projectiles.Environment
                 if (Projectile.ai[1] >= 60f)
                     Projectile.Kill();
 
-                for (int index1 = 0; index1 < 3; ++index1)
+                for (int i = 0; i < 3; ++i)
                 {
-                    int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, new Color(), 1f);
-                    Main.dust[index2].scale = 0.1f + Main.rand.Next(5) * 0.1f;
-                    Main.dust[index2].fadeIn = 1.5f + Main.rand.Next(5) * 0.1f;
-                    Main.dust[index2].noGravity = true;
-                    Main.dust[index2].position = Projectile.Center + new Vector2(0f, (float) (-Projectile.height / 2)).RotatedBy((double)Projectile.rotation, new Vector2()) * 1.1f;
+                    int smoky = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 100, new Color(), 1f);
+                    Main.dust[smoky].scale = 0.1f + Main.rand.Next(5) * 0.1f;
+                    Main.dust[smoky].fadeIn = 1.5f + Main.rand.Next(5) * 0.1f;
+                    Main.dust[smoky].noGravity = true;
+                    Main.dust[smoky].position = Projectile.Center + new Vector2(0f, (float) (-Projectile.height / 2)).RotatedBy((double)Projectile.rotation, new Vector2()) * 1.1f;
                 }
             }
 
@@ -58,21 +58,21 @@ namespace CalamityMod.Projectiles.Environment
 
             Projectile.velocity = new Vector2(0f, (float) Math.Sign(Projectile.velocity.Y) * (1f / 1000f));
 
-            if (num1 != 0)
+            if (isActive != 0)
             {
-                int num3 = 16;
-                int num4 = 320;
-                while (num3 < num4 && !Collision.SolidCollision(Projectile.position + new Vector2(0f, num1 == -1 ? (float)(Projectile.height - num3 - 16) : 0f), Projectile.width, num3 + 16))
-                    num3 += 16;
+                int heightIncrease = 16;
+                int maxHeight = 320;
+                while (heightIncrease < maxHeight && !Collision.SolidCollision(Projectile.position + new Vector2(0f, isActive == -1 ? (float)(Projectile.height - heightIncrease - 16) : 0f), Projectile.width, heightIncrease + 16))
+                    heightIncrease += 16;
 
-                if (num1 == -1)
+                if (isActive == -1)
                 {
                     Projectile.position.Y += (float)Projectile.height;
-                    Projectile.height = num3;
-                    Projectile.position.Y -= (float)num3;
+                    Projectile.height = heightIncrease;
+                    Projectile.position.Y -= (float)heightIncrease;
                 }
                 else
-                    Projectile.height = num3;
+                    Projectile.height = heightIncrease;
             }
 
             Projectile.ai[1] += 1f;
@@ -82,52 +82,52 @@ namespace CalamityMod.Projectiles.Environment
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.localAI[0] = 1f;
-                for (int index1 = 0; index1 < 60; ++index1)
+                for (int i = 0; i < 60; ++i)
                 {
-                    int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, -2.5f * (float) -num1, 0, new Color(), 1f);
-                    Dust dust = Main.dust[index2];
+                    int smoky = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, -2.5f * (float) -isActive, 0, new Color(), 1f);
+                    Dust dust = Main.dust[smoky];
                     dust.alpha = 200;
                     dust.velocity *= new Vector2(0.3f, 2f);
-                    dust.velocity.Y += (float)(2 * num1);
+                    dust.velocity.Y += (float)(2 * isActive);
                     dust.scale += Main.rand.NextFloat();
-                    dust.position = new Vector2(Projectile.Center.X, Projectile.Center.Y + (float) Projectile.height * 0.5f * (float) -num1);
-                    dust.customData = (object) num2;
-                    if (num1 == -1 && Main.rand.Next(4) != 0)
+                    dust.position = new Vector2(Projectile.Center.X, Projectile.Center.Y + (float) Projectile.height * 0.5f * (float) -isActive);
+                    dust.customData = (object) dustCustomData;
+                    if (isActive == -1 && Main.rand.Next(4) != 0)
                     {
                         dust.velocity.Y -= 0.2f;
                     }
                 }
                 SoundEngine.PlaySound(SoundID.Item34, Projectile.position);
             }
-            if (num1 == 1)
+            if (isActive == 1)
             {
-                for (int index1 = 0; index1 < 9; ++index1)
+                for (int i = 0; i < 9; ++i)
                 {
-                    int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, -2.5f * (float) -num1, 0, new Color(), 1f);
-                    Dust dust = Main.dust[index2];
+                    int smoky = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, -2.5f * (float) -isActive, 0, new Color(), 1f);
+                    Dust dust = Main.dust[smoky];
                     dust.alpha = 200;
                     dust.velocity *= new Vector2(0.3f, 2f);
-                    dust.velocity.Y += (float)(2 * num1);
+                    dust.velocity.Y += (float)(2 * isActive);
                     dust.scale += Main.rand.NextFloat();
-                    dust.position = new Vector2(Projectile.Center.X, Projectile.Center.Y + (float) Projectile.height * 0.5f * (float) -num1);
-                    dust.customData = (object)num2;
-                    if (num1 == -1 && Main.rand.Next(4) != 0)
+                    dust.position = new Vector2(Projectile.Center.X, Projectile.Center.Y + (float) Projectile.height * 0.5f * (float) -isActive);
+                    dust.customData = (object)dustCustomData;
+                    if (isActive == -1 && Main.rand.Next(4) != 0)
                     {
-                        Main.dust[index2].velocity.Y -= 0.2f;
+                        Main.dust[smoky].velocity.Y -= 0.2f;
                     }
                 }
             }
             int Height = (int)(Projectile.ai[1] / 60f * (float)Projectile.height) * 3;
             if (Height > Projectile.height)
                 Height = Projectile.height;
-            Vector2 Position = Projectile.position + (num1 == -1 ? new Vector2(0f, (float) (Projectile.height - Height)) : Vector2.Zero);
-            Vector2 vector2 = Projectile.position + (num1 == -1 ? new Vector2(0f, (float) Projectile.height) : Vector2.Zero);
-            for (int index1 = 0; index1 < 6; ++index1)
+            Vector2 Position = Projectile.position + (isActive == -1 ? new Vector2(0f, (float) (Projectile.height - Height)) : Vector2.Zero);
+            Vector2 vector2 = Projectile.position + (isActive == -1 ? new Vector2(0f, (float) Projectile.height) : Vector2.Zero);
+            for (int i = 0; i < 6; ++i)
             {
                 if (Main.rand.Next(3) < 2)
                 {
-                    int index2 = Dust.NewDust(Position, Projectile.width, Height, dustType, 0f, 0f, 90, new Color(), 2.5f);
-                    Dust dust = Main.dust[index2];
+                    int smoky = Dust.NewDust(Position, Projectile.width, Height, dustType, 0f, 0f, 90, new Color(), 2.5f);
+                    Dust dust = Main.dust[smoky];
                     dust.noGravity = true;
                     dust.fadeIn = 1f;
                     if (dust.velocity.Y > 0f)
@@ -146,25 +146,25 @@ namespace CalamityMod.Projectiles.Environment
                         dust.scale *= 0.3f;
                     }
                     else
-                        Main.dust[index2].velocity = Projectile.DirectionFrom(Main.dust[index2].position) * Main.dust[index2].velocity.Length() * 0.25f;
-                    Main.dust[index2].velocity.Y *= (float)-num1;
-                    Main.dust[index2].customData = (object)num2;
+                        Main.dust[smoky].velocity = Projectile.DirectionFrom(Main.dust[smoky].position) * Main.dust[smoky].velocity.Length() * 0.25f;
+                    Main.dust[smoky].velocity.Y *= (float)-isActive;
+                    Main.dust[smoky].customData = (object)dustCustomData;
                 }
             }
-            for (int index1 = 0; index1 < 6; ++index1)
+            for (int i = 0; i < 6; ++i)
             {
                 if (Main.rand.NextFloat() >= 0.5f)
                 {
-                    int index2 = Dust.NewDust(Position, Projectile.width, Height, dustType, 0f, -2.5f * (float) -num1, 0, new Color(), 1f);
-                    Dust dust = Main.dust[index2];
+                    int smoky = Dust.NewDust(Position, Projectile.width, Height, dustType, 0f, -2.5f * (float) -isActive, 0, new Color(), 1f);
+                    Dust dust = Main.dust[smoky];
                     dust.alpha = 200;
                     dust.velocity *= new Vector2(0.6f, 1.5f);
                     dust.scale += Main.rand.NextFloat();
-                    if (num1 == -1 && Main.rand.Next(4) != 0)
+                    if (isActive == -1 && Main.rand.Next(4) != 0)
                     {
                         dust.velocity.Y -= 0.2f;
                     }
-                    dust.customData = (object)num2;
+                    dust.customData = (object)dustCustomData;
                 }
             }
         }

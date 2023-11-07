@@ -36,9 +36,9 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(10))
             {
-                int num250 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, Projectile.direction * 2, 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.5f);
-                Main.dust[num250].noGravity = true;
-                Main.dust[num250].velocity *= 0f;
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, Projectile.direction * 2, 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.5f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 0f;
             }
         }
 

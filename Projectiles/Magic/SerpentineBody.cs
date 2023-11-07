@@ -30,36 +30,35 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.55f / 255f, (255 - Projectile.alpha) * 0.55f / 255f);
-            int num1051 = 10;
-            Vector2 value68 = Vector2.Zero;
+            Vector2 zeroing = Vector2.Zero;
             if (Projectile.ai[1] == 1f)
             {
                 Projectile.ai[1] = 0f;
                 Projectile.netUpdate = true;
             }
             int chase = Projectile.GetByUUID(Projectile.owner, (int)Projectile.ai[0]);
-            float num1064;
-            float scaleFactor17;
-            float scaleFactor18;
+            float projRotation;
+            float sixteenScale;
+            float projScale;
             if (chase >= 0 && Main.projectile[chase].active)
             {
-                value68 = Main.projectile[chase].Center;
+                zeroing = Main.projectile[chase].Center;
                 Vector2 arg_2DE6A_0 = Main.projectile[chase].velocity;
-                num1064 = Main.projectile[chase].rotation;
-                scaleFactor18 = MathHelper.Clamp(Main.projectile[chase].scale, 0f, 50f);
-                scaleFactor17 = 16f;
+                projRotation = Main.projectile[chase].rotation;
+                projScale = MathHelper.Clamp(Main.projectile[chase].scale, 0f, 50f);
+                sixteenScale = 16f;
                 Main.projectile[chase].localAI[0] = Projectile.localAI[0] + 1f;
             }
             else
             {
                 for (int k = 0; k < 8; k++)
                 {
-                    int num114 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 68, 0f, 0f, 100, default, 1.25f);
-                    Dust dust = Main.dust[num114];
+                    int seaDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 68, 0f, 0f, 100, default, 1.25f);
+                    Dust dust = Main.dust[seaDust];
                     dust.velocity *= 0.3f;
-                    Main.dust[num114].position.X = Projectile.position.X + (float)(Projectile.width / 2) + 4f + (float)Main.rand.Next(-4, 5);
-                    Main.dust[num114].position.Y = Projectile.position.Y + (float)(Projectile.height / 2) + (float)Main.rand.Next(-4, 5);
-                    Main.dust[num114].noGravity = true;
+                    Main.dust[seaDust].position.X = Projectile.position.X + (float)(Projectile.width / 2) + 4f + (float)Main.rand.Next(-4, 5);
+                    Main.dust[seaDust].position.Y = Projectile.position.Y + (float)(Projectile.height / 2) + (float)Main.rand.Next(-4, 5);
+                    Main.dust[seaDust].noGravity = true;
                 }
                 Projectile.active = false;
                 Projectile.Kill();
@@ -74,22 +73,22 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.alpha = 0;
             }
             Projectile.velocity = Vector2.Zero;
-            Vector2 vector134 = value68 - Projectile.Center;
-            if (num1064 != Projectile.rotation)
+            Vector2 rotateInLine = zeroing - Projectile.Center;
+            if (projRotation != Projectile.rotation)
             {
-                float num1068 = MathHelper.WrapAngle(num1064 - Projectile.rotation);
-                vector134 = vector134.RotatedBy((double)(num1068 * 0.1f), default);
+                float angleWrap = MathHelper.WrapAngle(projRotation - Projectile.rotation);
+                rotateInLine = rotateInLine.RotatedBy((double)(angleWrap * 0.1f), default);
             }
-            Projectile.rotation = vector134.ToRotation() + 1.57079637f;
+            Projectile.rotation = rotateInLine.ToRotation() + 1.57079637f;
             Projectile.position = Projectile.Center;
-            Projectile.scale = scaleFactor18;
-            Projectile.width = Projectile.height = (int)((float)num1051 * Projectile.scale);
+            Projectile.scale = projScale;
+            Projectile.width = Projectile.height = (int)(10f * Projectile.scale);
             Projectile.Center = Projectile.position;
-            if (vector134 != Vector2.Zero)
+            if (rotateInLine != Vector2.Zero)
             {
-                Projectile.Center = value68 - Vector2.Normalize(vector134) * scaleFactor17 * scaleFactor18;
+                Projectile.Center = zeroing - Vector2.Normalize(rotateInLine) * sixteenScale * projScale;
             }
-            Projectile.spriteDirection = (vector134.X > 0f) ? 1 : -1;
+            Projectile.spriteDirection = (rotateInLine.X > 0f) ? 1 : -1;
             return;
         }
     }
