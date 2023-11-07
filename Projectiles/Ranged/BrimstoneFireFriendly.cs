@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/FireProj";
 
-        public static int Lifetime => 90;
+        public static int Lifetime => 60;
         public static int Fadetime => 80;
         public ref float Time => ref Projectile.ai[0];
         public int MistType = -1;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.MaxUpdates = 3;
             Projectile.timeLeft = Lifetime;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 8;
+            Projectile.idStaticNPCHitCooldown = 6;
         }
 
         public override void AI()
@@ -85,12 +85,13 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
 
             // Gas up the enemy
-            int smokeCount = 4 + (int)MathHelper.Clamp(target.width * 0.1f, 0f, 20f);
+            int smokeCount = 3 + (int)MathHelper.Clamp(target.width * 0.1f, 0f, 20f);
             for (int i = 0; i < smokeCount; i++)
             {
+                bool Smoketype = Main.rand.NextBool();
                 Vector2 smokePos = target.Center + Main.rand.NextVector2Circular(target.width * 0.5f, target.height * 0.5f);
-                Vector2 smokeVel = Vector2.UnitY * Main.rand.NextFloat(-2.4f, -0.8f) * MathHelper.Clamp(target.height * 0.1f, 1f, 10f);
-                Particle smoke = new MediumMistParticle(smokePos, smokeVel, new Color(255, 50, 50), Color.DimGray, Main.rand.NextFloat(1f, 2f), 245 - Main.rand.Next(50), 0.1f);
+                Vector2 smokeVel = Vector2.UnitY * (Smoketype ? Main.rand.NextFloat(-0.8f, -2f) : Main.rand.NextFloat(-1.2f, -0.2f)) * MathHelper.Clamp(target.height * 0.1f, 1f, 10f);
+                Particle smoke = new MediumMistParticle(smokePos, smokeVel, new Color(255, 50, 50), Color.DimGray, Smoketype ? Main.rand.NextFloat(0.4f, 0.75f) : Main.rand.NextFloat(1.5f, 2f), 220 - Main.rand.Next(50), 0.1f);
                 GeneralParticleHandler.SpawnParticle(smoke);
             }
         }

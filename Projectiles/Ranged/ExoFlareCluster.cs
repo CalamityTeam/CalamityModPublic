@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
             };
             PhotoMetaball.SpawnParticle(Projectile.Center, 90);
             PhotoMetaball2.SpawnParticle(Projectile.Center, 85);
-            CalamityUtils.HomeInOnNPC(Projectile, false, 600f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 12f, 20f);
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -81,9 +81,9 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            SoundEngine.PlaySound(DeadSunsWind.Ricochet with { Volume = 1.2f }, Projectile.Center);
             if (!PostTileHit)
             {
+                SoundEngine.PlaySound(DeadSunsWind.Ricochet with { Volume = 1.2f }, Projectile.Center);
                 float numberOflines = 25;
                 float rotFactorlines = 360f / numberOflines;
                 for (int i = 0; i < numberOflines; i++)

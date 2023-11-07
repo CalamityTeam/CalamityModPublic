@@ -580,7 +580,7 @@ HavocsBreath: {
 	DisplayName: Havoc's Breath
 	Tooltip:
 		'''
-		Fires scorching brimstone fire
+		Fires a cone of scorching brimstone fire
 		Uses gel for ammo
 		'''
 }
