@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -66,7 +66,8 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 }
 
                 // If at the end of the animation, kill the projectile.
-                if (player.itemAnimation == 0)
+                //Checking if == 0 is too late, lets the projectile linger into chained item uses.
+                if (player.itemAnimation <= 1)
                     Projectile.Kill();
 
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2 + MathHelper.PiOver4;
