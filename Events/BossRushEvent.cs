@@ -442,13 +442,6 @@ namespace CalamityMod.Events
                 {
                     CalamityUtils.KillAllHostileProjectiles();
                     HostileProjectileKillCounter = 3;
-
-                    // Mark Boss Rush as complete
-                    DownedBossSystem.downedBossRush = true;
-                    CalamityNetcode.SyncWorld();
-
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                        Projectile.NewProjectile(Source, npc.Center, Vector2.Zero, ModContent.ProjectileType<BossRushEndEffectThing>(), 0, 0f, Main.myPlayer);
                 }
             };
         }
@@ -744,7 +737,19 @@ namespace CalamityMod.Events
                 HostileProjectileKillCounter = 3;
 
                 if (BossDeathEffects.ContainsKey(npc.type))
+                {
                     BossDeathEffects[npc.type].Invoke(npc);
+                }
+
+                if (npc.type == Bosses[Bosses.Count -1].EntityID)
+                {
+                    // Mark Boss Rush as complete
+                    DownedBossSystem.downedBossRush = true;
+                    CalamityNetcode.SyncWorld();
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        Projectile.NewProjectile(Source, npc.Center, Vector2.Zero, ModContent.ProjectileType<BossRushEndEffectThing>(), 0, 0f, Main.myPlayer);
+                }
             }
 
             // Sync the stage and progress of Boss Rush whenever a relevant boss dies.

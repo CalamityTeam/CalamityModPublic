@@ -23,7 +23,6 @@ namespace CalamityMod.World.Planets
             var config = WorldGenConfiguration.FromEmbeddedPath("Terraria.GameContent.WorldBuilding.Configuration.json");
 
             int totalPlanetoidsToGenerate = Main.maxTilesX / 1200 + 2;
-            Main.NewText("Tiles total: " + Main.maxTilesX);
             for (int i = 0; i < totalPlanetoidsToGenerate; i++)
             {
                 for (int tries = 0; tries < 15000; tries++)
@@ -39,7 +38,6 @@ namespace CalamityMod.World.Planets
                         if (config.CreateBiome<LuminitePlanet2>().Place(planetoidOrigin, GenVars.structures))
                             break;
                     }
-                    Main.NewText("Success");
                 }
             }
         }

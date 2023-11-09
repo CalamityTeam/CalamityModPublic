@@ -181,6 +181,7 @@ namespace CalamityMod.NPCs
         {
             "Sans Undertale", // <@!145379091648872450> (shayy)
             "Papyrus Undertale", // <@!262663471189983242> (nycro)
+            "Mr. Bones", // <@!359215912856977408> (jaybones.)
         };
         private static readonly string[] SteampunkerNames =
         {
