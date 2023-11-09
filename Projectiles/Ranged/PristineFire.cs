@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
 
+        public float smokeOpa = 0.25f;
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 6;
@@ -38,13 +39,19 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation();
-            Lighting.AddLight(Projectile.Center, 1f, 1f, 0.25f);
+            if (Projectile.timeLeft < 118)
+            {
+                if (smokeOpa > 0)
+                    smokeOpa -= 0.02f;
 
-            // Light smoke
-            Color smokeColor = new Color(255, Main.rand.Next(160, 230 + 1), 100, 100);
-            Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity * 0.5f, smokeColor, 16, Main.rand.NextFloat(0.6f, 1.2f), 0.2f, glowing: true);
-            GeneralParticleHandler.SpawnParticle(smoke);
+                Lighting.AddLight(Projectile.Center, 1f, 1f, 0.25f);
+
+                // Light smoke
+                Color smokeColor = new Color(255, Main.rand.Next(160, 230 + 1), 100, 100);
+                Particle smoke = new HeavySmokeParticle(Projectile.Center, Projectile.velocity.RotatedByRandom(smokeOpa * 10) * (Main.rand.NextFloat(0.4f, 0.65f) - smokeOpa), smokeColor, 16, Main.rand.NextFloat(0.6f, 1.2f), 0.2f + smokeOpa, glowing: true);
+                GeneralParticleHandler.SpawnParticle(smoke);
+            }
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
@@ -57,19 +64,31 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
+
+            LineParticle spark = new LineParticle(Projectile.Center, -Projectile.velocity.RotatedBy(Main.rand.NextFloat(0.23f, 0.56f)) * Main.rand.NextFloat(0.4f, 2.5f), false, 8, 1.2f, Main.rand.NextBool() ? Color.Orange : Color.DarkOrange);
+            GeneralParticleHandler.SpawnParticle(spark);
+            LineParticle spark2 = new LineParticle(Projectile.Center, -Projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.23f, -0.56f)) * Main.rand.NextFloat(0.4f, 2.5f), false, 8, 1.2f, Main.rand.NextBool() ? Color.Orange : Color.DarkOrange);
+            GeneralParticleHandler.SpawnParticle(spark2);
             
-            // Big poofy column
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i <= 3; i++)
             {
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool() ? 169 : 158, new Vector2(5, 5).RotatedByRandom(100) * Main.rand.NextFloat(0.2f, 1.5f), 0, default, Main.rand.NextFloat(1.6f, 2.2f));
+                dust.noGravity = true;
+                dust.fadeIn = 0.5f;
+            }
+            // Big poofy column
+            for (int i = 0; i < 7; i++)
+            {
+                float velMulti = Main.rand.NextFloat(0.1f, 1.8f);
                 Vector2 smokePos = Projectile.Center + Main.rand.NextVector2Circular(32f, 32f);
-                Vector2 smokeVel = Vector2.UnitY * Main.rand.NextFloat(-24f, -4f);
-                Particle smoke = new MediumMistParticle(smokePos, smokeVel, new Color(255, 220, 100), Color.Black, Main.rand.NextFloat(0.6f, 1.6f), 225 - Main.rand.Next(60), 0.1f);
+                Vector2 smokeVel = Vector2.UnitY * Main.rand.NextFloat(-12f, -8f) * velMulti;
+                Particle smoke = new MediumMistParticle(smokePos, smokeVel, Main.rand.NextBool() ? Color.Orange : Color.DarkOrange, Color.Black, Main.rand.NextFloat(0.7f, 1.9f) - velMulti, 225 - Main.rand.Next(60), 0.1f);
                 GeneralParticleHandler.SpawnParticle(smoke);
             }
         }
 
-        public float HelixTrailWidthFunction(float completionRatio) => Utils.GetLerpValue(1f, 0.4f, completionRatio, true) * 2.5f;
-        public Color HelixTrailColorFunction(float completionRatio) => new Color(255, 220, 100) * (1f - completionRatio);
+        public float HelixTrailWidthFunction(float completionRatio) => Utils.GetLerpValue(1f, 0.4f, completionRatio, true) * 1.5f;
+        public Color HelixTrailColorFunction(float completionRatio) => Projectile.timeLeft < 105 ? Projectile.ai[0] == 1 ? Color.DarkOrange * (1f - completionRatio) : Color.Orange * (1f - completionRatio) : Color.Transparent;
 
         public override bool PreDraw(ref Color lightColor)
         {

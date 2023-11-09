@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Particles;
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public int frameCounter = 0;
         public int frame = 0;
         public static int BaseDamage = 70;
+        public bool Trail = true;
 
         public override void SetStaticDefaults()
         {
@@ -61,7 +63,17 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
             }
             else
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            {
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, Trail ? 1 : 0);
+                Trail = !Trail;
+                for (int i = 0; i <= 2; i++)
+                {
+                    Dust dust = Dust.NewDustPerfect(position + velocity * 3f + new Vector2(0, -3), 158, velocity.RotatedBy(0.25f * player.direction).RotatedByRandom(0.35f) * Main.rand.NextFloat(0.5f, 2.5f), 0, default, Main.rand.NextFloat(1.6f, 2f));
+                    dust.noGravity = true;
+                }
+                CritSpark spark = new CritSpark(position + velocity * 3f + new Vector2(0, -3), velocity.RotatedBy(0.25f * player.direction).RotatedByRandom(0.25f) * Main.rand.NextFloat(0.2f, 1.8f), Main.rand.NextBool() ? Color.DarkOrange : Color.OrangeRed, Color.OrangeRed, 0.9f, 18, 2f, 1.9f);
+                GeneralParticleHandler.SpawnParticle(spark);
+            }
             return false;
         }
 
