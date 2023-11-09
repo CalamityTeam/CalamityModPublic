@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         private void ActivateSetBonus(Terraria.On_Player.orig_KeyDoubleTap orig, Player player, int keyDir)
         {
-            if (keyDir == 0 && HasArmorSet(player) && !player.mount.Active)
+            if (keyDir == (Main.ReversedUpDownArmorSetBonuses ? 1 : 0) && HasArmorSet(player) && !player.mount.Active)
             {
                 //Only activate if no cooldown & available scrap.
                 if (player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out CooldownInstance cd))
@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
                 else if (player.HasItem(ModContent.ItemType<WulfrumMetalScrap>()))
                 {
                     player.ConsumeItem(ModContent.ItemType<WulfrumMetalScrap>());
-                    //I Thiiiinnnk there's no need to add mp syncing packets sicne cooldowns get auto synced right.
+                    //I Thiiiinnnk there's no need to add mp syncing packets since cooldowns get auto synced right.
                     player.AddCooldown(WulfrumBastion.ID, BastionCooldown + BastionTime);
                     //Though do i need to sync that or is the player inventory auto synced?
                     DummyCannon.SetDefaults(ItemType<WulfrumFusionCannon>());
@@ -228,7 +228,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
                 if (setBonusIndex != -1)
                 {
-                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", CalamityUtils.GetTextValueFromModItem<WulfrumHat>("AbilityBrief"));
+                    string dir = Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN";
+                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", CalamityUtils.GetTextFromModItem<WulfrumHat>("AbilityBrief").Format(dir));
                     setBonus1.OverrideColor = Color.Lerp(new Color(194, 255, 67), new Color(112, 244, 244), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
                     tooltips.Insert(setBonusIndex + 1, setBonus1);
 

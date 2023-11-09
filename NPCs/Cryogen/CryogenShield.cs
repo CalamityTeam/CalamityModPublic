@@ -16,6 +16,9 @@ namespace CalamityMod.NPCs.Cryogen
     {
         public static readonly SoundStyle BreakSound = new("CalamityMod/Sounds/NPCKilled/CryogenShieldBreak");
 
+        //Don't count towards NPC limit and don't despawn offscreen.
+        public override bool CheckActive() => false;
+
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
