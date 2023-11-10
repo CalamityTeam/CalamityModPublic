@@ -1,5 +1,12 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Graphics.Metaballs;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Particles;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
@@ -9,72 +16,68 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public ref float LightPower => ref Projectile.ai[2];
 
-        public bool ProducedAcceleration = false;
+        public Color sparkColor;
+        public int Time = 0;
+        public ref int audioCooldown => ref Main.player[Projectile.owner].Calamity().PhotoAudioCooldown;
+        public ref int PhotoTimer => ref Main.player[Projectile.owner].Calamity().PhotoTimer;
 
         public override void SetDefaults()
         {
-            Projectile.width = 24;
-            Projectile.height = 24;
+            Projectile.width = Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
-            Projectile.MaxUpdates = 3;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 5;
-            Projectile.timeLeft = 180;
+            Projectile.MaxUpdates = 180;
+            Projectile.timeLeft = 240;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
         {
-            Projectile.ai[0] += 1f;
-            if (Projectile.ai[0] <= 3f)
-                return;
-
-            float dustScale = 1f;
-            if (Projectile.ai[0] == 8f)
+            sparkColor = Main.rand.Next(4) switch
             {
-                dustScale = 0.25f;
+                0 => Color.Red,
+                1 => Color.MediumTurquoise,
+                2 => Color.Orange,
+                _ => Color.LawnGreen,
+            };
+            Time++;
+            Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.2f);
+            Player Owner = Main.player[Projectile.owner];
+            float targetDist = Vector2.Distance(Owner.Center, Projectile.Center); //used for some drawing prevention for when it's offscreen since it makes a fuck load of particles
+            if (targetDist < 1400f)
+            {
+                if (PhotoTimer == 0)
+                    PhotoMetaball3.SpawnParticle(Projectile.Center + Owner.velocity, 42 - Time * 0.165f);
+                if (PhotoTimer == 1)
+                    PhotoMetaball3.SpawnParticle(Projectile.Center + Owner.velocity, (37 - Time * (PhotoTimer == 0 ? 0.165f : 0.088f)) - PhotoTimer * 0.2f + (PhotoTimer == 1 ? 20 : 0)); ;
+
+                PhotoMetaball4.SpawnParticle(Projectile.Center + Owner.velocity, (37 - Time * (PhotoTimer == 0 ? 0.165f : 0.088f)) - PhotoTimer * 0.2f + (PhotoTimer == 1 ? 20 : 0));
             }
-            else if (Projectile.ai[0] == 9f)
+            if ( Main.rand.NextBool(35) && targetDist < 1400f && Time > 5)
             {
-                dustScale = 0.5f;
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 263, new Vector2(0, -5).RotatedByRandom(0.05f) * Main.rand.NextFloat(0.3f, 1.6f));
+                dust.noGravity = true;
+                dust.scale = Main.rand.NextFloat(0.3f, 1f);
+                dust.color = sparkColor;
             }
-            else if (Projectile.ai[0] == 10f)
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
+            if (audioCooldown == 0)
             {
-                dustScale = 0.75f;
-            }
-
-            int dustID = Main.rand.NextBool() ? 107 : 234;
-            if (Main.rand.NextBool(4))
-                dustID = 269;
-
-            if (Main.rand.NextBool())
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    Dust d = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, dustID, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 0.6f);
-                    if (Main.rand.NextBool(3))
-                    {
-                        d.scale *= 1.5f;
-                        d.velocity.X *= 1.2f;
-                        d.velocity.Y *= 1.2f;
-                    }
-                    else
-                        d.scale *= 0.75f;
-
-                    d.noGravity = true;
-                    d.velocity.X *= 0.8f;
-                    d.velocity.Y *= 0.8f;
-                    d.scale *= dustScale;
-                    d.velocity += Projectile.velocity;
-                }
+                SoundEngine.PlaySound(Photoviscerator.HitSound, target.Center);
+                audioCooldown = 6;
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
-
         public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
+
     }
 }

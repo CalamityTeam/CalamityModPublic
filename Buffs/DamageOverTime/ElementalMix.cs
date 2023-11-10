@@ -46,11 +46,11 @@ namespace CalamityMod.Buffs.DamageOverTime
 
             GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(player.Calamity().RandomDebuffVisualSpot, speed, Main.rand.NextFloat(1.2f, 1.8f), effectcolor, Main.rand.Next(8, 14)));
 
-            int dustType = Main.rand.NextBool() ? 91 : 247;
+            int dustType = Main.rand.NextBool() ? 66 : 247;
             Dust dust = Dust.NewDustPerfect(player.Calamity().RandomDebuffVisualSpot, dustType);
-            dust.scale = (dustType == 91 ? 1.4f : 1.2f);
-            dust.velocity = (dustType == 247 ? Vector2.Zero : new Vector2(0, Main.rand.NextFloat(-1.5f, 4f)) - player.velocity / 2);
-            dust.noGravity = Main.rand.NextBool(4) && dustType == 91 ? false : true;
+            dust.scale = (dustType == 66 ? 1.4f : 1.2f);
+            dust.velocity = Vector2.Zero + new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(4f, 8f)) - player.velocity / 2;
+            dust.noGravity = true;
             dust.alpha = Main.rand.Next(90, 150);
             dust.color = effectcolor;
         }
@@ -71,12 +71,11 @@ namespace CalamityMod.Buffs.DamageOverTime
                 
                 GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(npcSize, speed, Main.rand.NextFloat(1.2f, 3.1f), effectcolor, Main.rand.Next(8, 14)));
                 
-                int dustType = Main.rand.NextBool() ? 91 : 247;
+                int dustType = Main.rand.NextBool() ? 66 : 247;
                 Dust dust = Dust.NewDustPerfect(npcSize, dustType);
-                dust.scale = (dustType == 91 ? 1.4f : 1.2f);
-                dust.velocity = (dustType == 247 ? Vector2.Zero : new Vector2(0, Main.rand.NextFloat(-1.5f, 4f)) - npc.velocity / 2);
-                dust.noGravity = Main.rand.NextBool(4) && dustType == 91 ? false : true;
-                dust.velocity = Vector2.Zero;
+                dust.scale = (dustType == 66 ? 1.4f : 1.2f);
+                dust.noGravity = true;
+                dust.velocity = Vector2.Zero + new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2f, 4f)) - npc.velocity / 2;
                 dust.alpha = Main.rand.Next(90, 150);
                 dust.color = effectcolor;
             }
@@ -90,11 +89,11 @@ namespace CalamityMod.Buffs.DamageOverTime
                     _ => Color.Violet,
                 };
                 Vector2 npcSize = npc.Center + new Vector2(Main.rand.NextFloat(-npc.width / 2, npc.width / 2), Main.rand.NextFloat(-npc.height / 2, npc.height / 2));
-                int dustType = Main.rand.NextBool() ? 91 : 247;
+                int dustType = Main.rand.NextBool() ? 66 : 247;
                 Dust dust = Dust.NewDustPerfect(npcSize, dustType);
-                dust.scale = (dustType == 91 ? 0.9f : 1.4f);
+                dust.scale = (dustType == 66 ? 0.9f : 1.4f);
                 dust.noGravity = true;
-                dust.velocity = Vector2.Zero;
+                dust.velocity = Vector2.Zero + new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(2f, 4f));
                 dust.alpha = Main.rand.Next(35, 90);
                 dust.color = effectcolor;
             }

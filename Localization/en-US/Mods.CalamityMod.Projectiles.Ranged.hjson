@@ -21,6 +21,7 @@ BallistaGreatArrow.DisplayName: Ballista Great Arrow
 BeeRPG.DisplayName: Bee RPG
 BigCoral.DisplayName: Big Coral
 BigNuke.DisplayName: Big Nuke
+BlightFlames.DisplayName: Blight Flames
 BlissfulBombardierDustProjectile.DisplayName: Holy Flare Dust
 BloodBoilerFire.DisplayName: Blood Fire
 BloodClotFriendly.DisplayName: Blood Clot
@@ -51,10 +52,10 @@ ContagionArrow.DisplayName: Contagion Arrow
 ContagionBall.DisplayName: Contagion Ball
 CorinthPrimeAirburst.DisplayName: Airburst
 CorinthPrimeAirburstGrenade.DisplayName: Corinth Prime Airburst Shot
-CorossiveFlames.DisplayName: Plagued Flames
 CorrodedShell.DisplayName: Corroded Shell
 CosmicFire.DisplayName: Dead Sun's Fire
 DaemonsFlameArrow.DisplayName: Daemon's Arrow
+DeadSunExplosion.DisplayName: Dead Sun's Explosion
 DragonsBreathRound.DisplayName: Dragon's Breath Round
 DrataliornusExoArrow.DisplayName: Drataliornus Arrow
 DrataliornusFlame.DisplayName: Drataliornus Arrow
@@ -63,6 +64,7 @@ DrizzlefishFireball.DisplayName: Drizzlefish Fireball
 DrizzlefishFireSplit.DisplayName: Drizzlefish Flames
 DWArrow.DisplayName: Death's Arrow
 ElementalFire.DisplayName: Elemental Fire
+ElementalFlare.DisplayName: Elemental Flare
 ElysianArrowProj.DisplayName: Elysian Arrow
 EmesisGore.DisplayName: Rotten Gore
 EnhancedNanoRoundProj.DisplayName: Enhanced Nano Round
@@ -118,8 +120,8 @@ MagnomalyExplosion.DisplayName: Explosion
 MagnomalyRocket.DisplayName: Nuke
 MarksmanShot.DisplayName: Marksman Shot
 MechanicalBarracuda.DisplayName: Barracuda
+MeowCreature.DisplayName: the creature :3
 MeowFire.DisplayName: Purr Fire
-MeowFire2.DisplayName: Purr Fire
 MiniatureFolly.DisplayName: Miniature Folly
 MiniRocket.DisplayName: Rocket
 MiniSharkron.DisplayName: Mini Sharkron
@@ -213,7 +215,8 @@ TerraArrowMain.DisplayName: Terra Arrow
 TerraArrowSplit.DisplayName: Terra Arrow
 TerraBulletMain.DisplayName: Terra Bullet
 TerraBulletSplit.DisplayName: Terra Bullet
-TerraFireGreen.DisplayName: Terra Fire
+TerraFire.DisplayName: Terra Fire
+TerraFlare.DisplayName: Terra Flare
 TheMaelstromExplosion.DisplayName: Reaper Explosion
 TheMaelstromShark.DisplayName: Reaper Shark
 ThePackMinissile.DisplayName: Pack Minissile
@@ -239,3 +242,5 @@ WaterSpout.DisplayName: Spout
 WulfrumScrapBullet.DisplayName: High Speed Scrap
 AuricBullet.DisplayName: Auric Bullet
 P90Round.DisplayName: Armor-piercing Round
+DragonsBreathFlames.DisplayName: Draconic Flames
+DragonsBreathMag.DisplayName: Dragons Breath Cartridge
