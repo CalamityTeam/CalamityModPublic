@@ -480,11 +480,11 @@ namespace CalamityMod
                             if (npc.type == NPCID.SolarCrawltipedeTail)
                             {
                                 Rectangle rect = npc.Hitbox;
-                                int num5 = 8;
-                                rect.X -= num5;
-                                rect.Y -= num5;
-                                rect.Width += num5 * 2;
-                                rect.Height += num5 * 2;
+                                int crawltipedeHitboxMod = 8;
+                                rect.X -= crawltipedeHitboxMod;
+                                rect.Y -= crawltipedeHitboxMod;
+                                rect.Width += crawltipedeHitboxMod * 2;
+                                rect.Height += crawltipedeHitboxMod * 2;
                                 stickingToNPC = projectile.Colliding(myRect, rect);
                             }
                             else
@@ -526,15 +526,15 @@ namespace CalamityMod
                                 }
                                 if (projCount >= array2.Length)
                                 {
-                                    int num30 = 0;
+                                    int stuckProjAmt = 0;
                                     for (int m = 1; m < array2.Length; m++)
                                     {
-                                        if (array2[m].Y < array2[num30].Y)
+                                        if (array2[m].Y < array2[stuckProjAmt].Y)
                                         {
-                                            num30 = m;
+                                            stuckProjAmt = m;
                                         }
                                     }
-                                    Main.projectile[array2[num30].X].Kill();
+                                    Main.projectile[array2[stuckProjAmt].X].Kill();
                                 }
                             }
                         }

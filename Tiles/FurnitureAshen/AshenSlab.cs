@@ -514,7 +514,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAshen/AshenSlabGlow").Value;
             Color drawColour = GetDrawColour(i, j, new Color(64, 64, 64, 64));
             Tile trackTile = Main.tile[i, j];
-            double num6 = Main.time * 0.08;
             if (!trackTile.IsHalfBlock && trackTile.Slope == 0)
             {
                 Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xDrawPos, yDrawPos, 18, 18)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);

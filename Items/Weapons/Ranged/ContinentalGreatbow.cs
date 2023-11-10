@@ -53,8 +53,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     type = ProjectileID.FireArrow;
                 }
-                int num121 = Projectile.NewProjectile(spawnSource, source + offset, velocity, type, damage, knockback, player.whoAmI);
-                Main.projectile[num121].noDropItem = true;
+                int baseArrow = Projectile.NewProjectile(spawnSource, source + offset, velocity, type, damage, knockback, player.whoAmI);
+                Main.projectile[baseArrow].noDropItem = true;
             }
             for (int i = 0; i < 2; i++)
             {

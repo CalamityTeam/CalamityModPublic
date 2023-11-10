@@ -60,39 +60,39 @@ namespace CalamityMod.Items.Weapons.Melee
                 target.AddBuff(BuffID.ShadowFlame, 450);
                 target.AddBuff(BuffID.OnFire, 900);
                 player.ApplyDamageToNPC(target, player.GetWeaponDamage(player.ActiveItem()) * 2, 0f, 0, false);
-                float num50 = 1.7f;
-                float num51 = 0.8f;
-                float num52 = 2f;
-                Vector2 value3 = (target.rotation - MathHelper.PiOver2).ToRotationVector2();
-                Vector2 value4 = value3 * target.velocity.Length();
+                float firstDustScale = 1.7f;
+                float secondDustScale = 0.8f;
+                float thirdDustScale = 2f;
+                Vector2 dustRotation = (target.rotation - MathHelper.PiOver2).ToRotationVector2();
+                Vector2 dustVelocity = dustRotation * target.velocity.Length();
                 SoundEngine.PlaySound(SoundID.Item14, target.Center);
-                for (int num53 = 0; num53 < 40; num53++)
+                for (int i = 0; i < 40; i++)
                 {
-                    int num54 = Dust.NewDust(target.position, target.width, target.height, 173, 0f, 0f, 200, default, num50);
-                    Dust dust = Main.dust[num54];
+                    int swingDust = Dust.NewDust(target.position, target.width, target.height, 173, 0f, 0f, 200, default, firstDustScale);
+                    Dust dust = Main.dust[swingDust];
                     dust.position = target.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)target.width / 2f;
                     dust.noGravity = true;
                     dust.velocity.Y -= 4.5f;
                     dust.velocity *= 3f;
-                    dust.velocity += value4 * Main.rand.NextFloat();
-                    num54 = Dust.NewDust(target.position, target.width, target.height, 173, 0f, 0f, 100, default, num51);
+                    dust.velocity += dustVelocity * Main.rand.NextFloat();
+                    swingDust = Dust.NewDust(target.position, target.width, target.height, 173, 0f, 0f, 100, default, secondDustScale);
                     dust.position = target.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)target.width / 2f;
                     dust.velocity.Y -= 3f;
                     dust.velocity *= 2f;
                     dust.noGravity = true;
                     dust.fadeIn = 1f;
                     dust.color = Color.Crimson * 0.5f;
-                    dust.velocity += value4 * Main.rand.NextFloat();
+                    dust.velocity += dustVelocity * Main.rand.NextFloat();
                 }
-                for (int num55 = 0; num55 < 20; num55++)
+                for (int j = 0; j < 20; j++)
                 {
-                    int num56 = Dust.NewDust(target.position, target.width, target.height, 173, 0f, 0f, 0, default, num52);
-                    Dust dust = Main.dust[num56];
+                    int swingDust2 = Dust.NewDust(target.position, target.width, target.height, 173, 0f, 0f, 0, default, thirdDustScale);
+                    Dust dust = Main.dust[swingDust2];
                     dust.position = target.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy((double)target.velocity.ToRotation(), default) * (float)target.width / 3f;
                     dust.noGravity = true;
                     dust.velocity.Y -= 1.5f;
                     dust.velocity *= 0.5f;
-                    dust.velocity += value4 * (0.6f + 0.6f * Main.rand.NextFloat());
+                    dust.velocity += dustVelocity * (0.6f + 0.6f * Main.rand.NextFloat());
                 }
             }
         }

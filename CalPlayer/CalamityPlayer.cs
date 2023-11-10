@@ -178,6 +178,12 @@ namespace CalamityMod.CalPlayer
 
         #region Timer and Counter
         public int gaelSwipes = 0;
+        public int dragoonDrizzlefishGelBoost = 1;
+        public int deadSunCounter = 6;
+        public int DragonsBreathAudioCooldown = 0;
+        public int DragonsBreathAudioCooldown2 = 0;
+        public int PhotoAudioCooldown = 0;
+        public int PhotoTimer = 90;
         public bool brittleStarBuffMode = false;
         public bool sBlasterDashActivated = false;
         public int saharaSlicersBolts = 0;
@@ -2779,22 +2785,22 @@ namespace CalamityMod.CalPlayer
                             brimflameFrenzy = true;
                             Player.AddBuff(ModContent.BuffType<BrimflameFrenzyBuff>(), 10 * 60, true);
                             SoundEngine.PlaySound(BrimflameScowl.ActivationSound, Player.Center);
-                            for (int num502 = 0; num502 < 36; num502++)
+                            for (int i = 0; i < 36; i++)
                             {
-                                int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
-                                Main.dust[dust].velocity *= 3f;
-                                Main.dust[dust].scale *= 1.15f;
+                                int brimDust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
+                                Main.dust[brimDust].velocity *= 3f;
+                                Main.dust[brimDust].scale *= 1.15f;
                             }
-                            int num226 = 36;
-                            for (int num227 = 0; num227 < num226; num227++)
+                            int dustAmt = 36;
+                            for (int j = 0; j < dustAmt; j++)
                             {
-                                Vector2 vector6 = Vector2.Normalize(Player.velocity) * new Vector2((float)Player.width / 2f, (float)Player.height) * 0.75f;
-                                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / (float)num226), default) + Player.Center;
-                                Vector2 vector7 = vector6 - Player.Center;
-                                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Brimstone, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
-                                Main.dust[num228].noGravity = true;
-                                Main.dust[num228].noLight = true;
-                                Main.dust[num228].velocity = vector7;
+                                Vector2 dustRotation = Vector2.Normalize(Player.velocity) * new Vector2((float)Player.width / 2f, (float)Player.height) * 0.75f;
+                                dustRotation = dustRotation.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Player.Center;
+                                Vector2 dustVelocity = dustRotation - Player.Center;
+                                int brimDust2 = Dust.NewDust(dustRotation + dustVelocity, 0, 0, (int)CalamityDusts.Brimstone, dustVelocity.X * 1.5f, dustVelocity.Y * 1.5f, 100, default, 1.4f);
+                                Main.dust[brimDust2].noGravity = true;
+                                Main.dust[brimDust2].noLight = true;
+                                Main.dust[brimDust2].velocity = dustVelocity;
                             }
                         }
                     }
@@ -2873,22 +2879,22 @@ namespace CalamityMod.CalPlayer
                 if (dsSetBonus)
                 {
                     SoundEngine.PlaySound(DemonshadeHelm.ActivationSound, Player.Center);
-                    for (int num502 = 0; num502 < 36; num502++)
+                    for (int i = 0; i < 36; i++)
                     {
-                        int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
-                        Main.dust[dust].velocity *= 3f;
-                        Main.dust[dust].scale *= 1.15f;
+                        int brimDust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
+                        Main.dust[brimDust].velocity *= 3f;
+                        Main.dust[brimDust].scale *= 1.15f;
                     }
-                    int num226 = 36;
-                    for (int num227 = 0; num227 < num226; num227++)
+                    int dustAmt = 36;
+                    for (int j = 0; j < dustAmt; j++)
                     {
-                        Vector2 vector6 = Vector2.Normalize(Player.velocity) * new Vector2((float)Player.width / 2f, (float)Player.height) * 0.75f;
-                        vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / (float)num226), default) + Player.Center;
-                        Vector2 vector7 = vector6 - Player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Brimstone, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
-                        Main.dust[num228].noGravity = true;
-                        Main.dust[num228].noLight = true;
-                        Main.dust[num228].velocity = vector7;
+                        Vector2 dustRotation = Vector2.Normalize(Player.velocity) * new Vector2((float)Player.width / 2f, (float)Player.height) * 0.75f;
+                        dustRotation = dustRotation.RotatedBy((double)((float)(j - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Player.Center;
+                        Vector2 dustVelocity = dustRotation - Player.Center;
+                        int brimDust2 = Dust.NewDust(dustRotation + dustVelocity, 0, 0, (int)CalamityDusts.Brimstone, dustVelocity.X * 1.5f, dustVelocity.Y * 1.5f, 100, default, 1.4f);
+                        Main.dust[brimDust2].noGravity = true;
+                        Main.dust[brimDust2].noLight = true;
+                        Main.dust[brimDust2].velocity = dustVelocity;
                     }
                     if (Player.whoAmI == Main.myPlayer)
                     {
@@ -3142,9 +3148,9 @@ namespace CalamityMod.CalPlayer
         public static Vector2? GetUnderworldPosition(Player player)
         {
             bool canSpawn = false;
-            int num = Main.maxTilesX / 2;
-            int num2 = 100;
-            int num3 = num2 / 2;
+            int halfWorldXTiles = Main.maxTilesX / 2;
+            int largerCheckRadius = 100;
+            int smallerCheckRadius = 50;
             int teleportStartY = Main.UnderworldLayer + 20;
             int teleportRangeY = 80;
             Player.RandomTeleportationAttemptSettings settings = new Player.RandomTeleportationAttemptSettings
@@ -3158,12 +3164,12 @@ namespace CalamityMod.CalPlayer
                 maximumFallDistanceFromOrignalPoint = 30
             };
 
-            Vector2 vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num - num3, num2, teleportStartY, teleportRangeY, settings);
+            Vector2 vector = player.CheckForGoodTeleportationSpot(ref canSpawn, halfWorldXTiles - smallerCheckRadius, largerCheckRadius, teleportStartY, teleportRangeY, settings);
             if (!canSpawn)
-                vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num - num2, num3, teleportStartY, teleportRangeY, settings);
+                vector = player.CheckForGoodTeleportationSpot(ref canSpawn, halfWorldXTiles - largerCheckRadius, smallerCheckRadius, teleportStartY, teleportRangeY, settings);
 
             if (!canSpawn)
-                vector = player.CheckForGoodTeleportationSpot(ref canSpawn, num + num3, num3, teleportStartY, teleportRangeY, settings);
+                vector = player.CheckForGoodTeleportationSpot(ref canSpawn, halfWorldXTiles + smallerCheckRadius, smallerCheckRadius, teleportStartY, teleportRangeY, settings);
 
             if (canSpawn)
             {
@@ -3901,46 +3907,46 @@ namespace CalamityMod.CalPlayer
                 {
                     if (!CalamityLists.VeneratedLocketBanlist.Contains(item.type))
                     {
-                        float num72 = item.shootSpeed;
-                        Vector2 vector2 = Player.RotatedRelativePoint(Player.MountedCenter, true);
-                        float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                        float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+                        float veneratedCloneSpeed = item.shootSpeed;
+                        Vector2 realPlayerPos = Player.RotatedRelativePoint(Player.MountedCenter, true);
+                        float veneratedCloneXPos = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+                        float veneratedCloneYPos = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
                         if (Player.gravDir == -1f)
                         {
-                            num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                            veneratedCloneYPos = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - realPlayerPos.Y;
                         }
-                        float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                        if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+                        float veneratedCloneDistance = (float)Math.Sqrt((double)(veneratedCloneXPos * veneratedCloneXPos + veneratedCloneYPos * veneratedCloneYPos));
+                        if ((float.IsNaN(veneratedCloneXPos) && float.IsNaN(veneratedCloneYPos)) || (veneratedCloneXPos == 0f && veneratedCloneYPos == 0f))
                         {
-                            num78 = (float)Player.direction;
-                            num79 = 0f;
-                            num80 = num72;
+                            veneratedCloneXPos = (float)Player.direction;
+                            veneratedCloneYPos = 0f;
+                            veneratedCloneDistance = veneratedCloneSpeed;
                         }
                         else
                         {
-                            num80 = num72 / num80;
+                            veneratedCloneDistance = veneratedCloneSpeed / veneratedCloneDistance;
                         }
 
-                        vector2 = new Vector2(Player.position.X + (float)Player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)Player.direction) + ((float)Main.mouseX + Main.screenPosition.X - Player.position.X), Player.MountedCenter.Y - 600f);
-                        vector2.X = (vector2.X + Player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                        vector2.Y -= 100f;
-                        num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                        num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                        if (num79 < 0f)
+                        realPlayerPos = new Vector2(Player.position.X + (float)Player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)Player.direction) + ((float)Main.mouseX + Main.screenPosition.X - Player.position.X), Player.MountedCenter.Y - 600f);
+                        realPlayerPos.X = (realPlayerPos.X + Player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
+                        realPlayerPos.Y -= 100f;
+                        veneratedCloneXPos = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+                        veneratedCloneYPos = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
+                        if (veneratedCloneYPos < 0f)
                         {
-                            num79 *= -1f;
+                            veneratedCloneYPos *= -1f;
                         }
-                        if (num79 < 20f)
+                        if (veneratedCloneYPos < 20f)
                         {
-                            num79 = 20f;
+                            veneratedCloneYPos = 20f;
                         }
-                        num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                        num80 = num72 / num80;
-                        num78 *= num80;
-                        num79 *= num80;
-                        float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                        float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                        int p = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.07), knockBack * 0.5f, Player.whoAmI);
+                        veneratedCloneDistance = (float)Math.Sqrt((double)(veneratedCloneXPos * veneratedCloneXPos + veneratedCloneYPos * veneratedCloneYPos));
+                        veneratedCloneDistance = veneratedCloneSpeed / veneratedCloneDistance;
+                        veneratedCloneXPos *= veneratedCloneDistance;
+                        veneratedCloneYPos *= veneratedCloneDistance;
+                        float speedX4 = veneratedCloneXPos + (float)Main.rand.Next(-30, 31) * 0.02f;
+                        float speedY5 = veneratedCloneYPos + (float)Main.rand.Next(-30, 31) * 0.02f;
+                        int p = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, speedX4, speedY5, type, (int)(damage * 0.07), knockBack * 0.5f, Player.whoAmI);
 
                         if (p.WithinBounds(Main.maxProjectiles))
                         {

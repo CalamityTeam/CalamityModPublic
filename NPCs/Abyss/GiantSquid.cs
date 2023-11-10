@@ -125,20 +125,20 @@ namespace CalamityMod.NPCs.Abyss
             {
                 NPC.localAI[2] = 1f;
                 NPC.velocity *= 0.975f;
-                float num263 = 1.6f;
-                if (NPC.velocity.X > -num263 && NPC.velocity.X < num263 && NPC.velocity.Y > -num263 && NPC.velocity.Y < num263)
+                float lungeThreshold = 1.6f;
+                if (NPC.velocity.X > -lungeThreshold && NPC.velocity.X < lungeThreshold && NPC.velocity.Y > -lungeThreshold && NPC.velocity.Y < lungeThreshold)
                 {
                     NPC.TargetClosest(true);
-                    float num264 = CalamityWorld.death ? 24f : CalamityWorld.revenge ? 20f : 16f;
-                    Vector2 vector31 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                    float num265 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - vector31.X;
-                    float num266 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - vector31.Y;
-                    float num267 = (float)Math.Sqrt((double)(num265 * num265 + num266 * num266));
-                    num267 = num264 / num267;
-                    num265 *= num267;
-                    num266 *= num267;
-                    NPC.velocity.X = num265;
-                    NPC.velocity.Y = num266;
+                    float lungeSpeed = CalamityWorld.death ? 24f : CalamityWorld.revenge ? 20f : 16f;
+                    Vector2 lungeNPCPos = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                    float lungeTargetX = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - lungeNPCPos.X;
+                    float lungeTargetY = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - lungeNPCPos.Y;
+                    float lungeTargetDist = (float)Math.Sqrt((double)(lungeTargetX * lungeTargetX + lungeTargetY * lungeTargetY));
+                    lungeTargetDist = lungeSpeed / lungeTargetDist;
+                    lungeTargetX *= lungeTargetDist;
+                    lungeTargetY *= lungeTargetDist;
+                    NPC.velocity.X = lungeTargetX;
+                    NPC.velocity.Y = lungeTargetY;
                     return;
                 }
             }
@@ -166,15 +166,15 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.ai[0] = -1f;
                     }
                 }
-                int num268 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
-                int num269 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                if (Main.tile[num268, num269 - 1].LiquidAmount > 128)
+                int npcTileX = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
+                int npcTileY = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
+                if (Main.tile[npcTileX, npcTileY - 1].LiquidAmount > 128)
                 {
-                    if (Main.tile[num268, num269 + 1].HasTile)
+                    if (Main.tile[npcTileX, npcTileY + 1].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }
-                    else if (Main.tile[num268, num269 + 2].HasTile)
+                    else if (Main.tile[npcTileX, npcTileY + 2].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }

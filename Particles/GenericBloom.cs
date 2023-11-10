@@ -9,14 +9,15 @@ namespace CalamityMod.Particles
     public class GenericBloom : Particle
     {
         public override string Texture => "CalamityMod/Particles/Light";
-        public override bool UseAdditiveBlend => true;
+        public bool UseAltVisual = true;
+        public override bool UseAdditiveBlend => UseAltVisual;
         public override bool SetLifetime => true;
 
         private float opacity;
         private Color BaseColor;
         private bool ProduceLight;
 
-        public GenericBloom(Vector2 position, Vector2 velocity, Color color, float scale, int lifeTime, bool produceLight = true)
+        public GenericBloom(Vector2 position, Vector2 velocity, Color color, float scale, int lifeTime, bool produceLight = true, bool AddativeBlend = true)
         {
             Position = position;
             Velocity = velocity;
@@ -25,6 +26,7 @@ namespace CalamityMod.Particles
             Lifetime = lifeTime;
             Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
             ProduceLight = produceLight;
+            UseAltVisual = AddativeBlend;
         }
 
         public override void Update()

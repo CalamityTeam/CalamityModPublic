@@ -121,12 +121,12 @@ namespace CalamityMod.NPCs.SunkenSea
                 else if (NPC.velocity.Y == 0f)
                 {
                     NPC.ai[2] += 1f;
-                    int num321 = 20;
+                    int decelerationTimer = 20;
                     if (NPC.ai[1] == 0f)
                     {
-                        num321 = 12;
+                        decelerationTimer = 12;
                     }
-                    if (NPC.ai[2] < (float)num321)
+                    if (NPC.ai[2] < (float)decelerationTimer)
                     {
                         NPC.velocity.X *= 0.9f;
                         return;

@@ -10,12 +10,18 @@ namespace CalamityMod.Items.Weapons.Summon
     public class HauntedScroll : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
+	public override void SetStaticDefaults()
+	{
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
+	    Main.RegisterItemAnimation(Type, new DrawAnimationVertical(6, 6));
+	}
+
         public override void SetDefaults()
         {
             Item.damage = 25;
             Item.mana = 10;
-            Item.width = 52;
-            Item.height = 52;
+            Item.width = 36;
+            Item.height = 48;
             Item.useTime = Item.useAnimation = 24;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.noMelee = true;

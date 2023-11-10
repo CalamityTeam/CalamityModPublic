@@ -1,9 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
 using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Rubblemaker.Abyss
@@ -17,8 +16,8 @@ namespace CalamityMod.Tiles.Rubblemaker.Abyss
             Main.tileLavaDeath[Type] = true;
             Main.tileWaterDeath[Type] = false;
             Main.tileNoAttach[Type] = true;
-            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
+            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(106, 80, 102));
             DustType = 33;

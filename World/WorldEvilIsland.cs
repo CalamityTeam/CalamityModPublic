@@ -283,14 +283,14 @@ namespace CalamityMod.World
             ushort type = (ushort)(genCorruptHouse ? 152 : 347); //tile
             byte wall = (byte)(genCorruptHouse ? 35 : 174); //wall
             Vector2 vector = new Vector2((float)i, (float)j);
-            int num = 1;
+            int houseDirection = 1;
             if (WorldGen.genRand.Next(2) == 0)
             {
-                num = -1;
+                houseDirection = -1;
             }
-            int num2 = WorldGen.genRand.Next(7, 12);
-            int num3 = WorldGen.genRand.Next(5, 7);
-            vector.X = (float)(i + (num2 + 2) * num);
+            int largerRandValue = WorldGen.genRand.Next(7, 12);
+            int smallerRandValue = WorldGen.genRand.Next(5, 7);
+            vector.X = (float)(i + (largerRandValue + 2) * houseDirection);
             for (int k = j - 15; k < j + 30; k++)
             {
                 if (Main.tile[(int)vector.X, k].HasTile)
@@ -300,31 +300,31 @@ namespace CalamityMod.World
                 }
             }
             vector.X = (float)i;
-            int num4 = (int)(vector.X - (float)num2 - 1f);
-            int num5 = (int)(vector.X + (float)num2 + 1f);
-            int num6 = (int)(vector.Y - (float)num3 - 1f);
-            int num7 = (int)(vector.Y + 2f);
-            if (num4 < 0)
+            int minXSize = (int)(vector.X - (float)largerRandValue - 1f);
+            int maxXSize = (int)(vector.X + (float)largerRandValue + 1f);
+            int minYSize = (int)(vector.Y - (float)smallerRandValue - 1f);
+            int maxYSize = (int)(vector.Y + 2f);
+            if (minXSize < 0)
             {
-                num4 = 0;
+                minXSize = 0;
             }
-            if (num5 > Main.maxTilesX)
+            if (maxXSize > Main.maxTilesX)
             {
-                num5 = Main.maxTilesX;
+                maxXSize = Main.maxTilesX;
             }
-            if (num6 < 0)
+            if (minYSize < 0)
             {
-                num6 = 0;
+                minYSize = 0;
             }
-            if (num7 > Main.maxTilesY)
+            if (maxYSize > Main.maxTilesY)
             {
-                num7 = Main.maxTilesY;
+                maxYSize = Main.maxTilesY;
             }
-            for (int l = num4; l <= num5; l++)
+            for (int l = minXSize; l <= maxXSize; l++)
             {
-                for (int m = num6 - 1; m < num7 + 1; m++)
+                for (int m = minYSize - 1; m < maxYSize + 1; m++)
                 {
-                    if (m != num6 - 1 || (l != num4 && l != num5))
+                    if (m != minYSize - 1 || (l != minXSize && l != maxXSize))
                     {
                         Main.tile[l, m].Get<TileWallWireStateData>().HasTile = true;
                         Main.tile[l, m].LiquidAmount = 0;
@@ -335,55 +335,55 @@ namespace CalamityMod.World
                     }
                 }
             }
-            num4 = (int)(vector.X - (float)num2);
-            num5 = (int)(vector.X + (float)num2);
-            num6 = (int)(vector.Y - (float)num3);
-            num7 = (int)(vector.Y + 1f);
-            if (num4 < 0)
+            minXSize = (int)(vector.X - (float)largerRandValue);
+            maxXSize = (int)(vector.X + (float)largerRandValue);
+            minYSize = (int)(vector.Y - (float)smallerRandValue);
+            maxYSize = (int)(vector.Y + 1f);
+            if (minXSize < 0)
             {
-                num4 = 0;
+                minXSize = 0;
             }
-            if (num5 > Main.maxTilesX)
+            if (maxXSize > Main.maxTilesX)
             {
-                num5 = Main.maxTilesX;
+                maxXSize = Main.maxTilesX;
             }
-            if (num6 < 0)
+            if (minYSize < 0)
             {
-                num6 = 0;
+                minYSize = 0;
             }
-            if (num7 > Main.maxTilesY)
+            if (maxYSize > Main.maxTilesY)
             {
-                num7 = Main.maxTilesY;
+                maxYSize = Main.maxTilesY;
             }
-            for (int n = num4; n <= num5; n++)
+            for (int n = minXSize; n <= maxXSize; n++)
             {
-                for (int num8 = num6; num8 < num7; num8++)
+                for (int p = minYSize; p < maxYSize; p++)
                 {
-                    if ((num8 != num6 || (n != num4 && n != num5)) && Main.tile[n, num8].WallType == 0)
+                    if ((p != minYSize || (n != minXSize && n != maxXSize)) && Main.tile[n, p].WallType == 0)
                     {
-                        Main.tile[n, num8].Get<TileWallWireStateData>().HasTile = false;
-                        Main.tile[n, num8].WallType = wall;
+                        Main.tile[n, p].Get<TileWallWireStateData>().HasTile = false;
+                        Main.tile[n, p].WallType = wall;
                     }
                 }
             }
-            int num9 = i + (num2 + 1) * num;
-            int num10 = (int)vector.Y;
-            for (int num11 = num9 - 2; num11 <= num9 + 2; num11++)
+            int xPos = i + (largerRandValue + 1) * houseDirection;
+            int t = (int)vector.Y;
+            for (int s = xPos - 2; s <= xPos + 2; s++)
             {
-                Main.tile[num11, num10].Get<TileWallWireStateData>().HasTile = false;
-                Main.tile[num11, num10 - 1].Get<TileWallWireStateData>().HasTile = false;
-                Main.tile[num11, num10 - 2].Get<TileWallWireStateData>().HasTile = false;
+                Main.tile[s, t].Get<TileWallWireStateData>().HasTile = false;
+                Main.tile[s, t - 1].Get<TileWallWireStateData>().HasTile = false;
+                Main.tile[s, t - 2].Get<TileWallWireStateData>().HasTile = false;
             }
-            WorldGen.PlaceTile(num9, num10, 10, true, false, -1, genCorruptHouse ? 1 : 10); //door
-            num9 = i + (num2 + 1) * -num - num;
-            for (int num12 = num6; num12 <= num7 + 1; num12++)
+            WorldGen.PlaceTile(xPos, t, 10, true, false, -1, genCorruptHouse ? 1 : 10); //door
+            xPos = i + (largerRandValue + 1) * -houseDirection - houseDirection;
+            for (int yPos = minYSize; yPos <= maxYSize + 1; yPos++)
             {
-                Main.tile[num9, num12].Get<TileWallWireStateData>().HasTile = true;
-                Main.tile[num9, num12].LiquidAmount = 0;
-                Main.tile[num9, num12].TileType = type;
-                Main.tile[num9, num12].WallType = 0;
-                Main.tile[num9, num12].Get<TileWallWireStateData>().IsHalfBlock = false;
-                Main.tile[num9, num12].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
+                Main.tile[xPos, yPos].Get<TileWallWireStateData>().HasTile = true;
+                Main.tile[xPos, yPos].LiquidAmount = 0;
+                Main.tile[xPos, yPos].TileType = type;
+                Main.tile[xPos, yPos].WallType = 0;
+                Main.tile[xPos, yPos].Get<TileWallWireStateData>().IsHalfBlock = false;
+                Main.tile[xPos, yPos].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
             }
             int contain;
             if (genCorruptHouse)
@@ -394,37 +394,37 @@ namespace CalamityMod.World
             {
                 contain = 1569; //vampire
             }
-            WorldGen.AddBuriedChest(i, num10 - 3, contain, false, genCorruptHouse ? 19 : 20); //chest
-            int num14 = i - num2 / 2 + 1;
-            int num15 = i + num2 / 2 - 1;
-            int num16 = 1;
-            if (num2 > 10)
+            WorldGen.AddBuriedChest(i, t - 3, contain, false, genCorruptHouse ? 19 : 20); //chest
+            int wallXMinSize = i - largerRandValue / 2 + 1;
+            int wallXMaxSize = i + largerRandValue / 2 - 1;
+            int wallYSize = 1;
+            if (largerRandValue > 10)
             {
-                num16 = 2;
+                wallYSize = 2;
             }
-            int num17 = (num6 + num7) / 2 - 1;
-            for (int num18 = num14 - num16; num18 <= num14 + num16; num18++)
+            int wallYRange = (minYSize + maxYSize) / 2 - 1;
+            for (int wallX = wallXMinSize - wallYSize; wallX <= wallXMinSize + wallYSize; wallX++)
             {
-                for (int num19 = num17 - 1; num19 <= num17 + 1; num19++)
+                for (int wallY = wallYRange - 1; wallY <= wallYRange + 1; wallY++)
                 {
-                    Main.tile[num18, num19].WallType = 21; //glass
+                    Main.tile[wallX, wallY].WallType = 21; //glass
                 }
             }
-            for (int num20 = num15 - num16; num20 <= num15 + num16; num20++)
+            for (int wallX2 = wallXMaxSize - wallYSize; wallX2 <= wallXMaxSize + wallYSize; wallX2++)
             {
-                for (int num21 = num17 - 1; num21 <= num17 + 1; num21++)
+                for (int wallY2 = wallYRange - 1; wallY2 <= wallYRange + 1; wallY2++)
                 {
-                    Main.tile[num20, num21].WallType = 21; //glass
+                    Main.tile[wallX2, wallY2].WallType = 21; //glass
                 }
             }
-            int num22 = i + (num2 / 2 + 1) * -num;
-            WorldGen.PlaceTile(num22, num7 - 1, 14, true, false, -1, genCorruptHouse ? 1 : 8); //table
-            WorldGen.PlaceTile(num22 - 2, num7 - 1, 15, true, false, 0, genCorruptHouse ? 2 : 11); //chair
-            Tile tile = Main.tile[num22 - 2, num7 - 1];
+            int furnitureXPos = i + (largerRandValue / 2 + 1) * -houseDirection;
+            WorldGen.PlaceTile(furnitureXPos, maxYSize - 1, 14, true, false, -1, genCorruptHouse ? 1 : 8); //table
+            WorldGen.PlaceTile(furnitureXPos - 2, maxYSize - 1, 15, true, false, 0, genCorruptHouse ? 2 : 11); //chair
+            Tile tile = Main.tile[furnitureXPos - 2, maxYSize - 1];
             tile.TileFrameX += 18;
-            Tile tile2 = Main.tile[num22 - 2, num7 - 2];
+            Tile tile2 = Main.tile[furnitureXPos - 2, maxYSize - 2];
             tile2.TileFrameX += 18;
-            WorldGen.PlaceTile(num22 + 2, num7 - 1, 15, true, false, 0, genCorruptHouse ? 2 : 11); //chair
+            WorldGen.PlaceTile(furnitureXPos + 2, maxYSize - 1, 15, true, false, 0, genCorruptHouse ? 2 : 11); //chair
         }
     }
 }

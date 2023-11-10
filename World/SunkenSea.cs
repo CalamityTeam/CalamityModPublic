@@ -67,13 +67,13 @@ namespace CalamityMod.World
 
             private void AttemptClaim(int x, int y, int[,] clusterIndexMap, List<List<Point>> pointClusters, int index) //Attempts to create a cluster
             {
-                int num = clusterIndexMap[x, y];
-                if (num != -1 && num != index)
+                int clusterPos = clusterIndexMap[x, y];
+                if (clusterPos != -1 && clusterPos != index)
                 {
-                    int num2 = (WorldGen.genRand.Next(2) == 0) ? -1 : index;
-                    foreach (Point current in pointClusters[num])
+                    int clusterHeight = (WorldGen.genRand.Next(2) == 0) ? -1 : index;
+                    foreach (Point current in pointClusters[clusterPos])
                     {
-                        clusterIndexMap[current.X, current.Y] = num2;
+                        clusterIndexMap[current.X, current.Y] = clusterHeight;
                     }
                 }
             }
@@ -84,14 +84,14 @@ namespace CalamityMod.World
                 Height = height;
                 Clear();
                 bool[,] array = new bool[width, height];
-                int num = (width >> 1) - 1;
-                int num2 = (height >> 1) - 1;
-                int num3 = (num + 1) * (num + 1);
-                Point point = new Point(num, num2);
-                for (int i = point.Y - num2; i <= point.Y + num2; i++)
+                int clusterPos = (width >> 1) - 1;
+                int clusterHeight = (height >> 1) - 1;
+                int clusterSize = (clusterPos + 1) * (clusterPos + 1);
+                Point point = new Point(clusterPos, clusterHeight);
+                for (int i = point.Y - clusterHeight; i <= point.Y + clusterHeight; i++)
                 {
-                    float num4 = (float)num / (float)num2 * (float)(i - point.Y);
-                    int num5 = Math.Min(num, (int)Math.Sqrt((float)num3 - num4 * num4));
+                    float num4 = (float)clusterPos / (float)clusterHeight * (float)(i - point.Y);
+                    int num5 = Math.Min(clusterPos, (int)Math.Sqrt((float)clusterSize - num4 * num4));
                     for (int j = point.X - num5; j <= point.X + num5; j++)
                     {
                         array[j, i] = WorldGen.genRand.Next(2) == 0;
@@ -210,7 +210,7 @@ namespace CalamityMod.World
                 for (int j = -20; j < totalHeight + 20; j++)
                 {
                     float num3 = 0f;
-                    int num4 = -1;
+                    int clusterAmt = -1;
                     float num5 = 0f;
                     int num6 = i + start.X;
                     int num7 = j + start.Y;
@@ -233,7 +233,7 @@ namespace CalamityMod.World
                                     num5 = num3;
                                 }
                                 num3 = num9;
-                                num4 = k;
+                                clusterAmt = k;
                             }
                             else if (num9 > num5)
                             {
@@ -248,7 +248,7 @@ namespace CalamityMod.World
                     {
                         tile.ClearEverything();
                         tile.LiquidAmount = 192;
-                        if (num4 % 5 == 2)
+                        if (clusterAmt % 5 == 2)
                         {
                             tile.ResetToType((ushort)ModContent.TileType<EutrophicSand>());
                             tile.Get<TileWallWireStateData>().HasTile = true;

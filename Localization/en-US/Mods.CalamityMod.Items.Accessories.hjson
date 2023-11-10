@@ -1001,8 +1001,8 @@ LeviathanAmbergris: {
 	DisplayName: Leviathan Ambergris
 	Tooltip:
 		'''
-		15% increased dash velocity
-		You gain 5% damage reduction while dashing
+		20% increased dash velocity
+		Delay after dashing is reduced by 33%
 		Your dashes are empowered by water, knocking back and damaging nearby enemies with viscous currents
 		'''
 }
@@ -1547,7 +1547,8 @@ SlagsplitterPauldron: {
 	DisplayName: Slagsplitter Pauldron
 	Tooltip:
 		'''
-		You gain 5% damage reduction while dashing
+		You gain 10% damage reduction while dashing
+		Enemies you dash through are afflicted with Armor Crunch
 		Your dashes are empowered by fire, shredding enemies near you with violent explosions
 		'''
 }

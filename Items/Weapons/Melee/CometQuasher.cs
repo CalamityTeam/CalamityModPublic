@@ -36,48 +36,48 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
-            float num72 = Item.shootSpeed;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            float cometSpeed = Item.shootSpeed;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+            float mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                mouseYDist = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - realPlayerPos.Y;
             }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            float mouseDistance = (float)Math.Sqrt((double)(mouseXDist * mouseXDist + mouseYDist * mouseYDist));
+            if ((float.IsNaN(mouseXDist) && float.IsNaN(mouseYDist)) || (mouseXDist == 0f && mouseYDist == 0f))
             {
-                num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
+                mouseXDist = (float)player.direction;
+                mouseYDist = 0f;
+                mouseDistance = cometSpeed;
             }
             else
             {
-                num80 = num72 / num80;
+                mouseDistance = cometSpeed / mouseDistance;
             }
 
-            for (int num113 = 0; num113 < 2; num113++)
+            for (int i = 0; i < 2; i++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                vector2.Y -= (float)(100 * num113);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X + (float)Main.rand.Next(-40, 41) * 0.03f;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
+                realPlayerPos = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                realPlayerPos.X = (realPlayerPos.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
+                realPlayerPos.Y -= (float)(100 * i);
+                mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X + (float)Main.rand.Next(-40, 41) * 0.03f;
+                mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
+                if (mouseYDist < 0f)
                 {
-                    num79 *= -1f;
+                    mouseYDist *= -1f;
                 }
-                if (num79 < 20f)
+                if (mouseYDist < 20f)
                 {
-                    num79 = 20f;
+                    mouseYDist = 20f;
                 }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float num114 = num78;
-                float num115 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                int proj = Projectile.NewProjectile(source, vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, ModContent.ProjectileType<CometQuasherMeteor>(), (int)(Item.damage * 0.5f), Item.knockBack, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
+                mouseDistance = (float)Math.Sqrt((double)(mouseXDist * mouseXDist + mouseYDist * mouseYDist));
+                mouseDistance = cometSpeed / mouseDistance;
+                mouseXDist *= mouseDistance;
+                mouseYDist *= mouseDistance;
+                float cometSpawnXOffset = mouseXDist;
+                float cometSpawnYOffset = mouseYDist + (float)Main.rand.Next(-40, 41) * 0.02f;
+                int proj = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, cometSpawnXOffset * 0.75f, cometSpawnYOffset * 0.75f, ModContent.ProjectileType<CometQuasherMeteor>(), (int)(Item.damage * 0.5f), Item.knockBack, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
                 Main.projectile[proj].Calamity().lineColor = Main.rand.Next(3);
             }
         }
@@ -85,48 +85,48 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
-            float num72 = Item.shootSpeed;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            float cometSpeed = Item.shootSpeed;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+            float mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                mouseYDist = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - realPlayerPos.Y;
             }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            float mouseDistance = (float)Math.Sqrt((double)(mouseXDist * mouseXDist + mouseYDist * mouseYDist));
+            if ((float.IsNaN(mouseXDist) && float.IsNaN(mouseYDist)) || (mouseXDist == 0f && mouseYDist == 0f))
             {
-                num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
+                mouseXDist = (float)player.direction;
+                mouseYDist = 0f;
+                mouseDistance = cometSpeed;
             }
             else
             {
-                num80 = num72 / num80;
+                mouseDistance = cometSpeed / mouseDistance;
             }
 
-            for (int num113 = 0; num113 < 2; num113++)
+            for (int i = 0; i < 2; i++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                vector2.Y -= (float)(100 * num113);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X + (float)Main.rand.Next(-40, 41) * 0.03f;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
+                realPlayerPos = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                realPlayerPos.X = (realPlayerPos.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
+                realPlayerPos.Y -= (float)(100 * i);
+                mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X + (float)Main.rand.Next(-40, 41) * 0.03f;
+                mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
+                if (mouseYDist < 0f)
                 {
-                    num79 *= -1f;
+                    mouseYDist *= -1f;
                 }
-                if (num79 < 20f)
+                if (mouseYDist < 20f)
                 {
-                    num79 = 20f;
+                    mouseYDist = 20f;
                 }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float num114 = num78;
-                float num115 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                int proj = Projectile.NewProjectile(source, vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, ModContent.ProjectileType<CometQuasherMeteor>(), (int)(Item.damage * 0.5f), Item.knockBack, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
+                mouseDistance = (float)Math.Sqrt((double)(mouseXDist * mouseXDist + mouseYDist * mouseYDist));
+                mouseDistance = cometSpeed / mouseDistance;
+                mouseXDist *= mouseDistance;
+                mouseYDist *= mouseDistance;
+                float cometSpawnXOffset = mouseXDist;
+                float cometSpawnYOffset = mouseYDist + (float)Main.rand.Next(-40, 41) * 0.02f;
+                int proj = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, cometSpawnXOffset * 0.75f, cometSpawnYOffset * 0.75f, ModContent.ProjectileType<CometQuasherMeteor>(), (int)(Item.damage * 0.5f), Item.knockBack, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.3f);
                 Main.projectile[proj].Calamity().lineColor = Main.rand.Next(3);
             }
         }

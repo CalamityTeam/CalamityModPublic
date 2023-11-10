@@ -114,13 +114,13 @@ namespace CalamityMod
             int height = 16;
             int yOffset = TileObjectData.GetTileData(tile).DrawYOffset;
 
-            ulong num190 = Main.TileFrameSeed ^ (ulong)((long)j << 32 | (long)(uint)i);
+            ulong randShakeEffect = Main.TileFrameSeed ^ (ulong)((long)j << 32 | (long)(uint)i);
             float drawPositionX = i * 16 - (int)Main.screenPosition.X - (width - 16f) / 2f;
             float drawPositionY = j * 16 - (int)Main.screenPosition.Y;
             for (int c = 0; c < 7; c++)
             {
-                float shakeX = Utils.RandomInt(ref num190, -10, 11) * 0.15f;
-                float shakeY = Utils.RandomInt(ref num190, -10, 1) * 0.35f;
+                float shakeX = Utils.RandomInt(ref randShakeEffect, -10, 11) * 0.15f;
+                float shakeY = Utils.RandomInt(ref randShakeEffect, -10, 1) * 0.35f;
                 Main.spriteBatch.Draw(flameTexture, new Vector2(drawPositionX + shakeX, drawPositionY + shakeY + yOffset) + zero, new Rectangle(tile.TileFrameX + offsetX, tile.TileFrameY + offsetY, width, height), new Color(100, 100, 100, 0), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
             }
         }

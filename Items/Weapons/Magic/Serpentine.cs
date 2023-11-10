@@ -34,31 +34,31 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int owner = player.whoAmI;
-            float num72 = Item.shootSpeed;
+            float projSpeed = Item.shootSpeed;
             player.itemTime = Item.useTime;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
-            Vector2 vector3 = Main.MouseWorld - vector2;
-            float velX = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float velY = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            Vector2 projRotation = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
+            Vector2 projSpawnPos = Main.MouseWorld - realPlayerPos;
+            float velX = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+            float velY = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
             if (player.gravDir == -1f)
             {
-                velY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                velY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - realPlayerPos.Y;
             }
             float dist = (float)Math.Sqrt((double)(velX * velX + velY * velY));
             if ((float.IsNaN(velX) && float.IsNaN(velY)) || (velX == 0f && velY == 0f))
             {
                 velX = (float)player.direction;
                 velY = 0f;
-                dist = num72;
+                dist = projSpeed;
             }
             else
             {
-                dist = num72 / dist;
+                dist = projSpeed / dist;
             }
 
-            float num77 = Vector2.Dot(value, vector3);
-            if (num77 > 0f)
+            float projDirection = Vector2.Dot(projRotation, projSpawnPos);
+            if (projDirection > 0f)
             {
                 player.ChangeDir(1);
             }
@@ -68,8 +68,8 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             //velX = 0f;
             //velY = 0f;
-            //vector2.X = (float)Main.mouseX + Main.screenPosition.X;
-            //vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
+            //realPlayerPos.X = (float)Main.mouseX + Main.screenPosition.X;
+            //realPlayerPos.Y = (float)Main.mouseY + Main.screenPosition.Y;
             int curr = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SerpentineHead>(), damage, knockback, owner);
 
             int prev = curr;

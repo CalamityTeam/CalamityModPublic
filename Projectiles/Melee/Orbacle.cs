@@ -7,6 +7,7 @@ namespace CalamityMod.Projectiles.Melee
     public class Orbacle : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
+        public override string Texture => "CalamityMod/ExtraTextures/TinyGreyscaleCircle";
         private static int Lifetime = 40;
 
         public override void SetDefaults()

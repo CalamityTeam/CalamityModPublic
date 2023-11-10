@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee.Yoyos;
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -19,7 +18,36 @@ namespace CalamityMod
 {
     public static partial class CalamityUtils
     {
-        public static int CountProjectiles(int Type) => Main.projectile.Count(proj => proj.type == Type && proj.active);
+        public static bool AnyProjectiles(int projectileID)
+        {
+            // Efficiently loop through all projectiles, using a specially designed continue continue that attempts to minimize the amount of OR
+            // checks per iteration.
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                Projectile p = Main.projectile[i];
+                if (p.type != projectileID || !p.active)
+                    continue;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public static IEnumerable<Projectile> AllProjectilesByID(int projectileID)
+        {
+            // This uses the same efficient loop idea as AnyProjectiles.
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                Projectile p = Main.projectile[i];
+                if (p.type != projectileID || !p.active)
+                    continue;
+
+                yield return p;
+            }
+        }
+
+        public static int CountProjectiles(int projectileID) => Main.projectile.Count(proj => proj.type == projectileID && proj.active);
 
         public static int CountHookProj() => Main.projectile.Count(proj => Main.projHook[proj.type] && proj.ai[0] == 2f && proj.active && proj.owner == Main.myPlayer);
 
@@ -157,7 +185,7 @@ namespace CalamityMod
         public static Vector2 SuperhomeTowardsTarget(this Projectile projectile, NPC target, float homingSpeed, float inertia, float predictionStrength = 1f)
         {
             if (predictionStrength < 0.01f) { predictionStrength = 0.01f; }
-            Vector2 idealVelocity = CalculatePredictiveAimToTarget(projectile.Center, target, homingSpeed/predictionStrength) * predictionStrength;
+            Vector2 idealVelocity = CalculatePredictiveAimToTarget(projectile.Center, target, homingSpeed / predictionStrength) * predictionStrength;
             return (projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
         }
         #endregion

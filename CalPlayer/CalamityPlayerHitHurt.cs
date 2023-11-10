@@ -119,8 +119,8 @@ namespace CalamityMod.CalPlayer
 
             for (int j = 0; j < 100; j++)
             {
-                int num = Dust.NewDust(Player.position, Player.width, Player.height, 235, 0f, 0f, 100, default, 2f);
-                Dust dust = Main.dust[num];
+                int scarfDodgeDust = Dust.NewDust(Player.position, Player.width, Player.height, 235, 0f, 0f, 100, default, 2f);
+                Dust dust = Main.dust[scarfDodgeDust];
                 dust.position.X += Main.rand.Next(-20, 21);
                 dust.position.Y += Main.rand.Next(-20, 21);
                 dust.velocity *= 0.4f;
@@ -233,8 +233,8 @@ namespace CalamityMod.CalPlayer
 
                 for (int j = 0; j < 50; j++)
                 {
-                    int num = Dust.NewDust(Player.position, Player.width, Player.height, 173, 0f, 0f, 100, default, 2f);
-                    Dust dust = Main.dust[num];
+                    int nebulousReviveDust = Dust.NewDust(Player.position, Player.width, Player.height, 173, 0f, 0f, 100, default, 2f);
+                    Dust dust = Main.dust[nebulousReviveDust];
                     dust.position.X += Main.rand.Next(-20, 21);
                     dust.position.Y += Main.rand.Next(-20, 21);
                     dust.velocity *= 0.9f;
@@ -2585,18 +2585,18 @@ namespace CalamityMod.CalPlayer
                     {
                         if (Player.inventory[i].stack > 0 && ((Player.inventory[i].type >= ItemID.LargeAmethyst && Player.inventory[i].type <= ItemID.LargeDiamond) || Player.inventory[i].type == ItemID.LargeAmber))
                         {
-                            int num = Item.NewItem(source, (int)Player.position.X, (int)Player.position.Y, Player.width, Player.height, Player.inventory[i].type, 1, false, 0, false, false);
-                            Main.item[num].netDefaults(Player.inventory[i].netID);
-                            Main.item[num].Prefix((int)Player.inventory[i].prefix);
-                            Main.item[num].stack = Player.inventory[i].stack;
-                            Main.item[num].velocity.Y = (float)Main.rand.Next(-20, 1) * 0.2f;
-                            Main.item[num].velocity.X = (float)Main.rand.Next(-20, 21) * 0.2f;
-                            Main.item[num].noGrabDelay = 100;
-                            Main.item[num].favorited = false;
-                            Main.item[num].newAndShiny = false;
+                            int droppedLargeGem = Item.NewItem(source, (int)Player.position.X, (int)Player.position.Y, Player.width, Player.height, Player.inventory[i].type, 1, false, 0, false, false);
+                            Main.item[droppedLargeGem].netDefaults(Player.inventory[i].netID);
+                            Main.item[droppedLargeGem].Prefix((int)Player.inventory[i].prefix);
+                            Main.item[droppedLargeGem].stack = Player.inventory[i].stack;
+                            Main.item[droppedLargeGem].velocity.Y = (float)Main.rand.Next(-20, 1) * 0.2f;
+                            Main.item[droppedLargeGem].velocity.X = (float)Main.rand.Next(-20, 21) * 0.2f;
+                            Main.item[droppedLargeGem].noGrabDelay = 100;
+                            Main.item[droppedLargeGem].favorited = false;
+                            Main.item[droppedLargeGem].newAndShiny = false;
                             if (Main.netMode == NetmodeID.MultiplayerClient)
                             {
-                                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, num, 0f, 0f, 0f, 0, 0, 0);
+                                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, droppedLargeGem, 0f, 0f, 0f, 0, 0, 0);
                             }
                             Player.inventory[i].SetDefaults(0, false);
                         }

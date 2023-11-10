@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             Player player = Main.player[Projectile.owner];
             Texture2D chainTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseDragonChain").Value;
-            Texture2D pulseTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseAura").Value;
+            Texture2D pulseTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SmallGreyscaleCircle").Value;
             Texture2D dragonHeadTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseDragonProjectile").Value;
             if (ReelingBack)
                 dragonHeadTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseDragonHeadClosed").Value;

@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Typeless
                 target.velocity.X += 4.2f * Owner.direction;
             }
             target.AddBuff(BuffID.Wet, 300);
-            target.AddBuff(ModContent.BuffType<Buffs.DamageOverTime.RiptideDebuff>(), 60);
-            SoundEngine.PlaySound(SoundID.Item85 with { Volume = 0.6f, PitchVariance = 0.4f }, Projectile.Center);
+            target.AddBuff(ModContent.BuffType<Buffs.DamageOverTime.RiptideDebuff>(), 180);
+            SoundEngine.PlaySound(SoundID.Item85 with { Volume = 0.4f, PitchVariance = 0.4f }, Projectile.Center);
             for (int i = 0; i < 3; ++i)
             {
                 int bloodLifetime = Main.rand.Next(20, 26);
