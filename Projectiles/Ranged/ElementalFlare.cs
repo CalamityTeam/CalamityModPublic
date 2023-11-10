@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Ranged
                 float hue = 0.5f + 0.5f * i / (float)Projectile.oldPos.Length * MathF.Sin(Main.GlobalTimeWrappedHourly * 5f);
                 Color color = Main.hslToRgb(hue, 1f, 0.6f);
                 Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(-15f, -15f);
-                Color outerColor = color;
+                Color outerColor = color * 2f;
                 Color innerColor = Color.Lerp(color, Color.White, 0.2f) * 0.5f;
                 float intensity = 0.9f + 0.15f * MathF.Cos(Main.GlobalTimeWrappedHourly % 60f * MathHelper.TwoPi);
 

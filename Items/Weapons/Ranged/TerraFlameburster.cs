@@ -13,51 +13,37 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
 
         public int FlareCounter = 0;
+        public int TerraUseTime = 8;
 
         public override void SetDefaults()
         {
-            Item.damage = 55;
+            Item.damage = 58;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 68;
             Item.height = 22;
-            Item.useTime = 8;
-            Item.useAnimation = 32;
+            Item.useTime = TerraUseTime;
+            Item.useAnimation = TerraUseTime;
             Item.useStyle = ItemUseStyleID.Shoot;
+            Item.noUseGraphic = true;
             Item.noMelee = true;
             Item.knockBack = 3.25f;
-            Item.UseSound = SoundID.Item34;
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<TerraFire>();
-            Item.shootSpeed = 8f;
+            Item.shoot = ModContent.ProjectileType<TerraFlamebursterHoldout>();
+            Item.shootSpeed = 10f;
             Item.useAmmo = AmmoID.Gel;
-            Item.consumeAmmoOnFirstShotOnly = true;
+            Item.channel = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
-
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+        
+        // Spawning the holdout cannot consume ammo
+        public override bool CanConsumeAmmo(Item ammo, Player player) => player.ownedProjectileCounts[Item.shoot] > 0;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            // Fires a pair of homing terra flares
-            FlareCounter++;
-            if (FlareCounter >= 4)
-            {
-                FlareCounter = 0;
-                Vector2 newPos = position + velocity.SafeNormalize(Vector2.UnitX) * 36f;
-                float randAngle = Main.rand.NextFloat(8f, 15f);
-                Vector2 newVel = velocity.RotatedBy(MathHelper.ToRadians(randAngle)) * 1.5f;
-                Projectile.NewProjectile(source, newPos, newVel, ModContent.ProjectileType<TerraFlare>(), damage, knockback, player.whoAmI);
-                newVel = velocity.RotatedBy(MathHelper.ToRadians(-randAngle)) * 1.5f;
-                Projectile.NewProjectile(source, newPos, newVel, ModContent.ProjectileType<TerraFlare>(), damage, knockback, player.whoAmI);
-            }
-
-            // Fires two flames, green and blue, slightly randomly spread
-            for (int i = 0; i < 2; i++)
-            {
-                Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(6f));
-                Projectile.NewProjectile(source, position, newVel, type, damage, knockback, player.whoAmI, i);
-            }
+            Projectile.NewProjectile(source, position, Vector2.Zero, type, 0, 0f, player.whoAmI);
             return false;
         }
 

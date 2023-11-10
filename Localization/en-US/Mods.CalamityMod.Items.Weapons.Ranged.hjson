@@ -440,9 +440,9 @@ ElementalEruption: {
 	DisplayName: Elemental Eruption
 	Tooltip:
 		'''
-		Spews rainbow flames and pairs of high-energy homing flares
-		Press <right> to fire a dense cluster of sticky flares
+		Charge and then spew rainbow flames and pairs of high-energy homing flares
 		Uses gel for ammo
+		70% chance to save ammo
 		'''
 }
 
@@ -1212,8 +1212,9 @@ TerraFlameburster: {
 	DisplayName: Terra Flameburster
 	Tooltip:
 		'''
-		Spews high-energy flames and pairs of homing flares
+		Charge and then spew high-energy flames and pairs of homing flares
 		Uses gel for ammo
+		50% chance to save ammo
 		'''
 }
 
