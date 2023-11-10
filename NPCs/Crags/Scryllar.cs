@@ -67,35 +67,35 @@ namespace CalamityMod.NPCs.Crags
         {
             NPC.rotation = NPC.velocity.X * 0.04f;
             NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
-            bool flag19 = false;
+            bool hoverDownDistCheck = false;
             if (NPC.justHit)
             {
                 NPC.ai[2] = 0f;
             }
             if (NPC.ai[2] >= 0f)
             {
-                int num282 = 16;
-                bool flag21 = false;
-                bool flag22 = false;
-                if (NPC.position.X > NPC.ai[0] - (float)num282 && NPC.position.X < NPC.ai[0] + (float)num282)
+                int hoverDistance = 16;
+                bool changeDirectionX = false;
+                bool changeDirectionY = false;
+                if (NPC.position.X > NPC.ai[0] - (float)hoverDistance && NPC.position.X < NPC.ai[0] + (float)hoverDistance)
                 {
-                    flag21 = true;
+                    changeDirectionX = true;
                 }
                 else if ((NPC.velocity.X < 0f && NPC.direction > 0) || (NPC.velocity.X > 0f && NPC.direction < 0))
                 {
-                    flag21 = true;
+                    changeDirectionX = true;
                 }
-                num282 += 24;
-                if (NPC.position.Y > NPC.ai[1] - (float)num282 && NPC.position.Y < NPC.ai[1] + (float)num282)
+                hoverDistance += 24;
+                if (NPC.position.Y > NPC.ai[1] - (float)hoverDistance && NPC.position.Y < NPC.ai[1] + (float)hoverDistance)
                 {
-                    flag22 = true;
+                    changeDirectionY = true;
                 }
-                if (flag21 && flag22)
+                if (changeDirectionX && changeDirectionY)
                 {
                     NPC.ai[2] += 1f;
-                    if (NPC.ai[2] >= 30f && num282 == 16)
+                    if (NPC.ai[2] >= 30f && hoverDistance == 16)
                     {
-                        flag19 = true;
+                        hoverDownDistCheck = true;
                     }
                     if (NPC.ai[2] >= 60f)
                     {
@@ -118,36 +118,36 @@ namespace CalamityMod.NPCs.Crags
                 NPC.TargetClosest(true);
                 NPC.ai[2] += 2f;
             }
-            int num283 = (int)((NPC.position.X + (float)(NPC.width / 2)) / 16f) + NPC.direction * 2;
-            int num284 = (int)((NPC.position.Y + (float)NPC.height) / 16f);
-            bool flag23 = true;
-            int num285 = 3;
-            for (int num308 = num284; num308 < num284 + num285; num308++)
+            int npcTileX = (int)((NPC.position.X + (float)(NPC.width / 2)) / 16f) + NPC.direction * 2;
+            int npcTileY = (int)((NPC.position.Y + (float)NPC.height) / 16f);
+            bool hoverDownwards = true;
+            int tileCheckLoopAmt = 3;
+            for (int loopInc1 = npcTileY; loopInc1 < npcTileY + tileCheckLoopAmt; loopInc1++)
             {
-                if ((Main.tile[num283, num308].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num283, num308].TileType]) || Main.tile[num283, num308].LiquidAmount > 0)
+                if ((Main.tile[npcTileX, loopInc1].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[npcTileX, loopInc1].TileType]) || Main.tile[npcTileX, loopInc1].LiquidAmount > 0)
                 {
-                    flag23 = false;
+                    hoverDownwards = false;
                     break;
                 }
             }
             if (Main.player[NPC.target].npcTypeNoAggro[NPC.type])
             {
-                bool flag25 = false;
-                for (int num309 = num284; num309 < num284 + num285 - 2; num309++)
+                bool inTileNoAggro = false;
+                for (int loopInc2 = npcTileY; loopInc2 < npcTileY + tileCheckLoopAmt - 2; loopInc2++)
                 {
-                    if ((Main.tile[num283, num309].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num283, num309].TileType]) || Main.tile[num283, num309].LiquidAmount > 0)
+                    if ((Main.tile[npcTileX, loopInc2].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[npcTileX, loopInc2].TileType]) || Main.tile[npcTileX, loopInc2].LiquidAmount > 0)
                     {
-                        flag25 = true;
+                        inTileNoAggro = true;
                         break;
                     }
                 }
-                NPC.directionY = (!flag25).ToDirectionInt();
+                NPC.directionY = (!inTileNoAggro).ToDirectionInt();
             }
-            if (flag19)
+            if (hoverDownDistCheck)
             {
-                flag23 = true;
+                hoverDownwards = true;
             }
-            if (flag23)
+            if (hoverDownwards)
             {
                 NPC.velocity.Y = NPC.velocity.Y + 0.1f;
                 if (NPC.velocity.Y > 3f)
@@ -190,11 +190,11 @@ namespace CalamityMod.NPCs.Crags
                     NPC.velocity.Y = -1f;
                 }
             }
-            float num311 = 4f;
-            if (NPC.direction == -1 && NPC.velocity.X > -num311)
+            float maxXVelocity = 4f;
+            if (NPC.direction == -1 && NPC.velocity.X > -maxXVelocity)
             {
                 NPC.velocity.X = NPC.velocity.X - 0.1f;
-                if (NPC.velocity.X > num311)
+                if (NPC.velocity.X > maxXVelocity)
                 {
                     NPC.velocity.X = NPC.velocity.X - 0.1f;
                 }
@@ -202,15 +202,15 @@ namespace CalamityMod.NPCs.Crags
                 {
                     NPC.velocity.X = NPC.velocity.X + 0.05f;
                 }
-                if (NPC.velocity.X < -num311)
+                if (NPC.velocity.X < -maxXVelocity)
                 {
-                    NPC.velocity.X = -num311;
+                    NPC.velocity.X = -maxXVelocity;
                 }
             }
-            else if (NPC.direction == 1 && NPC.velocity.X < num311)
+            else if (NPC.direction == 1 && NPC.velocity.X < maxXVelocity)
             {
                 NPC.velocity.X = NPC.velocity.X + 0.1f;
-                if (NPC.velocity.X < -num311)
+                if (NPC.velocity.X < -maxXVelocity)
                 {
                     NPC.velocity.X = NPC.velocity.X + 0.1f;
                 }
@@ -218,16 +218,16 @@ namespace CalamityMod.NPCs.Crags
                 {
                     NPC.velocity.X = NPC.velocity.X - 0.05f;
                 }
-                if (NPC.velocity.X > num311)
+                if (NPC.velocity.X > maxXVelocity)
                 {
-                    NPC.velocity.X = num311;
+                    NPC.velocity.X = maxXVelocity;
                 }
             }
-            num311 = 1.5f;
-            if (NPC.directionY == -1 && NPC.velocity.Y > -num311)
+            maxXVelocity = 1.5f;
+            if (NPC.directionY == -1 && NPC.velocity.Y > -maxXVelocity)
             {
                 NPC.velocity.Y = NPC.velocity.Y - 0.04f;
-                if (NPC.velocity.Y > num311)
+                if (NPC.velocity.Y > maxXVelocity)
                 {
                     NPC.velocity.Y = NPC.velocity.Y - 0.05f;
                 }
@@ -235,15 +235,15 @@ namespace CalamityMod.NPCs.Crags
                 {
                     NPC.velocity.Y = NPC.velocity.Y + 0.03f;
                 }
-                if (NPC.velocity.Y < -num311)
+                if (NPC.velocity.Y < -maxXVelocity)
                 {
-                    NPC.velocity.Y = -num311;
+                    NPC.velocity.Y = -maxXVelocity;
                 }
             }
-            else if (NPC.directionY == 1 && NPC.velocity.Y < num311)
+            else if (NPC.directionY == 1 && NPC.velocity.Y < maxXVelocity)
             {
                 NPC.velocity.Y = NPC.velocity.Y + 0.04f;
-                if (NPC.velocity.Y < -num311)
+                if (NPC.velocity.Y < -maxXVelocity)
                 {
                     NPC.velocity.Y = NPC.velocity.Y + 0.05f;
                 }
@@ -251,9 +251,9 @@ namespace CalamityMod.NPCs.Crags
                 {
                     NPC.velocity.Y = NPC.velocity.Y - 0.03f;
                 }
-                if (NPC.velocity.Y > num311)
+                if (NPC.velocity.Y > maxXVelocity)
                 {
-                    NPC.velocity.Y = num311;
+                    NPC.velocity.Y = maxXVelocity;
                 }
             }
         }

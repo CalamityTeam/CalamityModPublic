@@ -64,9 +64,9 @@ namespace CalamityMod.Items.Mounts
         public override bool UpdateFrame(Player mountedPlayer, int state, Vector2 velocity)
         {
             bool speed = Math.Abs(velocity.X) > mountedPlayer.mount.RunSpeed / 2f;
-            float num10 = (float)Math.Sign(mountedPlayer.velocity.X);
-            float num11 = 12f;
-            float num12 = 40f;
+            float direction = (float)Math.Sign(mountedPlayer.velocity.X);
+            float dustYOffset = 12f;
+            float dustXOffset = 40f;
             if (!speed)
             {
                 mountedPlayer.basiliskCharge = 0f;
@@ -92,19 +92,19 @@ namespace CalamityMod.Items.Mounts
                 }
                 if (mountedPlayer.cMount == 0)
                 {
-                    mountedPlayer.position += new Vector2(num10 * 24f, 0f);
+                    mountedPlayer.position += new Vector2(direction * 24f, 0f);
                     mountedPlayer.FloorVisuals(true);
-                    mountedPlayer.position -= new Vector2(num10 * 24f, 0f);
+                    mountedPlayer.position -= new Vector2(direction * 24f, 0f);
                 }
             }
-            if (num10 == (float)mountedPlayer.direction)
+            if (direction == (float)mountedPlayer.direction)
             {
                 for (int j = 0; j < (int)(3f * mountedPlayer.basiliskCharge); j++)
                 {
                     Dust dust = Main.dust[Dust.NewDust(mountedPlayer.BottomLeft, mountedPlayer.width, 6, 67, 0f, 0f, 0, default, 1f)];
-                    Vector2 value2 = mountedPlayer.Center + new Vector2(num10 * num12, num11);
-                    dust.position = mountedPlayer.Center + new Vector2(num10 * (num12 - 2f), num11 - 6f + Main.rand.NextFloat() * 12f);
-                    dust.velocity = (dust.position - value2).SafeNormalize(Vector2.Zero) * (3.5f + Main.rand.NextFloat() * 0.5f);
+                    Vector2 dustVel = mountedPlayer.Center + new Vector2(direction * dustXOffset, dustYOffset);
+                    dust.position = mountedPlayer.Center + new Vector2(direction * (dustXOffset - 2f), dustYOffset - 6f + Main.rand.NextFloat() * 12f);
+                    dust.velocity = (dust.position - dustVel).SafeNormalize(Vector2.Zero) * (3.5f + Main.rand.NextFloat() * 0.5f);
                     if (dust.velocity.Y < 0f)
                     {
                         Dust expr_808_cp_0_cp_0 = dust;

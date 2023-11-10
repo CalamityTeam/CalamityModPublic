@@ -44,20 +44,20 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-                float num78 = Main.mouseX + Main.screenPosition.X - vector2.X;
-                float num79 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
+                Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+                float mouseXDist = Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+                float mouseYDist = Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
                 if (player.gravDir == -1f)
                 {
-                    num79 = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - vector2.Y;
+                    mouseYDist = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - realPlayerPos.Y;
                 }
-                if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+                if ((float.IsNaN(mouseXDist) && float.IsNaN(mouseYDist)) || (mouseXDist == 0f && mouseYDist == 0f))
                 {
-                    num78 = player.direction;
-                    num79 = 0f;
+                    mouseXDist = player.direction;
+                    mouseYDist = 0f;
                 }
-                vector2 += new Vector2(num78, num79);
-                int proj = Projectile.NewProjectile(source, vector2, new Vector2(0f,-0.5f), ModContent.ProjectileType<PenumbraBomb>(), damage, knockback, player.whoAmI, 0f, 1f);
+                realPlayerPos += new Vector2(mouseXDist, mouseYDist);
+                int proj = Projectile.NewProjectile(source, realPlayerPos, new Vector2(0f,-0.5f), ModContent.ProjectileType<PenumbraBomb>(), damage, knockback, player.whoAmI, 0f, 1f);
                 if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].Calamity().stealthStrike = true;
                 return false;

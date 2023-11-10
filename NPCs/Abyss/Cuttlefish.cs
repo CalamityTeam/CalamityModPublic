@@ -58,10 +58,10 @@ namespace CalamityMod.NPCs.Abyss
         public override void AI()
         {
             NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
-            int num = 150;
+            int alphaControl = 150;
             if (NPC.ai[2] == 0f)
             {
-                NPC.alpha = num;
+                NPC.alpha = alphaControl;
                 NPC.TargetClosest(true);
                 if (!Main.player[NPC.target].dead && (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(160f) &&
                     Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
@@ -114,15 +114,15 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.ai[0] = -1f;
                     }
                 }
-                int num268 = (int)(NPC.position.X + (NPC.width / 2)) / 16;
-                int num269 = (int)(NPC.position.Y + (NPC.height / 2)) / 16;
-                if (Main.tile[num268, num269 - 1].LiquidAmount > 128)
+                int npcTileX = (int)(NPC.position.X + (NPC.width / 2)) / 16;
+                int npcTileY = (int)(NPC.position.Y + (NPC.height / 2)) / 16;
+                if (Main.tile[npcTileX, npcTileY - 1].LiquidAmount > 128)
                 {
-                    if (Main.tile[num268, num269 + 1].HasTile)
+                    if (Main.tile[npcTileX, npcTileY + 1].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }
-                    else if (Main.tile[num268, num269 + 2].HasTile)
+                    else if (Main.tile[npcTileX, npcTileY + 2].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }
@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.Abyss
             {
                 if (NPC.alpha > 0)
                 {
-                    NPC.alpha -= num / 16;
+                    NPC.alpha -= alphaControl / 16;
                     if (NPC.alpha < 0)
                     {
                         NPC.alpha = 0;
@@ -165,13 +165,13 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (NPC.wet || NPC.noTileCollide)
                 {
-                    bool flag14 = false;
+                    bool canAttack = false;
                     NPC.TargetClosest(false);
                     if (Main.player[NPC.target].wet && !Main.player[NPC.target].dead)
                     {
-                        flag14 = true;
+                        canAttack = true;
                     }
-                    if (!flag14)
+                    if (!canAttack)
                     {
                         if (!Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                         {
@@ -200,7 +200,7 @@ namespace CalamityMod.NPCs.Abyss
                             }
                         }
                     }
-                    if (flag14)
+                    if (canAttack)
                     {
                         if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                         {
@@ -279,15 +279,15 @@ namespace CalamityMod.NPCs.Abyss
                             }
                         }
                     }
-                    int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
-                    int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                    if (Main.tile[num258, num259 - 1].LiquidAmount > 128)
+                    int npcTileXAgain = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
+                    int npcTileYAgain = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
+                    if (Main.tile[npcTileXAgain, npcTileYAgain - 1].LiquidAmount > 128)
                     {
-                        if (Main.tile[num258, num259 + 1].HasTile)
+                        if (Main.tile[npcTileXAgain, npcTileYAgain + 1].HasTile)
                         {
                             NPC.ai[0] = -1f;
                         }
-                        else if (Main.tile[num258, num259 + 2].HasTile)
+                        else if (Main.tile[npcTileXAgain, npcTileYAgain + 2].HasTile)
                         {
                             NPC.ai[0] = -1f;
                         }

@@ -46,10 +46,10 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            vector2.X = Main.mouseX + Main.screenPosition.X;
-            vector2.Y = Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(source, vector2, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            realPlayerPos.X = Main.mouseX + Main.screenPosition.X;
+            realPlayerPos.Y = Main.mouseY + Main.screenPosition.Y;
+            Projectile.NewProjectile(source, realPlayerPos, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
 
             CalamityGlobalItem.ConsumeAdditionalAmmo(player, Item, 2);
 

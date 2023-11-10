@@ -36,29 +36,29 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float num72 = Item.shootSpeed;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            float starSpeed = Item.shootSpeed;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+            float mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                mouseYDist = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - realPlayerPos.Y;
             }
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            if ((float.IsNaN(mouseXDist) && float.IsNaN(mouseYDist)) || (mouseXDist == 0f && mouseYDist == 0f))
             {
-                num78 = (float)player.direction;
-                num79 = 0f;
+                mouseXDist = (float)player.direction;
+                mouseYDist = 0f;
             }
-            float num208 = num78;
-            float num209 = num79;
-            num208 += (float)Main.rand.Next(-1, 2) * 0.5f;
-            num209 += (float)Main.rand.Next(-1, 2) * 0.5f;
-            vector2 += new Vector2(num208, num209);
-            for (int num108 = 0; num108 < 5; num108++)
+            float randXOffset = mouseXDist;
+            float randYOffset = mouseYDist;
+            randXOffset += (float)Main.rand.Next(-1, 2) * 0.5f;
+            randYOffset += (float)Main.rand.Next(-1, 2) * 0.5f;
+            realPlayerPos += new Vector2(randXOffset, randYOffset);
+            for (int i = 0; i < 5; i++)
             {
                 float speedX4 = 2f + (float)Main.rand.Next(-8, 5);
                 float speedY5 = 15f + (float)Main.rand.Next(1, 6);
-                int star = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI, 0f, 0f);
+                int star = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }

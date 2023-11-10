@@ -60,8 +60,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             float speed = CalamityWorld.death ? 18f : CalamityWorld.revenge ? 15.75f : 13.5f;
             CalamityAI.DungeonSpiritAI(NPC, Mod, speed, -MathHelper.PiOver2);
-            int num822 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, 0f, 0f, 0, default, 1f);
-            Dust dust = Main.dust[num822];
+            int polterDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, 0f, 0f, 0, default, 1f);
+            Dust dust = Main.dust[polterDust];
             dust.velocity *= 0.1f;
             dust.scale = 1.3f;
             dust.noGravity = true;
@@ -76,10 +76,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (NPC.life <= 0)
             {
-                for (int num288 = 0; num288 < 50; num288++)
+                for (int i = 0; i < 50; i++)
                 {
-                    int num289 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, NPC.velocity.X, NPC.velocity.Y, 0, default, 1f);
-                    Dust dust = Main.dust[num289];
+                    int hitPolterDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, NPC.velocity.X, NPC.velocity.Y, 0, default, 1f);
+                    Dust dust = Main.dust[hitPolterDust];
                     dust.velocity *= 2f;
                     dust.noGravity = true;
                     dust.scale = 1.4f;

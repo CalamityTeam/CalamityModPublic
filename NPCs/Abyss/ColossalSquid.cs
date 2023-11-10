@@ -119,49 +119,49 @@ namespace CalamityMod.NPCs.Abyss
                     }
                     else
                     {
-                        Vector2 value29 = Main.player[NPC.target].Center - NPC.Center;
-                        value29.Y -= (float)(Main.player[NPC.target].height / 4);
-                        float num1310 = value29.Length();
-                        if (num1310 > 800f)
+                        Vector2 targetDirection = Main.player[NPC.target].Center - NPC.Center;
+                        targetDirection.Y -= (float)(Main.player[NPC.target].height / 4);
+                        float targetDistance = targetDirection.Length();
+                        if (targetDistance > 800f)
                         {
                             NPC.ai[0] = 2f;
                         }
                         else
                         {
-                            Vector2 center26 = NPC.Center;
-                            center26.X = Main.player[NPC.target].Center.X;
-                            Vector2 vector230 = center26 - NPC.Center;
-                            if (vector230.Length() > 8f && Collision.CanHit(NPC.Center, 1, 1, center26, 1, 1))
+                            Vector2 squidCenter = NPC.Center;
+                            squidCenter.X = Main.player[NPC.target].Center.X;
+                            Vector2 squidDirection = squidCenter - NPC.Center;
+                            if (squidDirection.Length() > 8f && Collision.CanHit(NPC.Center, 1, 1, squidCenter, 1, 1))
                             {
                                 NPC.ai[0] = 3f;
-                                NPC.ai[1] = center26.X;
-                                NPC.ai[2] = center26.Y;
-                                Vector2 center27 = NPC.Center;
-                                center27.Y = Main.player[NPC.target].Center.Y;
-                                if (vector230.Length() > 8f && Collision.CanHit(NPC.Center, 1, 1, center27, 1, 1) && Collision.CanHit(center27, 1, 1, Main.player[NPC.target].position, 1, 1))
+                                NPC.ai[1] = squidCenter.X;
+                                NPC.ai[2] = squidCenter.Y;
+                                Vector2 squidCenterAgain = NPC.Center;
+                                squidCenterAgain.Y = Main.player[NPC.target].Center.Y;
+                                if (squidDirection.Length() > 8f && Collision.CanHit(NPC.Center, 1, 1, squidCenterAgain, 1, 1) && Collision.CanHit(squidCenterAgain, 1, 1, Main.player[NPC.target].position, 1, 1))
                                 {
                                     NPC.ai[0] = 3f;
-                                    NPC.ai[1] = center27.X;
-                                    NPC.ai[2] = center27.Y;
+                                    NPC.ai[1] = squidCenterAgain.X;
+                                    NPC.ai[2] = squidCenterAgain.Y;
                                 }
                             }
                             else
                             {
-                                center26 = NPC.Center;
-                                center26.Y = Main.player[NPC.target].Center.Y;
-                                if ((center26 - NPC.Center).Length() > 8f && Collision.CanHit(NPC.Center, 1, 1, center26, 1, 1))
+                                squidCenter = NPC.Center;
+                                squidCenter.Y = Main.player[NPC.target].Center.Y;
+                                if ((squidCenter - NPC.Center).Length() > 8f && Collision.CanHit(NPC.Center, 1, 1, squidCenter, 1, 1))
                                 {
                                     NPC.ai[0] = 3f;
-                                    NPC.ai[1] = center26.X;
-                                    NPC.ai[2] = center26.Y;
+                                    NPC.ai[1] = squidCenter.X;
+                                    NPC.ai[2] = squidCenter.Y;
                                 }
                             }
                             if (NPC.ai[0] == 0f)
                             {
                                 NPC.localAI[0] = 0f;
-                                value29.Normalize();
-                                value29 *= 0.5f;
-                                NPC.velocity += value29;
+                                targetDirection.Normalize();
+                                targetDirection *= 0.5f;
+                                NPC.velocity += targetDirection;
                                 NPC.ai[0] = 4f;
                                 NPC.ai[1] = 0f;
                             }
@@ -171,20 +171,20 @@ namespace CalamityMod.NPCs.Abyss
                 else if (NPC.ai[0] == 1f)
                 {
                     NPC.rotation += (float)NPC.direction * 0.1f;
-                    Vector2 value30 = Main.player[NPC.target].Top - NPC.Center;
-                    float num1311 = value30.Length();
-                    float num1312 = 5f;
-                    num1312 += num1311 / 100f;
-                    int num1313 = 50;
-                    value30.Normalize();
-                    value30 *= num1312;
-                    NPC.velocity = (NPC.velocity * (float)(num1313 - 1) + value30) / (float)num1313;
+                    Vector2 latchPosition = Main.player[NPC.target].Top - NPC.Center;
+                    float latchDistance = latchPosition.Length();
+                    float latchLockSpeed = 5f;
+                    latchLockSpeed += latchDistance / 100f;
+                    int latchVelocity = 50;
+                    latchPosition.Normalize();
+                    latchPosition *= latchLockSpeed;
+                    NPC.velocity = (NPC.velocity * (float)(latchVelocity - 1) + latchPosition) / (float)latchVelocity;
                     if (!Collision.CanHit(NPC.Center, 1, 1, Main.player[NPC.target].Center, 1, 1))
                     {
                         NPC.ai[0] = 0f;
                         NPC.ai[1] = 0f;
                     }
-                    if (num1311 < 160f && Main.player[NPC.target].active && !Main.player[NPC.target].dead && !clone)
+                    if (latchDistance < 160f && Main.player[NPC.target].active && !Main.player[NPC.target].dead && !clone)
                     {
                         NPC.Center = Main.player[NPC.target].Top;
                         NPC.velocity = Vector2.Zero;
@@ -197,14 +197,14 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     NPC.rotation = NPC.velocity.X * 0.05f;
                     NPC.noTileCollide = true;
-                    Vector2 value31 = Main.player[NPC.target].Center - NPC.Center;
-                    float num1315 = value31.Length();
-                    float scaleFactor11 = 3f;
-                    int num1316 = 3;
-                    value31.Normalize();
-                    value31 *= scaleFactor11;
-                    NPC.velocity = (NPC.velocity * (float)(num1316 - 1) + value31) / (float)num1316;
-                    if (num1315 < 600f && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+                    Vector2 lungeDirection = Main.player[NPC.target].Center - NPC.Center;
+                    float lungeDistance = lungeDirection.Length();
+                    float lungeSpeed = 3f;
+                    int lungeVelocity = 3;
+                    lungeDirection.Normalize();
+                    lungeDirection *= lungeSpeed;
+                    NPC.velocity = (NPC.velocity * (float)(lungeVelocity - 1) + lungeDirection) / (float)lungeVelocity;
+                    if (lungeDistance < 600f && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                     {
                         NPC.ai[0] = 0f;
                     }
@@ -212,20 +212,20 @@ namespace CalamityMod.NPCs.Abyss
                 else if (NPC.ai[0] == 3f)
                 {
                     NPC.rotation = NPC.velocity.X * 0.05f;
-                    Vector2 value32 = new Vector2(NPC.ai[1], NPC.ai[2]);
-                    Vector2 value33 = value32 - NPC.Center;
-                    float num1317 = value33.Length();
-                    float num1318 = 2f;
-                    float num1319 = 3f;
-                    value33.Normalize();
-                    value33 *= num1318;
-                    NPC.velocity = (NPC.velocity * (num1319 - 1f) + value33) / num1319;
+                    Vector2 otherLungePos = new Vector2(NPC.ai[1], NPC.ai[2]);
+                    Vector2 otherLungeDirection = otherLungePos - NPC.Center;
+                    float otherLungeDistance = otherLungeDirection.Length();
+                    float otherLungeSpeed = 2f;
+                    float otherLungeVelocity = 3f;
+                    otherLungeDirection.Normalize();
+                    otherLungeDirection *= otherLungeSpeed;
+                    NPC.velocity = (NPC.velocity * (otherLungeVelocity - 1f) + otherLungeDirection) / otherLungeVelocity;
                     if (NPC.collideX || NPC.collideY)
                     {
                         NPC.ai[0] = 4f;
                         NPC.ai[1] = 0f;
                     }
-                    if (num1317 < num1318 || num1317 > 800f || Collision.CanHit(NPC.Center, 1, 1, Main.player[NPC.target].Center, 1, 1))
+                    if (otherLungeDistance < otherLungeSpeed || otherLungeDistance > 800f || Collision.CanHit(NPC.Center, 1, 1, Main.player[NPC.target].Center, 1, 1))
                     {
                         NPC.ai[0] = 0f;
                     }
@@ -241,20 +241,19 @@ namespace CalamityMod.NPCs.Abyss
                     {
                         NPC.velocity.Y = NPC.velocity.Y * -0.8f;
                     }
-                    Vector2 value34;
+                    Vector2 slowDownDirection;
                     if (NPC.velocity.X == 0f && NPC.velocity.Y == 0f)
                     {
-                        value34 = Main.player[NPC.target].Center - NPC.Center;
-                        value34.Y -= (float)(Main.player[NPC.target].height / 4);
-                        value34.Normalize();
-                        NPC.velocity = value34 * 0.1f;
+                        slowDownDirection = Main.player[NPC.target].Center - NPC.Center;
+                        slowDownDirection.Y -= (float)(Main.player[NPC.target].height / 4);
+                        slowDownDirection.Normalize();
+                        NPC.velocity = slowDownDirection * 0.1f;
                     }
-                    float scaleFactor12 = 2f;
-                    float num1320 = 20f;
-                    value34 = NPC.velocity;
-                    value34.Normalize();
-                    value34 *= scaleFactor12;
-                    NPC.velocity = (NPC.velocity * (num1320 - 1f) + value34) / num1320;
+                    float slowDownVelocity = 20f;
+                    slowDownDirection = NPC.velocity;
+                    slowDownDirection.Normalize();
+                    slowDownDirection *= 2f;
+                    NPC.velocity = (NPC.velocity * (slowDownVelocity - 1f) + slowDownDirection) / slowDownVelocity;
                     NPC.ai[1] += 1f;
                     if (NPC.ai[1] > 180f)
                     {
@@ -269,31 +268,31 @@ namespace CalamityMod.NPCs.Abyss
                     if (NPC.localAI[0] >= 5f && !Collision.SolidCollision(NPC.position - new Vector2(10f, 10f), NPC.width + 20, NPC.height + 20))
                     {
                         NPC.localAI[0] = 0f;
-                        Vector2 center28 = NPC.Center;
-                        center28.X = Main.player[NPC.target].Center.X;
-                        if (Collision.CanHit(NPC.Center, 1, 1, center28, 1, 1) && Collision.CanHit(NPC.Center, 1, 1, center28, 1, 1) && Collision.CanHit(Main.player[NPC.target].Center, 1, 1, center28, 1, 1))
+                        Vector2 slowDownCenter = NPC.Center;
+                        slowDownCenter.X = Main.player[NPC.target].Center.X;
+                        if (Collision.CanHit(NPC.Center, 1, 1, slowDownCenter, 1, 1) && Collision.CanHit(NPC.Center, 1, 1, slowDownCenter, 1, 1) && Collision.CanHit(Main.player[NPC.target].Center, 1, 1, slowDownCenter, 1, 1))
                         {
                             NPC.ai[0] = 3f;
-                            NPC.ai[1] = center28.X;
-                            NPC.ai[2] = center28.Y;
+                            NPC.ai[1] = slowDownCenter.X;
+                            NPC.ai[2] = slowDownCenter.Y;
                         }
                         else
                         {
-                            center28 = NPC.Center;
-                            center28.Y = Main.player[NPC.target].Center.Y;
-                            if (Collision.CanHit(NPC.Center, 1, 1, center28, 1, 1) && Collision.CanHit(Main.player[NPC.target].Center, 1, 1, center28, 1, 1))
+                            slowDownCenter = NPC.Center;
+                            slowDownCenter.Y = Main.player[NPC.target].Center.Y;
+                            if (Collision.CanHit(NPC.Center, 1, 1, slowDownCenter, 1, 1) && Collision.CanHit(Main.player[NPC.target].Center, 1, 1, slowDownCenter, 1, 1))
                             {
                                 NPC.ai[0] = 3f;
-                                NPC.ai[1] = center28.X;
-                                NPC.ai[2] = center28.Y;
+                                NPC.ai[1] = slowDownCenter.X;
+                                NPC.ai[2] = slowDownCenter.Y;
                             }
                         }
                     }
                 }
                 else if (NPC.ai[0] == 5f)
                 {
-                    Player player7 = Main.player[NPC.target];
-                    if (!player7.active || player7.dead || clone)
+                    Player latchedTarget = Main.player[NPC.target];
+                    if (!latchedTarget.active || latchedTarget.dead || clone)
                     {
                         NPC.ai[0] = 0f;
                         NPC.ai[1] = 0f;
@@ -301,10 +300,10 @@ namespace CalamityMod.NPCs.Abyss
                     }
                     else
                     {
-                        NPC.Center = ((player7.gravDir == 1f) ? player7.Top : player7.Bottom) + new Vector2((float)(player7.direction * 4), 0f);
-                        NPC.gfxOffY = player7.gfxOffY;
+                        NPC.Center = ((latchedTarget.gravDir == 1f) ? latchedTarget.Top : latchedTarget.Bottom) + new Vector2((float)(latchedTarget.direction * 4), 0f);
+                        NPC.gfxOffY = latchedTarget.gfxOffY;
                         NPC.velocity = Vector2.Zero;
-                        player7.AddBuff(BuffID.Obstructed, 59, true);
+                        latchedTarget.AddBuff(BuffID.Obstructed, 59, true);
                     }
                 }
                 NPC.rotation = NPC.velocity.X * 0.05f;
@@ -436,20 +435,19 @@ namespace CalamityMod.NPCs.Abyss
                     }
                     NPC.rotation = NPC.velocity.X * 0.05f;
                     NPC.velocity *= 0.975f;
-                    float num263 = 2.5f;
-                    if (NPC.velocity.X > -num263 && NPC.velocity.X < num263 && NPC.velocity.Y > -num263 && NPC.velocity.Y < num263)
+                    float hitLungeThreshold = 2.5f;
+                    if (NPC.velocity.X > -hitLungeThreshold && NPC.velocity.X < hitLungeThreshold && NPC.velocity.Y > -hitLungeThreshold && NPC.velocity.Y < hitLungeThreshold)
                     {
                         NPC.TargetClosest(true);
-                        float num264 = 20f;
-                        Vector2 vector31 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                        float num265 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - vector31.X;
-                        float num266 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - vector31.Y;
-                        float num267 = (float)Math.Sqrt((double)(num265 * num265 + num266 * num266));
-                        num267 = num264 / num267;
-                        num265 *= num267;
-                        num266 *= num267;
-                        NPC.velocity.X = num265;
-                        NPC.velocity.Y = num266;
+                        Vector2 hitLungePos = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                        float hitLungeTargetX = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - hitLungePos.X;
+                        float hitLungeTargetY = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - hitLungePos.Y;
+                        float hitLungeTargetDist = (float)Math.Sqrt((double)(hitLungeTargetX * hitLungeTargetX + hitLungeTargetY * hitLungeTargetY));
+                        hitLungeTargetDist = 20f / hitLungeTargetDist;
+                        hitLungeTargetX *= hitLungeTargetDist;
+                        hitLungeTargetY *= hitLungeTargetDist;
+                        NPC.velocity.X = hitLungeTargetX;
+                        NPC.velocity.Y = hitLungeTargetY;
                         return;
                     }
                 }
@@ -482,15 +480,15 @@ namespace CalamityMod.NPCs.Abyss
                             NPC.ai[0] = -1f;
                         }
                     }
-                    int num268 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
-                    int num269 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                    if (Main.tile[num268, num269 - 1].LiquidAmount > 128)
+                    int npcTileX = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
+                    int npcTileY = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
+                    if (Main.tile[npcTileX, npcTileY - 1].LiquidAmount > 128)
                     {
-                        if (Main.tile[num268, num269 + 1].HasTile)
+                        if (Main.tile[npcTileX, npcTileY + 1].HasTile)
                         {
                             NPC.ai[0] = -1f;
                         }
-                        else if (Main.tile[num268, num269 + 2].HasTile)
+                        else if (Main.tile[npcTileX, npcTileY + 2].HasTile)
                         {
                             NPC.ai[0] = -1f;
                         }
