@@ -977,8 +977,8 @@ ScourgeoftheDesert: {
 	DisplayName: Scourge of the Desert
 	Tooltip:
 		'''
-		Gains velocity over time
-		Stealth strikes gain damage as they damage enemies
+		A javelin that will burrow through the ground and launch itself at enemies
+		Stealth strikes throw three javelins that will burrow multiple times
 		'''
 }
 

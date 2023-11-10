@@ -68,10 +68,10 @@ namespace CalamityMod.Items.TreasureBags
             // Weapons
             itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
             {
-                ModContent.ItemType<AquaticDischarge>(),
+                ModContent.ItemType<SaharaSlicers>(),
                 ModContent.ItemType<Barinade>(),
-                ModContent.ItemType<StormSpray>(),
-                ModContent.ItemType<SeaboundStaff>(),
+                ModContent.ItemType<SandstreamScepter>(),
+                ModContent.ItemType<BrittleStarStaff>(),
                 ModContent.ItemType<ScourgeoftheDesert>()
             }));
 

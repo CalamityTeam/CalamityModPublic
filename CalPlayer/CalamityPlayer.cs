@@ -184,7 +184,10 @@ namespace CalamityMod.CalPlayer
         public int DragonsBreathAudioCooldown2 = 0;
         public int PhotoAudioCooldown = 0;
         public int PhotoTimer = 90;
+        public bool brittleStarBuffMode = false;
         public bool sBlasterDashActivated = false;
+        public int saharaSlicersBolts = 0;
+        public int oceanCrestTimer = 0;
         public int Holyhammer = 0;
         public int PHAThammer = 0;
         public int StellarHammer = 0;
@@ -561,6 +564,7 @@ namespace CalamityMod.CalPlayer
         public bool hellfireTreads = false;
         public bool abyssalAmulet = false;
         public bool lumenousAmulet = false;
+        public bool oceanCrest = false;
         public bool aquaticEmblem = false;
         public bool spiritOrigin = false;
         public bool spiritOriginVanity = false;
@@ -1753,6 +1757,7 @@ namespace CalamityMod.CalPlayer
             hellfireTreads = false;
             abyssalAmulet = false;
             lumenousAmulet = false;
+            oceanCrest = false;
             aquaticEmblem = false;
             spiritOrigin = false;
             spiritOriginVanity = false;

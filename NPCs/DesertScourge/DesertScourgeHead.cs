@@ -726,10 +726,10 @@ namespace CalamityMod.NPCs.DesertScourge
                 // Weapons and accessories
                 int[] items = new int[]
                 {
-                    ModContent.ItemType<AquaticDischarge>(),
+                    ModContent.ItemType<SaharaSlicers>(),
                     ModContent.ItemType<Barinade>(),
-                    ModContent.ItemType<StormSpray>(),
-                    ModContent.ItemType<SeaboundStaff>(),
+                    ModContent.ItemType<SandstreamScepter>(),
+                    ModContent.ItemType<BrittleStarStaff>(),
                     ModContent.ItemType<ScourgeoftheDesert>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));

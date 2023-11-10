@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Pink;
             Item.UseSound = SoundID.Item13;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<WaterStream>();
+            Item.shoot = ModContent.ProjectileType<Sandstream>();
             Item.shootSpeed = 14f;
         }
 
