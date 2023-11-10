@@ -36,7 +36,7 @@ namespace CalamityMod.World.Planets
             i = 0;
             while (LCPlanetoidCount > 0 && i < CrystalHeartPlanetoidAttempts)
             {
-                int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.2), (int)(Main.maxTilesX * 0.8));
+                int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.15), (int)(Main.maxTilesX * 0.85));
                 int y = WorldGen.genRand.Next(70, 101);
 
                 bool placed = config2.CreateBiome<HeartPlanet>().Place(new Point(x, y), GenVars.structures);
@@ -50,7 +50,7 @@ namespace CalamityMod.World.Planets
             i = 0;
             while (GrassPlanetoidCount > 0 && i < GrassPlanetoidAttempts)
             {
-                int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.333), (int)(Main.maxTilesX * 0.666));
+                int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.25), (int)(Main.maxTilesX * 0.75));
                 int y = WorldGen.genRand.Next(100, 131);
 
 
@@ -65,7 +65,7 @@ namespace CalamityMod.World.Planets
             i = 0;
             while (MudPlanetoidCount > 0 && i < MudPlanetoidAttempts)
             {
-                int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.3f), (int)(Main.maxTilesX * 0.7f));
+                int x = WorldGen.genRand.Next((int)(Main.maxTilesX * 0.25f), (int)(Main.maxTilesX * 0.75f));
                 int y = WorldGen.genRand.Next(100, 131);
 
                 bool placed = config2.CreateBiome<MudPlanet>().Place(new Point(x, y), GenVars.structures);
@@ -124,7 +124,7 @@ namespace CalamityMod.World.Planets
         public bool CheckIfPlaceable(Point origin, int radius, StructureMap structures)
         {
             //Fluff is used to create padding between the planets. this is the minimum distance between planets (they can't be within "fluff" blocks)
-            int fluff = 10;
+            int fluff = 12;
             int myRadius = radius + fluff;
             int diameter = myRadius * 2;
             _area = new Rectangle(origin.X - myRadius, origin.Y - myRadius, diameter, diameter);

@@ -411,6 +411,8 @@ namespace CalamityMod.World
 
                         if (Main.tile[i, j].WallType == WallID.CrimstoneUnsafe || Main.tile[i, j].WallType == WallID.EbonstoneUnsafe || Main.tile[i, j].WallType == WallID.LihzahrdBrickUnsafe)
                             return true;
+                        if (Main.tile[i,j].LiquidAmount != 0 && Main.tile[i, j].LiquidType == LiquidID.Shimmer)
+                            return true;
                     }
                 }
             }

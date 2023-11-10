@@ -1,5 +1,4 @@
-﻿using System;
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -156,6 +155,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
         }
 
+        // Don't count towards NPC limit and don't despawn offscreen.
         public override bool CheckActive() => false;
 
         public override void HitEffect(NPC.HitInfo hit)

@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Potions.Alcohol
 
         public override void SetDefaults()
         {
-            Item.width = 42;
-            Item.height = 48;
+            Item.width = 38;
+            Item.height = 50;
             Item.useTurn = true;
             Item.maxStack = 9999;
             Item.useAnimation = 17;

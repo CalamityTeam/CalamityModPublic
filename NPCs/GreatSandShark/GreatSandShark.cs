@@ -24,6 +24,8 @@ namespace CalamityMod.NPCs.GreatSandShark
         private bool resetAI = false;
 
         public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/GreatSandSharkRoar");
+	public static readonly SoundStyle HurtSound = new("CalamityMod/Sounds/NPCHit/GreatSandSharkHit");
+	public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/GreatSandSharkDeath");
 
         public override void SetStaticDefaults()
         {
@@ -59,8 +61,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPC.behindTiles = true;
             NPC.netAlways = true;
-            NPC.HitSound = SoundID.NPCHit1;
-            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.DeathSound = DeathSound;
             NPC.timeLeft = NPC.activeTime * 30;
             NPC.rarity = 2;
             if (Main.zenithWorld)
@@ -629,6 +630,13 @@ namespace CalamityMod.NPCs.GreatSandShark
 
         public override void HitEffect(NPC.HitInfo hit)
         {
+	    // Hit sound
+            if (NPC.soundDelay == 0)
+            {
+                NPC.soundDelay = 15;
+                SoundEngine.PlaySound(HurtSound, NPC.Center);
+            }
+
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hit.HitDirection, -1f, 0, default, 1f);
