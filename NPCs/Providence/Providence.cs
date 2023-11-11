@@ -31,23 +31,16 @@ using ReLogic.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using CalamityMod.Effects;
-using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.UI;
-using static CalamityMod.PrimitiveTrail;
 using Filters = Terraria.Graphics.Effects.Filters;
-using CalamityMod.NPCs.TownNPCs;
 
 namespace CalamityMod.NPCs.Providence
 {
@@ -96,6 +89,7 @@ namespace CalamityMod.NPCs.Providence
         private int healTimer = 0;
         internal bool challenge = Main.expertMode; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
         internal bool hasTakenDaytimeDamage = false;
+        public bool shouldDrawInfernoBorder = true; //This is only here for other mods to disable it if they don't want it drawing.
         public bool Dying = false;
         public int DeathAnimationTimer;
         public KeyValuePair<float, float> borderStartEnd = new (0f, 0f);
@@ -133,7 +127,6 @@ namespace CalamityMod.NPCs.Providence
             };
             value.Position.Y += 6f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
-            NPCID.Sets.MustAlwaysDraw[Type] = true; //this is REQUIRED for the border to draw due to it's larger distance.
             NPCID.Sets.MPAllowedEnemies[Type] = true;
         }
 
@@ -199,6 +192,7 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(DeathAnimationTimer);
             writer.Write(borderStartEnd.Key);
             writer.Write(borderStartEnd.Value);
+            writer.Write(shouldDrawInfernoBorder);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
         }
@@ -225,6 +219,7 @@ namespace CalamityMod.NPCs.Providence
             Dying = reader.ReadBoolean();
             DeathAnimationTimer = reader.ReadInt32();
             borderStartEnd = new (reader.ReadSingle(), reader.ReadSingle());
+            shouldDrawInfernoBorder = reader.ReadBoolean();
             
             for (int i = 0; i < 4; i++)
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
@@ -800,7 +795,7 @@ namespace CalamityMod.NPCs.Providence
                         acceleration *= 1.2f;
                     }
 
-                    if (!targetDead && false)
+                    if (!targetDead)
                     {
                         NPC.velocity.X += flightPath * acceleration;
                         if (NPC.velocity.X > velocity)
@@ -1730,8 +1725,6 @@ namespace CalamityMod.NPCs.Providence
 
                     break;
             }
-
-            NPC.velocity = Vector2.Zero;
         }
 
         public void DoDeathAnimation()
@@ -2055,12 +2048,6 @@ namespace CalamityMod.NPCs.Providence
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            //This offscreen culling is due to providence always drawing for the purposes of the holy inferno border.
-            //This ensures that there is NO offscreen drawing occuring and there is no performance impact as a result.
-            Main.instance.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
-            Main.instance.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight); //offscreen culling
-            
             void drawProvidenceInstance(Vector2 drawOffset, Color? colorOverride)
             {
                 // This night bool is used for any off-color activity
@@ -2363,125 +2350,6 @@ namespace CalamityMod.NPCs.Providence
                 Main.spriteBatch.Draw(heatTex, shieldDrawPos, null, Color.White, 0, heatTex.Size() / 2f, shieldScale * scaleMult * 0.5f, 0, 0);
             }
             return false;
-        }
-
-        public void DrawInfernoBorder(SpriteBatch spriteBatch, float skyIntensity, Rectangle screenRect, Color color)
-        {
-
-            if (borderStartEnd.Key > 0f && NPC.HasValidTarget && !Main.dedServ)
-            {
-                if (!validatePlayer(Main.myPlayer))
-                    return;
-
-                Main.instance.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-                Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
-                Main.instance.GraphicsDevice.ScissorRectangle = screenRect; //offscreen culling
-
-                var target = Main.player[Main.myPlayer];
-                float targetDist = (target.Center - NPC.Center).Length();
-                //if (targetDist < borderStartEnd.Key) //do not draw, end early
-                //return false;
-
-                var burnItAll = target.HasBuff<HolyInferno>();
-
-                if (false)
-                {
-                    List<VertexPosition2DColor> vertices = new();
-                    float points = 250; //This may seem excessive, but each point provides a smoother circle which looks better, if you have 4 points you have a diamond border that doesn't accurately represent the shape of the aoe for instance.
-                    float width = 150f;
-                    float radius = borderStartEnd.Value - (width - 50f); //you have to be outside of the ring for it to matter
-                    //Color color = Color.Lerp(Color.Yellow, Color.OrangeRed, 0.5f);
-                    var playerCenter = target.Center; //this is outside of the loop due to performance impact, though the value is still needed in the loop regardless
-
-
-                    for (int i = 0; i <= points; i++)
-                    {
-                        float interp = i / points;
-                        Vector2 position = NPC.Center - Main.screenPosition + (i * MathHelper.TwoPi / points).ToRotationVector2() * radius;
-                        Vector2 position2 = NPC.Center - Main.screenPosition + (i * MathHelper.TwoPi / points).ToRotationVector2() * (radius + width);
-
-                        Vector2 textureCoords = new(interp, 0f);
-                        Vector2 textureCoords2 = new(interp, 1f);
-
-                        // Get the distance to the middle of the current section.
-                        float distanceToSection = Vector2.Distance(Vector2.Lerp(position, position2, 0.5f), playerCenter - Main.screenPosition);
-                        // And get the correct opacity based on it.
-                        float opacity = burnItAll ? 1f : Utils.GetLerpValue(600f, 200f, distanceToSection, true);
-
-                        if (opacity > 0f) //only add them for drawing in the event they need to be drawn
-                        {
-                            vertices.Add(new VertexPosition2DColor(position, color * opacity, textureCoords));
-                            vertices.Add(new VertexPosition2DColor(position2, color * opacity, textureCoords2));
-                        }
-                    }
-
-                    //var lerpVal = Utils.GetLerpValue(borderStartEnd.Key, borderStartEnd.Value, targetDist);
-                    //float borderOpacityMult = MathHelper.Clamp(MathHelper.Lerp(0f, 0.55f, lerpVal), 0f, 0.55f);
-                    float opacity_ = MathHelper.Clamp(Utils.GetLerpValue(500f, 200f, targetDist, true), 0f, 1f);
-                    CalamityUtils.CalculatePerspectiveMatricies(out var view, out var projection);
-                    var shader = GameShaders.Misc["CalamityMod:AoeBorder"];
-                    shader.UseOpacity(opacity_);
-                    shader.UseColor(Color.Orange);
-                    shader.SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons2", AssetRequestMode.ImmediateLoad));
-                    shader.Shader.Parameters["uWorldViewProjection"].SetValue(view * projection);
-                    shader.Shader.Parameters["noiseSpeed"].SetValue(new Vector2(0.1f, 0.1f));
-                    shader.Shader.Parameters["timeFactor"].SetValue(2f);
-                    shader.Apply();
-
-                    Main.graphics.GraphicsDevice.Textures[0] = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/EdgeGradient", AssetRequestMode.ImmediateLoad).Value;
-                    Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertices.ToArray(), 0, vertices.Count - 2);
-                }
-
-                //big
-                if (true)
-                {
-
-                    float opacity_ = MathHelper.Clamp(Utils.GetLerpValue(borderStartEnd.Key, borderStartEnd.Value, targetDist, true) * skyIntensity, 0f, 1f);
-                    var blackTile = TextureAssets.MagicPixel;
-                    var circleNoise = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/HarshNoise");
-                    var burnNoise = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Noise/GrittyNoise");
-                    Vector2 circleScale = new Vector2(MathF.Max(Main.screenWidth, Main.screenHeight));
-                    Vector2 anchorPoint = NPC.Center - Main.screenPosition;
-
-                    //float cutoff = radius / length(circleScale);
-                    //float infernoCutOffset = (uv.y * 74 + adjustedTime * 4.56) * 50 / circleScale.x;
-                    //float opacity = InverseLerp(cutoff * 0.8, cutoff, distanceFromCenter);
-                    Main.NewText("cutoff: " + (borderStartEnd.Value * 1.41f) / (circleScale.Length() * 5f));
-                    //Main.NewText();
-
-                    var shader = GameShaders.Misc["CalamityMod:HolyInfernoShader"].Shader;
-                    shader.Parameters["color"].SetValue(color.ToVector4() * opacity_); //I want you to know it took considerable restraint to deliberately misspell colour.
-                    shader.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly);
-                    shader.Parameters["circleScale"].SetValue(circleScale * 5f);
-                    shader.Parameters["radius"].SetValue(borderStartEnd.Value * 1.41f);
-                    shader.Parameters["anchorPoint"].SetValue(anchorPoint);
-                    shader.Parameters["screenPosition"].SetValue(Main.screenPosition);
-                    shader.Parameters["screenSize"].SetValue(Main.ScreenSize.ToVector2());
-
-                    spriteBatch.GraphicsDevice.Textures[1] = circleNoise.Value;
-                    spriteBatch.GraphicsDevice.Textures[2] = burnNoise.Value;
-
-
-                    Main.spriteBatch.End();
-                    Main.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.None, Main.Rasterizer, shader, Main.GameViewMatrix.TransformationMatrix);
-                    //Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth
-                    //Main.spriteBatch.Draw(blackTile.Value, drawPosition, null, color, 0f, blackTile.Value.Size() * 0.5f, circleScale / blackTile.Size(), 0, 0f);
-                    Rectangle rekt = new(Main.screenWidth / 2, Main.screenHeight / 2, Main.screenWidth, Main.screenHeight);
-                    spriteBatch.Draw(blackTile.Value, rekt, null, color, 0f, blackTile.Value.Size() * 0.5f, 0, 0f);
-                    //spriteBatch.Draw(TextureAssets.BlackTile.Value, screenRect, color * opacity_);
-                    Main.spriteBatch.ExitShaderRegion();
-
-
-                }
-
-                //borderToDraw
-            }
-
-        }
-
-        private bool validatePlayer(int player)
-        {
-            return player.WithinBounds(Main.maxPlayers) && Main.player[player].active && !Main.player[player].dead;
         }
 
         public override void FindFrame(int frameHeight)

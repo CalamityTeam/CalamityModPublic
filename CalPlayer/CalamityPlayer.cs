@@ -230,6 +230,7 @@ namespace CalamityMod.CalPlayer
         public int spiritOriginConvertedCrit = 0;
         public int RustyMedallionCooldown = 0;
         public float SulphWaterPoisoningLevel;
+        public float holyInfernoFadeIntensity;
         public NPC unstableSelectedTarget;
         public int zapActivity = 0;
         public bool ragePulse = false;
@@ -2230,6 +2231,7 @@ namespace CalamityMod.CalPlayer
             hideOfDeusTimer = 0;
             RustyMedallionCooldown = 0;
             SulphWaterPoisoningLevel = 0f;
+            holyInfernoFadeIntensity = 0f;
             spiritOriginConvertedCrit = 0;
             rage = 0f;
             adrenaline = 0f;

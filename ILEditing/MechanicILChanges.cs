@@ -297,7 +297,7 @@ namespace CalamityMod.ILEditing
                 self.velocity = Collision.AdvancedTileCollision(TileID.Sets.ForAdvancedCollision.ForSandshark, cPosition, self.velocity, cWidth, cHeight, fall, fall, 1);
                 return;
             }
-
+            
             if (self.active && self.Calamity().ShouldFallThroughPlatforms)
                 fall = true;
 

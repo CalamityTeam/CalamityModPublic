@@ -937,16 +937,24 @@ namespace CalamityMod.CalPlayer
                     if (!Main.rand.NextBool(3))
                         continue;
 
-                    Dust holyCinder = Dust.NewDustDirect(Player.position, Player.width, Player.head, (int)CalamityDusts.ProfanedFire);
+                    //Using player.head causes the dust to appear in a line below the player, which is not the intended effect. (Remove this comment in pr, only serves to inform)
+                    Dust holyCinder = Dust.NewDustDirect(Player.position, Player.width, Player.height, (int)CalamityDusts.ProfanedFire);
                     holyCinder.velocity = Main.rand.NextVector2Circular(3.5f, 3.5f);
                     holyCinder.velocity.Y -= Main.rand.NextFloat(1f, 3f);
                     holyCinder.scale = Main.rand.NextFloat(1.15f, 1.45f);
                     holyCinder.noGravity = true;
                 }
             }
-
             ProvidenceBurnEffectDrawer.Update();
 
+            if (hInferno && holyInfernoFadeIntensity < 1f)
+            {
+                holyInfernoFadeIntensity = MathHelper.Clamp(holyInfernoFadeIntensity + 0.015f, 0f, 1f);
+            }
+            else if (!hInferno && holyInfernoFadeIntensity > 0f)
+            {
+                holyInfernoFadeIntensity = MathHelper.Clamp(holyInfernoFadeIntensity - 0.01f, 0f, 1f);
+            }
             // Transformer immunity to Electrified
             if (transformer)
                 Player.buffImmune[BuffID.Electrified] = true;
