@@ -936,8 +936,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (!Main.rand.NextBool(3))
                         continue;
-
-                    //Using player.head causes the dust to appear in a line below the player, which is not the intended effect. (Remove this comment in pr, only serves to inform)
+                    
                     Dust holyCinder = Dust.NewDustDirect(Player.position, Player.width, Player.height, (int)CalamityDusts.ProfanedFire);
                     holyCinder.velocity = Main.rand.NextVector2Circular(3.5f, 3.5f);
                     holyCinder.velocity.Y -= Main.rand.NextFloat(1f, 3f);
