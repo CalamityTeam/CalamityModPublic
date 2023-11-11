@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Summon
                         spark.Scale -= 0.1f;
                     }
                 }
-                else // Idol state
+                else // Idle state
                 {
                     Projectile.rotation += Projectile.velocity.X * 0.06f; // Spins faster the faster it moves in the X-axis.
 
