@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 
         public override void SetDefaults()
         {
-            Item.damage = 15;
+            Item.damage = 18;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 42;
             Item.height = 38;
