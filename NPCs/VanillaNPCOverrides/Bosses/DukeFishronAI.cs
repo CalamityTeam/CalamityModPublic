@@ -236,18 +236,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
             }
 
-            float num17 = (float)Math.Atan2(rotationVector.Y, rotationVector.X);
+            float rotationSpeed = (float)Math.Atan2(rotationVector.Y, rotationVector.X);
             if (npc.spriteDirection == 1)
-                num17 += MathHelper.Pi;
-            if (num17 < 0f)
-                num17 += MathHelper.TwoPi;
-            if (num17 > MathHelper.TwoPi)
-                num17 -= MathHelper.TwoPi;
+                rotationSpeed += MathHelper.Pi;
+            if (rotationSpeed < 0f)
+                rotationSpeed += MathHelper.TwoPi;
+            if (rotationSpeed > MathHelper.TwoPi)
+                rotationSpeed -= MathHelper.TwoPi;
             if (npc.ai[0] == -1f || npc.ai[0] == 3f || npc.ai[0] == 4f || npc.ai[0] == 8f)
-                num17 = 0f;
+                rotationSpeed = 0f;
 
             if (rateOfRotation != 0f)
-                npc.rotation = npc.rotation.AngleTowards(num17, rateOfRotation);
+                npc.rotation = npc.rotation.AngleTowards(rotationSpeed, rateOfRotation);
 
             // Alpha adjustments
             if (npc.ai[0] != -1f && npc.ai[0] < 9f)
@@ -270,10 +270,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.velocity *= 0.98f;
 
                 // Direction
-                int num19 = Math.Sign(player.Center.X - npc.Center.X);
-                if (num19 != 0)
+                int faceDirection = Math.Sign(player.Center.X - npc.Center.X);
+                if (faceDirection != 0)
                 {
-                    npc.direction = num19;
+                    npc.direction = faceDirection;
                     npc.spriteDirection = -npc.direction;
                 }
 
@@ -294,15 +294,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Spawn dust and play sound
                 if (npc.ai[2] == sharknadoPhaseTimer - 30)
                 {
-                    int num20 = 36;
-                    for (int i = 0; i < num20; i++)
+                    int dustAmt = 36;
+                    for (int i = 0; i < dustAmt; i++)
                     {
-                        Vector2 dust = (Vector2.Normalize(npc.velocity) * new Vector2(npc.width / 2f, npc.height) * 0.75f * 0.5f).RotatedBy((i - (num20 / 2 - 1)) * MathHelper.TwoPi / num20) + npc.Center;
-                        Vector2 vector2 = dust - npc.Center;
-                        int num21 = Dust.NewDust(dust + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default, 1.4f);
-                        Main.dust[num21].noGravity = true;
-                        Main.dust[num21].noLight = true;
-                        Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
+                        Vector2 dust = (Vector2.Normalize(npc.velocity) * new Vector2(npc.width / 2f, npc.height) * 0.75f * 0.5f).RotatedBy((i - (dustAmt / 2 - 1)) * MathHelper.TwoPi / dustAmt) + npc.Center;
+                        Vector2 sharknadoDustDirection = dust - npc.Center;
+                        int sharknadoDust = Dust.NewDust(dust + sharknadoDustDirection, 0, 0, 172, sharknadoDustDirection.X * 2f, sharknadoDustDirection.Y * 2f, 100, default, 1.4f);
+                        Main.dust[sharknadoDust].noGravity = true;
+                        Main.dust[sharknadoDust].noLight = true;
+                        Main.dust[sharknadoDust].velocity = Vector2.Normalize(sharknadoDustDirection) * 3f;
                     }
 
                     SoundEngine.PlaySound(SoundID.Zombie20,npc.Center);
@@ -325,17 +325,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.ai[1] == 0f)
                     npc.ai[1] = 300 * Math.Sign((npc.Center - player.Center).X);
 
-                Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - npc.Center - npc.velocity) * idlePhaseVelocity;
-                npc.SimpleFlyMovement(vector3, idlePhaseAcceleration);
+                Vector2 idlePhaseDirection = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - npc.Center - npc.velocity) * idlePhaseVelocity;
+                npc.SimpleFlyMovement(idlePhaseDirection, idlePhaseAcceleration);
 
                 // Rotation and direction
-                int num22 = Math.Sign(player.Center.X - npc.Center.X);
-                if (num22 != 0)
+                int playerFaceDirection = Math.Sign(player.Center.X - npc.Center.X);
+                if (playerFaceDirection != 0)
                 {
-                    if (npc.ai[2] == 0f && num22 != npc.direction)
+                    if (npc.ai[2] == 0f && playerFaceDirection != npc.direction)
                         npc.rotation += MathHelper.Pi;
 
-                    npc.direction = num22;
+                    npc.direction = playerFaceDirection;
 
                     if (npc.spriteDirection != -npc.direction)
                         npc.rotation += MathHelper.Pi;
@@ -347,7 +347,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= idlePhaseTimer || CalamityWorld.LegendaryMode)
                 {
-                    int num23 = 0;
+                    int attackPicker = 0;
                     switch ((int)npc.ai[3])
                     {
                         case 0:
@@ -360,23 +360,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         case 7:
                         case 8:
                         case 9:
-                            num23 = 1;
+                            attackPicker = 1;
                             break;
                         case 10:
                             npc.ai[3] = 1f;
-                            num23 = 2;
+                            attackPicker = 2;
                             break;
                         case 11:
                             npc.ai[3] = 0f;
-                            num23 = 3;
+                            attackPicker = 3;
                             break;
                     }
 
                     if (phase2)
-                        num23 = 4;
+                        attackPicker = 4;
 
                     // Set velocity for charge
-                    if (num23 == 1)
+                    if (attackPicker == 1)
                     {
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
@@ -387,9 +387,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
                         // Direction
-                        if (num22 != 0)
+                        if (playerFaceDirection != 0)
                         {
-                            npc.direction = num22;
+                            npc.direction = playerFaceDirection;
 
                             if (npc.spriteDirection == 1)
                                 npc.rotation += MathHelper.Pi;
@@ -399,7 +399,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     // Bubbles
-                    else if (num23 == 2)
+                    else if (attackPicker == 2)
                     {
                         npc.ai[0] = 2f;
                         npc.ai[1] = 0f;
@@ -407,7 +407,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     // Spawn sharknadoes
-                    else if (num23 == 3)
+                    else if (attackPicker == 3)
                     {
                         npc.ai[0] = 3f;
                         npc.ai[1] = 0f;
@@ -415,7 +415,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     // Go to phase 2
-                    else if (num23 == 4)
+                    else if (attackPicker == 4)
                     {
                         npc.ai[0] = 4f;
                         npc.ai[1] = 0f;
@@ -433,16 +433,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.velocity *= 1.01f;
 
                 // Spawn dust
-                int num24 = 7;
-                for (int j = 0; j < num24; j++)
+                int chargeDustAmt = 7;
+                for (int j = 0; j < chargeDustAmt; j++)
                 {
-                    Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((j - (num24 / 2 - 1)) * MathHelper.Pi / num24) + npc.Center;
-                    Vector2 vector4 = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
-                    int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
-                    Main.dust[num25].noGravity = true;
-                    Main.dust[num25].noLight = true;
-                    Main.dust[num25].velocity /= 4f;
-                    Main.dust[num25].velocity -= npc.velocity;
+                    Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((j - (chargeDustAmt / 2 - 1)) * MathHelper.Pi / chargeDustAmt) + npc.Center;
+                    Vector2 chargeDustDirection = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
+                    int chargeDust = Dust.NewDust(arg_E1C_0 + chargeDustDirection, 0, 0, 172, chargeDustDirection.X * 2f, chargeDustDirection.Y * 2f, 100, default, 1.4f);
+                    Main.dust[chargeDust].noGravity = true;
+                    Main.dust[chargeDust].noLight = true;
+                    Main.dust[chargeDust].velocity /= 4f;
+                    Main.dust[chargeDust].velocity -= npc.velocity;
                 }
 
                 npc.ai[2] += 1f;
@@ -464,8 +464,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.ai[1] == 0f)
                     npc.ai[1] = 300 * Math.Sign((npc.Center - player.Center).X);
 
-                Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - npc.Center - npc.velocity) * bubbleBelchPhaseVelocity;
-                npc.SimpleFlyMovement(vector5, bubbleBelchPhaseAcceleration);
+                Vector2 bubbleAttackDirection = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - npc.Center - npc.velocity) * bubbleBelchPhaseVelocity;
+                npc.SimpleFlyMovement(bubbleAttackDirection, bubbleBelchPhaseAcceleration);
 
                 // Play sounds and spawn bubbles
                 if (npc.ai[2] == 0f)
@@ -477,16 +477,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 vector6 = Vector2.Normalize(player.Center - npc.Center) * (npc.width + 20) / 2f + npc.Center;
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)vector6.X, (int)vector6.Y + 45, NPCID.DetonatingBubble);
+                        Vector2 bubbleSpawnDirection = Vector2.Normalize(player.Center - npc.Center) * (npc.width + 20) / 2f + npc.Center;
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)bubbleSpawnDirection.X, (int)bubbleSpawnDirection.Y + 45, NPCID.DetonatingBubble);
                     }
                 }
 
                 // Direction
-                int num26 = Math.Sign(player.Center.X - npc.Center.X);
-                if (num26 != 0)
+                int bubbleSpriteFaceDirection = Math.Sign(player.Center.X - npc.Center.X);
+                if (bubbleSpriteFaceDirection != 0)
                 {
-                    npc.direction = num26;
+                    npc.direction = bubbleSpriteFaceDirection;
                     if (npc.spriteDirection != -npc.direction)
                         npc.rotation += MathHelper.Pi;
                     npc.spriteDirection = -npc.direction;
@@ -516,17 +516,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == sharknadoPhaseTimer - 30)
                 {
-                    Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * npc.direction) * (npc.width + 20) / 2f + npc.Center;
+                    Vector2 sharknadoSpawnerDirection = npc.rotation.ToRotationVector2() * (Vector2.UnitX * npc.direction) * (npc.width + 20) / 2f + npc.Center;
                     bool normal = Main.rand.NextBool();
                     float velocityY = normal ? 8f : -4f;
                     float ai1 = normal ? 0f : -1f;
 
-                    Projectile.NewProjectile(npc.GetSource_FromAI(), vector7.X, vector7.Y, npc.direction * 3, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
-                    Projectile.NewProjectile(npc.GetSource_FromAI(), vector7.X, vector7.Y, -(float)npc.direction * 3, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), sharknadoSpawnerDirection.X, sharknadoSpawnerDirection.Y, npc.direction * 3, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), sharknadoSpawnerDirection.X, sharknadoSpawnerDirection.Y, -(float)npc.direction * 3, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
 
                     velocityY = normal ? -4f : 8f;
                     ai1 = normal ? -1f : 0f;
-                    Projectile.NewProjectile(npc.GetSource_FromAI(), vector7.X, vector7.Y, 0f, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), sharknadoSpawnerDirection.X, sharknadoSpawnerDirection.Y, 0f, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
                 }
 
                 npc.ai[2] += 1f;
@@ -570,17 +570,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.ai[1] == 0f)
                     npc.ai[1] = 300 * Math.Sign((npc.Center - player.Center).X);
 
-                Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - npc.Center - npc.velocity) * idlePhaseVelocity;
-                npc.SimpleFlyMovement(vector8, idlePhaseAcceleration);
+                Vector2 phase2IdleDirection = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - npc.Center - npc.velocity) * idlePhaseVelocity;
+                npc.SimpleFlyMovement(phase2IdleDirection, idlePhaseAcceleration);
 
                 // Direction and rotation
-                int num27 = Math.Sign(player.Center.X - npc.Center.X);
-                if (num27 != 0)
+                int phase2SpriteFaceDirection = Math.Sign(player.Center.X - npc.Center.X);
+                if (phase2SpriteFaceDirection != 0)
                 {
-                    if (npc.ai[2] == 0f && num27 != npc.direction)
+                    if (npc.ai[2] == 0f && phase2SpriteFaceDirection != npc.direction)
                         npc.rotation += MathHelper.Pi;
 
-                    npc.direction = num27;
+                    npc.direction = phase2SpriteFaceDirection;
 
                     if (npc.spriteDirection != -npc.direction)
                         npc.rotation += MathHelper.Pi;
@@ -592,7 +592,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= idlePhaseTimer || CalamityWorld.LegendaryMode)
                 {
-                    int num28 = 0;
+                    int phase2AttackPicker = 0;
                     switch ((int)npc.ai[3])
                     {
                         case 0:
@@ -601,23 +601,23 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         case 3:
                         case 4:
                         case 5:
-                            num28 = 1;
+                            phase2AttackPicker = 1;
                             break;
                         case 6:
                             npc.ai[3] = 1f;
-                            num28 = 2;
+                            phase2AttackPicker = 2;
                             break;
                         case 7:
                             npc.ai[3] = 0f;
-                            num28 = 3;
+                            phase2AttackPicker = 3;
                             break;
                     }
 
                     if (phase3)
-                        num28 = 4;
+                        phase2AttackPicker = 4;
 
                     // Set velocity for charge
-                    if (num28 == 1)
+                    if (phase2AttackPicker == 1)
                     {
                         npc.ai[0] = 6f;
                         npc.ai[1] = 0f;
@@ -628,9 +628,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
                         // Direction
-                        if (num27 != 0)
+                        if (phase2SpriteFaceDirection != 0)
                         {
-                            npc.direction = num27;
+                            npc.direction = phase2SpriteFaceDirection;
 
                             if (npc.spriteDirection == 1)
                                 npc.rotation += MathHelper.Pi;
@@ -640,16 +640,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     // Set velocity for spin
-                    else if (num28 == 2)
+                    else if (phase2AttackPicker == 2)
                     {
                         // Velocity and rotation
                         npc.velocity = Vector2.Normalize(player.Center - npc.Center) * bubbleSpinPhaseVelocity;
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
                         // Direction
-                        if (num27 != 0)
+                        if (phase2SpriteFaceDirection != 0)
                         {
-                            npc.direction = num27;
+                            npc.direction = phase2SpriteFaceDirection;
 
                             if (npc.spriteDirection == 1)
                                 npc.rotation += MathHelper.Pi;
@@ -663,7 +663,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     // Spawn cthulhunado
-                    else if (num28 == 3)
+                    else if (phase2AttackPicker == 3)
                     {
                         npc.ai[0] = 8f;
                         npc.ai[1] = 0f;
@@ -671,7 +671,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     // Go to next phase
-                    else if (num28 == 4)
+                    else if (phase2AttackPicker == 4)
                     {
                         npc.ai[0] = 9f;
                         npc.ai[1] = 0f;
@@ -689,16 +689,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.velocity *= 1.01f;
 
                 // Spawn dust
-                int num29 = 7;
-                for (int k = 0; k < num29; k++)
+                int phase2ChargeDustAmt = 7;
+                for (int k = 0; k < phase2ChargeDustAmt; k++)
                 {
-                    Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((k - (num29 / 2 - 1)) * MathHelper.Pi / num29) + npc.Center;
-                    Vector2 vector9 = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
-                    int num30 = Dust.NewDust(arg_1A97_0 + vector9, 0, 0, 172, vector9.X * 2f, vector9.Y * 2f, 100, default, 1.4f);
-                    Main.dust[num30].noGravity = true;
-                    Main.dust[num30].noLight = true;
-                    Main.dust[num30].velocity /= 4f;
-                    Main.dust[num30].velocity -= npc.velocity;
+                    Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((k - (phase2ChargeDustAmt / 2 - 1)) * MathHelper.Pi / phase2ChargeDustAmt) + npc.Center;
+                    Vector2 phase2ChargeDustDirection = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
+                    int phase2ChargeDust = Dust.NewDust(arg_1A97_0 + phase2ChargeDustDirection, 0, 0, 172, phase2ChargeDustDirection.X * 2f, phase2ChargeDustDirection.Y * 2f, 100, default, 1.4f);
+                    Main.dust[phase2ChargeDust].noGravity = true;
+                    Main.dust[phase2ChargeDust].noLight = true;
+                    Main.dust[phase2ChargeDust].velocity /= 4f;
+                    Main.dust[phase2ChargeDust].velocity -= npc.velocity;
                 }
 
                 npc.ai[2] += 1f;
@@ -726,17 +726,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + npc.Center;
-                        int num31 = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector10.X, (int)vector10.Y + 45, NPCID.DetonatingBubble);
-                        Main.npc[num31].target = npc.target;
-                        Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * bubbleSpinBubbleVelocity * (CalamityWorld.LegendaryMode ? (Main.rand.NextFloat() + 0.5f) : 1f);
-                        Main.npc[num31].netUpdate = true;
-                        Main.npc[num31].ai[3] = Main.rand.Next(80, 121) / 100f;
+                        Vector2 phase2BubbleSharkronDirection = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + npc.Center;
+                        int phase2Bubbles = NPC.NewNPC(npc.GetSource_FromAI(), (int)phase2BubbleSharkronDirection.X, (int)phase2BubbleSharkronDirection.Y + 45, NPCID.DetonatingBubble);
+                        Main.npc[phase2Bubbles].target = npc.target;
+                        Main.npc[phase2Bubbles].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * bubbleSpinBubbleVelocity * (CalamityWorld.LegendaryMode ? (Main.rand.NextFloat() + 0.5f) : 1f);
+                        Main.npc[phase2Bubbles].netUpdate = true;
+                        Main.npc[phase2Bubbles].ai[3] = Main.rand.Next(80, 121) / 100f;
 
                         if (npc.ai[2] % (bubbleSpinPhaseDivisor * 5) == 0f)
                         {
-                            int npc2 = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector10.X, (int)vector10.Y + 45, NPCID.Sharkron2);
-                            Main.npc[npc2].ai[1] = 89f;
+                            int phase2BubbleSharkrons = NPC.NewNPC(npc.GetSource_FromAI(), (int)phase2BubbleSharkronDirection.X, (int)phase2BubbleSharkronDirection.Y + 45, NPCID.Sharkron2);
+                            Main.npc[phase2BubbleSharkrons].ai[1] = 89f;
                         }
                     }
                 }
@@ -846,17 +846,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.SimpleFlyMovement(desiredVelocity, idlePhaseAcceleration);
 
                 // Rotation and direction
-                int num32 = Math.Sign(player.Center.X - npc.Center.X);
-                if (num32 != 0)
+                int phase3SpriteFaceDirection = Math.Sign(player.Center.X - npc.Center.X);
+                if (phase3SpriteFaceDirection != 0)
                 {
-                    if (npc.ai[2] == 0f && num32 != npc.direction)
+                    if (npc.ai[2] == 0f && phase3SpriteFaceDirection != npc.direction)
                     {
                         npc.rotation += MathHelper.Pi;
                         for (int l = 0; l < npc.oldPos.Length; l++)
                             npc.oldPos[l] = Vector2.Zero;
                     }
 
-                    npc.direction = num32;
+                    npc.direction = phase3SpriteFaceDirection;
 
                     if (npc.spriteDirection != -npc.direction)
                         npc.rotation += MathHelper.Pi;
@@ -868,7 +868,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= idlePhaseTimer || CalamityWorld.LegendaryMode)
                 {
-                    int num33 = 0;
+                    int phase3AttackPicker = 0;
                     if (phase4)
                     {
                         switch ((int)npc.ai[3])
@@ -880,16 +880,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             case 5:
                             case 6:
                             case 7:
-                                num33 = 1;
+                                phase3AttackPicker = 1;
                                 break;
                             case 3:
                             case 8:
-                                num33 = 2;
+                                phase3AttackPicker = 2;
                                 break;
                         }
 
                         if (death)
-                            num33 = 1;
+                            phase3AttackPicker = 1;
                     }
                     else
                     {
@@ -901,18 +901,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             case 5:
                             case 6:
                             case 7:
-                                num33 = 1;
+                                phase3AttackPicker = 1;
                                 break;
                             case 1:
                             case 4:
                             case 8:
-                                num33 = 2;
+                                phase3AttackPicker = 2;
                                 break;
                         }
                     }
 
                     // Set velocity for charge
-                    if (num33 == 1)
+                    if (phase3AttackPicker == 1)
                     {
                         npc.ai[0] = 11f;
                         npc.ai[1] = 0f;
@@ -923,9 +923,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
                         // Direction
-                        if (num32 != 0)
+                        if (phase3SpriteFaceDirection != 0)
                         {
-                            npc.direction = num32;
+                            npc.direction = phase3SpriteFaceDirection;
 
                             if (npc.spriteDirection == 1)
                                 npc.rotation += MathHelper.Pi;
@@ -935,7 +935,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     // Pause
-                    else if (num33 == 2)
+                    else if (phase3AttackPicker == 2)
                     {
                         npc.ai[0] = 12f;
                         npc.ai[1] = 0f;
@@ -958,16 +958,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.alpha = 0;
 
                 // Spawn dust
-                int num34 = 7;
-                for (int m = 0; m < num34; m++)
+                int phase3ChargeDustAmt = 7;
+                for (int m = 0; m < phase3ChargeDustAmt; m++)
                 {
-                    Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((m - (num34 / 2 - 1)) * MathHelper.Pi / num34) + npc.Center;
-                    Vector2 vector11 = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
-                    int num35 = Dust.NewDust(arg_2444_0 + vector11, 0, 0, 172, vector11.X * 2f, vector11.Y * 2f, 100, default, 1.4f);
-                    Main.dust[num35].noGravity = true;
-                    Main.dust[num35].noLight = true;
-                    Main.dust[num35].velocity /= 4f;
-                    Main.dust[num35].velocity -= npc.velocity;
+                    Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((m - (phase3ChargeDustAmt / 2 - 1)) * MathHelper.Pi / phase3ChargeDustAmt) + npc.Center;
+                    Vector2 phase3ChargeDustDirection = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
+                    int phase3ChargeDust = Dust.NewDust(arg_2444_0 + phase3ChargeDustDirection, 0, 0, 172, phase3ChargeDustDirection.X * 2f, phase3ChargeDustDirection.Y * 2f, 100, default, 1.4f);
+                    Main.dust[phase3ChargeDust].noGravity = true;
+                    Main.dust[phase3ChargeDust].noLight = true;
+                    Main.dust[phase3ChargeDust].velocity /= 4f;
+                    Main.dust[phase3ChargeDust].velocity -= npc.velocity;
                 }
 
                 npc.ai[2] += 1f;
@@ -1016,17 +1016,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Rotation and direction
                     Vector2 center = player.Center + new Vector2(-npc.ai[1], -200f);
                     npc.Center = center;
-                    int num36 = Math.Sign(player.Center.X - npc.Center.X);
-                    if (num36 != 0)
+                    int phase3PlayerDirection = Math.Sign(player.Center.X - npc.Center.X);
+                    if (phase3PlayerDirection != 0)
                     {
-                        if (npc.ai[2] == 0f && num36 != npc.direction)
+                        if (npc.ai[2] == 0f && phase3PlayerDirection != npc.direction)
                         {
                             npc.rotation += MathHelper.Pi;
                             for (int n = 0; n < npc.oldPos.Length; n++)
                                 npc.oldPos[n] = Vector2.Zero;
                         }
 
-                        npc.direction = num36;
+                        npc.direction = phase3PlayerDirection;
 
                         if (npc.spriteDirection != -npc.direction)
                             npc.rotation += MathHelper.Pi;

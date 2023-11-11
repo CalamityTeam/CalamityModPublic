@@ -37,9 +37,9 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.localAI[0] > 5f)
             {
                 Vector2 dspeed = -Projectile.velocity * 0.5f;
-                int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, dspeed.X, dspeed.Y, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.1f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity = dspeed;
+                int rainbowDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, dspeed.X, dspeed.Y, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.1f);
+                Main.dust[rainbowDust].noGravity = true;
+                Main.dust[rainbowDust].velocity = dspeed;
             }
 
             CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);

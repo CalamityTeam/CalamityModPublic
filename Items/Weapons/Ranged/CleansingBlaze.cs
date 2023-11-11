@@ -16,12 +16,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 130;
+            Item.damage = 240;
             Item.DamageType = DamageClass.Ranged;
-            Item.width = 64;
-            Item.height = 32;
+            Item.width = 108;
+            Item.height = 38;
             Item.useTime = 3;
-            Item.useAnimation = 12;
+            Item.useAnimation = 24;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 4f;
@@ -29,39 +29,26 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<EssenceFire>();
-            Item.shootSpeed = 14f;
+            Item.shootSpeed = 11f;
             Item.useAmmo = AmmoID.Gel;
+            Item.consumeAmmoOnFirstShotOnly = true;
             Item.rare = ModContent.RarityType<DarkBlue>();
         }
 
-        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-        {
-            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Ranged/CleansingBlazeGlow").Value);
-        }
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) => Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>(Texture + "Glow").Value);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int num6 = Main.rand.Next(2, 4);
-            for (int index = 0; index < num6; ++index)
+            Vector2 newPos = position + velocity.SafeNormalize(Vector2.UnitX) * 36f;
+            for (int i = 0; i < 3; i++)
             {
-                float SpeedX = velocity.X + (float)Main.rand.Next(-15, 16) * 0.05f;
-                float SpeedY = velocity.Y + (float)Main.rand.Next(-15, 16) * 0.05f;
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+                Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(5f));
+                Projectile.NewProjectile(source, newPos, newVel, type, damage, knockback, player.whoAmI);
             }
             return false;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
-
-        public override bool CanConsumeAmmo(Item ammo, Player player)
-        {
-            if (Main.rand.Next(0, 100) < 90)
-                return false;
-            return true;
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
 
         public override void AddRecipes()
         {

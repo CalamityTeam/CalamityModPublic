@@ -37,65 +37,65 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float num72 = Item.shootSpeed;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            float bulletSpeed = Item.shootSpeed;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+            float mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                mouseYDist = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - realPlayerPos.Y;
             }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            float mouseDistance = (float)Math.Sqrt((double)(mouseXDist * mouseXDist + mouseYDist * mouseYDist));
+            if ((float.IsNaN(mouseXDist) && float.IsNaN(mouseYDist)) || (mouseXDist == 0f && mouseYDist == 0f))
             {
-                num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
+                mouseXDist = (float)player.direction;
+                mouseYDist = 0f;
+                mouseDistance = bulletSpeed;
             }
             else
             {
-                num80 = num72 / num80;
+                mouseDistance = bulletSpeed / mouseDistance;
             }
-            num78 *= num80;
-            num79 *= num80;
-            Vector2 value6 = Vector2.Normalize(new Vector2(num78, num79)) * 40f * Item.scale;
-            if (Collision.CanHit(vector2, 0, 0, vector2 + value6, 0, 0))
+            mouseXDist *= mouseDistance;
+            mouseYDist *= mouseDistance;
+            Vector2 bulletVel = Vector2.Normalize(new Vector2(mouseXDist, mouseYDist)) * 40f * Item.scale;
+            if (Collision.CanHit(realPlayerPos, 0, 0, realPlayerPos + bulletVel, 0, 0))
             {
             }
-            float ai = new Vector2(num78, num79).ToRotation();
-            float num96 = 2.09439516f;
-            for (int num98 = 0; num98 < 6; num98++)
+            float ai = new Vector2(mouseXDist, mouseYDist).ToRotation();
+            float twoThirdsPi = 2.09439516f;
+            for (int i = 0; i < 6; i++)
             {
-                float scaleFactor2 = (float)Main.rand.NextDouble() * 0.2f + 0.05f;
-                Vector2 vector6 = new Vector2(num78, num79).RotatedBy((double)(num96 * (float)Main.rand.NextDouble() - num96 / 2f), default) * scaleFactor2;
-                int num99 = Projectile.NewProjectile(source, position.X, position.Y, vector6.X, vector6.Y, ProjectileID.Xenopopper, damage, knockback, player.whoAmI, ai, 0f);
-                Main.projectile[num99].localAI[0] = (float)type;
-                Main.projectile[num99].localAI[1] = 12f;
+                float randVelMult = (float)Main.rand.NextDouble() * 0.2f + 0.05f;
+                Vector2 bulletSpawnVelocity = new Vector2(mouseXDist, mouseYDist).RotatedBy((double)(twoThirdsPi * (float)Main.rand.NextDouble() - twoThirdsPi / 2f), default) * randVelMult;
+                int initialBullet = Projectile.NewProjectile(source, position.X, position.Y, bulletSpawnVelocity.X, bulletSpawnVelocity.Y, ProjectileID.Xenopopper, damage, knockback, player.whoAmI, ai, 0f);
+                Main.projectile[initialBullet].localAI[0] = (float)type;
+                Main.projectile[initialBullet].localAI[1] = 12f;
             }
-            for (int num108 = 0; num108 < 6; num108++)
+            for (int j = 0; j < 6; j++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-800, 801);
-                vector2.Y -= (float)(100 * num108);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
+                realPlayerPos = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                realPlayerPos.X = (realPlayerPos.X + player.Center.X) / 2f + (float)Main.rand.Next(-800, 801);
+                realPlayerPos.Y -= (float)(100 * j);
+                mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+                mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
+                if (mouseYDist < 0f)
                 {
-                    num79 *= -1f;
+                    mouseYDist *= -1f;
                 }
-                if (num79 < 20f)
+                if (mouseYDist < 20f)
                 {
-                    num79 = 20f;
+                    mouseYDist = 20f;
                 }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
-                int projectile = Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ProjectileID.Xenopopper, damage, knockback, player.whoAmI, ai, 0f);
-                Main.projectile[projectile].localAI[0] = (float)type;
-                Main.projectile[projectile].localAI[1] = 12f;
+                mouseDistance = (float)Math.Sqrt((double)(mouseXDist * mouseXDist + mouseYDist * mouseYDist));
+                mouseDistance = bulletSpeed / mouseDistance;
+                mouseXDist *= mouseDistance;
+                mouseYDist *= mouseDistance;
+                float speedX4 = mouseXDist + (float)Main.rand.Next(-1000, 1001) * 0.02f;
+                float speedY5 = mouseYDist + (float)Main.rand.Next(-1000, 1001) * 0.02f;
+                int extraBullet = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, speedX4, speedY5, ProjectileID.Xenopopper, damage, knockback, player.whoAmI, ai, 0f);
+                Main.projectile[extraBullet].localAI[0] = (float)type;
+                Main.projectile[extraBullet].localAI[1] = 12f;
             }
             return false;
         }

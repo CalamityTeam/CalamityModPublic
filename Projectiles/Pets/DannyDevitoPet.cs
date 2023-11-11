@@ -31,9 +31,9 @@ namespace CalamityMod.Projectiles.Pets
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             Player player = Main.player[Projectile.owner];
-            Vector2 center2 = Projectile.Center;
-            Vector2 vector48 = player.Center - center2;
-            float playerDistance = vector48.Length();
+            Vector2 projCenter = Projectile.Center;
+            Vector2 playerDirection = player.Center - projCenter;
+            float playerDistance = playerDirection.Length();
             fallThrough = playerDistance > 200f;
             return true;
         }
@@ -59,9 +59,9 @@ namespace CalamityMod.Projectiles.Pets
             if (!fly)
             {
                 Projectile.rotation = 0;
-                Vector2 center2 = Projectile.Center;
-                Vector2 vector48 = player.Center - center2;
-                float playerDistance = vector48.Length();
+                Vector2 projCenter = Projectile.Center;
+                Vector2 playerDirection = player.Center - projCenter;
+                float playerDistance = playerDirection.Length();
                 if (Projectile.velocity.Y == 0 && (HoleBelow() || (playerDistance > 110f && Projectile.position.X == Projectile.oldPosition.X)))
                 {
                     Projectile.velocity.Y = -5f;
@@ -144,18 +144,16 @@ namespace CalamityMod.Projectiles.Pets
             }
             else if (fly)
             {
-                float num16 = 0.3f;
+                float flySpeed = 0.3f;
                 Projectile.tileCollide = false;
-                Vector2 vector3 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                float horiPos = Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2) - vector3.X;
-                float vertiPos = Main.player[Projectile.owner].position.Y + (float)(Main.player[Projectile.owner].height / 2) - vector3.Y;
+                Vector2 flyDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                float horiPos = Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2) - flyDirection.X;
+                float vertiPos = Main.player[Projectile.owner].position.Y + (float)(Main.player[Projectile.owner].height / 2) - flyDirection.Y;
                 vertiPos += (float)Main.rand.Next(-10, 21);
                 horiPos += (float)Main.rand.Next(-10, 21);
                 horiPos += (float)(60 * -(float)Main.player[Projectile.owner].direction);
                 vertiPos -= 60f;
                 float playerDistance = (float)Math.Sqrt((double)(horiPos * horiPos + vertiPos * vertiPos));
-                float num21 = 18f;
-                float num27 = (float)Math.Sqrt((double)(horiPos * horiPos + vertiPos * vertiPos));
                 if (playerDistance > 1200f)
                 {
                     Projectile.position.X = Main.player[Projectile.owner].Center.X - (float)(Projectile.width / 2);
@@ -164,7 +162,7 @@ namespace CalamityMod.Projectiles.Pets
                 }
                 if (playerDistance < 100f)
                 {
-                    num16 = 0.1f;
+                    flySpeed = 0.1f;
                     if (player.velocity.Y == 0f)
                     {
                         ++playerStill;
@@ -185,52 +183,52 @@ namespace CalamityMod.Projectiles.Pets
                     {
                         Projectile.velocity *= 0.90f;
                     }
-                    num16 = 0.01f;
+                    flySpeed = 0.01f;
                 }
                 else
                 {
                     if (playerDistance < 100f)
                     {
-                        num16 = 0.1f;
+                        flySpeed = 0.1f;
                     }
                     if (playerDistance > 300f)
                     {
-                        num16 = 1f;
+                        flySpeed = 1f;
                     }
-                    playerDistance = num21 / playerDistance;
+                    playerDistance = 18f / playerDistance;
                     horiPos *= playerDistance;
                     vertiPos *= playerDistance;
                 }
                 if (Projectile.velocity.X <= horiPos)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X + num16;
-                    if (num16 > 0.05f && Projectile.velocity.X < 0f)
+                    Projectile.velocity.X = Projectile.velocity.X + flySpeed;
+                    if (flySpeed > 0.05f && Projectile.velocity.X < 0f)
                     {
-                        Projectile.velocity.X = Projectile.velocity.X + num16;
+                        Projectile.velocity.X = Projectile.velocity.X + flySpeed;
                     }
                 }
                 if (Projectile.velocity.X > horiPos)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X - num16;
-                    if (num16 > 0.05f && Projectile.velocity.X > 0f)
+                    Projectile.velocity.X = Projectile.velocity.X - flySpeed;
+                    if (flySpeed > 0.05f && Projectile.velocity.X > 0f)
                     {
-                        Projectile.velocity.X = Projectile.velocity.X - num16;
+                        Projectile.velocity.X = Projectile.velocity.X - flySpeed;
                     }
                 }
                 if (Projectile.velocity.Y <= vertiPos)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y + num16;
-                    if (num16 > 0.05f && Projectile.velocity.Y < 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y + flySpeed;
+                    if (flySpeed > 0.05f && Projectile.velocity.Y < 0f)
                     {
-                        Projectile.velocity.Y = Projectile.velocity.Y + num16 * 2f;
+                        Projectile.velocity.Y = Projectile.velocity.Y + flySpeed * 2f;
                     }
                 }
                 if (Projectile.velocity.Y > vertiPos)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y - num16;
-                    if (num16 > 0.05f && Projectile.velocity.Y > 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y - flySpeed;
+                    if (flySpeed > 0.05f && Projectile.velocity.Y > 0f)
                     {
-                        Projectile.velocity.Y = Projectile.velocity.Y - num16 * 2f;
+                        Projectile.velocity.Y = Projectile.velocity.Y - flySpeed * 2f;
                     }
                 }
                 Projectile.rotation = Projectile.velocity.X * 0.03f;
@@ -250,16 +248,16 @@ namespace CalamityMod.Projectiles.Pets
         {
             if (!Main.gamePaused || Main.gameMenu)
             {
-                Vector2 vector69 = projectile.position - Main.screenPosition;
-                if ((float)Main.mouseX > vector69.X && (float)Main.mouseX < vector69.X + (float)projectile.width && (float)Main.mouseY > vector69.Y && (float)Main.mouseY < vector69.Y + (float)projectile.height)
+                Vector2 projDirect = projectile.position - Main.screenPosition;
+                if ((float)Main.mouseX > projDirect.X && (float)Main.mouseX < projDirect.X + (float)projectile.width && (float)Main.mouseY > projDirect.Y && (float)Main.mouseY < projDirect.Y + (float)projectile.height)
                 {
-                    int num345 = (int)(Main.player[projectile.owner].Center.X / 16f);
-                    int num346 = (int)(Main.player[projectile.owner].Center.Y / 16f);
-                    int num347 = (int)projectile.Center.X / 16;
-                    int num348 = (int)projectile.Center.Y / 16;
+                    int playerTileX = (int)(Main.player[projectile.owner].Center.X / 16f);
+                    int playerTileY = (int)(Main.player[projectile.owner].Center.Y / 16f);
+                    int projTileX = (int)projectile.Center.X / 16;
+                    int projTileY = (int)projectile.Center.Y / 16;
                     int lastTileRangeX = Main.player[projectile.owner].lastTileRangeX;
                     int lastTileRangeY = Main.player[projectile.owner].lastTileRangeY;
-                    if (num345 >= num347 - lastTileRangeX && num345 <= num347 + lastTileRangeX + 1 && num346 >= num348 - lastTileRangeY && num346 <= num348 + lastTileRangeY + 1)
+                    if (playerTileX >= projTileX - lastTileRangeX && playerTileX <= projTileX + lastTileRangeX + 1 && playerTileY >= projTileY - lastTileRangeY && playerTileY <= projTileY + lastTileRangeY + 1)
                     {
                         Main.player[projectile.owner].noThrow = 2;
                         Main.player[projectile.owner].cursorItemIconEnabled = true;

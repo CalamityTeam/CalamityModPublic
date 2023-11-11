@@ -54,6 +54,7 @@ namespace CalamityMod
             Abyss.AbyssChasmBottom = 0;
             SulphurousSea.YStart = 0;
             Abyss.AtLeftSideOfWorld = false;
+            Abyss.AbleToUnlockChests = false; //Yet another fucking failsave for abyss chests
 
             spawnedBandit = false;
             spawnedCirrus = false;
@@ -70,6 +71,8 @@ namespace CalamityMod
             armageddon = false;
             AcidRainEvent.AcidRainEventIsOngoing = false;
             AcidRainEvent.CountdownUntilForcedAcidRain = 0;
+
+            HasGeneratedLuminitePlanetoids = false; //Allow generating planetoids in other worlds
         }
         #endregion
 

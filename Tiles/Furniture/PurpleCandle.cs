@@ -17,12 +17,12 @@ namespace CalamityMod.Tiles.Furniture
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.addTile(Type);
             AdjTiles = new int[] { TileID.Candles };
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(238, 145, 105), CalamityUtils.GetItemName<ResilientCandle>());
-            AnimationFrameHeight = 34;
+            AnimationFrameHeight = 18;
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
@@ -30,7 +30,7 @@ namespace CalamityMod.Tiles.Furniture
             frameCounter++;
             if (frameCounter >= 6)
             {
-                frame = (frame + 1) % 6;
+                frame = (frame + 1) % 5;
                 frameCounter = 0;
             }
         }

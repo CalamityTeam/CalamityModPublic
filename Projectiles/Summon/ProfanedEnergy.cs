@@ -78,55 +78,55 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.ai[0] -= 1f;
                     return;
                 }
-                bool flag18 = false;
-                float num506 = Projectile.Center.X;
-                float num507 = Projectile.Center.Y;
-                float num508 = 1000f;
+                bool canAttack = false;
+                float projX = Projectile.Center.X;
+                float projY = Projectile.Center.Y;
+                float attackDistance = 1000f;
                 int target = 0;
                 if (player.HasMinionAttackTargetNPC)
                 {
                     NPC npc = Main.npc[player.MinionAttackTargetNPC];
                     if (npc.CanBeChasedBy(Projectile, false))
                     {
-                        float num539 = npc.Center.X;
-                        float num540 = npc.Center.Y;
-                        float num541 = Math.Abs(Projectile.Center.X - num539) + Math.Abs(Projectile.Center.Y - num540);
-                        if (num541 < num508 && Collision.CanHit(Projectile.Center, Projectile.width, Projectile.height, npc.Center, npc.width, npc.height))
+                        float targetX = npc.Center.X;
+                        float targetY = npc.Center.Y;
+                        float targetDist = Math.Abs(Projectile.Center.X - targetX) + Math.Abs(Projectile.Center.Y - targetY);
+                        if (targetDist < attackDistance && Collision.CanHit(Projectile.Center, Projectile.width, Projectile.height, npc.Center, npc.width, npc.height))
                         {
-                            num506 = num539;
-                            num507 = num540;
-                            flag18 = true;
+                            projX = targetX;
+                            projY = targetY;
+                            canAttack = true;
                             target = npc.whoAmI;
                         }
                     }
                 }
-                if (!flag18)
+                if (!canAttack)
                 {
-                    for (int num512 = 0; num512 < Main.maxNPCs; num512++)
+                    for (int j = 0; j < Main.maxNPCs; j++)
                     {
-                        if (Main.npc[num512].CanBeChasedBy(Projectile, false))
+                        if (Main.npc[j].CanBeChasedBy(Projectile, false))
                         {
-                            float num513 = Main.npc[num512].position.X + (float)(Main.npc[num512].width / 2);
-                            float num514 = Main.npc[num512].position.Y + (float)(Main.npc[num512].height / 2);
-                            float num515 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num513) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num514);
-                            if (num515 < num508 && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[num512].position, Main.npc[num512].width, Main.npc[num512].height))
+                            float npcX = Main.npc[j].position.X + (float)(Main.npc[j].width / 2);
+                            float npcY = Main.npc[j].position.Y + (float)(Main.npc[j].height / 2);
+                            float npcDist = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcY);
+                            if (npcDist < attackDistance && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[j].position, Main.npc[j].width, Main.npc[j].height))
                             {
-                                num508 = num515;
-                                num506 = num513;
-                                num507 = num514;
-                                flag18 = true;
-                                target = num512;
+                                attackDistance = npcDist;
+                                projX = npcX;
+                                projY = npcY;
+                                canAttack = true;
+                                target = j;
                             }
                         }
                     }
                 }
-                if (flag18)
+                if (canAttack)
                 {
-                    float num516 = num506;
-                    float num517 = num507;
-                    num506 -= Projectile.Center.X;
-                    num507 -= Projectile.Center.Y;
-                    if (num506 < 0f)
+                    float projXStore = projX;
+                    float projYStore = projY;
+                    projX -= Projectile.Center.X;
+                    projY -= Projectile.Center.Y;
+                    if (projX < 0f)
                     {
                         Projectile.spriteDirection = 1;
                     }
@@ -140,14 +140,14 @@ namespace CalamityMod.Projectiles.Summon
                         ModContent.ProjectileType<FlameBurst>()
                     });
                     float speed = 25f;
-                    Vector2 vector29 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                    float num404 = num516 - vector29.X;
-                    float num405 = num517 - vector29.Y;
-                    float num406 = (float)Math.Sqrt((double)(num404 * num404 + num405 * num405));
-                    num406 = speed / num406;
-                    num404 *= num406;
-                    num405 *= num406;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, num404, num405, projectileType, Projectile.damage, Projectile.knockBack, Projectile.owner, (float)target, 0f);
+                    Vector2 fireDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                    float fireXVel = projXStore - fireDirection.X;
+                    float fireYVel = projYStore - fireDirection.Y;
+                    float fireVelocity = (float)Math.Sqrt((double)(fireXVel * fireXVel + fireYVel * fireYVel));
+                    fireVelocity = speed / fireVelocity;
+                    fireXVel *= fireVelocity;
+                    fireYVel *= fireVelocity;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, fireXVel, fireYVel, projectileType, Projectile.damage, Projectile.knockBack, Projectile.owner, (float)target, 0f);
 
                     Projectile.ai[0] = 16f;
                 }

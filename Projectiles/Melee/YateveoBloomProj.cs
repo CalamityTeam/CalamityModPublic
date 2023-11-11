@@ -23,9 +23,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            Vector2 vector62 = Main.player[Projectile.owner].MountedCenter - Projectile.Center;
-            Projectile.rotation = vector62.ToRotation() - 1.57f;
-            float distance = vector62.Length();
+            Vector2 projDirection = Main.player[Projectile.owner].MountedCenter - Projectile.Center;
+            Projectile.rotation = projDirection.ToRotation() - 1.57f;
+            float distance = projDirection.Length();
 
             if (Main.player[Projectile.owner].dead)
             {
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.player[Projectile.owner].itemAnimation = 10;
             Main.player[Projectile.owner].itemTime = 10;
 
-            if (vector62.X < 0f)
+            if (projDirection.X < 0f)
             {
                 Main.player[Projectile.owner].ChangeDir(1);
                 Projectile.direction = 1;
@@ -66,8 +66,8 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
             {
-                float num211 = 14f / Main.player[Projectile.owner].GetAttackSpeed<MeleeDamageClass>() * 1.25f;
-                float num212 = 0.9f / Main.player[Projectile.owner].GetAttackSpeed<MeleeDamageClass>() * 1.25f;
+                float meleeSpeedDistance = 14f / Main.player[Projectile.owner].GetAttackSpeed<MeleeDamageClass>() * 1.25f;
+                float meleeDamage = 0.9f / Main.player[Projectile.owner].GetAttackSpeed<MeleeDamageClass>() * 1.25f;
 
                 if (Projectile.ai[1] == 1f)
                     Projectile.tileCollide = false;
@@ -86,27 +86,26 @@ namespace CalamityMod.Projectiles.Melee
                 }
 
                 if (!Projectile.tileCollide)
-                    num212 *= 2f;
+                    meleeDamage *= 2f;
 
                 if (distance > 80f || !Projectile.tileCollide)
                 {
-                    distance = num211 / distance;
-                    vector62.X *= distance;
-                    vector62.Y *= distance;
+                    distance = meleeSpeedDistance / distance;
+                    projDirection.X *= distance;
+                    projDirection.Y *= distance;
 
-                    Vector2 vector21 = new Vector2(Projectile.velocity.X, Projectile.velocity.Y);
-                    float num217 = vector62.X - Projectile.velocity.X;
-                    float num218 = vector62.Y - Projectile.velocity.Y;
-                    float num219 = (float)Math.Sqrt((double)(num217 * num217 + num218 * num218));
+                    float projXDirect = projDirection.X - Projectile.velocity.X;
+                    float projYDirect = projDirection.Y - Projectile.velocity.Y;
+                    float projDistance = (float)Math.Sqrt((double)(projXDirect * projXDirect + projYDirect * projYDirect));
 
-                    num219 = num212 / num219;
-                    num217 *= num219;
-                    num218 *= num219;
+                    projDistance = meleeDamage / projDistance;
+                    projXDirect *= projDistance;
+                    projYDirect *= projDistance;
 
                     Projectile.velocity.X = Projectile.velocity.X * 0.98f;
                     Projectile.velocity.Y = Projectile.velocity.Y * 0.98f;
-                    Projectile.velocity.X = Projectile.velocity.X + num217;
-                    Projectile.velocity.Y = Projectile.velocity.Y + num218;
+                    Projectile.velocity.X = Projectile.velocity.X + projXDirect;
+                    Projectile.velocity.Y = Projectile.velocity.Y + projYDirect;
                 }
                 else
                 {
@@ -183,35 +182,35 @@ namespace CalamityMod.Projectiles.Melee
         {
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
             Texture2D texture2D2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/YateveoBloomChain").Value;
-            Vector2 vector17 = Projectile.Center;
+            Vector2 projCenter = Projectile.Center;
             Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)texture2D2.Width * 0.5f, (float)texture2D2.Height * 0.5f);
-            float num91 = (float)texture2D2.Height;
-            Vector2 vector18 = mountedCenter - vector17;
-            float rotation15 = (float)Math.Atan2((double)vector18.Y, (double)vector18.X) - 1.57f;
-            bool flag13 = true;
-            if (float.IsNaN(vector17.X) && float.IsNaN(vector17.Y))
+            float projHeight = (float)texture2D2.Height;
+            Vector2 actualCenter = mountedCenter - projCenter;
+            float projRotation = (float)Math.Atan2((double)actualCenter.Y, (double)actualCenter.X) - 1.57f;
+            bool isActive = true;
+            if (float.IsNaN(projCenter.X) && float.IsNaN(projCenter.Y))
             {
-                flag13 = false;
+                isActive = false;
             }
-            if (float.IsNaN(vector18.X) && float.IsNaN(vector18.Y))
+            if (float.IsNaN(actualCenter.X) && float.IsNaN(actualCenter.Y))
             {
-                flag13 = false;
+                isActive = false;
             }
-            while (flag13)
+            while (isActive)
             {
-                if (vector18.Length() < num91 + 1f)
+                if (actualCenter.Length() < projHeight + 1f)
                 {
-                    flag13 = false;
+                    isActive = false;
                 }
                 else
                 {
-                    Vector2 value2 = vector18;
-                    value2.Normalize();
-                    vector17 += value2 * num91;
-                    vector18 = mountedCenter - vector17;
-                    Color color17 = Lighting.GetColor((int)vector17.X / 16, (int)(vector17.Y / 16f));
-                    Main.spriteBatch.Draw(texture2D2, vector17 - Main.screenPosition, sourceRectangle, color17, rotation15, origin, 1f, SpriteEffects.None, 0);
+                    Vector2 centerCopy = actualCenter;
+                    centerCopy.Normalize();
+                    projCenter += centerCopy * projHeight;
+                    actualCenter = mountedCenter - projCenter;
+                    Color drawArea = Lighting.GetColor((int)projCenter.X / 16, (int)(projCenter.Y / 16f));
+                    Main.spriteBatch.Draw(texture2D2, projCenter - Main.screenPosition, sourceRectangle, drawArea, projRotation, origin, 1f, SpriteEffects.None, 0);
                 }
             }
             return true;

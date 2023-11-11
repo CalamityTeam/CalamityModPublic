@@ -154,11 +154,11 @@ namespace CalamityMod.Projectiles.Ranged
                             if (npc.type == NPCID.SolarCrawltipedeTail)
                             {
                                 Rectangle rect = npc.Hitbox;
-                                int num5 = 8;
-                                rect.X -= num5;
-                                rect.Y -= num5;
-                                rect.Width += num5 * 2;
-                                rect.Height += num5 * 2;
+                                int rectSizeChange = 8;
+                                rect.X -= rectSizeChange;
+                                rect.Y -= rectSizeChange;
+                                rect.Width += rectSizeChange * 2;
+                                rect.Height += rectSizeChange * 2;
                                 stickingToNPC = Projectile.Colliding(myRect, rect);
                             }
                             else
@@ -194,13 +194,13 @@ namespace CalamityMod.Projectiles.Ranged
 
                                 if (projCount >= array2.Length)
                                 {
-                                    int num30 = 0;
+                                    int maxProj = 0;
                                     for (int m = 1; m < array2.Length; m++)
                                     {
-                                        if (array2[m].Y < array2[num30].Y)
-                                            num30 = m;
+                                        if (array2[m].Y < array2[maxProj].Y)
+                                            maxProj = m;
                                     }
-                                    Main.projectile[array2[num30].X].Kill();
+                                    Main.projectile[array2[maxProj].X].Kill();
                                 }
                             }
                         }

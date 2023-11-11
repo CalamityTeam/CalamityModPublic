@@ -26,15 +26,15 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            int num297 = 171;
+            int dustType = 171;
             if (Main.rand.Next(3) == 0)
             {
-                num297 = 46;
+                dustType = 46;
             }
-            int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, 0f, 0f, 100, default, 2f);
-            Main.dust[num469].noGravity = true;
-            float num944 = 1f - (float)Projectile.alpha / 255f;
-            num944 *= Projectile.scale;
+            int toxicDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
+            Main.dust[toxicDust].noGravity = true;
+            float scaleAlpha = 1f - (float)Projectile.alpha / 255f;
+            scaleAlpha *= Projectile.scale;
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] >= 90f)
             {
@@ -49,28 +49,28 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.scale -= 0.003f;
             }
             Projectile.rotation += 0.0025f * Projectile.scale;
-            float num945 = 1f;
-            float num946 = 1f;
+            float yVelControl = 1f;
+            float xVelControl = 1f;
             if (Projectile.identity % 6 == 0)
             {
-                num946 *= -1f;
+                xVelControl *= -1f;
             }
             if (Projectile.identity % 6 == 1)
             {
-                num945 *= -1f;
+                yVelControl *= -1f;
             }
             if (Projectile.identity % 6 == 2)
             {
-                num946 *= -1f;
-                num945 *= -1f;
+                xVelControl *= -1f;
+                yVelControl *= -1f;
             }
             if (Projectile.identity % 6 == 3)
             {
-                num946 = 0f;
+                xVelControl = 0f;
             }
             if (Projectile.identity % 6 == 4)
             {
-                num945 = 0f;
+                yVelControl = 0f;
             }
             Projectile.localAI[1] += 1f;
             if (Projectile.localAI[1] > 60f)
@@ -79,13 +79,13 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (Projectile.localAI[1] >= -60f)
             {
-                Projectile.velocity.X = Projectile.velocity.X + 0.002f * num946;
-                Projectile.velocity.Y = Projectile.velocity.Y + 0.002f * num945;
+                Projectile.velocity.X = Projectile.velocity.X + 0.002f * xVelControl;
+                Projectile.velocity.Y = Projectile.velocity.Y + 0.002f * yVelControl;
             }
             else
             {
-                Projectile.velocity.X = Projectile.velocity.X - 0.002f * num946;
-                Projectile.velocity.Y = Projectile.velocity.Y - 0.002f * num945;
+                Projectile.velocity.X = Projectile.velocity.X - 0.002f * xVelControl;
+                Projectile.velocity.Y = Projectile.velocity.Y - 0.002f * yVelControl;
             }
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] > 5400f)
@@ -107,36 +107,36 @@ namespace CalamityMod.Projectiles.Ranged
             }
             else
             {
-                float num947 = (Projectile.Center - Main.player[Projectile.owner].Center).Length() / 100f;
-                if (num947 > 4f)
+                float playerDist = (Projectile.Center - Main.player[Projectile.owner].Center).Length() / 100f;
+                if (playerDist > 4f)
                 {
-                    num947 *= 1.1f;
+                    playerDist *= 1.1f;
                 }
-                if (num947 > 5f)
+                if (playerDist > 5f)
                 {
-                    num947 *= 1.2f;
+                    playerDist *= 1.2f;
                 }
-                if (num947 > 6f)
+                if (playerDist > 6f)
                 {
-                    num947 *= 1.3f;
+                    playerDist *= 1.3f;
                 }
-                if (num947 > 7f)
+                if (playerDist > 7f)
                 {
-                    num947 *= 1.4f;
+                    playerDist *= 1.4f;
                 }
-                if (num947 > 8f)
+                if (playerDist > 8f)
                 {
-                    num947 *= 1.5f;
+                    playerDist *= 1.5f;
                 }
-                if (num947 > 9f)
+                if (playerDist > 9f)
                 {
-                    num947 *= 1.6f;
+                    playerDist *= 1.6f;
                 }
-                if (num947 > 10f)
+                if (playerDist > 10f)
                 {
-                    num947 *= 1.7f;
+                    playerDist *= 1.7f;
                 }
-                Projectile.ai[0] += num947;
+                Projectile.ai[0] += playerDist;
                 if (Projectile.alpha > 50)
                 {
                     Projectile.alpha -= 10;
@@ -163,16 +163,16 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.width = Projectile.height = 56;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            int num226 = 36;
-            for (int num227 = 0; num227 < num226; num227++)
+            int constant = 36;
+            for (int i = 0; i < constant; i++)
             {
-                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                Vector2 vector7 = vector6 - Projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 171, vector7.X, vector7.Y, 100, default, 0.5f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                Vector2 rotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                rotate = rotate.RotatedBy((double)((float)(i - (constant / 2 - 1)) * 6.28318548f / (float)constant), default) + Projectile.Center;
+                Vector2 faceDirection = rotate - Projectile.Center;
+                int dust = Dust.NewDust(rotate + faceDirection, 0, 0, 171, faceDirection.X, faceDirection.Y, 100, default, 0.5f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].noLight = true;
+                Main.dust[dust].velocity = faceDirection;
             }
         }
     }

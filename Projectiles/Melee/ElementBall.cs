@@ -23,9 +23,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            int num250 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, (float)(Projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-            Main.dust[num250].noGravity = true;
-            Main.dust[num250].velocity *= 0f;
+            int rainbowDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, (float)(Projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+            Main.dust[rainbowDust].noGravity = true;
+            Main.dust[rainbowDust].velocity *= 0f;
 
             CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
         }

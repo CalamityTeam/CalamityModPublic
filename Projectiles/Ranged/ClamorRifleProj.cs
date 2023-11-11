@@ -29,13 +29,12 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.localAI[0] > 3f)
             {
                 Lighting.AddLight(Projectile.Center, new Vector3(44, 191, 232) * (1.3f / 255));
-                for (int num151 = 0; num151 < 2; num151++)
+                for (int i = 0; i < 2; i++)
                 {
-                    int num154 = 14;
-                    int num155 = Dust.NewDust(new Vector2(Projectile.Center.X, Projectile.Center.Y), Projectile.width - num154 * 2, Projectile.height - num154 * 2, 68, 0f, 0f, 100, default, 1f);
-                    Main.dust[num155].noGravity = true;
-                    Main.dust[num155].velocity *= 0.1f;
-                    Main.dust[num155].velocity += Projectile.velocity * 0.5f;
+                    int blueDust = Dust.NewDust(new Vector2(Projectile.Center.X, Projectile.Center.Y), Projectile.width - 28, Projectile.height - 28, 68, 0f, 0f, 100, default, 1f);
+                    Main.dust[blueDust].noGravity = true;
+                    Main.dust[blueDust].velocity *= 0.1f;
+                    Main.dust[blueDust].velocity += Projectile.velocity * 0.5f;
                 }
             }
             CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 150f, 12f, 25f);

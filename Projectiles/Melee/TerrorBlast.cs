@@ -42,12 +42,12 @@ namespace CalamityMod.Projectiles.Melee
 
             for (int i = 0; i < 60; i++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 60, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 60, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int scaryDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 60, 0f, 0f, 0, default, 2.5f);
+                Main.dust[scaryDust].noGravity = true;
+                Main.dust[scaryDust].velocity *= 3f;
+                scaryDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 60, 0f, 0f, 100, default, 1.5f);
+                Main.dust[scaryDust].velocity *= 2f;
+                Main.dust[scaryDust].noGravity = true;
             }
 
             // Guarantee a hit on all nearby enemies when the projectile explodes. Changing localAI[0] enables it to hit.

@@ -38,21 +38,21 @@ namespace CalamityMod.Projectiles.Magic
 
                     if (Main.rand.NextBool(4))
                     {
-                        int num193 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 180, 0f, 0f, 100, default, 1f);
-                        Main.dust[num193].position = Projectile.Center;
-                        Main.dust[num193].scale += (float)Main.rand.Next(50) * 0.01f;
-                        Main.dust[num193].noGravity = true;
-                        Dust expr_835F_cp_0 = Main.dust[num193];
+                        int stardust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 180, 0f, 0f, 100, default, 1f);
+                        Main.dust[stardust].position = Projectile.Center;
+                        Main.dust[stardust].scale += (float)Main.rand.Next(50) * 0.01f;
+                        Main.dust[stardust].noGravity = true;
+                        Dust expr_835F_cp_0 = Main.dust[stardust];
                         expr_835F_cp_0.velocity.Y -= 2f;
                     }
 
                     if (Main.rand.NextBool(6))
                     {
-                        int num194 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 176, 0f, 0f, 100, default, 1f);
-                        Main.dust[num194].position = Projectile.Center;
-                        Main.dust[num194].scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
-                        Main.dust[num194].noGravity = true;
-                        Main.dust[num194].velocity *= 0.1f;
+                        int stardustier = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 176, 0f, 0f, 100, default, 1f);
+                        Main.dust[stardustier].position = Projectile.Center;
+                        Main.dust[stardustier].scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
+                        Main.dust[stardustier].noGravity = true;
+                        Main.dust[stardustier].velocity *= 0.1f;
                     }
                 }
             }

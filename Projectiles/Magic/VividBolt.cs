@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Vector2 value7 = new Vector2(5f, 10f);
+            Vector2 rotateVector = new Vector2(5f, 10f);
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] == 48f)
             {
@@ -33,29 +33,29 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
             {
-                for (int num41 = 0; num41 < 2; num41++)
+                for (int i = 0; i < 2; i++)
                 {
-                    Vector2 value8 = Vector2.UnitX * -12f;
-                    value8 = -Vector2.UnitY.RotatedBy((double)(Projectile.ai[0] * 0.1308997f + (float)num41 * 3.14159274f), default) * value7 - Projectile.rotation.ToRotationVector2() * 10f;
-                    int num42 = Dust.NewDust(Projectile.Center, 0, 0, 66, 0f, 0f, 160, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-                    Main.dust[num42].scale = 0.33f;
-                    Main.dust[num42].noGravity = true;
-                    Main.dust[num42].position = Projectile.Center + value8;
-                    Main.dust[num42].velocity = Projectile.velocity;
+                    Vector2 dustRotation = Vector2.UnitX * -12f;
+                    dustRotation = -Vector2.UnitY.RotatedBy((double)(Projectile.ai[0] * 0.1308997f + (float)i * 3.14159274f), default) * rotateVector - Projectile.rotation.ToRotationVector2() * 10f;
+                    int exo = Dust.NewDust(Projectile.Center, 0, 0, 66, 0f, 0f, 160, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+                    Main.dust[exo].scale = 0.33f;
+                    Main.dust[exo].noGravity = true;
+                    Main.dust[exo].position = Projectile.Center + dustRotation;
+                    Main.dust[exo].velocity = Projectile.velocity;
                 }
             }
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 4f)
             {
-                for (int num447 = 0; num447 < 2; num447++)
+                for (int j = 0; j < 2; j++)
                 {
-                    Vector2 vector33 = Projectile.position;
-                    vector33 -= Projectile.velocity * ((float)num447 * 0.25f);
-                    int num448 = Dust.NewDust(vector33, 1, 1, 66, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-                    Main.dust[num448].noGravity = true;
-                    Main.dust[num448].position = vector33;
-                    Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.01f;
-                    Main.dust[num448].velocity *= 0.1f;
+                    Vector2 projPos = Projectile.position;
+                    projPos -= Projectile.velocity * ((float)j * 0.25f);
+                    int exod = Dust.NewDust(projPos, 1, 1, 66, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+                    Main.dust[exod].noGravity = true;
+                    Main.dust[exod].position = projPos;
+                    Main.dust[exod].scale = (float)Main.rand.Next(70, 110) * 0.01f;
+                    Main.dust[exod].velocity *= 0.1f;
                 }
             }
         }

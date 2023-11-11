@@ -42,6 +42,12 @@ namespace CalamityMod.Tiles.Astral
 				Main.npc[worm].direction *= -1;
 				Main.npc[worm].netUpdate = true;
 			}
-		}
+        }
+
+        public override bool IsTileBiomeSightable(int i, int j, ref Color sightColor)
+        {
+            sightColor = Color.Cyan;
+            return true;
+        }
     }
 }

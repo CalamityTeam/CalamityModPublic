@@ -51,10 +51,10 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int i = 0; i < numShrapnel; i++)
                 {
-                    Vector2 value17 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    value17.Normalize();
-                    value17 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<MadAlchemistsCocktailShrapnel>(), shrapnelDamage, 0f, Projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Vector2 randProjSpawn = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    randProjSpawn.Normalize();
+                    randProjSpawn *= (float)Main.rand.Next(10, 201) * 0.01f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, randProjSpawn.X, randProjSpawn.Y, ModContent.ProjectileType<MadAlchemistsCocktailShrapnel>(), shrapnelDamage, 0f, Projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
         }

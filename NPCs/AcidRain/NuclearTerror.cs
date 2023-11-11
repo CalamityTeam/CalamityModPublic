@@ -523,17 +523,17 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.alpha = 0;
             if (DeathrayTime < 240f)
             {
-                int num5 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 200, default, 1.5f);
-                Main.dust[num5].noGravity = true;
-                Main.dust[num5].velocity *= 0.75f;
-                Main.dust[num5].fadeIn = 1.3f;
+                int bigFuckOffDeathrayDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 200, default, 1.5f);
+                Main.dust[bigFuckOffDeathrayDust].noGravity = true;
+                Main.dust[bigFuckOffDeathrayDust].velocity *= 0.75f;
+                Main.dust[bigFuckOffDeathrayDust].fadeIn = 1.3f;
                 Vector2 vector = new Vector2((float)Main.rand.Next(-200, 201), (float)Main.rand.Next(-200, 201));
                 vector.Normalize();
                 vector *= (float)Main.rand.Next(100, 200) * 0.04f;
-                Main.dust[num5].velocity = vector;
+                Main.dust[bigFuckOffDeathrayDust].velocity = vector;
                 vector.Normalize();
                 vector *= 34f;
-                Main.dust[num5].position = NPC.Center - vector;
+                Main.dust[bigFuckOffDeathrayDust].position = NPC.Center - vector;
             }
             else if (DeathrayTime == 240f)
             {

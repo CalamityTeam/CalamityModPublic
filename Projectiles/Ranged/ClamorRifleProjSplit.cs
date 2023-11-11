@@ -30,11 +30,10 @@ namespace CalamityMod.Projectiles.Ranged
 
             for (int num151 = 0; num151 < 2; num151++)
             {
-                int num154 = 14;
-                int num155 = Dust.NewDust(new Vector2(Projectile.Center.X, Projectile.Center.Y), Projectile.width - num154 * 2, Projectile.height - num154 * 2, 68, 0f, 0f, 100, default, 1f);
-                Main.dust[num155].noGravity = true;
-                Main.dust[num155].velocity *= 0.1f;
-                Main.dust[num155].velocity += Projectile.velocity * 0.5f;
+                int blueDust = Dust.NewDust(new Vector2(Projectile.Center.X, Projectile.Center.Y), Projectile.width - 28, Projectile.height - 28, 68, 0f, 0f, 100, default, 1f);
+                Main.dust[blueDust].noGravity = true;
+                Main.dust[blueDust].velocity *= 0.1f;
+                Main.dust[blueDust].velocity += Projectile.velocity * 0.5f;
             }
 
             if (Projectile.timeLeft < 150)

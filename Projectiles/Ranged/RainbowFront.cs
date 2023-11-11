@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            int num1 = 1200;
             if (Projectile.owner == Main.myPlayer)
             {
                 Projectile.localAI[0] += 1f;
@@ -29,13 +28,13 @@ namespace CalamityMod.Projectiles.Ranged
                     Projectile.localAI[0] = 3f;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * (1f / 1000f), Projectile.velocity.Y * (1f / 1000f), ModContent.ProjectileType<RainbowTrail>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
-                if (Projectile.timeLeft > num1)
-                    Projectile.timeLeft = num1;
+                if (Projectile.timeLeft > 1200)
+                    Projectile.timeLeft = 1200;
             }
-            float num2 = 1f;
+            float gravityControl = 1f;
             if (Projectile.velocity.Y < 0f)
-                num2 -= Projectile.velocity.Y / 3f;
-            Projectile.ai[0] += num2;
+                gravityControl -= Projectile.velocity.Y / 3f;
+            Projectile.ai[0] += gravityControl;
             if (Projectile.ai[0] > 30f)
             {
                 Projectile.velocity.Y += 0.5f;
@@ -50,11 +49,11 @@ namespace CalamityMod.Projectiles.Ranged
             }
             float x = Projectile.velocity.X;
             float y = Projectile.velocity.Y;
-            float num3 = 15.95f * Projectile.scale / (float)Math.Sqrt((double)x * (double)x + (double)y * (double)y);
-            float num4 = x * num3;
-            float num5 = y * num3;
-            Projectile.velocity.X = num4;
-            Projectile.velocity.Y = num5;
+            float velocityMult = 15.95f * Projectile.scale / (float)Math.Sqrt((double)x * (double)x + (double)y * (double)y);
+            float xVel = x * velocityMult;
+            float yVel = y * velocityMult;
+            Projectile.velocity.X = xVel;
+            Projectile.velocity.Y = yVel;
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) - MathHelper.PiOver2;
         }
 

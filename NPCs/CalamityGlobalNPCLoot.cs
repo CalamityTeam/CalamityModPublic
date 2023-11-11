@@ -846,6 +846,16 @@ namespace CalamityMod.NPCs
                     hardmode.Add(ModContent.ItemType<ClothiersWrath>());
                     break;
 
+                // Merchant
+                // 20-30 Gel, 30-50 Rope & 10-15 Bombs @ 100% IF named "Morshu"
+                case NPCID.Merchant:
+                    LeadingConditionRule morshuLCR = new LeadingConditionRule(DropHelper.If((info) => info.npc.GivenName == "Morshu", false));
+                    morshuLCR.Add(ItemID.Gel, 1, 20, 30, true); // lamp oil?
+                    morshuLCR.Add(ItemID.Rope, 1, 30, 50, true); // rope?
+                    morshuLCR.Add(ItemID.Bomb, 1, 10, 15, true); // bombs? you want it?
+                    npcLoot.Add(morshuLCR); // it's yours, my friend
+                    break;
+
                 // Angler
                 // Golden Fishing Rod @ 100% IF fed to a Trasher
                 // OTHERWISE,

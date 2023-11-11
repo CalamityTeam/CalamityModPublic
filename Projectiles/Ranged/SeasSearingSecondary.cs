@@ -32,14 +32,14 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 4f)
             {
-                for (int num468 = 0; num468 < 3; num468++)
+                for (int i = 0; i < 3; i++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 217, 0f, 0f, 100, new Color(60, Main.DiscoG, 190), Projectile.scale);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
-                    int num470 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 202, 0f, 0f, 100, new Color(60, Main.DiscoG, 190), Projectile.scale);
-                    Main.dust[num470].noGravity = true;
-                    Main.dust[num470].velocity *= 0f;
+                    int aquaDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 217, 0f, 0f, 100, new Color(60, Main.DiscoG, 190), Projectile.scale);
+                    Main.dust[aquaDust].noGravity = true;
+                    Main.dust[aquaDust].velocity *= 0f;
+                    int waterDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 202, 0f, 0f, 100, new Color(60, Main.DiscoG, 190), Projectile.scale);
+                    Main.dust[waterDust].noGravity = true;
+                    Main.dust[waterDust].velocity *= 0f;
                 }
             }
         }

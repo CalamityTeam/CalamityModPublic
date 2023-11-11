@@ -12,12 +12,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetDefaults()
         {
-            Item.damage = 16;
+            Item.damage = 19;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 42;
             Item.height = 34;
-            Item.useTime = 16;
-            Item.useAnimation = 16;
+            Item.useAnimation = Item.useTime = 22;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.5f;
@@ -25,30 +24,22 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item9;
             Item.autoReuse = true;
-            Item.shootSpeed = 6.5f;
+            Item.shootSpeed = 5f;
             Item.shoot = ModContent.ProjectileType<SlimeBolt>();
             Item.useAmmo = AmmoID.Gel;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-4, -5);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-4, -5);
 
-        public override bool CanConsumeAmmo(Item ammo, Player player)
-        {
-            if (Main.rand.Next(0, 100) < 33)
-                return false;
-            return true;
-        }
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.Next(100) >= 25;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (int index = 0; index < 5; ++index)
+            Vector2 newPos = position + velocity * 6f;
+            for (int i = 0; i < 3; i++)
             {
-                float SpeedX = velocity.X + (float)Main.rand.Next(-40, 41) * 0.05f;
-                float SpeedY = velocity.Y + (float)Main.rand.Next(-40, 41) * 0.05f;
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+                Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.8f, 1.2f);
+                Projectile.NewProjectile(source, newPos, newVel, type, damage, knockback, player.whoAmI);
             }
             return false;
         }

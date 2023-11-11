@@ -95,22 +95,22 @@ namespace CalamityMod.NPCs.NormalNPCs
             Player player = Main.player[NPC.target];
             bool expertMode = Main.expertMode;
             NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
-            float num823 = 1f;
+            float movementSpeed = 1f;
             NPC.TargetClosest(true);
-            bool flag51 = false;
+            bool stopMoving = false;
             int offsetX = 80;
             int projectileDamage = expertMode ? 9 : 12;
             if (NPC.life < NPC.lifeMax * 0.33 && CalamityWorld.death)
             {
-                num823 = 2f;
+                movementSpeed = 2f;
             }
             if (NPC.life < NPC.lifeMax * 0.1 && CalamityWorld.death)
             {
-                num823 = 4f;
+                movementSpeed = 4f;
             }
             if (Main.zenithWorld)
             {
-                num823 = 8f;
+                movementSpeed = 8f;
             }
             if (NPC.ai[0] == 0f)
             {
@@ -143,22 +143,22 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             else if (NPC.ai[0] == 1f)
             {
-                flag51 = true;
+                stopMoving = true;
                 NPC.ai[1] += 1f;
                 if (NPC.ai[1] % 30f == 0f)
                 {
-                    Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + 20f);
-                    vector18.X += offsetX * NPC.direction;
-                    float num829 = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - vector18.X;
-                    float num830 = Main.player[NPC.target].position.Y - vector18.Y;
-                    float num831 = (float)Math.Sqrt(num829 * num829 + num830 * num830);
-                    float num832 = 6f;
-                    num831 = num832 / num831;
-                    num829 *= num831;
-                    num830 *= num831;
-                    num829 *= 1f + Main.rand.Next(-10, 11) * 0.01f;
-                    num830 *= 1f + Main.rand.Next(-10, 11) * 0.01f;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
+                    Vector2 npcPosition = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + 20f);
+                    npcPosition.X += offsetX * NPC.direction;
+                    float targetXDist = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - npcPosition.X;
+                    float targetYDist = Main.player[NPC.target].position.Y - npcPosition.Y;
+                    float targetDistance = (float)Math.Sqrt(targetXDist * targetXDist + targetYDist * targetYDist);
+                    float waterSpeed = 6f;
+                    targetDistance = waterSpeed / targetDistance;
+                    targetXDist *= targetDistance;
+                    targetYDist *= targetDistance;
+                    targetXDist *= 1f + Main.rand.Next(-10, 11) * 0.01f;
+                    targetYDist *= 1f + Main.rand.Next(-10, 11) * 0.01f;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPosition.X, npcPosition.Y, targetXDist, targetYDist, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
                 }
                 if (NPC.ai[1] >= 120f)
                 {
@@ -168,22 +168,22 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             else if (NPC.ai[0] == 2f)
             {
-                flag51 = true;
+                stopMoving = true;
                 NPC.ai[1] += 1f;
                 if (NPC.ai[1] > 60f && NPC.ai[1] < 240f && NPC.ai[1] % 16f == 0f)
                 {
-                    Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + 20f);
-                    vector18.X += offsetX * NPC.direction;
-                    float num829 = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - vector18.X;
-                    float num830 = Main.player[NPC.target].position.Y - vector18.Y;
-                    float num831 = (float)Math.Sqrt(num829 * num829 + num830 * num830);
-                    float num832 = 8f;
-                    num831 = num832 / num831;
-                    num829 *= num831;
-                    num830 *= num831;
-                    num829 *= 1f + Main.rand.Next(-15, 16) * 0.01f;
-                    num830 *= 1f + Main.rand.Next(-15, 16) * 0.01f;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
+                    Vector2 npcPosition = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + 20f);
+                    npcPosition.X += offsetX * NPC.direction;
+                    float targetXDist = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - npcPosition.X;
+                    float targetYDist = Main.player[NPC.target].position.Y - npcPosition.Y;
+                    float targetDistance = (float)Math.Sqrt(targetXDist * targetXDist + targetYDist * targetYDist);
+                    float waterSpeed = 8f;
+                    targetDistance = waterSpeed / targetDistance;
+                    targetXDist *= targetDistance;
+                    targetYDist *= targetDistance;
+                    targetXDist *= 1f + Main.rand.Next(-15, 16) * 0.01f;
+                    targetYDist *= 1f + Main.rand.Next(-15, 16) * 0.01f;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPosition.X, npcPosition.Y, targetXDist, targetYDist, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
                 }
                 if (NPC.ai[1] >= 300f)
                 {
@@ -193,22 +193,22 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             else if (NPC.ai[0] == 3f)
             {
-                num823 = 4f;
+                movementSpeed = 4f;
                 NPC.ai[1] += 1f;
                 if (NPC.ai[1] % 30f == 0f)
                 {
-                    Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + 20f);
-                    vector18.X += offsetX * NPC.direction;
-                    float num844 = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - vector18.X;
-                    float num845 = Main.player[NPC.target].position.Y - vector18.Y;
-                    float num846 = (float)Math.Sqrt(num844 * num844 + num845 * num845);
-                    float num847 = 10f;
-                    num846 = num847 / num846;
-                    num844 *= num846;
-                    num845 *= num846;
-                    num844 *= 1f + Main.rand.Next(-10, 11) * 0.001f;
-                    num845 *= 1f + Main.rand.Next(-10, 11) * 0.001f;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector18.X, vector18.Y, num844, num845, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
+                    Vector2 npcPosition = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + 20f);
+                    npcPosition.X += offsetX * NPC.direction;
+                    float fastTargetXDist = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - npcPosition.X;
+                    float fastTargetYDist = Main.player[NPC.target].position.Y - npcPosition.Y;
+                    float fastTargetDistance = (float)Math.Sqrt(fastTargetXDist * fastTargetXDist + fastTargetYDist * fastTargetYDist);
+                    float fastWaterSpeed = 10f;
+                    fastTargetDistance = fastWaterSpeed / fastTargetDistance;
+                    fastTargetXDist *= fastTargetDistance;
+                    fastTargetYDist *= fastTargetDistance;
+                    fastTargetXDist *= 1f + Main.rand.Next(-10, 11) * 0.001f;
+                    fastTargetYDist *= 1f + Main.rand.Next(-10, 11) * 0.001f;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPosition.X, npcPosition.Y, fastTargetXDist, fastTargetYDist, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
                 }
                 if (NPC.ai[1] >= 120f)
                 {
@@ -218,22 +218,22 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             else if (NPC.ai[0] == 4f)
             {
-                num823 = 4f;
+                movementSpeed = 4f;
                 NPC.ai[1] += 1f;
                 if (NPC.ai[1] % 20f == 0f)
                 {
-                    Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + 20f);
-                    vector18.X += offsetX * NPC.direction;
-                    float num829 = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - vector18.X;
-                    float num830 = Main.player[NPC.target].position.Y - vector18.Y;
-                    float num831 = (float)Math.Sqrt(num829 * num829 + num830 * num830);
-                    float num832 = 11f;
-                    num831 = num832 / num831;
-                    num829 *= num831;
-                    num830 *= num831;
-                    num829 *= 1f + Main.rand.Next(-5, 6) * 0.01f;
-                    num830 *= 1f + Main.rand.Next(-5, 6) * 0.01f;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
+                    Vector2 npcPosition = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + 20f);
+                    npcPosition.X += offsetX * NPC.direction;
+                    float targetXDist = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - npcPosition.X;
+                    float targetYDist = Main.player[NPC.target].position.Y - npcPosition.Y;
+                    float targetDistance = (float)Math.Sqrt(targetXDist * targetXDist + targetYDist * targetYDist);
+                    float waterSpeed = 11f;
+                    targetDistance = waterSpeed / targetDistance;
+                    targetXDist *= targetDistance;
+                    targetYDist *= targetDistance;
+                    targetXDist *= 1f + Main.rand.Next(-5, 6) * 0.01f;
+                    targetYDist *= 1f + Main.rand.Next(-5, 6) * 0.01f;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPosition.X, npcPosition.Y, targetXDist, targetYDist, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
                 }
                 if (NPC.ai[1] >= 240f)
                 {
@@ -243,9 +243,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
 
             if (Math.Abs(NPC.Center.X - player.Center.X) < 50f)
-                flag51 = true;
+                stopMoving = true;
 
-            if (flag51)
+            if (stopMoving)
             {
                 NPC.velocity.X *= 0.9f;
                 if (NPC.velocity.X > -0.1 && NPC.velocity.X < 0.1)
@@ -257,9 +257,9 @@ namespace CalamityMod.NPCs.NormalNPCs
                 NPC.direction = playerLocation < 0 ? 1 : -1;
 
                 if (NPC.direction > 0)
-                    NPC.velocity.X = (NPC.velocity.X * 20f + num823) / 21f;
+                    NPC.velocity.X = (NPC.velocity.X * 20f + movementSpeed) / 21f;
                 if (NPC.direction < 0)
-                    NPC.velocity.X = (NPC.velocity.X * 20f - num823) / 21f;
+                    NPC.velocity.X = (NPC.velocity.X * 20f - movementSpeed) / 21f;
             }
 
             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.Center, 1, 1) && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height) && player.position.Y <= NPC.position.Y + NPC.height && !NPC.collideX)
@@ -272,10 +272,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 NPC.noGravity = true;
                 NPC.noTileCollide = true;
 
-                int num854 = 80;
-                int num855 = 20;
-                Vector2 position2 = new Vector2(NPC.Center.X - (num854 / 2), NPC.position.Y + NPC.height - num855);
-                if (Collision.SolidCollision(position2, num854, num855))
+                int collisionWidth = 80;
+                int collisionHeight = 20;
+                Vector2 collisionSize = new Vector2(NPC.Center.X - (collisionWidth / 2), NPC.position.Y + NPC.height - collisionHeight);
+                if (Collision.SolidCollision(collisionSize, collisionWidth, collisionHeight))
                 {
                     if (NPC.velocity.Y > 0f)
                         NPC.velocity.Y = 0f;

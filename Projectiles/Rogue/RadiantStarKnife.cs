@@ -37,21 +37,21 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
             if (Projectile.ai[0] == 1f)
             {
-                float num472 = Projectile.Center.X;
-                float num473 = Projectile.Center.Y;
-                float num474 = Projectile.Calamity().stealthStrike ? 1800f : 600f;
+                float projX = Projectile.Center.X;
+                float projY = Projectile.Center.Y;
+                float homeRange = Projectile.Calamity().stealthStrike ? 1800f : 600f;
                 float homingSpeed = 0.25f;
-                for (int num475 = 0; num475 < Main.npc.Length; num475++)
+                for (int i = 0; i < Main.npc.Length; i++)
                 {
-                    NPC npc = Main.npc[num475];
+                    NPC npc = Main.npc[i];
                     if (npc.CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, npc.Center, 1, 1) && !npc.boss)
                     {
-                        float num476 = npc.position.X + (float)(npc.width / 2);
-                        float num477 = npc.position.Y + (float)(npc.height / 2);
-                        float num478 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num476) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num477);
-                        if (num478 < num474)
+                        float npcX = npc.position.X + (float)(npc.width / 2);
+                        float npcY = npc.position.Y + (float)(npc.height / 2);
+                        float targetDist = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcY);
+                        if (targetDist < homeRange)
                         {
-                            if (npc.position.X < num472)
+                            if (npc.position.X < projX)
                             {
                                 npc.velocity.X += homingSpeed;
                             }
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
                             {
                                 npc.velocity.X -= homingSpeed;
                             }
-                            if (npc.position.Y < num473)
+                            if (npc.position.Y < projY)
                             {
                                 npc.velocity.Y += homingSpeed;
                             }

@@ -190,6 +190,9 @@ namespace CalamityMod.CalPlayer
             if (Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
                 heldGaelsLastFrame = true;
 
+            if (Player.ActiveItem().type != ModContent.ItemType<SaharaSlicers>())
+                saharaSlicersBolts = 0;
+
             // De-equipping Gael's Greatsword deletes all rage.
             else if (heldGaelsLastFrame)
             {
@@ -229,12 +232,14 @@ namespace CalamityMod.CalPlayer
 
             if (lAmbergris)
             {
+                if (Player.miscCounter % 3 == 2 && Player.dashDelay > 0) // Reduced dash cooldown by 33%
+                    Player.dashDelay--;
+
                 if (Player.dashDelay == -1)// TODO: prevent working with special dashes, this was inconsitent with my old solution so I didn't keep it. not huge deal)
                 {
-                    Player.endurance += 0.05f;
                     if (!HasIncreasedDashFirstFrame)
                     {
-                        Player.velocity.X *= 1.15f;
+                        Player.velocity.X *= 1.2f;
                         Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), 75, 20f, Player.whoAmI);
                         HasIncreasedDashFirstFrame = true;
                     }
@@ -255,10 +260,10 @@ namespace CalamityMod.CalPlayer
                     {
                         float sparkscale = (Player.velocity.X * Player.direction * 0.07f);
                         Vector2 SparkVelocity1 = Player.velocity.RotatedBy(Player.direction * 2, default) * 0.1f - Player.velocity / 2f;
-                        SparkParticle spark = new SparkParticle(Player.Center + Player.velocity.RotatedBy(2f * Player.direction) * 1.5f, SparkVelocity1, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool() ? Color.DarkTurquoise : Color.DodgerBlue);
+                        LineParticle spark = new LineParticle(Player.Center + Player.velocity.RotatedBy(2f * Player.direction) * 1.5f, SparkVelocity1, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool() ? Color.DarkTurquoise : Color.DodgerBlue);
                         GeneralParticleHandler.SpawnParticle(spark);
                         Vector2 SparkVelocity2 = Player.velocity.RotatedBy(Player.direction * -2, default) * 0.1f - Player.velocity / 2f;
-                        SparkParticle spark2 = new SparkParticle(Player.Center + Player.velocity.RotatedBy(-2f * Player.direction) * 1.5f, SparkVelocity2, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool() ? Color.DarkTurquoise : Color.DodgerBlue);
+                        LineParticle spark2 = new LineParticle(Player.Center + Player.velocity.RotatedBy(-2f * Player.direction) * 1.5f, SparkVelocity2, false, Main.rand.Next(11, 13), sparkscale, Main.rand.NextBool() ? Color.DarkTurquoise : Color.DodgerBlue);
                         GeneralParticleHandler.SpawnParticle(spark2);
                     }
                     if (Player.miscCounter % 4 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
@@ -272,7 +277,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.dashDelay == -1)// TODO: prevent working with special dashes, this was inconsitent with my old solution so I didn't keep it. not huge deal)
                 {
-                    Player.endurance += 0.05f;
+                    Player.endurance += 0.1f;
                     if (!HasReducedDashFirstFrame) // Dash isn't reduced, this is used to determine the first frame of dashing
                     {
                         SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { Volume = 0.4f , PitchVariance = 0.4f }, Player.Center);
@@ -320,6 +325,28 @@ namespace CalamityMod.CalPlayer
                 }
                 else
                     HasReducedDashFirstFrame = false;
+            }
+
+            if (oceanCrest)
+            {
+                bool surface = Player.Center.Y < Main.worldSurface * 16.0;
+                bool GetEffects = ((Main.raining && surface) || Player.dripping || (Player.wet && !Player.lavaWet && !Player.honeyWet));
+                if (GetEffects)
+                {
+                    if (oceanCrestTimer < 300)
+                        oceanCrestTimer += 5;
+                    if (Player.StandingStill(0.1f) && !ZoneAbyss && Player.breath < 201 && Player.miscCounter % 2 == 0)
+                        Player.breath += 1;
+                }
+                else
+                    if (oceanCrestTimer > 0)
+                    oceanCrestTimer--;
+
+                if (oceanCrestTimer > 0 || GetEffects)
+                    Player.pickSpeed -= 0.15f; // 15% mining speed
+
+                Vector3 Light = new Vector3(0.090f, 0.180f, 0.200f);
+                Lighting.AddLight(Player.Center, Light * (0.55f + (oceanCrestTimer * 0.0035f)));
             }
         }
         #endregion
@@ -1158,7 +1185,7 @@ namespace CalamityMod.CalPlayer
                                 Vector2 dustLineEnd = Player.Center;
                                 Vector2 currentDustPos = default;
                                 Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
-                                Vector2 value5 = new Vector2(2.1f, 2f);
+                                Vector2 healerDustVel = new Vector2(2.1f, 2f);
                                 Color dustColor = Main.hslToRgb(Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X, 1f, 0.5f);
                                 dustColor.A = 255;
                                 for (int i = 0; i < maxHealDustIterations; i++)
@@ -1166,18 +1193,18 @@ namespace CalamityMod.CalPlayer
                                     if (i % dustDivisor == 0)
                                     {
                                         currentDustPos = Vector2.Lerp(dustLineStart, dustLineEnd, i / (float)maxHealDustIterations);
-                                        int dust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
-                                        Main.dust[dust].position = currentDustPos;
-                                        Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f) + Player.velocity;
-                                        Main.dust[dust].noGravity = true;
-                                        Main.dust[dust].scale = 1f;
-                                        Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
-                                        Dust dust2 = Dust.CloneDust(dust);
-                                        Dust dust3 = dust2;
-                                        dust3.scale /= 2f;
-                                        dust3 = dust2;
-                                        dust3.fadeIn /= 2f;
-                                        dust2.color = new Color(255, 255, 255, 255);
+                                        int holyDust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
+                                        Main.dust[holyDust].position = currentDustPos;
+                                        Main.dust[holyDust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * healerDustVel * (0.8f + Main.rand.NextFloat() * 0.4f) + Player.velocity;
+                                        Main.dust[holyDust].noGravity = true;
+                                        Main.dust[holyDust].scale = 1f;
+                                        Main.dust[holyDust].fadeIn = Main.rand.NextFloat() * 2f;
+                                        Dust dustClone = Dust.CloneDust(holyDust);
+                                        Dust extraDust = dustClone;
+                                        extraDust.scale /= 2f;
+                                        extraDust = dustClone;
+                                        extraDust.fadeIn /= 2f;
+                                        dustClone.color = new Color(255, 255, 255, 255);
                                     }
                                 }
                             }
@@ -1285,6 +1312,12 @@ namespace CalamityMod.CalPlayer
             if (expiredCooldowns.Count > 0)
                 SyncCooldownRemoval(Main.netMode == NetmodeID.Server, expiredCooldowns);
 
+            if (DragonsBreathAudioCooldown > 0)
+                DragonsBreathAudioCooldown--;
+            if (DragonsBreathAudioCooldown2 > 0)
+                DragonsBreathAudioCooldown2--;
+            if (PhotoAudioCooldown > 0)
+                PhotoAudioCooldown--;
             if (fullRageSoundCountdownTimer > 0)
                 --fullRageSoundCountdownTimer;
             if (plagueTaintedSMGDroneCooldown > 0)
@@ -2057,6 +2090,7 @@ namespace CalamityMod.CalPlayer
                     // Breath Loss Multiplier, depending on gear
                     double breathLossMult = 1D -
                         (Player.gills ? 0.2 : 0D) - // 0.8
+                        (oceanCrest ? 0.2 : 0D) - // 0.8
                         (Player.accDivingHelm ? 0.25 : 0D) - // 0.75
                         (Player.arcticDivingGear ? 0.25 : 0D) - // 0.75
                         (aquaticEmblem ? 0.25 : 0D) - // 0.75
@@ -2120,6 +2154,7 @@ namespace CalamityMod.CalPlayer
                     // Tick (frame) multiplier, depending on gear
                     double tickMult = 1D +
                         (Player.gills ? 4D : 0D) + // 5
+                        (oceanCrest ? 4D : 0D) + // 5
                         (Player.ignoreWater ? 5D : 0D) + // 10
                         (Player.accDivingHelm ? 10D : 0D) + // 20
                         (Player.arcticDivingGear ? 10D : 0D) + // 30
@@ -2463,7 +2498,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<MeleeDamageClass>() += 0.2f;
             }
 
-            if (tFury)
+            if (brutalCarnage)
             {
                 Player.GetDamage<MeleeDamageClass>() += 0.25f;
                 Player.GetCritChance<MeleeDamageClass>() += 10;
@@ -3132,7 +3167,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (dArtifact)
-                Player.GetDamage<GenericDamageClass>() += 0.25f;
+                Player.GetDamage<GenericDamageClass>() *= 1.2f;
 
             if (trippy)
                 Player.GetDamage<GenericDamageClass>() += 0.5f;

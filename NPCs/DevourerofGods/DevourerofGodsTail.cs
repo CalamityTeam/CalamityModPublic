@@ -266,39 +266,39 @@ namespace CalamityMod.NPCs.DevourerofGods
                     NPC.Opacity = Main.npc[(int)NPC.ai[2]].Opacity;
             }
 
-            Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-            float num191 = player.position.X + (player.width / 2);
-            float num192 = player.position.Y + (player.height / 2);
-            num191 = (int)(num191 / 16f) * 16;
-            num192 = (int)(num192 / 16f) * 16;
-            vector18.X = (int)(vector18.X / 16f) * 16;
-            vector18.Y = (int)(vector18.Y / 16f) * 16;
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
-            float num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
+            Vector2 segmentDirection = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+            float playerXDist = player.position.X + (player.width / 2);
+            float playerYDist = player.position.Y + (player.height / 2);
+            playerXDist = (int)(playerXDist / 16f) * 16;
+            playerYDist = (int)(playerYDist / 16f) * 16;
+            segmentDirection.X = (int)(segmentDirection.X / 16f) * 16;
+            segmentDirection.Y = (int)(segmentDirection.Y / 16f) * 16;
+            playerXDist -= segmentDirection.X;
+            playerYDist -= segmentDirection.Y;
+            float playerDistance = (float)System.Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
             if (NPC.ai[1] > 0f && NPC.ai[1] < Main.npc.Length)
             {
                 try
                 {
-                    vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                    num191 = Main.npc[(int)NPC.ai[1]].position.X + (Main.npc[(int)NPC.ai[1]].width / 2) - vector18.X;
-                    num192 = Main.npc[(int)NPC.ai[1]].position.Y + (Main.npc[(int)NPC.ai[1]].height / 2) - vector18.Y;
+                    segmentDirection = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+                    playerXDist = Main.npc[(int)NPC.ai[1]].position.X + (Main.npc[(int)NPC.ai[1]].width / 2) - segmentDirection.X;
+                    playerYDist = Main.npc[(int)NPC.ai[1]].position.Y + (Main.npc[(int)NPC.ai[1]].height / 2) - segmentDirection.Y;
                 } catch
                 {
                 }
-                NPC.rotation = (float)System.Math.Atan2(num192, num191) + MathHelper.PiOver2;
-                num193 = (float)System.Math.Sqrt(num191 * num191 + num192 * num192);
-                int num194 = NPC.width;
-                num193 = (num193 - num194) / num193;
-                num191 *= num193;
-                num192 *= num193;
+                NPC.rotation = (float)System.Math.Atan2(playerYDist, playerXDist) + MathHelper.PiOver2;
+                playerDistance = (float)System.Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
+                int segmentWidth = NPC.width;
+                playerDistance = (playerDistance - segmentWidth) / playerDistance;
+                playerXDist *= playerDistance;
+                playerYDist *= playerDistance;
                 NPC.velocity = Vector2.Zero;
-                NPC.position.X = NPC.position.X + num191;
-                NPC.position.Y = NPC.position.Y + num192;
+                NPC.position.X = NPC.position.X + playerXDist;
+                NPC.position.Y = NPC.position.Y + playerYDist;
 
-                if (num191 < 0f)
+                if (playerXDist < 0f)
                     NPC.spriteDirection = -1;
-                else if (num191 > 0f)
+                else if (playerXDist > 0f)
                     NPC.spriteDirection = 1;
             }
         }
@@ -326,24 +326,24 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             bool useOtherTextures = phase2Started && Main.npc[(int)NPC.ai[2]].localAI[2] <= 60f;
             Texture2D texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTailS").Value : TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
+            Vector2 halfSizeTexture = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Vector2 drawPosition = NPC.Center - screenPos;
+            drawPosition -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
+            drawPosition += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, drawPosition, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             if (!NPC.dontTakeDamage)
             {
                 texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTailSGlow").Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTailGlow").Value;
-                Color color37 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
+                Color glowmaskColor = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
 
-                spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                spriteBatch.Draw(texture2D15, drawPosition, NPC.frame, glowmaskColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
                 texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTailSGlow2").Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTailGlow2").Value;
-                color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+                glowmaskColor = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
-                spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                spriteBatch.Draw(texture2D15, drawPosition, NPC.frame, glowmaskColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
             }
 
             if (disintegrationFactor > 0f)
@@ -358,18 +358,18 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             Rectangle targetHitbox = target.Hitbox;
 
-            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
+            float hitboxTopLeft = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float hitboxTopRight = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float hitboxBotLeft = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float hitboxBotRight = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
 
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
+            float minDist = hitboxTopLeft;
+            if (hitboxTopRight < minDist)
+                minDist = hitboxTopRight;
+            if (hitboxBotLeft < minDist)
+                minDist = hitboxBotLeft;
+            if (hitboxBotRight < minDist)
+                minDist = hitboxBotRight;
 
             return minDist <= (phase2Started ? 70f : 35f) * NPC.scale && NPC.Opacity >= 1f;
         }
@@ -395,23 +395,23 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.height = (int)(100 * NPC.scale);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                for (int num621 = 0; num621 < 10; num621++)
+                for (int i = 0; i < 10; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int cosmiliteDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                    Main.dust[cosmiliteDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[cosmiliteDust].scale = 0.5f;
+                        Main.dust[cosmiliteDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 20; num623++)
+                for (int j = 0; j < 20; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int cosmiliteDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
+                    Main.dust[cosmiliteDust2].noGravity = true;
+                    Main.dust[cosmiliteDust2].velocity *= 5f;
+                    cosmiliteDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                    Main.dust[cosmiliteDust2].velocity *= 2f;
                 }
             }
         }

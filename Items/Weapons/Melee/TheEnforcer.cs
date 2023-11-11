@@ -42,48 +42,47 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var source = player.GetSource_ItemUse(Item);
             SoundEngine.PlaySound(SoundID.Item73, player.Center);
-            int i = Main.myPlayer;
-            float num72 = 3f;
+            int j = Main.myPlayer;
+            float flameSpeed = 3f;
             player.itemTime = Item.useTime;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = Main.mouseX + Main.screenPosition.X + vector2.X;
-            float num79 = Main.mouseY + Main.screenPosition.Y + vector2.Y;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float mouseXDist = Main.mouseX + Main.screenPosition.X + realPlayerPos.X;
+            float mouseYDist = Main.mouseY + Main.screenPosition.Y + realPlayerPos.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + Main.screenHeight + Main.mouseY + vector2.Y;
+                mouseYDist = Main.screenPosition.Y + Main.screenHeight + Main.mouseY + realPlayerPos.Y;
             }
-            float num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            float mouseDistance = (float)Math.Sqrt(mouseXDist * mouseXDist + mouseYDist * mouseYDist);
+            if ((float.IsNaN(mouseXDist) && float.IsNaN(mouseYDist)) || (mouseXDist == 0f && mouseYDist == 0f))
             {
-                num78 = player.direction;
-                num79 = 0f;
-                num80 = num72;
+                mouseXDist = player.direction;
+                mouseYDist = 0f;
+                mouseDistance = flameSpeed;
             }
             else
             {
-                num80 = num72 / num80;
+                mouseDistance = flameSpeed / mouseDistance;
             }
 
-            int num107 = 5;
             int essenceDamage = player.CalcIntDamage<MeleeDamageClass>(0.25f * Item.damage);
-            for (int num108 = 0; num108 < num107; num108++)
+            for (int i = 0; i < 5; i++)
             {
-                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(401) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
-                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-400, 401);
-                vector2.Y -= 100 * num108;
-                num78 = Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
+                realPlayerPos = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(401) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
+                realPlayerPos.X = (realPlayerPos.X + player.Center.X) / 2f + Main.rand.Next(-400, 401);
+                realPlayerPos.Y -= 100 * i;
+                mouseXDist = Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+                mouseYDist = Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
+                if (mouseYDist < 0f)
                 {
-                    num79 *= -1f;
+                    mouseYDist *= -1f;
                 }
-                if (num79 < 20f)
+                if (mouseYDist < 20f)
                 {
-                    num79 = 20f;
+                    mouseYDist = 20f;
                 }
-                num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
-                num80 = num72 / num80;
-                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), essenceDamage, 0f, i, 0f, Main.rand.Next(3));
+                mouseDistance = (float)Math.Sqrt(mouseXDist * mouseXDist + mouseYDist * mouseYDist);
+                mouseDistance = flameSpeed / mouseDistance;
+                Projectile.NewProjectile(source, realPlayerPos, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), essenceDamage, 0f, i, 0f, Main.rand.Next(3));
             }
         }
 
@@ -91,48 +90,47 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var source = player.GetSource_ItemUse(Item);
             SoundEngine.PlaySound(SoundID.Item73, player.Center);
-            int i = Main.myPlayer;
-            float num72 = 3f;
+            int j = Main.myPlayer;
+            float flameSpeed = 3f;
             player.itemTime = Item.useTime;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = Main.mouseX + Main.screenPosition.X + vector2.X;
-            float num79 = Main.mouseY + Main.screenPosition.Y + vector2.Y;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float mouseXDist = Main.mouseX + Main.screenPosition.X + realPlayerPos.X;
+            float mouseYDist = Main.mouseY + Main.screenPosition.Y + realPlayerPos.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + Main.screenHeight + Main.mouseY + vector2.Y;
+                mouseYDist = Main.screenPosition.Y + Main.screenHeight + Main.mouseY + realPlayerPos.Y;
             }
-            float num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            float mouseDistance = (float)Math.Sqrt(mouseXDist * mouseXDist + mouseYDist * mouseYDist);
+            if ((float.IsNaN(mouseXDist) && float.IsNaN(mouseYDist)) || (mouseXDist == 0f && mouseYDist == 0f))
             {
-                num78 = player.direction;
-                num79 = 0f;
-                num80 = num72;
+                mouseXDist = player.direction;
+                mouseYDist = 0f;
+                mouseDistance = flameSpeed;
             }
             else
             {
-                num80 = num72 / num80;
+                mouseDistance = flameSpeed / mouseDistance;
             }
 
-            int num107 = 5;
             int essenceDamage = player.CalcIntDamage<MeleeDamageClass>(0.25f * Item.damage);
-            for (int num108 = 0; num108 < num107; num108++)
+            for (int i = 0; i < 5; i++)
             {
-                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(401) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
-                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-400, 401);
-                vector2.Y -= 100 * num108;
-                num78 = Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
+                realPlayerPos = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(401) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
+                realPlayerPos.X = (realPlayerPos.X + player.Center.X) / 2f + Main.rand.Next(-400, 401);
+                realPlayerPos.Y -= 100 * i;
+                mouseXDist = Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+                mouseYDist = Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
+                if (mouseYDist < 0f)
                 {
-                    num79 *= -1f;
+                    mouseYDist *= -1f;
                 }
-                if (num79 < 20f)
+                if (mouseYDist < 20f)
                 {
-                    num79 = 20f;
+                    mouseYDist = 20f;
                 }
-                num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
-                num80 = num72 / num80;
-                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), essenceDamage, 0f, i, 0f, Main.rand.Next(3));
+                mouseDistance = (float)Math.Sqrt(mouseXDist * mouseXDist + mouseYDist * mouseYDist);
+                mouseDistance = flameSpeed / mouseDistance;
+                Projectile.NewProjectile(source, realPlayerPos, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), essenceDamage, 0f, i, 0f, Main.rand.Next(3));
             }
         }
 

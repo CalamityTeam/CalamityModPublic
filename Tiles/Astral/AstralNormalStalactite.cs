@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -44,6 +44,12 @@ namespace CalamityMod.Tiles.Astral
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 4;
+        }
+
+        public override bool IsTileBiomeSightable(int i, int j, ref Color sightColor)
+        {
+            sightColor = Color.Cyan;
+            return true;
         }
     }
 }

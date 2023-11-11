@@ -1,5 +1,7 @@
 ﻿using System;
 using CalamityMod.Effects;
+using CalamityMod.Graphics;
+using CalamityMod.NPCs.TownNPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -12,11 +14,11 @@ namespace CalamityMod.FluidSimulation
     // Please do not change this system too much without contacting me first. -Dominic
     public class FluidField : IDisposable
     {
-        internal RenderTarget2D TemporaryAuxilaryTarget;
+        internal ManagedRenderTarget TemporaryAuxilaryTarget;
 
-        internal RenderTarget2D DivergenceField;
+        internal ManagedRenderTarget DivergenceField;
 
-        internal RenderTarget2D DivergencePoissonField;
+        internal ManagedRenderTarget DivergencePoissonField;
 
         internal FluidFieldState VelocityField;
 
@@ -24,7 +26,7 @@ namespace CalamityMod.FluidSimulation
 
         internal FluidFieldState ColorField;
 
-        internal RenderTarget2D OutputTarget;
+        internal ManagedRenderTarget OutputTarget;
 
         public float Viscosity;
 
@@ -70,6 +72,10 @@ namespace CalamityMod.FluidSimulation
             }
         }
 
+        // A surface format of Vector4 is used here to allow for both 0-1 ranged colors and other things at the same time.
+        public RenderTarget2D FluidCreateCondition(int screen, int height) =>
+            new(Main.instance.GraphicsDevice, Size, Size, true, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+
         internal FluidField(int size, float scale, float viscosity, float diffusionFactor, float dissipationFactor)
         {
             Size = size;
@@ -82,13 +88,12 @@ namespace CalamityMod.FluidSimulation
             DensityField = new(size);
             ColorField = new(size);
 
-            // A surface format of Vector4 is used here to allow for both 0-1 ranged colors and other things at the same time.
-            TemporaryAuxilaryTarget = new(Main.instance.GraphicsDevice, Size, Size, true, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+            TemporaryAuxilaryTarget = new(false, FluidCreateCondition, false);
 
-            DivergenceField = new(Main.instance.GraphicsDevice, Size, Size, true, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
-            DivergencePoissonField = new(Main.instance.GraphicsDevice, Size, Size, true, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+            DivergenceField = new(false, FluidCreateCondition, false);
+            DivergencePoissonField = new(false, FluidCreateCondition, false);
 
-            OutputTarget = new(Main.instance.GraphicsDevice, Size, Size, true, SurfaceFormat.Color, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+            OutputTarget = new(false, FluidCreateCondition, false);
         }
 
         internal void ApplyThingToTarget(RenderTarget2D currentField, Action shaderPreparationsAction)
@@ -293,13 +298,7 @@ namespace CalamityMod.FluidSimulation
             FluidFieldManager.Fields.Remove(this);
             Disposing = true;
 
-            TemporaryAuxilaryTarget?.Dispose();
-            DivergenceField?.Dispose();
-            DivergencePoissonField?.Dispose();
-            VelocityField?.Dispose();
-            ColorField?.Dispose();
-            DensityField?.Dispose();
-            OutputTarget?.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         public void CreateSource(int x, int y, float density, Color color, Vector2 velocity)
@@ -326,7 +325,7 @@ namespace CalamityMod.FluidSimulation
 
             shaderPreparations?.Invoke(OutputTarget);
 
-            Main.spriteBatch.Draw(OutputTarget, drawPosition, null, Color.White, 0f, OutputTarget.Size() * 0.5f, Scale, 0, 0f);
+            Main.spriteBatch.Draw(OutputTarget, drawPosition, null, Color.White, 0f, OutputTarget.Size * 0.5f, Scale, 0, 0f);
             Main.spriteBatch.End();
 
             if (needsToCallEnd)

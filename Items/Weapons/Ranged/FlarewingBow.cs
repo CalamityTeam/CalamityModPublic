@@ -35,29 +35,28 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num117 = 0.314159274f;
-            int num118 = 3;
-            Vector2 vector7 = velocity;
-            vector7.Normalize();
-            vector7 *= 50f;
-            bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
-            for (int num119 = 0; num119 < num118; num119++)
+            float tenthPi = 0.314159274f;
+            Vector2 arrowVel = velocity;
+            arrowVel.Normalize();
+            arrowVel *= 50f;
+            bool arrowHitsTiles = Collision.CanHit(vector2, 0, 0, vector2 + arrowVel, 0, 0);
+            for (int i = 0; i < 3; i++)
             {
-                float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-                Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
-                if (!flag11)
+                float piOffsetValue = (float)i - 1f;
+                Vector2 offsetSpawn = arrowVel.RotatedBy((double)(tenthPi * piOffsetValue), default);
+                if (!arrowHitsTiles)
                 {
-                    value9 -= vector7;
+                    offsetSpawn -= arrowVel;
                 }
                 if (CalamityUtils.CheckWoodenAmmo(type, player))
                 {
-                    int num123 = Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X, velocity.Y, ModContent.ProjectileType<FlareBat>(), damage, knockback, player.whoAmI);
-                    Main.projectile[num123].noDropItem = true;
+                    int arrowSpawn = Projectile.NewProjectile(source, vector2.X + offsetSpawn.X, vector2.Y + offsetSpawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<FlareBat>(), damage, knockback, player.whoAmI);
+                    Main.projectile[arrowSpawn].noDropItem = true;
                 }
                 else
                 {
-                    int num123 = Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
-                    Main.projectile[num123].noDropItem = true;
+                    int arrowSpawn = Projectile.NewProjectile(source, vector2.X + offsetSpawn.X, vector2.Y + offsetSpawn.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI);
+                    Main.projectile[arrowSpawn].noDropItem = true;
                 }
             }
             return false;

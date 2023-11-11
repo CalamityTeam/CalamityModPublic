@@ -32,17 +32,14 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            int num925 = ModContent.ProjectileType<NebulaCloudCore>();
-            float num926 = 720f;
-            float x5 = 0.15f;
-            float y4 = 0.15f;
-            bool flag50 = false;
-            bool flag51 = false;
+            int mainProjType = ModContent.ProjectileType<NebulaCloudCore>();
+            float projTimer = 720f;
+            bool unusedFlag = false;
 
-            if (flag51)
+            if (unusedFlag)
             {
-                int num927 = (int)Projectile.ai[1];
-                if (!Main.projectile[num927].active || Main.projectile[num927].type != num925)
+                int mainProj = (int)Projectile.ai[1];
+                if (!Main.projectile[mainProj].active || Main.projectile[mainProj].type != mainProjType)
                 {
                     Projectile.Kill();
                     return;
@@ -52,15 +49,15 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             Projectile.ai[0]++;
-            if (!(Projectile.ai[0] < num926))
+            if (!(Projectile.ai[0] < projTimer))
                 return;
 
-            bool flag52 = true;
-            int num928 = (int)Projectile.ai[1];
-            if (Main.projectile[num928].active && Main.projectile[num928].type == num925)
+            bool isActive = true;
+            int mainProjID = (int)Projectile.ai[1];
+            if (Main.projectile[mainProjID].active && Main.projectile[mainProjID].type == mainProjType)
             {
-                if (!flag50 && Main.projectile[num928].oldPos[1] != Vector2.Zero)
-                    Projectile.position += Main.projectile[num928].position - Main.projectile[num928].oldPos[1];
+                if (Main.projectile[mainProjID].oldPos[1] != Vector2.Zero)
+                    Projectile.position += Main.projectile[mainProjID].position - Main.projectile[mainProjID].oldPos[1];
 
                 if (Projectile.Center.HasNaNs())
                 {
@@ -70,28 +67,28 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
             {
-                Projectile.ai[0] = num926;
-                flag52 = false;
+                Projectile.ai[0] = projTimer;
+                isActive = false;
                 Projectile.Kill();
             }
 
-            if (flag52 && !flag50)
+            if (isActive)
             {
-                Projectile.velocity += new Vector2(Math.Sign(Main.projectile[num928].Center.X - Projectile.Center.X), Math.Sign(Main.projectile[num928].Center.Y - Projectile.Center.Y)) * new Vector2(x5, y4);
+                Projectile.velocity += new Vector2(Math.Sign(Main.projectile[mainProjID].Center.X - Projectile.Center.X), Math.Sign(Main.projectile[mainProjID].Center.Y - Projectile.Center.Y)) * new Vector2(0.15f, 0.15f);
                 if (Projectile.velocity.Length() > 6f)
                     Projectile.velocity *= 6f / Projectile.velocity.Length();
             }
 
             if (Main.rand.NextBool())
             {
-                int num929 = Dust.NewDust(Projectile.Center, 8, 8, 86);
-                Main.dust[num929].position = Projectile.Center;
-                Main.dust[num929].velocity = Projectile.velocity;
-                Main.dust[num929].noGravity = true;
-                Main.dust[num929].scale = 1.75f;
+                int purpleDust = Dust.NewDust(Projectile.Center, 8, 8, 86);
+                Main.dust[purpleDust].position = Projectile.Center;
+                Main.dust[purpleDust].velocity = Projectile.velocity;
+                Main.dust[purpleDust].noGravity = true;
+                Main.dust[purpleDust].scale = 1.75f;
 
-                if (flag52)
-                    Main.dust[num929].customData = Main.projectile[(int)Projectile.ai[1]];
+                if (isActive)
+                    Main.dust[purpleDust].customData = Main.projectile[(int)Projectile.ai[1]];
             }
         }
 
@@ -99,24 +96,24 @@ namespace CalamityMod.Projectiles.Magic
         {
             Projectile.ai[0] = 86f;
 
-            for (int num164 = 0; num164 < 15; num164++)
+            for (int i = 0; i < 15; i++)
             {
-                int num165 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)Projectile.ai[0], Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
+                int killDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)Projectile.ai[0], Projectile.velocity.X * 0.1f, Projectile.velocity.Y * 0.1f, 0, default(Color), 0.75f);
                 Dust dust;
                 if (Main.rand.NextBool(3))
                 {
-                    Main.dust[num165].fadeIn = 0.75f + Main.rand.Next(-10, 11) * 0.015f;
-                    Main.dust[num165].scale = 0.325f + Main.rand.Next(-10, 11) * 0.0075f;
-                    dust = Main.dust[num165];
+                    Main.dust[killDust].fadeIn = 0.75f + Main.rand.Next(-10, 11) * 0.015f;
+                    Main.dust[killDust].scale = 0.325f + Main.rand.Next(-10, 11) * 0.0075f;
+                    dust = Main.dust[killDust];
                     dust.type++;
                 }
                 else
-                    Main.dust[num165].scale = 1.5f + Main.rand.Next(-10, 11) * 0.015f;
+                    Main.dust[killDust].scale = 1.5f + Main.rand.Next(-10, 11) * 0.015f;
 
-                Main.dust[num165].noGravity = true;
-                dust = Main.dust[num165];
+                Main.dust[killDust].noGravity = true;
+                dust = Main.dust[killDust];
                 dust.velocity *= 1.375f;
-                dust = Main.dust[num165];
+                dust = Main.dust[killDust];
                 dust.velocity -= Projectile.oldVelocity / 20f;
             }
         }

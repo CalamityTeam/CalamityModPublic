@@ -76,20 +76,20 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (NPC.velocity.Y == 0f)
             {
                 NPC.ai[2] += 1f;
-                int num321 = 20;
+                int decelerationDelay = 20;
                 if (NPC.ai[1] == 0f)
                 {
-                    num321 = 12;
+                    decelerationDelay = 12;
                 }
                 if (CalamityWorld.revenge)
                 {
-                    num321 /= 2;
+                    decelerationDelay /= 2;
                 }
                 if (CalamityWorld.death)
                 {
-                    num321 /= 2;
+                    decelerationDelay /= 2;
                 }
-                if (NPC.ai[2] < (float)num321)
+                if (NPC.ai[2] < (float)decelerationDelay)
                 {
                     NPC.velocity.X = NPC.velocity.X * 0.9f;
                     return;

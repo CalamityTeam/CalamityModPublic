@@ -38,15 +38,15 @@ namespace CalamityMod.Projectiles.Magic
         {
             SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             //crystal bullet shards
-            for (int index1 = 0; index1 < 10; ++index1)
+            for (int i = 0; i < 10; ++i)
             {
-                int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 68, 0f, 0f, 0, new Color(), 1f);
-                Main.dust[index2].noGravity = true;
-                Main.dust[index2].velocity *= 2f;
+                int snow = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 68, 0f, 0f, 0, new Color(), 1f);
+                Main.dust[snow].noGravity = true;
+                Main.dust[snow].velocity *= 2f;
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                for (int index = 0; index < 6; ++index)
+                for (int j = 0; j < 6; ++j)
                 {
                     float SpeedX = -Projectile.velocity.X * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
                     float SpeedY = -Projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;

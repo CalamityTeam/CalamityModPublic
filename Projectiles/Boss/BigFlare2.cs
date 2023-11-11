@@ -56,23 +56,23 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Projectile.ai[1] > 0f)
             {
-                int num625 = (int)Projectile.ai[1] - 1;
-                if (num625 < 255)
+                int playerTracker = (int)Projectile.ai[1] - 1;
+                if (playerTracker < 255)
                 {
                     Projectile.localAI[0] += 1f;
                     if (Projectile.localAI[0] > 10f)
                     {
-                        int num626 = 6;
-                        for (int num627 = 0; num627 < num626; num627++)
+                        int dustAmt = 6;
+                        for (int i = 0; i < dustAmt; i++)
                         {
-                            Vector2 vector45 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                            vector45 = vector45.RotatedBy((double)(num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (double)(float)num626, default) + Projectile.Center;
-                            Vector2 value15 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-                            int num628 = Dust.NewDust(vector45 + value15, 0, 0, 244, value15.X * 2f, value15.Y * 2f, 100, default, 1.4f);
-                            Main.dust[num628].noGravity = true;
-                            Main.dust[num628].noLight = true;
-                            Main.dust[num628].velocity /= 4f;
-                            Main.dust[num628].velocity -= Projectile.velocity;
+                            Vector2 dustRotation = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                            dustRotation = dustRotation.RotatedBy((double)(i - (dustAmt / 2 - 1)) * 3.1415926535897931 / (double)(float)dustAmt, default) + Projectile.Center;
+                            Vector2 randomDustPos = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+                            int flareDust = Dust.NewDust(dustRotation + randomDustPos, 0, 0, 244, randomDustPos.X * 2f, randomDustPos.Y * 2f, 100, default, 1.4f);
+                            Main.dust[flareDust].noGravity = true;
+                            Main.dust[flareDust].noLight = true;
+                            Main.dust[flareDust].velocity /= 4f;
+                            Main.dust[flareDust].velocity -= Projectile.velocity;
                         }
                         Projectile.alpha -= 5;
                         if (Projectile.alpha < 100)
@@ -81,11 +81,11 @@ namespace CalamityMod.Projectiles.Boss
                         }
                     }
 
-                    Vector2 value16 = Main.player[num625].Center - Projectile.Center;
-                    float num629 = 4f;
-                    num629 += Projectile.localAI[0] / 60f;
-                    Projectile.velocity = Vector2.Normalize(value16) * num629;
-                    if (value16.Length() < 64f)
+                    Vector2 playerDistance = Main.player[playerTracker].Center - Projectile.Center;
+                    float projVelocityMult = 4f;
+                    projVelocityMult += Projectile.localAI[0] / 60f;
+                    Projectile.velocity = Vector2.Normalize(playerDistance) * projVelocityMult;
+                    if (playerDistance.Length() < 64f)
                     {
                         Projectile.Kill();
                     }
@@ -114,55 +114,54 @@ namespace CalamityMod.Projectiles.Boss
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             SoundEngine.PlaySound(FlareSound, Projectile.Center);
-            int num226 = 36;
-            for (int num227 = 0; num227 < num226; num227++)
+            int killDustAmt = 36;
+            for (int i = 0; i < killDustAmt; i++)
             {
-                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                Vector2 vector7 = vector6 - Projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 244, vector7.X * 2f, vector7.Y * 2f, 100, default, 1.4f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                Vector2 killDustRotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                killDustRotate = killDustRotate.RotatedBy((double)((float)(i - (killDustAmt / 2 - 1)) * 6.28318548f / (float)killDustAmt), default) + Projectile.Center;
+                Vector2 killDustDirection = killDustRotate - Projectile.Center;
+                int killFlareDust = Dust.NewDust(killDustRotate + killDustDirection, 0, 0, 244, killDustDirection.X * 2f, killDustDirection.Y * 2f, 100, default, 1.4f);
+                Main.dust[killFlareDust].noGravity = true;
+                Main.dust[killFlareDust].noLight = true;
+                Main.dust[killFlareDust].velocity = killDustDirection;
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                int num231 = (int)(Projectile.Center.Y / 16f);
-                int num232 = (int)(Projectile.Center.X / 16f);
-                int num233 = 100;
-                if (num232 < 10)
+                int projTileX = (int)(Projectile.Center.Y / 16f);
+                int projTileY = (int)(Projectile.Center.X / 16f);
+                if (projTileY < 10)
                 {
-                    num232 = 10;
+                    projTileY = 10;
                 }
-                if (num232 > Main.maxTilesX - 10)
+                if (projTileY > Main.maxTilesX - 10)
                 {
-                    num232 = Main.maxTilesX - 10;
+                    projTileY = Main.maxTilesX - 10;
                 }
-                if (num231 < 10)
+                if (projTileX < 10)
                 {
-                    num231 = 10;
+                    projTileX = 10;
                 }
-                if (num231 > Main.maxTilesY - num233 - 10)
+                if (projTileX > Main.maxTilesY - 110)
                 {
-                    num231 = Main.maxTilesY - num233 - 10;
+                    projTileX = Main.maxTilesY - 110;
                 }
-                int spawnAreaY = Main.maxTilesY - num231;
-                for (int num234 = num231; num234 < num231 + spawnAreaY; num234++)
+                int spawnAreaY = Main.maxTilesY - projTileX;
+                for (int j = projTileX; j < projTileX + spawnAreaY; j++)
                 {
-                    Tile tile = Main.tile[num232, num234 + 10];
+                    Tile tile = Main.tile[projTileY, j + 10];
                     if (tile.HasTile && !TileID.Sets.Platforms[tile.TileType] && (Main.tileSolid[(int)tile.TileType] || tile.LiquidAmount != 0))
                     {
-                        num231 = num234;
+                        projTileX = j;
                         break;
                     }
                 }
                 int spawnLimitY = (int)(Main.player[Projectile.owner].Center.Y / 16f) + 75;
-                if (num231 > spawnLimitY)
+                if (projTileX > spawnLimitY)
                 {
-                    num231 = spawnLimitY;
+                    projTileX = spawnLimitY;
                 }
-                int num236 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), (float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Infernado2>(), 0, 4f, Main.myPlayer, 11f, 24f + (revenge ? 2f : 0f));
-                Main.projectile[num236].netUpdate = true;
+                int infernadoSpawn = Projectile.NewProjectile(Projectile.GetSource_FromThis(), (float)(projTileY * 16 + 8), (float)(projTileX * 16 - 24), 0f, 0f, ModContent.ProjectileType<Infernado2>(), 0, 4f, Main.myPlayer, 11f, 24f + (revenge ? 2f : 0f));
+                Main.projectile[infernadoSpawn].netUpdate = true;
             }
         }
     }

@@ -55,38 +55,38 @@ namespace CalamityMod.Items.Weapons.Ranged
             int i = Main.myPlayer;
             float sSpeed = Item.shootSpeed;
             player.itemTime = Item.useTime;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+            float mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                mouseYDist = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - realPlayerPos.Y;
             }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            float mouseDistance = (float)Math.Sqrt((double)(mouseXDist * mouseXDist + mouseYDist * mouseYDist));
+            if ((float.IsNaN(mouseXDist) && float.IsNaN(mouseYDist)) || (mouseXDist == 0f && mouseYDist == 0f))
             {
-                num78 = (float)player.direction;
-                num79 = 0f;
+                mouseXDist = (float)player.direction;
+                mouseYDist = 0f;
             }
             else
             {
-                num80 = sSpeed / num80;
+                mouseDistance = sSpeed / mouseDistance;
             }
-            float num208 = num78;
-            float num209 = num79;
-            num208 += (float)Main.rand.Next(-1, 2) * 0.5f;
-            num209 += (float)Main.rand.Next(-1, 2) * 0.5f;
-            if (Collision.CanHitLine(player.Center, 0, 0, vector2 + new Vector2(num208, num209) * 2f, 0, 0))
+            float randXOffset = mouseXDist;
+            float randYOffset = mouseYDist;
+            randXOffset += (float)Main.rand.Next(-1, 2) * 0.5f;
+            randYOffset += (float)Main.rand.Next(-1, 2) * 0.5f;
+            if (Collision.CanHitLine(player.Center, 0, 0, realPlayerPos + new Vector2(randXOffset, randYOffset) * 2f, 0, 0))
             {
-                vector2 += new Vector2(num208, num209);
+                realPlayerPos += new Vector2(randXOffset, randYOffset);
             }
-            Projectile.NewProjectile(source, position.X, position.Y - player.gravDir * 4f, num208, num209, type, damage, knockback, i, 0f, (float)Main.rand.Next(12) / 6f);
-            int num6 = Main.rand.Next(2, 4);
-            for (int index = 0; index < num6; ++index)
+            Projectile.NewProjectile(source, position.X, position.Y - player.gravDir * 4f, randXOffset, randYOffset, type, damage, knockback, i, 0f, (float)Main.rand.Next(12) / 6f);
+            int bulletAmt = Main.rand.Next(2, 4);
+            for (int index = 0; index < bulletAmt; ++index)
             {
                 float SpeedX = velocity.X + (float)Main.rand.Next(-60, 61) * 0.05f;
                 float SpeedY = velocity.Y + (float)Main.rand.Next(-60, 61) * 0.05f;
-                Projectile.NewProjectile(source, vector2.X, vector2.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }

@@ -25,25 +25,25 @@ namespace CalamityMod.Projectiles.Magic
         {
             Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.02f * (float)Projectile.direction;
             Lighting.AddLight(Projectile.Center, 0f, 0.1f, 0.7f);
-            for (int num105 = 0; num105 < 2; num105++)
+            for (int i = 0; i < 2; i++)
             {
-                float num99 = Projectile.velocity.X / 3f * (float)num105;
-                float num100 = Projectile.velocity.Y / 3f * (float)num105;
-                int num101 = 4;
-                int num102 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num101, Projectile.position.Y + (float)num101), Projectile.width - num101 * 2, Projectile.height - num101 * 2, 33, 0f, 0f, 0, new Color(64, 224, 208), 1.2f);
-                Dust dust = Main.dust[num102];
+                float shortXVel = Projectile.velocity.X / 3f * (float)i;
+                float shortYVel = Projectile.velocity.Y / 3f * (float)i;
+                int fourConst = 4;
+                int waterDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)fourConst, Projectile.position.Y + (float)fourConst), Projectile.width - fourConst * 2, Projectile.height - fourConst * 2, 33, 0f, 0f, 0, new Color(64, 224, 208), 1.2f);
+                Dust dust = Main.dust[waterDust];
                 dust.noGravity = true;
                 dust.velocity *= 0.1f;
                 dust.velocity += Projectile.velocity * 0.1f;
-                dust.position.X -= num99;
-                dust.position.Y -= num100;
+                dust.position.X -= shortXVel;
+                dust.position.Y -= shortYVel;
             }
             if (Main.rand.NextBool(5))
             {
-                int num103 = 4;
-                int num104 = Dust.NewDust(new Vector2(Projectile.position.X + (float)num103, Projectile.position.Y + (float)num103), Projectile.width - num103 * 2, Projectile.height - num103 * 2, 33, 0f, 0f, 0, new Color(64, 224, 208), 0.6f);
-                Main.dust[num104].velocity *= 0.25f;
-                Main.dust[num104].velocity += Projectile.velocity * 0.5f;
+                int otherFourConst = 4;
+                int otherWaterDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)otherFourConst, Projectile.position.Y + (float)otherFourConst), Projectile.width - otherFourConst * 2, Projectile.height - otherFourConst * 2, 33, 0f, 0f, 0, new Color(64, 224, 208), 0.6f);
+                Main.dust[otherWaterDust].velocity *= 0.25f;
+                Main.dust[otherWaterDust].velocity += Projectile.velocity * 0.5f;
             }
             if (Projectile.velocity.Y > 16f)
             {

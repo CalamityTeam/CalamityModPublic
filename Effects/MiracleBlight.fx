@@ -35,15 +35,12 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
     float4 color = tex2D(uImage0, coords);
     if (!any(color))
         return color;
-
-    // Framed coordinates -- a UV of the NPC's current framed sprite, instead of the whole sheet
-    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
-
+    
     // Temporal drift to make the sprite slide through the noise texture
-    float2 drift = float2(5 * sin(8.33 * uTime), 220 * uTime);
+    float2 drift = float2(5 * sin(0.04165 * uTime), 1.1 * uTime);
 
-    float2 noiseMapTexCoords = framedCoords * uSourceRect.zw + drift;
-    float4 noiseColor = tex2D(uImage1, noiseMapTexCoords / uImageSize1);
+    float2 noiseMapTexCoords = coords + drift + uWorldPosition;
+    float4 noiseColor = tex2D(uImage1, noiseMapTexCoords);
 
     // Define thresholds for total pixel erasure and glowing lines.
     //
@@ -61,10 +58,12 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
     {
         color.rgba = 0;
     }
+    
     // Otherwise, if it's over the slightly lower threshold, replace it with a bright color.
     else if (noiseColor.r > glowThreshold)
     {
-        color = float4(0.4902, 1, 0, 1);
+        // Ensure it accounts for the original alpha.
+        color = float4(0.4902, 1, 0, 1) * color.a;
     }
 
     return color;

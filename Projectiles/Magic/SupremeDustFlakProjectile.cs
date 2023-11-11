@@ -25,25 +25,25 @@ namespace CalamityMod.Projectiles.Magic
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.35f / 255f, (255 - Projectile.alpha) * 0.3f / 255f, (255 - Projectile.alpha) * 0.01f / 255f);
             if (Projectile.ai[0] > 7f)
             {
-                float num296 = 1f;
+                float dustScale = 1f;
                 if (Projectile.ai[0] == 8f)
                 {
-                    num296 = 0.25f;
+                    dustScale = 0.25f;
                 }
                 else if (Projectile.ai[0] == 9f)
                 {
-                    num296 = 0.5f;
+                    dustScale = 0.5f;
                 }
                 else if (Projectile.ai[0] == 10f)
                 {
-                    num296 = 0.75f;
+                    dustScale = 0.75f;
                 }
                 Projectile.ai[0] += 1f;
-                int num297 = 32;
-                for (int num298 = 0; num298 < 2; num298++)
+                int dustType = 32;
+                for (int i = 0; i < 2; i++)
                 {
-                    int num299 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
-                    Dust dust = Main.dust[num299];
+                    int earthyDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
+                    Dust dust = Main.dust[earthyDust];
                     if (Main.rand.NextBool(3))
                     {
                         dust.noGravity = false;
@@ -57,12 +57,12 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     dust.velocity.X *= 1.2f;
                     dust.velocity.Y *= 1.2f;
-                    dust.scale *= num296;
+                    dust.scale *= dustScale;
                 }
-                for (int num298 = 0; num298 < 2; num298++)
+                for (int i = 0; i < 2; i++)
                 {
-                    int num299 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
-                    Dust dust = Main.dust[num299];
+                    int earthyDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
+                    Dust dust = Main.dust[earthyDust];
                     if (Main.rand.NextBool(3))
                     {
                         dust.noGravity = false;
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     dust.velocity.X *= 1.2f;
                     dust.velocity.Y *= 1.2f;
-                    dust.scale *= num296;
+                    dust.scale *= dustScale;
                 }
             }
             else

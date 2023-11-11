@@ -84,5 +84,11 @@ namespace CalamityMod.Tiles.AstralDesert
         {
             DustType = 108;
         }
+
+        public override bool IsTileBiomeSightable(int i, int j, ref Color sightColor)
+        {
+            sightColor = Color.Cyan;
+            return true;
+        }
     }
 }

@@ -9,6 +9,10 @@ using Terraria.ModLoader.Utilities;
 using Microsoft.Xna.Framework;
 using System.IO;
 using CalamityMod.Sounds;
+using System;
+using CalamityMod.World;
+using Mono.Cecil;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -100,7 +104,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             Player player = Main.player[NPC.target];
 
             bool farFromPlayer = NPC.Distance(player.Center) > 960f;
-            bool obstanceInFrontOfPlayer = !Collision.CanHitLine(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height);
+            bool obstanceInFrontOfPlayer = Main.remixWorld ? false : !Collision.CanHitLine(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height);
 
             if (NPC.target < 0 || NPC.target >= 255 || farFromPlayer || obstanceInFrontOfPlayer || player.dead || !player.active)
             {
@@ -111,7 +115,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 // Fly away if there is no living target, or the closest target is too far away.
                 if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
                 {
-                    if (FlyAwayTimer > 360)
+                    if (FlyAwayTimer > 420)
                     {
                         NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.UnitY * -8f, 0.1f);
                         NPC.rotation = NPC.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
@@ -160,7 +164,22 @@ namespace CalamityMod.NPCs.NormalNPCs
                     NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.SafeDirectionTo(player.Center) * 6f, 0.1f);
 
                 if (Supercharged && Main.netMode != NetmodeID.MultiplayerClient && HorizontalChargeTime % 30f == 29f)
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.UnitX * 6f * NPC.spriteDirection, NPC.SafeDirectionTo(player.Center, Vector2.UnitY) * 6f, ProjectileID.SaucerLaser, 12, 0f);
+                {
+                    if (Main.zenithWorld)
+                    {
+                        int spread = 15;
+                        for (int times = CalamityWorld.LegendaryMode ? 3 : 2; times > 0; times--)
+                        {
+                            Vector2 velocity = NPC.SafeDirectionTo(player.Center, Vector2.UnitY) * 6f;
+                            Vector2 perturbedspeed = new Vector2(velocity.X + Main.rand.Next(-2, 3), velocity.Y + Main.rand.Next(-2, 3)).RotatedBy(MathHelper.ToRadians(spread));
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.UnitX * 6f * NPC.spriteDirection, perturbedspeed, ProjectileID.SaucerLaser, 12, 0f);
+                            spread -= Main.rand.Next(5, 8);
+                        }
+                    }
+                    else
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.UnitX * 6f * NPC.spriteDirection, NPC.SafeDirectionTo(player.Center, Vector2.UnitY) * 6f, ProjectileID.SaucerLaser, 12, 0f);
+                    SoundEngine.PlaySound(SoundID.Item12);
+                }
 
                 HorizontalChargeTime++;
                 if (HorizontalChargeTime > TotalHorizontalChargeTime)
@@ -196,10 +215,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur || !spawnInfo.Player.ZoneOverworldHeight)
+            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur || (!spawnInfo.Player.ZoneOverworldHeight && !Main.remixWorld) || (!spawnInfo.Player.ZoneNormalCaverns && spawnInfo.Player.ZoneGlowshroom && Main.remixWorld))
                 return 0f;
 
-            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.010f : 0.1f) * (NPC.AnyNPCs(ModContent.NPCType<WulfrumAmplifier>()) ? 5.5f : 1f);
+            return (Main.remixWorld ? SpawnCondition.Cavern.Chance : SpawnCondition.OverworldDaySlime.Chance) * (Main.hardMode ? 0.010f : 0.135f) * (NPC.AnyNPCs(ModContent.NPCType<WulfrumAmplifier>()) ? 5.5f : 1f);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

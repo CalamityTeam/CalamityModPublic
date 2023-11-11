@@ -50,33 +50,33 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (Math.Abs(Projectile.velocity.X) >= 3f || Math.Abs(Projectile.velocity.Y) >= 3f)
             {
-                float num247 = 0f;
-                float num248 = 0f;
+                float randDustXVel = 0f;
+                float randDustYVel = 0f;
                 if (Main.rand.Next(2) == 1)
                 {
-                    num247 = Projectile.velocity.X * 0.5f;
-                    num248 = Projectile.velocity.Y * 0.5f;
+                    randDustXVel = Projectile.velocity.X * 0.5f;
+                    randDustYVel = Projectile.velocity.Y * 0.5f;
                 }
-                int num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 6, 0f, 0f, 100, default, 0.5f);
-                Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-                Main.dust[num249].velocity *= 0.2f;
-                Main.dust[num249].noGravity = true;
-                num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 31, 0f, 0f, 100, default, 0.25f);
-                Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-                Main.dust[num249].velocity *= 0.05f;
+                int bombDust = Dust.NewDust(new Vector2(Projectile.position.X + 3f + randDustXVel, Projectile.position.Y + 3f + randDustYVel) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 6, 0f, 0f, 100, default, 0.5f);
+                Main.dust[bombDust].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+                Main.dust[bombDust].velocity *= 0.2f;
+                Main.dust[bombDust].noGravity = true;
+                bombDust = Dust.NewDust(new Vector2(Projectile.position.X + 3f + randDustXVel, Projectile.position.Y + 3f + randDustYVel) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 31, 0f, 0f, 100, default, 0.25f);
+                Main.dust[bombDust].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[bombDust].velocity *= 0.05f;
             }
             else if (Main.rand.NextBool(4))
             {
-                int num252 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 100, default, 0.5f);
-                Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
-                Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
-                Main.dust[num252].noGravity = true;
-                Main.dust[num252].position = Projectile.Center + new Vector2(0f, (float)(-(float)Projectile.height / 2)).RotatedBy((double)Projectile.rotation, default) * 1.1f;
+                int smoke = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 100, default, 0.5f);
+                Main.dust[smoke].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[smoke].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[smoke].noGravity = true;
+                Main.dust[smoke].position = Projectile.Center + new Vector2(0f, (float)(-(float)Projectile.height / 2)).RotatedBy((double)Projectile.rotation, default) * 1.1f;
                 Main.rand.Next(2);
-                num252 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1f);
-                Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
-                Main.dust[num252].noGravity = true;
-                Main.dust[num252].position = Projectile.Center + new Vector2(0f, (float)(-(float)Projectile.height / 2 - 6)).RotatedBy((double)Projectile.rotation, default) * 1.1f;
+                smoke = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 1f);
+                Main.dust[smoke].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
+                Main.dust[smoke].noGravity = true;
+                Main.dust[smoke].position = Projectile.Center + new Vector2(0f, (float)(-(float)Projectile.height / 2 - 6)).RotatedBy((double)Projectile.rotation, default) * 1.1f;
             }
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
         }
@@ -100,23 +100,23 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             Projectile.Damage();
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            for (int num621 = 0; num621 < 8; num621++)
+            for (int i = 0; i < 8; i++)
             {
-                int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 89, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int plagued = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 89, 0f, 0f, 100, default, 2f);
+                Main.dust[plagued].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[plagued].scale = 0.5f;
+                    Main.dust[plagued].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 10; num623++)
+            for (int j = 0; j < 10; j++)
             {
-                int num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 89, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 89, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int plagued2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 89, 0f, 0f, 100, default, 3f);
+                Main.dust[plagued2].noGravity = true;
+                Main.dust[plagued2].velocity *= 5f;
+                plagued2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 89, 0f, 0f, 100, default, 2f);
+                Main.dust[plagued2].velocity *= 2f;
             }
 
             if (Main.netMode != NetmodeID.Server)

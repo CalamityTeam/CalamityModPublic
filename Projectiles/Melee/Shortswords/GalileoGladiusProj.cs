@@ -55,9 +55,9 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
         {
             if (Main.rand.NextBool(5))
             {
-                int num250 = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (Main.rand.NextBool() ? 20 : 176), (float)(Main.player[Projectile.owner].direction * 2), 0f, 150, default, 1.3f);
-                Main.dust[num250].velocity *= 0.2f;
-                Main.dust[num250].noGravity = true;
+                int gladiusDust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, (Main.rand.NextBool() ? 20 : 176), (float)(Main.player[Projectile.owner].direction * 2), 0f, 150, default, 1.3f);
+                Main.dust[gladiusDust].velocity *= 0.2f;
+                Main.dust[gladiusDust].noGravity = true;
             }
         }
 

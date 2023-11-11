@@ -65,17 +65,17 @@ namespace CalamityMod.NPCs.HiveMind
 
             NPC.rotation = NPC.velocity.X * 0.05f;
 
-            Vector2 vector167 = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
-            float num1373 = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - vector167.X;
-            float num1374 = Main.player[NPC.target].Center.Y - vector167.Y;
-            float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
-            float num1376 = speed / num1375;
-            num1373 *= num1376;
-            num1374 *= num1376;
+            Vector2 targetDirection = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
+            float playerXDist = Main.player[NPC.target].position.X + Main.player[NPC.target].width * 0.5f - targetDirection.X;
+            float playerYDist = Main.player[NPC.target].Center.Y - targetDirection.Y;
+            float playerDistance = (float)Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
+            float timeToReachTarget = speed / playerDistance;
+            playerXDist *= timeToReachTarget;
+            playerYDist *= timeToReachTarget;
             NPC.ai[0] -= 1f;
-            if (num1375 < 200f || NPC.ai[0] > 0f)
+            if (playerDistance < 200f || NPC.ai[0] > 0f)
             {
-                if (num1375 < 200f)
+                if (playerDistance < 200f)
                 {
                     NPC.ai[0] = 20f;
                 }
@@ -89,17 +89,17 @@ namespace CalamityMod.NPCs.HiveMind
                 }
                 return;
             }
-            NPC.velocity.X = (NPC.velocity.X * 50f + num1373) / 51f;
-            NPC.velocity.Y = (NPC.velocity.Y * 50f + num1374) / 51f;
-            if (num1375 < 350f)
+            NPC.velocity.X = (NPC.velocity.X * 50f + playerXDist) / 51f;
+            NPC.velocity.Y = (NPC.velocity.Y * 50f + playerYDist) / 51f;
+            if (playerDistance < 350f)
             {
-                NPC.velocity.X = (NPC.velocity.X * 10f + num1373) / 11f;
-                NPC.velocity.Y = (NPC.velocity.Y * 10f + num1374) / 11f;
+                NPC.velocity.X = (NPC.velocity.X * 10f + playerXDist) / 11f;
+                NPC.velocity.Y = (NPC.velocity.Y * 10f + playerYDist) / 11f;
             }
-            if (num1375 < 300f)
+            if (playerDistance < 300f)
             {
-                NPC.velocity.X = (NPC.velocity.X * 7f + num1373) / 8f;
-                NPC.velocity.Y = (NPC.velocity.Y * 7f + num1374) / 8f;
+                NPC.velocity.X = (NPC.velocity.X * 7f + playerXDist) / 8f;
+                NPC.velocity.Y = (NPC.velocity.Y * 7f + playerYDist) / 8f;
             }
         }
 

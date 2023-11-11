@@ -35,26 +35,26 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (Projectile.ai[1] >= 5f && (Projectile.ai[1] <= 10f))
             {
-                for (int num105 = 0; num105 < 10; num105++)
+                for (int i = 0; i < 10; i++)
                 {
-                    float num99 = Projectile.velocity.X / 3f * (float)num105;
-                    float num100 = Projectile.velocity.Y / 3f * (float)num105;
-                    int num101 = 4;
-                    int waterDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)num101, Projectile.position.Y + (float)num101), Projectile.width - num101 * 2, Projectile.height - num101 * 2, 33, 0f, 0f, 0, new Color(0, 142, 255), 1.5f);
+                    float shortXVel = Projectile.velocity.X / 3f * (float)i;
+                    float shortYVel = Projectile.velocity.Y / 3f * (float)i;
+                    int dustPos = 4;
+                    int waterDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)dustPos, Projectile.position.Y + (float)dustPos), Projectile.width - dustPos * 2, Projectile.height - dustPos * 2, 33, 0f, 0f, 0, new Color(0, 142, 255), 1.5f);
                     Dust waterdust = Main.dust[waterDust];
                     waterdust.noGravity = true;
                     waterdust.velocity *= 0.1f;
                     waterdust.velocity += Projectile.velocity * 0.1f;
-                    waterdust.position.X -= num99;
-                    waterdust.position.Y -= num100;
+                    waterdust.position.X -= shortXVel;
+                    waterdust.position.Y -= shortYVel;
                 }
             }
             if (Projectile.ai[1] == 5f)
             {
                 Projectile.tileCollide = true;
             }
-            Vector2 vector62 = Main.player[Projectile.owner].Center - Projectile.Center;
-            Projectile.rotation = vector62.ToRotation() - 1.57f;
+            Vector2 flailDirection = Main.player[Projectile.owner].Center - Projectile.Center;
+            Projectile.rotation = flailDirection.ToRotation() - 1.57f;
             if (Main.player[Projectile.owner].dead)
             {
                 Projectile.Kill();
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             Main.player[Projectile.owner].itemAnimation = 10;
             Main.player[Projectile.owner].itemTime = 10;
-            if (vector62.X < 0f)
+            if (flailDirection.X < 0f)
             {
                 Main.player[Projectile.owner].ChangeDir(1);
                 Projectile.direction = 1;
@@ -72,38 +72,38 @@ namespace CalamityMod.Projectiles.Melee
                 Main.player[Projectile.owner].ChangeDir(-1);
                 Projectile.direction = -1;
             }
-            Main.player[Projectile.owner].itemRotation = (vector62 * -1f * (float)Projectile.direction).ToRotation();
-            Projectile.spriteDirection = (vector62.X > 0f) ? -1 : 1;
+            Main.player[Projectile.owner].itemRotation = (flailDirection * -1f * (float)Projectile.direction).ToRotation();
+            Projectile.spriteDirection = (flailDirection.X > 0f) ? -1 : 1;
             if (Projectile.ai[1] >= 45f && (Projectile.ai[0] != 1f || Projectile.ai[0] != 2f))
             {
                 Projectile.velocity.Y += 1f;
                 Projectile.velocity.X *= 0.995f;
                 Projectile.damage = finalDamage;
             }
-            if (Projectile.ai[0] == 0f && vector62.Length() > 1000f)
+            if (Projectile.ai[0] == 0f && flailDirection.Length() > 1000f)
             {
                 Projectile.ai[0] = 1f;
             }
             if (Projectile.ai[0] == 1f || Projectile.ai[0] == 2f)
             {
-                float num693 = vector62.Length();
-                if (num693 > 1500f)
+                float flailDistance = flailDirection.Length();
+                if (flailDistance > 1500f)
                 {
                     Projectile.Kill();
                     return;
                 }
-                if (num693 > 600f)
+                if (flailDistance > 600f)
                 {
                     Projectile.ai[0] = 2f;
                 }
                 Projectile.tileCollide = false;
-                float num694 = 20f;
+                float flailSpeed = 20f;
                 if (Projectile.ai[0] == 2f)
                 {
-                    num694 = 40f;
+                    flailSpeed = 40f;
                 }
-                Projectile.velocity = Vector2.Normalize(vector62) * num694;
-                if (vector62.Length() < num694)
+                Projectile.velocity = Vector2.Normalize(flailDirection) * flailSpeed;
+                if (flailDirection.Length() < flailSpeed)
                 {
                     Projectile.Kill();
                     return;
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.ai[0] = 1f;
                 Projectile.netUpdate = true;
                 SoundEngine.PlaySound(GiantClam.SlamSound, Projectile.position);
-                for (int num105 = 0; num105 < 50; num105++)
+                for (int i = 0; i < 50; i++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     int waterDust = Dust.NewDust(new Vector2(Projectile.Center.X, Projectile.Center.Y), Projectile.width / 2, Projectile.height / 2, 33, velocity.X, velocity.Y, 0, new Color(0, 142, 255), 1.5f);
@@ -138,35 +138,35 @@ namespace CalamityMod.Projectiles.Melee
         {
             Vector2 mountedCenter = Main.player[Projectile.owner].MountedCenter;
             Texture2D texture2D2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/ClamCrusherChain").Value;
-            Vector2 vector17 = Projectile.Center;
+            Vector2 projCenter = Projectile.Center;
             Rectangle? sourceRectangle = null;
             Vector2 origin = new Vector2((float)texture2D2.Width * 0.5f, (float)texture2D2.Height * 0.5f);
-            float num91 = (float)texture2D2.Height;
-            Vector2 vector18 = mountedCenter - vector17;
-            float rotation15 = (float)Math.Atan2((double)vector18.Y, (double)vector18.X) - 1.57f;
-            bool flag13 = true;
-            if (float.IsNaN(vector17.X) && float.IsNaN(vector17.Y))
+            float projHeight = (float)texture2D2.Height;
+            Vector2 actualCenter = mountedCenter - projCenter;
+            float flailRotate = (float)Math.Atan2((double)actualCenter.Y, (double)actualCenter.X) - 1.57f;
+            bool isActive = true;
+            if (float.IsNaN(projCenter.X) && float.IsNaN(projCenter.Y))
             {
-                flag13 = false;
+                isActive = false;
             }
-            if (float.IsNaN(vector18.X) && float.IsNaN(vector18.Y))
+            if (float.IsNaN(actualCenter.X) && float.IsNaN(actualCenter.Y))
             {
-                flag13 = false;
+                isActive = false;
             }
-            while (flag13)
+            while (isActive)
             {
-                if (vector18.Length() < num91 + 1f)
+                if (actualCenter.Length() < projHeight + 1f)
                 {
-                    flag13 = false;
+                    isActive = false;
                 }
                 else
                 {
-                    Vector2 value2 = vector18;
+                    Vector2 value2 = actualCenter;
                     value2.Normalize();
-                    vector17 += value2 * num91;
-                    vector18 = mountedCenter - vector17;
-                    Color color17 = Lighting.GetColor((int)vector17.X / 16, (int)(vector17.Y / 16f));
-                    Main.spriteBatch.Draw(texture2D2, vector17 - Main.screenPosition, sourceRectangle, color17, rotation15, origin, 1f, SpriteEffects.None, 0);
+                    projCenter += value2 * projHeight;
+                    actualCenter = mountedCenter - projCenter;
+                    Color colorArea = Lighting.GetColor((int)projCenter.X / 16, (int)(projCenter.Y / 16f));
+                    Main.spriteBatch.Draw(texture2D2, projCenter - Main.screenPosition, sourceRectangle, colorArea, flailRotate, origin, 1f, SpriteEffects.None, 0);
                 }
             }
             return true;

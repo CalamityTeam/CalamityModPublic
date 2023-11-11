@@ -3,13 +3,12 @@ using System.IO;
 using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Graphics.Metaballs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Particles.Metaballs;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Bestiary;
@@ -76,9 +75,9 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Orthocera")
+                new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Orthocera")
             });
         }
 
@@ -212,7 +211,7 @@ namespace CalamityMod.NPCs.AcidRain
                 if (NPC.Calamity().newAI[0] % 5 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Bottom, Main.rand.NextVector2Circular(4f, 8f), ModContent.ProjectileType<RancorFog>(), 0, 0f, Main.myPlayer);
-                    FusableParticleManager.GetParticleSetByType<RancorGroundLavaParticleSet>().SpawnParticle(NPC.Bottom + Main.rand.NextVector2Circular(10f, 10f), 135f);
+                    RancorLavaMetaball.SpawnParticle(NPC.Bottom + Main.rand.NextVector2Circular(10f, 10f), 135f);
                 }
                 if (NPC.Calamity().newAI[0] % 30 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                 {

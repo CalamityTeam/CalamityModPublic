@@ -40,19 +40,19 @@ namespace CalamityMod.Items.Accessories.Wings
 
             if (player.controlJump && player.wingTime > 0f && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
-                int num59 = 4;
+                int dustXOffset = 4;
                 if (player.direction == 1)
                 {
-                    num59 = -40;
+                    dustXOffset = -40;
                 }
-                int num60 = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)num59, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, 173, 0f, 0f, 100, default, 2.4f);
-                Main.dust[num60].noGravity = true;
-                Main.dust[num60].velocity *= 0.3f;
+                int flightDust = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)dustXOffset, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, 173, 0f, 0f, 100, default, 2.4f);
+                Main.dust[flightDust].noGravity = true;
+                Main.dust[flightDust].velocity *= 0.3f;
                 if (Main.rand.NextBool(10))
                 {
-                    Main.dust[num60].fadeIn = 2f;
+                    Main.dust[flightDust].fadeIn = 2f;
                 }
-                Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
+                Main.dust[flightDust].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
             player.noFallDmg = true;
         }

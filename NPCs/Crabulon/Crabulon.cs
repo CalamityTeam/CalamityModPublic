@@ -190,18 +190,18 @@ namespace CalamityMod.NPCs.Crabulon
 
             if (NPC.ai[0] < 2f)
             {
-                Vector2 vector34 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                int num352 = 1;
+                Vector2 mushBombDirection = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+                int mushBombAmt = 1;
                 NPC.localAI[3] += 2f;
                 if (phase2)
                 {
                     NPC.localAI[3] += 1f;
-                    num352 += 2;
+                    mushBombAmt += 2;
                 }
                 if (phase3)
                 {
                     NPC.localAI[3] += 2f;
-                    num352 += 3;
+                    mushBombAmt += 3;
                 }
                 if (NPC.ai[3] == 0f)
                 {
@@ -215,30 +215,30 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     NPC.localAI[3] = 0f;
                     NPC.ai[3] += 1f;
-                    if (NPC.ai[3] >= num352)
+                    if (NPC.ai[3] >= mushBombAmt)
                         NPC.ai[3] = 0f;
 
-                    float num353 = 10f;
+                    float mushBombSpeed = 10f;
                     int type = ModContent.ProjectileType<MushBomb>();
                     SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (phase2)
-                            num353 += 1f;
+                            mushBombSpeed += 1f;
                         if (phase3)
-                            num353 += 1f;
+                            mushBombSpeed += 1f;
 
-                        vector34 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        float num349 = player.position.X + player.width * 0.5f - vector34.X;
-                        float num350 = player.position.Y + player.height * 0.5f - vector34.Y;
-                        float num351 = (float)Math.Sqrt(num349 * num349 + num350 * num350);
-                        num351 = num353 / num351;
-                        num349 *= num351;
-                        num350 *= num351;
-                        vector34.X += num349;
-                        vector34.Y += num350;
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector34.X, vector34.Y, num349, num350 - 5f, type, NPC.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, player.Center.Y);
+                        mushBombDirection = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+                        float playerXDist = player.position.X + player.width * 0.5f - mushBombDirection.X;
+                        float playerYDist = player.position.Y + player.height * 0.5f - mushBombDirection.Y;
+                        float playerDistance = (float)Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
+                        playerDistance = mushBombSpeed / playerDistance;
+                        playerXDist *= playerDistance;
+                        playerYDist *= playerDistance;
+                        mushBombDirection.X += playerXDist;
+                        mushBombDirection.Y += playerYDist;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), mushBombDirection.X, mushBombDirection.Y, playerXDist, playerYDist - 5f, type, NPC.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, player.Center.Y);
                     }
                 }
             }
@@ -278,11 +278,11 @@ namespace CalamityMod.NPCs.Crabulon
                     walkingVelocity *= 2f;
                 walkingVelocity += 2.5f * enrageScale;
 
-                bool flag51 = false;
+                bool shouldWalkSlower = false;
                 if (Math.Abs(NPC.Center.X - player.Center.X) < 50f)
-                    flag51 = true;
+                    shouldWalkSlower = true;
 
-                if (flag51)
+                if (shouldWalkSlower)
                 {
                     NPC.velocity.X *= 0.9f;
                     if (NPC.velocity.X > -0.1 && NPC.velocity.X < 0.1)
@@ -308,17 +308,14 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     NPC.noGravity = true;
                     NPC.noTileCollide = true;
-
-                    int num854 = 80;
-                    int num855 = 20;
-                    Vector2 position2 = new Vector2(NPC.Center.X - (num854 / 2), NPC.position.Y + NPC.height - num855);
+                    Vector2 collisionCheckPosition = new Vector2(NPC.Center.X - 40, NPC.position.Y + NPC.height - 20);
 
                     bool fallDownOnTopOfTarget = NPC.position.X < player.position.X && NPC.position.X + NPC.width > player.position.X + player.width && NPC.position.Y + NPC.height < player.position.Y + player.height - 16f;
                     if (fallDownOnTopOfTarget)
                     {
                         NPC.velocity.Y += 0.5f;
                     }
-                    else if (Collision.SolidCollision(position2, num854, num855))
+                    else if (Collision.SolidCollision(collisionCheckPosition, 80, 20))
                     {
                         if (NPC.velocity.Y > 0f)
                             NPC.velocity.Y = 0f;
@@ -529,16 +526,16 @@ namespace CalamityMod.NPCs.Crabulon
                         NPC.netUpdate = true;
                     }
 
-                    for (int num622 = (int)NPC.position.X - 20; num622 < (int)NPC.position.X + NPC.width + 40; num622 += 20)
+                    for (int j = (int)NPC.position.X - 20; j < (int)NPC.position.X + NPC.width + 40; j += 20)
                     {
-                        for (int num623 = 0; num623 < 4; num623++)
+                        for (int k = 0; k < 4; k++)
                         {
-                            int num624 = Dust.NewDust(new Vector2(NPC.position.X - 20f, NPC.position.Y + NPC.height), NPC.width + 20, 4, 56, 0f, 0f, 100, default, 1.5f);
-                            Main.dust[num624].velocity *= 0.2f;
+                            int stompDust = Dust.NewDust(new Vector2(NPC.position.X - 20f, NPC.position.Y + NPC.height), NPC.width + 20, 4, 56, 0f, 0f, 100, default, 1.5f);
+                            Main.dust[stompDust].velocity *= 0.2f;
                         }
                         if (Main.zenithWorld)
                         {
-                            int x = num622 / 16;
+                            int x = j / 16;
                             int y = (int)(NPC.position.Y + NPC.height) / 16;
                             Tile groundTile = CalamityUtils.ParanoidTileRetrieval(x, y);
                             Tile walkTile = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
@@ -588,27 +585,27 @@ namespace CalamityMod.NPCs.Crabulon
                         else if (NPC.direction > 0)
                             NPC.velocity.X += velocityX;
 
-                        float num626 = 2.5f;
-                        num626 += enrageScale;
+                        float topXSpeed = 2.5f;
+                        topXSpeed += enrageScale;
                         if (revenge)
                         {
-                            num626 += 1f;
+                            topXSpeed += 1f;
                         }
                         if (phase2)
                         {
-                            num626 += 1f;
+                            topXSpeed += 1f;
                         }
                         if (phase3)
                         {
-                            num626 += 1f;
+                            topXSpeed += 1f;
                         }
-                        if (NPC.velocity.X < -num626)
+                        if (NPC.velocity.X < -topXSpeed)
                         {
-                            NPC.velocity.X = -num626;
+                            NPC.velocity.X = -topXSpeed;
                         }
-                        if (NPC.velocity.X > num626)
+                        if (NPC.velocity.X > topXSpeed)
                         {
-                            NPC.velocity.X = num626;
+                            NPC.velocity.X = topXSpeed;
                         }
                     }
                 }
@@ -622,23 +619,23 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)(NPC.lifeMax * ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 0.01 : Main.getGoodWorld ? 0.025 : 0.05));
-                    if ((NPC.life + num660) < NPC.localAI[0])
+                    int crabShroomSpawnFreq = (int)(NPC.lifeMax * ((CalamityWorld.LegendaryMode && CalamityWorld.revenge) ? 0.01 : Main.getGoodWorld ? 0.025 : 0.05));
+                    if ((NPC.life + crabShroomSpawnFreq) < NPC.localAI[0])
                     {
                         NPC.localAI[0] = NPC.life;
-                        int num661 = death ? 3 : expertMode ? Main.rand.Next(2, 4) : 2;
-                        for (int num662 = 0; num662 < num661; num662++)
+                        int crabShroomAmt = death ? 3 : expertMode ? Main.rand.Next(2, 4) : 2;
+                        for (int mush = 0; mush < crabShroomAmt; mush++)
                         {
                             int x = (int)(NPC.position.X + Main.rand.Next(NPC.width - 32));
                             int y = (int)(NPC.position.Y + Main.rand.Next(NPC.height - 32));
-                            int num663 = ModContent.NPCType<CrabShroom>();
-                            int num664 = NPC.NewNPC(NPC.GetSource_FromAI(), x, y, num663);
-                            Main.npc[num664].SetDefaults(num663);
-                            Main.npc[num664].velocity.X = Main.rand.Next(-50, 51) * (Main.getGoodWorld ? 0.2f : 0.1f);
-                            Main.npc[num664].velocity.Y = Main.rand.Next(-50, -31) * (Main.getGoodWorld ? 0.2f : 0.1f);
-                            if (Main.netMode == NetmodeID.Server && num664 < Main.maxNPCs)
+                            int npcType = ModContent.NPCType<CrabShroom>();
+                            int crabShroom = NPC.NewNPC(NPC.GetSource_FromAI(), x, y, npcType);
+                            Main.npc[crabShroom].SetDefaults(npcType);
+                            Main.npc[crabShroom].velocity.X = Main.rand.Next(-50, 51) * (Main.getGoodWorld ? 0.2f : 0.1f);
+                            Main.npc[crabShroom].velocity.Y = Main.rand.Next(-50, -31) * (Main.getGoodWorld ? 0.2f : 0.1f);
+                            if (Main.netMode == NetmodeID.Server && crabShroom < Main.maxNPCs)
                             {
-                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, crabShroom, 0f, 0f, 0f, 0, 0, 0);
                             }
                         }
                     }
@@ -894,23 +891,23 @@ namespace CalamityMod.NPCs.Crabulon
                 NPC.height = (int)(100 * NPC.scale);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                for (int num621 = 0; num621 < 40; num621++)
+                for (int i = 0; i < 40; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 56, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int j = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 56, 0f, 0f, 100, default, 2f);
+                    Main.dust[j].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[j].scale = 0.5f;
+                        Main.dust[j].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 70; num623++)
+                for (int k = 0; k < 70; k++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 56, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 56, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int stompDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 56, 0f, 0f, 100, default, 3f);
+                    Main.dust[stompDust].noGravity = true;
+                    Main.dust[stompDust].velocity *= 5f;
+                    stompDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 56, 0f, 0f, 100, default, 2f);
+                    Main.dust[stompDust].velocity *= 2f;
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {

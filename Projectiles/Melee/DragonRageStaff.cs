@@ -1,15 +1,15 @@
-﻿using CalamityMod.CalPlayer;
+﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -74,14 +74,14 @@ namespace CalamityMod.Projectiles.Melee
 
         private void SpawnDust(Player player, int direction)
         {
-            float num12 = Projectile.rotation - MathHelper.PiOver4 * direction;
-            Vector2 value3 = Projectile.Center + (num12 + ((direction == -1) ? MathHelper.Pi : 0f)).ToRotationVector2() * 30f;
-            Vector2 vector2 = num12.ToRotationVector2();
-            Vector2 value4 = vector2.RotatedBy(MathHelper.PiOver2 * Projectile.spriteDirection);
+            float rotateDirection = Projectile.rotation - MathHelper.PiOver4 * direction;
+            Vector2 dustSpawn = Projectile.Center + (rotateDirection + ((direction == -1) ? MathHelper.Pi : 0f)).ToRotationVector2() * 30f;
+            Vector2 staffTipDirection = rotateDirection.ToRotationVector2();
+            Vector2 tipDustDirection = staffTipDirection.RotatedBy(MathHelper.PiOver2 * Projectile.spriteDirection);
 
             if (Main.rand.NextBool())
             {
-                Dust dust = Dust.NewDustDirect(value3 - new Vector2(5f), 10, 10, 244, player.velocity.X, player.velocity.Y, 150, default, 1f);
+                Dust dust = Dust.NewDustDirect(dustSpawn - new Vector2(5f), 10, 10, 244, player.velocity.X, player.velocity.Y, 150, default, 1f);
                 dust.velocity = Projectile.SafeDirectionTo(dust.position) * 0.1f + dust.velocity * 0.1f;
             }
             for (int j = 0; j < 4; j++)
@@ -105,8 +105,8 @@ namespace CalamityMod.Projectiles.Melee
                 if (Main.rand.Next(6) != 0)
                 {
                     Dust dust = Dust.NewDustDirect(Projectile.position, 0, 0, 244, 0f, 0f, 100, default, 1f);
-                    dust.position = Projectile.Center + vector2 * (60f + Main.rand.NextFloat() * 20f) * dustVelMult2;
-                    dust.velocity = value4 * (4f + 4f * Main.rand.NextFloat()) * dustVelMult2 * dustVelMult;
+                    dust.position = Projectile.Center + staffTipDirection * (60f + Main.rand.NextFloat() * 20f) * dustVelMult2;
+                    dust.velocity = tipDustDirection * (4f + 4f * Main.rand.NextFloat()) * dustVelMult2 * dustVelMult;
                     dust.noGravity = true;
                     dust.noLight = true;
                     dust.scale = 0.5f;
@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DragonRageFireball>(), Projectile.damage / 8, Projectile.knockBack / 3f, Projectile.owner);
             }
-			Main.player[Projectile.owner].Calamity().dragonRageCooldown = 60;
+            Main.player[Projectile.owner].Calamity().dragonRageCooldown = 60;
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
@@ -228,10 +228,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void CutTiles()
         {
-            float num5 = 60f;
-            float f = Projectile.rotation - MathHelper.PiOver4 * (float)Math.Sign(Projectile.velocity.X);
+            float staffRadius = 60f;
+            float spinning = Projectile.rotation - MathHelper.PiOver4 * (float)Math.Sign(Projectile.velocity.X);
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Utils.PlotTileLine(Projectile.Center + f.ToRotationVector2() * -num5, Projectile.Center + f.ToRotationVector2() * num5, (float)Projectile.width * Projectile.scale, DelegateMethods.CutTiles);
+            Utils.PlotTileLine(Projectile.Center + spinning.ToRotationVector2() * -staffRadius, Projectile.Center + spinning.ToRotationVector2() * staffRadius, (float)Projectile.width * Projectile.scale, DelegateMethods.CutTiles);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -240,10 +240,10 @@ namespace CalamityMod.Projectiles.Melee
             {
                 return true;
             }
-            float f = Projectile.rotation - MathHelper.PiOver4 * (float)Math.Sign(Projectile.velocity.X);
-            float num2 = 0f;
-            float num3 = 110f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + f.ToRotationVector2() * -num3, Projectile.Center + f.ToRotationVector2() * num3, 23f * Projectile.scale, ref num2))
+            float spinning = Projectile.rotation - MathHelper.PiOver4 * (float)Math.Sign(Projectile.velocity.X);
+            float staffRadiusHit = 110f;
+            float useless = 0f;
+            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + spinning.ToRotationVector2() * -staffRadiusHit, Projectile.Center + spinning.ToRotationVector2() * staffRadiusHit, 23f * Projectile.scale, ref useless))
             {
                 return true;
             }

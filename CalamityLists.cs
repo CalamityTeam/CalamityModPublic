@@ -713,7 +713,8 @@ namespace CalamityMod
                 "Spirit Shield",
                 "Briny_Coffee",
                 "_Skeggy_",
-                "just akkolite"
+                "just akkolite",
+                "J.U.N.E.S",
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -1496,7 +1497,9 @@ namespace CalamityMod
 
             needsDebuffIconDisplayList = new List<int>()
             {
-                NPCID.WallofFleshEye
+                NPCID.TargetDummy,
+                NPCID.WallofFleshEye,
+                NPCType<SuperDummyNPC>()
             };
 
             // TODO -- override HoldItem => Player.scope = true; on these items

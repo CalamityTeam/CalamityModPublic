@@ -57,23 +57,23 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.ai[0] += 1f;
                 if (Projectile.ai[0] == 120f)
                 {
-                    for (int num621 = 0; num621 < 8; num621++)
+                    for (int i = 0; i < 8; i++)
                     {
-                        int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 2f);
-                        Main.dust[num622].velocity *= 3f;
+                        int icyDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 2f);
+                        Main.dust[icyDust].velocity *= 3f;
                         if (Main.rand.NextBool())
                         {
-                            Main.dust[num622].scale = 0.5f;
-                            Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                            Main.dust[icyDust].scale = 0.5f;
+                            Main.dust[icyDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                         }
                     }
-                    for (int num623 = 0; num623 < 14; num623++)
+                    for (int j = 0; j < 14; j++)
                     {
-                        int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 3f);
-                        Main.dust[num624].noGravity = true;
-                        Main.dust[num624].velocity *= 5f;
-                        num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 2f);
-                        Main.dust[num624].velocity *= 2f;
+                        int icyDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 3f);
+                        Main.dust[icyDust2].noGravity = true;
+                        Main.dust[icyDust2].velocity *= 5f;
+                        icyDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 2f);
+                        Main.dust[icyDust2].velocity *= 2f;
                     }
 
                     Projectile.scale = 1f;

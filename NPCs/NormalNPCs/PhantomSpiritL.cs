@@ -64,15 +64,15 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             float speed = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 16f : CalamityWorld.revenge ? 14f : 12f;
             CalamityAI.DungeonSpiritAI(NPC, Mod, speed, -MathHelper.PiOver2);
-            int num822 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, 0f, 0f, 0, default, 1f);
-            Dust dust = Main.dust[num822];
+            int polterDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, 0f, 0f, 0, default, 1f);
+            Dust dust = Main.dust[polterDust];
             dust.velocity *= 0.1f;
             dust.scale = 1.3f;
             dust.noGravity = true;
-            Vector2 vector17 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-            float num147 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - vector17.X;
-            float num148 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - vector17.Y;
-            float num149 = (float)Math.Sqrt((double)(num147 * num147 + num148 * num148));
+            Vector2 spiritPosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float targetXDist = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - spiritPosition.X;
+            float targetYDist = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - spiritPosition.Y;
+            float targetDistance = (float)Math.Sqrt((double)(targetXDist * targetXDist + targetYDist * targetYDist));
 
             if (NPC.justHit)
                 NPC.ai[2] = 0f;
@@ -81,13 +81,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.ai[2] >= 150f)
             {
                 NPC.ai[2] = 0f;
-                float num151 = 10f;
+                float projSpeed = 10f;
                 int type = ModContent.ProjectileType<PhantomGhostShot>();
                 int damage = NPC.GetProjectileDamage(type);
-                num149 = num151 / num149;
-                num147 *= num149;
-                num148 *= num149;
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                targetDistance = projSpeed / targetDistance;
+                targetXDist *= targetDistance;
+                targetYDist *= targetDistance;
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), spiritPosition.X, spiritPosition.Y, targetXDist, targetYDist, type, damage, 0f, Main.myPlayer, 0f, 0f);
             }
         }
 
@@ -99,10 +99,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (NPC.life <= 0)
             {
-                for (int num288 = 0; num288 < 50; num288++)
+                for (int i = 0; i < 50; i++)
                 {
-                    int num289 = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, NPC.velocity.X, NPC.velocity.Y, 0, default, 1f);
-                    Dust dust = Main.dust[num289];
+                    int hitPolterDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Polterplasm, NPC.velocity.X, NPC.velocity.Y, 0, default, 1f);
+                    Dust dust = Main.dust[hitPolterDust];
                     dust.velocity *= 2f;
                     dust.noGravity = true;
                     dust.scale = 1.4f;

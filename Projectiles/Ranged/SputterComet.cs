@@ -35,10 +35,10 @@ namespace CalamityMod.Projectiles.Ranged
             Lighting.AddLight(Projectile.Center, 0.1f, 0.3f, 0.8f);
             if (Main.rand.NextBool(3))
             {
-                int num137 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), 1, 1, ModContent.DustType<AstralBlue>(), 0f, 0f, 0, default, 0.5f);
-                Main.dust[num137].alpha = Projectile.alpha;
-                Main.dust[num137].velocity *= 0f;
-                Main.dust[num137].noGravity = true;
+                int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), 1, 1, ModContent.DustType<AstralBlue>(), 0f, 0f, 0, default, 0.5f);
+                Main.dust[dust].alpha = Projectile.alpha;
+                Main.dust[dust].velocity *= 0f;
+                Main.dust[dust].noGravity = true;
             }
             if (Projectile.soundDelay == 0)
             {
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (Main.netMode != NetmodeID.Server)
             {
-                for (int num480 = 0; num480 < 3; num480++)
+                for (int i = 0; i < 3; i++)
                 {
                     Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
                 }

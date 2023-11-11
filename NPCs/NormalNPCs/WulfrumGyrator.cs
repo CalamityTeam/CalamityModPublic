@@ -2,6 +2,7 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Sounds;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -91,7 +92,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            NPC.TargetClosest(false);
+            NPC.TargetClosest(Main.zenithWorld ? true : false);
 
             Player player = Main.player[NPC.target];
 
@@ -129,6 +130,22 @@ namespace CalamityMod.NPCs.NormalNPCs
                     NPC.direction = direction;
                     NPC.netSpam = 0;
                     NPC.netUpdate = true;
+                }
+                //GOTTA GO FAST (Legendary only)
+                if (CalamityWorld.LegendaryMode)
+                {
+                    NPC.velocity *= 1.01f;
+                    //Overcharged
+                    if (Supercharged && Main.rand.NextBool(3))
+                    {
+                        int spark = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.UnitX * 6f * NPC.spriteDirection, Vector2.Zero, ModContent.ProjectileType<EGloveSpark>(), 10, 0f);
+                        if (spark.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[spark].friendly = false;
+                            Main.projectile[spark].hostile = true;
+                            Main.projectile[spark].timeLeft = 60;
+                        }
+                    }
                 }
             }
             else if (Main.netMode != NetmodeID.MultiplayerClient && NPC.collideX && NPC.collideY && NPC.velocity.Y == 0f)
@@ -179,10 +196,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur || !spawnInfo.Player.ZoneOverworldHeight)
+            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur || (!spawnInfo.Player.ZoneOverworldHeight && !Main.remixWorld) || (!spawnInfo.Player.ZoneNormalCaverns && spawnInfo.Player.ZoneGlowshroom && Main.remixWorld))
                 return 0f;
 
-            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.020f : 0.115f) * (NPC.AnyNPCs(ModContent.NPCType<WulfrumAmplifier>()) ? 5.5f : 1f);
+            return (Main.remixWorld ? SpawnCondition.Cavern.Chance : SpawnCondition.OverworldDaySlime.Chance) * (Main.hardMode ? 0.010f : 0.135f) * (NPC.AnyNPCs(ModContent.NPCType<WulfrumAmplifier>()) ? 5.5f : 1f);
         }
 
         public override void HitEffect(NPC.HitInfo hit)

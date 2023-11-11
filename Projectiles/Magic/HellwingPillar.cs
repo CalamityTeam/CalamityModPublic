@@ -58,11 +58,10 @@ namespace CalamityMod.Projectiles.Magic
                     scalar = 0.75f;
                 }
                 Projectile.ai[0] += 1f;
-                int num297 = 127;
                 if (Main.rand.NextBool(3))
                 {
-                    int num299 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, num297, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
-                    Dust dust = Main.dust[num299];
+                    int flareDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 127, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
+                    Dust dust = Main.dust[flareDust];
                     if (Main.rand.NextBool(3))
                     {
                         dust.noGravity = true;

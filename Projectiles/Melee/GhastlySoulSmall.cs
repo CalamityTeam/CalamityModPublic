@@ -44,22 +44,21 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Projectile.frame = 0;
             }
-            int num822 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 173, 0f, 0f, 0, default, 1f);
-            Dust dust = Main.dust[num822];
+            int ghostlyDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 173, 0f, 0f, 0, default, 1f);
+            Dust dust = Main.dust[ghostlyDust];
             dust.velocity *= 0.1f;
-            Main.dust[num822].scale = 1.3f;
-            Main.dust[num822].noGravity = true;
-            float num953 = 40f * Projectile.ai[1]; //100
-            float scaleFactor12 = 8f * Projectile.ai[1]; //5
-            float num954 = 900f;
+            Main.dust[ghostlyDust].scale = 1.3f;
+            Main.dust[ghostlyDust].noGravity = true;
+            float projVelocityFactor = 40f * Projectile.ai[1]; //100
+            float scaleFactor = 8f * Projectile.ai[1]; //5
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) - 1.57f;
             Lighting.AddLight(Projectile.Center, 0.5f, 0.2f, 0.9f);
             if (Main.player[Projectile.owner].active && !Main.player[Projectile.owner].dead)
             {
-                if (Projectile.Distance(Main.player[Projectile.owner].Center) > num954)
+                if (Projectile.Distance(Main.player[Projectile.owner].Center) > 900f)
                 {
                     Vector2 moveDirection = Projectile.SafeDirectionTo(Main.player[Projectile.owner].Center, Vector2.UnitY);
-                    Projectile.velocity = (Projectile.velocity * (num953 - 1f) + moveDirection * scaleFactor12) / num953;
+                    Projectile.velocity = (Projectile.velocity * (projVelocityFactor - 1f) + moveDirection * scaleFactor) / projVelocityFactor;
                     return;
                 }
 
@@ -111,16 +110,16 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
             SoundEngine.PlaySound(SoulEdge.ProjectileDeathSound, Projectile.Center);
-            int num226 = 36;
-            for (int num227 = 0; num227 < num226; num227++)
+            int dustAmt = 36;
+            for (int i = 0; i < dustAmt; i++)
             {
-                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                Vector2 vector7 = vector6 - Projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 173, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 2f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                Vector2 rotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                rotate = rotate.RotatedBy((double)((float)(i - (dustAmt / 2 - 1)) * 6.28318548f / (float)dustAmt), default) + Projectile.Center;
+                Vector2 faceDirection = rotate - Projectile.Center;
+                int killedDust = Dust.NewDust(rotate + faceDirection, 0, 0, 173, faceDirection.X * 1.5f, faceDirection.Y * 1.5f, 100, default, 2f);
+                Main.dust[killedDust].noGravity = true;
+                Main.dust[killedDust].noLight = true;
+                Main.dust[killedDust].velocity = faceDirection;
             }
         }
     }

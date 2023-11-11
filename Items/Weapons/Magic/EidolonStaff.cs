@@ -41,35 +41,35 @@ namespace CalamityMod.Items.Weapons.Magic
         
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num72 = Item.shootSpeed;
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float projSpeed = Item.shootSpeed;
+            float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+            float mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
+            float mouseDistance = (float)Math.Sqrt((double)(mouseXDist * mouseXDist + mouseYDist * mouseYDist));
             int stardustAmt = 5;
-            float num132 = num78;
-            float num133 = num79;
-            num80 = (float)Math.Sqrt((double)(num132 * num132 + num133 * num133));
-            num80 = num72 / num80;
-            num132 *= num80;
-            num133 *= num80;
-            float x2 = vector2.X;
-            float y2 = vector2.Y;
-            Projectile.NewProjectile(source, x2, y2, num132, num133, ModContent.ProjectileType<IceCluster>(), damage, knockback, player.whoAmI);
+            float mouseXCopy = mouseXDist;
+            float mouseYCopy = mouseYDist;
+            mouseDistance = (float)Math.Sqrt((double)(mouseXCopy * mouseXCopy + mouseYCopy * mouseYCopy));
+            mouseDistance = projSpeed / mouseDistance;
+            mouseXCopy *= mouseDistance;
+            mouseYCopy *= mouseDistance;
+            float x2 = realPlayerPos.X;
+            float y2 = realPlayerPos.Y;
+            Projectile.NewProjectile(source, x2, y2, mouseXCopy, mouseYCopy, ModContent.ProjectileType<IceCluster>(), damage, knockback, player.whoAmI);
             for (int i = 0; i < stardustAmt; i++)
             {
-                num132 = num78;
-                num133 = num79;
-                float num134 = 0.05f * (float)i;
-                num132 += (float)Main.rand.Next(-90, 91) * num134;
-                num133 += (float)Main.rand.Next(-90, 91) * num134;
-                num80 = (float)Math.Sqrt((double)(num132 * num132 + num133 * num133));
-                num80 = num72 / num80;
-                num132 *= num80;
-                num133 *= num80;
-                x2 = vector2.X;
-                y2 = vector2.Y;
-                Projectile.NewProjectile(source, x2, y2, num132, num133, ModContent.ProjectileType<Starblast>(), damage, knockback, player.whoAmI);
+                mouseXCopy = mouseXDist;
+                mouseYCopy = mouseYDist;
+                float randOffsetDampener = 0.05f * (float)i;
+                mouseXCopy += (float)Main.rand.Next(-90, 91) * randOffsetDampener;
+                mouseYCopy += (float)Main.rand.Next(-90, 91) * randOffsetDampener;
+                mouseDistance = (float)Math.Sqrt((double)(mouseXCopy * mouseXCopy + mouseYCopy * mouseYCopy));
+                mouseDistance = projSpeed / mouseDistance;
+                mouseXCopy *= mouseDistance;
+                mouseYCopy *= mouseDistance;
+                x2 = realPlayerPos.X;
+                y2 = realPlayerPos.Y;
+                Projectile.NewProjectile(source, x2, y2, mouseXCopy, mouseYCopy, ModContent.ProjectileType<Starblast>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

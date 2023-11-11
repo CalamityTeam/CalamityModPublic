@@ -44,47 +44,46 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
+                    int dusty = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
+                    Main.dust[dusty].noGravity = true;
+                    Main.dust[dusty].velocity *= 0f;
                 }
                 for (int i = 0; i < 5; i++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
+                    int dusty = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
+                    Main.dust[dusty].noGravity = true;
+                    Main.dust[dusty].velocity *= 0f;
                 }
             }
 
             if (Projectile.Calamity().stealthStrike)
             {
-                float num472 = Projectile.Center.X;
-                float num473 = Projectile.Center.Y;
-                float num474 = 600f;
-                for (int num475 = 0; num475 < Main.maxNPCs; num475++)
+                float projX = Projectile.Center.X;
+                float projY = Projectile.Center.Y;
+                for (int j = 0; j < Main.maxNPCs; j++)
                 {
-                    if (Main.npc[num475].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
+                    if (Main.npc[j].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[j].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
                     {
-                        float npcCenterX = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-                        float npcCenterY = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
-                        float num478 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcCenterX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcCenterY);
-                        if (num478 < num474)
+                        float npcCenterX = Main.npc[j].position.X + (float)(Main.npc[j].width / 2);
+                        float npcCenterY = Main.npc[j].position.Y + (float)(Main.npc[j].height / 2);
+                        float targetDist = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcCenterX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcCenterY);
+                        if (targetDist < 600f)
                         {
-                            if (Main.npc[num475].position.X < num472)
+                            if (Main.npc[j].position.X < projX)
                             {
-                                Main.npc[num475].velocity.X += 0.25f;
+                                Main.npc[j].velocity.X += 0.25f;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.X -= 0.25f;
+                                Main.npc[j].velocity.X -= 0.25f;
                             }
-                            if (Main.npc[num475].position.Y < num473)
+                            if (Main.npc[j].position.Y < projY)
                             {
-                                Main.npc[num475].velocity.Y += 0.25f;
+                                Main.npc[j].velocity.Y += 0.25f;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.Y -= 0.25f;
+                                Main.npc[j].velocity.Y -= 0.25f;
                             }
                         }
                     }

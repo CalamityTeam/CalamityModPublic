@@ -48,7 +48,6 @@ namespace CalamityMod.Projectiles.Melee
 
             float inertia = 50f * Projectile.ai[1]; //100
             float speed = 10f * Projectile.ai[1]; //5
-            float num954 = 40f;
             if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
                 Projectile.spriteDirection = -Projectile.direction;
@@ -59,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
             if (player.active && !player.dead)
             {
-                if (Projectile.Distance(player.Center) > num954)
+                if (Projectile.Distance(player.Center) > 40f)
                 {
                     Vector2 moveDirection = Projectile.SafeDirectionTo(player.Center, Vector2.UnitY);
                     Projectile.velocity = (Projectile.velocity * (inertia - 1f) + moveDirection * speed) / inertia;
@@ -77,12 +76,12 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
+            int framing = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
+            int y6 = framing * Projectile.frame;
             Main.spriteBatch.Draw(texture2D13,
                 Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY),
-                new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)),
-                Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+                new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, framing)),
+                Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)framing / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -98,18 +97,18 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.width = Projectile.height = 64;
             Projectile.position.X -= (float)(Projectile.width / 2);
             Projectile.position.Y -= (float)(Projectile.height / 2);
-            for (int num193 = 0; num193 < 2; num193++)
+            for (int i = 0; i < 2; i++)
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 33, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
             }
-            for (int num194 = 0; num194 < 6; num194++)
+            for (int j = 0; j < 6; j++)
             {
-                int num195 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 186, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 186, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int bubblyDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 186, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
+                Main.dust[bubblyDust].noGravity = true;
+                Main.dust[bubblyDust].velocity *= 3f;
+                bubblyDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 186, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                Main.dust[bubblyDust].velocity *= 2f;
+                Main.dust[bubblyDust].noGravity = true;
             }
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;

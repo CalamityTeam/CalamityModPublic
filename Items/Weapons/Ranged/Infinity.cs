@@ -57,12 +57,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                //If you right click, shoots an helix of normal bullets
-                Vector2 num7 = velocity.RotatedBy(MathHelper.ToRadians(rotation));
-                Vector2 num8 = velocity.RotatedBy(MathHelper.ToRadians(-rotation));
-                int shot1 = Projectile.NewProjectile(source, position.X, position.Y, num7.X, num7.Y, type, damage, knockback, player.whoAmI, 0f, 0f);
+                //If you right click, shoots a helix of normal bullets
+                Vector2 helixVel1 = velocity.RotatedBy(MathHelper.ToRadians(rotation));
+                Vector2 helixVel2 = velocity.RotatedBy(MathHelper.ToRadians(-rotation));
+                int shot1 = Projectile.NewProjectile(source, position.X, position.Y, helixVel1.X, helixVel1.Y, type, damage, knockback, player.whoAmI, 0f, 0f);
                 Main.projectile[shot1].timeLeft = 180;
-                int shot2 = Projectile.NewProjectile(source, position.X, position.Y, num8.X, num8.Y, type, damage, knockback, player.whoAmI, 0f, 0f);
+                int shot2 = Projectile.NewProjectile(source, position.X, position.Y, helixVel2.X, helixVel2.Y, type, damage, knockback, player.whoAmI, 0f, 0f);
                 Main.projectile[shot2].timeLeft = 180;
                 //Code to constantly make the shooting go side to side to make the helix
                 if (limit)
@@ -86,11 +86,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             else
             {
                 //If left click, do the same as above but spawn Charged Blasts instead
-                Vector2 num7 = velocity.RotatedBy(MathHelper.ToRadians(rotation));
-                Vector2 num8 = velocity.RotatedBy(MathHelper.ToRadians(-rotation));
-                int shot1 = Projectile.NewProjectile(source, position.X, position.Y, num7.X, num7.Y, ModContent.ProjectileType<ChargedBlast>(), damage, knockback, player.whoAmI, 0f, 0f);
+                Vector2 helixVel1 = velocity.RotatedBy(MathHelper.ToRadians(rotation));
+                Vector2 helixVel2 = velocity.RotatedBy(MathHelper.ToRadians(-rotation));
+                int shot1 = Projectile.NewProjectile(source, position.X, position.Y, helixVel1.X, helixVel1.Y, ModContent.ProjectileType<ChargedBlast>(), damage, knockback, player.whoAmI, 0f, 0f);
                 Main.projectile[shot1].timeLeft = 180;
-                int shot2 = Projectile.NewProjectile(source, position.X, position.Y, num8.X, num8.Y, ModContent.ProjectileType<ChargedBlast>(), damage, knockback, player.whoAmI, 0f, 0f);
+                int shot2 = Projectile.NewProjectile(source, position.X, position.Y, helixVel2.X, helixVel2.Y, ModContent.ProjectileType<ChargedBlast>(), damage, knockback, player.whoAmI, 0f, 0f);
                 Main.projectile[shot2].timeLeft = 180;
                 if (limit)
                 {

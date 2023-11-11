@@ -66,55 +66,54 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
                     Projectile.active = false;
-                    for (int num621 = 0; num621 < 8; num621++)
+                    for (int j = 0; j < 8; j++)
                     {
-                        int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 2f);
-                        Main.dust[num622].velocity *= 3f;
+                        int dusty = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 2f);
+                        Main.dust[dusty].velocity *= 3f;
                         if (Main.rand.NextBool())
                         {
-                            Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                            Main.dust[dusty].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                         }
                     }
-                    for (int num623 = 0; num623 < 16; num623++)
+                    for (int k = 0; k < 16; k++)
                     {
-                        int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 3f);
-                        Main.dust[num624].noGravity = true;
-                        Main.dust[num624].velocity *= 5f;
-                        num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 2f);
-                        Main.dust[num624].velocity *= 2f;
+                        int dusty2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 3f);
+                        Main.dust[dusty2].noGravity = true;
+                        Main.dust[dusty2].velocity *= 5f;
+                        dusty2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 2f);
+                        Main.dust[dusty2].velocity *= 2f;
                     }
                 }
             }
 
             if (Projectile.Calamity().stealthStrike)
             {
-                float num472 = Projectile.Center.X;
-                float num473 = Projectile.Center.Y;
-                float num474 = 600f;
-                for (int num475 = 0; num475 < Main.maxNPCs; num475++)
+                float projX = Projectile.Center.X;
+                float projY = Projectile.Center.Y;
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[num475].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
+                    if (Main.npc[i].CanBeChasedBy(Projectile, false) && Collision.CanHit(Projectile.Center, 1, 1, Main.npc[i].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
                     {
-                        float npcCenterX = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-                        float npcCenterY = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
-                        float num478 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcCenterX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcCenterY);
-                        if (num478 < num474)
+                        float npcCenterX = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
+                        float npcCenterY = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
+                        float targetDist = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcCenterX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcCenterY);
+                        if (targetDist < 600f)
                         {
-                            if (Main.npc[num475].position.X < num472)
+                            if (Main.npc[i].position.X < projX)
                             {
-                                Main.npc[num475].velocity.X += 0.25f;
+                                Main.npc[i].velocity.X += 0.25f;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.X -= 0.25f;
+                                Main.npc[i].velocity.X -= 0.25f;
                             }
-                            if (Main.npc[num475].position.Y < num473)
+                            if (Main.npc[i].position.Y < projY)
                             {
-                                Main.npc[num475].velocity.Y += 0.25f;
+                                Main.npc[i].velocity.Y += 0.25f;
                             }
                             else
                             {
-                                Main.npc[num475].velocity.Y -= 0.25f;
+                                Main.npc[i].velocity.Y -= 0.25f;
                             }
                         }
                     }

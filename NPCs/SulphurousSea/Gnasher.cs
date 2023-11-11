@@ -56,43 +56,43 @@ namespace CalamityMod.NPCs.SulphurousSea
         public override void AI()
         {
             NPC.spriteDirection = (NPC.direction > 0) ? -1 : 1;
-            float num79 = (Main.player[NPC.target].Center - NPC.Center).Length();
-            num79 *= 0.0025f;
-            if ((double)num79 > 1.5)
+            float targetDist = (Main.player[NPC.target].Center - NPC.Center).Length();
+            targetDist *= 0.0025f;
+            if ((double)targetDist > 1.5)
             {
-                num79 = 1.5f;
+                targetDist = 1.5f;
             }
-            float num78;
+            float maxVelocity;
             if (Main.expertMode)
             {
-                num78 = 2.5f - num79;
+                maxVelocity = 2.5f - targetDist;
             }
             else
             {
-                num78 = 2.25f - num79;
+                maxVelocity = 2.25f - targetDist;
             }
-            num78 *= (CalamityWorld.death ? 1.2f : CalamityWorld.revenge ? 1f : 0.8f);
-            if (NPC.velocity.X < -num78 || NPC.velocity.X > num78)
+            maxVelocity *= (CalamityWorld.death ? 1.2f : CalamityWorld.revenge ? 1f : 0.8f);
+            if (NPC.velocity.X < -maxVelocity || NPC.velocity.X > maxVelocity)
             {
                 if (NPC.velocity.Y == 0f)
                 {
                     NPC.velocity *= 0.8f;
                 }
             }
-            else if (NPC.velocity.X < num78 && NPC.direction == 1)
+            else if (NPC.velocity.X < maxVelocity && NPC.direction == 1)
             {
                 NPC.velocity.X = NPC.velocity.X + 1f;
-                if (NPC.velocity.X > num78)
+                if (NPC.velocity.X > maxVelocity)
                 {
-                    NPC.velocity.X = num78;
+                    NPC.velocity.X = maxVelocity;
                 }
             }
-            else if (NPC.velocity.X > -num78 && NPC.direction == -1)
+            else if (NPC.velocity.X > -maxVelocity && NPC.direction == -1)
             {
                 NPC.velocity.X = NPC.velocity.X - 1f;
-                if (NPC.velocity.X < -num78)
+                if (NPC.velocity.X < -maxVelocity)
                 {
-                    NPC.velocity.X = -num78;
+                    NPC.velocity.X = -maxVelocity;
                 }
             }
         }

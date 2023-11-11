@@ -54,28 +54,28 @@ namespace CalamityMod.World
             GenVars.numDRooms = 0;
             GenVars.numDDoors = 0;
             GenVars.numDungeonPlatforms = 0;
-            int num = WorldGen.genRand.Next(3);
+            int dungeonColor = WorldGen.genRand.Next(3);
             WorldGen.genRand.Next(3);
             if (WorldGen.remixWorldGen)
-                num = (WorldGen.crimson ? 2 : 0);
+                dungeonColor = (WorldGen.crimson ? 2 : 0);
 
-            ushort num2;
-            int num3;
-            switch (num)
+            ushort brickType;
+            int wallType;
+            switch (dungeonColor)
             {
                 case 0:
-                    num2 = 41;
-                    num3 = 7;
+                    brickType = 41;
+                    wallType = 7;
                     GenVars.crackedType = 481;
                     break;
                 case 1:
-                    num2 = 43;
-                    num3 = 8;
+                    brickType = 43;
+                    wallType = 8;
                     GenVars.crackedType = 482;
                     break;
                 default:
-                    num2 = 44;
-                    num3 = 9;
+                    brickType = 44;
+                    wallType = 9;
                     GenVars.crackedType = 483;
                     break;
             }
@@ -107,7 +107,7 @@ namespace CalamityMod.World
             num4 += (double)WorldGen.genRand.Next(0, (int)(num4 / 3.0));
             double num5 = num4;
             int num6 = 5;
-            WorldGen.DungeonRoom(GenVars.dungeonX, GenVars.dungeonY, num2, num3);
+            WorldGen.DungeonRoom(GenVars.dungeonX, GenVars.dungeonY, brickType, wallType);
             while (num4 > 0.0)
             {
                 if (GenVars.dungeonX < GenVars.dMinX)
@@ -131,26 +131,26 @@ namespace CalamityMod.World
                     {
                         int dungeonX = GenVars.dungeonX;
                         int dungeonY = GenVars.dungeonY;
-                        GenNewDungeonHalls(GenVars.dungeonX, GenVars.dungeonY, num2, num3);
+                        GenNewDungeonHalls(GenVars.dungeonX, GenVars.dungeonY, brickType, wallType);
                         if (WorldGen.genRand.NextBool())
-                            GenNewDungeonHalls(GenVars.dungeonX, GenVars.dungeonY, num2, num3);
+                            GenNewDungeonHalls(GenVars.dungeonX, GenVars.dungeonY, brickType, wallType);
 
-                        WorldGen.DungeonRoom(GenVars.dungeonX, GenVars.dungeonY, num2, num3);
+                        WorldGen.DungeonRoom(GenVars.dungeonX, GenVars.dungeonY, brickType, wallType);
                         GenVars.dungeonX = dungeonX;
                         GenVars.dungeonY = dungeonY;
                     }
                     else
                     {
-                        WorldGen.DungeonRoom(GenVars.dungeonX, GenVars.dungeonY, num2, num3);
+                        WorldGen.DungeonRoom(GenVars.dungeonX, GenVars.dungeonY, brickType, wallType);
                     }
                 }
                 else
                 {
-                    WorldGen.DungeonHalls(GenVars.dungeonX, GenVars.dungeonY, num2, num3);
+                    WorldGen.DungeonHalls(GenVars.dungeonX, GenVars.dungeonY, brickType, wallType);
                 }
             }
 
-            WorldGen.DungeonRoom(GenVars.dungeonX, GenVars.dungeonY, num2, num3);
+            WorldGen.DungeonRoom(GenVars.dungeonX, GenVars.dungeonY, brickType, wallType);
             int num7 = GenVars.dRoomX[0];
             int num8 = GenVars.dRoomY[0];
             for (int i = 0; i < GenVars.numDRooms; i++)
@@ -180,16 +180,16 @@ namespace CalamityMod.World
                     num6 = 10;
                     int dungeonX2 = GenVars.dungeonX;
                     int dungeonY2 = GenVars.dungeonY;
-                    GenNewDungeonHalls(GenVars.dungeonX, GenVars.dungeonY, num2, num3, forceX: true);
-                    WorldGen.DungeonRoom(GenVars.dungeonX, GenVars.dungeonY, num2, num3);
+                    GenNewDungeonHalls(GenVars.dungeonX, GenVars.dungeonY, brickType, wallType, forceX: true);
+                    WorldGen.DungeonRoom(GenVars.dungeonX, GenVars.dungeonY, brickType, wallType);
                     GenVars.dungeonX = dungeonX2;
                     GenVars.dungeonY = dungeonY2;
                 }
 
-                WorldGen.DungeonStairs(GenVars.dungeonX, GenVars.dungeonY, num2, num3);
+                WorldGen.DungeonStairs(GenVars.dungeonX, GenVars.dungeonY, brickType, wallType);
             }
 
-            WorldGen.DungeonEnt(GenVars.dungeonX, GenVars.dungeonY, num2, num3);
+            WorldGen.DungeonEnt(GenVars.dungeonX, GenVars.dungeonY, brickType, wallType);
             Main.statusText = Lang.gen[58].Value + " 65%";
             int num9 = Main.maxTilesX * 2;
             int num10;
@@ -201,7 +201,7 @@ namespace CalamityMod.World
                     num11 = (int)Main.worldSurface;
 
                 int j = WorldGen.genRand.Next(num11, GenVars.dMaxY);
-                num10 = ((!WorldGen.DungeonPitTrap(i2, j, num2, num3)) ? (num10 + 1) : (num10 + 1500));
+                num10 = ((!WorldGen.DungeonPitTrap(i2, j, brickType, wallType)) ? (num10 + 1) : (num10 + 1500));
             }
 
             for (int k = 0; k < GenVars.numDRooms; k++)
@@ -272,7 +272,7 @@ namespace CalamityMod.World
                     num18 = WorldGen.genRand.Next(GenVars.dungeonY + 25, GenVars.dMaxY);
 
                 int num19 = num17;
-                if (Main.tile[num17, num18].WallType == num3 && !Main.tile[num17, num18].Get<TileWallWireStateData>().HasTile)
+                if (Main.tile[num17, num18].WallType == wallType && !Main.tile[num17, num18].Get<TileWallWireStateData>().HasTile)
                 {
                     int num20 = 1;
                     if (WorldGen.genRand.NextBool())
@@ -341,7 +341,7 @@ namespace CalamityMod.World
                 int num22 = WorldGen.genRand.Next(GenVars.dMinX, GenVars.dMaxX);
                 int num23 = WorldGen.genRand.Next((int)Main.worldSurface + 25, GenVars.dMaxY);
                 int num24 = num23;
-                if (Main.tile[num22, num23].WallType == num3 && !Main.tile[num22, num23].Get<TileWallWireStateData>().HasTile)
+                if (Main.tile[num22, num23].WallType == wallType && !Main.tile[num22, num23].Get<TileWallWireStateData>().HasTile)
                 {
                     int num25 = 1;
                     if (WorldGen.genRand.NextBool())
@@ -506,40 +506,40 @@ namespace CalamityMod.World
                 {
                     Main.tile[num44, num47].Clear(TileDataType.Slope);
                     Main.tile[num44, num47].Get<TileWallWireStateData>().HasTile = true;
-                    Main.tile[num44, num47].TileType = num2;
-                    if (Main.tile[num44 - 1, num47].TileType == num2)
+                    Main.tile[num44, num47].TileType = brickType;
+                    if (Main.tile[num44 - 1, num47].TileType == brickType)
                     {
                         Main.tile[num44 - 1, num47].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[num44 - 1, num47].ClearEverything();
-                        Main.tile[num44 - 1, num47].WallType = (ushort)num3;
+                        Main.tile[num44 - 1, num47].WallType = (ushort)wallType;
                     }
 
-                    if (Main.tile[num44 - 2, num47].TileType == num2)
+                    if (Main.tile[num44 - 2, num47].TileType == brickType)
                     {
                         Main.tile[num44 - 2, num47].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[num44 - 2, num47].ClearEverything();
-                        Main.tile[num44 - 2, num47].WallType = (ushort)num3;
+                        Main.tile[num44 - 2, num47].WallType = (ushort)wallType;
                     }
 
-                    if (Main.tile[num44 + 1, num47].TileType == num2)
+                    if (Main.tile[num44 + 1, num47].TileType == brickType)
                     {
                         Main.tile[num44 + 1, num47].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[num44 + 1, num47].ClearEverything();
-                        Main.tile[num44 + 1, num47].WallType = (ushort)num3;
+                        Main.tile[num44 + 1, num47].WallType = (ushort)wallType;
                     }
 
-                    if (Main.tile[num44 + 2, num47].TileType == num2)
+                    if (Main.tile[num44 + 2, num47].TileType == brickType)
                     {
                         Main.tile[num44 + 2, num47].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[num44 + 2, num47].ClearEverything();
-                        Main.tile[num44 + 2, num47].WallType = (ushort)num3;
+                        Main.tile[num44 + 2, num47].WallType = (ushort)wallType;
                     }
                 }
 
                 int style = 13;
                 if (WorldGen.genRand.NextBool(3))
                 {
-                    switch (num3)
+                    switch (wallType)
                     {
                         case 7:
                             style = 16;
@@ -567,19 +567,19 @@ namespace CalamityMod.World
                     {
                         Main.tile[num44, num49].Clear(TileDataType.Slope);
                         Main.tile[num44, num49].Get<TileWallWireStateData>().HasTile = true;
-                        Main.tile[num44, num49].TileType = num2;
-                        if (Main.tile[num44 - 1, num49].TileType == num2)
+                        Main.tile[num44, num49].TileType = brickType;
+                        if (Main.tile[num44 - 1, num49].TileType == brickType)
                         {
                             Main.tile[num44 - 1, num49].Get<TileWallWireStateData>().HasTile = false;
                             Main.tile[num44 - 1, num49].ClearEverything();
-                            Main.tile[num44 - 1, num49].WallType = (ushort)num3;
+                            Main.tile[num44 - 1, num49].WallType = (ushort)wallType;
                         }
 
-                        if (Main.tile[num44 - 2, num49].TileType == num2)
+                        if (Main.tile[num44 - 2, num49].TileType == brickType)
                         {
                             Main.tile[num44 - 2, num49].Get<TileWallWireStateData>().HasTile = false;
                             Main.tile[num44 - 2, num49].ClearEverything();
-                            Main.tile[num44 - 2, num49].WallType = (ushort)num3;
+                            Main.tile[num44 - 2, num49].WallType = (ushort)wallType;
                         }
                     }
                 }
@@ -597,19 +597,19 @@ namespace CalamityMod.World
                     {
                         Main.tile[num44, num50].Get<TileWallWireStateData>().HasTile = true;
                         Main.tile[num44, num50].Clear(TileDataType.Slope);
-                        Main.tile[num44, num50].TileType = num2;
-                        if (Main.tile[num44 + 1, num50].TileType == num2)
+                        Main.tile[num44, num50].TileType = brickType;
+                        if (Main.tile[num44 + 1, num50].TileType == brickType)
                         {
                             Main.tile[num44 + 1, num50].Get<TileWallWireStateData>().HasTile = false;
                             Main.tile[num44 + 1, num50].ClearEverything();
-                            Main.tile[num44 + 1, num50].WallType = (ushort)num3;
+                            Main.tile[num44 + 1, num50].WallType = (ushort)wallType;
                         }
 
-                        if (Main.tile[num44 + 2, num50].TileType == num2)
+                        if (Main.tile[num44 + 2, num50].TileType == brickType)
                         {
                             Main.tile[num44 + 2, num50].Get<TileWallWireStateData>().HasTile = false;
                             Main.tile[num44 + 2, num50].ClearEverything();
-                            Main.tile[num44 + 2, num50].WallType = (ushort)num3;
+                            Main.tile[num44 + 2, num50].WallType = (ushort)wallType;
                         }
                     }
                 }
@@ -618,45 +618,45 @@ namespace CalamityMod.World
                 num44--;
                 for (int num51 = num45 - 8; num51 < num45; num51++)
                 {
-                    if (Main.tile[num44 + 2, num51].TileType == num2)
+                    if (Main.tile[num44 + 2, num51].TileType == brickType)
                     {
                         Main.tile[num44 + 2, num51].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[num44 + 2, num51].ClearEverything();
-                        Main.tile[num44 + 2, num51].WallType = (ushort)num3;
+                        Main.tile[num44 + 2, num51].WallType = (ushort)wallType;
                     }
 
-                    if (Main.tile[num44 + 3, num51].TileType == num2)
+                    if (Main.tile[num44 + 3, num51].TileType == brickType)
                     {
                         Main.tile[num44 + 3, num51].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[num44 + 3, num51].ClearEverything();
-                        Main.tile[num44 + 3, num51].WallType = (ushort)num3;
+                        Main.tile[num44 + 3, num51].WallType = (ushort)wallType;
                     }
 
-                    if (Main.tile[num44 - 2, num51].TileType == num2)
+                    if (Main.tile[num44 - 2, num51].TileType == brickType)
                     {
                         Main.tile[num44 - 2, num51].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[num44 - 2, num51].ClearEverything();
-                        Main.tile[num44 - 2, num51].WallType = (ushort)num3;
+                        Main.tile[num44 - 2, num51].WallType = (ushort)wallType;
                     }
 
-                    if (Main.tile[num44 - 3, num51].TileType == num2)
+                    if (Main.tile[num44 - 3, num51].TileType == brickType)
                     {
                         Main.tile[num44 - 3, num51].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[num44 - 3, num51].ClearEverything();
-                        Main.tile[num44 - 3, num51].WallType = (ushort)num3;
+                        Main.tile[num44 - 3, num51].WallType = (ushort)wallType;
                     }
                 }
 
                 Main.tile[num44 - 1, num45].Get<TileWallWireStateData>().HasTile = true;
-                Main.tile[num44 - 1, num45].TileType = num2;
+                Main.tile[num44 - 1, num45].TileType = brickType;
                 Main.tile[num44 - 1, num45].Clear(TileDataType.Slope);
                 Main.tile[num44 + 1, num45].Get<TileWallWireStateData>().HasTile = true;
-                Main.tile[num44 + 1, num45].TileType = num2;
+                Main.tile[num44 + 1, num45].TileType = brickType;
                 Main.tile[num44 + 1, num45].Clear(TileDataType.Slope);
             }
 
             int[] array = new int[3];
-            switch (num3)
+            switch (wallType)
             {
                 case 7:
                     array[0] = 7;
@@ -787,7 +787,7 @@ namespace CalamityMod.World
                     Main.tile[num76, num77].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[num76, num77].TileType = 19;
                     Main.tile[num76, num77].Clear(TileDataType.Slope);
-                    switch (num3)
+                    switch (wallType)
                     {
                         case 7:
                             Main.tile[num76, num77].TileFrameY = 108;
@@ -809,7 +809,7 @@ namespace CalamityMod.World
                     Main.tile[num78, num77].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[num78, num77].TileType = 19;
                     Main.tile[num78, num77].Clear(TileDataType.Slope);
-                    switch (num3)
+                    switch (wallType)
                     {
                         case 7:
                             Main.tile[num78, num77].TileFrameY = 108;
@@ -1115,12 +1115,12 @@ namespace CalamityMod.World
             num13 = 0;
             num14 = 1000;
             num15 = 0;
-            MakeDungeon_Lights(num2, ref num13, num14, ref num15, array);
+            MakeDungeon_Lights(brickType, ref num13, num14, ref num15, array);
             num13 = 0;
             num14 = 1000;
             num15 = 0;
             MakeDungeon_Traps(ref num13, num14, ref num15);
-            double count = MakeDungeon_GroundFurniture(num3);
+            double count = MakeDungeon_GroundFurniture(wallType);
             count = MakeDungeon_Pictures(array, count);
             count = MakeDungeon_Banners(array, count);
 
@@ -1164,13 +1164,13 @@ namespace CalamityMod.World
             {
                 failCount++;
                 int num = WorldGen.genRand.Next(GenVars.dMinX, GenVars.dMaxX);
-                int num2 = WorldGen.genRand.Next(GenVars.dMinY, GenVars.dMaxY);
-                while ((double)num2 < Main.worldSurface)
+                int brickType = WorldGen.genRand.Next(GenVars.dMinY, GenVars.dMaxY);
+                while ((double)brickType < Main.worldSurface)
                 {
-                    num2 = WorldGen.genRand.Next(GenVars.dMinY, GenVars.dMaxY);
+                    brickType = WorldGen.genRand.Next(GenVars.dMinY, GenVars.dMaxY);
                 }
 
-                if (Main.wallDungeon[Main.tile[num, num2].WallType] && WorldGen.placeTrap(num, num2, 0))
+                if (Main.wallDungeon[Main.tile[num, brickType].WallType] && WorldGen.placeTrap(num, brickType, 0))
                     failCount = failMax;
 
                 if (failCount > failMax)
@@ -1205,17 +1205,17 @@ namespace CalamityMod.World
             {
                 failCount++;
                 int num = WorldGen.genRand.Next(GenVars.dMinX, GenVars.dMaxX);
-                int num2 = WorldGen.genRand.Next(GenVars.dMinY, GenVars.dMaxY);
-                if (Main.wallDungeon[Main.tile[num, num2].WallType])
+                int brickType = WorldGen.genRand.Next(GenVars.dMinY, GenVars.dMaxY);
+                if (Main.wallDungeon[Main.tile[num, brickType].WallType])
                 {
-                    for (int num3 = num2; num3 > GenVars.dMinY; num3--)
+                    for (int wallType = brickType; wallType > GenVars.dMinY; wallType--)
                     {
-                        if (Main.tile[num, num3 - 1].HasTile && Main.tile[num, num3 - 1].TileType == tileType)
+                        if (Main.tile[num, wallType - 1].HasTile && Main.tile[num, wallType - 1].TileType == tileType)
                         {
                             bool flag = false;
                             for (int i = num - 15; i < num + 15; i++)
                             {
-                                for (int j = num3 - 15; j < num3 + 15; j++)
+                                for (int j = wallType - 15; j < wallType + 15; j++)
                                 {
                                     if (i > 0 && i < Main.maxTilesX && j > 0 && j < Main.maxTilesY && (Main.tile[i, j].TileType == 42 || Main.tile[i, j].TileType == 34))
                                     {
@@ -1225,7 +1225,7 @@ namespace CalamityMod.World
                                 }
                             }
 
-                            if (Main.tile[num - 1, num3].HasTile || Main.tile[num + 1, num3].HasTile || Main.tile[num - 1, num3 + 1].HasTile || Main.tile[num + 1, num3 + 1].HasTile || Main.tile[num, num3 + 2].HasTile)
+                            if (Main.tile[num - 1, wallType].HasTile || Main.tile[num + 1, wallType].HasTile || Main.tile[num - 1, wallType + 1].HasTile || Main.tile[num + 1, wallType + 1].HasTile || Main.tile[num, wallType + 2].HasTile)
                                 flag = true;
 
                             if (flag)
@@ -1251,7 +1251,7 @@ namespace CalamityMod.World
                                 bool flag3 = false;
                                 for (int k = 0; k < 15; k++)
                                 {
-                                    if (WorldGen.SolidTile(num, num3 + k))
+                                    if (WorldGen.SolidTile(num, wallType + k))
                                     {
                                         flag3 = true;
                                         break;
@@ -1259,9 +1259,9 @@ namespace CalamityMod.World
                                 }
 
                                 if (!flag3)
-                                    WorldGen.PlaceChand(num, num3, 34, style);
+                                    WorldGen.PlaceChand(num, wallType, 34, style);
 
-                                if (Main.tile[num, num3].TileType == 34)
+                                if (Main.tile[num, wallType].TileType == 34)
                                 {
                                     flag2 = true;
                                     failCount = 0;
@@ -1269,8 +1269,8 @@ namespace CalamityMod.World
                                     for (int l = 0; l < 1000; l++)
                                     {
                                         int num4 = num + WorldGen.genRand.Next(-12, 13);
-                                        int num5 = num3 + WorldGen.genRand.Next(3, 21);
-                                        if (Main.tile[num4, num5].HasTile || Main.tile[num4, num5 + 1].HasTile || !Main.tileDungeon[Main.tile[num4 - 1, num5].TileType] || !Main.tileDungeon[Main.tile[num4 + 1, num5].TileType] || !Collision.CanHit(new Point(num4 * 16, num5 * 16), 16, 16, new Point(num * 16, num3 * 16 + 1), 16, 16))
+                                        int num5 = wallType + WorldGen.genRand.Next(3, 21);
+                                        if (Main.tile[num4, num5].HasTile || Main.tile[num4, num5 + 1].HasTile || !Main.tileDungeon[Main.tile[num4 - 1, num5].TileType] || !Main.tileDungeon[Main.tile[num4 + 1, num5].TileType] || !Collision.CanHit(new Point(num4 * 16, num5 * 16), 16, 16, new Point(num * 16, wallType * 16 + 1), 16, 16))
                                             continue;
 
                                         if (((WorldGen.SolidTile(num4 - 1, num5) && Main.tile[num4 - 1, num5].TileType != 10) || (WorldGen.SolidTile(num4 + 1, num5) && Main.tile[num4 + 1, num5].TileType != 10) || WorldGen.SolidTile(num4, num5 + 1)) && Main.wallDungeon[Main.tile[num4, num5].WallType] && (Main.tileDungeon[Main.tile[num4 - 1, num5].TileType] || Main.tileDungeon[Main.tile[num4 + 1, num5].TileType]))
@@ -1279,7 +1279,7 @@ namespace CalamityMod.World
                                         if (!Main.tile[num4, num5].HasTile)
                                             continue;
 
-                                        while (num4 != num || num5 != num3)
+                                        while (num4 != num || num5 != wallType)
                                         {
                                             Main.tile[num4, num5].Get<TileWallWireStateData>().RedWire = true;
                                             if (num4 > num)
@@ -1289,10 +1289,10 @@ namespace CalamityMod.World
                                                 num4++;
 
                                             Main.tile[num4, num5].Get<TileWallWireStateData>().RedWire = true;
-                                            if (num5 > num3)
+                                            if (num5 > wallType)
                                                 num5--;
 
-                                            if (num5 < num3)
+                                            if (num5 < wallType)
                                                 num5++;
 
                                             Main.tile[num4, num5].Get<TileWallWireStateData>().RedWire = true;
@@ -1300,8 +1300,8 @@ namespace CalamityMod.World
 
                                         if (WorldGen.genRand.Next(3) > 0)
                                         {
-                                            Main.tile[num, num3].TileFrameX = 18;
-                                            Main.tile[num, num3 + 1].TileFrameX = 18;
+                                            Main.tile[num, wallType].TileFrameX = 18;
+                                            Main.tile[num, wallType + 1].TileFrameX = 18;
                                         }
 
                                         break;
@@ -1313,14 +1313,14 @@ namespace CalamityMod.World
                                 break;
 
                             int style2 = array[0];
-                            if (Main.tile[num, num3].WallType == roomWall[1])
+                            if (Main.tile[num, wallType].WallType == roomWall[1])
                                 style2 = array[1];
 
-                            if (Main.tile[num, num3].WallType == roomWall[2])
+                            if (Main.tile[num, wallType].WallType == roomWall[2])
                                 style2 = array[2];
 
-                            WorldGen.Place1x2Top(num, num3, 42, style2);
-                            if (Main.tile[num, num3].TileType != 42)
+                            WorldGen.Place1x2Top(num, wallType, 42, style2);
+                            if (Main.tile[num, wallType].TileType != 42)
                                 break;
 
                             flag2 = true;
@@ -1329,8 +1329,8 @@ namespace CalamityMod.World
                             for (int m = 0; m < 1000; m++)
                             {
                                 int num6 = num + WorldGen.genRand.Next(-12, 13);
-                                int num7 = num3 + WorldGen.genRand.Next(3, 21);
-                                if (Main.tile[num6, num7].HasTile || Main.tile[num6, num7 + 1].HasTile || Main.tile[num6 - 1, num7].TileType == 48 || Main.tile[num6 + 1, num7].TileType == 48 || !Collision.CanHit(new Point(num6 * 16, num7 * 16), 16, 16, new Point(num * 16, num3 * 16 + 1), 16, 16))
+                                int num7 = wallType + WorldGen.genRand.Next(3, 21);
+                                if (Main.tile[num6, num7].HasTile || Main.tile[num6, num7 + 1].HasTile || Main.tile[num6 - 1, num7].TileType == 48 || Main.tile[num6 + 1, num7].TileType == 48 || !Collision.CanHit(new Point(num6 * 16, num7 * 16), 16, 16, new Point(num * 16, wallType * 16 + 1), 16, 16))
                                     continue;
 
                                 if ((WorldGen.SolidTile(num6 - 1, num7) && Main.tile[num6 - 1, num7].TileType != 10) || (WorldGen.SolidTile(num6 + 1, num7) && Main.tile[num6 + 1, num7].TileType != 10) || WorldGen.SolidTile(num6, num7 + 1))
@@ -1339,7 +1339,7 @@ namespace CalamityMod.World
                                 if (!Main.tile[num6, num7].HasTile)
                                     continue;
 
-                                while (num6 != num || num7 != num3)
+                                while (num6 != num || num7 != wallType)
                                 {
                                     Main.tile[num6, num7].Get<TileWallWireStateData>().RedWire = true;
                                     if (num6 > num)
@@ -1349,10 +1349,10 @@ namespace CalamityMod.World
                                         num6++;
 
                                     Main.tile[num6, num7].Get<TileWallWireStateData>().RedWire = true;
-                                    if (num7 > num3)
+                                    if (num7 > wallType)
                                         num7--;
 
-                                    if (num7 < num3)
+                                    if (num7 < wallType)
                                         num7++;
 
                                     Main.tile[num6, num7].Get<TileWallWireStateData>().RedWire = true;
@@ -1360,8 +1360,8 @@ namespace CalamityMod.World
 
                                 if (WorldGen.genRand.Next(3) > 0)
                                 {
-                                    Main.tile[num, num3].TileFrameX = 18;
-                                    Main.tile[num, num3 + 1].TileFrameX = 18;
+                                    Main.tile[num, wallType].TileFrameX = 18;
+                                    Main.tile[num, wallType + 1].TileFrameX = 18;
                                 }
 
                                 break;
@@ -1386,26 +1386,26 @@ namespace CalamityMod.World
             for (int i = 0; (double)i < count; i++)
             {
                 int num = WorldGen.genRand.Next(GenVars.dMinX, GenVars.dMaxX);
-                int num2 = WorldGen.genRand.Next(GenVars.dMinY, GenVars.dMaxY);
-                while (!Main.wallDungeon[Main.tile[num, num2].WallType] || Main.tile[num, num2].HasTile)
+                int brickType = WorldGen.genRand.Next(GenVars.dMinY, GenVars.dMaxY);
+                while (!Main.wallDungeon[Main.tile[num, brickType].WallType] || Main.tile[num, brickType].HasTile)
                 {
                     num = WorldGen.genRand.Next(GenVars.dMinX, GenVars.dMaxX);
-                    num2 = WorldGen.genRand.Next(GenVars.dMinY, GenVars.dMaxY);
+                    brickType = WorldGen.genRand.Next(GenVars.dMinY, GenVars.dMaxY);
                 }
 
-                while (!WorldGen.SolidTile(num, num2) && num2 > 10)
+                while (!WorldGen.SolidTile(num, brickType) && brickType > 10)
                 {
-                    num2--;
+                    brickType--;
                 }
 
-                num2++;
-                if (!Main.wallDungeon[Main.tile[num, num2].WallType] || Main.tile[num, num2 - 1].TileType == 48 || Main.tile[num, num2].HasTile || Main.tile[num, num2 + 1].HasTile || Main.tile[num, num2 + 2].HasTile || Main.tile[num, num2 + 3].HasTile)
+                brickType++;
+                if (!Main.wallDungeon[Main.tile[num, brickType].WallType] || Main.tile[num, brickType - 1].TileType == 48 || Main.tile[num, brickType].HasTile || Main.tile[num, brickType + 1].HasTile || Main.tile[num, brickType + 2].HasTile || Main.tile[num, brickType + 3].HasTile)
                     continue;
 
                 bool flag = true;
                 for (int j = num - 1; j <= num + 1; j++)
                 {
-                    for (int k = num2; k <= num2 + 3; k++)
+                    for (int k = brickType; k <= brickType + 3; k++)
                     {
                         if (Main.tile[j, k].HasTile && (Main.tile[j, k].TileType == 10 || Main.tile[j, k].TileType == 11 || Main.tile[j, k].TileType == 91))
                             flag = false;
@@ -1414,15 +1414,15 @@ namespace CalamityMod.World
 
                 if (flag)
                 {
-                    int num3 = 10;
-                    if (Main.tile[num, num2].WallType == roomWall[1])
-                        num3 = 12;
+                    int wallType = 10;
+                    if (Main.tile[num, brickType].WallType == roomWall[1])
+                        wallType = 12;
 
-                    if (Main.tile[num, num2].WallType == roomWall[2])
-                        num3 = 14;
+                    if (Main.tile[num, brickType].WallType == roomWall[2])
+                        wallType = 14;
 
-                    num3 += WorldGen.genRand.Next(2);
-                    WorldGen.PlaceTile(num, num2, 91, mute: true, forced: false, -1, num3);
+                    wallType += WorldGen.genRand.Next(2);
+                    WorldGen.PlaceTile(num, brickType, 91, mute: true, forced: false, -1, wallType);
                 }
             }
 
@@ -1435,37 +1435,37 @@ namespace CalamityMod.World
             for (int i = 0; (double)i < count; i++)
             {
                 int num = WorldGen.genRand.Next(GenVars.dMinX, GenVars.dMaxX);
-                int num2 = WorldGen.genRand.Next((int)Main.worldSurface, GenVars.dMaxY);
-                while (!Main.wallDungeon[Main.tile[num, num2].WallType] || Main.tile[num, num2].HasTile)
+                int brickType = WorldGen.genRand.Next((int)Main.worldSurface, GenVars.dMaxY);
+                while (!Main.wallDungeon[Main.tile[num, brickType].WallType] || Main.tile[num, brickType].HasTile)
                 {
                     num = WorldGen.genRand.Next(GenVars.dMinX, GenVars.dMaxX);
-                    num2 = WorldGen.genRand.Next((int)Main.worldSurface, GenVars.dMaxY);
+                    brickType = WorldGen.genRand.Next((int)Main.worldSurface, GenVars.dMaxY);
                 }
 
-                int num3 = num;
+                int wallType = num;
                 int num4 = num;
-                int num5 = num2;
-                int num6 = num2;
+                int num5 = brickType;
+                int num6 = brickType;
                 int num7 = 0;
                 int num8 = 0;
                 for (int j = 0; j < 2; j++)
                 {
-                    num3 = num;
+                    wallType = num;
                     num4 = num;
-                    while (!Main.tile[num3, num2].HasTile && Main.wallDungeon[Main.tile[num3, num2].WallType])
+                    while (!Main.tile[wallType, brickType].HasTile && Main.wallDungeon[Main.tile[wallType, brickType].WallType])
                     {
-                        num3--;
+                        wallType--;
                     }
 
-                    num3++;
-                    for (; !Main.tile[num4, num2].HasTile && Main.wallDungeon[Main.tile[num4, num2].WallType]; num4++)
+                    wallType++;
+                    for (; !Main.tile[num4, brickType].HasTile && Main.wallDungeon[Main.tile[num4, brickType].WallType]; num4++)
                     {
                     }
 
                     num4--;
-                    num = (num3 + num4) / 2;
-                    num5 = num2;
-                    num6 = num2;
+                    num = (wallType + num4) / 2;
+                    num5 = brickType;
+                    num6 = brickType;
                     while (!Main.tile[num, num5].HasTile && Main.wallDungeon[Main.tile[num, num5].WallType])
                     {
                         num5--;
@@ -1477,24 +1477,24 @@ namespace CalamityMod.World
                     }
 
                     num6--;
-                    num2 = (num5 + num6) / 2;
+                    brickType = (num5 + num6) / 2;
                 }
 
-                num3 = num;
+                wallType = num;
                 num4 = num;
-                while (!Main.tile[num3, num2].HasTile && !Main.tile[num3, num2 - 1].HasTile && !Main.tile[num3, num2 + 1].HasTile)
+                while (!Main.tile[wallType, brickType].HasTile && !Main.tile[wallType, brickType - 1].HasTile && !Main.tile[wallType, brickType + 1].HasTile)
                 {
-                    num3--;
+                    wallType--;
                 }
 
-                num3++;
-                for (; !Main.tile[num4, num2].HasTile && !Main.tile[num4, num2 - 1].HasTile && !Main.tile[num4, num2 + 1].HasTile; num4++)
+                wallType++;
+                for (; !Main.tile[num4, brickType].HasTile && !Main.tile[num4, brickType - 1].HasTile && !Main.tile[num4, brickType + 1].HasTile; num4++)
                 {
                 }
 
                 num4--;
-                num5 = num2;
-                num6 = num2;
+                num5 = brickType;
+                num6 = brickType;
                 while (!Main.tile[num, num5].HasTile && !Main.tile[num - 1, num5].HasTile && !Main.tile[num + 1, num5].HasTile)
                 {
                     num5--;
@@ -1506,9 +1506,9 @@ namespace CalamityMod.World
                 }
 
                 num6--;
-                num = (num3 + num4) / 2;
-                num2 = (num5 + num6) / 2;
-                num7 = num4 - num3;
+                num = (wallType + num4) / 2;
+                brickType = (num5 + num6) / 2;
+                num7 = num4 - wallType;
                 num8 = num6 - num5;
                 if (num7 <= 7 || num8 <= 5)
                     continue;
@@ -1527,7 +1527,7 @@ namespace CalamityMod.World
                     array[2] = true;
 
                 int num9 = WorldGen.genRand.Next(3);
-                if (Main.tile[num, num2].WallType == roomWall[0])
+                if (Main.tile[num, brickType].WallType == roomWall[0])
                     num9 = 0;
 
                 while (!array[num9])
@@ -1535,7 +1535,7 @@ namespace CalamityMod.World
                     num9 = WorldGen.genRand.Next(3);
                 }
 
-                if (WorldGen.nearPicture2(num, num2))
+                if (WorldGen.nearPicture2(num, brickType))
                     num9 = -1;
 
                 switch (num9)
@@ -1543,26 +1543,26 @@ namespace CalamityMod.World
                     case 0:
                         {
                             PaintingEntry paintingEntry2 = WorldGen.RandPictureTile();
-                            if (Main.tile[num, num2].WallType != roomWall[0])
+                            if (Main.tile[num, brickType].WallType != roomWall[0])
                                 paintingEntry2 = WorldGen.RandBonePicture();
 
-                            if (!WorldGen.nearPicture(num, num2))
-                                WorldGen.PlaceTile(num, num2, paintingEntry2.tileType, mute: true, forced: false, -1, paintingEntry2.style);
+                            if (!WorldGen.nearPicture(num, brickType))
+                                WorldGen.PlaceTile(num, brickType, paintingEntry2.tileType, mute: true, forced: false, -1, paintingEntry2.style);
 
                             break;
                         }
                     case 1:
                         {
                             PaintingEntry paintingEntry3 = WorldGen.RandPictureTile();
-                            if (Main.tile[num, num2].WallType != roomWall[0])
+                            if (Main.tile[num, brickType].WallType != roomWall[0])
                                 paintingEntry3 = WorldGen.RandBonePicture();
 
-                            if (!Main.tile[num, num2].HasTile)
-                                WorldGen.PlaceTile(num, num2, paintingEntry3.tileType, mute: true, forced: false, -1, paintingEntry3.style);
+                            if (!Main.tile[num, brickType].HasTile)
+                                WorldGen.PlaceTile(num, brickType, paintingEntry3.tileType, mute: true, forced: false, -1, paintingEntry3.style);
 
                             int num13 = num;
-                            int num14 = num2;
-                            int num15 = num2;
+                            int num14 = brickType;
+                            int num15 = brickType;
                             for (int m = 0; m < 2; m++)
                             {
                                 num += 7;
@@ -1590,7 +1590,7 @@ namespace CalamityMod.World
                                 WorldGen.PlaceTile(num, num15, paintingEntry3.tileType, mute: true, forced: false, -1, paintingEntry3.style);
                             }
 
-                            num15 = num2;
+                            num15 = brickType;
                             num = num13;
                             for (int n = 0; n < 2; n++)
                             {
@@ -1624,69 +1624,69 @@ namespace CalamityMod.World
                     case 2:
                         {
                             PaintingEntry paintingEntry = WorldGen.RandPictureTile();
-                            if (Main.tile[num, num2].WallType != roomWall[0])
+                            if (Main.tile[num, brickType].WallType != roomWall[0])
                                 paintingEntry = WorldGen.RandBonePicture();
 
-                            if (!Main.tile[num, num2].HasTile)
-                                WorldGen.PlaceTile(num, num2, paintingEntry.tileType, mute: true, forced: false, -1, paintingEntry.style);
+                            if (!Main.tile[num, brickType].HasTile)
+                                WorldGen.PlaceTile(num, brickType, paintingEntry.tileType, mute: true, forced: false, -1, paintingEntry.style);
 
-                            int num10 = num2;
+                            int num10 = brickType;
                             int num11 = num;
                             int num12 = num;
                             for (int k = 0; k < 3; k++)
                             {
-                                num2 += 7;
-                                num3 = num12;
+                                brickType += 7;
+                                wallType = num12;
                                 num4 = num12;
-                                while (!Main.tile[num3, num2].HasTile && !Main.tile[num3, num2 - 1].HasTile && !Main.tile[num3, num2 + 1].HasTile)
+                                while (!Main.tile[wallType, brickType].HasTile && !Main.tile[wallType, brickType - 1].HasTile && !Main.tile[wallType, brickType + 1].HasTile)
                                 {
-                                    num3--;
+                                    wallType--;
                                 }
 
-                                num3++;
-                                for (; !Main.tile[num4, num2].HasTile && !Main.tile[num4, num2 - 1].HasTile && !Main.tile[num4, num2 + 1].HasTile; num4++)
+                                wallType++;
+                                for (; !Main.tile[num4, brickType].HasTile && !Main.tile[num4, brickType - 1].HasTile && !Main.tile[num4, brickType + 1].HasTile; num4++)
                                 {
                                 }
 
                                 num4--;
-                                num12 = (num3 + num4) / 2;
+                                num12 = (wallType + num4) / 2;
                                 paintingEntry = WorldGen.RandPictureTile();
-                                if (Main.tile[num12, num2].WallType != roomWall[0])
+                                if (Main.tile[num12, brickType].WallType != roomWall[0])
                                     paintingEntry = WorldGen.RandBonePicture();
 
-                                if (Math.Abs(num11 - num12) >= 4 || WorldGen.nearPicture(num12, num2))
+                                if (Math.Abs(num11 - num12) >= 4 || WorldGen.nearPicture(num12, brickType))
                                     break;
 
-                                WorldGen.PlaceTile(num12, num2, paintingEntry.tileType, mute: true, forced: false, -1, paintingEntry.style);
+                                WorldGen.PlaceTile(num12, brickType, paintingEntry.tileType, mute: true, forced: false, -1, paintingEntry.style);
                             }
 
                             num12 = num;
-                            num2 = num10;
+                            brickType = num10;
                             for (int l = 0; l < 3; l++)
                             {
-                                num2 -= 7;
-                                num3 = num12;
+                                brickType -= 7;
+                                wallType = num12;
                                 num4 = num12;
-                                while (!Main.tile[num3, num2].HasTile && !Main.tile[num3, num2 - 1].HasTile && !Main.tile[num3, num2 + 1].HasTile)
+                                while (!Main.tile[wallType, brickType].HasTile && !Main.tile[wallType, brickType - 1].HasTile && !Main.tile[wallType, brickType + 1].HasTile)
                                 {
-                                    num3--;
+                                    wallType--;
                                 }
 
-                                num3++;
-                                for (; !Main.tile[num4, num2].HasTile && !Main.tile[num4, num2 - 1].HasTile && !Main.tile[num4, num2 + 1].HasTile; num4++)
+                                wallType++;
+                                for (; !Main.tile[num4, brickType].HasTile && !Main.tile[num4, brickType - 1].HasTile && !Main.tile[num4, brickType + 1].HasTile; num4++)
                                 {
                                 }
 
                                 num4--;
-                                num12 = (num3 + num4) / 2;
+                                num12 = (wallType + num4) / 2;
                                 paintingEntry = WorldGen.RandPictureTile();
-                                if (Main.tile[num12, num2].WallType != roomWall[0])
+                                if (Main.tile[num12, brickType].WallType != roomWall[0])
                                     paintingEntry = WorldGen.RandBonePicture();
 
-                                if (Math.Abs(num11 - num12) >= 4 || WorldGen.nearPicture(num12, num2))
+                                if (Math.Abs(num11 - num12) >= 4 || WorldGen.nearPicture(num12, brickType))
                                     break;
 
-                                WorldGen.PlaceTile(num12, num2, paintingEntry.tileType, mute: true, forced: false, -1, paintingEntry.style);
+                                WorldGen.PlaceTile(num12, brickType, paintingEntry.tileType, mute: true, forced: false, -1, paintingEntry.style);
                             }
 
                             break;
@@ -1700,11 +1700,11 @@ namespace CalamityMod.World
         public static double MakeDungeon_GroundFurniture(int wallType)
         {
             double num = (double)(2000 * Main.maxTilesX) / 4200.0;
-            int num2 = 1 + (int)((double)Main.maxTilesX / 4200.0);
-            int num3 = 1 + (int)((double)Main.maxTilesX / 4200.0);
+            int brickType = 1 + (int)((double)Main.maxTilesX / 4200.0);
+            int backWallType = 1 + (int)((double)Main.maxTilesX / 4200.0);
             for (int i = 0; (double)i < num; i++)
             {
-                if (num2 > 0 || num3 > 0)
+                if (brickType > 0 || backWallType > 0)
                     i--;
 
                 int num4 = WorldGen.genRand.Next(GenVars.dMinX, GenVars.dMaxX);
@@ -1755,7 +1755,7 @@ namespace CalamityMod.World
                 int num15 = 22;
                 int num16 = 24;
                 int num17 = 30;
-                switch (wallType)
+                switch (backWallType)
                 {
                     case 8:
                         style = 14;
@@ -1913,19 +1913,19 @@ namespace CalamityMod.World
                 if ((double)num6 < (double)num19 * 1.75)
                     num18 = -1;
 
-                if (num2 > 0 || num3 > 0)
+                if (brickType > 0 || backWallType > 0)
                 {
-                    if (num2 > 0)
+                    if (brickType > 0)
                     {
                         WorldGen.PlaceTile(num7, j, 355, mute: true);
                         if (Main.tile[num7, j].TileType == 355)
-                            num2--;
+                            brickType--;
                     }
-                    else if (num3 > 0)
+                    else if (backWallType > 0)
                     {
                         WorldGen.PlaceTile(num7, j, 354, mute: true);
                         if (Main.tile[num7, j].TileType == 354)
-                            num3--;
+                            backWallType--;
                     }
 
                     continue;
@@ -2075,10 +2075,10 @@ namespace CalamityMod.World
         {
             Vector2D zero = Vector2D.Zero;
             double num = WorldGen.genRand.Next(4, 6);
-            double num2 = num;
+            double brickType = num;
             Vector2D zero2 = Vector2D.Zero;
             Vector2D zero3 = Vector2D.Zero;
-            int num3 = 1;
+            int newWallType = 1;
             Vector2D vector2D = default(Vector2D);
             vector2D.X = i;
 
@@ -2119,7 +2119,7 @@ namespace CalamityMod.World
                     bool flag10 = false;
                     for (int num6 = j; num6 > j - num5; num6--)
                     {
-                        if (Main.tile[i, num6].WallType == wallType)
+                        if (Main.tile[i, num6].WallType == newWallType)
                         {
                             if (flag10)
                             {
@@ -2136,7 +2136,7 @@ namespace CalamityMod.World
                     flag10 = false;
                     for (int k = j; k < j + num5; k++)
                     {
-                        if (Main.tile[i, k].WallType == wallType)
+                        if (Main.tile[i, k].WallType == newWallType)
                         {
                             if (flag10)
                             {
@@ -2153,7 +2153,7 @@ namespace CalamityMod.World
                     flag10 = false;
                     for (int num7 = i; num7 > i - num5; num7--)
                     {
-                        if (Main.tile[num7, j].WallType == wallType)
+                        if (Main.tile[num7, j].WallType == newWallType)
                         {
                             if (flag10)
                             {
@@ -2170,7 +2170,7 @@ namespace CalamityMod.World
                     flag10 = false;
                     for (int l = i; l < i + num5; l++)
                     {
-                        if (Main.tile[l, j].WallType == wallType)
+                        if (Main.tile[l, j].WallType == newWallType)
                         {
                             if (flag10)
                             {
@@ -2186,7 +2186,7 @@ namespace CalamityMod.World
 
                     if (!flag8 && !flag9 && !flag6 && !flag7)
                     {
-                        num3 = (WorldGen.genRand.NextBool() ? 1 : (-1));
+                        newWallType = (WorldGen.genRand.NextBool() ? 1 : (-1));
                         if (WorldGen.genRand.NextBool())
                             flag5 = true;
                     }
@@ -2201,21 +2201,21 @@ namespace CalamityMod.World
                         switch (num8)
                         {
                             case 0:
-                                num3 = -1;
+                                newWallType = -1;
                                 break;
                             case 1:
-                                num3 = 1;
+                                newWallType = 1;
                                 break;
                             default:
                                 flag5 = true;
-                                num3 = ((num8 != 2) ? 1 : (-1));
+                                newWallType = ((num8 != 2) ? 1 : (-1));
                                 break;
                         }
                     }
                 }
                 else
                 {
-                    num3 = (WorldGen.genRand.NextBool() ? 1 : (-1));
+                    newWallType = (WorldGen.genRand.NextBool() ? 1 : (-1));
                     if (WorldGen.genRand.NextBool())
                         flag5 = true;
                 }
@@ -2227,11 +2227,11 @@ namespace CalamityMod.World
                 if (flag5)
                 {
                     zero2.Y = 0.0;
-                    zero2.X = num3;
+                    zero2.X = newWallType;
                     zero3.Y = 0.0;
-                    zero3.X = -num3;
+                    zero3.X = -newWallType;
                     zero.Y = 0.0;
-                    zero.X = num3;
+                    zero.X = newWallType;
                     if (WorldGen.genRand.Next(3) == 0)
                     {
                         if (WorldGen.genRand.NextBool())
@@ -2243,12 +2243,12 @@ namespace CalamityMod.World
                 else
                 {
                     num += 1.0;
-                    zero.Y = num3;
+                    zero.Y = newWallType;
                     zero.X = 0.0;
                     zero2.X = 0.0;
-                    zero2.Y = num3;
+                    zero2.Y = newWallType;
                     zero3.X = 0.0;
-                    zero3.Y = -num3;
+                    zero3.Y = -newWallType;
                     if (WorldGen.genRand.Next(3) != 0)
                     {
                         flag3 = true;
@@ -2287,11 +2287,11 @@ namespace CalamityMod.World
             {
                 if (vector2D.X > (double)(LastMaxTilesX - 200))
                 {
-                    num3 = -1;
+                    newWallType = -1;
                     zero2.Y = 0.0;
-                    zero2.X = num3;
+                    zero2.X = newWallType;
                     zero.Y = 0.0;
-                    zero.X = num3;
+                    zero.X = newWallType;
                     if (WorldGen.genRand.Next(3) == 0)
                     {
                         if (WorldGen.genRand.NextBool())
@@ -2302,11 +2302,11 @@ namespace CalamityMod.World
                 }
                 else if (vector2D.X < 200.0)
                 {
-                    num3 = 1;
+                    newWallType = 1;
                     zero2.Y = 0.0;
-                    zero2.X = num3;
+                    zero2.X = newWallType;
                     zero.Y = 0.0;
-                    zero.X = num3;
+                    zero.X = newWallType;
                     if (WorldGen.genRand.Next(3) == 0)
                     {
                         if (WorldGen.genRand.NextBool())
@@ -2317,12 +2317,12 @@ namespace CalamityMod.World
                 }
                 else if (vector2D.Y > (double)(LastMaxTilesY - 300))
                 {
-                    num3 = -1;
+                    newWallType = -1;
                     num += 1.0;
-                    zero.Y = num3;
+                    zero.Y = newWallType;
                     zero.X = 0.0;
                     zero2.X = 0.0;
-                    zero2.Y = num3;
+                    zero2.Y = newWallType;
                     if (WorldGen.genRand.NextBool())
                     {
                         if (WorldGen.genRand.NextBool())
@@ -2333,12 +2333,12 @@ namespace CalamityMod.World
                 }
                 else if (flag11)
                 {
-                    num3 = 1;
+                    newWallType = 1;
                     num += 1.0;
-                    zero.Y = num3;
+                    zero.Y = newWallType;
                     zero.X = 0.0;
                     zero2.X = 0.0;
-                    zero2.Y = num3;
+                    zero2.Y = newWallType;
                     if (WorldGen.genRand.Next(3) != 0)
                     {
                         flag3 = true;
@@ -2357,11 +2357,11 @@ namespace CalamityMod.World
                 }
                 else if (vector2D.X < (double)(Main.maxTilesX / 2) && vector2D.X > (double)Main.maxTilesX * 0.25)
                 {
-                    num3 = -1;
+                    newWallType = -1;
                     zero2.Y = 0.0;
-                    zero2.X = num3;
+                    zero2.X = newWallType;
                     zero.Y = 0.0;
-                    zero.X = num3;
+                    zero.X = newWallType;
                     if (WorldGen.genRand.Next(3) == 0)
                     {
                         if (WorldGen.genRand.NextBool())
@@ -2372,11 +2372,11 @@ namespace CalamityMod.World
                 }
                 else if (vector2D.X > (double)(Main.maxTilesX / 2) && vector2D.X < (double)Main.maxTilesX * 0.75)
                 {
-                    num3 = 1;
+                    newWallType = 1;
                     zero2.Y = 0.0;
-                    zero2.X = num3;
+                    zero2.X = newWallType;
                     zero.Y = 0.0;
-                    zero.X = num3;
+                    zero.X = newWallType;
                     if (WorldGen.genRand.Next(3) == 0)
                     {
                         if (WorldGen.genRand.NextBool())
@@ -2403,7 +2403,7 @@ namespace CalamityMod.World
 
             GenVars.lastDungeonHall = zero2;
             if (Math.Abs(zero.X) > Math.Abs(zero.Y) && WorldGen.genRand.Next(3) != 0)
-                num = (int)(num2 * ((double)WorldGen.genRand.Next(110, 150) * 0.01));
+                num = (int)(brickType * ((double)WorldGen.genRand.Next(110, 150) * 0.01));
 
             while (num4 > 0)
             {
@@ -2463,7 +2463,7 @@ namespace CalamityMod.World
                 {
                     for (int num15 = num12 + 1; num15 < num13 - 1; num15++)
                     {
-                        Main.tile[num14, num15].WallType = (ushort)wallType;
+                        Main.tile[num14, num15].WallType = (ushort)newWallType;
                     }
                 }
 
@@ -2498,7 +2498,7 @@ namespace CalamityMod.World
                         Main.tile[num17, num18].Clear(TileDataType.Slope);
                         if (flag)
                         {
-                            if (Main.tile[num17, num18].HasTile || Main.tile[num17, num18].WallType != wallType)
+                            if (Main.tile[num17, num18].HasTile || Main.tile[num17, num18].WallType != newWallType)
                             {
                                 Main.tile[num17, num18].Get<TileWallWireStateData>().HasTile = true;
                                 Main.tile[num17, num18].TileType = GenVars.crackedType;
@@ -2510,7 +2510,7 @@ namespace CalamityMod.World
                         }
 
                         Main.tile[num17, num18].Clear(TileDataType.Slope);
-                        Main.tile[num17, num18].WallType = (ushort)wallType;
+                        Main.tile[num17, num18].WallType = (ushort)newWallType;
                     }
                 }
 

@@ -33,8 +33,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             if (Main.rand.NextBool(4))
             {
-                int num = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 60, Projectile.direction * 2, 0f, 150, default, 1f);
-                Main.dust[num].noGravity = true;
+                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 60, Projectile.direction * 2, 0f, 150, default, 1f);
+                Main.dust[dust].noGravity = true;
             }
         }
 
