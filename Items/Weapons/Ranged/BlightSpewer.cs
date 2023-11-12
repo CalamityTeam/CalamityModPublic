@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly SoundStyle Nanomachines = new("CalamityMod/Sounds/Item/NanoSwarm") { PitchVariance = 0.45f, Volume = 0.4f };
         public override void SetDefaults()
         {
-            Item.damage = 58;
+            Item.damage = 52;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 76;
             Item.height = 36;
