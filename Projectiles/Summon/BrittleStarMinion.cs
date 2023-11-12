@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Summon
             if (!MinionBuffMode) // "Break" the minion after every 3 hits if in charging
             {
                 HitCounter++;
-                if (HitCounter >= 3)
+                if (HitCounter >= 4)
                 {
                     for (int i = 0; i <= 5; i++)
                     {
