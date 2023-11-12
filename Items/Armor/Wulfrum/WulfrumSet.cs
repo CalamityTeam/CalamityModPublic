@@ -10,6 +10,7 @@ using CalamityMod.Cooldowns;
 using Terraria.Audio;
 using System;
 using System.Collections.Generic;
+using Terraria.Localization;
 using static Microsoft.Xna.Framework.Input.Keys;
 using static Terraria.ModLoader.ModContent;
 
@@ -228,7 +229,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
                 if (setBonusIndex != -1)
                 {
-                    string dir = Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN";
+                    string dir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
                     TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", CalamityUtils.GetTextFromModItem<WulfrumHat>("AbilityBrief").Format(dir));
                     setBonus1.OverrideColor = Color.Lerp(new Color(194, 255, 67), new Color(112, 244, 244), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
                     tooltips.Insert(setBonusIndex + 1, setBonus1);
