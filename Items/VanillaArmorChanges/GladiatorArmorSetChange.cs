@@ -20,9 +20,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            setBonusText += "\n+3 defense\n" +
-                        "+60 maximum stealth\n" +
-                        "5% increased rogue damage and 10% increased velocity";
+            setBonusText += $"\n{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
         }
 
         public override void ApplyHeadPieceEffect(Player player)

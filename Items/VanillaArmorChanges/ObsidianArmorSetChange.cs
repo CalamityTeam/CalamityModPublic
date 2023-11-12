@@ -13,13 +13,9 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override string ArmorSetName => "Obsidian";
 
-        public override bool NeedsToCreateSetBonusTextManually => true;
-
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            setBonusText = "Set Bonus: Increases whip range by 50% and speed by 35%\n" +
-                        "Increases minion damage by 15%\n" +
-                        "Grants immunity to fire blocks and temporary immunity to lava";
+            setBonusText = $"{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
         }
 
         public override void ApplyArmorSetBonus(Player player)
