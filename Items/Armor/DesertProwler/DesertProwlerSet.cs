@@ -15,6 +15,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using CalamityMod.Dusts;
 using ReLogic.Utilities;
+using Terraria.Localization;
 
 namespace CalamityMod.Items.Armor.DesertProwler
 {
@@ -166,7 +167,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
                 if (setBonusIndex != -1)
                 {
-                    string dir = Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN";
+                    string dir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
                     TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", CalamityUtils.GetTextFromModItem<DesertProwlerHat>("AbilityBrief").Format(dir));
                     setBonus1.OverrideColor = Color.Lerp(new Color(255, 229, 156), new Color(233, 225, 198), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
                     tooltips.Insert(setBonusIndex + 1, setBonus1);
