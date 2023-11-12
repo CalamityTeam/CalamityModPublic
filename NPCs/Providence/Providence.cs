@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.Providence
         public bool shouldDrawInfernoBorder = true; //This is only here for other mods to disable it if they don't want it drawing.
         public bool Dying = false;
         public int DeathAnimationTimer;
-        public KeyValuePair<float, float> borderStartEnd = new (0f, 0f);
+        public Tuple<float, float> borderStartEnd = new (0f, 0f);
 
         //Sounds
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceSpawn") { Volume = 1.2f };
@@ -190,8 +190,8 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(SoundWarningLevel);
             writer.Write(Dying);
             writer.Write(DeathAnimationTimer);
-            writer.Write(borderStartEnd.Key);
-            writer.Write(borderStartEnd.Value);
+            writer.Write(borderStartEnd.Item1);
+            writer.Write(borderStartEnd.Item2);
             writer.Write(shouldDrawInfernoBorder);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);

@@ -28,7 +28,7 @@ namespace CalamityMod.Graphics.Drawers
             var npc = Main.npc[CalamityGlobalNPC.holyBoss];
             var provi = npc.ModNPC as Providence;
             var borderStartEnd = provi.borderStartEnd;
-            if (borderStartEnd.Key > 0f && npc.HasValidTarget)
+            if (borderStartEnd.Item1 > 0f && npc.HasValidTarget)
             {
                 var target = Main.player[Main.myPlayer];
                 var holyInfernoIntensity = target.Calamity().holyInfernoFadeIntensity;
@@ -42,7 +42,7 @@ namespace CalamityMod.Graphics.Drawers
                 var shader = GameShaders.Misc["CalamityMod:HolyInfernoShader"].Shader;
                 shader.Parameters["colorMult"].SetValue(7.35f); //I want you to know it took considerable restraint to deliberately misspell colour.
                 shader.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly);
-                shader.Parameters["radius"].SetValue(borderStartEnd.Value);
+                shader.Parameters["radius"].SetValue(borderStartEnd.Item2);
                 shader.Parameters["anchorPoint"].SetValue(npc.Center);
                 shader.Parameters["screenPosition"].SetValue(Main.screenPosition);
                 shader.Parameters["screenSize"].SetValue(Main.ScreenSize.ToVector2());
