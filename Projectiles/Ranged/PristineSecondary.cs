@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.penetrate = -1;
             Projectile.timeLeft = 150;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 1;
+            Projectile.idStaticNPCHitCooldown = 2;
         }
 
         public override void AI()
