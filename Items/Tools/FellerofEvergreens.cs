@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Tools
             Item.axe = 100 / 5;
 
             Item.DamageType = DamageClass.Melee;
-            Item.width = 36;
-            Item.height = 36;
+            Item.width = 50;
+            Item.height = 46;
             Item.scale = 1.5f;
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
