@@ -36,7 +36,7 @@ namespace CalamityMod
         public bool Afterimages { get; set; }
 
         private const int MinParticleLimit = 100;
-        private const float MaxParticleLimit = 1000;
+        private const int MaxParticleLimit = 2000;
         
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
