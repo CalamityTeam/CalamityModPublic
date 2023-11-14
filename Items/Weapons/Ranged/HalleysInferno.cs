@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly SoundStyle Hit = new("CalamityMod/Sounds/Item/HalleysInfernoHit") { Volume = 0.5f };
         public override void SetDefaults()
         {
-            Item.damage = 1205;
+            Item.damage = 1450;
             Item.knockBack = 5.5f;
             Item.DamageType = DamageClass.Ranged;
             Item.useTime = Item.useAnimation = 39;
