@@ -115,14 +115,14 @@ AuroraBlazer: {
 	DisplayName: Aurora Blazer
 	Tooltip:
 		'''
-		Spews astral flames that travel in a star-shaped patterns
-		60% chance to save ammo
+		Spews a nebula stream which forms a star shaped pattern
+		Uses gel for ammo
 		'''
 }
 
 Barinade: {
 	DisplayName: Barinade
-	Tooltip: Converts wooden arrows into electric bolt arrows that explode
+	Tooltip: Fires two converging high-velocity fin arrows that easily soar through the air
 }
 
 Barinautical: {
@@ -142,7 +142,12 @@ BladedgeGreatbow: {
 
 BlightSpewer: {
 	DisplayName: Blight Spewer
-	Tooltip: ""
+	Tooltip:
+		'''
+		Fires clouds of plague nanomachines that stick to tiles
+		Nanomachines aggressively lock onto nearby enemies
+		40% chance to save ammo
+		'''
 }
 
 BlissfulBombardier: {
@@ -158,9 +163,8 @@ BloodBoiler: {
 	DisplayName: Blood Boiler
 	Tooltip:
 		'''
-		Fires a stream of lifestealing bloodfire
+		Fires twin streams of life stealing bloodfire that returns to you
 		Uses your health as ammo
-		25% chance to save ammo
 		'''
 }
 
@@ -222,7 +226,11 @@ ClaretCannon: {
 
 CleansingBlaze: {
 	DisplayName: Cleansing Blaze
-	Tooltip: 90% chance to save ammo
+	Tooltip:
+		'''
+		Unleashes a torrent of flames which can pass through tiles
+		Uses gel for ammo
+		'''
 }
 
 ClockGatlignum: {
@@ -349,7 +357,13 @@ DarkechoGreatbow: {
 
 DeadSunsWind: {
 	DisplayName: Dead Sun's Wind
-	Tooltip: 70% chance to save ammo
+	Tooltip:
+		'''
+		Fires a concentrated blast of superheated cosmic plasma that explodes and can ricochet off blocks
+		Shots aggressively home in on enemies after being ricocheted
+		Consecutive hits cause larger explosions
+		Uses gel for ammo
+		'''
 }
 
 Deathwind: {
@@ -393,12 +407,11 @@ DragonsBreath: {
 	DisplayName: Dragon's Breath
 	Tooltip:
 		'''
-		Press <left> to fire in two-shot bursts
-		The first shot is a spread of 6 normal bullets
-		The second shot is a tight spread of 6 Dragon's Breath rounds
-		Press <right> to fire full auto and mix the bullets randomly, but deal 20% less damage
-		This weapon has no randomness to its spread pattern
-		66% chance to save ammo
+		Fires dragon fireballs at an accelerating pace
+		Upon firing for long enough, you will begin using a cartridge of energy
+		While using a cartridge you will shoot a draconic beam of fire that doesn't consume ammo
+		Once a cartridge has been ejected you will return to the original fire rate
+		80% chance to save ammo
 		'''
 }
 
@@ -427,8 +440,9 @@ ElementalEruption: {
 	DisplayName: Elemental Eruption
 	Tooltip:
 		'''
-		Fires a spread of rainbow flames
-		90% chance to save ammo
+		Charges up to spew rainbow flames and pairs of homing elemental flares
+		Uses gel for ammo
+		70% chance to save ammo
 		'''
 }
 
@@ -549,8 +563,9 @@ HalleysInferno: {
 	DisplayName: Halley's Inferno
 	Tooltip:
 		'''
-		Fires a flaming blue comet
+		Fires an intensely concentrated jet of lunar fire
 		Press <right> to zoom out
+		Uses gel for ammo
 		50% chance to save ammo
 		'Halley came sooner than expected'
 		'''
@@ -563,7 +578,11 @@ HandheldTank: {
 
 HavocsBreath: {
 	DisplayName: Havoc's Breath
-	Tooltip: 50% chance to save ammo
+	Tooltip:
+		'''
+		Projects cone-shaped blasts of scorching brimstone fire
+		Uses gel for ammo
+		'''
 }
 
 HeavenlyGale: {
@@ -698,8 +717,9 @@ Meowthrower: {
 	DisplayName: Meowthrower
 	Tooltip:
 		'''
-		Fires blue and pink flames that emit meows on enemy hits
-		85% chance to save ammo
+		Cooks your foes to purrfection with catty smoke
+		Occasionally launches homing feline entities
+		Uses gel for ammo
 		'''
 }
 
@@ -814,8 +834,11 @@ OverloadedBlaster: {
 	DisplayName: Overloaded Blaster
 	Tooltip:
 		'''
-		Fires a large spread of bouncing slime
-		33% chance to save ammo
+		Converts gel into a spread of energized slime pearls that overload when they come to a stop
+		Overloaded slime pearls deal double damage but no longer pierce
+		Slime pearls bounce off of walls at very high speed
+		Uses gel for ammo
+		25% chance to save ammo
 		'''
 }
 
@@ -858,9 +881,10 @@ Photoviscerator: {
 	DisplayName: Photoviscerator
 	Tooltip:
 		'''
-		Fires a stream of exo flames and light that explodes into homing sparks
-		Press <right> to fire homing flares which stick to enemies and incinerate them
-		90% chance to save ammo
+		Emits a continuous beam of exo radiation that disintegrates everything
+		Press <right> to fire homing exo flares which stick to and incinerate enemies
+		Uses gel for ammo
+		95% chance to save ammo
 		'''
 }
 
@@ -912,8 +936,9 @@ PristineFury: {
 	DisplayName: Pristine Fury
 	Tooltip:
 		'''
-		Fires an intense helix of flames that explode into a column of fire
-		Press <right> to fire a short ranged cloud of lingering flames
+		Fires an intense helix of flames that explode into a column of smoke
+		Press <right> to disperse intense clouds of profaned heat
+		Uses gel for ammo
 		'''
 }
 
@@ -1019,7 +1044,11 @@ SepticSkewer: {
 
 Shadethrower: {
 	DisplayName: Shadethrower
-	Tooltip: 66% chance to save ammo
+	Tooltip:
+		'''
+		Spits clouds of shade which afflict enemies with brain rot
+		Uses gel for ammo
+		'''
 }
 
 Shellshooter: {
@@ -1066,7 +1095,11 @@ SomaPrime: {
 
 SparkSpreader: {
 	DisplayName: Spark Spreader
-	Tooltip: 70% chance to save ammo
+	Tooltip:
+		'''
+		Ignites your foe with flaming sparks
+		Uses gel for ammo
+		'''
 }
 
 SpectralstormCannon: {
@@ -1083,7 +1116,7 @@ SpeedBlaster: {
 	Tooltip:
 		'''
 		Rapidly fires phosphorescent paintball shots
-		<right> to eject a powerful glob which propels you while moving
+		Press <right> to eject a powerful glob which propels you while moving
 		This ability has a cooldown of {0} seconds
 		While under cooldown, you fire more rapidly with greater accuracy
 		'''
@@ -1177,7 +1210,12 @@ TelluricGlare: {
 
 TerraFlameburster: {
 	DisplayName: Terra Flameburster
-	Tooltip: 80% chance to save ammo
+	Tooltip:
+		'''
+		Charges up to emit a stream of energized flames and pairs of homing terra flares
+		Uses gel for ammo
+		50% chance to save ammo
+		'''
 }
 
 TheBallista: {

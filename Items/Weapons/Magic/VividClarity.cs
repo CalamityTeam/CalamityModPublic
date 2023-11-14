@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Magic
             float sourceVariationLow = 20f;
             float sourceVariationHigh = 60f;
             Vector2 source = playerPos + f.ToRotationVector2() * MathHelper.Lerp(sourceVariationLow, sourceVariationHigh, Main.rand.NextFloat());
-            for (int num202 = 0; num202 < 50; num202++)
+            for (int i = 0; i < 50; i++)
             {
                 source = playerPos + f.ToRotationVector2() * MathHelper.Lerp(sourceVariationLow, sourceVariationHigh, Main.rand.NextFloat());
                 if (Collision.CanHit(playerPos, 0, 0, source + (source - playerPos).SafeNormalize(Vector2.UnitX) * 8f, 0, 0))

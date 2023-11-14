@@ -79,29 +79,29 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (targetArrayIndex == 0)
                 return false;
 
-            Vector2 vector2;
+            Vector2 targetPosition;
             int extraBulletDamage = (int)(damage * 0.7);
 
             for (int j = 0; j < targetArrayIndex; j++)
             {
-                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
-                vector2.Y -= 100 * j;
+                targetPosition = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                targetPosition.X = (targetPosition.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
+                targetPosition.Y -= 100 * j;
 
-                Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * Item.shootSpeed;
+                Vector2 extraBulletVel = Vector2.Normalize(Main.npc[targets[j]].Center - targetPosition) * Item.shootSpeed;
 
-                int proj = Projectile.NewProjectile(source, vector2, velocity2, type, extraBulletDamage, knockback, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, targetPosition, extraBulletVel, type, extraBulletDamage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
                 Main.projectile[proj].tileCollide = false;
                 Main.projectile[proj].timeLeft /= 2;
 
-                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y + 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
-                vector2.Y += 100 * j;
+                targetPosition = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y + 600f);
+                targetPosition.X = (targetPosition.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
+                targetPosition.Y += 100 * j;
 
-                velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * Item.shootSpeed;
+                extraBulletVel = Vector2.Normalize(Main.npc[targets[j]].Center - targetPosition) * Item.shootSpeed;
 
-                proj = Projectile.NewProjectile(source, vector2, velocity2, type, extraBulletDamage, knockback, player.whoAmI);
+                proj = Projectile.NewProjectile(source, targetPosition, extraBulletVel, type, extraBulletDamage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
                 Main.projectile[proj].tileCollide = false;
                 Main.projectile[proj].timeLeft /= 2;
@@ -115,24 +115,24 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 int randomTarget = Main.rand.Next(targetArrayIndex);
 
-                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
-                vector2.Y -= 100 * randomTarget;
+                targetPosition = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                targetPosition.X = (targetPosition.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
+                targetPosition.Y -= 100 * randomTarget;
 
-                Vector2 velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * Item.shootSpeed;
+                Vector2 extraBulletVel = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - targetPosition) * Item.shootSpeed;
 
-                int proj = Projectile.NewProjectile(source, vector2, velocity2, type, extraBulletDamage, knockback, player.whoAmI);
+                int proj = Projectile.NewProjectile(source, targetPosition, extraBulletVel, type, extraBulletDamage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
                 Main.projectile[proj].tileCollide = false;
                 Main.projectile[proj].timeLeft /= 2;
 
-                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y + 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
-                vector2.Y += 100 * randomTarget;
+                targetPosition = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y + 600f);
+                targetPosition.X = (targetPosition.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
+                targetPosition.Y += 100 * randomTarget;
 
-                velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * Item.shootSpeed;
+                extraBulletVel = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - targetPosition) * Item.shootSpeed;
 
-                proj = Projectile.NewProjectile(source, vector2, velocity2, type, extraBulletDamage, knockback, player.whoAmI);
+                proj = Projectile.NewProjectile(source, targetPosition, extraBulletVel, type, extraBulletDamage, knockback, player.whoAmI);
                 Main.projectile[proj].extraUpdates += 2;
                 Main.projectile[proj].tileCollide = false;
                 Main.projectile[proj].timeLeft /= 2;

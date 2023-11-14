@@ -43,7 +43,6 @@ namespace CalamityMod.Tiles.FurnitureStratus
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Tile trackTile = Main.tile[i, j];
-            double num6 = Main.time * 0.08;
 
             TileFraming.SlopedGlowmask(i, j, 0, glowmask, drawOffset, null, GetDrawColour(i, j, drawColour), default);
         }

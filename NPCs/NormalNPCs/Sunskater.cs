@@ -85,13 +85,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.chaseable = hasBeenHit;
             if (!NPC.wet)
             {
-                bool flag14 = hasBeenHit;
+                bool canAttack = hasBeenHit;
                 NPC.TargetClosest(false);
-                if ((Main.player[NPC.target].wet || Main.player[NPC.target].dead) && flag14)
+                if ((Main.player[NPC.target].wet || Main.player[NPC.target].dead) && canAttack)
                 {
-                    flag14 = false;
+                    canAttack = false;
                 }
-                if (!flag14)
+                if (!canAttack)
                 {
                     if (NPC.collideX)
                     {
@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         }
                     }
                 }
-                if (flag14)
+                if (canAttack)
                 {
                     NPC.TargetClosest(true);
                     NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * 0.15f;
@@ -148,15 +148,15 @@ namespace CalamityMod.NPCs.NormalNPCs
                         }
                     }
                 }
-                int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
-                int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                if (Main.tile[num258, num259 - 1].LiquidAmount < 128) //problem?
+                int npcTileX = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
+                int npcTileY = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
+                if (Main.tile[npcTileX, npcTileY - 1].LiquidAmount < 128) //problem?
                 {
-                    if (Main.tile[num258, num259 + 1].HasTile)
+                    if (Main.tile[npcTileX, npcTileY + 1].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }
-                    else if (Main.tile[num258, num259 + 2].HasTile)
+                    else if (Main.tile[npcTileX, npcTileY + 2].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }

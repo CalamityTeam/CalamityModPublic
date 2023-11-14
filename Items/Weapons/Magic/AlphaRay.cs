@@ -59,23 +59,23 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             else
             {
-                Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-                float num117 = 0.314159274f;
-                int num118 = 3;
-                Vector2 vector7 = velocity;
-                vector7.Normalize();
-                vector7 *= 80f;
-                bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
-                for (int num119 = 0; num119 < num118; num119++)
+                Vector2 laserSpawnPos = player.RotatedRelativePoint(player.MountedCenter, true);
+                float tenthPi = 0.314159274f;
+                int laserAmt = 3;
+                Vector2 laserVelocity = velocity;
+                laserVelocity.Normalize();
+                laserVelocity *= 80f;
+                bool laserHitsTiles = Collision.CanHit(laserSpawnPos, 0, 0, laserSpawnPos + laserVelocity, 0, 0);
+                for (int i = 0; i < laserAmt; i++)
                 {
-                    float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-                    Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
-                    if (!flag11)
+                    float laserOffset = (float)i - ((float)laserAmt - 1f) / 2f;
+                    Vector2 offsetSpawnPos = laserVelocity.RotatedBy((double)(tenthPi * laserOffset), default);
+                    if (!laserHitsTiles)
                     {
-                        value9 -= vector7;
+                        offsetSpawnPos -= laserVelocity;
                     }
-                    Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X * 1.5f, velocity.Y * 1.5f, type, (int)(damage * 0.8), knockback, player.whoAmI);
-                    int laser = Projectile.NewProjectile(source, vector2.X + value9.X, vector2.Y + value9.Y, velocity.X * 2f, velocity.Y * 2f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockback * 0.4f, player.whoAmI);
+                    Projectile.NewProjectile(source, laserSpawnPos.X + offsetSpawnPos.X, laserSpawnPos.Y + offsetSpawnPos.Y, velocity.X * 1.5f, velocity.Y * 1.5f, type, (int)(damage * 0.8), knockback, player.whoAmI);
+                    int laser = Projectile.NewProjectile(source, laserSpawnPos.X + offsetSpawnPos.X, laserSpawnPos.Y + offsetSpawnPos.Y, velocity.X * 2f, velocity.Y * 2f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockback * 0.4f, player.whoAmI);
                     Main.projectile[laser].timeLeft = 120;
                     Main.projectile[laser].tileCollide = false;
                 }

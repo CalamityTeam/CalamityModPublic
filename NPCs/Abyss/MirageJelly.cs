@@ -107,41 +107,41 @@ namespace CalamityMod.NPCs.Abyss
                     {
                         teleporting = false;
                         NPC.TargetClosest(true);
-                        int num1249 = 0;
-                        int num1250;
-                        int num1251;
+                        int teleportTries = 0;
+                        int teleportTileX;
+                        int teleportTileY;
                         while (true)
                         {
-                            num1249++;
-                            num1250 = (int)player.Center.X / 16;
-                            num1251 = (int)player.Center.Y / 16;
+                            teleportTries++;
+                            teleportTileX = (int)player.Center.X / 16;
+                            teleportTileY = (int)player.Center.Y / 16;
 
                             int min = 6;
                             int max = 9;
 
                             if (Main.rand.NextBool())
-                                num1250 += Main.rand.Next(min, max);
+                                teleportTileX += Main.rand.Next(min, max);
                             else
-                                num1250 -= Main.rand.Next(min, max);
+                                teleportTileX -= Main.rand.Next(min, max);
 
                             min = 11;
                             max = 26;
 
-                            num1251 += Main.rand.Next(min, max);
+                            teleportTileY += Main.rand.Next(min, max);
 
-                            if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2((float)(num1250 * 16), (float)(num1251 * 16)), 1, 1, player.position, player.width, player.height) &&
-                                Main.tile[num1250, num1251].LiquidAmount > 204)
+                            if (!WorldGen.SolidTile(teleportTileX, teleportTileY) && Collision.CanHit(new Vector2((float)(teleportTileX * 16), (float)(teleportTileY * 16)), 1, 1, player.position, player.width, player.height) &&
+                                Main.tile[teleportTileX, teleportTileY].LiquidAmount > 204)
                             {
                                 break;
                             }
-                            if (num1249 > 100)
+                            if (teleportTries > 100)
                             {
                                 goto Block;
                             }
                         }
                         NPC.ai[0] = 1f;
-                        NPC.ai[1] = (float)num1250;
-                        NPC.ai[2] = (float)num1251;
+                        NPC.ai[1] = (float)teleportTileX;
+                        NPC.ai[2] = (float)teleportTileY;
                         NPC.netUpdate = true;
                         Block:
                         ;

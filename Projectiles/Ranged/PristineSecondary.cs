@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -9,92 +10,65 @@ namespace CalamityMod.Projectiles.Ranged
     public class PristineSecondary : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
-        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
+        public override string Texture => "CalamityMod/Projectiles/Magic/RancorFog";
 
-        private int dust1 = (int)CalamityDusts.ProfanedFire;
-        private int dust2 = ModContent.DustType<HolyFireDust>();
+        public ref float ScaleFactor => ref Projectile.ai[0];
+        public ref float LightPower => ref Projectile.ai[1];
+
+        public Color FogColor = new Color(255, 220, 100);
 
         public override void SetDefaults()
         {
-            Projectile.width = 50;
-            Projectile.height = 50;
+            Projectile.width = Projectile.height = 150;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 3;
             Projectile.timeLeft = 150;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 2;
         }
 
         public override void AI()
         {
+            // Add some degree of variation to the fog with scale/rotation/color
+            if (Projectile.ai[2] == 0f)
+            {
+                Projectile.scale = Main.rand.NextFloat(0.15f, 0.75f);
+                Projectile.ai[2] = Main.rand.NextFloat(MathHelper.TwoPi);
+                FogColor.G = (byte)Main.rand.Next(160, 230 + 1);
+            }
+            ScaleFactor += 0.01f;
+            ScaleFactor = MathHelper.Clamp(ScaleFactor, 0f, Projectile.scale);
+            Lighting.AddLight(Projectile.Center, new Vector3(1f, 1f, 0.25f) * ScaleFactor);
+            Projectile.rotation = Projectile.velocity.ToRotation() + Projectile.ai[2];
+
             Projectile.velocity *= 0.98f;
-            int dustType = Utils.SelectRandom(Main.rand, new int[]
-            {
-                dust1,
-                dust2
-            });
-            Lighting.AddLight(Projectile.Center, 1f, 1f, 0.25f);
-            if (Projectile.ai[0] > 7f)
-            {
-                float num296 = 1f;
-                if (Projectile.ai[0] == 8f)
-                {
-                    num296 = 0.25f;
-                }
-                else if (Projectile.ai[0] == 9f)
-                {
-                    num296 = 0.5f;
-                }
-                else if (Projectile.ai[0] == 10f)
-                {
-                    num296 = 0.75f;
-                }
-                Projectile.ai[0] += 1f;
-                if (Main.rand.NextBool())
-                {
-                    for (int num298 = 0; num298 < 1; num298++)
-                    {
-                        int num299 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
-                        Dust dust = Main.dust[num299];
-                        if (Main.rand.NextBool(3))
-                        {
-                            dust.noGravity = true;
-                            dust.scale *= 1.25f;
-                            dust.velocity.X *= 2f;
-                            dust.velocity.Y *= 2f;
-                        }
-                        if (Main.rand.NextBool(6))
-                        {
-                            dust.noGravity = true;
-                            dust.scale *= 1.5f;
-                            dust.velocity.X *= 2f;
-                            dust.velocity.Y *= 2f;
-                        }
-                        else
-                        {
-                            dust.scale *= 1f;
-                        }
-                        dust.velocity.X *= 1.2f;
-                        dust.velocity.Y *= 1.2f;
-                        dust.scale *= num296;
-                        dust.noLight = true;
-                        dust.color = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
-                    }
-                }
-            }
-            else
-            {
-                Projectile.ai[0] += 1f;
-            }
-            Projectile.rotation += 0.3f * (float)Projectile.direction;
+            Projectile.Opacity = Utils.GetLerpValue(150f, 135f, Projectile.timeLeft, true) * Utils.GetLerpValue(0f, 90f, Projectile.timeLeft, true);
+
+            // Calculate light power. This checks below the position of the fog to check if this fog is underground.
+            // Without this, it may render over the fullblack that the game renders for obscured tiles.
+            float lightPowerBelow = Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16 + 6).ToVector3().Length() / (float)Math.Sqrt(3D);
+            LightPower = MathHelper.Lerp(LightPower, lightPowerBelow, 0.15f);
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, Projectile.width * ScaleFactor * 0.5f, targetHitbox);
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+
+        public override bool PreDraw(ref Color lightColor)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+            Main.spriteBatch.SetBlendState(BlendState.Additive);
+
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            float opacity = Utils.GetLerpValue(0f, 0.08f, LightPower, true) * Projectile.Opacity * 0.5f;
+            Color drawColor = FogColor * opacity;
+            Main.EntitySpriteDraw(texture, drawPosition, null, drawColor, Projectile.rotation, texture.Size() * 0.5f, ScaleFactor, SpriteEffects.None);
+
+            Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);
+            return false;
         }
     }
 }

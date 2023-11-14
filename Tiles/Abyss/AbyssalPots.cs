@@ -1,6 +1,6 @@
-﻿using CalamityMod.Items.TreasureBags.MiscGrabBags;
+﻿using System.Collections.Generic;
+using CalamityMod.Items.TreasureBags.MiscGrabBags;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -21,8 +21,8 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileSpelunker[Type] = true;
             Main.tileCut[Type] = true;
 
-            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(47, 79, 79), Language.GetText("MapObject.Pot")); // dark slate gray
             DustType = 29;
@@ -35,28 +35,28 @@ namespace CalamityMod.Tiles.Abyss
             if (tileAtPosition.TileFrameX % 36 == 0 && tileAtPosition.TileFrameY % 36 == 0)
             {
                 if (Main.netMode != NetmodeID.Server)
-				{
-					int goreAmt = Main.rand.Next(1, 2 + 1);
-					for (int k = 0; k < goreAmt; k++)
-					{
-						Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("AbyssPotGore1").Type);
-						Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("AbyssPotGore2").Type);
-					}
-				}
+                {
+                    int goreAmt = Main.rand.Next(1, 2 + 1);
+                    for (int k = 0; k < goreAmt; k++)
+                    {
+                        Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("AbyssPotGore1").Type);
+                        Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("AbyssPotGore2").Type);
+                    }
+                }
 
-				// 1 in 400 for a Coin Portal
-				if (Player.GetClosestRollLuck(i, j, 400) == 0f)
-				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-						Projectile.NewProjectile(new EntitySource_TileBreak(i, j), i * 16 + 16, j * 16 + 16, 0f, -12f, ProjectileID.CoinPortal, 0, 0f, Main.myPlayer);
-				}
-				// Followed by a 1 in 4 for a bomb in For The Worthy worlds
-				else if (Main.getGoodWorld && Main.rand.NextBool(4))
-					Projectile.NewProjectile(new EntitySource_TileBreak(i, j), i * 16 + 16, j * 16 + 8, (float)Main.rand.Next(-100, 101) * 0.002f, 0f, ProjectileID.Bomb, 0, 0f, Player.FindClosest(new Vector2(i * 16, j * 16), 16, 16));
-				else
-					yield return new Item(ModContent.ItemType<AbyssalTreasure>());
-			}
-		}
+                // 1 in 400 for a Coin Portal
+                if (Player.GetClosestRollLuck(i, j, 400) == 0f)
+                {
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        Projectile.NewProjectile(new EntitySource_TileBreak(i, j), i * 16 + 16, j * 16 + 16, 0f, -12f, ProjectileID.CoinPortal, 0, 0f, Main.myPlayer);
+                }
+                // Followed by a 1 in 4 for a bomb in For The Worthy worlds
+                else if (Main.getGoodWorld && Main.rand.NextBool(4))
+                    Projectile.NewProjectile(new EntitySource_TileBreak(i, j), i * 16 + 16, j * 16 + 8, (float)Main.rand.Next(-100, 101) * 0.002f, 0f, ProjectileID.Bomb, 0, 0f, Player.FindClosest(new Vector2(i * 16, j * 16), 16, 16));
+                else
+                    yield return new Item(ModContent.ItemType<AbyssalTreasure>());
+            }
+        }
 
         public override bool CreateDust(int i, int j, ref int type)
         {

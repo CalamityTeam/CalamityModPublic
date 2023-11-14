@@ -144,149 +144,149 @@ namespace CalamityMod.NPCs.SunkenSea
             {
                 NPC.active = false;
             }
-            float num188 = speed;
-            float num189 = turnSpeed;
-            Vector2 vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-            float num191 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
-            float num192 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
+            float currentSpeed = speed;
+            float currentTurnSpeed = turnSpeed;
+            Vector2 segmentPosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float targetXDist = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+            float targetYDist = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
             if (NPC.life > NPC.lifeMax * 0.99)
             {
-                num192 += 300;
+                targetYDist += 300;
                 if (Math.Abs(NPC.Center.X - Main.player[NPC.target].Center.X) < 250f)
                 {
                     if (NPC.velocity.X > 0f)
                     {
-                        num191 = Main.player[NPC.target].Center.X + 300f;
+                        targetXDist = Main.player[NPC.target].Center.X + 300f;
                     }
                     else
                     {
-                        num191 = Main.player[NPC.target].Center.X - 300f;
+                        targetXDist = Main.player[NPC.target].Center.X - 300f;
                     }
                 }
             }
             else
             {
-                num188 *= 1.5f;
-                num189 *= 1.5f;
+                currentSpeed *= 1.5f;
+                currentTurnSpeed *= 1.5f;
             }
-            float num48 = num188 * 1.3f;
-            float num49 = num188 * 0.7f;
-            float num50 = NPC.velocity.Length();
-            if (num50 > 0f)
+            float maxCurrentSpeed = currentSpeed * 1.3f;
+            float minCurrentSpeed = currentSpeed * 0.7f;
+            float speedCompare = NPC.velocity.Length();
+            if (speedCompare > 0f)
             {
-                if (num50 > num48)
+                if (speedCompare > maxCurrentSpeed)
                 {
                     NPC.velocity.Normalize();
-                    NPC.velocity *= num48;
+                    NPC.velocity *= maxCurrentSpeed;
                 }
-                else if (num50 < num49)
+                else if (speedCompare < minCurrentSpeed)
                 {
                     NPC.velocity.Normalize();
-                    NPC.velocity *= num49;
+                    NPC.velocity *= minCurrentSpeed;
                 }
             }
-            num191 = (float)((int)(num191 / 16f) * 16);
-            num192 = (float)((int)(num192 / 16f) * 16);
-            vector18.X = (float)((int)(vector18.X / 16f) * 16);
-            vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
-            float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-            float num196 = System.Math.Abs(num191);
-            float num197 = System.Math.Abs(num192);
-            float num198 = num188 / num193;
-            num191 *= num198;
-            num192 *= num198;
-            if ((NPC.velocity.X > 0f && num191 > 0f) || (NPC.velocity.X < 0f && num191 < 0f) || (NPC.velocity.Y > 0f && num192 > 0f) || (NPC.velocity.Y < 0f && num192 < 0f))
+            targetXDist = (float)((int)(targetXDist / 16f) * 16);
+            targetYDist = (float)((int)(targetYDist / 16f) * 16);
+            segmentPosition.X = (float)((int)(segmentPosition.X / 16f) * 16);
+            segmentPosition.Y = (float)((int)(segmentPosition.Y / 16f) * 16);
+            targetXDist -= segmentPosition.X;
+            targetYDist -= segmentPosition.Y;
+            float targetDistance = (float)System.Math.Sqrt((double)(targetXDist * targetXDist + targetYDist * targetYDist));
+            float absoluteTargetX = System.Math.Abs(targetXDist);
+            float absoluteTargetY = System.Math.Abs(targetYDist);
+            float timeToReachTarget = currentSpeed / targetDistance;
+            targetXDist *= timeToReachTarget;
+            targetYDist *= timeToReachTarget;
+            if ((NPC.velocity.X > 0f && targetXDist > 0f) || (NPC.velocity.X < 0f && targetXDist < 0f) || (NPC.velocity.Y > 0f && targetYDist > 0f) || (NPC.velocity.Y < 0f && targetYDist < 0f))
             {
-                if (NPC.velocity.X < num191)
+                if (NPC.velocity.X < targetXDist)
                 {
-                    NPC.velocity.X = NPC.velocity.X + num189;
+                    NPC.velocity.X = NPC.velocity.X + currentTurnSpeed;
                 }
                 else
                 {
-                    if (NPC.velocity.X > num191)
+                    if (NPC.velocity.X > targetXDist)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num189;
+                        NPC.velocity.X = NPC.velocity.X - currentTurnSpeed;
                     }
                 }
-                if (NPC.velocity.Y < num192)
+                if (NPC.velocity.Y < targetYDist)
                 {
-                    NPC.velocity.Y = NPC.velocity.Y + num189;
+                    NPC.velocity.Y = NPC.velocity.Y + currentTurnSpeed;
                 }
                 else
                 {
-                    if (NPC.velocity.Y > num192)
+                    if (NPC.velocity.Y > targetYDist)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num189;
+                        NPC.velocity.Y = NPC.velocity.Y - currentTurnSpeed;
                     }
                 }
-                if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((NPC.velocity.X > 0f && num191 < 0f) || (NPC.velocity.X < 0f && num191 > 0f)))
+                if ((double)System.Math.Abs(targetYDist) < (double)currentSpeed * 0.2 && ((NPC.velocity.X > 0f && targetXDist < 0f) || (NPC.velocity.X < 0f && targetXDist > 0f)))
                 {
                     if (NPC.velocity.Y > 0f)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num189 * 2f;
+                        NPC.velocity.Y = NPC.velocity.Y + currentTurnSpeed * 2f;
                     }
                     else
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num189 * 2f;
+                        NPC.velocity.Y = NPC.velocity.Y - currentTurnSpeed * 2f;
                     }
                 }
-                if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((NPC.velocity.Y > 0f && num192 < 0f) || (NPC.velocity.Y < 0f && num192 > 0f)))
+                if ((double)System.Math.Abs(targetXDist) < (double)currentSpeed * 0.2 && ((NPC.velocity.Y > 0f && targetYDist < 0f) || (NPC.velocity.Y < 0f && targetYDist > 0f)))
                 {
                     if (NPC.velocity.X > 0f)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num189 * 2f; //changed from 2
+                        NPC.velocity.X = NPC.velocity.X + currentTurnSpeed * 2f; //changed from 2
                     }
                     else
                     {
-                        NPC.velocity.X = NPC.velocity.X - num189 * 2f; //changed from 2
+                        NPC.velocity.X = NPC.velocity.X - currentTurnSpeed * 2f; //changed from 2
                     }
                 }
             }
             else
             {
-                if (num196 > num197)
+                if (absoluteTargetX > absoluteTargetY)
                 {
-                    if (NPC.velocity.X < num191)
+                    if (NPC.velocity.X < targetXDist)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num189 * 1.1f; //changed from 1.1
+                        NPC.velocity.X = NPC.velocity.X + currentTurnSpeed * 1.1f; //changed from 1.1
                     }
-                    else if (NPC.velocity.X > num191)
+                    else if (NPC.velocity.X > targetXDist)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num189 * 1.1f; //changed from 1.1
+                        NPC.velocity.X = NPC.velocity.X - currentTurnSpeed * 1.1f; //changed from 1.1
                     }
-                    if ((double)(System.Math.Abs(NPC.velocity.X) + System.Math.Abs(NPC.velocity.Y)) < (double)num188 * 0.5)
+                    if ((double)(System.Math.Abs(NPC.velocity.X) + System.Math.Abs(NPC.velocity.Y)) < (double)currentSpeed * 0.5)
                     {
                         if (NPC.velocity.Y > 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num189;
+                            NPC.velocity.Y = NPC.velocity.Y + currentTurnSpeed;
                         }
                         else
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num189;
+                            NPC.velocity.Y = NPC.velocity.Y - currentTurnSpeed;
                         }
                     }
                 }
                 else
                 {
-                    if (NPC.velocity.Y < num192)
+                    if (NPC.velocity.Y < targetYDist)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num189 * 1.1f;
+                        NPC.velocity.Y = NPC.velocity.Y + currentTurnSpeed * 1.1f;
                     }
-                    else if (NPC.velocity.Y > num192)
+                    else if (NPC.velocity.Y > targetYDist)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num189 * 1.1f;
+                        NPC.velocity.Y = NPC.velocity.Y - currentTurnSpeed * 1.1f;
                     }
-                    if ((double)(System.Math.Abs(NPC.velocity.X) + System.Math.Abs(NPC.velocity.Y)) < (double)num188 * 0.5)
+                    if ((double)(System.Math.Abs(NPC.velocity.X) + System.Math.Abs(NPC.velocity.Y)) < (double)currentSpeed * 0.5)
                     {
                         if (NPC.velocity.X > 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num189;
+                            NPC.velocity.X = NPC.velocity.X + currentTurnSpeed;
                         }
                         else
                         {
-                            NPC.velocity.X = NPC.velocity.X - num189;
+                            NPC.velocity.X = NPC.velocity.X - currentTurnSpeed;
                         }
                     }
                 }

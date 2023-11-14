@@ -4,7 +4,6 @@ using CalamityMod.Projectiles.Environment;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -19,8 +18,8 @@ namespace CalamityMod.Tiles.Abyss
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
-            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(103, 65, 64), CalamityUtils.GetText($"{LocalizationCategory}.SteamGeyser.MapEntry"));
             DustType = (int)CalamityDusts.SulfurousSeaAcid;

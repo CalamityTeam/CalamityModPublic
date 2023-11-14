@@ -179,12 +179,13 @@ namespace CalamityMod.Effects
         #endregion
 
         //
-        // All below shaders were added by Amber
-        // Authorship goes to Toasty
+        // All below shaders were added or created by Amber
+        // Authorship for the PrimitiveClearShader goes to Toasty
         //
 
         #region Amber's Shaders
         internal static Effect PrimitiveClearShader;
+        internal static Effect HolyInfernoShader;
         #endregion
 
         // Shorthand to register a loaded shader in Terraria's graphics engine
@@ -390,6 +391,10 @@ namespace CalamityMod.Effects
             #region Loading Amber's Shaders
             PrimitiveClearShader = LoadShader("PrimitiveClearShader");
             RegisterScreenShader(PrimitiveClearShader, "AutoloadPass", "PrimitiveClearShader");
+
+            HolyInfernoShader = LoadShader("HolyInfernoShader");
+            RegisterMiscShader(HolyInfernoShader, "InfernoPass", "HolyInfernoShader");
+
             #endregion
         }
     }

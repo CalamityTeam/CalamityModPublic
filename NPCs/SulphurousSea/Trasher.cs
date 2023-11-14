@@ -89,19 +89,19 @@ namespace CalamityMod.NPCs.SulphurousSea
                     NPC.TargetClosest(true);
                 }
                 NPC.noTileCollide = false;
-                bool flag14 = hasBeenHit;
+                bool canAttack = hasBeenHit;
                 NPC.TargetClosest(false);
                 if (Main.player[NPC.target].wet && !Main.player[NPC.target].dead &&
                     Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) &&
                     (Main.player[NPC.target].Center - NPC.Center).Length() < 200f)
                 {
-                    flag14 = true;
+                    canAttack = true;
                 }
-                if (Main.player[NPC.target].dead && flag14)
+                if (Main.player[NPC.target].dead && canAttack)
                 {
-                    flag14 = false;
+                    canAttack = false;
                 }
-                if (!flag14)
+                if (!canAttack)
                 {
                     if (NPC.collideX)
                     {
@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.SulphurousSea
                         }
                     }
                 }
-                if (flag14)
+                if (canAttack)
                 {
                     NPC.TargetClosest(true);
                     NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * (CalamityWorld.death ? 0.6f : CalamityWorld.revenge ? 0.45f : 0.3f);
@@ -174,15 +174,15 @@ namespace CalamityMod.NPCs.SulphurousSea
                         }
                     }
                 }
-                int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
-                int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                if (Main.tile[num258, num259 - 1].LiquidAmount > 128)
+                int npcTileX = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
+                int npcTileY = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
+                if (Main.tile[npcTileX, npcTileY - 1].LiquidAmount > 128)
                 {
-                    if (Main.tile[num258, num259 + 1].HasTile)
+                    if (Main.tile[npcTileX, npcTileY + 1].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }
-                    else if (Main.tile[num258, num259 + 2].HasTile)
+                    else if (Main.tile[npcTileX, npcTileY + 2].HasTile)
                     {
                         NPC.ai[0] = -1f;
                     }
@@ -201,22 +201,22 @@ namespace CalamityMod.NPCs.SulphurousSea
                     return;
                 }
                 NPC.noTileCollide = true;
-                float num823 = 1f;
+                float velocityBoost = 1f;
                 NPC.TargetClosest(true);
-                bool flag51 = false;
+                bool closeToTargetX = false;
                 if ((double)NPC.life < (double)NPC.lifeMax * 0.5 || CalamityWorld.death)
                 {
-                    num823 = 1.5f;
+                    velocityBoost = 1.5f;
                 }
                 if ((double)NPC.life < (double)NPC.lifeMax * 0.25 || CalamityWorld.death)
                 {
-                    num823 = 2.5f;
+                    velocityBoost = 2.5f;
                 }
                 if (Math.Abs(NPC.Center.X - Main.player[NPC.target].Center.X) < 20f)
                 {
-                    flag51 = true;
+                    closeToTargetX = true;
                 }
-                if (flag51)
+                if (closeToTargetX)
                 {
                     NPC.velocity.X = NPC.velocity.X * 0.9f;
                     if ((double)NPC.velocity.X > -0.1 && (double)NPC.velocity.X < 0.1)
@@ -228,26 +228,26 @@ namespace CalamityMod.NPCs.SulphurousSea
                 {
                     if (NPC.direction > 0)
                     {
-                        NPC.velocity.X = (NPC.velocity.X * 20f + num823) / 21f;
+                        NPC.velocity.X = (NPC.velocity.X * 20f + velocityBoost) / 21f;
                     }
                     if (NPC.direction < 0)
                     {
-                        NPC.velocity.X = (NPC.velocity.X * 20f - num823) / 21f;
+                        NPC.velocity.X = (NPC.velocity.X * 20f - velocityBoost) / 21f;
                     }
                 }
-                int num854 = 80;
-                int num855 = 20;
-                Vector2 position2 = new Vector2(NPC.Center.X - (float)(num854 / 2), NPC.position.Y + (float)NPC.height - (float)num855);
-                bool flag52 = false;
+                int collisionWidth = 80;
+                int collisionHeight = 20;
+                Vector2 collisionSize = new Vector2(NPC.Center.X - (float)(collisionWidth / 2), NPC.position.Y + (float)NPC.height - (float)collisionHeight);
+                bool shouldFallThroughTiles = false;
                 if (NPC.position.X < Main.player[NPC.target].position.X && NPC.position.X + (float)NPC.width > Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width && NPC.position.Y + (float)NPC.height < Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height - 16f)
                 {
-                    flag52 = true;
+                    shouldFallThroughTiles = true;
                 }
-                if (flag52)
+                if (shouldFallThroughTiles)
                 {
                     NPC.velocity.Y = NPC.velocity.Y + 0.5f;
                 }
-                else if (Collision.SolidCollision(position2, num854, num855))
+                else if (Collision.SolidCollision(collisionSize, collisionWidth, collisionHeight))
                 {
                     if (NPC.velocity.Y > 0f)
                     {

@@ -178,6 +178,8 @@ RedirectingVengefulSoul.DisplayName: Soul
 RougeSlashLarge.DisplayName: Rouge Slash
 RougeSlashMedium.DisplayName: Rouge Slash
 RougeSlashSmall.DisplayName: Rouge Slash
+Sandstream.DisplayName: Sandstream
+SandstreamScepterExplosion.DisplayName: Sandstream Blast
 SanguineFlareProj.DisplayName: Sanguine Flare
 SeethingDischargeBrimstoneBarrage.DisplayName: Seething Brimstone
 SeethingDischargeBrimstoneHellblast.DisplayName: Seething Hellblast
@@ -243,8 +245,6 @@ VoidVortexProj.DisplayName: Void Vortex
 VolatileStarcore.DisplayName: Volatile Starcore
 VortexElementalBeam.DisplayName: Vortex Lightning
 WaterLeechProj.DisplayName: Water Leech
-WaterStream.DisplayName: Water Stream
-WaterStream2.DisplayName: Water Stream
 WaywasherProj.DisplayName: Waywasher Blast
 WulfrumBolt.DisplayName: Wulfrum Bolt
 WulfrumManaDrain.DisplayName: Mana Drain

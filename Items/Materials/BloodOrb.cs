@@ -25,9 +25,9 @@ namespace CalamityMod.Items.Materials
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            float num = Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight((int)((Item.position.X + (Item.width / 2)) / 16f), (int)((Item.position.Y + (Item.height / 2)) / 16f), 0.75f * num, 0f, 0f);
+            float brightness = Main.rand.Next(90, 111) * 0.01f;
+            brightness *= Main.essScale;
+            Lighting.AddLight((int)((Item.position.X + (Item.width / 2)) / 16f), (int)((Item.position.Y + (Item.height / 2)) / 16f), 0.75f * brightness, 0f, 0f);
         }
 
         public override void AddRecipes()

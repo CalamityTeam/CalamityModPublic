@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float MaxThrowReach = 650;
         public static float snapDamageMultiplier = 1.2f; //Extra damage from making the scissors snap
 
-        public static float chargeDamageMultiplier = 1.2f; //Extra damage from charge
+        public static float chargeDamageMultiplier = 1.4f; //Extra damage from charge
         public static float chainDamageMultiplier = 0.1f;
 
         public static int DashIframes = 10;
@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = Item.height = 136;
-            Item.damage = 1770;
+            Item.damage = 1700;
             Item.DamageType = DamageClass.MeleeNoSpeed;
             Item.noMelee = true;
             Item.noUseGraphic = true;

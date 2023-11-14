@@ -70,14 +70,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
                 for (int i = 0; i < totalLoops; i++)
                 {
-                    int proj = Projectile.NewProjectile(source, position, velocity.RotatedBy(-rotation * (i + 1)), type, (int)(damage * 0.5), knockback * 0.5f, player.whoAmI);
-                    Main.projectile[proj].extraUpdates += spread;
-                    int proj2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(+rotation * (i + 1)), type, (int)(damage * 0.5), knockback * 0.5f, player.whoAmI);
-                    Main.projectile[proj2].extraUpdates += spread;
+                    int bullet1 = Projectile.NewProjectile(source, position, velocity.RotatedBy(-rotation * (i + 1)), type, (int)(damage * 0.5), knockback * 0.5f, player.whoAmI);
+                    Main.projectile[bullet1].extraUpdates += spread;
+                    int bullet2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(+rotation * (i + 1)), type, (int)(damage * 0.5), knockback * 0.5f, player.whoAmI);
+                    Main.projectile[bullet2].extraUpdates += spread;
                 }
 
-                int proj3 = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ShockblastRound>(), damage, knockback, player.whoAmI, 0f, spread);
-                Main.projectile[proj3].extraUpdates += spread;
+                int shockblast = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ShockblastRound>(), damage, knockback, player.whoAmI, 0f, spread);
+                Main.projectile[shockblast].extraUpdates += spread;
 
                 spread++;
             }
@@ -85,8 +85,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    int proj = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ShockblastRound>(), damage * 2, knockback * 2f, player.whoAmI, 0f, 10f);
-                    Main.projectile[proj].extraUpdates += 9;
+                    int bigShockblast = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ShockblastRound>(), damage * 2, knockback * 2f, player.whoAmI, 0f, 10f);
+                    Main.projectile[bigShockblast].extraUpdates += 9;
                 }
 
                 finalShot = false;

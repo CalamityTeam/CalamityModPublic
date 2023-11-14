@@ -36,37 +36,29 @@ namespace CalamityMod.Buffs.DamageOverTime
 
             var sparkColor = Main.rand.Next(4) switch
             {
-                0 => Color.DarkRed,
+                0 => Color.Red,
                 1 => Color.MediumTurquoise,
                 2 => Color.Orange,
                 _ => Color.LawnGreen,
             };
-            DirectionalPulseRing pulse = new DirectionalPulseRing(Player.Calamity().RandomDebuffVisualSpot, Vector2.Zero, sparkColor, new Vector2(1, 1), 0, Main.rand.NextFloat(0.09f, 0.17f), 0f, 25);
-            GeneralParticleHandler.SpawnParticle(pulse);
 
-            float numberOfDusts = 3f;
-            float rotFactor = 360f / numberOfDusts;
-            if (Player.miscCounter % 4 == 0)
+            if (Main.rand.NextBool(2))
             {
-                for (int i = 0; i < numberOfDusts; i++)
-                {
-                    var DustType = Main.rand.Next(4) switch
-                    {
-                        0 => 219,
-                        1 => 220,
-                        2 => 226,
-                        _ => 222,
-                    };
-                    float rot = MathHelper.ToRadians(i * rotFactor);
-                    Vector2 offset = new Vector2(0.3f, 0).RotatedBy(rot * Main.rand.NextFloat(0.2f, 0.3f));
-                    Vector2 velOffset = CalamityUtils.RandomVelocity(100f, 70f, 150f, 0.04f);
-                    Dust dust = Dust.NewDustPerfect(Player.Calamity().RandomDebuffVisualSpot + offset, DustType, new Vector2(velOffset.X, velOffset.Y));
-                    dust.noGravity = true;
-                    dust.velocity = velOffset;
-                    velOffset *= 10;
-                    dust.position = Player.Center - velOffset;
-                    dust.scale = Main.rand.NextFloat(0.7f, 0.8f);
-                }
+                Dust dust = Dust.NewDustPerfect(Player.Calamity().RandomDebuffVisualSpot, 278, CalamityUtils.RandomVelocity(100f, 70f, 150f, 0.04f));
+                dust.noGravity = true;
+                dust.scale = Main.rand.NextFloat(0.7f, 0.85f);
+                dust.color = sparkColor * 0.45f;
+            }
+
+            float numberOfDusts = 1f;
+            float rotFactor = 360f / numberOfDusts;
+            for (int i = 0; i < numberOfDusts; i++)
+            {
+                float rot = MathHelper.ToRadians(i * rotFactor);
+                Vector2 velOffset = CalamityUtils.RandomVelocity(100f, 70f, 150f, 0.04f);
+                velOffset *= Main.rand.NextFloat(2, 13);
+                SquishyLightParticle exoEnergy = new(Player.Center + Player.velocity * 3 + velOffset * 1.5f, -velOffset * 0.25f, 0.3f, sparkColor, 8);
+                GeneralParticleHandler.SpawnParticle(exoEnergy);
             }
         }
 
@@ -75,36 +67,31 @@ namespace CalamityMod.Buffs.DamageOverTime
             Vector2 npcSize = npc.Center + new Vector2(Main.rand.NextFloat(-npc.width / 2, npc.width / 2), Main.rand.NextFloat(-npc.height / 2, npc.height / 2));
             var sparkColor = Main.rand.Next(4) switch
             {
-                0 => Color.DarkRed,
+                0 => Color.Red,
                 1 => Color.MediumTurquoise,
                 2 => Color.Orange,
                 _ => Color.LawnGreen,
             };
-            DirectionalPulseRing pulse = new DirectionalPulseRing(npcSize, Vector2.Zero, sparkColor, new Vector2(1, 1), 0, 0.18f + (0.0000007f * npc.width * npc.height), 0f, 25);
-            GeneralParticleHandler.SpawnParticle(pulse);
 
-            float numberOfDusts = 2f;
-            float rotFactor = 360f / numberOfDusts;
             if (Main.rand.NextBool(3))
+            {
+                Dust dust = Dust.NewDustPerfect(npcSize, 278, CalamityUtils.RandomVelocity(100f, 70f, 150f, 0.04f));
+                dust.noGravity = true;
+                dust.scale = Main.rand.NextFloat(0.7f, 0.85f) + (0.0000007f * npc.width * npc.height);
+                dust.color = sparkColor * 0.45f;
+            }
+
+            float numberOfDusts = 1f;
+            float rotFactor = 360f / numberOfDusts;
+            if (Main.rand.NextBool())
             {
                 for (int i = 0; i < numberOfDusts; i++)
                 {
-                    var DustType = Main.rand.Next(4) switch
-                    {
-                        0 => 219,
-                        1 => 220,
-                        2 => 226,
-                        _ => 222,
-                    };
                     float rot = MathHelper.ToRadians(i * rotFactor);
-                    Vector2 offset = new Vector2(0.3f, 0).RotatedBy(rot * Main.rand.NextFloat(0.2f, 0.3f));
                     Vector2 velOffset = CalamityUtils.RandomVelocity(100f, 70f, 150f, 0.04f);
-                    Dust dust = Dust.NewDustPerfect(npc.Center + offset, DustType, new Vector2(velOffset.X, velOffset.Y));
-                    dust.noGravity = true;
-                    dust.velocity = velOffset;
-                    velOffset *= 10 + (0.0003f * npc.width * npc.height);
-                    dust.position = npc.Center - velOffset;
-                    dust.scale = Main.rand.NextFloat(0.7f, 0.8f);
+                    velOffset *= Main.rand.NextFloat(1, 9) + (0.0002f * npc.width * npc.height);
+                    SquishyLightParticle exoEnergy = new(npc.Center + npc.velocity * 3 + velOffset * 1.5f, -velOffset * 0.25f, 0.3f, sparkColor, 8);
+                    GeneralParticleHandler.SpawnParticle(exoEnergy);
                 }
             }
         }

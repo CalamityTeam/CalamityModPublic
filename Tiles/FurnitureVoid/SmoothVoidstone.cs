@@ -228,7 +228,6 @@ namespace CalamityMod.Tiles.FurnitureVoid
             brightness *= (float)MathF.Sin(i * 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
             brightness *= (float)MathF.Sin(j * 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
             drawColour *= brightness;
-            double num6 = Main.time * 0.08;
 
             TileFraming.SlopedGlowmask(i, j, 0, glowmask, drawOffset, null, GetDrawColour(i, j, drawColour), default);
         }

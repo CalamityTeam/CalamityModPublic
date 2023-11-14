@@ -65,36 +65,36 @@ namespace CalamityMod.NPCs.Astral
             {
                 NPC.TargetClosest(true);
             }
-            float num = CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6.5f : 5f;
-            float num2 = CalamityWorld.death ? 0.08f : CalamityWorld.revenge ? 0.065f : 0.05f;
-            Vector2 vector = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-            float num4 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
-            float num5 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
-            num4 = (float)((int)(num4 / 8f) * 8);
-            num5 = (float)((int)(num5 / 8f) * 8);
-            vector.X = (float)((int)(vector.X / 8f) * 8);
-            vector.Y = (float)((int)(vector.Y / 8f) * 8);
-            num4 -= vector.X;
-            num5 -= vector.Y;
-            float num6 = (float)Math.Sqrt((double)(num4 * num4 + num5 * num5));
-            float num7 = num6;
-            bool flag = false;
-            if (num6 > 600f)
+            float probeSpeed = CalamityWorld.death ? 8f : CalamityWorld.revenge ? 6.5f : 5f;
+            float probeAcceleration = CalamityWorld.death ? 0.08f : CalamityWorld.revenge ? 0.065f : 0.05f;
+            Vector2 probePosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float targetXDirection = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+            float targetYDirection = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
+            targetXDirection = (float)((int)(targetXDirection / 8f) * 8);
+            targetYDirection = (float)((int)(targetYDirection / 8f) * 8);
+            probePosition.X = (float)((int)(probePosition.X / 8f) * 8);
+            probePosition.Y = (float)((int)(probePosition.Y / 8f) * 8);
+            targetXDirection -= probePosition.X;
+            targetYDirection -= probePosition.Y;
+            float targetDistance = (float)Math.Sqrt((double)(targetXDirection * targetXDirection + targetYDirection * targetYDirection));
+            float accelerateDistance = targetDistance;
+            bool tooFar = false;
+            if (targetDistance > 600f)
             {
-                flag = true;
+                tooFar = true;
             }
-            if (num6 == 0f)
+            if (targetDistance == 0f)
             {
-                num4 = NPC.velocity.X;
-                num5 = NPC.velocity.Y;
+                targetXDirection = NPC.velocity.X;
+                targetYDirection = NPC.velocity.Y;
             }
             else
             {
-                num6 = num / num6;
-                num4 *= num6;
-                num5 *= num6;
+                targetDistance = probeSpeed / targetDistance;
+                targetXDirection *= targetDistance;
+                targetYDirection *= targetDistance;
             }
-            if (num7 > 100f)
+            if (accelerateDistance > 100f)
             {
                 NPC.ai[0] += 1f;
                 if (NPC.ai[0] > 0f)
@@ -120,24 +120,24 @@ namespace CalamityMod.NPCs.Astral
             }
             if (Main.player[NPC.target].dead)
             {
-                num4 = (float)NPC.direction * num / 2f;
-                num5 = -num / 2f;
+                targetXDirection = (float)NPC.direction * probeSpeed / 2f;
+                targetYDirection = -probeSpeed / 2f;
             }
-            if (NPC.velocity.X < num4)
+            if (NPC.velocity.X < targetXDirection)
             {
-                NPC.velocity.X = NPC.velocity.X + num2;
+                NPC.velocity.X = NPC.velocity.X + probeAcceleration;
             }
-            else if (NPC.velocity.X > num4)
+            else if (NPC.velocity.X > targetXDirection)
             {
-                NPC.velocity.X = NPC.velocity.X - num2;
+                NPC.velocity.X = NPC.velocity.X - probeAcceleration;
             }
-            if (NPC.velocity.Y < num5)
+            if (NPC.velocity.Y < targetYDirection)
             {
-                NPC.velocity.Y = NPC.velocity.Y + num2;
+                NPC.velocity.Y = NPC.velocity.Y + probeAcceleration;
             }
-            else if (NPC.velocity.Y > num5)
+            else if (NPC.velocity.Y > targetYDirection)
             {
-                NPC.velocity.Y = NPC.velocity.Y - num2;
+                NPC.velocity.Y = NPC.velocity.Y - probeAcceleration;
             }
             NPC.localAI[0] += 1f;
             if (NPC.justHit)
@@ -149,37 +149,36 @@ namespace CalamityMod.NPCs.Astral
                 NPC.localAI[0] = 0f;
                 if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                 {
-                    int num8 = Main.expertMode ? 14 : 18;
+                    int projDamage = Main.expertMode ? 14 : 18;
                     if (DownedBossSystem.downedAstrumAureus)
-                        num8 += 6;
+                        projDamage += 6;
 
-                    int num9 = ProjectileID.PinkLaser;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), probePosition.X, probePosition.Y, targetXDirection, targetYDirection, ProjectileID.PinkLaser, projDamage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
-            int num10 = (int)NPC.position.X + NPC.width / 2;
-            int num11 = (int)NPC.position.Y + NPC.height / 2;
-            num10 /= 16;
-            num11 /= 16;
-            if (!WorldGen.SolidTile(num10, num11))
+            int npcTileX = (int)NPC.position.X + NPC.width / 2;
+            int npcTileY = (int)NPC.position.Y + NPC.height / 2;
+            npcTileX /= 16;
+            npcTileY /= 16;
+            if (!WorldGen.SolidTile(npcTileX, npcTileY))
             {
                 Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.3f, 0f, 0.25f);
             }
-            if (num4 > 0f)
+            if (targetXDirection > 0f)
             {
                 NPC.spriteDirection = 1;
-                NPC.rotation = (float)Math.Atan2((double)num5, (double)num4);
+                NPC.rotation = (float)Math.Atan2((double)targetYDirection, (double)targetXDirection);
             }
-            if (num4 < 0f)
+            if (targetXDirection < 0f)
             {
                 NPC.spriteDirection = -1;
-                NPC.rotation = (float)Math.Atan2((double)num5, (double)num4) + 3.14f;
+                NPC.rotation = (float)Math.Atan2((double)targetYDirection, (double)targetXDirection) + 3.14f;
             }
-            float num12 = 0.7f;
+            float recoilVelocity = 0.7f;
             if (NPC.collideX)
             {
                 NPC.netUpdate = true;
-                NPC.velocity.X = NPC.oldVelocity.X * -num12;
+                NPC.velocity.X = NPC.oldVelocity.X * -recoilVelocity;
                 if (NPC.direction == -1 && NPC.velocity.X > 0f && NPC.velocity.X < 2f)
                 {
                     NPC.velocity.X = 2f;
@@ -192,7 +191,7 @@ namespace CalamityMod.NPCs.Astral
             if (NPC.collideY)
             {
                 NPC.netUpdate = true;
-                NPC.velocity.Y = NPC.oldVelocity.Y * -num12;
+                NPC.velocity.Y = NPC.oldVelocity.Y * -recoilVelocity;
                 if (NPC.velocity.Y > 0f && (double)NPC.velocity.Y < 1.5)
                 {
                     NPC.velocity.Y = 2f;
@@ -202,9 +201,9 @@ namespace CalamityMod.NPCs.Astral
                     NPC.velocity.Y = -2f;
                 }
             }
-            if (flag)
+            if (tooFar)
             {
-                if ((NPC.velocity.X > 0f && num4 > 0f) || (NPC.velocity.X < 0f && num4 < 0f))
+                if ((NPC.velocity.X > 0f && targetXDirection > 0f) || (NPC.velocity.X < 0f && targetXDirection < 0f))
                 {
                     if (Math.Abs(NPC.velocity.X) < 12f)
                     {
@@ -229,16 +228,16 @@ namespace CalamityMod.NPCs.Astral
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            Vector2 halfSizeTexture = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
+            Vector2 drawPosition = NPC.Center - screenPos;
+            drawPosition -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
+            drawPosition += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, drawPosition, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AstralProbeGlow").Value;
 
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, Color.White * 0.6f, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, drawPosition, NPC.frame, Color.White * 0.6f, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             return false;
         }

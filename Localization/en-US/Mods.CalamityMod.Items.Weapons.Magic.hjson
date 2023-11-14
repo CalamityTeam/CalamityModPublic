@@ -643,6 +643,15 @@ RougeSlash: {
 	Tooltip: Fires a wave of 3 rouge air slashes
 }
 
+SandstreamScepter: {
+	DisplayName: Sandstream Scepter
+	Tooltip:
+		'''
+		Fires an explosive stream of sand that falls after hitting an enemy
+		The explosion only occurs when the projectile expires
+		'''
+}
+
 SanguineFlare: {
 	DisplayName: Sanguine Flare
 	Tooltip: Fires a blast of sanguine flares that drain enemy life
@@ -717,11 +726,6 @@ StaffofBlushie: {
 StarShower: {
 	DisplayName: Star Shower
 	Tooltip: Casts a spread of astral stars at the mouse cursor
-}
-
-StormSpray: {
-	DisplayName: Storm Spray
-	Tooltip: Fires a spray of water that drips extra trails of water
 }
 
 SubsumingVortex: {

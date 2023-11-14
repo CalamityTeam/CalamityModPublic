@@ -3771,15 +3771,15 @@ namespace CalamityMod.NPCs
                     else if (Vector2.Distance(npc.Center, targetData.Center) > 80f)
                     {
                         Rectangle r = Utils.CenteredRectangle(targetData.Center, new Vector2(targetData.Width + 60, targetData.Height / 2));
-                        Vector2 vector3 = r.ClosestPointInRect(npc.Center);
-                        Vector2 value = npc.DirectionTo(vector3) * ((targetData.Velocity.Length() * 0.5f) + 2f);
-                        float num8 = npc.Distance(vector3);
-                        if (num8 > 225f)
-                            value *= 2f;
-                        else if (num8 > 120f)
-                            value *= 1.5f;
+                        Vector2 closestTargetPoint = r.ClosestPointInRect(npc.Center);
+                        Vector2 targetPointDir = npc.DirectionTo(closestTargetPoint) * ((targetData.Velocity.Length() * 0.5f) + 2f);
+                        float targetPointDist = npc.Distance(closestTargetPoint);
+                        if (targetPointDist > 225f)
+                            targetPointDir *= 2f;
+                        else if (targetPointDist > 120f)
+                            targetPointDir *= 1.5f;
 
-                        npc.velocity = Vector2.Lerp(npc.velocity, value, 0.07f);
+                        npc.velocity = Vector2.Lerp(npc.velocity, targetPointDir, 0.07f);
                     }
 
                     for (int k = 0; k < Main.maxNPCs; k++)
@@ -3796,25 +3796,25 @@ namespace CalamityMod.NPCs
                     npc.direction = (npc.velocity.X >= 0f) ? 1 : (-1);
                     npc.spriteDirection = -npc.direction;
 
-                    Color value3 = Color.HotPink;
-                    Color value4 = Color.LightPink;
-                    int num17 = 4;
+                    Color dustLerpColor1 = Color.HotPink;
+                    Color dustLerpColor2 = Color.LightPink;
+                    int dustPosition = 4;
                     if (npc.type == NPCID.FairyCritterGreen)
                     {
-                        value3 = Color.LimeGreen;
-                        value4 = Color.LightSeaGreen;
+                        dustLerpColor1 = Color.LimeGreen;
+                        dustLerpColor2 = Color.LightSeaGreen;
                     }
 
                     if (npc.type == NPCID.FairyCritterBlue)
                     {
-                        value3 = Color.RoyalBlue;
-                        value4 = Color.LightBlue;
+                        dustLerpColor1 = Color.RoyalBlue;
+                        dustLerpColor2 = Color.LightBlue;
                     }
 
                     if ((int)Main.timeForVisualEffects % 2 == 0)
                     {
                         npc.position += npc.netOffset;
-                        Dust dust = Dust.NewDustDirect(npc.Center - new Vector2(num17) * 0.5f, num17 + 4, num17 + 4, 278, 0f, 0f, 200, Color.Lerp(value3, value4, Main.rand.NextFloat()), 0.65f);
+                        Dust dust = Dust.NewDustDirect(npc.Center - new Vector2(dustPosition) * 0.5f, dustPosition + 4, dustPosition + 4, 278, 0f, 0f, 200, Color.Lerp(dustLerpColor1, dustLerpColor2, Main.rand.NextFloat()), 0.65f);
                         dust.velocity *= 0f;
                         dust.velocity += npc.velocity * 0.3f;
                         dust.noGravity = true;
@@ -3822,7 +3822,7 @@ namespace CalamityMod.NPCs
                         npc.position -= npc.netOffset;
                     }
 
-                    Lighting.AddLight(npc.Center, value3.ToVector3() * 0.7f);
+                    Lighting.AddLight(npc.Center, dustLerpColor1.ToVector3() * 0.7f);
                     if (Main.netMode != NetmodeID.Server)
                     {
                         Player localPlayer = Main.LocalPlayer;
@@ -5639,38 +5639,37 @@ namespace CalamityMod.NPCs
                     spriteEffects = SpriteEffects.FlipHorizontally;
                 }
 
-                float num66 = 0f;
-                Vector2 vector11 = new Vector2(TextureAssets.Npc[npc.type].Value.Width / 2, TextureAssets.Npc[npc.type].Value.Height / Main.npcFrameCount[npc.type] / 2);
-                Color color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
-                Color alpha15 = npc.GetAlpha(color9);
-                float num212 = 0.99f;
-                alpha15.R = (byte)(alpha15.R * num212);
-                alpha15.G = (byte)(alpha15.G * num212);
-                alpha15.B = (byte)(alpha15.B * num212);
-                alpha15.A = (byte)(alpha15.A * num212);
-                float xOffset = screenPos.X + npc.width / 2 - TextureAssets.Npc[npc.type].Value.Width * npc.scale / 2f + vector11.X * npc.scale;
-                float yOffset = screenPos.Y + npc.height - TextureAssets.Npc[npc.type].Value.Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + vector11.Y * npc.scale + num66 + npc.gfxOffY;
-                for (int num213 = 0; num213 < 4; num213++)
+                Vector2 halfSizeTexture = new Vector2(TextureAssets.Npc[npc.type].Value.Width / 2, TextureAssets.Npc[npc.type].Value.Height / Main.npcFrameCount[npc.type] / 2);
+                Color rainbow = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
+                Color alphaColor = npc.GetAlpha(rainbow);
+                float RGBMult = 0.99f;
+                alphaColor.R = (byte)(alphaColor.R * RGBMult);
+                alphaColor.G = (byte)(alphaColor.G * RGBMult);
+                alphaColor.B = (byte)(alphaColor.B * RGBMult);
+                alphaColor.A = (byte)(alphaColor.A * RGBMult);
+                float xOffset = screenPos.X + npc.width / 2 - TextureAssets.Npc[npc.type].Value.Width * npc.scale / 2f + halfSizeTexture.X * npc.scale;
+                float yOffset = screenPos.Y + npc.height - TextureAssets.Npc[npc.type].Value.Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + halfSizeTexture.Y * npc.scale + npc.gfxOffY;
+                for (int i = 0; i < 4; i++)
                 {
                     Vector2 position9 = npc.position;
                     float num214 = Math.Abs(npc.Center.X - Main.LocalPlayer.Center.X);
                     float num215 = Math.Abs(npc.Center.Y - Main.LocalPlayer.Center.Y);
 
-                    if (num213 == 0 || num213 == 2)
+                    if (i == 0 || i == 2)
                         position9.X = Main.LocalPlayer.Center.X + num214;
                     else
                         position9.X = Main.LocalPlayer.Center.X - num214;
 
                     position9.X -= npc.width / 2;
 
-                    if (num213 == 0 || num213 == 1)
+                    if (i == 0 || i == 1)
                         position9.Y = Main.LocalPlayer.Center.Y + num215;
                     else
                         position9.Y = Main.LocalPlayer.Center.Y - num215;
 
                     position9.Y -= npc.height / 2;
 
-                    Main.spriteBatch.Draw(TextureAssets.Npc[npc.type].Value, new Vector2(position9.X - xOffset, position9.Y - yOffset), new Microsoft.Xna.Framework.Rectangle?(npc.frame), alpha15, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+                    Main.spriteBatch.Draw(TextureAssets.Npc[npc.type].Value, new Vector2(position9.X - xOffset, position9.Y - yOffset), new Microsoft.Xna.Framework.Rectangle?(npc.frame), alphaColor, npc.rotation, halfSizeTexture, npc.scale, spriteEffects, 0f);
                 }
             }
             else

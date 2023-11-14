@@ -1,8 +1,12 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Graphics.Metaballs;
+using CalamityMod.Items.Weapons.Ranged;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -12,8 +16,10 @@ namespace CalamityMod.Projectiles.Ranged
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public const float MinDistanceFromTarget = 45f;
-        public const float MaxDistanceFromTarget = 350f;
+        public int Time = 0;
+        public Color sparkColor;
+        public bool PostTileHit = false;
+        public ref int audioCooldown => ref Main.player[Projectile.owner].Calamity().PhotoAudioCooldown;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
@@ -24,61 +30,92 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.width = Projectile.height = 50;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.tileCollide = false;
+            Projectile.tileCollide = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 20;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
-            Projectile.timeLeft = 180;
+            Projectile.localNPCHitCooldown = 6;
+            Projectile.extraUpdates = 1;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            // localAI[0] is used by the sticky AI method, so use localAI[1] to spawn the flares.
-            if (Projectile.localAI[1] == 0f)
+            Time++;
+            sparkColor = Main.rand.Next(4) switch
             {
-                if (Main.netMode != NetmodeID.Server)
-                {
-                    int projID = ModContent.ProjectileType<ExoFlare>();
-                    int flareDamage = (int)(0.6f * Projectile.damage);
-                    float flareKB = Projectile.knockBack;
-                    for (int i = 0; i < 4; i++)
-                    {
-                        Projectile p = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, projID, flareDamage, flareKB, Projectile.owner);
-                        p.localAI[1] = Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI);
-                    }
-                }
-                Projectile.localAI[1] = 1f;
-            }
-
-            if (Projectile.ai[0] == 0f)
-            {
-                NPC potentialTarget = Projectile.Center.ClosestNPCAt(MaxDistanceFromTarget, true, true);
-                if (potentialTarget != null)
-                {
-                    if (Projectile.Distance(potentialTarget.Center) > MinDistanceFromTarget)
-                    {
-                        float angleOffset = Projectile.AngleTo(potentialTarget.Center) - Projectile.velocity.ToRotation();
-                        angleOffset = MathHelper.WrapAngle(angleOffset);
-                        Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.Clamp(angleOffset, -0.1f, 0.1f));
-                    }
-                }
-            }
-            Projectile.StickyProjAI(5);
+                0 => Color.Red,
+                1 => Color.MediumTurquoise,
+                2 => Color.Orange,
+                _ => Color.LawnGreen,
+            };
+            PhotoMetaball.SpawnParticle(Projectile.Center, 90);
+            PhotoMetaball2.SpawnParticle(Projectile.Center, 85);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 12f, 20f);
         }
-        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) => Projectile.ModifyHitNPCSticky(4);
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (Projectile.width == 50)
-            {
-                int width = (int)MathHelper.Min(target.Hitbox.Width, 60);
-                int height = (int)MathHelper.Min(target.Hitbox.Height, 60);
-                Projectile.ExpandHitboxBy(width, height);
-            }
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
-        }
+            float numberOflines = 2;
+            float rotFactorlines = 360f / numberOflines;
+            for (int i = 0; i < numberOflines; i++)
+            {
+                float rot = MathHelper.ToRadians(i * rotFactorlines);
+                Vector2 offset = (Vector2.UnitX * Main.rand.NextFloat(0.2f, 3.1f)).RotatedBy(rot + Main.rand.NextFloat(0.1f, 5.1f));
+                Vector2 velOffset = (Vector2.UnitX * Main.rand.NextFloat(0.2f, 3.1f)).RotatedBy(rot + Main.rand.NextFloat(0.1f, 5.1f));
+                SparkParticle spark = new SparkParticle(Projectile.Center + offset, velOffset * Main.rand.NextFloat(3.5f, 6.5f), true, 95, Main.rand.NextFloat(0.3f, 0.8f), Color.White);
+                GeneralParticleHandler.SpawnParticle(spark);
 
+                float rot2 = MathHelper.ToRadians(i * rotFactorlines);
+                Vector2 offset2 = (Vector2.UnitX * Main.rand.NextFloat(0.2f, 3.1f)).RotatedBy(rot2 + Main.rand.NextFloat(0.1f, 5.1f));
+                Vector2 velOffset2 = (Vector2.UnitX * Main.rand.NextFloat(0.2f, 3.1f)).RotatedBy(rot2 + Main.rand.NextFloat(0.1f, 5.1f));
+
+                SquishyLightParticle exoEnergy = new(Projectile.Center + offset2, velOffset2 * Main.rand.NextFloat(0.5f, 2.5f), 0.5f, sparkColor, 35);
+                GeneralParticleHandler.SpawnParticle(exoEnergy);
+            }
+            if (audioCooldown == 0)
+            {
+                SoundEngine.PlaySound(Photoviscerator.HitSound, target.Center);
+                audioCooldown = 6;
+            }
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (!PostTileHit)
+            {
+                SoundEngine.PlaySound(DeadSunsWind.Ricochet with { Volume = 1.2f }, Projectile.Center);
+                float numberOflines = 25;
+                float rotFactorlines = 360f / numberOflines;
+                for (int i = 0; i < numberOflines; i++)
+                {
+                    sparkColor = Main.rand.Next(4) switch
+                    {
+                        0 => Color.Red,
+                        1 => Color.MediumTurquoise,
+                        2 => Color.Orange,
+                        _ => Color.LawnGreen,
+                    };
+
+                    float rot2 = MathHelper.ToRadians(i * rotFactorlines);
+                    Vector2 offset2 = (Vector2.UnitX * Main.rand.NextFloat(0.2f, 3.1f)).RotatedBy(rot2 * Main.rand.NextFloat(1.1f, 9.1f));
+                    Vector2 velOffset2 = (Vector2.UnitX * Main.rand.NextFloat(0.2f, 3.1f)).RotatedBy(rot2 * Main.rand.NextFloat(1.1f, 9.1f));
+
+                    SquishyLightParticle exoEnergy = new(Projectile.Center + offset2, velOffset2 * Main.rand.NextFloat(0.2f, 1.9f), 0.5f, sparkColor, 40);
+                    GeneralParticleHandler.SpawnParticle(exoEnergy);
+                }
+                PostTileHit = true;
+            }
+
+            if (Projectile.velocity.X != oldVelocity.X)
+            {
+                Projectile.velocity.X = -oldVelocity.X;
+            }
+            if (Projectile.velocity.Y != oldVelocity.Y)
+            {
+                Projectile.velocity.Y = -oldVelocity.Y;
+            }
+            return false;
+        }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);

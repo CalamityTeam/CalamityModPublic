@@ -69,10 +69,10 @@ namespace CalamityMod.Items.Accessories.Wings
                     {
                         yStart += player.velocity.Y;
                     }
-                    int num69 = Dust.NewDust(new Vector2(xStart, yStart), 8, 8, type, 0f, 0f, alpha, default, scale);
-                    Dust dust = Main.dust[num69];
+                    int boosterDust = Dust.NewDust(new Vector2(xStart, yStart), 8, 8, type, 0f, 0f, alpha, default, scale);
+                    Dust dust = Main.dust[boosterDust];
                     dust.velocity.X *= 0.1f;
-                    dust.velocity.Y = Main.dust[num69].velocity.Y * 1f + 2f * player.gravDir - player.velocity.Y * 0.3f;
+                    dust.velocity.Y = Main.dust[boosterDust].velocity.Y * 1f + 2f * player.gravDir - player.velocity.Y * 0.3f;
                     dust.noGravity = true;
                     dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                     if (dustAmt == 4)

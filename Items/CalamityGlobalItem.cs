@@ -1597,7 +1597,7 @@ namespace CalamityMod.Items
 
         public static bool HasEnoughAmmo(Player player, Item item, int ammoConsumed)
         {
-            bool flag = false;
+            bool hasEnoughAmmo = false;
             bool canShoot = false;
 
             for (int i = 54; i < Main.InventorySlotsTotal; i++)
@@ -1605,12 +1605,12 @@ namespace CalamityMod.Items
                 if (player.inventory[i].ammo == item.useAmmo && (player.inventory[i].stack >= ammoConsumed || !player.inventory[i].consumable))
                 {
                     canShoot = true;
-                    flag = true;
+                    hasEnoughAmmo = true;
                     break;
                 }
             }
 
-            if (!flag)
+            if (!hasEnoughAmmo)
             {
                 for (int j = 0; j < 54; j++)
                 {
@@ -1627,7 +1627,7 @@ namespace CalamityMod.Items
         public static void ConsumeAdditionalAmmo(Player player, Item item, int ammoConsumed)
         {
             Item itemAmmo = new Item();
-            bool flag = false;
+            bool hasEnoughAmmo = false;
             bool dontConsumeAmmo = false;
 
             for (int i = 54; i < Main.InventorySlotsTotal; i++)
@@ -1635,12 +1635,12 @@ namespace CalamityMod.Items
                 if (player.inventory[i].ammo == item.useAmmo && (player.inventory[i].stack >= ammoConsumed || !player.inventory[i].consumable))
                 {
                     itemAmmo = player.inventory[i];
-                    flag = true;
+                    hasEnoughAmmo = true;
                     break;
                 }
             }
 
-            if (!flag)
+            if (!hasEnoughAmmo)
             {
                 for (int j = 0; j < 54; j++)
                 {

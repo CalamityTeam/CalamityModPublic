@@ -75,16 +75,16 @@ namespace CalamityMod.NPCs.Abyss
             if (NPC.ai[0] == 0f)
             {
                 NPC.noTileCollide = true;
-                float num659 = 14f;
-                Vector2 vector79 = new Vector2(NPC.Center.X, NPC.Center.Y);
-                float num660 = Main.npc[(int)NPC.ai[2]].Center.X - vector79.X;
-                float num661 = Main.npc[(int)NPC.ai[2]].Center.Y - vector79.Y;
-                float num662 = (float)Math.Sqrt((double)(num660 * num660 + num661 * num661));
-                if (num662 < 11f + num659)
+                float launchSpeed = 14f;
+                Vector2 bobbitCenter = new Vector2(NPC.Center.X, NPC.Center.Y);
+                float segmentXDist = Main.npc[(int)NPC.ai[2]].Center.X - bobbitCenter.X;
+                float segmentYDist = Main.npc[(int)NPC.ai[2]].Center.Y - bobbitCenter.Y;
+                float segmentDistance = (float)Math.Sqrt((double)(segmentXDist * segmentXDist + segmentYDist * segmentYDist));
+                if (segmentDistance < 11f + launchSpeed)
                 {
                     NPC.rotation = 0f;
-                    NPC.velocity.X = num660;
-                    NPC.velocity.Y = num661;
+                    NPC.velocity.X = segmentXDist;
+                    NPC.velocity.Y = segmentYDist;
                     NPC.ai[1] += 1f;
                     if (NPC.ai[1] >= 60f)
                     {
@@ -102,9 +102,9 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 else
                 {
-                    num662 = num659 / num662;
-                    NPC.velocity.X = num660 * num662;
-                    NPC.velocity.Y = num661 * num662;
+                    segmentDistance = launchSpeed / segmentDistance;
+                    NPC.velocity.X = segmentXDist * segmentDistance;
+                    NPC.velocity.Y = segmentYDist * segmentDistance;
                     NPC.rotation = (float)Math.Atan2((double)NPC.velocity.Y, (double)NPC.velocity.X) - 1.57f;
                 }
             }
@@ -113,14 +113,14 @@ namespace CalamityMod.NPCs.Abyss
                 NPC.noTileCollide = true;
                 NPC.collideX = false;
                 NPC.collideY = false;
-                float num663 = 16f;
-                Vector2 vector80 = new Vector2(NPC.Center.X, NPC.Center.Y);
-                float num664 = Main.player[NPC.target].Center.X - vector80.X;
-                float num665 = Main.player[NPC.target].Center.Y - vector80.Y;
-                float num666 = (float)Math.Sqrt((double)(num664 * num664 + num665 * num665));
-                num666 = num663 / num666;
-                NPC.velocity.X = num664 * num666;
-                NPC.velocity.Y = num665 * num666;
+                float returnSpeed = 16f;
+                Vector2 bobbitCenterReturn = new Vector2(NPC.Center.X, NPC.Center.Y);
+                float segmentReturnXDist = Main.player[NPC.target].Center.X - bobbitCenterReturn.X;
+                float segmentReturnYDist = Main.player[NPC.target].Center.Y - bobbitCenterReturn.Y;
+                float segmentReturnDistance = (float)Math.Sqrt((double)(segmentReturnXDist * segmentReturnXDist + segmentReturnYDist * segmentReturnYDist));
+                segmentReturnDistance = returnSpeed / segmentReturnDistance;
+                NPC.velocity.X = segmentReturnXDist * segmentReturnDistance;
+                NPC.velocity.Y = segmentReturnYDist * segmentReturnDistance;
                 NPC.ai[0] = 2f;
                 NPC.rotation = (float)Math.Atan2((double)-(double)NPC.velocity.Y, (double)-(double)NPC.velocity.X) - 1.57f;
             }
@@ -148,11 +148,11 @@ namespace CalamityMod.NPCs.Abyss
                         NPC.noTileCollide = false;
                     }
                 }
-                Vector2 vector81 = new Vector2(NPC.Center.X, NPC.Center.Y);
-                float num667 = Main.npc[(int)NPC.ai[2]].Center.X - vector81.X;
-                float num668 = Main.npc[(int)NPC.ai[2]].Center.Y - vector81.Y;
-                float num669 = (float)Math.Sqrt((double)(num667 * num667 + num668 * num668));
-                if (num669 > 700f || NPC.collideX || NPC.collideY)
+                Vector2 bobbitCenterReturning = new Vector2(NPC.Center.X, NPC.Center.Y);
+                float segmentReturningXDist = Main.npc[(int)NPC.ai[2]].Center.X - bobbitCenterReturning.X;
+                float segmentReturningYDist = Main.npc[(int)NPC.ai[2]].Center.Y - bobbitCenterReturning.Y;
+                float segmentReturningDistance = (float)Math.Sqrt((double)(segmentReturningXDist * segmentReturningXDist + segmentReturningYDist * segmentReturningYDist));
+                if (segmentReturningDistance > 700f || NPC.collideX || NPC.collideY)
                 {
                     NPC.noTileCollide = true;
                     NPC.ai[0] = 0f;
@@ -162,45 +162,45 @@ namespace CalamityMod.NPCs.Abyss
             else if (NPC.ai[0] == 3f)
             {
                 NPC.noTileCollide = true;
-                float num671 = 16f;
-                float num672 = 0.25f;
-                Vector2 vector82 = new Vector2(NPC.Center.X, NPC.Center.Y);
-                float num673 = Main.player[NPC.target].Center.X - vector82.X;
-                float num674 = Main.player[NPC.target].Center.Y - vector82.Y;
-                float num675 = (float)Math.Sqrt((double)(num673 * num673 + num674 * num674));
-                num675 = num671 / num675;
-                num673 *= num675;
-                num674 *= num675;
-                if (NPC.velocity.X < num673)
+                float unusedSpeed = 16f;
+                float unusedAcceleration = 0.25f;
+                Vector2 unusedBobbitCenter = new Vector2(NPC.Center.X, NPC.Center.Y);
+                float unusedTargetXDist = Main.player[NPC.target].Center.X - unusedBobbitCenter.X;
+                float unusedTargetYDist = Main.player[NPC.target].Center.Y - unusedBobbitCenter.Y;
+                float unusedTargetDistance = (float)Math.Sqrt((double)(unusedTargetXDist * unusedTargetXDist + unusedTargetYDist * unusedTargetYDist));
+                unusedTargetDistance = unusedSpeed / unusedTargetDistance;
+                unusedTargetXDist *= unusedTargetDistance;
+                unusedTargetYDist *= unusedTargetDistance;
+                if (NPC.velocity.X < unusedTargetXDist)
                 {
-                    NPC.velocity.X = NPC.velocity.X + num672;
-                    if (NPC.velocity.X < 0f && num673 > 0f)
+                    NPC.velocity.X = NPC.velocity.X + unusedAcceleration;
+                    if (NPC.velocity.X < 0f && unusedTargetXDist > 0f)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num672 * 2f;
+                        NPC.velocity.X = NPC.velocity.X + unusedAcceleration * 2f;
                     }
                 }
-                else if (NPC.velocity.X > num673)
+                else if (NPC.velocity.X > unusedTargetXDist)
                 {
-                    NPC.velocity.X = NPC.velocity.X - num672;
-                    if (NPC.velocity.X > 0f && num673 < 0f)
+                    NPC.velocity.X = NPC.velocity.X - unusedAcceleration;
+                    if (NPC.velocity.X > 0f && unusedTargetXDist < 0f)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num672 * 2f;
+                        NPC.velocity.X = NPC.velocity.X - unusedAcceleration * 2f;
                     }
                 }
-                if (NPC.velocity.Y < num674)
+                if (NPC.velocity.Y < unusedTargetYDist)
                 {
-                    NPC.velocity.Y = NPC.velocity.Y + num672;
-                    if (NPC.velocity.Y < 0f && num674 > 0f)
+                    NPC.velocity.Y = NPC.velocity.Y + unusedAcceleration;
+                    if (NPC.velocity.Y < 0f && unusedTargetYDist > 0f)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num672 * 2f;
+                        NPC.velocity.Y = NPC.velocity.Y + unusedAcceleration * 2f;
                     }
                 }
-                else if (NPC.velocity.Y > num674)
+                else if (NPC.velocity.Y > unusedTargetYDist)
                 {
-                    NPC.velocity.Y = NPC.velocity.Y - num672;
-                    if (NPC.velocity.Y > 0f && num674 < 0f)
+                    NPC.velocity.Y = NPC.velocity.Y - unusedAcceleration;
+                    if (NPC.velocity.Y > 0f && unusedTargetYDist < 0f)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num672 * 2f;
+                        NPC.velocity.Y = NPC.velocity.Y - unusedAcceleration * 2f;
                     }
                 }
                 NPC.rotation = (float)Math.Atan2((double)-(double)NPC.velocity.Y, (double)-(double)NPC.velocity.X);

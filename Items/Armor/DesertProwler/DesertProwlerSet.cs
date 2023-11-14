@@ -15,6 +15,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using CalamityMod.Dusts;
 using ReLogic.Utilities;
+using Terraria.Localization;
 
 namespace CalamityMod.Items.Armor.DesertProwler
 {
@@ -47,7 +48,7 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
         private void ActivateSetBonus(Terraria.On_Player.orig_KeyDoubleTap orig, Player player, int keyDir)
         {
-            if (keyDir == 0 && HasArmorSet(player) && !player.mount.Active)
+            if (keyDir == (Main.ReversedUpDownArmorSetBonuses ? 1 : 0) && HasArmorSet(player) && !player.mount.Active)
             {
                 // The set bonus can only be activated if the player does not have the cooldown.
                 if (!player.Calamity().cooldowns.TryGetValue(SandsmokeBomb.ID, out CooldownInstance cd))
@@ -166,7 +167,8 @@ namespace CalamityMod.Items.Armor.DesertProwler
 
                 if (setBonusIndex != -1)
                 {
-                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", CalamityUtils.GetTextValueFromModItem<DesertProwlerHat>("AbilityBrief"));
+                    string dir = Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
+                    TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", CalamityUtils.GetTextFromModItem<DesertProwlerHat>("AbilityBrief").Format(dir));
                     setBonus1.OverrideColor = Color.Lerp(new Color(255, 229, 156), new Color(233, 225, 198), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
                     tooltips.Insert(setBonusIndex + 1, setBonus1);
 

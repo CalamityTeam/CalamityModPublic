@@ -190,6 +190,9 @@ namespace CalamityMod.CalPlayer
             if (Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
                 heldGaelsLastFrame = true;
 
+            if (Player.ActiveItem().type != ModContent.ItemType<SaharaSlicers>())
+                saharaSlicersBolts = 0;
+
             // De-equipping Gael's Greatsword deletes all rage.
             else if (heldGaelsLastFrame)
             {
@@ -322,6 +325,28 @@ namespace CalamityMod.CalPlayer
                 }
                 else
                     HasReducedDashFirstFrame = false;
+            }
+
+            if (oceanCrest)
+            {
+                bool surface = Player.Center.Y < Main.worldSurface * 16.0;
+                bool GetEffects = ((Main.raining && surface) || Player.dripping || (Player.wet && !Player.lavaWet && !Player.honeyWet));
+                if (GetEffects)
+                {
+                    if (oceanCrestTimer < 300)
+                        oceanCrestTimer += 5;
+                    if (Player.StandingStill(0.1f) && !ZoneAbyss && Player.breath < 201 && Player.miscCounter % 2 == 0)
+                        Player.breath += 1;
+                }
+                else
+                    if (oceanCrestTimer > 0)
+                    oceanCrestTimer--;
+
+                if (oceanCrestTimer > 0 || GetEffects)
+                    Player.pickSpeed -= 0.15f; // 15% mining speed
+
+                Vector3 Light = new Vector3(0.090f, 0.180f, 0.200f);
+                Lighting.AddLight(Player.Center, Light * (0.55f + (oceanCrestTimer * 0.0035f)));
             }
         }
         #endregion
@@ -911,17 +936,24 @@ namespace CalamityMod.CalPlayer
                 {
                     if (!Main.rand.NextBool(3))
                         continue;
-
-                    Dust holyCinder = Dust.NewDustDirect(Player.position, Player.width, Player.head, (int)CalamityDusts.ProfanedFire);
+                    
+                    Dust holyCinder = Dust.NewDustDirect(Player.position, Player.width, Player.height, (int)CalamityDusts.ProfanedFire);
                     holyCinder.velocity = Main.rand.NextVector2Circular(3.5f, 3.5f);
                     holyCinder.velocity.Y -= Main.rand.NextFloat(1f, 3f);
                     holyCinder.scale = Main.rand.NextFloat(1.15f, 1.45f);
                     holyCinder.noGravity = true;
                 }
             }
-
             ProvidenceBurnEffectDrawer.Update();
 
+            if (hInferno && holyInfernoFadeIntensity < 1f)
+            {
+                holyInfernoFadeIntensity = MathHelper.Clamp(holyInfernoFadeIntensity + 0.015f, 0f, 1f);
+            }
+            else if (!hInferno && holyInfernoFadeIntensity > 0f)
+            {
+                holyInfernoFadeIntensity = MathHelper.Clamp(holyInfernoFadeIntensity - 0.01f, 0f, 1f);
+            }
             // Transformer immunity to Electrified
             if (transformer)
                 Player.buffImmune[BuffID.Electrified] = true;
@@ -1160,7 +1192,7 @@ namespace CalamityMod.CalPlayer
                                 Vector2 dustLineEnd = Player.Center;
                                 Vector2 currentDustPos = default;
                                 Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(MathHelper.Pi);
-                                Vector2 value5 = new Vector2(2.1f, 2f);
+                                Vector2 healerDustVel = new Vector2(2.1f, 2f);
                                 Color dustColor = Main.hslToRgb(Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X, 1f, 0.5f);
                                 dustColor.A = 255;
                                 for (int i = 0; i < maxHealDustIterations; i++)
@@ -1168,18 +1200,18 @@ namespace CalamityMod.CalPlayer
                                     if (i % dustDivisor == 0)
                                     {
                                         currentDustPos = Vector2.Lerp(dustLineStart, dustLineEnd, i / (float)maxHealDustIterations);
-                                        int dust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
-                                        Main.dust[dust].position = currentDustPos;
-                                        Main.dust[dust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f) + Player.velocity;
-                                        Main.dust[dust].noGravity = true;
-                                        Main.dust[dust].scale = 1f;
-                                        Main.dust[dust].fadeIn = Main.rand.NextFloat() * 2f;
-                                        Dust dust2 = Dust.CloneDust(dust);
-                                        Dust dust3 = dust2;
-                                        dust3.scale /= 2f;
-                                        dust3 = dust2;
-                                        dust3.fadeIn /= 2f;
-                                        dust2.color = new Color(255, 255, 255, 255);
+                                        int holyDust = Dust.NewDust(currentDustPos, 0, 0, 267, 0f, 0f, 0, dustColor, 1f);
+                                        Main.dust[holyDust].position = currentDustPos;
+                                        Main.dust[holyDust].velocity = spinningpoint.RotatedBy(MathHelper.TwoPi * i / maxHealDustIterations) * healerDustVel * (0.8f + Main.rand.NextFloat() * 0.4f) + Player.velocity;
+                                        Main.dust[holyDust].noGravity = true;
+                                        Main.dust[holyDust].scale = 1f;
+                                        Main.dust[holyDust].fadeIn = Main.rand.NextFloat() * 2f;
+                                        Dust dustClone = Dust.CloneDust(holyDust);
+                                        Dust extraDust = dustClone;
+                                        extraDust.scale /= 2f;
+                                        extraDust = dustClone;
+                                        extraDust.fadeIn /= 2f;
+                                        dustClone.color = new Color(255, 255, 255, 255);
                                     }
                                 }
                             }
@@ -1287,6 +1319,12 @@ namespace CalamityMod.CalPlayer
             if (expiredCooldowns.Count > 0)
                 SyncCooldownRemoval(Main.netMode == NetmodeID.Server, expiredCooldowns);
 
+            if (DragonsBreathAudioCooldown > 0)
+                DragonsBreathAudioCooldown--;
+            if (DragonsBreathAudioCooldown2 > 0)
+                DragonsBreathAudioCooldown2--;
+            if (PhotoAudioCooldown > 0)
+                PhotoAudioCooldown--;
             if (fullRageSoundCountdownTimer > 0)
                 --fullRageSoundCountdownTimer;
             if (plagueTaintedSMGDroneCooldown > 0)
@@ -2059,6 +2097,7 @@ namespace CalamityMod.CalPlayer
                     // Breath Loss Multiplier, depending on gear
                     double breathLossMult = 1D -
                         (Player.gills ? 0.2 : 0D) - // 0.8
+                        (oceanCrest ? 0.2 : 0D) - // 0.8
                         (Player.accDivingHelm ? 0.25 : 0D) - // 0.75
                         (Player.arcticDivingGear ? 0.25 : 0D) - // 0.75
                         (aquaticEmblem ? 0.25 : 0D) - // 0.75
@@ -2122,6 +2161,7 @@ namespace CalamityMod.CalPlayer
                     // Tick (frame) multiplier, depending on gear
                     double tickMult = 1D +
                         (Player.gills ? 4D : 0D) + // 5
+                        (oceanCrest ? 4D : 0D) + // 5
                         (Player.ignoreWater ? 5D : 0D) + // 10
                         (Player.accDivingHelm ? 10D : 0D) + // 20
                         (Player.arcticDivingGear ? 10D : 0D) + // 30

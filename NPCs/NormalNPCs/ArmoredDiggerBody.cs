@@ -57,16 +57,16 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 NPC.TargetClosest(true);
             }
-            bool flag = false;
+            bool shouldDie = false;
             if (NPC.ai[1] <= 0f)
             {
-                flag = true;
+                shouldDie = true;
             }
             else if (Main.npc[(int)NPC.ai[1]].life <= 0)
             {
-                flag = true;
+                shouldDie = true;
             }
-            if (flag)
+            if (shouldDie)
             {
                 if (!Main.zenithWorld)
                 {
@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                             break;
                         }
                     }
-                    // if it goes through the loop withuot finding an npc to attatch to (aka, ai[1] never changes and the head is still dead) kill as normal
+                    // if it goes through the loop without finding an npc to attatch to (aka, ai[1] never changes and the head is still dead) kill as normal
                     if (Main.npc[(int)NPC.ai[1]].life <= 0)
                     {
                         NPC.life = 0;
@@ -107,51 +107,50 @@ namespace CalamityMod.NPCs.NormalNPCs
                         Main.player[NPC.target].width, Main.player[NPC.target].height))
                     {
                         float speed = 7f;
-                        Vector2 vector = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)(NPC.height / 2));
-                        float num6 = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - vector.X + (float)Main.rand.Next(-20, 21);
-                        float num7 = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-20, 21);
-                        float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
-                        num8 = speed / num8;
-                        num6 *= num8;
-                        num7 *= num8;
-                        int num9 = 30;
-                        int num10 = Main.zenithWorld ? ModContent.ProjectileType<ProvidenceCrystalShard>() : ProjectileID.SaucerScrap; 
-                        vector.X += num6 * 5f;
-                        vector.Y += num7 * 5f;
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y, num6, num7, num10, num9, 0f, Main.myPlayer, 0f, 0f);
+                        Vector2 projFirePosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)(NPC.height / 2));
+                        float projTargetX = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - projFirePosition.X + (float)Main.rand.Next(-20, 21);
+                        float projTargetY = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - projFirePosition.Y + (float)Main.rand.Next(-20, 21);
+                        float projTargetDist = (float)Math.Sqrt((double)(projTargetX * projTargetX + projTargetY * projTargetY));
+                        projTargetDist = speed / projTargetDist;
+                        projTargetX *= projTargetDist;
+                        projTargetY *= projTargetDist;
+                        int projType = Main.zenithWorld ? ModContent.ProjectileType<ProvidenceCrystalShard>() : ProjectileID.SaucerScrap; 
+                        projFirePosition.X += projTargetX * 5f;
+                        projFirePosition.Y += projTargetY * 5f;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), projFirePosition.X, projFirePosition.Y, projTargetX, projTargetY, projType, 30, 0f, Main.myPlayer, 0f, 0f);
                         NPC.netUpdate = true;
                     }
                 }
             }
-            Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-            float num20 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
-            float num21 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
-            num20 = (float)((int)(num20 / 16f) * 16);
-            num21 = (float)((int)(num21 / 16f) * 16);
-            vector3.X = (float)((int)(vector3.X / 16f) * 16);
-            vector3.Y = (float)((int)(vector3.Y / 16f) * 16);
-            num20 -= vector3.X;
-            num21 -= vector3.Y;
-            float num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
+            Vector2 segmentPosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float targetXDist = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+            float targetYDist = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
+            targetXDist = (float)((int)(targetXDist / 16f) * 16);
+            targetYDist = (float)((int)(targetYDist / 16f) * 16);
+            segmentPosition.X = (float)((int)(segmentPosition.X / 16f) * 16);
+            segmentPosition.Y = (float)((int)(segmentPosition.Y / 16f) * 16);
+            targetXDist -= segmentPosition.X;
+            targetYDist -= segmentPosition.Y;
+            float targetDistance = (float)Math.Sqrt((double)(targetXDist * targetXDist + targetYDist * targetYDist));
             if (NPC.ai[1] > 0f && NPC.ai[1] < (float)Main.npc.Length)
             {
                 try
                 {
-                    vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                    num20 = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - vector3.X;
-                    num21 = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - vector3.Y;
+                    segmentPosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                    targetXDist = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - segmentPosition.X;
+                    targetYDist = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - segmentPosition.Y;
                 } catch
                 {
                 }
-                NPC.rotation = (float)Math.Atan2((double)num21, (double)num20) + 1.57f;
-                num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
-                int num23 = (int)(44f * NPC.scale);
-                num22 = (num22 - (float)num23) / num22;
-                num20 *= num22;
-                num21 *= num22;
+                NPC.rotation = (float)Math.Atan2((double)targetYDist, (double)targetXDist) + 1.57f;
+                targetDistance = (float)Math.Sqrt((double)(targetXDist * targetXDist + targetYDist * targetYDist));
+                int segmentWidth = (int)(44f * NPC.scale);
+                targetDistance = (targetDistance - (float)segmentWidth) / targetDistance;
+                targetXDist *= targetDistance;
+                targetYDist *= targetDistance;
                 NPC.velocity = Vector2.Zero;
-                NPC.position.X = NPC.position.X + num20;
-                NPC.position.Y = NPC.position.Y + num21;
+                NPC.position.X = NPC.position.X + targetXDist;
+                NPC.position.Y = NPC.position.Y + targetYDist;
             }
         }
 

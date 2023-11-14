@@ -1,14 +1,8 @@
-﻿using CalamityMod.Projectiles.Environment;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
-using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using System;
 
 namespace CalamityMod.Tiles.SunkenSea
 {
@@ -20,8 +14,8 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileLavaDeath[Type] = true;
             Main.tileWaterDeath[Type] = false;
             Main.tileNoAttach[Type] = true;
-            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
+            TileObjectData.newTile.DrawYOffset = 2;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(137, 154, 71));
             DustType = DustID.Coralstone;
