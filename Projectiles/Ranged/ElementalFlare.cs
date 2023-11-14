@@ -49,6 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.MaxUpdates = 2;
             Projectile.timeLeft = Lifetime * Projectile.MaxUpdates;
             Projectile.DamageType = DamageClass.Ranged;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
