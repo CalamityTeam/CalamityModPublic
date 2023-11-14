@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float mistVelocity = death ? 10f : 8f;
-                            Vector2 projectileVelocity = Vector2.Normalize(npc.Center + npc.velocity * 10f - npc.Center);
+                            Vector2 projectileVelocity = (npc.Center + npc.velocity * 10f - npc.Center).SafeNormalize(Vector2.UnitY);
                             int type = ModContent.ProjectileType<SulphuricAcidMist>();
                             int damage = npc.GetProjectileDamage(type);
                             int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 5f, projectileVelocity * mistVelocity, type, damage, 0f, Main.myPlayer);
@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + vector255.SafeNormalize(Vector2.UnitY) * 5f, vector255, type, damage, 0f, Main.myPlayer);
                             }
                         }
                     }
@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs
                     // Velocity boost
                     if (calamityGlobalNPC.newAI[3] == spiralGateValue)
                     {
-                        npc.velocity.Normalize();
+                        npc.velocity = npc.velocity.SafeNormalize(Vector2.UnitY);
                         npc.velocity *= 24f;
                     }
 
@@ -283,14 +283,14 @@ namespace CalamityMod.NPCs
                                 for (int i = 0; i < totalProjectiles; i++)
                                 {
                                     Vector2 velocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
-                                    velocity.Normalize();
+                                    velocity = velocity.SafeNormalize(Vector2.UnitY);
                                     velocity *= Main.rand.Next(phase3 ? 300 : 100, 401) * 0.01f;
 
                                     float maximumVelocityMult = death ? 0.75f : 0.5f;
                                     if (expertMode)
                                         velocity *= 1f + (maximumVelocityMult * (0.5f - lifeRatio));
 
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(velocity) * 5f, velocity, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + velocity.SafeNormalize(Vector2.UnitY) * 5f, velocity, type, damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
@@ -319,7 +319,7 @@ namespace CalamityMod.NPCs
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     float toothVelocity = death ? 9f : 8f;
-                                    Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center);
+                                    Vector2 projectileVelocity = (player.Center - npc.Center).SafeNormalize(Vector2.UnitY);
                                     int type = ModContent.ProjectileType<SandTooth>();
                                     int damage = npc.GetProjectileDamage(type);
                                     float accelerate = phase4 ? 1f : 0f;
@@ -467,12 +467,12 @@ namespace CalamityMod.NPCs
                 {
                     if (scourgeSpeed > scourgeHigherSpeed)
                     {
-                        npc.velocity.Normalize();
+                        npc.velocity = npc.velocity.SafeNormalize(Vector2.UnitY);
                         npc.velocity *= scourgeHigherSpeed;
                     }
                     else if (scourgeSpeed < scourgeLowerSpeed)
                     {
-                        npc.velocity.Normalize();
+                        npc.velocity = npc.velocity.SafeNormalize(Vector2.UnitY);
                         npc.velocity *= scourgeLowerSpeed;
                     }
                 }
