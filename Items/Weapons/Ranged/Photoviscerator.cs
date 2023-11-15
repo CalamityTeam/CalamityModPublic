@@ -65,6 +65,10 @@ namespace CalamityMod.Items.Weapons.Ranged
                 // Only one out at a time
                 if (Main.projectile.Any(n => n.active && n.type == Item.shoot && n.owner == player.whoAmI))
                     return;
+                // If you don't have any Gel don't even spawn the holdout
+                if (!player.HasAmmo(Item))
+                    return;
+
                 Projectile.NewProjectile(Item.GetSource_FromThis(), player.Center, Vector2.Zero, Item.shoot, 0, 0f, player.whoAmI);
             }
         }
