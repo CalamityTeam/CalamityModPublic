@@ -25,20 +25,20 @@ float3 firePalette(float noise)
     // Temperature range (in Kelvin).
     float temperature = 1500. + 1500. * noise;
 
-    float3 orange = float3(0.81, 0.45, 0.23) * colorMult;
-    float3 golden = float3(1., 0.75, 0.29) * colorMult;
-    float3 lightYellow = float3(1., 1., 0.95) * colorMult;
+    float3 darkColor = float3(0.81, 0.45, 0.23) * colorMult;
+    float3 midColor = float3(1., 0.75, 0.29) * colorMult;
+    float3 brightColor = float3(1., 1., 0.95) * colorMult;
     if (!day) 
     {
-        orange.rgb = orange.bgr;
-        golden.rgb = golden.bgr;
-        lightYellow.rgb = lightYellow.bgr;
+        darkColor.rgb = darkColor.bgr;
+        midColor.rgb = midColor.bgr;
+        brightColor.rgb = brightColor.bgr;
     }
     float3 fireColor;
     if (noise < 0.5)
-        fireColor = lerp(orange, golden, noise * 2.);
+        fireColor = lerp(darkColor, midColor, noise * 2.);
     else
-        fireColor = lerp(golden, lightYellow, (noise - 0.5) * 2.);
+        fireColor = lerp(midColor, brightColor, (noise - 0.5) * 2.);
     
     fireColor = pow(fireColor, float3(5, 5, 5)) * (exp(1.43876719683e5 / (temperature * fireColor)) - 1.);
 
