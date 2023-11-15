@@ -2,6 +2,8 @@
 sampler upwardNoise : register(s2);
 sampler upwardPerlinTex : register(s3);
 
+bool day;
+
 float colorMult;
 float time;
 float radius;
@@ -26,6 +28,12 @@ float3 firePalette(float noise)
     float3 orange = float3(0.81, 0.45, 0.23) * colorMult;
     float3 golden = float3(1., 0.75, 0.29) * colorMult;
     float3 lightYellow = float3(1., 1., 0.95) * colorMult;
+    if (!day) 
+    {
+        orange.rgb = orange.bgr;
+        golden.rgb = golden.bgr;
+        lightYellow.rgb = lightYellow.bgr;
+    }
     float3 fireColor;
     if (noise < 0.5)
         fireColor = lerp(orange, golden, noise * 2.);

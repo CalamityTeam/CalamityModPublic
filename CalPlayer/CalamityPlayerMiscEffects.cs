@@ -924,8 +924,8 @@ namespace CalamityMod.CalPlayer
                 providenceBurnIntensity = (Main.npc[CalamityGlobalNPC.holyBoss].ModNPC as ProvidenceBoss).CalculateBurnIntensity();
             ProvidenceBurnEffectDrawer.ParticleSpawnRate = int.MaxValue;
 
-            // If the burn intensity is great enough, cause the player to ignite into flames.
-            if (providenceBurnIntensity > 0.45f)
+            // If the player has holy inferno, cause the player to ignite into flames.
+            if (hInferno)
                 ProvidenceBurnEffectDrawer.ParticleSpawnRate = 1;
 
             // Otherwise, if the intensity is too weak, but still present, cause the player to release holy cinders.
