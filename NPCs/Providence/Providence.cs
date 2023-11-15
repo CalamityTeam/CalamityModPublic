@@ -795,7 +795,7 @@ namespace CalamityMod.NPCs.Providence
                         acceleration *= 1.2f;
                     }
 
-                    if (!targetDead && false)
+                    if (!targetDead)
                     {
                         NPC.velocity.X += flightPath * acceleration;
                         if (NPC.velocity.X > velocity)
@@ -1725,8 +1725,6 @@ namespace CalamityMod.NPCs.Providence
 
                     break;
             }
-
-            NPC.velocity = Vector2.Zero;
         }
 
         public void DoDeathAnimation()
