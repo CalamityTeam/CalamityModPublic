@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.Providence
         public bool shouldDrawInfernoBorder = true; //This is only here for other mods to disable it if they don't want it drawing.
         public bool Dying = false;
         public int DeathAnimationTimer;
-        public Tuple<float, float> borderStartEnd = new (0f, 0f);
+        public Tuple<float, float> borderStartEnd = new (2800f, 3000f);
 
         //Sounds
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceSpawn") { Volume = 1.2f };
@@ -376,7 +376,7 @@ namespace CalamityMod.NPCs.Providence
             float distanceX = Math.Abs(NPC.Center.X - player.Center.X);
 
             // Inflict Holy Inferno if target is too far away
-            float burnIntensity = CalculateBurnIntensity();    
+            float burnIntensity = CalculateBurnIntensity(attackDelayAfterCocoon);    
 
             if (!player.dead && player.active && !player.creativeGodMode && !Dying)
             {
@@ -795,7 +795,7 @@ namespace CalamityMod.NPCs.Providence
                         acceleration *= 1.2f;
                     }
 
-                    if (!targetDead)
+                    if (!targetDead && false)
                     {
                         NPC.velocity.X += flightPath * acceleration;
                         if (NPC.velocity.X > velocity)
@@ -1725,6 +1725,8 @@ namespace CalamityMod.NPCs.Providence
 
                     break;
             }
+
+            NPC.velocity = Vector2.Zero;
         }
 
         public void DoDeathAnimation()
@@ -1815,7 +1817,7 @@ namespace CalamityMod.NPCs.Providence
             }
         }
 
-        public float CalculateBurnIntensity()
+        public float CalculateBurnIntensity(float attackDelayAfterCocoon = 1f)
         {
             float distanceToTarget = Vector2.Distance(Main.player[NPC.target].Center, NPC.Center);
             float aiTimer = NPC.ai[3];
@@ -1845,17 +1847,22 @@ namespace CalamityMod.NPCs.Providence
             // It is determined based on how much time has elapsed during the attack thus far, specifically for the two cocoon attacks.
             // This shave-off does not happen when guardians are present.
             float shorterDistanceFade = Utils.GetLerpValue(0f, 120f, aiTimer, true);
+            
             //Distance does not get shorter if in GFB / Guardians are alive
             if (!guardianAlive && NPC.localAI[1] < (float)BossMode.Red)
             {
                 maxDistance = baseDistance;
                 if (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon)
                     maxDistance -= shorterDistance * shorterDistanceFade;
+                else if (attackDelayAfterCocoon > 1f)
+                    maxDistance -= shorterDistance * (NPC.localAI[2] / attackDelayAfterCocoon);
             }
 
             float drawFireDistanceStart = maxDistance - 800f;
-            borderStartEnd = new (drawFireDistanceStart, maxDistance);
-            return Utils.GetLerpValue(drawFireDistanceStart, maxDistance, distanceToTarget, true);
+            float previousBorderEnd = borderStartEnd.Item2;
+            float clampedDistance = MathHelper.Clamp(maxDistance, previousBorderEnd - 10, previousBorderEnd + 10);
+            borderStartEnd = new (drawFireDistanceStart, clampedDistance);
+            return Utils.GetLerpValue(drawFireDistanceStart, clampedDistance, distanceToTarget, true);
         }
 
         private void DespawnSpecificProjectiles(bool dying = false)
