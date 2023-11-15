@@ -1,12 +1,10 @@
-﻿using CalamityMod.Items.Weapons.Ranged;
+﻿using System;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
-using Mono.Cecil;
 using ReLogic.Utilities;
-using System;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using static CalamityMod.Items.Weapons.Ranged.Photoviscerator;
@@ -192,7 +190,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public void RightClickAttack(Vector2 armPosition, Vector2 verticalOffset)
         {
-
             // Multiplied by the ratio of attack speed gained from modifiers
             ShootTimer = (RightClickCooldown * Owner.ActiveItem().useTime / (float)LightBombCooldown) - 1f;
             ForcedLifespan = ShootTimer;
@@ -222,7 +219,9 @@ namespace CalamityMod.Projectiles.Ranged
                 dust.color = sparkColor;
             }
             SoundEngine.PlaySound(HalleysInferno.Shoot, Owner.MountedCenter);
-            Projectile.NewProjectile(source, position, velocity, ProjectileType<ExoFlareCluster>(), (int)(damage * 1.2f), knockback, Projectile.owner);
+
+            int rightClickDamage = (int)(0.75f * damage);
+            Projectile.NewProjectile(source, position, velocity, ProjectileType<ExoFlareCluster>(), rightClickDamage, knockback, Projectile.owner);
         }
 
         public void UpdateProjectileHeldVariables(Vector2 armPosition)

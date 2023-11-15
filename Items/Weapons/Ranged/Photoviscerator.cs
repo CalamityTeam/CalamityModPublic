@@ -69,7 +69,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (!player.HasAmmo(Item))
                     return;
 
-                Projectile.NewProjectile(Item.GetSource_FromThis(), player.Center, Vector2.Zero, Item.shoot, 0, 0f, player.whoAmI);
+                var source = player.GetSource_ItemUse_WithPotentialAmmo(Item, ItemID.Gel);
+                Projectile.NewProjectile(source, player.Center, Vector2.Zero, Item.shoot, 0, 0f, player.whoAmI);
             }
         }
 
