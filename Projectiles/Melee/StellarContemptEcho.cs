@@ -27,8 +27,8 @@ namespace CalamityMod.Projectiles.Melee
         // This is all copied straight from PwnagehammerEcho with some minor edits.
         public override void SetDefaults()
         {
-            Projectile.width = 78;
-            Projectile.height = 78;
+            Projectile.width = 74;
+            Projectile.height = 76;
             Projectile.aiStyle = 0;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
