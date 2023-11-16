@@ -102,7 +102,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 posthit = true;
             }
-            Projectile.damage = (int)(Projectile.damage * 0.9f);
+            if (Projectile.numHits > 0)
+                Projectile.damage = (int)(Projectile.damage * 0.9f);
             if (Projectile.damage < 1)
                 Projectile.damage = 1;
         }

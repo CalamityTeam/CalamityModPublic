@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -47,7 +47,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.damage = (int)(Projectile.damage * 1.15);
+            if (Projectile.numHits > 0)
+                Projectile.damage = (int)(Projectile.damage * 1.15);
         }
 
         public override void AI()
