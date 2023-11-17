@@ -162,13 +162,22 @@ namespace CalamityMod.ILEditing
         {
             // Find the Tile ID of Meteorite and change it to something that doesn't matter.
             var cursor = new ILCursor(il);
+
+            // There are two checks for the Meteorite Tile ID. The first one is required for the switch cases to function properly, so we need to move past it.
+            ILLabel label = null; // pointless label for MatchBeq
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchBeq(out label)))
+            {
+                LogFailure("Make Meteorite Explodable", "Could not locate the branching instruction.");
+                return;
+            }
+
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(TileID.Meteorite))) // The Meteorite Tile ID check.
             {
                 LogFailure("Make Meteorite Explodable", "Could not locate the Meteorite Tile ID variable.");
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, TileID.HellstoneBrick); // Change to Hellstone Brick. They're made of Hellstone, so it makes sense they can't be exploded until Hardmode starts :^)
+            cursor.Emit(OpCodes.Ldc_I4, TileID.HellstoneBrick); // This won't actually do anything since the ID is above Meteorite's and thus unreachable
         }
         #endregion
 
