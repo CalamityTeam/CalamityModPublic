@@ -194,7 +194,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Projectile.numHits > 0)
-                Projectile.damage = (int)(Projectile.damage * 0.88f); // 12% damage nerf for every enemy hit
+                Projectile.damage = (int)(Projectile.damage * 0.85f); // 15% damage nerf for every enemy hit
             if (Projectile.damage < 1)
                 Projectile.damage = 1;
         }

@@ -27,11 +27,11 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 20;
+            Projectile.penetrate = 5;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 6;
+            Projectile.localNPCHitCooldown = 22;
             Projectile.extraUpdates = 1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 420;
         }
 
         public override void AI()
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
-            float numberOflines = 2;
+            float numberOflines = 5;
             float rotFactorlines = 360f / numberOflines;
             for (int i = 0; i < numberOflines; i++)
             {
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (audioCooldown == 0)
             {
                 SoundEngine.PlaySound(Photoviscerator.HitSound, target.Center);
-                audioCooldown = 6;
+                audioCooldown = 10;
             }
         }
 

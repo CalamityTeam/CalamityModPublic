@@ -33,8 +33,8 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.penetrate = -1;
             Projectile.MaxUpdates = 180;
             Projectile.timeLeft = 240;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 6;
         }
 
         public override void AI()
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (audioCooldown == 0)
             {
                 SoundEngine.PlaySound(Photoviscerator.HitSound, target.Center);
-                audioCooldown = 6;
+                audioCooldown = 16;
             }
         }
 
