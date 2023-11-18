@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<OpalStriker>();
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/OpalStriker";
 
-        public static float ChargedDamageMult = 6f;
+        public static float ChargedDamageMult = 4.3f;
         public static float ChargedKBMult = 3f;
         public static float BulletSpeed = 12f;
 

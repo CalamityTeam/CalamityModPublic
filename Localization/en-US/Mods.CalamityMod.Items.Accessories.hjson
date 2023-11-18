@@ -240,7 +240,6 @@ AsgardianAegis: {
 		Immune to most debuffs
 		+40 max life and +0.5 HP/s life regen
 		Grants a cosmic inferno dash which can slam through enemies without taking damage
-		Can be used to ram enemies
 		+20 defense while submerged in liquid
 		'''
 }
@@ -664,7 +663,6 @@ ElysianAegis: {
 		Grants immunity to knockback and the Burning, On Fire!, and Holy Flames debuffs
 		+30 max life
 		Grants an enhanced holy flame dash which can slam through enemies without taking damage
-		Can be used to ram enemies
 		Blessed by the Profaned Flame
 		'''
 }

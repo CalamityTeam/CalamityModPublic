@@ -61,6 +61,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 		{
 			"Fabsol, the mod's founder and owner", // Fabsol gets a line to himself
 			"Altix",
+			"Angel",
 			"apotofkoolaid",
 			"AquaSG",
 			"Atalya",
