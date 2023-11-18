@@ -3890,7 +3890,7 @@ namespace CalamityMod.CalPlayer
             // (in addition to the player taking more defense damage, of course).
             if (totalDefenseDamage > 0)
             {
-                //Used to cleanse all defense damage by accessories
+                // Used to cleanse all defense damage by accessories
                 if (CleansingEffect == 1)
                 {
                     totalDefenseDamage = 0;
@@ -3933,6 +3933,27 @@ namespace CalamityMod.CalPlayer
                 // Get current amount of defense damage to apply this frame.
                 int currentDefenseDamage = CurrentDefenseDamage;
 
+                // If this number is less than the previous defense damage and Bloodflare Core is equipped, heal for the difference.
+                int deltaSinceLastFrame = currentDefenseDamage - effectiveDefenseDamageLastFrame;
+                if (bloodflareCore && deltaSinceLastFrame < 0)
+                {
+                    int amountToHeal = Math.Abs(deltaSinceLastFrame);
+                    Player.statLife += amountToHeal;
+                    Player.HealEffect(amountToHeal, false);
+
+                    // Produce an implosion of blood themed dust so it's obvious an effect is occurring
+                    int dustCount = 3 * amountToHeal;
+                    for (int i = 0; i < dustCount; ++i)
+                    {
+                        Vector2 offset = Main.rand.NextVector2Unit() * Main.rand.NextFloat(23f, 33f);
+                        Vector2 dustPos = Player.Center + offset;
+                        Vector2 dustVel = offset * -0.08f;
+                        Dust d = Dust.NewDustDirect(dustPos, 0, 0, 90, 0.08f, 0.08f);
+                        d.velocity = dustVel;
+                        d.noGravity = true;
+                    }
+                }
+
                 // Apply DR Damage.
                 //
                 // DR Damage is applied at exactly the same ratio as defense damage;
@@ -3946,39 +3967,9 @@ namespace CalamityMod.CalPlayer
 
                 // Apply defense damage
                 Player.statDefense -= currentDefenseDamage;
-            }
 
-            // Bloodflare Core's defense reduction
-            // This is intentionally after defense damage.
-            // This defense still comes back over time if you take off Bloodflare Core while you're missing defense.
-            // However, removing the item means you won't get healed as the defense comes back.
-            ref int lostDef = ref bloodflareCoreLostDefense;
-            if (lostDef > 0)
-            {
-                // Defense regeneration occurs every six frames while defense is missing
-                if (Player.miscCounter % 6 == 0)
-                {
-                    --lostDef;
-                    if (bloodflareCore)
-                    {
-                        Player.statLife += 1;
-                        Player.HealEffect(1, false);
-
-                        // Produce an implosion of blood themed dust so it's obvious an effect is occurring
-                        for (int i = 0; i < 3; ++i)
-                        {
-                            Vector2 offset = Main.rand.NextVector2Unit() * Main.rand.NextFloat(23f, 33f);
-                            Vector2 dustPos = Player.Center + offset;
-                            Vector2 dustVel = offset * -0.08f;
-                            Dust d = Dust.NewDustDirect(dustPos, 0, 0, 90, 0.08f, 0.08f);
-                            d.velocity = dustVel;
-                            d.noGravity = true;
-                        }
-                    }
-                }
-
-                // Actually apply Bloodflare Core defense reduction
-                Player.statDefense -= lostDef;
+                // Store the applied defense damage as "defense damage from last frame".
+                effectiveDefenseDamageLastFrame = currentDefenseDamage;
             }
 
             // Defense can never be reduced below zero, no matter what

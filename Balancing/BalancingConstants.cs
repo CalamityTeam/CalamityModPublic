@@ -97,6 +97,26 @@
         internal static readonly float MinimumAllowedAttackSpeed = 0.25f;
         internal static readonly float MaximumAllowedAttackSpeed = 10f;
 
+        // Defense Damage
+        internal const double DefaultDefenseDamageRatio = 0.3333;
+
+        // Defense damage floor: PHM | HM | PML
+        //
+        // Normal/Expert: 3 |  8 | 16
+        // Revengeance:   4 | 10 | 20
+        // Death Mode:    5 | 12 | 24
+        // Boss Rush:     25
+        internal static readonly int DefenseDamageFloor_NormalPHM = 3;
+        internal static readonly int DefenseDamageFloor_NormalHM  = 8;
+        internal static readonly int DefenseDamageFloor_NormalPML = 16;
+        internal static readonly int DefenseDamageFloor_RevPHM    = 4;
+        internal static readonly int DefenseDamageFloor_RevHM     = 10;
+        internal static readonly int DefenseDamageFloor_RevPML    = 20;
+        internal static readonly int DefenseDamageFloor_DeathPHM  = 5;
+        internal static readonly int DefenseDamageFloor_DeathHM   = 12;
+        internal static readonly int DefenseDamageFloor_DeathPML  = 24;
+        internal static readonly int DefenseDamageFloor_BossRush  = 25;
+
         // TODO -- Add all balance related constants here that don't belong in other files.
         // Review all constants and static readonlys in the entire mod to find things to add.
     }

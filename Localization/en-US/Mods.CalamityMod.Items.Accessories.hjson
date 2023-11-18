@@ -284,9 +284,8 @@ BloodflareCore: {
 	DisplayName: Bloodflare Core
 	Tooltip:
 		'''
-		You lose up to half your defense after taking damage
-		Lost defense regenerates over time
-		You gain 1 health for every 1 defense gained as it regenerates
+		You gain 1 health for every 1 defense damage recovered
+		Taking damage always deals at least half of your total defense in defense damage
 		'''
 }
 
