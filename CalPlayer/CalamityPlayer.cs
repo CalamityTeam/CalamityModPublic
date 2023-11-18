@@ -390,7 +390,6 @@ namespace CalamityMod.CalPlayer
 
         // Total defense damage inflicted. This number keeps increasing if the player is repeatedly hit during the recovery period.
         internal int totalDefenseDamage = 0;
-        internal int effectiveDefenseDamageLastFrame = 0;
 
         // Defense damage from a single hit recovers in 60 frames, no matter how big the hit was.
         // If you get hit AGAIN before you have fully recovered, 60 more frames are added to your recovery timer!
@@ -575,6 +574,7 @@ namespace CalamityMod.CalPlayer
         public bool bloodPact = false;
         public bool bloodPactBoost = false;
         public bool bloodflareCore = false;
+        public int bloodflareCoreRemainingHealOverTime = 0;
         public bool chaliceOfTheBloodGod = false;
         public bool elementalHeart = false;
         public bool crownJewel = false;
@@ -2237,12 +2237,16 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            #region Debuffs
+            #region Defense Damage
             totalDefenseDamage = 0;
             defenseDamageRecoveryFrames = 0;
             totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
             defenseDamageDelayFrames = 0;
             nextHitDealsDefenseDamage = false;
+            bloodflareCoreRemainingHealOverTime = 0;
+            #endregion
+
+            #region Debuffs
             heldGaelsLastFrame = false;
             gaelSwipes = 0;
             andromedaState = AndromedaPlayerState.Inactive;

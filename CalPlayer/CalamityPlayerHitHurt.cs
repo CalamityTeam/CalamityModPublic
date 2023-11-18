@@ -1922,7 +1922,28 @@ namespace CalamityMod.CalPlayer
                 // If Bloodflare Core is equipped and standard defense damage would be less than half the player's total defense,
                 // then instead forcibly deal half of the player's total defense as defense damage.
                 if (bloodflareCore && standardDefenseDamage < halfDefense)
+                {
                     DealDefenseDamage(hurtInfo, (int)halfDefense, true);
+
+                    // Set up Bloodflare Core's heal over time. Any in-progress heals are overwritten if they would have a shorter duration.
+                    if (bloodflareCoreRemainingHealOverTime < halfDefense)
+                        bloodflareCoreRemainingHealOverTime = (int)halfDefense;
+
+                    // Play a sound and make dust to signify that defense has been shattered
+                    SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact, Player.Center);
+                    for (int i = 0; i < 36; ++i)
+                    {
+                        float speed = Main.rand.NextFloat(1.8f, 8f);
+                        Vector2 dustVel = new Vector2(speed, speed);
+                        Dust d = Dust.NewDustDirect(Player.position, Player.width, Player.height, 90);
+                        d.velocity = dustVel;
+                        d.noGravity = true;
+                        d.scale *= Main.rand.NextFloat(1.1f, 1.4f);
+                        Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.PiOver2);
+                        Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.Pi);
+                        Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.Pi * 1.5f);
+                    }
+                }
                 else
                     DealDefenseDamage(hurtInfo);
             }

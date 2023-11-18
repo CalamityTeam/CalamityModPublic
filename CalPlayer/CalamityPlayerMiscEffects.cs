@@ -44,7 +44,6 @@ using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Particles;
-using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
@@ -57,7 +56,6 @@ using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil;
 using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
@@ -68,7 +66,6 @@ using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Humanizer.In;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
@@ -128,7 +125,7 @@ namespace CalamityMod.CalPlayer
             // Update energy shields
             EnergyShields();
 
-            // Defense manipulation (Mostly defense damage, but also Bloodflare Core and others)
+            // Defense manipulation (Mostly defense damage, but also other defense changes)
             DefenseEffects();
 
             // Limits
@@ -2607,6 +2604,27 @@ namespace CalamityMod.CalPlayer
                 healingPotBonus += 0.5f;
             }
 
+            // Bloodflare Core's heal over time
+            if (bloodflareCore && bloodflareCoreRemainingHealOverTime > 0 && Player.miscCounter % BloodflareCore.HealFrameCooldown == 0)
+            {
+                Player.statLife += 1;
+                Player.HealEffect(1, false);
+
+                // Produce an implosion of blood themed dust so it's obvious an effect is occurring
+                for (int i = 0; i < 3; ++i)
+                {
+                    Vector2 offset = Main.rand.NextVector2Unit() * Main.rand.NextFloat(23f, 33f);
+                    Vector2 dustPos = Player.Center + offset;
+                    Vector2 dustVel = offset * -0.08f;
+                    Dust d = Dust.NewDustDirect(dustPos, 0, 0, 90, 0.08f, 0.08f);
+                    d.velocity = dustVel;
+                    d.noGravity = true;
+                }
+
+                // Decrement the remaining possible heal over time.
+                --bloodflareCoreRemainingHealOverTime;
+            }
+
             // 50% movement speed bonus so that you don't feel like a snail in the early game.
             // Disabled while Overhaul is enabled, because Overhaul does very similar things to make movement more snappy.
             if (CalamityMod.Instance.overhaul is null && CalamityConfig.Instance.FasterBaseSpeed)
@@ -3933,27 +3951,6 @@ namespace CalamityMod.CalPlayer
                 // Get current amount of defense damage to apply this frame.
                 int currentDefenseDamage = CurrentDefenseDamage;
 
-                // If this number is less than the previous defense damage and Bloodflare Core is equipped, heal for the difference.
-                int deltaSinceLastFrame = currentDefenseDamage - effectiveDefenseDamageLastFrame;
-                if (bloodflareCore && deltaSinceLastFrame < 0)
-                {
-                    int amountToHeal = Math.Abs(deltaSinceLastFrame);
-                    Player.statLife += amountToHeal;
-                    Player.HealEffect(amountToHeal, false);
-
-                    // Produce an implosion of blood themed dust so it's obvious an effect is occurring
-                    int dustCount = 3 * amountToHeal;
-                    for (int i = 0; i < dustCount; ++i)
-                    {
-                        Vector2 offset = Main.rand.NextVector2Unit() * Main.rand.NextFloat(23f, 33f);
-                        Vector2 dustPos = Player.Center + offset;
-                        Vector2 dustVel = offset * -0.08f;
-                        Dust d = Dust.NewDustDirect(dustPos, 0, 0, 90, 0.08f, 0.08f);
-                        d.velocity = dustVel;
-                        d.noGravity = true;
-                    }
-                }
-
                 // Apply DR Damage.
                 //
                 // DR Damage is applied at exactly the same ratio as defense damage;
@@ -3967,9 +3964,6 @@ namespace CalamityMod.CalPlayer
 
                 // Apply defense damage
                 Player.statDefense -= currentDefenseDamage;
-
-                // Store the applied defense damage as "defense damage from last frame".
-                effectiveDefenseDamageLastFrame = currentDefenseDamage;
             }
 
             // Defense can never be reduced below zero, no matter what

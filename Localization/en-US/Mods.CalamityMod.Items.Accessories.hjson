@@ -284,6 +284,7 @@ BloodflareCore: {
 	DisplayName: Bloodflare Core
 	Tooltip:
 		'''
+		Taking defense damage heals you over time
 		You gain 1 health for every 1 defense damage recovered
 		Taking damage always deals at least half of your total defense in defense damage
 		'''
@@ -2033,4 +2034,9 @@ Popo: {
 RedBow: {
 	DisplayName: Red Bow
 	Tooltip: "'Pelusa's favorite bow'"
+}
+
+ChaliceOfTheBloodGod: {
+	DisplayName: Chalice Of The Blood God
+	Tooltip: ""
 }

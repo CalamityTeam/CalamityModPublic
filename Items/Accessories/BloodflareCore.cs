@@ -7,6 +7,8 @@ namespace CalamityMod.Items.Accessories
 {
     public class BloodflareCore : ModItem, ILocalizedModType
     {
+        internal static readonly int HealFrameCooldown = 6;
+        
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {
