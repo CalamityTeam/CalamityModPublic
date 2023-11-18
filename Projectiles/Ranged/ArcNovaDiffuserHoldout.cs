@@ -19,6 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
         public static int FramesPerLoad = 13;
         public static int MaxLoadableShots = 15;
         public static float BulletSpeed = 12f;
+        public int Time = 0;
 
         private Player Owner => Main.player[Projectile.owner];
         public SlotId NovaChargeSlot;
@@ -43,6 +44,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            Time++;
+            if (Time == 1)
+                Projectile.alpha = 255;
+            else
+                Projectile.alpha = 0;
+
             if (Owner.dead) // destroy the holdout if the player dies
             {
                 Projectile.Kill();
@@ -214,11 +221,17 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.myPlayer == Projectile.owner)
             {
-                float interpolant = Utils.GetLerpValue(5f, 25f, Projectile.Distance(Main.MouseWorld), true);
+                float interpolant = Utils.GetLerpValue(5f, 40f, Projectile.Distance(Main.MouseWorld), true);
                 Vector2 oldVelocity = Projectile.velocity;
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
+                if (Projectile.velocity != oldVelocity)
+                {
+                    Projectile.netSpam = 0;
+                    Projectile.netUpdate = true;
+                }
             }
-            Projectile.Center = armPosition + Projectile.velocity * MathHelper.Clamp(30f - ShootRecoilTimer, 0f, 30f) + new Vector2 (0, 7);
+            Vector2 shootOffset = Projectile.velocity * MathHelper.Clamp(30f - ShootRecoilTimer, 0f, 30f) + new Vector2(0, 7);
+            Projectile.Center = armPosition + shootOffset;
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == -1 ? MathHelper.Pi : 0f);
             Projectile.spriteDirection = Projectile.direction;
 

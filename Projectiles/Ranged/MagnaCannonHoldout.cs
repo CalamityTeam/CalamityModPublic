@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
         private ref float ShotsLoaded => ref Projectile.ai[1];
         private ref float ShootTimer => ref Projectile.ai[2];
         private bool FullyCharged => CurrentChargingFrames >= MagnaCannon.FullChargeFrames;
+        public int Time = 0;
 
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
 
@@ -42,6 +43,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            Time++;
+            if (Time == 1)
+                Projectile.alpha = 255;
+            else
+                Projectile.alpha = 0;
+
             if (Owner.dead) // destroy the holdout if the player dies
             {
                 Projectile.Kill();
@@ -141,7 +148,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.myPlayer == Projectile.owner)
             {
-                float interpolant = Utils.GetLerpValue(5f, 25f, Projectile.Distance(Main.MouseWorld), true);
+                float interpolant = Utils.GetLerpValue(5f, 40f, Projectile.Distance(Main.MouseWorld), true);
                 Vector2 oldVelocity = Projectile.velocity;
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
             }

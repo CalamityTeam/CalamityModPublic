@@ -40,6 +40,11 @@ namespace CalamityMod.Projectiles.Ranged
             if (PhotoTimer > 0)
                 PhotoTimer--;
 
+            if (Time == 1)
+                Projectile.alpha = 255;
+            else
+                Projectile.alpha = 0;
+
             sparkColor = Main.rand.Next(4) switch
             {
                 0 => Color.Red,
@@ -228,7 +233,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.myPlayer == Projectile.owner)
             {
-                float interpolant = Utils.GetLerpValue(5f, 25f, Projectile.Distance(Main.MouseWorld), true);
+                float interpolant = Utils.GetLerpValue(5f, 90f, Projectile.Distance(Main.MouseWorld), true);
                 Vector2 oldVelocity = Projectile.velocity;
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
                 if (Projectile.velocity != oldVelocity)
