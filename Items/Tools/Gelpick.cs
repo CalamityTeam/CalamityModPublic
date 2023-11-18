@@ -12,11 +12,11 @@ namespace CalamityMod.Items.Tools
         public new string LocalizationCategory => "Items.Tools";
         public override void SetDefaults()
         {
-            Item.damage = 12;
+            Item.damage = 19;
             Item.knockBack = 2.5f;
-            Item.useTime = 10;
+            Item.useTime = 9;
             Item.useAnimation = 20;
-            Item.pick = 100;
+            Item.pick = 105;
             Item.tileBoost += 1;
 
             Item.DamageType = DamageClass.Melee;
