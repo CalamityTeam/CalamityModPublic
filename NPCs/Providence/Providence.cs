@@ -89,10 +89,10 @@ namespace CalamityMod.NPCs.Providence
         private int healTimer = 0;
         internal bool challenge = Main.expertMode; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
         internal bool hasTakenDaytimeDamage = false;
-        public bool shouldDrawInfernoBorder = true; //This is only here for other mods to disable it if they don't want it drawing.
+        public static bool shouldDrawInfernoBorder = true; //This is only here for other mods to disable it if they don't want it drawing.
         public bool Dying = false;
         public int DeathAnimationTimer;
-        public Tuple<float, float> borderStartEnd = new (2800f, 3000f);
+        public static float borderRadius = 3000f;
 
         //Sounds
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceSpawn") { Volume = 1.2f };
@@ -190,8 +190,7 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(SoundWarningLevel);
             writer.Write(Dying);
             writer.Write(DeathAnimationTimer);
-            writer.Write(borderStartEnd.Item1);
-            writer.Write(borderStartEnd.Item2);
+            writer.Write(borderRadius);
             writer.Write(shouldDrawInfernoBorder);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
@@ -218,7 +217,7 @@ namespace CalamityMod.NPCs.Providence
             SoundWarningLevel = reader.ReadSingle();
             Dying = reader.ReadBoolean();
             DeathAnimationTimer = reader.ReadInt32();
-            borderStartEnd = new (reader.ReadSingle(), reader.ReadSingle());
+            borderRadius = reader.ReadSingle();
             shouldDrawInfernoBorder = reader.ReadBoolean();
             
             for (int i = 0; i < 4; i++)
@@ -234,6 +233,10 @@ namespace CalamityMod.NPCs.Providence
 
         public override void AI()
         {
+            // Set the border drawing to true if it isn't set to true
+            // Can happen when another mod sets to false for a difficulty and that difficulty is then toggled off.
+            shouldDrawInfernoBorder = true;
+
             CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
 
             // whoAmI variable for Guardians and other things
@@ -1857,9 +1860,10 @@ namespace CalamityMod.NPCs.Providence
             }
 
             float drawFireDistanceStart = maxDistance - 800f;
-            float previousBorderEnd = borderStartEnd.Item2;
+            float previousBorderEnd = borderRadius;
             float clampedDistance = MathHelper.Clamp(maxDistance, previousBorderEnd - 10, previousBorderEnd + 10);
-            borderStartEnd = new (drawFireDistanceStart, clampedDistance);
+            // Only set the border distance if it's not called from playermisceffects, that way it has mod compatability
+            borderRadius = clampedDistance;
             return Utils.GetLerpValue(drawFireDistanceStart, clampedDistance, distanceToTarget, true);
         }
 
