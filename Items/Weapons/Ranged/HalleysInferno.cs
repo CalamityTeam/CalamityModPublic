@@ -14,11 +14,11 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
 
-        public static readonly SoundStyle Shoot = new("CalamityMod/Sounds/Item/HalleysInfernoShoot") { Volume = 0.6f };
-        public static readonly SoundStyle Hit = new("CalamityMod/Sounds/Item/HalleysInfernoHit") { Volume = 0.5f };
+        public static readonly SoundStyle Shoot = new("CalamityMod/Sounds/Item/HalleysInfernoShoot") { Volume = 0.68f };
+        public static readonly SoundStyle Hit = new("CalamityMod/Sounds/Item/HalleysInfernoHit") { Volume = 0.75f };
         public override void SetDefaults()
         {
-            Item.damage = 488;
+            Item.damage = 444;
             Item.knockBack = 5.5f;
             Item.DamageType = DamageClass.Ranged;
 
