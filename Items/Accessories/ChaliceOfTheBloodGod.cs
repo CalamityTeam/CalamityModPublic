@@ -9,18 +9,19 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class CoreOfTheBloodGod : ModItem, ILocalizedModType
+    [LegacyName("CoreOfTheBloodGod")]
+    public class ChaliceOfTheBloodGod : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetStaticDefaults()
         {
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 12));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
         {
-            Item.width = Item.height = 48;
+            Item.width = Item.height = 32;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ModContent.RarityType<DarkBlue>();
@@ -29,17 +30,15 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.coreOfTheBloodGod = true;
-            modPlayer.fleshTotem = true;
-			modPlayer.healingPotBonus += 0.25f;
+            modPlayer.chaliceOfTheBloodGod = true;
+            modPlayer.healingPotBonus += 0.25f;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<BloodPact>().
-                AddIngredient<FleshTotem>().
-                AddIngredient<CosmiliteBar>(5).
+                AddIngredient<BloodstoneCore>(5).
                 AddIngredient<AscendantSpiritEssence>(4).
                 AddTile<CosmicAnvil>().
                 Register();
