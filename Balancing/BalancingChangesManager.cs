@@ -256,14 +256,14 @@ namespace CalamityMod.Balancing
             // 30% resist to Dynamic Pursuer.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<DynamicPursuerProjectile>(), ProjectileType<DynamicPursuerLaser>(), ProjectileType<DynamicPursuerElectricity>()))));
 
-            // 30% resist to the Spin Throw part of the Ark of the Cosmos' combo.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.7f, AotCThrowCombo))));
-
             // 25% resist to Aetherflux Cannon.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<PhasedGodRay>()))));
             
             // 25% resist to Murasama.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<MurasamaSlash>()))));
+
+            // 20% resist to the Spin Throw part of the Ark of the Cosmos' combo.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.8f, AotCThrowCombo))));
 
             // 20% resist to Dragon Rage projectiles.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.8f, DragonRageFilter))));
@@ -330,9 +330,6 @@ namespace CalamityMod.Balancing
             // 35% resist to Anomaly's Nanogun bomb explosions.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.65f, ProjectileType<AnomalysNanogunMPFBBoom>()))));
 
-            // 30% resist to the Spin Throw part of the Ark of the Cosmos' combo.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.7f, AotCThrowCombo))));
-
             // 30% resist to Eclipse Fall.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<EclipsesFallMain>()))));
 
@@ -347,6 +344,9 @@ namespace CalamityMod.Balancing
 
             // 30% resist to Prismatic Breaker's laser beam.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<PrismaticBeam>()))));
+
+            // 25% resist to the Spin Throw part of the Ark of the Cosmos' combo.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.75f, AotCThrowCombo))));
 
             // 25% resist to Dragon Rage projectiles.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.75f, DragonRageFilter))));

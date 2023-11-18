@@ -1783,12 +1783,15 @@ namespace CalamityMod.NPCs
                     // First kill: Notify of Abyss chests being unlocked.
                     if (!NPC.downedBoss3)
                     {
+                        // Abyss chest auto unlock has been shelved, the bug has still not fucking died despite several attempts to fix it.
+                        // Commented it out just in case someone is willing to fix it in the future - Shade
+                        /*
                         if (Main.netMode != NetmodeID.MultiplayerClient) //Only the server should do this to prevent already unlocked chests from attempting to be unlocked
                         {
                             World.Abyss.AbleToUnlockChests = true;
                             World.Abyss.UnlockAllAbyssChests();
                         }
-
+                        */
                         string keysk = "Mods.CalamityMod.Status.Progression.SkeletronAbyssChestNotification";
                         CalamityUtils.DisplayLocalizedText(keysk, new Color(76, 181, 76));
                     }

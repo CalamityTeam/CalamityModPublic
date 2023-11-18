@@ -924,8 +924,8 @@ namespace CalamityMod.CalPlayer
                 providenceBurnIntensity = (Main.npc[CalamityGlobalNPC.holyBoss].ModNPC as ProvidenceBoss).CalculateBurnIntensity();
             ProvidenceBurnEffectDrawer.ParticleSpawnRate = int.MaxValue;
 
-            // If the burn intensity is great enough, cause the player to ignite into flames.
-            if (providenceBurnIntensity > 0.45f)
+            // If the player has holy inferno, cause the player to ignite into flames.
+            if (hInferno)
                 ProvidenceBurnEffectDrawer.ParticleSpawnRate = 1;
 
             // Otherwise, if the intensity is too weak, but still present, cause the player to release holy cinders.
@@ -936,17 +936,24 @@ namespace CalamityMod.CalPlayer
                 {
                     if (!Main.rand.NextBool(3))
                         continue;
-
-                    Dust holyCinder = Dust.NewDustDirect(Player.position, Player.width, Player.head, (int)CalamityDusts.ProfanedFire);
+                    
+                    Dust holyCinder = Dust.NewDustDirect(Player.position, Player.width, Player.height, (int)CalamityDusts.ProfanedFire);
                     holyCinder.velocity = Main.rand.NextVector2Circular(3.5f, 3.5f);
                     holyCinder.velocity.Y -= Main.rand.NextFloat(1f, 3f);
                     holyCinder.scale = Main.rand.NextFloat(1.15f, 1.45f);
                     holyCinder.noGravity = true;
                 }
             }
-
             ProvidenceBurnEffectDrawer.Update();
 
+            if (hInferno && holyInfernoFadeIntensity < 1f)
+            {
+                holyInfernoFadeIntensity = MathHelper.Clamp(holyInfernoFadeIntensity + 0.015f, 0f, 1f);
+            }
+            else if (!hInferno && holyInfernoFadeIntensity > 0f)
+            {
+                holyInfernoFadeIntensity = MathHelper.Clamp(holyInfernoFadeIntensity - 0.01f, 0f, 1f);
+            }
             // Transformer immunity to Electrified
             if (transformer)
                 Player.buffImmune[BuffID.Electrified] = true;

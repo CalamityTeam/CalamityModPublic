@@ -36,7 +36,7 @@ namespace CalamityMod.World
         public static bool AtLeftSideOfWorld = false;
         public static int AbyssChasmBottom = 0;
 
-        public static bool AbleToUnlockChests = false; //used for unlocking chests during skeletron's death and so that they cannot be opened beforehand
+        //public static bool AbleToUnlockChests = false; //used for unlocking chests during skeletron's death and so that they cannot be opened beforehand
         public static void PlaceAbyss()
         {
             int x = Main.maxTilesX;
@@ -1155,7 +1155,9 @@ namespace CalamityMod.World
 
             WorldGen.PlaceObject(i, j - 2, (ushort)ModContent.TileType<AbyssFossilTile>());
         }
-
+        // Commented out the method in case we ever use it again in the future, or some guy in the public github fixes it, 
+        // but for now this is a buggy mess that is too disruptive especially in multiplayer despite several attempts at fixing it - Shade
+        /*
         public static void UnlockAllAbyssChests()
         {
             int genLimit = Main.maxTilesX / 2;
@@ -1181,5 +1183,6 @@ namespace CalamityMod.World
             }
             AbleToUnlockChests = false; //reseting the variable in case players generate multiple worlds to prevent already unlocked chests from spawning
         }
+        */
     }
 }

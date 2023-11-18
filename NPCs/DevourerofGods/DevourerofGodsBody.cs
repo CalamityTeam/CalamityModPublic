@@ -232,7 +232,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 {
                                     NPC.TargetClosest();
                                     SoundEngine.PlaySound(SoundID.Item12, player.Center);
-                                    float maxProjectileVelocity = bossRush ? 20f : death ? 16f : revenge ? 14.25f : expertMode ? 13.5f : 12f;
+                                    float maxProjectileVelocity = bossRush ? 24f : death ? 20f : revenge ? 18.25f : expertMode ? 17.5f : 16f;
                                     float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                     float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
                                     Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
@@ -257,7 +257,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 NPC.TargetClosest();
                                 SoundEngine.PlaySound(SoundID.Item12, player.Center);
                                 NPC.localAI[0] = 0f;
-                                float maxProjectileVelocity = bossRush ? 18f : death ? 14f : revenge ? 12.25f : expertMode ? 11.5f : 10f;
+                                float maxProjectileVelocity = bossRush ? 22f : death ? 18f : revenge ? 16.25f : expertMode ? 15.5f : 14f;
                                 float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                 float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
                                 Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;

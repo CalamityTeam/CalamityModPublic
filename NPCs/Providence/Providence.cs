@@ -37,11 +37,9 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
-using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.UI;
 using Filters = Terraria.Graphics.Effects.Filters;
 
 namespace CalamityMod.NPCs.Providence
@@ -89,10 +87,12 @@ namespace CalamityMod.NPCs.Providence
         private int phaseChange = 0;
         private int frameUsed = 0;
         private int healTimer = 0;
-        internal bool challenge = Main.expertMode/* && Main.netMode == NetmodeID.SinglePlayer*/; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
+        internal bool challenge = Main.expertMode; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
         internal bool hasTakenDaytimeDamage = false;
+        public static bool shouldDrawInfernoBorder = true; //This is only here for other mods to disable it if they don't want it drawing.
         public bool Dying = false;
         public int DeathAnimationTimer;
+        public static float borderRadius = 3000f;
 
         //Sounds
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceSpawn") { Volume = 1.2f };
@@ -190,6 +190,8 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(SoundWarningLevel);
             writer.Write(Dying);
             writer.Write(DeathAnimationTimer);
+            writer.Write(borderRadius);
+            writer.Write(shouldDrawInfernoBorder);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
         }
@@ -215,6 +217,9 @@ namespace CalamityMod.NPCs.Providence
             SoundWarningLevel = reader.ReadSingle();
             Dying = reader.ReadBoolean();
             DeathAnimationTimer = reader.ReadInt32();
+            borderRadius = reader.ReadSingle();
+            shouldDrawInfernoBorder = reader.ReadBoolean();
+            
             for (int i = 0; i < 4; i++)
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
 
@@ -228,6 +233,10 @@ namespace CalamityMod.NPCs.Providence
 
         public override void AI()
         {
+            // Set the border drawing to true if it isn't set to true
+            // Can happen when another mod sets to false for a difficulty and that difficulty is then toggled off.
+            shouldDrawInfernoBorder = true;
+
             CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
 
             // whoAmI variable for Guardians and other things
@@ -370,7 +379,7 @@ namespace CalamityMod.NPCs.Providence
             float distanceX = Math.Abs(NPC.Center.X - player.Center.X);
 
             // Inflict Holy Inferno if target is too far away
-            float burnIntensity = CalculateBurnIntensity();    
+            float burnIntensity = CalculateBurnIntensity(attackDelayAfterCocoon);    
 
             if (!player.dead && player.active && !player.creativeGodMode && !Dying)
             {
@@ -1809,7 +1818,7 @@ namespace CalamityMod.NPCs.Providence
             }
         }
 
-        public float CalculateBurnIntensity()
+        public float CalculateBurnIntensity(float attackDelayAfterCocoon = 1f)
         {
             float distanceToTarget = Vector2.Distance(Main.player[NPC.target].Center, NPC.Center);
             float aiTimer = NPC.ai[3];
@@ -1826,6 +1835,7 @@ namespace CalamityMod.NPCs.Providence
             if (CalamityGlobalNPC.holyBossAttacker != -1 && Main.npc[CalamityGlobalNPC.holyBossAttacker].active)
                 guardianAlive = true;
 
+            
             if (CalamityGlobalNPC.holyBossDefender != -1 && Main.npc[CalamityGlobalNPC.holyBossDefender].active)
                 guardianAlive = true;
 
@@ -1838,16 +1848,23 @@ namespace CalamityMod.NPCs.Providence
             // It is determined based on how much time has elapsed during the attack thus far, specifically for the two cocoon attacks.
             // This shave-off does not happen when guardians are present.
             float shorterDistanceFade = Utils.GetLerpValue(0f, 120f, aiTimer, true);
+            
             //Distance does not get shorter if in GFB / Guardians are alive
             if (!guardianAlive && NPC.localAI[1] < (float)BossMode.Red)
             {
                 maxDistance = baseDistance;
                 if (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon)
                     maxDistance -= shorterDistance * shorterDistanceFade;
+                else if (attackDelayAfterCocoon > 1f)
+                    maxDistance -= shorterDistance * (NPC.localAI[2] / attackDelayAfterCocoon);
             }
 
             float drawFireDistanceStart = maxDistance - 800f;
-            return Utils.GetLerpValue(drawFireDistanceStart, maxDistance, distanceToTarget, true);
+            float previousBorderEnd = borderRadius;
+            float clampedDistance = MathHelper.Clamp(maxDistance, previousBorderEnd - 10, previousBorderEnd + 10);
+            // Only set the border distance if it's not called from playermisceffects, that way it has mod compatability
+            borderRadius = clampedDistance;
+            return Utils.GetLerpValue(drawFireDistanceStart, clampedDistance, distanceToTarget, true);
         }
 
         private void DespawnSpecificProjectiles(bool dying = false)
@@ -2341,7 +2358,6 @@ namespace CalamityMod.NPCs.Providence
                 Vector2 pos = NPC.Center + NPC.gfxOffY * Vector2.UnitY - Main.screenPosition;
                 Main.spriteBatch.Draw(heatTex, shieldDrawPos, null, Color.White, 0, heatTex.Size() / 2f, shieldScale * scaleMult * 0.5f, 0, 0);
             }
-
             return false;
         }
 

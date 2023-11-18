@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 7;
             Projectile.MaxUpdates = 4;
             Projectile.timeLeft = Lifetime; // 24 effectively
             Projectile.usesIDStaticNPCImmunity = true;
@@ -86,7 +86,13 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 360);
-
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (Projectile.numHits > 0)
+                Projectile.damage = (int)(Projectile.damage * 0.75f);
+            if (Projectile.damage < 1)
+                Projectile.damage = 1;
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D fire = ModContent.Request<Texture2D>(Texture).Value;

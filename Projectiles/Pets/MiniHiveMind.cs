@@ -1,10 +1,12 @@
 ﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.CalPlayer;
+using CalamityMod.NPCs.HiveMind;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+
 namespace CalamityMod.Projectiles.Pets
 {
     public class MiniHiveMind : ModProjectile, ILocalizedModType
@@ -76,7 +78,7 @@ namespace CalamityMod.Projectiles.Pets
                     playerVec.Normalize();
                     Projectile.velocity = playerVec * 8f;
                     charging = 50;
-                    SoundEngine.PlaySound(SoundID.ForceRoar with { Volume = SoundID.ForceRoar.Volume * 0.5f }, Projectile.Center);
+                    SoundEngine.PlaySound(HiveMind.FastRoarSound with { Volume = SoundID.ForceRoar.Volume * 0.5f }, Projectile.Center);
                     Projectile.netUpdate = true;
                 }
             }

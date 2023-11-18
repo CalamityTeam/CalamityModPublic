@@ -797,9 +797,9 @@ namespace CalamityMod.Items
 
             // Palladium
             if (item.type == ItemID.PalladiumBreastplate)
-                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.ChestplateDamagePercentageBoost + 3}% increased damage.");
+                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.ChestplateDamagePercentageBoost + 3}% increased damage");
             if (item.type == ItemID.PalladiumLeggings)
-                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage.");
+                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage");
 
             // Mythril
             if (item.type == ItemID.MythrilHood)

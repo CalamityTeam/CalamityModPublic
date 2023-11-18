@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Summon
                         spark.Scale -= 0.1f;
                     }
                 }
-                else // Idol state
+                else // Idle state
                 {
                     Projectile.rotation += Projectile.velocity.X * 0.06f; // Spins faster the faster it moves in the X-axis.
 
@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Summon
             if (!MinionBuffMode) // "Break" the minion after every 3 hits if in charging
             {
                 HitCounter++;
-                if (HitCounter >= 3)
+                if (HitCounter >= 4)
                 {
                     for (int i = 0; i <= 5; i++)
                     {

@@ -432,13 +432,6 @@ namespace CalamityMod.Projectiles.Melee
             if (Combo == 3f)
             {
                 SoundEngine.PlaySound(CommonCalamitySounds.ScissorGuillotineSnapSound with { Volume =CommonCalamitySounds.ScissorGuillotineSnapSound.Volume * 1.3f }, Projectile.Center);
-
-                if (Charge <= 1)
-                {
-                    ArkoftheCosmos sword = (Owner.HeldItem.ModItem as ArkoftheCosmos);
-                    if (sword != null)
-                        sword.Charge = 2f;
-                }
             }
         }
 

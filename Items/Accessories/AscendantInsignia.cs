@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Accessories
         public override void ModifyTooltips(List<TooltipLine> list) => list.IntegrateHotkey(CalamityKeybinds.AscendantInsigniaHotKey);
         public override void SetDefaults()
         {
-            Item.width = 46;
-            Item.height = 52;
+            Item.width = 42;
+            Item.height = 42;
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.accessory = true;
             Item.rare = ModContent.RarityType<PureGreen>();

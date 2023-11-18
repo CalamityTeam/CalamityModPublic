@@ -35,7 +35,7 @@ namespace CalamityMod.Graphics.Drawers
                 On_Main.DrawNPCs += DrawNPCDrawers;
                 On_Main.DrawProjectiles += DrawProjectileDrawers;
                 On_Main.DrawPlayers_AfterProjectiles += DrawPlayerDrawers;
-                On_Main.DoDraw_WallsTilesNPCs += DrawBeforeTileDrawers;
+                On_Main.DrawBackgroundBlackFill += DrawBeforeTileDrawers;
                 On_Main.DrawInfernoRings += DrawAfterEverythingDrawers;
 
                 var drawerType = typeof(BaseDrawer);
@@ -64,7 +64,7 @@ namespace CalamityMod.Graphics.Drawers
                 On_Main.DrawNPCs -= DrawNPCDrawers;
                 On_Main.DrawProjectiles -= DrawProjectileDrawers;
                 On_Main.DrawPlayers_AfterProjectiles -= DrawPlayerDrawers;
-                On_Main.DoDraw_WallsTilesNPCs -= DrawBeforeTileDrawers;
+                On_Main.DrawBackgroundBlackFill -= DrawBeforeTileDrawers;
                 On_Main.DrawInfernoRings -= DrawAfterEverythingDrawers;
 
                 foreach (var drawer in Drawers)
@@ -143,7 +143,7 @@ namespace CalamityMod.Graphics.Drawers
             Main.spriteBatch.End();
         }
 
-        private void DrawBeforeTileDrawers(On_Main.orig_DoDraw_WallsTilesNPCs orig, Main self)
+        private void DrawBeforeTileDrawers(On_Main.orig_DrawBackgroundBlackFill orig, Main self)
         {
             var drawers = Drawers.Where(drawer => drawer.ShouldDraw && drawer.Layer is DrawerLayer.BeforeTiles);
 
