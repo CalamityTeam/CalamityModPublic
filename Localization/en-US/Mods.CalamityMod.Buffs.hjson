@@ -667,15 +667,6 @@ BloodflareBloodFrenzy: {
 	Description: Contact damage is reduced and melee stats are greatly increased
 }
 
-BloodyBoost: {
-	DisplayName: Bloody Boost
-	Description:
-		'''
-		Increased offensive and defensive stats
-		Healing potions grant more health
-		'''
-}
-
 BossEffects: {
 	DisplayName: Boss Effects
 	Description:

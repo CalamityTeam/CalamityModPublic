@@ -715,10 +715,6 @@ namespace CalamityMod.CalPlayer
             {
                 Player.lifeRegen += 2;
             }
-            if (bloodPactBoost)
-            {
-                Player.lifeRegen += 2;
-            }
             if (avertorBonus)
             {
                 Player.lifeRegen += 4;

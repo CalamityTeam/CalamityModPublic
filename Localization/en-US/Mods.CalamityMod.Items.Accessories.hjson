@@ -294,10 +294,8 @@ BloodPact: {
 	DisplayName: Blood Pact
 	Tooltip:
 		'''
-		Doubles your max HP
-		Causes you to take critical damage 25% of the time
-		After a critical hit, you gain various buffs for ten seconds
-		Any healing potions consumed during this time period heal 50% more health
+		Increases max HP by 25%
+		Healing Potions are 25% more effective
 		'''
 }
 
@@ -356,6 +354,18 @@ Calamity: {
 		'''
 }
 
+ChaliceOfTheBloodGod: {
+	DisplayName: Chalice of the Blood God
+	Tooltip:
+		'''
+		Increases max HP by 25%
+		Healing Potions are 25% more effective
+		All damage taken is converted into a damage over time bleed debuff
+		This bleeding does not interfere with life regeneration
+		Drinking a Healing Potion removes half of the remaining bleed damage
+		'''
+}
+
 ChaosStone: {
 	DisplayName: Chaos Stone
 	Tooltip:
@@ -373,17 +383,6 @@ CoinofDeceit: {
 		'''
 		Stealth strikes only expend 85% of your max stealth
 		6% increased rogue crit chance
-		'''
-}
-
-CoreOfTheBloodGod: {
-	DisplayName: Core of the Blood God
-	Tooltip:
-		'''
-		Boosts your max HP by 15%
-		Healing Potions are 25% more effective
-		Halves enemy contact damage
-		When you take contact damage this effect has a 20 second cooldown
 		'''
 }
 
@@ -2034,9 +2033,4 @@ Popo: {
 RedBow: {
 	DisplayName: Red Bow
 	Tooltip: "'Pelusa's favorite bow'"
-}
-
-ChaliceOfTheBloodGod: {
-	DisplayName: Chalice Of The Blood God
-	Tooltip: ""
 }

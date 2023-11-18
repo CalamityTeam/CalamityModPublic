@@ -2595,15 +2595,6 @@ namespace CalamityMod.CalPlayer
                 Player.GetCritChance<MeleeDamageClass>() += 5;
             }
 
-            if (bloodPactBoost)
-            {
-                Player.GetDamage<GenericDamageClass>() += 0.05f;
-                Player.statDefense += 20;
-                Player.longInvince = true;
-                Player.crimsonRegen = true;
-                healingPotBonus += 0.5f;
-            }
-
             // Bloodflare Core's heal over time
             if (bloodflareCore && bloodflareCoreRemainingHealOverTime > 0 && Player.miscCounter % BloodflareCore.HealFrameCooldown == 0)
             {

@@ -30,8 +30,10 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
+
+            // This applies the +25% health boost and the bleedout buffer effect.
             modPlayer.chaliceOfTheBloodGod = true;
-            modPlayer.healingPotBonus += 0.25f;
+            modPlayer.healingPotionMultiplier += 0.25f;
         }
 
         public override void AddRecipes()

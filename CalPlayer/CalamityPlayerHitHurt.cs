@@ -1585,14 +1585,6 @@ namespace CalamityMod.CalPlayer
             if (Player.beetleDefense && Player.beetleOrbs > 0)
                 damageMult += 0.05 * Player.beetleOrbs;
 
-            // Blood Pact gives you a 1/4 chance to be crit, increasing the incoming damage by 25%.
-            if (bloodPact && Main.rand.NextBool(4))
-            {
-                Player.AddBuff(ModContent.BuffType<BloodyBoost>(), 600);
-                SoundEngine.PlaySound(BloodCritSound, Player.Center);
-                damageMult += 1.25;
-            }
-
             modifiers.SourceDamage *= (float)damageMult;
             #endregion
 

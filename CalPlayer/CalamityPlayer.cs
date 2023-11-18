@@ -97,7 +97,7 @@ namespace CalamityMod.CalPlayer
         public bool reducedHolyFlamesDamage = false;
         public bool reducedNightwitherDamage = false;
         public float rangedAmmoCost = 1f;
-        public float healingPotBonus = 1f;
+        public float healingPotionMultiplier = 1f;
         public bool heldGaelsLastFrame = false;
         internal bool hadNanomachinesLastFrame = false;
         public bool disableVoodooSpawns = false;
@@ -1476,10 +1476,13 @@ namespace CalamityMod.CalPlayer
             int percentMaxLifeIncrease = 0;
             if (ZoneAbyss && abyssalAmulet)
                 percentMaxLifeIncrease += lumenousAmulet ? 25 : 10;
-            if (chaliceOfTheBloodGod)
-                percentMaxLifeIncrease += 15;
+
+            // Blood Pact and Chalice of the Blood God stack their HP bonuses if you want to equip both
             if (bloodPact)
-                percentMaxLifeIncrease += 100;
+                percentMaxLifeIncrease += 25;
+            if (chaliceOfTheBloodGod)
+                percentMaxLifeIncrease += 25;
+
             if (affliction || afflicted)
                 percentMaxLifeIncrease += 10;
 
@@ -1770,7 +1773,7 @@ namespace CalamityMod.CalPlayer
             lunicCorpsLegs = false;
 
             rangedAmmoCost = 1f;
-            healingPotBonus = 1f;
+            healingPotionMultiplier = 1f;
 
             avertorBonus = false;
 
@@ -1967,7 +1970,6 @@ namespace CalamityMod.CalPlayer
             polarisBoostTwo = false;
             polarisBoostThree = false;
             bloodfinBoost = false;
-            bloodPactBoost = false;
             divineBless = false;
 
             killSpikyBalls = false;
@@ -2457,9 +2459,8 @@ namespace CalamityMod.CalPlayer
             bloodfinTimer = 0;
             healCounter = 300;
             danceOfLightCharge = 0;
-            bloodPactBoost = false;
             rangedAmmoCost = 1f;
-            healingPotBonus = 1f;
+            healingPotionMultiplier = 1f;
             avertorBonus = false;
             divineBless = false;
             #endregion
@@ -3711,7 +3712,7 @@ namespace CalamityMod.CalPlayer
         #region Get Heal Life
         public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
         {
-            healValue = (int)(healValue * healingPotBonus);
+            healValue = (int)(healValue * healingPotionMultiplier);
         }
         #endregion
 
