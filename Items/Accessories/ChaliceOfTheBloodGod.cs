@@ -22,6 +22,9 @@ namespace CalamityMod.Items.Accessories
         // Dying to this sudden last few points of health loss has a special death message.
         internal static readonly int MinAllowedDamage = 5;
 
+        // Drinking a healing potion clears 50% of the bleedout buffer.
+        internal const float HealingPotionBufferClear = 0.5f;
+
         // This is per frame. The ideal is 50% per second, so it's 0.83% per frame.
         internal static readonly double BleedoutExponentialDecay = 0.0083333333333;
         internal static readonly Color BleedoutBufferDamageTextColor = new(230, 40, 100);
