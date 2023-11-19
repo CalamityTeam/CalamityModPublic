@@ -25,6 +25,7 @@ namespace CalamityMod.Cooldowns
         {
             switch (skin)
             {
+                // TODO -- UNUSED, Core of the Blood God no longer exists.
                 case "bloodgod":
                     skinTexture = "BloodGodTotem";
                     outlineColor = new Color(255, 162, 205);

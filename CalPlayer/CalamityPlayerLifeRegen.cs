@@ -11,7 +11,6 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -587,6 +586,10 @@ namespace CalamityMod.CalPlayer
                     Player.mount.Dismount(Player);
             }
             #endregion
+
+            // Chalice of the Blood God bleedout
+            // The bleedout is applied by directly reducing the player's health. It is not canceled by anything.
+            ChaliceOfTheBloodGod.HandleBleedout(Player);
         }
         #endregion
 

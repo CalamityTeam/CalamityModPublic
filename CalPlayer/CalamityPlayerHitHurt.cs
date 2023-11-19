@@ -1150,7 +1150,7 @@ namespace CalamityMod.CalPlayer
             // ModifyHit (Flesh Totem effect happens here) -> Hurt (includes dodges) -> OnHit
             // As such, to avoid cooldowns proccing from dodge hits, do it here
             if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && hurtInfo.Damage > 0)
-                Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, chaliceOfTheBloodGod ? "bloodgod" : "default");
+                Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, "default");
 
             if (NPC.AnyNPCs(ModContent.NPCType<THELORDE>()))
                 Player.AddBuff(ModContent.BuffType<NOU>(), 15, true);
@@ -1882,6 +1882,24 @@ namespace CalamityMod.CalPlayer
                     // Cancel defense damage, if it was going to occur this frame.
                     nextHitDealsDefenseDamage = false;
                 }
+            }
+
+            // Chalice of the Blood God is implemented as a dirty modifier.
+            //
+            // Chalice of the Blood God does nothing to a hit that was just fully blocked by shields.
+            // Otherwise, it reduces the damage of any hit to 5, which allows for full iframes.
+            // It then applies the full hit (minus that 5 damage) to its own bleedout buffer.
+            // Hits for less than 5 damage are ignored entirely and allowed to strike the player as normal.
+            if (chaliceOfTheBloodGod && !freeDodgeFromShieldAbsorption && info.Damage > ChaliceOfTheBloodGod.MinAllowedDamage)
+            {
+                int bleedoutToApply = info.Damage - ChaliceOfTheBloodGod.MinAllowedDamage;
+                chaliceBleedoutBuffer += bleedoutToApply;
+                info.Damage = ChaliceOfTheBloodGod.MinAllowedDamage;
+
+                // Display text indicating that damage was transferred to bleedout.
+                string text = $"({-bleedoutToApply})";
+                Rectangle location = new Rectangle((int)Player.position.X + 4, (int)Player.position.Y - 3, Player.width - 4, Player.height - 4);
+                CombatText.NewText(location, ChaliceOfTheBloodGod.BleedoutBufferDamageTextColor, Language.GetTextValue(text), dot: true);
             }
         }
         #endregion

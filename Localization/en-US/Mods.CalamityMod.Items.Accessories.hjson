@@ -359,10 +359,10 @@ ChaliceOfTheBloodGod: {
 	Tooltip:
 		'''
 		Increases max HP by 25%
-		Healing Potions are 25% more effective
-		All damage taken is converted into a damage over time bleed debuff
+		Taking more than 5 damage converts the hit into a damage over time bleed debuff
 		This bleeding does not interfere with life regeneration
 		Drinking a Healing Potion removes half of the remaining bleed damage
+		'All that for a drop of blood...'
 		'''
 }
 
