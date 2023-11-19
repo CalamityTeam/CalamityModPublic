@@ -362,6 +362,7 @@ ChaliceOfTheBloodGod: {
 		Taking more than 5 damage converts the hit into a damage over time bleed debuff
 		This bleeding does not interfere with life regeneration
 		Drinking a Healing Potion removes half of the remaining bleed damage
+		Unequipping this accessory while bleeding inflicts the remaining damage instantly
 		'All that for a drop of blood...'
 		'''
 }
