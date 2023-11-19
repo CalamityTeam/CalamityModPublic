@@ -245,6 +245,13 @@ namespace CalamityMod.CalPlayer
                         dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 }
 
+                // Nebulous Core clears Chalice of the Blood God's bleedout buffer
+                if (chaliceOfTheBloodGod)
+                {
+                    chaliceBleedoutBuffer = 0D;
+                    chaliceDamagePointPartialProgress = 0D;
+                }
+
                 Player.statLife += 100;
                 Player.HealEffect(100);
 
@@ -285,6 +292,14 @@ namespace CalamityMod.CalPlayer
 
                 if (Player.statLife < 1)
                     Player.statLife = 1;
+
+                // Silva revive clears Chalice of the Blood God's bleedout buffer every frame while active
+                // Can we please remove this from the game
+                if (chaliceOfTheBloodGod)
+                {
+                    chaliceBleedoutBuffer = 0D;
+                    chaliceDamagePointPartialProgress = 0D;
+                }
 
                 return false;
             }
