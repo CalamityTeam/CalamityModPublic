@@ -146,8 +146,8 @@ namespace CalamityMod.Items.Accessories
                 ++exactBloodCount;
 
             // Particles count is capped. This is primarily there to prevent particle spam when unequipping the accessory.
-            if (exactBloodCount > 30)
-                exactBloodCount = 30;
+            if (exactBloodCount > 18)
+                exactBloodCount = 18;
 
             // Code copied from Violence.
             float bloodVelMult = 0.6f + MathHelper.Clamp((float)modPlayer.chaliceBleedoutBuffer * 0.01f, 0f, 3f);
