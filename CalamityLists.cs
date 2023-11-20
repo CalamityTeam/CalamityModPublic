@@ -1961,6 +1961,7 @@ namespace CalamityMod
             {
                 ProjectileID.Arkhalis,
                 ProjectileID.ChargedBlasterLaser,
+		ProjectileID.ClingerStaff,
                 ProjectileID.FinalFractal,
                 ProjectileID.FlyingKnife,
                 ProjectileID.LastPrismLaser,
