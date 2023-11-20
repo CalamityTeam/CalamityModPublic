@@ -1190,6 +1190,7 @@ namespace CalamityMod
                 BuffType<MargaritaBuff>(),
                 BuffType<MoonshineBuff>(),
                 BuffType<MoscowMuleBuff>(),
+                BuffType<OldFashionedBuff>(),
                 BuffType<RedWineBuff>(),
                 BuffType<RumBuff>(),
                 BuffType<ScrewdriverBuff>(),

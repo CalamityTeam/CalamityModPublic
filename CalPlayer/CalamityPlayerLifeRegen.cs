@@ -229,6 +229,10 @@ namespace CalamityMod.CalPlayer
             {
                 alcoholPoisonLevel++;
             }
+            if (oldFashioned)
+            {
+                alcoholPoisonLevel++;
+            }
             if (margarita)
             {
                 alcoholPoisonLevel++;

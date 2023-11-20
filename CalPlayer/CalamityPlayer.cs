@@ -923,6 +923,7 @@ namespace CalamityMod.CalPlayer
         public bool cinnamonRoll = false;
         public bool tequilaSunrise = false;
         public bool margarita = false;
+        public bool oldFashioned = false;
         public bool starBeamRye = false;
         public bool screwdriver = false;
         public bool moscowMule = false;
@@ -1957,6 +1958,7 @@ namespace CalamityMod.CalPlayer
             cinnamonRoll = false;
             tequilaSunrise = false;
             margarita = false;
+            oldFashioned = false;
             starBeamRye = false;
             screwdriver = false;
             moscowMule = false;
@@ -2405,6 +2407,7 @@ namespace CalamityMod.CalPlayer
             cinnamonRoll = false;
             tequilaSunrise = false;
             margarita = false;
+            oldFashioned = false;
             starBeamRye = false;
             screwdriver = false;
             moscowMule = false;

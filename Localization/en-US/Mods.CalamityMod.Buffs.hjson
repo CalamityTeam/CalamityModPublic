@@ -58,6 +58,11 @@ MoscowMuleBuff: {
 	Description: Damage, critical strike chance, and knockback increased, life regen reduced
 }
 
+OldFashionedBuff: {
+	DisplayName: Old Fashioned
+	Description: Accessory and set bonus damage multiplied, damage reduced
+}
+
 RedWineBuff: {
 	DisplayName: Red Wine
 	Description: Life regen reduced
