@@ -42,12 +42,12 @@ namespace CalamityMod.Systems
             }
 
             // Replace the entire fucking Dungeon generation pass because nothing else will work as intended
-            int DungeonIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Dungeon"));
+            /*int DungeonIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Dungeon"));
             tasks[DungeonIndex] = new PassLegacy("Dungeon", (progress, config) =>
             {
                 progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.BetterDungeon").Value;
                 CustomDungeon.NewDungeon();
-            });
+            });*/
 
             // Larger Jungle Temple
             int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
