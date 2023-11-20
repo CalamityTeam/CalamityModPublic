@@ -36,7 +36,11 @@ namespace CalamityMod.World
         public static bool AtLeftSideOfWorld = false;
         public static int AbyssChasmBottom = 0;
 
-        //public static bool AbleToUnlockChests = false; //used for unlocking chests during skeletron's death and so that they cannot be opened beforehand
+        /// <summary>
+        /// Forces abyss chests to unlock even if <see cref="NPC.downedBoss3"/> is false. Used in <see cref="UnlockAllAbyssChests"/> as it is ran during Skeletron's death, not after.
+        /// </summary>
+        public static bool UnlockChests { get; set; }
+
         public static void PlaceAbyss()
         {
             int x = Main.maxTilesX;
@@ -1155,34 +1159,38 @@ namespace CalamityMod.World
 
             WorldGen.PlaceObject(i, j - 2, (ushort)ModContent.TileType<AbyssFossilTile>());
         }
-        // Commented out the method in case we ever use it again in the future, or some guy in the public github fixes it, 
-        // but for now this is a buggy mess that is too disruptive especially in multiplayer despite several attempts at fixing it - Shade
-        /*
+
+        /// <summary>
+        /// Unlocks all abyss chests, automatically synced across the server.
+        /// Only run initally on the server.
+        /// </summary>
         public static void UnlockAllAbyssChests()
         {
-            int genLimit = Main.maxTilesX / 2;
-            int abyssChasmX = AtLeftSideOfWorld ? genLimit - (genLimit - 135) + 35 : genLimit + (genLimit - 135) - 35;
-            int abyssMinX = AtLeftSideOfWorld ? 0 : abyssChasmX - 150;
-            int abyssMaxX = AtLeftSideOfWorld ? abyssChasmX + 150 : Main.maxTilesX;
+            UnlockChests = true;
 
-            //loop to unlock all abyss treasure chests
-            for (int x = abyssMinX; x < abyssMaxX; x++)
+            if (Main.netMode == NetmodeID.Server)
             {
-                for (int y = Main.remixWorld ? SulphurousSea.YStart - (int)((Main.maxTilesY - 200) * 0.4f) : (int)Main.worldSurface; y < Main.maxTilesY - 300; y++)
+                var netMessage = CalamityMod.Instance.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.UnlockAbyssChests);
+                netMessage.Send();
+            }
+
+            for (int c = 0; c < Main.maxChests; c++)
+            {
+                var chest = Main.chest[c];
+                if (chest == null)
                 {
-                    //make SURE to check for the entire chest at once, otherwise it will break when unlocking
-                    if (Main.tile[x, y].TileType == ModContent.TileType<Tiles.Abyss.AbyssTreasureChest>() && //top left
-                    Main.tile[x + 1, y].TileType == ModContent.TileType<Tiles.Abyss.AbyssTreasureChest>() && //top right
-                    Main.tile[x, y + 1].TileType == ModContent.TileType<Tiles.Abyss.AbyssTreasureChest>() && //bottom left
-                    Main.tile[x + 1, y + 1].TileType == ModContent.TileType<Tiles.Abyss.AbyssTreasureChest>()) //bottom right
-                    {
-                        Chest.Unlock(x, y);
-                        NetMessage.SendData(MessageID.LockAndUnlock, -1, -1, null, Main.LocalPlayer.whoAmI, 1f, x, y);
-                    }
+                    continue;
+                }
+
+                var chestTile = Framing.GetTileSafely(chest.x, chest.y);
+                if (chestTile.HasTile && chestTile.TileType == ModContent.TileType<AbyssTreasureChest>() && Chest.IsLocked(chest.x, chest.y)) 
+                {
+                    Chest.Unlock(chest.x, chest.y);
                 }
             }
-            AbleToUnlockChests = false; //reseting the variable in case players generate multiple worlds to prevent already unlocked chests from spawning
+
+            UnlockChests = false;
         }
-        */
     }
 }
