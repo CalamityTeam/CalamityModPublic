@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CalamityGlobalItem modItem = Item.Calamity();
 
-            Item.damage = 2550;
+            Item.damage = 2750;
             Item.DamageType = RogueDamageClass.Instance;
 
             Item.width = 30;
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static float ReturnMaxSpeed = 24f;
         public static float RicochetShootingCooldown = 1000f;
         public static float RicochetVelocityCap = 28f;
-        public static float ElectricityDmgMult = 0.3f;
+        public static float ElectricityDmgMult = 0.4f;
         public static float ElectricityCooldown = 500f;
         public static float LaserDmgMult = 0.25f;
         public static float LaserCooldown = 300f;
