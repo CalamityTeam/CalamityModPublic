@@ -8,8 +8,6 @@ namespace CalamityMod.Items.Potions.Alcohol
     public class OldFashioned : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Potions";
-        public static int BuffType = ModContent.BuffType<OldFashionedBuff>();
-        public static int BuffDuration = 10800;
 
         public override void SetStaticDefaults()
         {
