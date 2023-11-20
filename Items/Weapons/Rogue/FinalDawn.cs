@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/FinalDawnSlash");
         public override void SetDefaults()
         {
-            Item.damage = 1500;
+            Item.damage = 2500;
             Item.DamageType = RogueDamageClass.Instance;
             Item.width = 78;
             Item.height = 66;
