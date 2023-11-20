@@ -240,7 +240,6 @@ AsgardianAegis: {
 		Immune to most debuffs
 		+40 max life and +0.5 HP/s life regen
 		Grants a cosmic inferno dash which can slam through enemies without taking damage
-		Can be used to ram enemies
 		+20 defense while submerged in liquid
 		'''
 }
@@ -285,9 +284,9 @@ BloodflareCore: {
 	DisplayName: Bloodflare Core
 	Tooltip:
 		'''
-		You lose up to half your defense after taking damage
-		Lost defense regenerates over time
-		You gain 1 health for every 1 defense gained as it regenerates
+		Taking defense damage heals you over time
+		You gain 1 health for every 1 defense damage recovered
+		Taking damage always deals at least half of your total defense in defense damage
 		'''
 }
 
@@ -295,10 +294,8 @@ BloodPact: {
 	DisplayName: Blood Pact
 	Tooltip:
 		'''
-		Doubles your max HP
-		Causes you to take critical damage 25% of the time
-		After a critical hit, you gain various buffs for ten seconds
-		Any healing potions consumed during this time period heal 50% more health
+		Increases max HP by 25%
+		Healing Potions are 25% more effective
 		'''
 }
 
@@ -357,6 +354,19 @@ Calamity: {
 		'''
 }
 
+ChaliceOfTheBloodGod: {
+	DisplayName: Chalice of the Blood God
+	Tooltip:
+		'''
+		Increases max HP by 25%
+		Taking more than 5 damage converts the hit into a damage over time bleed debuff
+		This bleeding does not interfere with life regeneration
+		Drinking a Healing Potion removes half of the remaining bleed damage
+		Unequipping this accessory while bleeding inflicts the remaining damage instantly
+		'All that for a drop of blood...'
+		'''
+}
+
 ChaosStone: {
 	DisplayName: Chaos Stone
 	Tooltip:
@@ -374,17 +384,6 @@ CoinofDeceit: {
 		'''
 		Stealth strikes only expend 85% of your max stealth
 		6% increased rogue crit chance
-		'''
-}
-
-CoreOfTheBloodGod: {
-	DisplayName: Core of the Blood God
-	Tooltip:
-		'''
-		Boosts your max HP by 15%
-		Healing Potions are 25% more effective
-		Halves enemy contact damage
-		When you take contact damage this effect has a 20 second cooldown
 		'''
 }
 
@@ -664,7 +663,6 @@ ElysianAegis: {
 		Grants immunity to knockback and the Burning, On Fire!, and Holy Flames debuffs
 		+30 max life
 		Grants an enhanced holy flame dash which can slam through enemies without taking damage
-		Can be used to ram enemies
 		Blessed by the Profaned Flame
 		'''
 }

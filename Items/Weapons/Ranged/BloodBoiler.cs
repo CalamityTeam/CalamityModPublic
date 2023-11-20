@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public bool shotReturn = false;
         public override void SetDefaults()
         {
-            Item.damage = 175;
+            Item.damage = 115;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 60;
             Item.height = 30;
             Item.useTime = 5;
-            Item.useAnimation = 20;
+            Item.useAnimation = 25;
             Item.autoReuse = true;
             Item.UseSound = Heartbeat;
             Item.useStyle = ItemUseStyleID.Shoot;

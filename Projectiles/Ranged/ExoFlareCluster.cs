@@ -1,12 +1,11 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Graphics.Metaballs;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using CalamityMod.Graphics.Metaballs;
-using CalamityMod.Items.Weapons.Ranged;
 using Terraria.Audio;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -20,10 +19,6 @@ namespace CalamityMod.Projectiles.Ranged
         public Color sparkColor;
         public bool PostTileHit = false;
         public ref int audioCooldown => ref Main.player[Projectile.owner].Calamity().PhotoAudioCooldown;
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.NeedsUUID[Projectile.type] = true;
-        }
 
         public override void SetDefaults()
         {
@@ -32,11 +27,11 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 20;
+            Projectile.penetrate = 5;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 6;
+            Projectile.localNPCHitCooldown = 22;
             Projectile.extraUpdates = 1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 420;
         }
 
         public override void AI()
@@ -53,10 +48,11 @@ namespace CalamityMod.Projectiles.Ranged
             PhotoMetaball2.SpawnParticle(Projectile.Center, 85);
             CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 12f, 20f);
         }
+
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);
-            float numberOflines = 2;
+            float numberOflines = 5;
             float rotFactorlines = 360f / numberOflines;
             for (int i = 0; i < numberOflines; i++)
             {
@@ -76,9 +72,10 @@ namespace CalamityMod.Projectiles.Ranged
             if (audioCooldown == 0)
             {
                 SoundEngine.PlaySound(Photoviscerator.HitSound, target.Center);
-                audioCooldown = 6;
+                audioCooldown = 10;
             }
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (!PostTileHit)
@@ -116,6 +113,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             return false;
         }
+
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 600);

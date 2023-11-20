@@ -37,6 +37,7 @@ using Terraria.Graphics;
 using Terraria.Graphics.Light;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI.Gamepad;
 
@@ -493,10 +494,53 @@ namespace CalamityMod.ILEditing
         }
         #endregion
 
-        #region Mana Sickness Replacement for Chaos Stone
-        private static void ConditionallyReplaceManaSickness(ILContext il)
+        #region Chaos Stone and Chalice of the Blood God
+        private static void ManaSicknessAndChaliceBufferHeal(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
+
+            //
+            // The following section enables Chalice of the Blood God's feature of healing potions clearing 50% of its bleedout buffer.
+            //
+
+            // Start by finding the moment where health is restored from a healing item.
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchStfld<Player>("statLife")))
+            {
+                LogFailure("Chalice of the Blood God Bleedout Heal", "Could not locate the player's health being restored");
+                return;
+            }
+
+            // Load the player onto the stack for use in the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+
+            // Insert a delegate which applies Chalice of the Blood God's function as appropriate.
+            cursor.EmitDelegate<Action<Player>>(player =>
+            {
+                if (!player.active || player.dead)
+                    return;
+
+                CalamityPlayer modPlayer = player.Calamity();
+                if (modPlayer is null)
+                    return;
+
+                if (modPlayer.chaliceOfTheBloodGod && modPlayer.chaliceBleedoutBuffer > 0D)
+                {
+                    int amountOfBleedToClear = (int)(modPlayer.chaliceBleedoutBuffer * (1f - ChaliceOfTheBloodGod.HealingPotionBufferClear));
+                    modPlayer.chaliceBleedoutBuffer -= amountOfBleedToClear;
+
+                    // Display text indicating that damage was transferred to bleedout.
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        string text = $"(+{amountOfBleedToClear})";
+                        Rectangle location = new Rectangle((int)player.position.X + 4, (int)player.position.Y - 3, player.width - 4, player.height - 4);
+                        CombatText.NewText(location, ChaliceOfTheBloodGod.BleedoutBufferDamageTextColor, Language.GetTextValue(text), dot: true);
+                    }
+                }
+            });
+
+            //
+            // The following section enables Mana Burn for Chaos Stone by conditionally replacing Mana Sickness.
+            //
 
             // Start by finding the vanilla code which applies Mana Sickness (buff ID 94).
             if (!cursor.TryGotoNext(c => c.MatchLdcI4(BuffID.ManaSickness)))

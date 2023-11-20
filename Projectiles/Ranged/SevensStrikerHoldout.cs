@@ -223,7 +223,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             // Holdout stuff
-            Projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f;
+            Projectile.position = (player.RotatedRelativePoint(player.MountedCenter, true) - Projectile.Size / 2f ) + Projectile.velocity * 95;
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.spriteDirection = Projectile.direction;
             Projectile.timeLeft = 2;

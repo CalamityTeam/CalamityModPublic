@@ -54,7 +54,7 @@ namespace CalamityMod
             Abyss.AbyssChasmBottom = 0;
             SulphurousSea.YStart = 0;
             Abyss.AtLeftSideOfWorld = false;
-            Abyss.AbleToUnlockChests = false; //Yet another fucking failsave for abyss chests
+            //Abyss.AbleToUnlockChests = false; //Yet another fucking failsave for abyss chests
 
             spawnedBandit = false;
             spawnedCirrus = false;

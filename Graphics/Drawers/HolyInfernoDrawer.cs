@@ -19,16 +19,15 @@ namespace CalamityMod.Graphics.Drawers
 
         //Should only draw if not in the main menu, provi is active and the boolean for drawing the border is true.
         public override bool ShouldDraw => !Main.gameMenu && CalamityGlobalNPC.holyBoss != -1 && 
-            Main.npc[CalamityGlobalNPC.holyBoss].active && (Main.npc[CalamityGlobalNPC.holyBoss].ModNPC as Providence).shouldDrawInfernoBorder;
+            Main.npc[CalamityGlobalNPC.holyBoss].active && Providence.shouldDrawInfernoBorder;
         #endregion
 
         #region Methods
         public override void DrawToTarget(SpriteBatch spriteBatch)
         {
             var npc = Main.npc[CalamityGlobalNPC.holyBoss];
-            var provi = npc.ModNPC as Providence;
-            var borderStartEnd = provi.borderStartEnd;
-            if (borderStartEnd.Item1 > 0f && npc.HasValidTarget)
+            var borderDistance = Providence.borderRadius;
+            if (npc.HasValidTarget)
             {
                 var target = Main.player[Main.myPlayer];
                 var holyInfernoIntensity = target.Calamity().holyInfernoFadeIntensity;
@@ -40,15 +39,16 @@ namespace CalamityMod.Graphics.Drawers
                 var upwardNoise = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/MeltyNoise");
 
                 var shader = GameShaders.Misc["CalamityMod:HolyInfernoShader"].Shader;
-                shader.Parameters["colorMult"].SetValue(7.35f); //I want you to know it took considerable restraint to deliberately misspell colour.
+                shader.Parameters["colorMult"].SetValue(Main.dayTime ? 7.35f : 7.65f); //I want you to know it took considerable restraint to deliberately misspell colour.
                 shader.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly);
-                shader.Parameters["radius"].SetValue(borderStartEnd.Item2);
+                shader.Parameters["radius"].SetValue(borderDistance);
                 shader.Parameters["anchorPoint"].SetValue(npc.Center);
                 shader.Parameters["screenPosition"].SetValue(Main.screenPosition);
                 shader.Parameters["screenSize"].SetValue(Main.ScreenSize.ToVector2());
                 shader.Parameters["burnIntensity"].SetValue(holyInfernoIntensity);
                 shader.Parameters["playerPosition"].SetValue(target.Center);
                 shader.Parameters["maxOpacity"].SetValue(1f);
+                shader.Parameters["day"].SetValue(Main.dayTime);
 
                 spriteBatch.GraphicsDevice.Textures[1] = diagonalNoise.Value;
                 spriteBatch.GraphicsDevice.Textures[2] = upwardNoise.Value;

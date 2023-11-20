@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CalamityMod.Balancing;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
+using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 using static Terraria.Player;
 
 namespace CalamityMod
@@ -21,6 +20,30 @@ namespace CalamityMod
         {
             CalamityPlayer mp = player.Calamity();
             return player.statDefense + (accountForDefenseDamage ? 0 : mp.CurrentDefenseDamage);
+        }
+
+        public static int GetDefenseDamageFloor()
+        {
+            if (BossRushEvent.BossRushActive)
+                return BalancingConstants.DefenseDamageFloor_BossRush;
+            else if (NPC.downedMoonlord)
+            {
+                return CalamityWorld.death ? BalancingConstants.DefenseDamageFloor_DeathPML
+                    : CalamityWorld.revenge ? BalancingConstants.DefenseDamageFloor_RevPML
+                    : BalancingConstants.DefenseDamageFloor_NormalPML;
+            }
+            else if (Main.hardMode)
+            {
+                return CalamityWorld.death ? BalancingConstants.DefenseDamageFloor_DeathHM
+                    : CalamityWorld.revenge ? BalancingConstants.DefenseDamageFloor_RevHM
+                    : BalancingConstants.DefenseDamageFloor_NormalHM;
+            }
+            else
+            {
+                return CalamityWorld.death ? BalancingConstants.DefenseDamageFloor_DeathPHM
+                    : CalamityWorld.revenge ? BalancingConstants.DefenseDamageFloor_RevPHM
+                    : BalancingConstants.DefenseDamageFloor_NormalPHM;
+            }
         }
 
         public static float CalcDamage<T>(this Player player, float baseDamage) where T : DamageClass => player.GetTotalDamage<T>().ApplyTo(baseDamage);

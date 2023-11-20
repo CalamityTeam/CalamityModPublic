@@ -97,7 +97,7 @@ namespace CalamityMod.CalPlayer
         public bool reducedHolyFlamesDamage = false;
         public bool reducedNightwitherDamage = false;
         public float rangedAmmoCost = 1f;
-        public float healingPotBonus = 1f;
+        public float healingPotionMultiplier = 1f;
         public bool heldGaelsLastFrame = false;
         internal bool hadNanomachinesLastFrame = false;
         public bool disableVoodooSpawns = false;
@@ -364,27 +364,55 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Defense Damage
-        // Ratio at which incoming damage (after mitigation) is converted into defense damage.
-        // Used to be 5% normal, 10% expert, 12% rev, 15% death, 20% boss rush
-        // It is now 10% on all difficulties because you already take less damage on lower difficulties.
-        public const double DefenseDamageRatio = 0.1;
+        // Ratio at which mitigated damage is converted into defense damage.
+        // This is a significant rework, so the ratio is much higher than the previous 0.1 / 10%.
+        // The net difference between incoming damage and final taken damage is what is multiplied by this ratio.
+        //
+        // Example: You have 200 defense and 25% DR and get hit for 576, on Expert.
+        //
+        // Incoming damage = 576
+        // Defense reduction = 0.75 * 200 = 150
+        // Damage after defense = 426
+        // DR reduction = 0.25 * 426 = 106.5
+        // Damage after DR = 319.5 (rounds down to 319)
+        //
+        // Net Difference = 576 - 319 = 257
+        // Defense Damage = 257 * 0.3333 = 85.6581 (rounds up to 86)
+        //
+        // The player then loses 86 defense.
+        // DR is lost according to the ratio of defense lost versus total defense.
+        // In this case, that ratio is 86 / 200 = 0.43.
+        // The player loses 0.43 * 0.25 = 10.75% DR.
+        public double defenseDamageRatio = BalancingConstants.DefaultDefenseDamageRatio;
+
+        // Current effect of defense damage, calculated as total defense damage lerped to zero over the recovery time.
         public int CurrentDefenseDamage => (int)(totalDefenseDamage * ((float)defenseDamageRecoveryFrames / totalDefenseDamageRecoveryFrames));
+
+        // Total defense damage inflicted. This number keeps increasing if the player is repeatedly hit during the recovery period.
         internal int totalDefenseDamage = 0;
-        // Defense damage from a single hit recovers in 50 frames, no matter how big the hit was.
-        // If you get hit AGAIN before you have fully recovered, 50 more frames are added to your recovery timer!
+
+        // Defense damage from a single hit recovers in 60 frames, no matter how big the hit was.
+        // If you get hit AGAIN before you have fully recovered, 60 more frames are added to your recovery timer!
         internal const int DefenseDamageBaseRecoveryTime = 60;
+
         // The maximum possible recovery time is 15 seconds. This is to prevent annoyance where godmode defense damage never goes away.
         internal const int DefenseDamageMaxRecoveryTime = 900;
+
         // How many frames the player will continue to be recovering from defense damage.
         internal int defenseDamageRecoveryFrames = 0;
+
         // The total timer of defense damage recovery that the player is currently suffering from.
         internal int totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
+
         // Defense damage does not start recovering for a certain number of frames after iframes end.
         internal const int DefenseDamageRecoveryDelay = 10;
+
         // The current timer for how long the player must wait before defense damage begins recovering.
         internal int defenseDamageDelayFrames = 0;
-        public bool justHitByDefenseDamage = false;
-        public int defenseDamageToTake = 0;
+
+        // Temporary bool for whether the current instance of incoming damage to the player is one that inflicts defense damage.
+        // Bloodflare Core ignores this and makes every single instance of incoming damage apply defense damage.
+        public bool nextHitDealsDefenseDamage = false;
         #endregion
 
         #region Energy Shields
@@ -546,8 +574,10 @@ namespace CalamityMod.CalPlayer
         public bool bloodPact = false;
         public bool bloodPactBoost = false;
         public bool bloodflareCore = false;
-        public int bloodflareCoreLostDefense = 0;
-        public bool coreOfTheBloodGod = false;
+        public int bloodflareCoreRemainingHealOverTime = 0;
+        public bool chaliceOfTheBloodGod = false;
+        public double chaliceBleedoutBuffer = 0D;
+        public double chaliceDamagePointPartialProgress = 0D;
         public bool elementalHeart = false;
         public bool crownJewel = false;
         public bool infectedJewel = false;
@@ -1449,10 +1479,13 @@ namespace CalamityMod.CalPlayer
             int percentMaxLifeIncrease = 0;
             if (ZoneAbyss && abyssalAmulet)
                 percentMaxLifeIncrease += lumenousAmulet ? 25 : 10;
-            if (coreOfTheBloodGod)
-                percentMaxLifeIncrease += 15;
+
+            // Blood Pact and Chalice of the Blood God stack their HP bonuses if you want to equip both
             if (bloodPact)
-                percentMaxLifeIncrease += 100;
+                percentMaxLifeIncrease += 25;
+            if (chaliceOfTheBloodGod)
+                percentMaxLifeIncrease += 25;
+
             if (affliction || afflicted)
                 percentMaxLifeIncrease += 10;
 
@@ -1474,6 +1507,7 @@ namespace CalamityMod.CalPlayer
             // Reset adrenaline duration to default. If Draedon's Heart is equipped, it'll change itself every frame.
             AdrenalineDuration = CalamityUtils.SecondsToFrames(5);
 
+            defenseDamageRatio = BalancingConstants.DefaultDefenseDamageRatio;
             contactDamageReduction = 0D;
             projectileDamageReduction = 0D;
             rogueVelocity = 1f;
@@ -1662,7 +1696,7 @@ namespace CalamityMod.CalPlayer
             fleshTotem = false;
             bloodPact = false;
             bloodflareCore = false;
-            coreOfTheBloodGod = false;
+            chaliceOfTheBloodGod = false;
             elementalHeart = false;
             crownJewel = false;
             infectedJewel = false;
@@ -1742,7 +1776,7 @@ namespace CalamityMod.CalPlayer
             lunicCorpsLegs = false;
 
             rangedAmmoCost = 1f;
-            healingPotBonus = 1f;
+            healingPotionMultiplier = 1f;
 
             avertorBonus = false;
 
@@ -1939,7 +1973,6 @@ namespace CalamityMod.CalPlayer
             polarisBoostTwo = false;
             polarisBoostThree = false;
             bloodfinBoost = false;
-            bloodPactBoost = false;
             divineBless = false;
 
             killSpikyBalls = false;
@@ -2210,13 +2243,16 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            #region Debuffs
+            #region Defense Damage
             totalDefenseDamage = 0;
             defenseDamageRecoveryFrames = 0;
             totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
             defenseDamageDelayFrames = 0;
-            justHitByDefenseDamage = false;
-            defenseDamageToTake = 0;
+            nextHitDealsDefenseDamage = false;
+            bloodflareCoreRemainingHealOverTime = 0;
+            #endregion
+
+            #region Debuffs
             heldGaelsLastFrame = false;
             gaelSwipes = 0;
             andromedaState = AndromedaPlayerState.Inactive;
@@ -2428,9 +2464,8 @@ namespace CalamityMod.CalPlayer
             bloodfinTimer = 0;
             healCounter = 300;
             danceOfLightCharge = 0;
-            bloodPactBoost = false;
             rangedAmmoCost = 1f;
-            healingPotBonus = 1f;
+            healingPotionMultiplier = 1f;
             avertorBonus = false;
             divineBless = false;
             #endregion
@@ -2578,11 +2613,13 @@ namespace CalamityMod.CalPlayer
             searedPanCounter = 0;
             searedPanTimer = 0;
             potionTimer = 0;
-            bloodflareCoreLostDefense = 0;
             persecutedEnchantSummonTimer = 0;
             momentumCapacitorTime = 0;
             momentumCapacitorBoost = 0f;
             LungingDown = false;
+
+            chaliceBleedoutBuffer = 0D;
+            chaliceDamagePointPartialProgress = 0D;
 
             if (BossRushEvent.BossRushActive)
             {
@@ -3683,7 +3720,7 @@ namespace CalamityMod.CalPlayer
         #region Get Heal Life
         public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
         {
-            healValue = (int)(healValue * healingPotBonus);
+            healValue = (int)(healValue * healingPotionMultiplier);
         }
         #endregion
 

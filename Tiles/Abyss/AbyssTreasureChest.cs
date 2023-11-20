@@ -27,9 +27,8 @@ namespace CalamityMod.Tiles.Abyss
         public override bool IsLockedChest(int i, int j) => Main.tile[i, j].TileFrameX / 36 == 1;
         public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int dustType, ref bool manual)
         {
-            //Skeletron must be dead, NPC.downedBoss3 is added as failsave in case chests fail to open in the Abyss' method. AbleToUnlockChests should be false unless
-            //the Abyss' unlock method is being run to prevent chests spawning already unlocked.
-            if (World.Abyss.AbleToUnlockChests || NPC.downedBoss3) 
+            //Only unlock if Skeletron is dead
+            if (NPC.downedBoss3)
                 return true; 
             else
                 return false;

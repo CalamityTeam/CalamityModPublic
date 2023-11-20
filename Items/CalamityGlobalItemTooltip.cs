@@ -355,9 +355,9 @@ namespace CalamityMod.Items
                 int cost = (int)(item.mana * Main.LocalPlayer.manaCost * 0.5f);
                 EditTooltipByName("UseMana", (line) => line.Text = $"Uses {cost} mana");
             }
-            if (item.healLife > 0 && Main.LocalPlayer.Calamity().healingPotBonus != 1f)
+            if (item.healLife > 0 && Main.LocalPlayer.Calamity().healingPotionMultiplier != 1f)
             {
-                int healAmt = (int)(item.healLife * Main.LocalPlayer.Calamity().healingPotBonus);
+                int healAmt = (int)(item.healLife * Main.LocalPlayer.Calamity().healingPotionMultiplier);
                 EditTooltipByName("HealLife", (line) => line.Text = $"Restores {healAmt} life");
             }
             #endregion
@@ -797,9 +797,9 @@ namespace CalamityMod.Items
 
             // Palladium
             if (item.type == ItemID.PalladiumBreastplate)
-                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.ChestplateDamagePercentageBoost + 3}% increased damage.");
+                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.ChestplateDamagePercentageBoost + 3}% increased damage");
             if (item.type == ItemID.PalladiumLeggings)
-                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage.");
+                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage");
 
             // Mythril
             if (item.type == ItemID.MythrilHood)

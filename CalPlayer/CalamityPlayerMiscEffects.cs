@@ -44,7 +44,6 @@ using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.PlagueEnemies;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Particles;
-using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
@@ -57,7 +56,6 @@ using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil;
 using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
@@ -68,7 +66,6 @@ using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Humanizer.In;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
 
 namespace CalamityMod.CalPlayer
@@ -128,7 +125,7 @@ namespace CalamityMod.CalPlayer
             // Update energy shields
             EnergyShields();
 
-            // Defense manipulation (Mostly defense damage, but also Bloodflare Core and others)
+            // Defense manipulation (Mostly defense damage, but also other defense changes)
             DefenseEffects();
 
             // Limits
@@ -924,8 +921,8 @@ namespace CalamityMod.CalPlayer
                 providenceBurnIntensity = (Main.npc[CalamityGlobalNPC.holyBoss].ModNPC as ProvidenceBoss).CalculateBurnIntensity();
             ProvidenceBurnEffectDrawer.ParticleSpawnRate = int.MaxValue;
 
-            // If the burn intensity is great enough, cause the player to ignite into flames.
-            if (providenceBurnIntensity > 0.45f)
+            // If the player has holy inferno, cause the player to ignite into flames.
+            if (hInferno)
                 ProvidenceBurnEffectDrawer.ParticleSpawnRate = 1;
 
             // Otherwise, if the intensity is too weak, but still present, cause the player to release holy cinders.
@@ -2598,13 +2595,25 @@ namespace CalamityMod.CalPlayer
                 Player.GetCritChance<MeleeDamageClass>() += 5;
             }
 
-            if (bloodPactBoost)
+            // Bloodflare Core's heal over time
+            if (bloodflareCore && bloodflareCoreRemainingHealOverTime > 0 && Player.miscCounter % BloodflareCore.HealFrameCooldown == 0)
             {
-                Player.GetDamage<GenericDamageClass>() += 0.05f;
-                Player.statDefense += 20;
-                Player.longInvince = true;
-                Player.crimsonRegen = true;
-                healingPotBonus += 0.5f;
+                Player.statLife += 1;
+                Player.HealEffect(1, false);
+
+                // Produce an implosion of blood themed dust so it's obvious an effect is occurring
+                for (int i = 0; i < 3; ++i)
+                {
+                    Vector2 offset = Main.rand.NextVector2Unit() * Main.rand.NextFloat(23f, 33f);
+                    Vector2 dustPos = Player.Center + offset;
+                    Vector2 dustVel = offset * -0.08f;
+                    Dust d = Dust.NewDustDirect(dustPos, 0, 0, 90, 0.08f, 0.08f);
+                    d.velocity = dustVel;
+                    d.noGravity = true;
+                }
+
+                // Decrement the remaining possible heal over time.
+                --bloodflareCoreRemainingHealOverTime;
             }
 
             // 50% movement speed bonus so that you don't feel like a snail in the early game.
@@ -3890,7 +3899,7 @@ namespace CalamityMod.CalPlayer
             // (in addition to the player taking more defense damage, of course).
             if (totalDefenseDamage > 0)
             {
-                //Used to cleanse all defense damage by accessories
+                // Used to cleanse all defense damage by accessories
                 if (CleansingEffect == 1)
                 {
                     totalDefenseDamage = 0;
@@ -3946,39 +3955,6 @@ namespace CalamityMod.CalPlayer
 
                 // Apply defense damage
                 Player.statDefense -= currentDefenseDamage;
-            }
-
-            // Bloodflare Core's defense reduction
-            // This is intentionally after defense damage.
-            // This defense still comes back over time if you take off Bloodflare Core while you're missing defense.
-            // However, removing the item means you won't get healed as the defense comes back.
-            ref int lostDef = ref bloodflareCoreLostDefense;
-            if (lostDef > 0)
-            {
-                // Defense regeneration occurs every six frames while defense is missing
-                if (Player.miscCounter % 6 == 0)
-                {
-                    --lostDef;
-                    if (bloodflareCore)
-                    {
-                        Player.statLife += 1;
-                        Player.HealEffect(1, false);
-
-                        // Produce an implosion of blood themed dust so it's obvious an effect is occurring
-                        for (int i = 0; i < 3; ++i)
-                        {
-                            Vector2 offset = Main.rand.NextVector2Unit() * Main.rand.NextFloat(23f, 33f);
-                            Vector2 dustPos = Player.Center + offset;
-                            Vector2 dustVel = offset * -0.08f;
-                            Dust d = Dust.NewDustDirect(dustPos, 0, 0, 90, 0.08f, 0.08f);
-                            d.velocity = dustVel;
-                            d.noGravity = true;
-                        }
-                    }
-                }
-
-                // Actually apply Bloodflare Core defense reduction
-                Player.statDefense -= lostDef;
             }
 
             // Defense can never be reduced below zero, no matter what

@@ -186,7 +186,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, Projectile.ai[1] == 1 ? 4 : Projectile.width + Time * 0.1f, targetHitbox);
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.damage = (int)(Projectile.damage * 0.89f); // 11% damage nerf for every enemy hit
+            if (Projectile.numHits > 0)
+                Projectile.damage = (int)(Projectile.damage * 0.80f); // 20% damage nerf for every enemy hit
             if (Projectile.damage < 1)
                 Projectile.damage = 1;
         }

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.width = 208;
             Item.height = 66;
 
-            Item.damage = 118;
+            Item.damage = 445;
             Item.DamageType = DamageClass.Ranged;
             Item.useTime = Item.useAnimation = LightBombCooldown;
             Item.shootSpeed = 6f;
@@ -65,7 +65,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                 // Only one out at a time
                 if (Main.projectile.Any(n => n.active && n.type == Item.shoot && n.owner == player.whoAmI))
                     return;
-                Projectile.NewProjectile(Item.GetSource_FromThis(), player.Center, Vector2.Zero, Item.shoot, 0, 0f, player.whoAmI);
+                // If you don't have any Gel don't even spawn the holdout
+                if (!player.HasAmmo(Item))
+                    return;
+
+                var source = player.GetSource_ItemUse_WithPotentialAmmo(Item, ItemID.Gel);
+                Projectile.NewProjectile(source, player.Center, Vector2.Zero, Item.shoot, 0, 0f, player.whoAmI);
             }
         }
 
