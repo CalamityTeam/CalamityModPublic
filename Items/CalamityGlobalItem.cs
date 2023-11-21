@@ -282,6 +282,9 @@ namespace CalamityMod.Items
                     if (item.CountsAsClass<MeleeDamageClass>())
                     {
                         double meleeDamage = newDamage * 0.25;
+                        if (modPlayer.oldFashioned)
+                            meleeDamage = (int)(meleeDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         if (meleeDamage >= 1D)
                         {
                             int projectile = Projectile.NewProjectile(source, position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)meleeDamage, 0f, player.whoAmI);
@@ -292,6 +295,9 @@ namespace CalamityMod.Items
                     else if (item.CountsAsClass<ThrowingDamageClass>())
                     {
                         double throwingDamage = newDamage * 0.2;
+                        if (modPlayer.oldFashioned)
+                            throwingDamage = (int)(throwingDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         if (throwingDamage >= 1D)
                         {
                             int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)throwingDamage, 0f, player.whoAmI);
@@ -308,6 +314,9 @@ namespace CalamityMod.Items
                         if (type != ModContent.ProjectileType<TitaniumRailgunScope>())
                         {
                             double rangedDamage = newDamage * 0.15;
+                            if (modPlayer.oldFashioned)
+                                rangedDamage = (int)(rangedDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                             if (rangedDamage >= 1D)
                             {
                                 int projectile = Projectile.NewProjectile(source, position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)rangedDamage, 0f, player.whoAmI);
@@ -319,6 +328,9 @@ namespace CalamityMod.Items
                     else if (item.CountsAsClass<MagicDamageClass>())
                     {
                         double magicDamage = newDamage * 0.3;
+                        if (modPlayer.oldFashioned)
+                            magicDamage = (int)(magicDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         if (magicDamage >= 1D)
                         {
                             int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)magicDamage, 0f, player.whoAmI);
@@ -330,7 +342,11 @@ namespace CalamityMod.Items
                     {
                         if (damage >= 1D)
                         {
-                            int projectile = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
+                            int summonDamage = damage;
+                            if (modPlayer.oldFashioned)
+                                summonDamage = (int)(summonDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
+                            int projectile = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), summonDamage, 0f, player.whoAmI);
                             if (projectile.WithinBounds(Main.maxProjectiles))
                             {
                                 Main.projectile[projectile].DamageType = DamageClass.Generic;

@@ -154,6 +154,9 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < 10; i++)
                 {
                     int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(55);
+                    if (oldFashioned)
+                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                     int lumenyl = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), ModContent.ProjectileType<AbyssalMirrorProjectile>(), damage, 0, Player.whoAmI);
                     Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
                     Main.projectile[lumenyl].frame = Main.rand.Next(0, 4);
@@ -184,6 +187,9 @@ namespace CalamityMod.CalPlayer
 
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<EclipseMirror>()));
                 int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(2750);
+                if (oldFashioned)
+                    damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                 int eclipse = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<EclipseMirrorBurst>(), damage, 0, Player.whoAmI);
                 if (eclipse.WithinBounds(Main.maxProjectiles))
                     Main.projectile[eclipse].DamageType = DamageClass.Generic;
@@ -2442,6 +2448,9 @@ namespace CalamityMod.CalPlayer
                         if (transformer)
                             sDamage += 42;
                         sDamage = (int)Player.GetBestClassDamage().ApplyTo(sDamage);
+                        if (oldFashioned)
+                            sDamage = (int)(sDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         if (Player.whoAmI == Main.myPlayer)
                         {
                             for (int i = 0; i < 4; i++)

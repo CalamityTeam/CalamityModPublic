@@ -4001,7 +4001,11 @@ namespace CalamityMod.CalPlayer
                         veneratedCloneYPos *= veneratedCloneDistance;
                         float speedX4 = veneratedCloneXPos + (float)Main.rand.Next(-30, 31) * 0.02f;
                         float speedY5 = veneratedCloneYPos + (float)Main.rand.Next(-30, 31) * 0.02f;
-                        int p = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, speedX4, speedY5, type, (int)(damage * 0.07), knockBack * 0.5f, Player.whoAmI);
+                        int locketDamage = (int)(damage * 0.07f);
+                        if (oldFashioned)
+                            locketDamage = (int)(locketDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
+                        int p = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, speedX4, speedY5, type, locketDamage, knockBack * 0.5f, Player.whoAmI);
 
                         if (p.WithinBounds(Main.maxProjectiles))
                         {
@@ -4020,6 +4024,9 @@ namespace CalamityMod.CalPlayer
                     {
                         int knifeCount = 12;
                         int knifeDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(55);
+                        if (oldFashioned)
+                            knifeDamage = (int)(knifeDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         float angleStep = MathHelper.TwoPi / knifeCount;
                         float speed = 14f;
 
@@ -4042,6 +4049,9 @@ namespace CalamityMod.CalPlayer
                 if (item.CountsAsClass<RangedDamageClass>())
                 {
                     int d = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Items.Accessories.RustyMedallion.AcidDropBaseDamage);
+                    if (oldFashioned)
+                        d = (int)(d * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                     Vector2 startingPosition = Main.MouseWorld - Vector2.UnitY.RotatedByRandom(0.4f) * 1250f;
                     Vector2 directionToMouse = (Main.MouseWorld - startingPosition).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.1f);
                     int drop = Projectile.NewProjectile(source, startingPosition, directionToMouse * 15f, ModContent.ProjectileType<ToxicannonDrop>(), d, 0f, Player.whoAmI);

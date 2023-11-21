@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -30,6 +31,9 @@ namespace CalamityMod.Items.Accessories
             int plagueDebuff = ModContent.BuffType<Plague>();
             bool shouldInflictPlague = plagueCounter % 60 == 0;
             int auraDamage = (int)player.GetBestClassDamage().ApplyTo(50);
+            if (modPlayer.oldFashioned)
+                auraDamage = (int)(auraDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
             int random = Main.rand.Next(10);
             var source = player.GetSource_Accessory(Item);
             if (player.whoAmI == Main.myPlayer)

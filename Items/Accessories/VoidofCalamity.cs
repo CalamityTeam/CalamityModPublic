@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -32,6 +33,9 @@ namespace CalamityMod.Items.Accessories
                     if (player.miscCounter % 10 == 0)
                     {
                         int damage = (int)player.GetBestClassDamage().ApplyTo(30);
+                        if (modPlayer.oldFashioned)
+                            damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), damage, 5f, player.whoAmI);
                     }
                 }
