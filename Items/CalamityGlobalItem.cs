@@ -36,6 +36,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Utilities;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items
 {
@@ -463,6 +464,8 @@ namespace CalamityMod.Items
                         damageMult = 0.35;
 
                     int newDamage = (int)(damage * 2 * damageMult);
+                    if (modPlayer.oldFashioned)
+                        newDamage = (int)(newDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
                     if (player.whoAmI == Main.myPlayer)
                     {

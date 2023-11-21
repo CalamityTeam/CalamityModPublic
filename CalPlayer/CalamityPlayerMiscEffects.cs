@@ -1771,7 +1771,7 @@ namespace CalamityMod.CalPlayer
             }
             Lighting.AddLight((int)(Player.Center.X / 16f), (int)(Player.Center.Y / 16f), light[0], light[1], light[2]);
 
-            //Permafrost's Concoction bonuses/debuffs
+            // Permafrost's Concoction bonuses/debuffs
             if (permafrostsConcoction)
             {
                 Player.manaCost *= 0.85f;
@@ -1783,7 +1783,7 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense += 30;
                 Player.frozen = true;
                 Player.velocity.X = 0f;
-                Player.velocity.Y = -0.4f; //should negate gravity
+                Player.velocity.Y = -0.4f; // Should negate gravity
 
                 int ice = Dust.NewDust(Player.position, Player.width, Player.height, 88);
                 Main.dust[ice].noGravity = true;
@@ -2464,11 +2464,11 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Cobalt armor set effects.
+            // Cobalt armor set effects
             if (CobaltSet)
                 CobaltArmorSetChange.ApplyMovementSpeedBonuses(Player);
 
-            // Adamantite armor set effects.
+            // Adamantite armor set effects
             if (AdamantiteSet)
                 Player.statDefense += AdamantiteSetDefenseBoost;
 
@@ -2612,12 +2612,12 @@ namespace CalamityMod.CalPlayer
                     d.noGravity = true;
                 }
 
-                // Decrement the remaining possible heal over time.
+                // Decrement the remaining possible heal over time
                 --bloodflareCoreRemainingHealOverTime;
             }
 
-            // 50% movement speed bonus so that you don't feel like a snail in the early game.
-            // Disabled while Overhaul is enabled, because Overhaul does very similar things to make movement more snappy.
+            // 50% movement speed bonus so that you don't feel like a snail in the early game
+            // Disabled while Overhaul is enabled, because Overhaul does very similar things to make movement more snappy
             if (CalamityMod.Instance.overhaul is null && CalamityConfig.Instance.FasterBaseSpeed)
                 Player.moveSpeed += BalancingConstants.DefaultMoveSpeedBoost;
 
@@ -2699,6 +2699,9 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<GenericDamageClass>() += 0.09f;
                 Player.GetCritChance<GenericDamageClass>() += MoscowMule.CritBoost;
             }
+
+            if (oldFashioned)
+                Player.GetDamage<GenericDamageClass>() -= OldFashioned.DamageStatReduction;
 
             if (whiteWine)
                 Player.GetDamage<MagicDamageClass>() += 0.08f;
@@ -4282,7 +4285,7 @@ namespace CalamityMod.CalPlayer
                 Player.potionDelay = potionTimer;
             if (potionTimer == 1)
             {
-                //Reduced duration than normal
+                // Reduced duration than normal
                 int duration = HadalStew.SicknessDuration;
                 if (Player.pStone)
                     duration = (int)(duration * 0.75);

@@ -6,6 +6,7 @@ using CalamityMod.Dusts;
 using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.NPCs;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
@@ -2220,7 +2221,8 @@ namespace CalamityMod.Projectiles
                     {
                         if (projectile.type != ProjectileType<RicoshotCoin>())
                             projectile.extraUpdates += 1;
-                        if (projectile.type == ProjectileID.MechanicalPiranha) {
+                        if (projectile.type == ProjectileID.MechanicalPiranha)
+                        {
                             projectile.localNPCHitCooldown *= 2;
                             projectile.timeLeft *= 2;
                         }
@@ -2410,67 +2412,69 @@ namespace CalamityMod.Projectiles
 
                 if (projectile.CountsAsClass<RogueDamageClass>())
                 {
-                        if (modPlayer.nanotech)
+                    if (modPlayer.nanotech)
+                    {
+                        if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<NanotechProjectile>()] < 5)
                             {
-                                if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<NanotechProjectile>()] < 5)
-                                {
-                                    int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(60);
-                                    Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), damage, 0f, projectile.owner);
-                                }
+                                int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(60);
+                                Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), damage, 0f, projectile.owner);
                             }
                         }
-                        else if (modPlayer.moonCrown)
+                    }
+                    else if (modPlayer.moonCrown)
+                    {
+                        if (Main.player[projectile.owner].miscCounter % 120 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (Main.player[projectile.owner].miscCounter % 120 == 0 && projectile.FinalExtraUpdate())
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 5)
                             {
-                                if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 5)
-                                {
-                                    int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(45);
-                                    int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), damage, 0f, projectile.owner);
-                                    if (proj.WithinBounds(Main.maxProjectiles))
-                                        Main.projectile[proj].DamageType = DamageClass.Generic;
-                                }
+                                int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(45);
+                                int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), damage, 0f, projectile.owner);
+                                if (proj.WithinBounds(Main.maxProjectiles))
+                                    Main.projectile[proj].DamageType = DamageClass.Generic;
                             }
                         }
+                    }
 
-                        if (modPlayer.dragonScales)
+                    if (modPlayer.dragonScales)
+                    {
+                        if (Main.player[projectile.owner].miscCounter % 50 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (Main.player[projectile.owner].miscCounter % 50 == 0 && projectile.FinalExtraUpdate())
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 5)
                             {
-                                if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 5)
-                                {
-                                    int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(DragonScales.ShitBaseDamage);
-                                    int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
-                                        damage, 0f, projectile.owner);
-                                    if (proj.WithinBounds(Main.maxProjectiles))
-                                        Main.projectile[proj].DamageType = DamageClass.Generic;
-                                }
-                            }
-                        }
+                                int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(DragonScales.ShitBaseDamage);
+                                if (modPlayer.oldFashioned)
+                                    damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
-                        if (modPlayer.daedalusSplit)
+                                int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(), damage, 0f, projectile.owner);
+                                if (proj.WithinBounds(Main.maxProjectiles))
+                                    Main.projectile[proj].DamageType = DamageClass.Generic;
+                            }
+                        }
+                    }
+
+                    if (modPlayer.daedalusSplit)
+                    {
+                        if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
                         {
-                            if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
+                            if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.CrystalShard] < 15)
                             {
-                                if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.CrystalShard] < 15)
+                                // Daedalus Rogue Crystals: 2 x 25%, soft cap starts at 120 base damage
+                                int crystalDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30);
+                                for (int i = 0; i < 2; i++)
                                 {
-                                    // Daedalus Rogue Crystals: 2 x 25%, soft cap starts at 120 base damage
-                                    int crystalDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30);
-                                    for (int i = 0; i < 2; i++)
-                                    {
-                                        Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                                        int shard = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileID.CrystalShard, crystalDamage, 0f, projectile.owner);
-                                        if (shard.WithinBounds(Main.maxProjectiles))
-                                            Main.projectile[shard].DamageType = DamageClass.Generic;
-                                    }
+                                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                                    int shard = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileID.CrystalShard, crystalDamage, 0f, projectile.owner);
+                                    if (shard.WithinBounds(Main.maxProjectiles))
+                                        Main.projectile[shard].DamageType = DamageClass.Generic;
                                 }
                             }
                         }
-                    
+                    }
+
                     if (player.meleeEnchant > 0 && !projectile.noEnchantments && !projectile.noEnchantmentVisuals)
-                        {
+                    {
                         switch (player.meleeEnchant)
                         {
                             case 1:
@@ -2563,7 +2567,7 @@ namespace CalamityMod.Projectiles
                             dust.noGravity = dust.type == 121 ? false : true;
                             if (!player.Calamity().flaskHoly)
                                 dust.fadeIn = 1f;
-                            dust.velocity = player.Calamity().flaskHoly && Main.rand.NextBool(3) ? new Vector2(Main.rand.NextFloat(-0.9f, 0.9f), Main.rand.NextFloat(-6.6f, -9.8f)) : dust.type == 121 ? new Vector2 (Main.rand.NextFloat(-0.7f, 0.7f), Main.rand.NextFloat(0.6f, 1.8f)) : -projectile.velocity * 0.2f;
+                            dust.velocity = player.Calamity().flaskHoly && Main.rand.NextBool(3) ? new Vector2(Main.rand.NextFloat(-0.9f, 0.9f), Main.rand.NextFloat(-6.6f, -9.8f)) : dust.type == 121 ? new Vector2(Main.rand.NextFloat(-0.7f, 0.7f), Main.rand.NextFloat(0.6f, 1.8f)) : -projectile.velocity * 0.2f;
                         }
                     }
                 }
