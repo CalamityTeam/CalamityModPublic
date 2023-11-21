@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 60;
+            Item.damage = 90;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 10;
             Item.width = 66;
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             for (int index = 0; index < 3; ++index)
             {
-                Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(30f)) * 1.5f, ModContent.ProjectileType<NettleRight>(), (int)(damage * 1.5), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(30f)) * 1.5f, ModContent.ProjectileType<NettleRight>(), (int)(damage * 1.10), knockback, player.whoAmI);
             }
             Projectile.NewProjectile(source, position, velocity * 0.66f, type, damage, knockback, player.whoAmI, 1f);
             return false;

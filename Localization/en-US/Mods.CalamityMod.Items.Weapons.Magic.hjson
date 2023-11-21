@@ -796,7 +796,7 @@ ThornBlossom: {
 	DisplayName: Thorn Blossom
 	Tooltip:
 		'''
-		Casts a beaming flower that explodes into homing petals alongisde a deadly thorn
+		Casts a beaming flower that explodes into homing petals alongside a deadly thorn
 		Costs 3 HP to fire
 		'Every rose has its thorn'
 		'''

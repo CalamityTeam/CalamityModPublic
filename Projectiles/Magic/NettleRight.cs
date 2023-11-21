@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
