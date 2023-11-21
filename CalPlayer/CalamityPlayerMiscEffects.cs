@@ -3213,6 +3213,8 @@ namespace CalamityMod.CalPlayer
                     int guardianAmt = 1;
                     float babCheck = profanedCrystal ? 1f : 0f;
                     int babDamage = profanedCrystal ? 346 : 52;
+                    if (oldFashioned)
+                        babDamage = (int)(babDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
                     {
