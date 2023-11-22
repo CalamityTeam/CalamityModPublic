@@ -16,8 +16,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            setBonusText += "\n10% increased melee speed, crit, and damage\n" +
-                        "15% increased minion damage";
+            setBonusText += $"\n{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
         }
 
         public override void ApplyHeadPieceEffect(Player player)
