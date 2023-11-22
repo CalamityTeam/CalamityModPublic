@@ -28,9 +28,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            StringBuilder sb = new StringBuilder(256);
-            sb.Append("\nIncreases all damage by 2");
-            setBonusText += sb.ToString();
+            setBonusText += $"\n{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
         }
 
         public override void ApplyArmorSetBonus(Player player)

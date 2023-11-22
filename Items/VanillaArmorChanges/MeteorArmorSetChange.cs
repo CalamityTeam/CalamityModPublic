@@ -16,7 +16,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         // Meteor Armor only makes space gun cost 50% instead of zero mana.
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            setBonusText = setBonusText.Replace("0", "50%");
+            setBonusText = $"{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
         }
 
         public override void ApplyArmorSetBonus(Player player)

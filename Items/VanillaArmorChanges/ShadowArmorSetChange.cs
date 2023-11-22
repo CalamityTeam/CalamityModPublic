@@ -38,7 +38,10 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void ApplyLegPieceEffect(Player player) => ApplyAnyPieceEffect(player);
 
-        public override void UpdateSetBonusText(ref string setBonusText) => setBonusText = "Set bonus: 15% increased max movement speed and acceleration";
+        public override void UpdateSetBonusText(ref string setBonusText)
+        {
+            setBonusText = $"{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
+        }
 
         public override void ApplyArmorSetBonus(Player player)
         {

@@ -965,8 +965,7 @@ namespace CalamityMod.Items
 
             if (set == "CrystalAssassin")
             {
-                player.setBonus = "Allows the ability to dash\n" +
-                    "10% increased damage and critical strike chance";
+                player.setBonus = CalamityUtils.GetTextValue("Vanilla.Armor.SetBonus.CrystalAssassin");
                 modPlayer.DashID = string.Empty;
             }
             else if (set == "SquireTier2")
@@ -974,20 +973,19 @@ namespace CalamityMod.Items
                 player.lifeRegen += 3;
                 player.GetDamage<SummonDamageClass>() += 0.15f;
                 player.GetCritChance<MeleeDamageClass>() += 10;
-                player.setBonus += "\nIncreases your life regeneration\n" +
-                            "15% increased minion damage and 10% increased melee critical strike chance";
+                player.setBonus += $"\n{CalamityUtils.GetTextValue("Vanilla.Armor.SetBonus.SquireTier2")}";
             }
             else if (set == "HuntressTier2")
             {
                 player.GetDamage<SummonDamageClass>() += 0.1f;
                 player.GetDamage<RangedDamageClass>() += 0.1f;
-                player.setBonus += "\n10% increased minion and ranged damage";
+                player.setBonus += $"\n{CalamityUtils.GetTextValue("Vanilla.Armor.SetBonus.HuntressTier2")}";
             }
             else if (set == "ApprenticeTier2")
             {
                 player.GetDamage<SummonDamageClass>() += 0.05f;
                 player.GetCritChance<MagicDamageClass>() += 15;
-                player.setBonus += "\n5% increased minion damage and 15% increased magic critical strike chance";
+                player.setBonus += $"\n{CalamityUtils.GetTextValue("Vanilla.Armor.SetBonus.ApprenticeTier2")}";
             }
             else if (set == "MonkTier3")
             {
@@ -995,34 +993,31 @@ namespace CalamityMod.Items
                 player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
                 player.GetDamage<MeleeDamageClass>() += 0.1f;
                 player.GetCritChance<MeleeDamageClass>() += 10;
-                player.setBonus += "\n10% increased melee damage, melee critical strike chance and melee speed\n" +
-                            "30% increased minion damage";
+                player.setBonus += $"\n{CalamityUtils.GetTextValue("Vanilla.Armor.SetBonus.MonkTier3")}";
             }
             else if (set == "SquireTier3")
             {
                 player.lifeRegen += 6;
                 player.GetDamage<SummonDamageClass>() += 0.1f;
                 player.GetCritChance<MeleeDamageClass>() += 10;
-                player.setBonus += "\nMassively increased life regeneration\n" +
-                            "10% increased minion damage and melee critical strike chance";
+                player.setBonus += $"\n{CalamityUtils.GetTextValue("Vanilla.Armor.SetBonus.SquireTier3")}";
             }
             else if (set == "HuntressTier3")
             {
                 player.GetDamage<SummonDamageClass>() += 0.1f;
                 player.GetDamage<RangedDamageClass>() += 0.1f;
-                player.setBonus += "\n10% increased minion and ranged damage";
+                player.setBonus += $"\n{CalamityUtils.GetTextValue("Vanilla.Armor.SetBonus.HuntressTier3")}";
             }
             else if (set == "ApprenticeTier3")
             {
                 player.GetDamage<SummonDamageClass>() += 0.1f;
                 player.GetCritChance<MagicDamageClass>() += 15;
-                player.setBonus += "\n10% increased minion damage and 15% increased magic critical strike chance";
+                player.setBonus += $"\n{CalamityUtils.GetTextValue("Vanilla.Armor.SetBonus.ApprenticeTier3")}";
             }
             else if (set == "SpectreHealing")
             {
                 player.GetDamage<MagicDamageClass>() += 0.2f;
-                player.setBonus = "Reduces Magic damage by 20% and converts it to healing force\n" +
-                    "Magic damage done to enemies heals the player with lowest health";
+                player.setBonus = CalamityUtils.GetTextValue("Vanilla.Armor.SetBonus.SpectreHealing");
             }
             else if (set == "SolarFlare")
             {
