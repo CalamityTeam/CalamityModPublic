@@ -20,16 +20,11 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override int[] AlternativeLegPieceIDs => new int[] { ItemID.PinkEskimoPants };
 
-        public override bool NeedsToCreateSetBonusTextManually => true;
-
         public override string ArmorSetName => "Eskimo";
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            // Not sure why it doesn't say Set bonus automatically
-            setBonusText = "Set bonus: Multiplies all cold-based debuff damage by 1.25\n" +
-                "Cold enemies will deal reduced contact damage to the player\n" +
-                "Provides immunity to the Chilled, Frozen, Frostburn and Glacial State debuffs";
+            setBonusText = $"{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
         }
 
         public override void ApplyArmorSetBonus(Player player)
