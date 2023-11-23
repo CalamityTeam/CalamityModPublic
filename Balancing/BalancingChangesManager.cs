@@ -251,8 +251,8 @@ namespace CalamityMod.Balancing
             // 15% resist to Time Bolt.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Yharon>(), Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<TimeBoltKnife>()))));
 
-            // 10% resist to Old Reaper.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Yharon>(), Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<ReaperProjectile>()))));
+            // 5% resist to Old Reaper.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Yharon>(), Do(new ProjectileResistBalancingRule(0.95f, ProjectileType<ReaperProjectile>()))));
 
             #endregion
 
