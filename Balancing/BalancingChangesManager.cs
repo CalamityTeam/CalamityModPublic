@@ -21,6 +21,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.NPCs.ProfanedGuardians;
+using CalamityMod.NPCs.Yharon;
 
 namespace CalamityMod.Balancing
 {
@@ -241,14 +242,17 @@ namespace CalamityMod.Balancing
 
             // 35% resist to Venusian Trident's explosions.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DevourerOfGodsIDs, Do(new ProjectileResistBalancingRule(0.65f, ProjectileType<VenusianBolt>(), ProjectileType<VenusianExplosion>()))));
+
+            // 40% resist to Eidolic Wail.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DevourerOfGodsIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<EidolicWailSoundwave>()))));
             #endregion The Devourer of Gods
 
             #region Yharon
             // 15% resist to Time Bolt.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<TimeBoltKnife>()))));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Yharon>(), Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<TimeBoltKnife>()))));
 
             // 10% resist to Old Reaper.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<ReaperProjectile>()))));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Yharon>(), Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<ReaperProjectile>()))));
 
             #endregion
 

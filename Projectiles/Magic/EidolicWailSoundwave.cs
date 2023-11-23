@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.alpha = 100;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 7;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.extraUpdates = 1;
             Projectile.usesLocalNPCImmunity = true;
@@ -64,6 +64,12 @@ namespace CalamityMod.Projectiles.Magic
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             modifiers.SourceDamage *= Projectile.localAI[0];
+
+            if (Projectile.numHits > 0)
+                Projectile.damage = (int)(Projectile.damage * 0.75f); // 25% damage nerf for every enemy hit
+            if (Projectile.damage < 1)
+                Projectile.damage = 1;
+               
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
