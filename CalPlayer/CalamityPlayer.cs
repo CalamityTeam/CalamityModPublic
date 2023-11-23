@@ -3027,7 +3027,6 @@ namespace CalamityMod.CalPlayer
                         SoundEngine.PlaySound(ProfanedGuardianDefender.RockShieldSpawnSound, Player.Center);
                         flameLickedShellParry = FlameLickedShell.flameLickedParry;
                     }
-                    
                 }
             }
 

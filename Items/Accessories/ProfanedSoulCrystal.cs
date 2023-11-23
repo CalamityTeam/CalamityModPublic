@@ -14,6 +14,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -268,6 +269,9 @@ namespace CalamityMod.Items.Accessories
                                 int separation = (i * 4) - 8;
                                 int spearBaseDamage = 350;
                                 int spearDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
+                                if (player.Calamity().oldFashioned)
+                                    spearDamage = (int)(spearDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                                 int proj = Projectile.NewProjectile(source, player.Center.X, player.Center.Y - separation, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
                                 if (proj.WithinBounds(Main.maxProjectiles))
                                 {
@@ -283,6 +287,9 @@ namespace CalamityMod.Items.Accessories
                         {
                             int spearBaseDamage = 250;
                             int spearDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
+                            if (player.Calamity().oldFashioned)
+                                spearDamage = (int)(spearDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                             int proj = Projectile.NewProjectile(source, player.Center, correctedVelocity * 14f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
                             if (proj.WithinBounds(Main.maxProjectiles))
                             {
@@ -307,6 +314,9 @@ namespace CalamityMod.Items.Accessories
                         int projType = isSmallBoomer ? isThiccBoomer ? 1 : 2 : 3;
                         int boomBaseDamage = 200;
                         int boomDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(boomBaseDamage);
+                        if (player.Calamity().oldFashioned)
+                            boomDamage = (int)(boomDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         switch (projType)
                         {
                             case 1: //big boomer
@@ -354,13 +364,16 @@ namespace CalamityMod.Items.Accessories
                         correctedVelocity *= 25f;
                         SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         int magefireBaseDamage = 900;
-                        int magefireDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(magefireBaseDamage);
+                        int mageFireDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(magefireBaseDamage);
                         if (player.HasBuff(BuffID.ManaSickness))
                         {
-                            int sickPenalty = (int)(magefireDamage * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
-                            magefireDamage -= sickPenalty;
+                            int sickPenalty = (int)(mageFireDamage * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
+                            mageFireDamage -= sickPenalty;
                         }
-                        int proj = Projectile.NewProjectile(source, player.position, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalMageFireball>(), magefireDamage, 1f, player.whoAmI, empowered ? 1f : 0f);
+                        if (player.Calamity().oldFashioned)
+                            mageFireDamage = (int)(mageFireDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
+                        int proj = Projectile.NewProjectile(source, player.position, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalMageFireball>(), mageFireDamage, 1f, player.whoAmI, empowered ? 1f : 0f);
                         if (proj.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[proj].DamageType = DamageClass.Summon;
@@ -386,6 +399,9 @@ namespace CalamityMod.Items.Accessories
                             float angle = MathHelper.TwoPi / crystalCount * i;
                             int shardBaseDamage = 176;
                             int shardDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
+                            if (player.Calamity().oldFashioned)
+                                shardDamage = (int)(shardDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                             int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 12f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), shardDamage, 1f, player.whoAmI, 0f, 0f);
                             if (proj.WithinBounds(Main.maxProjectiles))
                             {
@@ -402,7 +418,9 @@ namespace CalamityMod.Items.Accessories
                         int totalShardProjectiles = empowered ? 360 / 5 : 360 / 10;
                         int shardBaseDamage = empowered ? 125 : 220;
                         int shardDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
-                        
+                        if (player.Calamity().oldFashioned)
+                            shardDamage = (int)(shardDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         float interval = totalShardProjectiles / chains * (empowered ? 5f : 10f);
                         double patternInterval = Math.Floor(player.Calamity().profanedSoulWeaponUsage / interval);
                         if (patternInterval % 2 == 0)
@@ -441,6 +459,9 @@ namespace CalamityMod.Items.Accessories
                     {
                         int whipBaseDamage = 250;
                         int whipDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(whipBaseDamage);
+                        if (player.Calamity().oldFashioned)
+                            whipDamage = (int)(whipDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         var buffed = player.HasBuff<ProfanedCrystalWhipBuff>();
                         correctedVelocity *= buffed ? 10f : 8f;
                         int permittedDistance = player.HasBuff<ProfanedCrystalWhipBuff>() ? 10 : 8;

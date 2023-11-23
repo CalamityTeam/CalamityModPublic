@@ -2408,6 +2408,12 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(SoundID.Item74, Player.Center);
                     int blazeDamage = (int)Player.GetBestClassDamage().ApplyTo(25);
                     int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(320);
+                    if (oldFashioned)
+                    {
+                        blazeDamage = (int)(blazeDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        astralStarDamage = (int)(astralStarDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                    }
+
                     Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), blazeDamage, 5f, Player.whoAmI, 0f, 1f);
                     for (int n = 0; n < 12; n++)
                     {

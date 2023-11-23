@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent;
 
 using static Terraria.ModLoader.ModContent;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -51,6 +52,9 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ProjectileType<HowlsHeartHowl>()] < 1)
                 {
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(HowlDamage);
+                    if (modPlayer.oldFashioned)
+                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                     Projectile howl = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), damage, 1f, player.whoAmI, 0f, 1f);
                     howl.originalDamage = damage;
                 }
@@ -77,6 +81,9 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ProjectileType<HowlsHeartHowl>()] < 1)
                 {
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(HowlDamage);
+                    if (player.Calamity().oldFashioned)
+                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                     int p = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), damage, 1f, player.whoAmI, 0f, 1f);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = HowlDamage;
