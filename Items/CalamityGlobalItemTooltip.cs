@@ -699,10 +699,8 @@ namespace CalamityMod.Items
             if (item.type == ItemID.TerrasparkBoots)
                 EditTooltipByNum(3, (line) => line.Text += "\nImmunity to the On Fire! debuff");
 
-            // IT'S HELLFIRE!!!
-            if (item.type == ItemID.MagmaStone || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
-
+            // Ozzatron 23NOV2023: Removed tooltip edits for Magma Skull and Molten Skull Rose, as they were invalid after vanilla tooltip changes.
+            
             // Yoyo Glove/Bag apply a 0.5x damage multiplier on the second yoyo
             if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
                 EditTooltipByNum(0, (line) => line.Text += "\nSecondary yoyos will do 50% less damage");
