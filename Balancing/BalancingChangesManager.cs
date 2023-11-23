@@ -252,8 +252,7 @@ namespace CalamityMod.Balancing
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Yharon>(), Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<TimeBoltKnife>()))));
 
             // 5% resist to Old Reaper.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Yharon>(), Do(new ProjectileResistBalancingRule(0.95f, ProjectileType<ReaperProjectile>()))));
-
+            //NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Yharon>(), Do(new ProjectileResistBalancingRule(0.95f, ProjectileType<ReaperProjectile>()))));
             #endregion
 
             #region Exo Mechs: Ares
