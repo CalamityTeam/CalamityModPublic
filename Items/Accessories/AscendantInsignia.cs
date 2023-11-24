@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
 using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Items.Placeables;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -35,8 +36,8 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.EmpressFlightBooster).
-                AddIngredient<Lumenyl>(5).
-                AddIngredient<ExodiumCluster>(12).
+                AddIngredient<EffulgentFeather>(5).
+                AddIngredient(ItemID.SoulofFlight, 10).
                 AddIngredient<RuinousSoul>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
