@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noUseGraphic = true;
         }
 
+        public override float StealthDamageMultiplier => 0.6f;
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] +
             player.ownedProjectileCounts[ProjectileType<FinalDawnFireSlash>()] +
             player.ownedProjectileCounts[ProjectileType<FinalDawnHorizontalSlash>()] +
