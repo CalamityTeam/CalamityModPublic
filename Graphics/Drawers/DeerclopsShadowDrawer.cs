@@ -1,11 +1,9 @@
 ﻿using CalamityMod.NPCs.VanillaNPCOverrides.Bosses;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
-using Terraria.ModLoader;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace CalamityMod.Graphics.Drawers
