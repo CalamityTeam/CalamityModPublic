@@ -2453,9 +2453,12 @@ namespace CalamityMod.Projectiles
                                 if (modPlayer.oldFashioned)
                                     damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
-                                int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(), damage, 0f, projectile.owner);
+                                int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi)*1.2f, ProjectileType<DragonShit>(), damage, 0f, projectile.owner);
                                 if (proj.WithinBounds(Main.maxProjectiles))
+                                {
                                     Main.projectile[proj].DamageType = DamageClass.Generic;
+                                    Main.projectile[proj].ArmorPenetration = 10;
+                                }
                             }
                         }
                     }

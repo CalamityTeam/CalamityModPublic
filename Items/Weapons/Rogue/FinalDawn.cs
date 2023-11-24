@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/FinalDawnSlash");
         public override void SetDefaults()
         {
-            Item.damage = 1500;
+            Item.damage = 2500;
             Item.DamageType = RogueDamageClass.Instance;
             Item.width = 78;
             Item.height = 66;
@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noUseGraphic = true;
         }
 
+        public override float StealthDamageMultiplier => 0.6f;
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] +
             player.ownedProjectileCounts[ProjectileType<FinalDawnFireSlash>()] +
             player.ownedProjectileCounts[ProjectileType<FinalDawnHorizontalSlash>()] +
