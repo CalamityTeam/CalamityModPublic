@@ -49,12 +49,13 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] < 1)
                 {
-                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(ElementalDamage);
+                    int baseDamage = ElementalDamage;
                     if (player.Calamity().oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectileDirect(player.GetSource_Accessory(Item), player.Center, -Vector2.UnitY, ModContent.ProjectileType<SandElementalMinion>(), damage, 2f, Main.myPlayer);
-                    p.originalDamage = ElementalDamage;
+                    p.originalDamage = baseDamage;
                 }
             }
         }

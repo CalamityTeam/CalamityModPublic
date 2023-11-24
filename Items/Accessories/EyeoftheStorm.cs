@@ -44,12 +44,13 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] < 1)
                 {
                     var source = player.GetSource_Accessory(Item);
-                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(45);
+                    int baseDamage = 45;
                     if (modPlayer.oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<CloudElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);
-                    p.originalDamage = 45;
+                    p.originalDamage = baseDamage;
                 }
             }
         }
@@ -67,12 +68,13 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] < 1)
                 {
                     var source = player.GetSource_Accessory(Item);
-                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(45);
+                    int baseDamage = 45;
                     if (modPlayer.oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<CloudElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);
-                    p.originalDamage = 45;
+                    p.originalDamage = baseDamage;
                 }
             }
         }

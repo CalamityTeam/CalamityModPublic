@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CalamityMod.Cooldowns;
 using CalamityMod.Items.BaseItems;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -79,6 +80,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             velocity = velocity.RotatedByRandom(MathHelper.PiOver4 * 0.1f);
+
+            if (player.Calamity().oldFashioned)
+                damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
         }
 
         public override bool CanUseItem(Player player)

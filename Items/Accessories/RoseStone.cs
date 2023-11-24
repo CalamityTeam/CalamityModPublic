@@ -43,13 +43,14 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] < 1)
                 {
-                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(60);
+                    int baseDamage = 60;
                     if (modPlayer.oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 60;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
             }
         }
@@ -67,13 +68,14 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] < 1)
                 {
-                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(60);
+                    int baseDamage = 60;
                     if (modPlayer.oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 60;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
             }
         }
