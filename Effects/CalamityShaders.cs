@@ -186,6 +186,7 @@ namespace CalamityMod.Effects
         #region Amber's Shaders
         internal static Effect PrimitiveClearShader;
         internal static Effect HolyInfernoShader;
+        internal static Effect DeerclopsShadowShader;
         #endregion
 
         // Shorthand to register a loaded shader in Terraria's graphics engine
@@ -392,8 +393,11 @@ namespace CalamityMod.Effects
             PrimitiveClearShader = LoadShader("PrimitiveClearShader");
             RegisterScreenShader(PrimitiveClearShader, "AutoloadPass", "PrimitiveClearShader");
 
-            HolyInfernoShader = LoadShader("HolyInfernoShader");
+            HolyInfernoShader = LoadShader("ScreenShaders/HolyInfernoShader");
             RegisterMiscShader(HolyInfernoShader, "InfernoPass", "HolyInfernoShader");
+
+            DeerclopsShadowShader = LoadShader("ScreenShaders/DeerclopsShadowShader");
+            RegisterMiscShader(DeerclopsShadowShader, "ShadowPass", "DeerclopsShadowShader");
 
             #endregion
         }
