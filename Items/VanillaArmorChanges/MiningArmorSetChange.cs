@@ -21,7 +21,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            setBonusText += "\nMining ore will sometimes have additional yield";
+            setBonusText += $"\n{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
         }
 
         public override void ApplyArmorSetBonus(Player player)

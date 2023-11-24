@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
             {
                 player.statLife = (int)(player.statLifeMax2 * 0.5f);    
                 player.moonLeech = true;
-                modPlayer.healingPotBonus = 0;
+                modPlayer.healingPotionMultiplier = 0;
 
                 if (player.lifeRegenCount > 0)
                     player.lifeRegenCount = 0;

@@ -20,7 +20,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.bloodPact = true;
+            modPlayer.bloodPact = true; // This applies the +25% health boost.
+            modPlayer.healingPotionMultiplier += 0.25f;
         }
     }
 }

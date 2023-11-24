@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Melee
                     shadowflame.noGravity = true;
                 }
 
-                if (Main.myPlayer == Projectile.owner && Owner.itemAnimation % 4 == 3 && Owner.itemAnimation < Owner.itemAnimationMax - 3)
+                if (Main.myPlayer == Projectile.owner && Owner.itemAnimation % 5 == 3 && Owner.itemAnimation < Owner.itemAnimationMax - 3)
                 {
                     Vector2 bloodScytheShootVelocity = (Projectile.rotation - MathHelper.PiOver4).ToRotationVector2();
                     bloodScytheShootVelocity.Y *= 0.04f;

@@ -33,9 +33,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            StringBuilder sb = new StringBuilder(256);
-            sb.Append("\n+0.5 HP/s life regen\nTwo seconds after getting hit for 20 or more damage, you heal for 10\nGetting hit again resets the timer, delaying the heal");
-            setBonusText += sb.ToString();
+            setBonusText += $"\n{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
         }
 
         public override void ApplyArmorSetBonus(Player player)

@@ -1,1 +1,143 @@
+SetBonus: {
+	Adamantite: {
+		$parentVal:
+			'''
+			Half of your current DR is added to your critical strike chance
+			Continuously doing damage makes you gradually gain more and more defense, up to a maximum of {0}
+			When not doing damage, this bonus gradually decays
+			This added defense can be broken by defense damage
+			'''
+		Melee: 15% increased melee speed and 20% increased movement speed
+	}
 
+	Chlorophyte:
+		'''
+		Summons a powerful leaf crystal to shoot pulses of life every {0} seconds
+		The pulses do a base damage of {1} to enemies within its range
+		The pulses also provide a {2} health boost to you and all players on your team
+		Players healed by pulses cannot be healed by another pulse until {3} seconds have passed
+		Both the health boost and the damage scale based on your strongest class
+		'''
+
+	Cobalt: {
+		$parentVal:
+			'''
+			{0}% increased max speed and acceleration
+			You gain a damage and critical strike chance boost relative to your current movement speed, up to {0}%
+			'''
+		Melee: 10% increased melee damage
+	}
+
+	Copper: Increases all damage by 2
+	Eskimo:
+		'''
+		Multiplies all cold-based debuff damage by 1.25
+		Cold enemies will deal reduced contact damage to the player
+		Provides immunity to the Chilled, Frozen, Frostburn and Glacial State debuffs
+		'''
+	Frost:
+		'''
+		Melee and ranged attacks inflict Frostbite
+		{0}% increased damage which scales based on how far the target is from you
+		Closer range grants melee damage, while farther range grants ranged damage
+		'''
+	Gladiator:
+		'''
+		+3 defense
+		+60 maximum stealth
+		5% increased rogue damage and 10% increased velocity
+		'''
+	Gold:
+		'''
+		All enemies have a 4% chance to drop 1 gold. All bosses killed drop 3 gold
+		You gain 1% critical strike chance for every 5 gold in your inventory, capped at 10%
+		'''
+	Iron:
+		'''
+		Increases damage reduction by 6%
+		+1 HP/s life regen
+		'''
+	Lead:
+		'''
+		Increases damage reduction by 3%
+		+0.5 HP/s life regen
+		Grants immunity to knockback
+		'''
+	Meteor: Space Gun costs 50% mana
+	Mining: Mining ore will sometimes have additional yield
+	Molten:
+		'''
+		20% extra true melee damage
+		Grants immunity to fire blocks and temporary immunity to lava
+		'''
+	MonkTier2:
+		'''
+		10% increased melee speed, crit, and damage
+		15% increased minion damage
+		'''
+	Mythril:
+		'''
+		Enemy hits release mythril flares, which home in on enemies after a short delay
+		Once a flare is created, there is a {0} frame delay before another one can appear
+		'''
+	Necro:
+		'''
+		Allows you to temporarily survive fatal damage
+		Grants up to {0} seconds of life before imminent death
+		'''
+	Obsidian:
+		'''
+		Increases whip range by 50% and speed by 35%
+		Increases minion damage by 15%
+		Grants immunity to fire blocks and temporary immunity to lava
+		'''
+	Platinum:
+		'''
+		Every 10 defense gives you +0.5 HP/s life regen, 1% increased damage and 1% increased critical strike chance
+		These effects cap at 40 defense
+		'''
+	Shadow: 15% increased max movement speed and acceleration
+	Silver:
+		'''
+		+0.5 HP/s life regen
+		Two seconds after getting hit for 20 or more damage, you heal for 10
+		Getting hit again resets the timer, delaying the heal
+		'''
+	Tin: Increases armor penetration by 5
+	Tungsten:
+		'''
+		Increases your critical strike chance by 100% of the knockback of your held weapon
+		This effect caps at Insane knockback, which gives 10% increased critical strike chance
+		Increases all knockback by 33%, this counts for the above boost
+		Current bonus: {0}% critical strike chance from {1} knockback
+		'''
+	CrystalAssassin:
+		'''
+		Allows the ability to dash
+		10% increased damage and critical strike chance
+		'''
+	SquireTier2:
+		'''
+		Increases your life regeneration
+		15% increased minion damage and 10% increased melee critical strike chance
+		'''
+	HuntressTier2: 10% increased minion and ranged damage
+	ApprenticeTier2: 5% increased minion damage and 15% increased magic critical strike chance
+	MonkTier3:
+		'''
+		10% increased melee damage, melee critical strike chance and melee speed
+		30% increased minion damage
+		'''
+	SquireTier3:
+		'''
+		Massively increased life regeneration
+		10% increased minion damage and melee critical strike chance
+		'''
+	HuntressTier3: 10% increased minion and ranged damage
+	ApprenticeTier3: 10% increased minion damage and 15% increased magic critical strike chance
+	SpectreHealing:
+		'''
+		Reduces Magic damage by 20% and converts it to healing force
+		Magic damage done to enemies heals the player with lowest health
+		'''
+}

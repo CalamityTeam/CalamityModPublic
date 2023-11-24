@@ -58,6 +58,11 @@ MoscowMuleBuff: {
 	Description: Damage, critical strike chance, and knockback increased, life regen reduced
 }
 
+OldFashionedBuff: {
+	DisplayName: Old Fashioned
+	Description: Accessory and set bonus damage multiplied, damage reduced
+}
+
 RedWineBuff: {
 	DisplayName: Red Wine
 	Description: Life regen reduced
@@ -665,15 +670,6 @@ AvertorBonus: {
 BloodflareBloodFrenzy: {
 	DisplayName: Blood Frenzy
 	Description: Contact damage is reduced and melee stats are greatly increased
-}
-
-BloodyBoost: {
-	DisplayName: Bloody Boost
-	Description:
-		'''
-		Increased offensive and defensive stats
-		Healing potions grant more health
-		'''
 }
 
 BossEffects: {

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 75;
+            Item.damage = 58;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 10;
             Item.width = 66;

@@ -18,6 +18,7 @@ using CalamityMod.Items.Armor.LunicCorps;
 using CalamityMod.Items.Armor.Silva;
 using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs;
@@ -153,6 +154,9 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < 10; i++)
                 {
                     int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(55);
+                    if (oldFashioned)
+                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                     int lumenyl = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), ModContent.ProjectileType<AbyssalMirrorProjectile>(), damage, 0, Player.whoAmI);
                     Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
                     Main.projectile[lumenyl].frame = Main.rand.Next(0, 4);
@@ -183,6 +187,9 @@ namespace CalamityMod.CalPlayer
 
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<EclipseMirror>()));
                 int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(2750);
+                if (oldFashioned)
+                    damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                 int eclipse = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<EclipseMirrorBurst>(), damage, 0, Player.whoAmI);
                 if (eclipse.WithinBounds(Main.maxProjectiles))
                     Main.projectile[eclipse].DamageType = DamageClass.Generic;
@@ -245,6 +252,13 @@ namespace CalamityMod.CalPlayer
                         dust.scale *= 1f + Main.rand.Next(40) * 0.01f;
                 }
 
+                // Nebulous Core clears Chalice of the Blood God's bleedout buffer
+                if (chaliceOfTheBloodGod)
+                {
+                    chaliceBleedoutBuffer = 0D;
+                    chaliceDamagePointPartialProgress = 0D;
+                }
+
                 Player.statLife += 100;
                 Player.HealEffect(100);
 
@@ -285,6 +299,14 @@ namespace CalamityMod.CalPlayer
 
                 if (Player.statLife < 1)
                     Player.statLife = 1;
+
+                // Silva revive clears Chalice of the Blood God's bleedout buffer every frame while active
+                // Can we please remove this from the game
+                if (chaliceOfTheBloodGod)
+                {
+                    chaliceBleedoutBuffer = 0D;
+                    chaliceDamagePointPartialProgress = 0D;
+                }
 
                 return false;
             }
@@ -1145,15 +1167,12 @@ namespace CalamityMod.CalPlayer
             // If this NPC deals defense damage with contact damage, then mark the player to take defense damage.
             // Defense damage is not applied if the player has iframes, or is in Journey god mode.
             if (!hasIFrames && !Player.creativeGodMode)
-            {
-                justHitByDefenseDamage |= npc.Calamity().canBreakPlayerDefense;
-                defenseDamageToTake = npc.Calamity().canBreakPlayerDefense ? hurtInfo.Damage : 0;
-            }
+                nextHitDealsDefenseDamage |= npc.Calamity().canBreakPlayerDefense;
 
             // ModifyHit (Flesh Totem effect happens here) -> Hurt (includes dodges) -> OnHit
             // As such, to avoid cooldowns proccing from dodge hits, do it here
             if (fleshTotem && !Player.HasCooldown(Cooldowns.FleshTotem.ID) && hurtInfo.Damage > 0)
-                Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, coreOfTheBloodGod ? "bloodgod" : "default");
+                Player.AddCooldown(Cooldowns.FleshTotem.ID, CalamityUtils.SecondsToFrames(20), true, "default");
 
             if (NPC.AnyNPCs(ModContent.NPCType<THELORDE>()))
                 Player.AddBuff(ModContent.BuffType<NOU>(), 15, true);
@@ -1215,10 +1234,7 @@ namespace CalamityMod.CalPlayer
             // If this projectile is capable of dealing defense damage, then mark the player to take defense damage.
             // Defense damage is not applied if the player has iframes, or is in Journey god mode.
             if (!hasIFrames && !Player.creativeGodMode)
-            {
-                justHitByDefenseDamage = proj.Calamity().DealsDefenseDamage;
-                defenseDamageToTake = proj.Calamity().DealsDefenseDamage ? hurtInfo.Damage : 0;
-            }
+                nextHitDealsDefenseDamage |= proj.Calamity().DealsDefenseDamage;
 
             if (sulfurSet && !proj.friendly && hurtInfo.Damage > 0)
             {
@@ -1433,7 +1449,11 @@ namespace CalamityMod.CalPlayer
                         Rectangle npcHitbox = n.getRect();
                         if ((Player.getRect()).Intersects(npcHitbox) && (n.noTileCollide || Collision.CanHit(Player.position, Player.width, Player.height, n.position, n.width, n.height)))
                         {
-                            Projectile.NewProjectile(Player.GetSource_FromThis(), n.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), 150, 0, Main.myPlayer);
+                            int damage = 150;
+                            if (oldFashioned)
+                                damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
+                            Projectile.NewProjectile(Player.GetSource_FromThis(), n.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0, Main.myPlayer);
 
                             n.Calamity().dashImmunityTime[Player.whoAmI] = 4;
                             Player.GiveIFrames(5, false);
@@ -1590,14 +1610,6 @@ namespace CalamityMod.CalPlayer
             // TODO -- Remove this when the new DR scaling system is implemented.
             if (Player.beetleDefense && Player.beetleOrbs > 0)
                 damageMult += 0.05 * Player.beetleOrbs;
-
-            // Blood Pact gives you a 1/4 chance to be crit, increasing the incoming damage by 25%.
-            if (bloodPact && Main.rand.NextBool(4))
-            {
-                Player.AddBuff(ModContent.BuffType<BloodyBoost>(), 600);
-                SoundEngine.PlaySound(BloodCritSound, Player.Center);
-                damageMult += 1.25;
-            }
 
             modifiers.SourceDamage *= (float)damageMult;
             #endregion
@@ -1894,9 +1906,26 @@ namespace CalamityMod.CalPlayer
                     freeDodgeFromShieldAbsorption = true;
 
                     // Cancel defense damage, if it was going to occur this frame.
-                    justHitByDefenseDamage = false;
-                    defenseDamageToTake = 0;
+                    nextHitDealsDefenseDamage = false;
                 }
+            }
+
+            // Chalice of the Blood God is implemented as a dirty modifier.
+            //
+            // Chalice of the Blood God does nothing to a hit that was just fully blocked by shields.
+            // Otherwise, it reduces the damage of any hit to 5, which allows for full iframes.
+            // It then applies the full hit (minus that 5 damage) to its own bleedout buffer.
+            // Hits for less than 5 damage are ignored entirely and allowed to strike the player as normal.
+            if (chaliceOfTheBloodGod && !freeDodgeFromShieldAbsorption && info.Damage > ChaliceOfTheBloodGod.MinAllowedDamage)
+            {
+                int bleedoutToApply = info.Damage - ChaliceOfTheBloodGod.MinAllowedDamage;
+                chaliceBleedoutBuffer += bleedoutToApply;
+                info.Damage = ChaliceOfTheBloodGod.MinAllowedDamage;
+
+                // Display text indicating that damage was transferred to bleedout.
+                string text = $"({-bleedoutToApply})";
+                Rectangle location = new Rectangle((int)Player.position.X + 4, (int)Player.position.Y - 3, Player.width - 4, Player.height - 4);
+                CombatText.NewText(location, ChaliceOfTheBloodGod.BleedoutBufferDamageTextColor, Language.GetTextValue(text), dot: true);
             }
         }
         #endregion
@@ -1916,13 +1945,46 @@ namespace CalamityMod.CalPlayer
                     hasIFrames = true;
 
             // If the player was just hit by something capable of dealing defense damage, then apply defense damage.
+            // Bloodflare Core makes every hit deal defense damage (to enable its function).
             // Defense damage is not applied if the player has iframes.
-            if (justHitByDefenseDamage && !hasIFrames && !Player.creativeGodMode)
+            bool hitCanApplyDefenseDamage = nextHitDealsDefenseDamage || bloodflareCore;
+
+            if (hitCanApplyDefenseDamage && !hasIFrames && !Player.creativeGodMode)
             {
-                DealDefenseDamage(defenseDamageToTake, hurtInfo.Damage);
+                double halfDefense = Player.statDefense / 2.0;
+                int netMitigation = hurtInfo.SourceDamage - hurtInfo.Damage;
+                double standardDefenseDamage = netMitigation * defenseDamageRatio;
+
+                // If Bloodflare Core is equipped and standard defense damage would be less than half the player's total defense,
+                // then instead forcibly deal half of the player's total defense as defense damage.
+                if (bloodflareCore && standardDefenseDamage < halfDefense)
+                {
+                    DealDefenseDamage(hurtInfo, (int)halfDefense, true);
+
+                    // Set up Bloodflare Core's heal over time. Any in-progress heals are overwritten if they would have a shorter duration.
+                    if (bloodflareCoreRemainingHealOverTime < halfDefense)
+                        bloodflareCoreRemainingHealOverTime = (int)halfDefense;
+
+                    // Play a sound and make dust to signify that defense has been shattered
+                    SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact, Player.Center);
+                    for (int i = 0; i < 36; ++i)
+                    {
+                        float speed = Main.rand.NextFloat(1.8f, 8f);
+                        Vector2 dustVel = new Vector2(speed, speed);
+                        Dust d = Dust.NewDustDirect(Player.position, Player.width, Player.height, 90);
+                        d.velocity = dustVel;
+                        d.noGravity = true;
+                        d.scale *= Main.rand.NextFloat(1.1f, 1.4f);
+                        Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.PiOver2);
+                        Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.Pi);
+                        Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.Pi * 1.5f);
+                    }
+                }
+                else
+                    DealDefenseDamage(hurtInfo);
             }
-            justHitByDefenseDamage = false;
-            defenseDamageToTake = 0;
+
+            nextHitDealsDefenseDamage = false;
             #endregion
 
             #region Shattered Community Rage Gain
@@ -2295,39 +2357,6 @@ namespace CalamityMod.CalPlayer
             if (silverMedkit && hurtInfo.Damage >= SilverArmorSetChange.SetBonusMinimumDamageToHeal)
                 silverMedkitTimer = SilverArmorSetChange.SetBonusHealTime;
 
-            // Bloodflare Core defense shattering
-            if (bloodflareCore)
-            {
-                // Shattered defense has a hard cap equal to half of total defense.
-                // It also has a soft cap determined by a formula so it isn't too powerful at excessively high defense.
-                int shatterDefenseCap = (int)(1.5D * Math.Pow(Player.statDefense, 0.91D) - 0.5D * Player.statDefense);
-                if (shatterDefenseCap > Player.statDefense / 2)
-                    shatterDefenseCap = Player.statDefense / 2;
-
-                // Every hit adds its damage as shattered defense.
-                int newLostDefense = Math.Min(bloodflareCoreLostDefense + (int)hurtInfo.Damage, shatterDefenseCap);
-
-                // Suddenly reducing your base defense stat does not let you suddenly reduce your shattered defense cap.
-                // In other words, you can't ever reduce your lost defense by taking another hit.
-                if (bloodflareCoreLostDefense < newLostDefense)
-                    bloodflareCoreLostDefense = newLostDefense;
-
-                // Play a sound and make dust to signify that defense has been shattered
-                SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact, Player.Center);
-                for (int i = 0; i < 36; ++i)
-                {
-                    float speed = Main.rand.NextFloat(1.8f, 8f);
-                    Vector2 dustVel = new Vector2(speed, speed);
-                    Dust d = Dust.NewDustDirect(Player.position, Player.width, Player.height, 90);
-                    d.velocity = dustVel;
-                    d.noGravity = true;
-                    d.scale *= Main.rand.NextFloat(1.1f, 1.4f);
-                    Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.PiOver2);
-                    Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.Pi);
-                    Dust.CloneDust(d).velocity = dustVel.RotatedBy(MathHelper.Pi * 1.5f);
-                }
-            }
-
             // Handle hit effects from the gem tech armor set.
             Player.Calamity().GemTechState.PlayerOnHitEffects((int)hurtInfo.Damage);
 
@@ -2379,6 +2408,12 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(SoundID.Item74, Player.Center);
                     int blazeDamage = (int)Player.GetBestClassDamage().ApplyTo(25);
                     int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(320);
+                    if (oldFashioned)
+                    {
+                        blazeDamage = (int)(blazeDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        astralStarDamage = (int)(astralStarDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                    }
+
                     Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), blazeDamage, 5f, Player.whoAmI, 0f, 1f);
                     for (int n = 0; n < 12; n++)
                     {
@@ -2391,6 +2426,9 @@ namespace CalamityMod.CalPlayer
                     for (int n = 0; n < 3; n++)
                     {
                         int deificStarDamage = (int)Player.GetBestClassDamage().ApplyTo(130);
+                        if (oldFashioned)
+                            deificStarDamage = (int)(deificStarDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         Projectile star = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.StarVeilStar, deificStarDamage, 4f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
@@ -2416,6 +2454,9 @@ namespace CalamityMod.CalPlayer
                         if (transformer)
                             sDamage += 42;
                         sDamage = (int)Player.GetBestClassDamage().ApplyTo(sDamage);
+                        if (oldFashioned)
+                            sDamage = (int)(sDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         if (Player.whoAmI == Main.myPlayer)
                         {
                             for (int i = 0; i < 4; i++)
@@ -2686,37 +2727,70 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Defense Damage Function
-        private void DealDefenseDamage(int damage, double realDamage)
+        /// <summary>
+        /// Deals Calamity defense damage to a player.
+        /// </summary>
+        /// <param name="hurtInfo">HurtInfo of the incoming strike to the player.</param>
+        /// <param name="customIncomingDamage">If set to zero or a positive number, ignores the HurtInfo and uses this value as the incoming damage.</param>
+        /// <param name="absolute">If true, deals exactly the custom amount defense damage, ignoring the standard ratios and Draedon's Heart.<br />
+        /// This also bypasses the 
+        /// This does nothing unless customIncomingDefenseDamage is specified.</param>
+        public void DealDefenseDamage(Player.HurtInfo hurtInfo, int customIncomingDamage = -1, bool absolute = false)
         {
-            if (realDamage <= 0)
+            // Legacy safeguard: Skip defense damage if the player is somehow "hit for zero" (this should never happen).
+            if (hurtInfo.Damage <= 0 || hurtInfo.SourceDamage <= 0)
                 return;
 
-            double ratioToUse = DefenseDamageRatio;
-            if (draedonsHeart)
-                ratioToUse *= DraedonsHeart.DefenseDamageMultiplier;
+            double ratioToUse = defenseDamageRatio;
 
             // Calculate the defense damage taken from this hit.
-            int defenseDamageTaken = (int)(damage * ratioToUse);
+            // If custom incoming defense damage is specified, then ignore the incoming hurt info and use the custom value.
+            int incomingDamageToUse;
+            if (customIncomingDamage >= 0)
+            {
+                incomingDamageToUse = customIncomingDamage;
+                // If absolute is specified, then ignore the ratio and always inflict EXACTLY THAT MUCH defense damage. This means it bypasses Draedon's Heart!
+                if (absolute)
+                    ratioToUse = 1D;
+            }
+
+            // Standard hits. Defense damage scales with "net mitigation", aka how much damage the player DIDN'T take.
+            // Thematically, this means it scales with how much damage the player's defense took instead of them.
+            else
+            {
+                int netMitigation = hurtInfo.SourceDamage - hurtInfo.Damage;
+
+                // If the player somehow took amplified damage (their mitigation was negative) then they take no base defense damage.
+                // The defense damage floor will still apply to them.
+                incomingDamageToUse = netMitigation <= 0 ? 0 : netMitigation;
+            }
+
+            int defenseDamageTaken = (int)Math.Round(incomingDamageToUse * ratioToUse);
 
             // There is a floor on defense damage based on difficulty; i.e. there is a minimum amount of defense damage from any hit that can deal defense damage.
-            // This floor is only applied if bosses are alive
-            if (areThereAnyDamnBosses)
+            // This floor is only applied if bosses are alive, but is bypassed by the absolute flag.
+            // Details on the floor can be seen in the BalancingConstants file.
+            bool useDefenseDamageFloor = areThereAnyDamnBosses && !absolute;
+            if (useDefenseDamageFloor)
             {
-                int defenseDamageFloor = (BossRushEvent.BossRushActive ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
+                int defenseDamageFloor = CalamityUtils.GetDefenseDamageFloor();
+
+                // Apply floor
                 if (defenseDamageTaken < defenseDamageFloor)
                     defenseDamageTaken = defenseDamageFloor;
             }
 
-            // There is also a cap on defense damage: 25% of the player's original defense.
-            int cap = Player.statDefense / 4;
-            if (defenseDamageTaken > cap)
-                defenseDamageTaken = cap;
-
-            // Apply defense damage to the adamantite armor set boost.
+            //
+            // The amount of defense damage taken is now final.
+            //
+            
+            // Apply incoming defense damage to the Adamantite armor set bonus.
             if (AdamantiteSetDefenseBoost > 0)
             {
                 int defenseDamageToAdamantite = Math.Min(AdamantiteSetDefenseBoost, defenseDamageTaken);
                 AdamantiteSetDefenseBoost -= defenseDamageToAdamantite;
+
+                // Reduce remaining defense damage by whatever was applied to Adamantite armor.
                 defenseDamageTaken -= defenseDamageToAdamantite;
 
                 // If Adamantite Armor's set bonus entirely absorbed the defense damage, then display the number and play the sound,
@@ -2728,7 +2802,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Apply that defense damage on top of whatever defense damage the player currently has.
+            // Apply incoming defense damage on top of whatever defense damage the player currently has.
             int previousDefenseDamage = CurrentDefenseDamage;
             totalDefenseDamage = previousDefenseDamage + defenseDamageTaken;
 
@@ -2736,15 +2810,16 @@ namespace CalamityMod.CalPlayer
             if (defenseDamageRecoveryFrames < 0)
                 defenseDamageRecoveryFrames = 0;
 
-            // DIRECTLY ADD the base defense damage recovery time to whatever recovery time the player already has.
+            // Directly add the base defense damage recovery time to whatever recovery time the player already has.
             totalDefenseDamageRecoveryFrames = defenseDamageRecoveryFrames + DefenseDamageBaseRecoveryTime;
             if (totalDefenseDamageRecoveryFrames > DefenseDamageMaxRecoveryTime)
                 totalDefenseDamageRecoveryFrames = DefenseDamageMaxRecoveryTime;
+
             // Reset any recovery progress they may have already made.
             // They start the new recovery timer from the beginning.
             defenseDamageRecoveryFrames = totalDefenseDamageRecoveryFrames;
 
-            // Reset the delay between iframes and being able to recover from defense damage.
+            // Reset the delay between iframes ending and defense damage recovery starting.
             defenseDamageDelayFrames = DefenseDamageRecoveryDelay;
 
             // Audiovisual effects

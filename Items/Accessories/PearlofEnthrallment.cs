@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -45,6 +46,9 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] < 1)
                 {
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(65);
+                    if (modPlayer.oldFashioned)
+                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                     int anahita = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<WaterElementalMinion>(), damage, 2f, Main.myPlayer);
                     if (Main.projectile.IndexInRange(anahita))
                         Main.projectile[anahita].originalDamage = 65;
@@ -66,6 +70,9 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] < 1)
                 {
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(65);
+                    if (modPlayer.oldFashioned)
+                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                     int anahita = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<WaterElementalMinion>(), damage, 2f, Main.myPlayer);
                     if (Main.projectile.IndexInRange(anahita))
                         Main.projectile[anahita].originalDamage = 65;

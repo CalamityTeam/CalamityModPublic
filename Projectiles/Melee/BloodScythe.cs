@@ -37,8 +37,8 @@ namespace CalamityMod.Projectiles.Melee
             if (potentialTarget != null && Projectile.timeLeft >= 480)
             {
                 float flySpeed = Projectile.velocity.Length();
-                if (flySpeed < 8f)
-                    flySpeed = 8f;
+                if (flySpeed < 10f)
+                    flySpeed = 10f;
 
                 Projectile.Center = Projectile.Center.MoveTowards(potentialTarget.Center, 1.75f);
                 Projectile.velocity = (Projectile.velocity * 14f + Projectile.SafeDirectionTo(potentialTarget.Center) * flySpeed) / 15f;

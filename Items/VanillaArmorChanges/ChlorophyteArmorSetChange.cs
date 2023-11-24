@@ -24,11 +24,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            setBonusText = $"Summons a powerful leaf crystal to shoot pulses of life every {PulseReleaseRate / 60f} seconds\n" +
-                $"The pulses do a base damage of {BaseDamageToEnemies} to enemies within its range\n" +
-                $"The pulses also provide a {AmountToHealPerPulse} health boost to you and all players on your team\n" +
-                $"Players healed by pulses cannot be healed by another pulse until {DelayBetweenHeals / 60f} seconds have passed\n" +
-                "Both the health boost and the damage scale based on your strongest class";
+            setBonusText = $"{CalamityUtils.GetText($"Vanilla.Armor.SetBonus.{ArmorSetName}").Format(PulseReleaseRate / 60f, BaseDamageToEnemies, AmountToHealPerPulse, DelayBetweenHeals / 60f)}";
         }
     }
 }

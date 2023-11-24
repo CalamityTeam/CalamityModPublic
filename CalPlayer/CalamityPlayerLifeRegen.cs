@@ -11,7 +11,6 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -226,6 +225,10 @@ namespace CalamityMod.CalPlayer
                 alcoholPoisonLevel++;
             }
             if (cinnamonRoll)
+            {
+                alcoholPoisonLevel++;
+            }
+            if (oldFashioned)
             {
                 alcoholPoisonLevel++;
             }
@@ -587,6 +590,10 @@ namespace CalamityMod.CalPlayer
                     Player.mount.Dismount(Player);
             }
             #endregion
+
+            // Chalice of the Blood God bleedout
+            // The bleedout is applied by directly reducing the player's health. It is not canceled by anything.
+            ChaliceOfTheBloodGod.HandleBleedout(Player);
         }
         #endregion
 
@@ -712,10 +719,6 @@ namespace CalamityMod.CalPlayer
                 Player.lifeRegen += 12;
             }
             if (handWarmer && eskimoSet)
-            {
-                Player.lifeRegen += 2;
-            }
-            if (bloodPactBoost)
             {
                 Player.lifeRegen += 2;
             }

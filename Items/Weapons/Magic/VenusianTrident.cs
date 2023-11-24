@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
     public class VenusianTrident : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-        public static int BaseDamage = 108;
+        public static int BaseDamage = 256;
 
         public override void SetStaticDefaults()
         {

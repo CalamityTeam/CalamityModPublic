@@ -588,19 +588,31 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 int posX = sourceTileCoords.X + rubbleSpawnLocation * npc.direction;
                 int posY = sourceTileCoords.Y + rubbleSpawnAttempts;
+                Point point = new Vector2(posX, posY).ToTileCoordinates();
+                Tile tileSafely = Framing.GetTileSafely(point);
                 if (WorldGen.SolidTile(posX, posY))
                 {
-                    Vector2 vector = targetData.Center + new Vector2(rubbleSpawnLocation * npc.direction * 20, (0f - upBiasPerRubble) * (float)howMany + (float)rubbleSpawnLocation * upBiasPerRubble / (float)distancedByThisManyTiles);
-                    Vector2 vector2 = new Vector2(posX * 16 + 8, posY * 16 + 8);
-                    Vector2 rubbleVelocity = (vector - vector2).SafeNormalize(-Vector2.UnitY);
-                    rubbleVelocity = new Vector2(0f, -1f).RotatedBy((float)(whichOne * npc.direction) * 0.7f * ((float)Math.PI / 4f / (float)howMany));
-                    int ai1_FrameToUse = Main.rand.Next(Main.projFrames[rubble] * 4);
-                    ai1_FrameToUse = 6 + Main.rand.Next(6);
-                    float ai2_DelayBeforeGoingUp = whichOne * 20f;
-                    Projectile.NewProjectile(npc.GetSource_FromAI(), new Vector2(posX * 16 + 8, posY * 16 - 8), rubbleVelocity * 0.01f, rubble, rubbleDamage, 0f, Main.myPlayer, 0f, ai1_FrameToUse, ai2_DelayBeforeGoingUp);
+                    SpawnRubble(npc, ref targetData, rubbleSpawnLocation, posX, posY, howMany, distancedByThisManyTiles, upBiasPerRubble, whichOne, rubble, rubbleDamage);
+                    break;
+                }
+                else if (TileID.Sets.Platforms[tileSafely.TileType])
+                {
+                    SpawnRubble(npc, ref targetData, rubbleSpawnLocation, posX, posY, howMany, distancedByThisManyTiles, upBiasPerRubble, whichOne, rubble, rubbleDamage);
                     break;
                 }
             }
+        }
+
+        private static void SpawnRubble(NPC npc, ref NPCAimedTarget targetData, int rubbleSpawnLocation, int posX, int posY, int howMany, int distancedByThisManyTiles, float upBiasPerRubble, int whichOne, int rubble, int rubbleDamage)
+        {
+            Vector2 vector = targetData.Center + new Vector2(rubbleSpawnLocation * npc.direction * 20, (0f - upBiasPerRubble) * (float)howMany + (float)rubbleSpawnLocation * upBiasPerRubble / (float)distancedByThisManyTiles);
+            Vector2 vector2 = new Vector2(posX * 16 + 8, posY * 16 + 8);
+            Vector2 rubbleVelocity = (vector - vector2).SafeNormalize(-Vector2.UnitY);
+            rubbleVelocity = new Vector2(0f, -1f).RotatedBy((float)(whichOne * npc.direction) * 0.7f * ((float)Math.PI / 4f / (float)howMany));
+            int ai1_FrameToUse = Main.rand.Next(Main.projFrames[rubble] * 4);
+            ai1_FrameToUse = 6 + Main.rand.Next(6);
+            float ai2_DelayBeforeGoingUp = whichOne * 20f;
+            Projectile.NewProjectile(npc.GetSource_FromAI(), new Vector2(posX * 16 + 8, posY * 16 - 8), rubbleVelocity * 0.01f, rubble, rubbleDamage, 0f, Main.myPlayer, 0f, ai1_FrameToUse, ai2_DelayBeforeGoingUp);
         }
 
         private static void MakeSpikesForward(NPC npc, int AISLOT_PhaseCounter, NPCAimedTarget targetData, int iceSpike, int iceSpikeDamage)

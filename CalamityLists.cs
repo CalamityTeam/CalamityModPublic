@@ -1190,6 +1190,7 @@ namespace CalamityMod
                 BuffType<MargaritaBuff>(),
                 BuffType<MoonshineBuff>(),
                 BuffType<MoscowMuleBuff>(),
+                BuffType<OldFashionedBuff>(),
                 BuffType<RedWineBuff>(),
                 BuffType<RumBuff>(),
                 BuffType<ScrewdriverBuff>(),
@@ -1961,6 +1962,7 @@ namespace CalamityMod
             {
                 ProjectileID.Arkhalis,
                 ProjectileID.ChargedBlasterLaser,
+		        ProjectileID.ClingerStaff,
                 ProjectileID.FinalFractal,
                 ProjectileID.FlyingKnife,
                 ProjectileID.LastPrismLaser,

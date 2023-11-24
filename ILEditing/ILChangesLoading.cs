@@ -81,8 +81,8 @@ namespace CalamityMod.ILEditing
             IL_Wiring.HitWireSingle += AddTwinklersToStatue;
             On_Player.UpdateItemDye += FindCalamityItemDyeShader;
 
-            // Mana Burn
-            IL_Player.ApplyLifeAndOrMana += ConditionallyReplaceManaSickness;
+            // Mana Burn (Chaos Stone) and Chalice of the Blood God
+            IL_Player.ApplyLifeAndOrMana += ManaSicknessAndChaliceBufferHeal;
 
             // Custom grappling
             On_Player.GrappleMovement += CustomGrappleMovementCheck;

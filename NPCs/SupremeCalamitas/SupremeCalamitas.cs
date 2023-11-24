@@ -3463,6 +3463,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     case 19:
                         target.AddBuff(ModContent.BuffType<WhiteWineBuff>(), MaxCirrusAlcoholDebuffDuration);
                         break;
+                    case 20:
+                        target.AddBuff(ModContent.BuffType<OldFashionedBuff>(), MaxCirrusAlcoholDebuffDuration);
+                        break;
                 }
             }
         }
