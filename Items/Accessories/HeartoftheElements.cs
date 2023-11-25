@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Accessories
             var source = player.GetSource_Accessory(Item);
             Vector2 velocity = new Vector2(0f, -1f);
 
-            int baseDamage = 90;
+            int baseDamage = 50;
             if (modPlayer.oldFashioned)
                 baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
