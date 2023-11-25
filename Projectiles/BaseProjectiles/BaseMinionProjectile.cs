@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         /// The amount of animation frames this minion has.<br/>
         /// Defaults to 1 frame.
         /// </summary>
-        public virtual int AnimationFrames { get; set; } = 1;
+        public virtual int AnimationFrames => 1;
 
         /// <summary>
         /// The frames that it takes to go to the next frame of animation.<br/>
