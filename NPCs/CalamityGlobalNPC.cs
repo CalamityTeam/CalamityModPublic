@@ -5235,6 +5235,15 @@ namespace CalamityMod.NPCs
         #region On Spawn
         public override void OnSpawn(NPC npc, IEntitySource source)
         {
+            if (npc.type == NPCID.Deerclops)
+            {
+                DeerclopsAI.hasTargetBeenInRange = false;
+                DeerclopsAI.borderDelay = 7f * 60f;
+                DeerclopsAI.borderScalar = 0f;
+                DeerclopsAI.innerBorder = DeerclopsAI.maxDRIncreaseDistance * 5f;
+                DeerclopsAI.outerBorder = DeerclopsAI.maxDRIncreaseDistance * 5f;
+            }
+
             if (npc.type != NPCID.VoodooDemon)
                 return;
 

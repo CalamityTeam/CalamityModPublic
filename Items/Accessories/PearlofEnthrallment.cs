@@ -45,13 +45,14 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] < 1)
                 {
-                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(65);
+                    int baseDamage = 65;
                     if (modPlayer.oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     int anahita = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<WaterElementalMinion>(), damage, 2f, Main.myPlayer);
                     if (Main.projectile.IndexInRange(anahita))
-                        Main.projectile[anahita].originalDamage = 65;
+                        Main.projectile[anahita].originalDamage = baseDamage;
                 }
             }
         }
@@ -69,13 +70,14 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] < 1)
                 {
-                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(65);
+                    int baseDamage = 65;
                     if (modPlayer.oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     int anahita = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<WaterElementalMinion>(), damage, 2f, Main.myPlayer);
                     if (Main.projectile.IndexInRange(anahita))
-                        Main.projectile[anahita].originalDamage = 65;
+                        Main.projectile[anahita].originalDamage = baseDamage;
                 }
             }
         }

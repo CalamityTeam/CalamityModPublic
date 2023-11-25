@@ -1,8 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Events;
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -11,13 +7,23 @@ using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Projectiles.Boss;
-using CalamityMod.NPCs.TownNPCs;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class DeerclopsAI
     {
+        public static bool shouldDrawEnrageBorder = true;
+        public static bool hasTargetBeenInRange = true;
+        public const float increaseDRTriggerDistance = 450f;
+        public const float maxDRIncreaseDistance = 900f;
+        public static float borderDelay = 10f * 60f;
+        public static float innerBorder = 450f;
+        public static float outerBorder = 900f;
+        public static float borderScalar = 0f;
+        public static Vector2 lastDeerclopsPosition;
+
+
         public static bool BuffedDeerclopsAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
@@ -46,14 +52,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool goHome = false;
 
             // Damage resistance based on distance from target
-            float increaseDRTriggerDistance = 450f;
-            float maxDRIncreaseDistance = 900f;
             float distanceFromTarget = npc.Distance(targetData.Center);
             bool triggerDRIncrease = distanceFromTarget >= increaseDRTriggerDistance;
             float resistDamageAmount = MathHelper.Clamp((distanceFromTarget - increaseDRTriggerDistance) / (maxDRIncreaseDistance - increaseDRTriggerDistance), 0f, 1f);
             npc.localAI[3] = MathHelper.Lerp(0f, 30f, resistDamageAmount);
             float dustAndDRScalar = Utils.Remap(npc.localAI[3], 0f, 30f, 0f, 1f);
             calamityGlobalNPC.DR = MathHelper.Lerp(0.05f, 0.9f, dustAndDRScalar);
+
+            if (borderDelay > 0f)
+                borderDelay -= 1f;
+
             if (dustAndDRScalar > 0f)
             {
                 float invincibleDustAmount = Main.rand.NextFloat() * dustAndDRScalar * 3f;
@@ -63,6 +71,33 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Dust.NewDustDirect(npc.position, npc.width, npc.height, 109, 0f, -3f, 0, default(Color), 1.4f).noGravity = true;
                 }
             }
+            else if (!hasTargetBeenInRange)
+            {
+                //Target entered the border for the first time
+                hasTargetBeenInRange = true;
+                if (borderDelay > 120f)
+                    borderDelay = 120f;
+            }
+            if (innerBorder != increaseDRTriggerDistance || maxDRIncreaseDistance != outerBorder)
+            {
+                //Adjust the border IF the new value is lower (helps prevent jumping if you enter the border early while it's on screen but not finished zooming in)
+                var LerpValue = Utils.GetLerpValue(hasTargetBeenInRange ? 120f : 180f, 0f, borderDelay, true);
+                var newInner = MathHelper.Lerp(maxDRIncreaseDistance * 5f, increaseDRTriggerDistance, LerpValue);
+                if (newInner < innerBorder)
+                    innerBorder = newInner;
+                var newOuter = MathHelper.Lerp(maxDRIncreaseDistance * 5f, maxDRIncreaseDistance, LerpValue);
+                if (newOuter < outerBorder)
+                    outerBorder = newOuter;
+            }
+            if ((hasTargetBeenInRange && borderScalar < 1f) || borderDelay > 0f)
+            {
+                //fade in, with full opacity only available after being inside the border for the first time
+                borderScalar = MathHelper.Clamp(borderScalar + 0.015f, 0f, hasTargetBeenInRange ? 1f : 0.9f);
+            }
+            shouldDrawEnrageBorder = CalamityWorld.revenge || CalamityWorld.death;
+
+            //Set the last deerclops position (used only for post-death border shenanigans)
+            lastDeerclopsPosition = npc.Center;
 
             // Spawn settings
             if (npc.homeTileX == -1 && npc.homeTileY == -1)

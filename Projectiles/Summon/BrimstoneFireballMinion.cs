@@ -71,13 +71,13 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            if (Projectile.owner == Main.myPlayer)
-            {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneExplosionMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-            }
-        }
+        //public override void OnKill(int timeLeft)
+        //{
+            //if (Projectile.owner == Main.myPlayer)
+            //{
+                //Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneExplosionMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            //}
+        //}
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

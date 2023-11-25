@@ -292,14 +292,8 @@ namespace CalamityMod.Balancing
             // TODO -- NPC sets (mostly worm bosses) should probably be their own holding class.
             int[] exoTwins = new int[] { NPCType<Artemis>(), NPCType<Apollo>() };
 
-            // 20% resist to Dynamic Pursuer.
-            NPCSpecificBalancingChanges.AddRange(Bundle(exoTwins, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<DynamicPursuerProjectile>(), ProjectileType<DynamicPursuerLaser>(), ProjectileType<DynamicPursuerElectricity>()))));
-
             // 10% resist to Eclipse's Fall stealth strike.
             NPCSpecificBalancingChanges.AddRange(Bundle(exoTwins, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<EclipsesSmol>()))));
-
-            // 10% resist to Seared Pan.
-            NPCSpecificBalancingChanges.AddRange(Bundle(exoTwins, Do(new ProjectileResistBalancingRule(0.9f, ProjectileType<SearedPanProjectile>(), ProjectileType<PanSpark>(), ProjectileType<NiceCock>()))));
             #endregion
 
             #region Exo Mechs: Thanatos
@@ -309,11 +303,11 @@ namespace CalamityMod.Balancing
             // 65% resist to Enforcer projectiles.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.35f, ProjectileType<EssenceFlame2>()))));
 
-            // 65% resist to Dynamic Pursuer. (Do 40% if lightning pierce is removed)
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.35f, ProjectileType<DynamicPursuerProjectile>(), ProjectileType<DynamicPursuerLaser>(), ProjectileType<DynamicPursuerElectricity>()))));
-
             // 65% resist to Final Dawn lunge.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.35f, ProjectileType<FinalDawnThrow2>()))));
+
+            // 60% resist to Dynamic Pursuer.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.4f, ProjectileType<DynamicPursuerProjectile>(), ProjectileType<DynamicPursuerLaser>(), ProjectileType<DynamicPursuerElectricity>()))));
 
             // 50% resist to Chicken Cannon.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<ChickenExplosion>()))));
@@ -324,11 +318,11 @@ namespace CalamityMod.Balancing
             // 50% resist to Vehemence skulls.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<VehemenceSkull>(), ProjectileType<PrismaticBeam>()))));
 
-            // 50% resist to Wrathwing stealth strike.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<WrathwingCinder>()))));
-
             // 50% resist to Yharim's Crystal.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<YharimsCrystalBeam>()))));
+
+            // 45% resist to Wrathwing stealth strike's fireballs.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.55f, ProjectileType<WrathwingCinder>()))));
 
             // 40% resist to Rancor.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<RancorLaserbeam>()))));

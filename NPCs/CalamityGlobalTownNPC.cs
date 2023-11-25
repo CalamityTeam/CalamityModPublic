@@ -209,6 +209,7 @@ namespace CalamityMod.NPCs
         {
             "Stan Pines",
             "Slap Battles", // <@!923504188615450654> (gravityglider.)
+            "Matt Walsh", // <@!522970788203069442> (phallguy)
         };
         private static readonly string[] TruffleNames =
         {

@@ -3446,6 +3446,9 @@ namespace CalamityMod.CalPlayer
             {
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<CryoStone>()));
                 int damage = (int)Player.GetBestClassDamage().ApplyTo(70);
+                if (oldFashioned)
+                    damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                 if (Player.whoAmI == Main.myPlayer && Player.ownedProjectileCounts[ModContent.ProjectileType<CryonicShield>()] == 0)
                     Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<CryonicShield>(), damage, 0f, Player.whoAmI);
             }
@@ -3466,6 +3469,9 @@ namespace CalamityMod.CalPlayer
             {
                 float shootSpeed = 18f;
                 int dmg = (int)Player.GetTotalDamage<MagicDamageClass>().ApplyTo(30);
+                if (oldFashioned)
+                    dmg = (int)(dmg * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                 Vector2 startPos = Player.RotatedRelativePoint(Player.MountedCenter, true);
                 Vector2 velocity = Main.MouseWorld - startPos;
                 if (Player.gravDir == -1f)

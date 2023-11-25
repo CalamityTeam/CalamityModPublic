@@ -986,7 +986,7 @@ namespace CalamityMod.CalPlayer
         public bool wDroid = false;
         public bool resButterfly = false;
         public bool mWorm = false;
-        public bool iClasper = false;
+        public bool IceClasperBool = false;
         public bool magicHat = false;
         public bool herring = false;
         public bool blackhawk = false;
@@ -2010,7 +2010,7 @@ namespace CalamityMod.CalPlayer
             wDroid = false;
             resButterfly = false;
             mWorm = false;
-            iClasper = false;
+            IceClasperBool = false;
             magicHat = false;
             herring = false;
             blackhawk = false;

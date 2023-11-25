@@ -35,16 +35,19 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] < 1)
                 {
                     var source = player.GetSource_Accessory(Item);
-                    int damage = (int)player.GetBestClassDamage().ApplyTo(FungalClumpDamage);
-                    if (modPlayer.oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
+                    int baseDamage = FungalClumpDamage;
+                    if (modPlayer.oldFashioned)
+                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
+                    int damage = (int)player.GetBestClassDamage().ApplyTo(baseDamage);
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), damage, 1f, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = FungalClumpDamage;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
             }
         }
+
         public override void UpdateVanity(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
@@ -58,13 +61,15 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] < 1)
                 {
                     var source = player.GetSource_Accessory(Item);
-                    int damage = (int)player.GetBestClassDamage().ApplyTo(FungalClumpDamage);
-                    if (modPlayer.oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
+                    int baseDamage = FungalClumpDamage;
+                    if (modPlayer.oldFashioned)
+                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
+                    int damage = (int)player.GetBestClassDamage().ApplyTo(baseDamage);
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), damage, 1f, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = FungalClumpDamage;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
             }
         }

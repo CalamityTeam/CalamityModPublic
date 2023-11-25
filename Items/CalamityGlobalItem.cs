@@ -467,6 +467,9 @@ namespace CalamityMod.Items
                     {
                         // Victide All-class Seashells: 200%, soft cap starts at 46 base damage
                         int seashellDamage = CalamityUtils.DamageSoftCap(damage * 2, 46);
+                        if (modPlayer.oldFashioned)
+                            seashellDamage = (int)(seashellDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<Seashell>(), seashellDamage, 1f, player.whoAmI);
                     }
                 }
