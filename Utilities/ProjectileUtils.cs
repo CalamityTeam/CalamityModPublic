@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Projectiles.Rogue;
@@ -12,6 +13,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
@@ -387,6 +389,94 @@ namespace CalamityMod
                 {
                     proj.Kill();
                 }
+            }
+        }
+
+        /// <summary>
+        /// For a given projectile that is used as a rocket and uses rocket ammo, this utility provides a shorthand way to check for checking what behaviour should each type of ammo do. It can also return you the radius of the explosion that'll happen so you can use it for your effect's size.
+        /// </summary>
+        /// <param name="proj">The projectile in question.</param>
+        /// <param name="rocketType">The field or property where the projectile holds which ammo was used.</param>
+        /// <param name="smallRadius">The smallest radius of the explosion, for Rocket I and Rocket II.</param>
+        /// <param name="mediumRadius">The medium radius of the explosion, for Rocket III and Rocket IV.</param>
+        /// <param name="bigRadius">The radius of the explosion for the rest of rockets, except the liquid-interactive ones.</param>
+        /// <param name="explosionRadius"></param>
+        /// <param name="checkExplosions"></param>
+        /// <param name="tilesToCheck"></param>
+        /// <param name="wallsToCheck"></param>
+        public static void CorrespondingRocketBehaviour(this Projectile proj, float rocketType, int smallRadius, int mediumRadius, int bigRadius, out int explosionRadius, bool checkExplosions = true, List<int> tilesToCheck = null, List<int> wallsToCheck = null)
+        {
+            tilesToCheck ??= new List<int>();
+            wallsToCheck ??= new List<int>();
+            
+            explosionRadius = 0;
+            switch (rocketType)
+            {
+                case ItemID.RocketI:
+                    explosionRadius = smallRadius;
+                    break;
+
+                case ItemID.RocketII:
+                    explosionRadius = smallRadius;
+                    proj.ExplodeandDestroyTiles(explosionRadius, checkExplosions, tilesToCheck, wallsToCheck);
+                    break;
+
+                case ItemID.RocketIII:
+                    explosionRadius = mediumRadius;
+                    break;
+
+                case ItemID.RocketIV:
+                    explosionRadius = mediumRadius;
+                    proj.ExplodeandDestroyTiles(explosionRadius, checkExplosions, tilesToCheck, wallsToCheck);
+                    break;
+
+                case ItemID.MiniNukeI:
+                    explosionRadius = bigRadius;
+                    break;
+
+                case ItemID.MiniNukeII:
+                    explosionRadius = bigRadius;
+                    proj.ExplodeandDestroyTiles(explosionRadius, checkExplosions, tilesToCheck, wallsToCheck);
+                    break;
+
+                case ItemID.ClusterRocketI:
+                    explosionRadius = bigRadius;
+                    Projectile cluster1 = Projectile.NewProjectileDirect(proj.GetSource_FromThis(), proj.Center, Vector2.Zero, ProjectileID.ClusterGrenadeI, proj.damage, proj.knockBack, proj.owner);
+                    cluster1.timeLeft = 1;
+                    break;
+
+                case ItemID.ClusterRocketII:
+                    explosionRadius = bigRadius;
+                    Projectile cluster2 = Projectile.NewProjectileDirect(proj.GetSource_FromThis(), proj.Center, Vector2.Zero, ProjectileID.ClusterGrenadeII, proj.damage, proj.knockBack, proj.owner);
+                    cluster2.timeLeft = 1;
+                    break;
+
+                default:
+                    Point center = proj.Center.ToTileCoordinates();
+                    DelegateMethods.v2_1 = center.ToVector2();
+                    DelegateMethods.f_1 = 3f;
+
+                    switch (rocketType)
+                    {
+                        case ItemID.DryRocket:
+                            DelegateMethods.f_1 = 3.5f;
+                            Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
+                            break;
+
+                        case ItemID.WetRocket:
+                            Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
+                            break;
+
+                        case ItemID.LavaRocket:
+                            Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
+                            break;
+
+                        case ItemID.HoneyRocket:
+                            Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
+                            break;
+                    }
+
+                    break;
             }
         }
         #endregion

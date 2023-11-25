@@ -124,6 +124,7 @@ MarksmanShot.DisplayName: Marksman Shot
 MechanicalBarracuda.DisplayName: Barracuda
 MeowCreature.DisplayName: the creature :3
 MeowFire.DisplayName: Purr Fire
+MineralMortarProjectile.DisplayName: Onyx Bomb
 MiniatureFolly.DisplayName: Miniature Folly
 MiniRocket.DisplayName: Rocket
 MiniSharkron.DisplayName: Mini Sharkron
@@ -139,7 +140,6 @@ NovaShot.DisplayName: Nova Bolt
 Nuke.DisplayName: Nuke
 NullShot.DisplayName: Null
 NullShot2.DisplayName: Null
-OnyxSharkBomb.DisplayName: Onyx Shark
 OpalChargedStrike.DisplayName: Charged Plasma Bolt
 OpalStrike.DisplayName: Heated Bolt
 PiercingBullet.DisplayName: Piercing Blow
@@ -173,7 +173,6 @@ RicoshotCoin.DisplayName: Ricoshot Coin
 RocketFire.DisplayName: Fire
 RubberMortarRoundProj.DisplayName: Rubber Mortar
 SandstormBullet.DisplayName: Sandstorm
-SandyWaifuShark.DisplayName: Shark
 ScorchedEarthBlast.DisplayName: Earth Scorcher
 ScorchedEarthClusterBomb.DisplayName: Cluster Bomb
 ScorchedEarthRocket.DisplayName: Rocket
