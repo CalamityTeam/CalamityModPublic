@@ -509,6 +509,7 @@ namespace CalamityMod.CalPlayer
         public int ascendantInsigniaCooldown = 0;
         public bool ascendantTrail = false;
         public bool eGauntlet = false;
+        public int gloveLevel = 0; // Used to prevent glove stacking
         public bool eTalisman = false;
         public int statisTimer = 0;
         public bool nucleogenesis = false;
@@ -1677,6 +1678,7 @@ namespace CalamityMod.CalPlayer
             ascendantInsignia = false;
             ascendantTrail = false;
             eGauntlet = false;
+            gloveLevel = 0;
             eTalisman = false;
             nucleogenesis = false;
             nuclearFuelRod = false;

@@ -1163,24 +1163,40 @@ namespace CalamityMod.Items
             if (item.type == ItemID.FireGauntlet)
             {
                 player.GetDamage<MeleeDamageClass>() += 0.02f;
-                player.GetAttackSpeed<MeleeDamageClass>() += 0.02f;
             }
             
-            //Feral Claws line melee speed adjustments
+            // Feral Claws line melee speed adjustments and nonstacking
+            // First removes all their melee speed so it can be given based on which you wear without stacking
             if (item.type == ItemID.FeralClaws)
             {
-                player.GetAttackSpeed<MeleeDamageClass>() -= 0.02f;
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.12f; // Feral Claws 10%
+                if (modPlayer.gloveLevel < 1)
+                    modPlayer.gloveLevel = 1;
             }
-
-             if (item.type == ItemID.PowerGlove)
+            if (item.type == ItemID.PowerGlove)
             {
-                player.GetAttackSpeed<MeleeDamageClass>() -= 0.02f;
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.12f; // Power Glove 10%
+                if (modPlayer.gloveLevel < 2)
+                    modPlayer.gloveLevel = 2;
             }
-
-             if (item.type == ItemID.BerserkerGlove)
+            if (item.type == ItemID.BerserkerGlove)
             {
-                player.GetAttackSpeed<MeleeDamageClass>() -= 0.12f;
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.12f; // Berserker Glove 0%
             }
+            if (item.type == ItemID.MechanicalGlove)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.12f; // Mechanical Glove 12%
+                if (modPlayer.gloveLevel < 3)
+                    modPlayer.gloveLevel = 3;
+            }
+            if (item.type == ItemID.FireGauntlet)
+            {
+                player.GetAttackSpeed<MeleeDamageClass>() -= 0.12f; // Fire Gauntlet 14%
+                if (modPlayer.gloveLevel < 4)
+                    modPlayer.gloveLevel = 4;
+            }
+            if (modPlayer.eGauntlet && modPlayer.gloveLevel < 5) // Elemental Gauntlet 15%
+                modPlayer.gloveLevel = 5;
 
             //Celestial Stone line melee speed removal
             if (item.type == ItemID.SunStone)

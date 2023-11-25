@@ -638,7 +638,8 @@ ElementalGauntlet: {
 	Tooltip:
 		'''
 		Melee attacks and projectiles inflict Elemental Mix
-		15% increased melee speed, damage, and 5% increased melee critical strike chance
+		15% increased melee damage and 5% increased melee critical strike chance
+		15% increased melee speed, does not stack with downgrades
 		20% increased true melee damage
 		Increased melee knockback
 		Enables auto swing for melee weapons

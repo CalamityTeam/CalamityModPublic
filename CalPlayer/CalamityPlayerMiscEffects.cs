@@ -2620,9 +2620,16 @@ namespace CalamityMod.CalPlayer
 
             if (eGauntlet)
             {
-                Player.kbGlove = true;
                 Player.GetDamage<MeleeDamageClass>() += 0.15f;
                 Player.GetCritChance<MeleeDamageClass>() += 5;
+            }
+
+            // Gauntlet Melee Speed, prevents glove stacking for melee speed
+            if (gloveLevel > 0)
+            {
+                // Determine the glove the player benefits from in priority of latest in progression
+                float gloveAttackSpeed = (gloveLevel == 5 ? 0.15f : gloveLevel == 4 ? 0.14f : gloveLevel == 3 ? 0.12f : gloveLevel <= 2 ? 0.10f : 0);
+                Player.GetAttackSpeed<MeleeDamageClass>() += gloveAttackSpeed; // Give the player attack speed based on the glove they have
             }
 
             // Bloodflare Core's heal over time
