@@ -64,8 +64,8 @@ namespace CalamityMod.Balancing
                 // Nerf Luminite Arrow trails by 50%.
                 Do(new ProjectileResistBalancingRule(0.5f, ProjectileID.MoonlordArrowTrail)),
                 
-                // Nerf Seedler seeds by 66.6%.
-                Do(new ProjectileResistBalancingRule(1f / 3f, ProjectileID.SeedlerNut, ProjectileID.SeedlerThorn)),
+                // Nerf Seedler seeds by 25%.
+                Do(new ProjectileResistBalancingRule(0.75f, ProjectileID.SeedlerNut, ProjectileID.SeedlerThorn)),
 
                 // Nerf Cursed Dart flames by 50%.
                 Do(new ProjectileResistBalancingRule(0.5f, ProjectileID.CursedDartFlame)),
@@ -142,7 +142,7 @@ namespace CalamityMod.Balancing
             #endregion
 
             #region Astrum Aureus
-            //35% resist to The Ballista's greatarrows.
+            // 35% resist to The Ballista's greatarrows.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<AstrumAureus>(), Do(new ProjectileResistBalancingRule(0.65f, ProjectileType<BallistaGreatArrow>()))));
             #endregion
 
@@ -237,22 +237,19 @@ namespace CalamityMod.Balancing
             #endregion
 
             #region The Devourer of Gods
-            // 15% vulnerability to Time Bolt stealth strikes.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DevourerOfGodsIDs, Do(new StealthStrikeBalancingRule(1.15f, ProjectileType<TimeBoltKnife>()))));
+            // 40% resist to Eidolic Wail.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DevourerOfGodsIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<EidolicWailSoundwave>()))));
 
             // 35% resist to Venusian Trident's explosions.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DevourerOfGodsIDs, Do(new ProjectileResistBalancingRule(0.65f, ProjectileType<VenusianBolt>(), ProjectileType<VenusianExplosion>()))));
 
-            // 40% resist to Eidolic Wail.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DevourerOfGodsIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<EidolicWailSoundwave>()))));
+            // 15% vulnerability to Time Bolt stealth strikes.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DevourerOfGodsIDs, Do(new StealthStrikeBalancingRule(1.15f, ProjectileType<TimeBoltKnife>()))));
             #endregion The Devourer of Gods
 
             #region Yharon
             // 15% resist to Time Bolt.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Yharon>(), Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<TimeBoltKnife>()))));
-
-            // 5% resist to Old Reaper.
-            //NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Yharon>(), Do(new ProjectileResistBalancingRule(0.95f, ProjectileType<ReaperProjectile>()))));
             #endregion
 
             #region Exo Mechs: Ares
@@ -333,6 +330,9 @@ namespace CalamityMod.Balancing
             // 30% resist to Eclipse Fall.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<EclipsesFallMain>()))));
 
+            // 30% resist to Prismatic Breaker's laser beam.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<PrismaticBeam>()))));
+
             // 30% resist to Pulse Rifle.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<PulseRifleShot>()))));
             
@@ -341,9 +341,6 @@ namespace CalamityMod.Balancing
 
             // 30% resist to Dragon Scales and The Wand's tornadoes
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<InfernadoFriendly>(), ProjectileType<DragonScalesInfernado>()))));
-
-            // 30% resist to Prismatic Breaker's laser beam.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<PrismaticBeam>()))));
 
             // 25% resist to the Spin Throw part of the Ark of the Cosmos' combo.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.75f, AotCThrowCombo))));
@@ -354,12 +351,6 @@ namespace CalamityMod.Balancing
             // 25% resist to Gael's Greatsword's big skulls.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.75f, BigGaelsSkullFilter))));
 
-            // 15% resist to Godslayer Slugs.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<GodSlayerSlugProj>()))));
-
-            // 15% resist to Luminite Bullets.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileID.MoonlordBullet))));
-
             // 25% resist to Zenith.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileID.FinalFractal))));
 
@@ -369,18 +360,23 @@ namespace CalamityMod.Balancing
             // 20% resist to Eradicator beams.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<NebulaShot>()))));
 
+            // 20% resist to Plasma Grenade and Dynamic Pursuer's explosions
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<PlasmaGrenadeProjectile>(),ProjectileType<PlasmaGrenadeSmallExplosion>(), ProjectileType<MassivePlasmaExplosion>()))));
+
             // 20% resist to Voltaic Climax / Void Vortex hitscan beams.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<ClimaxBeam>()))));
-
-            // 20% resist to Plasma grenades and Dynamic Pursuer's explosions
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<PlasmaGrenadeProjectile>(),ProjectileType<PlasmaGrenadeSmallExplosion>(), ProjectileType<MassivePlasmaExplosion>()))));
 
             // 15% resist to Final Dawn AoE sweep flames.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<FinalDawnFlame>()))));
 
+            // 15% resist to Godslayer Slugs.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<GodSlayerSlugProj>()))));
+
             // 15% resist to Gruesome Eminence.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<SpiritCongregation>()))));
 
+            // 15% resist to Luminite Bullets.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileID.MoonlordBullet))));
             #endregion
 
             #region Supreme Calamitas: Brimstone Hearts

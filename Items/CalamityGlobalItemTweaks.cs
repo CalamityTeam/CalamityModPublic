@@ -201,7 +201,7 @@ namespace CalamityMod.Items
                 { ItemID.Sandgun, Do(PointBlank, DamageExact(22), UseExact(20)) },
                 { ItemID.SapphireStaff, Do(DamageExact(25)) },
                 { ItemID.SDMG, Do(PointBlank, DamageExact(80)) },
-                { ItemID.Seedler, Do(UseMeleeSpeed, DamageRatio(1.5f)) },
+                { ItemID.Seedler, Do(UseMeleeSpeed, DamageExact(75), ShootSpeedDelta(+4f)) },
                 { ItemID.ShadowbeamStaff, Do(DamageExact(100)) },
                 { ItemID.ShadowFlameBow, Do(PointBlank, DamageExact(55)) },
                 { ItemID.ShadowFlameHexDoll, Do(DamageExact(40), ShootSpeedExact(30)) },
