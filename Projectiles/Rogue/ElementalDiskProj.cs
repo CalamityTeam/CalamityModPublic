@@ -63,8 +63,8 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.ai[0] == 1f)
             {
                 Player player = Main.player[Projectile.owner];
-                float returnSpeed = 10f;
-                float acceleration = 0.5f;
+                float returnSpeed = 14f;
+                float acceleration = Projectile.Calamity().stealthStrike ? 0.45f : 0.6f;
                 Vector2 playerVec = player.Center - Projectile.Center;
                 float dist = playerVec.Length();
 
@@ -137,11 +137,11 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (homeIn)
             {
-                int counter = Projectile.Calamity().stealthStrike ? 35 : 50;
+                int counter = Projectile.Calamity().stealthStrike ? 40 : 60;
                 if (Main.player[Projectile.owner].miscCounter % counter == 0)
                 {
                     int splitProj = ModContent.ProjectileType<ElementalDiskSplit>();
-                    if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[splitProj] < 20)
+                    if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[splitProj] < 16)
                     {
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;

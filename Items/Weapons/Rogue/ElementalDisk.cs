@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 38;
-            Item.damage = 100;
+            Item.damage = 92;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
@@ -32,7 +32,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override float StealthVelocityMultiplier => 0.8f;
+        public override float StealthVelocityMultiplier => 0.7f;
+        public override float StealthDamageMultiplier => 0.75f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -43,7 +44,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 {
                     Main.projectile[proj].Calamity().stealthStrike = true;
                     Main.projectile[proj].timeLeft *= stealthTimeMult;
-                    Main.projectile[proj].localNPCHitCooldown *= 2;
                 }
                 return false;
             }
