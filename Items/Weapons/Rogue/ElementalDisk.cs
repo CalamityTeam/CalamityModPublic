@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     [LegacyName("AccretionDisk")]
     public class ElementalDisk : RogueWeapon
     {
+        public static int stealthTimeMult = 2;
         public override void SetDefaults()
         {
             Item.width = 38;
@@ -18,20 +19,20 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
-            Item.useAnimation = 15;
+            Item.useAnimation = 16;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 15;
+            Item.useTime = 16;
             Item.knockBack = 9f;
             Item.UseSound = SoundID.Item1;
             Item.height = 38;
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.shoot = ModContent.ProjectileType<ElementalDiskProj>();
-            Item.shootSpeed = 13f;
+            Item.shootSpeed = 15f;
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override float StealthVelocityMultiplier => 0.7f;
+        public override float StealthVelocityMultiplier => 0.8f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -41,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 if (proj.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[proj].Calamity().stealthStrike = true;
-                    Main.projectile[proj].timeLeft *= 3;
+                    Main.projectile[proj].timeLeft *= stealthTimeMult;
                     Main.projectile[proj].localNPCHitCooldown *= 2;
                 }
                 return false;

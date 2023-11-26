@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -55,15 +56,15 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             // Returns after some number of frames in the air
-            int timeMult = Projectile.Calamity().stealthStrike ? 3 : 1;
+            int timeMult = Projectile.Calamity().stealthStrike ? ElementalDisk.stealthTimeMult : 1;
             if (Projectile.timeLeft < Lifetime * timeMult - ReboundTime * timeMult)
                 Projectile.ai[0] = 1f;
 
             if (Projectile.ai[0] == 1f)
             {
                 Player player = Main.player[Projectile.owner];
-                float returnSpeed = 9f;
-                float acceleration = 0.4f;
+                float returnSpeed = 10f;
+                float acceleration = 0.5f;
                 Vector2 playerVec = player.Center - Projectile.Center;
                 float dist = playerVec.Length();
 
@@ -140,7 +141,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Main.player[Projectile.owner].miscCounter % counter == 0)
                 {
                     int splitProj = ModContent.ProjectileType<ElementalDiskSplit>();
-                    if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[splitProj] < 25)
+                    if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[splitProj] < 20)
                     {
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Projectile.velocity.X, Projectile.velocity.Y) - spread / 2;
@@ -153,9 +154,10 @@ namespace CalamityMod.Projectiles.Rogue
                             int disk2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), splitProj, Projectile.damage, Projectile.knockBack, Projectile.owner);
                             if (Projectile.Calamity().stealthStrike)
                             {
-                                Main.projectile[disk].idStaticNPCHitCooldown = Main.projectile[disk2].idStaticNPCHitCooldown = 6;
+                                Main.projectile[disk].idStaticNPCHitCooldown = Main.projectile[disk2].idStaticNPCHitCooldown = 8;
                                 Main.projectile[disk].usesIDStaticNPCImmunity = Main.projectile[disk2].usesIDStaticNPCImmunity = true;
-                                Main.projectile[disk].timeLeft = Main.projectile[disk2].timeLeft = 90;
+                                Main.projectile[disk].timeLeft = Main.projectile[disk2].timeLeft = 60;
+                                Main.projectile[disk].Calamity().CannotProc = Main.projectile[disk2].Calamity().CannotProc = true;
                             }
                         }
                     }
