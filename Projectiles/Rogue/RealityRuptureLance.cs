@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 sparkVelocity = Projectile.velocity.RotatedByRandom(0.25f) * Main.rand.NextFloat(0.3f, 1.8f);
                 Dust dust = Dust.NewDustPerfect(Projectile.Center - Projectile.velocity * 0.5f, Main.rand.NextBool(4) ? 242 : 310, sparkVelocity, 0, default, Main.rand.NextFloat(2.2f, 3.5f));
                 dust.noGravity = true;
-                dust.fadeIn = 0.5f
+                dust.fadeIn = 0.5f;
             }
             SoundEngine.PlaySound(Hitsound, Projectile.Center);
         }
