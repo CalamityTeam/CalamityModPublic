@@ -44,9 +44,15 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         /// <see cref="ProjectileID.Sets.DrawScreenCheckFluff"/> is set to this value.<br/>
         /// Defaults to 1200f (75 tiles).
         /// </summary>
-        public virtual float MaxEnemyDistanceDetection => 1200f;
-        private const float MinEnemyDistanceDetection = 960f;
-        private float AdaptiveEnemyDistanceDetection => Target == null ? MinEnemyDistanceDetection : MaxEnemyDistanceDetection;
+        public virtual float EnemyDistanceDetection => 1200f;
+
+        /// <summary>
+        /// The min distance in which the minion can detect an enemy before it goes to its correspondent enemy distance detection.
+        /// Defaults to 960f (60 tiles), the radius of a 1080p monitor at max zoom.
+        /// </summary>
+        public virtual float MinEnemyDistanceDetection => 960f;
+
+        private float AdaptiveEnemyDistanceDetection => Target == null ? MinEnemyDistanceDetection : EnemyDistanceDetection;
 
         /// <summary>
         /// The amount of local I-Frames this minion has.<br/>
@@ -103,7 +109,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             ProjectileID.Sets.MinionTargettingFeature[Type] = true;
             ProjectileID.Sets.TrailingMode[Type] = TrailingMode;
             ProjectileID.Sets.TrailCacheLength[Type] = TrailCacheLength;
-            ProjectileID.Sets.DrawScreenCheckFluff[Type] = (int)MaxEnemyDistanceDetection;
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = (int)EnemyDistanceDetection;
         }
 
         public override void SetDefaults()

@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon
         public void FollowPlayer()
         {
             // If the minion starts to get far, force the minion to go to you.
-            if (Projectile.WithinRange(Owner.Center, MaxEnemyDistanceDetection) && !Projectile.WithinRange(Owner.Center, 300f))
+            if (Projectile.WithinRange(Owner.Center, EnemyDistanceDetection) && !Projectile.WithinRange(Owner.Center, 300f))
                 Projectile.velocity = (Owner.Center - Projectile.Center) / 30f;
 
             // The minion will change directions to you if it's going away from you, meaning it'll just hover around you.
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.velocity = (Projectile.velocity * 37f + Projectile.SafeDirectionTo(Owner.Center) * 17f) / 40f;
 
             // Teleport to the owner if sufficiently far away.
-            if (!Projectile.WithinRange(Owner.Center, MaxEnemyDistanceDetection))
+            if (!Projectile.WithinRange(Owner.Center, EnemyDistanceDetection))
             {
                 Projectile.position = Owner.Center;
                 Projectile.velocity *= 0.3f;
