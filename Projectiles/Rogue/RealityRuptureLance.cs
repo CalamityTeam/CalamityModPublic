@@ -69,11 +69,14 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            for (int i = 0; i <= 4; i++)
+            for (int i = 0; i <= 13; i++)
             {
-                Dust dust2 = Main.dust[Dust.NewDust(target.position, Projectile.width, Projectile.height, Main.rand.NextBool(4) ? 242 : 310, Projectile.oldVelocity.X * Main.rand.NextFloat(1.1f, 1.3f), Projectile.oldVelocity.Y * Main.rand.NextFloat(1.1f, 1.3f), 0, default, 1.1f)];
+                Vector2 sparkVelocity = Projectile.velocity.RotatedByRandom(0.25f) * Main.rand.NextFloat(0.3f, 1.8f);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center - Projectile.velocity * 0.5f, Main.rand.NextBool(4) ? 242 : 310, sparkVelocity, 0, default, Main.rand.NextFloat(2.2f, 3.5f));
+                dust.noGravity = true;
+                dust.fadeIn = 0.5f
             }
-            SoundEngine.PlaySound(Hitsound, Projectile.position);
+            SoundEngine.PlaySound(Hitsound, Projectile.Center);
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {

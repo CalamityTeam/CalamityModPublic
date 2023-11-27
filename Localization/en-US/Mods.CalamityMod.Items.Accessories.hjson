@@ -1977,7 +1977,7 @@ WulfrumBattery: {
 	DisplayName: Wulfrum Battery
 	Tooltip:
 		'''
-		Empowers your summons with wulfrum energy, letting them emit light around them
+		Empowers your summons with wulfrum energy, letting them emit light around them if visibility is enabled
 		7% increased summon damage
 		50% chance to get an extra scrap when killing wulfrum robots
 		Can also be scrapped at an extractinator
