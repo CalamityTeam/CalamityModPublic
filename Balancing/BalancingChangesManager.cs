@@ -265,8 +265,8 @@ namespace CalamityMod.Balancing
             // 25% resist to Aetherflux Cannon.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<PhasedGodRay>()))));
             
-            // 25% resist to Murasama.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<MurasamaSlash>()))));
+            // 15% resist to Murasama.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<MurasamaSlash>()))));
 
             // 20% resist to the Spin Throw part of the Ark of the Cosmos' combo.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.8f, AotCThrowCombo))));
@@ -397,9 +397,6 @@ namespace CalamityMod.Balancing
 
             // 50% resist to Subsuming Vortex.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.5f, ProjectileType<ExoVortex>(), ProjectileType<ExoVortex2>(), ProjectileType<EnormousConsumingVortex>())));
-
-            // 30% resist to Murasama.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.7f, ProjectileType<MurasamaSlash>())));
 
             // 30% resist to Zenith.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.7f, ProjectileID.FinalFractal)));
