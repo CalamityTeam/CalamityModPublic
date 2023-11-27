@@ -264,9 +264,6 @@ namespace CalamityMod.Balancing
 
             // 25% resist to Aetherflux Cannon.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<PhasedGodRay>()))));
-            
-            // 15% resist to Murasama.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<MurasamaSlash>()))));
 
             // 20% resist to the Spin Throw part of the Ark of the Cosmos' combo.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileSpecificRequirementBalancingRule(0.8f, AotCThrowCombo))));
@@ -285,6 +282,9 @@ namespace CalamityMod.Balancing
 
             // 15% resist to Enforcer projectiles.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<EssenceFlame2>()))));
+
+            // 15% resist to Murasama.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AresIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<MurasamaSlash>()))));
             #endregion
 
             #region Exo Mechs: Artemis and Apollo
@@ -403,14 +403,14 @@ namespace CalamityMod.Balancing
             // 25% resist to Yharim's Crystal.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.75f, ProjectileType<YharimsCrystalBeam>())));
 
-            // 10% resist to Surge Driver's alt click comets.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.9f, ProjectileType<PrismComet>())));
+            // 10% resist to Celestus.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.9f, ProjectileType<CelestusProj>(), ProjectileType<CelestusMiniScythe>())));
 
             // 10% resist to Executioner's Blade stealth strikes.
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.9f, ProjectileType<ExecutionersBladeStealthProj>())));
-
-            // 10% resist to Celestus.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.9f, ProjectileType<CelestusProj>(), ProjectileType<CelestusMiniScythe>())));
+            
+            // 10% resist to Surge Driver's alt click comets.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(0.9f, ProjectileType<PrismComet>())));
 
             // 15% vulnerability to The Atom Splitter. (Yes, this is kinda weird, but it's what Piky asked for).
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<SoulSeekerSupreme>(), new ProjectileResistBalancingRule(1.15f, ProjectileType<TheAtomSplitterProjectile>(), ProjectileType<TheAtomSplitterDuplicate>())));
