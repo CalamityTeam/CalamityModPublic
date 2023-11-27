@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Placeables.Furniture
         public new string LocalizationCategory => "Items.Placeables";
         public override void SetDefaults()
         {
-            Item.width = 26;
-            Item.height = 22;
+            Item.width = 32;
+            Item.height = 26;
             Item.maxStack = 9999;
             Item.useTurn = true;
             Item.autoReuse = true;

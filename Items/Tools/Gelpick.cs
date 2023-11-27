@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Tools
 
             Item.DamageType = DamageClass.Melee;
             Item.width = 46;
-            Item.height = 46;
+            Item.height = 48;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
