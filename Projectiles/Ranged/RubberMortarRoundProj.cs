@@ -232,7 +232,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         private void DestroyTiles()
         {
-            Projectile.ExplodeandDestroyTiles(5, true, new List<int>(), new List<int>());
+            Projectile.ExplodeTiles(5, true);
         }
     }
 }

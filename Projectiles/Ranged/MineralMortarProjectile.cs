@@ -98,7 +98,13 @@ namespace CalamityMod.Projectiles.Ranged
             const int MediumRadius = 7;
             const int BigRadius = 10;
 
-            Projectile.CorrespondingRocketBehaviour(RocketType, SmallRadius, MediumRadius, BigRadius, out int blastRadius);
+            var info = new CalamityUtils.RocketBehaviorInfo(Projectile.type)
+            {
+                smallRadius = SmallRadius,
+                mediumRadius = MediumRadius,
+                largeRadius = BigRadius
+            };
+            int blastRadius = Projectile.RocketBehavior(info);
             Projectile.ExpandHitboxBy((float)blastRadius);
             Projectile.Damage();
 

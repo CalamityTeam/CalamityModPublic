@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.ExplodeandDestroyTiles(5, true, new List<int>(), new List<int>());
+                Projectile.ExplodeTiles(5, true);
             }
         }
     }

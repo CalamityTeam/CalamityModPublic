@@ -65,11 +65,11 @@ namespace CalamityMod.Projectiles.Ranged
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
 
-			if (RocketType == ItemID.DryRocket || RocketType == ItemID.WetRocket || RocketType == ItemID.LavaRocket || RocketType == ItemID.HoneyRocket)
-			{
-				if (Projectile.wet)
-					Projectile.timeLeft = 1;
-			}
+            if (RocketType == ItemID.DryRocket || RocketType == ItemID.WetRocket || RocketType == ItemID.LavaRocket || RocketType == ItemID.HoneyRocket)
+            {
+                if (Projectile.wet)
+                    Projectile.timeLeft = 1;
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -190,28 +190,28 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.ExpandHitboxBy(14);
 
             if (blastRadius > 0)
-                Projectile.ExplodeandDestroyTiles(blastRadius, true, new List<int>(), new List<int>());
+                Projectile.ExplodeTiles(blastRadius);
 
-			Point center = Projectile.Center.ToTileCoordinates();
-			DelegateMethods.v2_1 = center.ToVector2();
-			DelegateMethods.f_1 = 3f;
-			if (RocketType == ItemID.DryRocket)
-			{
-				DelegateMethods.f_1 = 3.5f;
-				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
-			}
-			else if (RocketType == ItemID.WetRocket)
-			{
-				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
-			}
-			else if (RocketType == ItemID.LavaRocket)
-			{
-				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
-			}
-			else if (RocketType == ItemID.HoneyRocket)
-			{
-				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
-			}
+            Point center = Projectile.Center.ToTileCoordinates();
+            DelegateMethods.v2_1 = center.ToVector2();
+            DelegateMethods.f_1 = 3f;
+            if (RocketType == ItemID.DryRocket)
+            {
+                DelegateMethods.f_1 = 3.5f;
+                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
+            }
+            else if (RocketType == ItemID.WetRocket)
+            {
+                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
+            }
+            else if (RocketType == ItemID.LavaRocket)
+            {
+                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
+            }
+            else if (RocketType == ItemID.HoneyRocket)
+            {
+                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
+            }
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
