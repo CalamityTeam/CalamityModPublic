@@ -2032,7 +2032,7 @@ namespace CalamityMod
                         if (args.Length < 2 || args[1] is not int[] npcs)
                             return new ArgumentException("ERROR: The first argument to \"SetNewShopVariable\" must be an integer array of npc ids that should be alerted.");
                         if (args.Length != 3 || args[2] is not bool alreadySet)
-                            return new ArgumentException("ERROR: The third argument to \"SetNewShopVariable\" Must be a bool that determines if the shop alert should show.");
+                            return new ArgumentException("ERROR: The second argument to \"SetNewShopVariable\" Must be a bool that determines if the shop alert should show.");
                         CalamityGlobalNPC.SetNewShopVariable(npcs, alreadySet);
                         return null;
                     }
