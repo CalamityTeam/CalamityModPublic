@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Ranged
             const int MediumRadius = 7;
             const int BigRadius = 10;
 
-            var info = new CalamityUtils.RocketBehaviorInfo(Projectile.type)
+            var info = new CalamityUtils.RocketBehaviorInfo((int)RocketType)
             {
                 smallRadius = SmallRadius,
                 mediumRadius = MediumRadius,
