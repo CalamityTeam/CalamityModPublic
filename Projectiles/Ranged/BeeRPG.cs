@@ -81,12 +81,11 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnKill(int timeLeft)
         {
+            var info = new CalamityUtils.RocketBehaviorInfo((int)RocketType);
+            int blastRadius = Projectile.RocketBehavior(info);
             Projectile.ExpandHitboxBy(32);
-            Projectile.maxPenetrate = -1;
-            Projectile.penetrate = -1;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
+
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int j = 0; j < 12; j++)
@@ -111,6 +110,10 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                 }
             }
+
+            if (Main.dedServ)
+                return;
+
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int i = 0; i < 5; i++)
             {
@@ -173,44 +176,6 @@ namespace CalamityMod.Projectiles.Ranged
                     gore.velocity.X -= 1f;
                     gore.velocity.Y -= 1f;
                 }
-            }
-
-            // Only do rocket effects for the owner client side
-            if (Projectile.owner != Main.myPlayer)
-                return;
-
-            int blastRadius = 0;
-            if (RocketType == ItemID.RocketII)
-                blastRadius = 3;
-            else if (RocketType == ItemID.RocketIV)
-                blastRadius = 6;
-            else if (RocketType == ItemID.MiniNukeII)
-                blastRadius = 9;
-
-            Projectile.ExpandHitboxBy(14);
-
-            if (blastRadius > 0)
-                Projectile.ExplodeTiles(blastRadius);
-
-            Point center = Projectile.Center.ToTileCoordinates();
-            DelegateMethods.v2_1 = center.ToVector2();
-            DelegateMethods.f_1 = 3f;
-            if (RocketType == ItemID.DryRocket)
-            {
-                DelegateMethods.f_1 = 3.5f;
-                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
-            }
-            else if (RocketType == ItemID.WetRocket)
-            {
-                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
-            }
-            else if (RocketType == ItemID.LavaRocket)
-            {
-                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
-            }
-            else if (RocketType == ItemID.HoneyRocket)
-            {
-                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
             }
         }
 

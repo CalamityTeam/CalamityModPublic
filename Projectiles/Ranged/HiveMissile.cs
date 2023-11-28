@@ -1,11 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class HiveMissile : ModProjectile, ILocalizedModType
@@ -81,12 +80,16 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnKill(int timeLeft)
         {
+            var info = new CalamityUtils.RocketBehaviorInfo((int)RocketType)
+            {
+                smallRadius = 5,
+                mediumRadius = 8,
+                largeRadius = 11
+            };
+            int blastRadius = Projectile.RocketBehavior(info);
             Projectile.ExpandHitboxBy(80);
-            Projectile.maxPenetrate = -1;
-            Projectile.penetrate = -1;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
+
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int j = 0; j < 3; j++)
@@ -111,6 +114,10 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                 }
             }
+
+            if (Main.dedServ)
+                return;
+
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             for (int i = 0; i < 20; i++)
             {
@@ -173,44 +180,6 @@ namespace CalamityMod.Projectiles.Ranged
                     gore.velocity.X -= 1f;
                     gore.velocity.Y -= 1f;
                 }
-            }
-
-            // Only do rocket effects for the owner client side
-            if (Projectile.owner != Main.myPlayer)
-                return;
-
-            int blastRadius = 0;
-            if (RocketType == ItemID.RocketII)
-                blastRadius = 5;
-            else if (RocketType == ItemID.RocketIV)
-                blastRadius = 8;
-            else if (RocketType == ItemID.MiniNukeII)
-                blastRadius = 11;
-
-            Projectile.ExpandHitboxBy(14);
-
-            if (blastRadius > 0)
-                Projectile.ExplodeTiles(blastRadius);
-
-            Point center = Projectile.Center.ToTileCoordinates();
-            DelegateMethods.v2_1 = center.ToVector2();
-            DelegateMethods.f_1 = 3f;
-            if (RocketType == ItemID.DryRocket)
-            {
-                DelegateMethods.f_1 = 3.5f;
-                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
-            }
-            else if (RocketType == ItemID.WetRocket)
-            {
-                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
-            }
-            else if (RocketType == ItemID.LavaRocket)
-            {
-                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
-            }
-            else if (RocketType == ItemID.HoneyRocket)
-            {
-                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
             }
         }
     }
