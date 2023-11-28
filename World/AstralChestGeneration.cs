@@ -32,7 +32,7 @@ namespace CalamityMod.World
             // The Astral Chest generates in style 1, which is locked.
             int chestStyle = 1;
 
-            // Define an undefined chest and attempt counters.
+            // Define an undefined chest and attempt counter for the loop below.
             Chest chest = null;
             int attempts = 0;
 

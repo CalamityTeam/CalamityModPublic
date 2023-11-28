@@ -19,7 +19,7 @@ namespace CalamityMod.ILEditing
         public static int DungeonBaseXLimit => DungeonBaseXLimitOverride ?? (SulphurousSea.BiomeWidth + 167);
 
         // This exists primarily for Infernum with its larger abyss, but other mods with a reference should be able to theoretically override it.
-        // Calamity by itself does not modify it.
+        // Calamity by itself does not change its value.
         public static int? DungeonHallXLimitOverride
         {
             get;
