@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Ammo
 {
     public class MortarRound : ModItem, ILocalizedModType
     {
-        internal static int TileBlastRadiusNormal = 2;
+        internal static int TileBlastRadiusNormal = 3;
         internal static int TileBlastRadiusGFB = 5;
         public static int TileBlastRadius => Main.getGoodWorld ? TileBlastRadiusGFB : TileBlastRadiusNormal;
         public static int HitboxBlastRadius => TileBlastRadius * 16 + 12;

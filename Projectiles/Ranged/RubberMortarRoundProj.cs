@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.width = 14;
             Projectile.height = 14;
             Projectile.friendly = true;
-            Projectile.penetrate = 2;
+            Projectile.penetrate = 3;
             Projectile.timeLeft = 300;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.usesLocalNPCImmunity = true;
@@ -90,12 +90,14 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.active = false;
                 return false;
             }
-            
+
             // Otherwise, the Rubber Mortar Round will explode AND bounce, in that order.
-            
-            // Penetrate has to be set to -1 for the explosion to work correctly, so store its previous value.
+
+            // Explosions change both the penetrate value and hitbox, so the previous values have to be stored.
+            Rectangle origHitbox = Projectile.Hitbox;
             int origPen = Projectile.penetrate;
             Explode();
+            Projectile.Hitbox = origHitbox;
             Projectile.penetrate = origPen;
 
             // Each bounce consumes a penetrate value.
