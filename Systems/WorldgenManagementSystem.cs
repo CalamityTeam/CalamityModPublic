@@ -41,13 +41,13 @@ namespace CalamityMod.Systems
                 }));
             }
 
-            // Replace the entire fucking Dungeon generation pass because nothing else will work as intended
+            // Generate the Astral Chest right after the dungeon has finished generating
             int DungeonIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Dungeon"));
-            tasks[DungeonIndex] = new PassLegacy("Dungeon", (progress, config) =>
+            tasks.Insert(DungeonIndex + 1, new PassLegacy("Astral Chest", (progress, config) =>
             {
-                progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.BetterDungeon").Value;
-                CustomDungeon.NewDungeon();
-            });
+                progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.AstralChest").Value;
+                AstralChestGeneration.PlaceAstralChest();
+            }));
 
             // Larger Jungle Temple
             int JungleTempleIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Jungle Temple"));
@@ -190,7 +190,7 @@ namespace CalamityMod.Systems
                     {
                         progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.CorruptShrine").Value;
                         UndergroundShrines.PlaceCorruptionShrine(GenVars.structures);
-                    }                    
+                    }
 
                     progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.DesertShrine").Value;
                     UndergroundShrines.PlaceDesertShrine(GenVars.structures);
