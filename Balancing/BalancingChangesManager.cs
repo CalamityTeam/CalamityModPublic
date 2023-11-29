@@ -138,7 +138,7 @@ namespace CalamityMod.Balancing
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<CryoBlast>()))));
 
             // 40% resist to Mineral Mortar's Projectile.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<MineralMortarProjectile>()))));
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<MineralMortarProjectile>()))));
 
             // 15% resist to Snowstorm Staff.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<Snowflake>()))));
