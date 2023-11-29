@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public float Charge = 0f;
 
         public static float NeedleDamageMultiplier = 0.7f; //Damage on the non-homing needle projectile
-        public static float MaxThrowReach = 650;
+        public static float MaxThrowReach = 760;
         public static float snapDamageMultiplier = 1.2f; //Extra damage from making the scissors snap
 
         public static float chargeDamageMultiplier = 1.4f; //Extra damage from charge
