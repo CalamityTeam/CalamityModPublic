@@ -13,20 +13,14 @@ namespace CalamityMod.Items.Weapons.Summon
     public class SlimePuppetStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
-        public override void SetStaticDefaults()
-        {
-            // In other words, bootleg mage :TaxEvasion:
-            Item.staff[Item.type] = true;
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 26;
             Item.mana = 10;
-            Item.width = 48;
-            Item.height = 56;
+            Item.width = 32;
+            Item.height = 34;
             Item.useTime = Item.useAnimation = 29;
-            Item.useStyle = ItemUseStyleID.Shoot;
+            Item.useStyle = ItemUseStyleID.HoldUp;
             Item.noMelee = true;
             Item.knockBack = 3.6f;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;

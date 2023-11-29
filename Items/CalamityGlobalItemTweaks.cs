@@ -107,7 +107,7 @@ namespace CalamityMod.Items
                 { ItemID.Flairon, Do(DamageExact(73)) },
                 { ItemID.Flamarang, Do(DamageExact(43)) },
                 { ItemID.Flamelash, Do(DamageRatio(1.25f)) },
-                { ItemID.Flamethrower, Do(DamageExact(24), ShootSpeedDelta(+3f)) },
+                { ItemID.Flamethrower, Do(DamageExact(21), ShootSpeedDelta(+3f)) },
                 { ItemID.FlowerofFire, Do(AutoReuse, ManaExact(7), UseRatio(0.88f), DamageRatio(0.65f)) }, // Uses ratios due to remix seed
                 { ItemID.FlowerofFrost, Do(AutoReuse, ManaExact(7), UseExact(22), DamageExact(70), ShootSpeedExact(14)) },
                 { ItemID.FlyingKnife, Do(DamageExact(53)) },
@@ -201,7 +201,7 @@ namespace CalamityMod.Items
                 { ItemID.Sandgun, Do(PointBlank, DamageExact(22), UseExact(20)) },
                 { ItemID.SapphireStaff, Do(DamageExact(25)) },
                 { ItemID.SDMG, Do(PointBlank, DamageExact(80)) },
-                { ItemID.Seedler, Do(UseMeleeSpeed, DamageRatio(1.5f)) },
+                { ItemID.Seedler, Do(UseMeleeSpeed, DamageExact(74), ShootSpeedDelta(+4f)) },
                 { ItemID.ShadowbeamStaff, Do(DamageExact(100)) },
                 { ItemID.ShadowFlameBow, Do(PointBlank, DamageExact(55)) },
                 { ItemID.ShadowFlameHexDoll, Do(DamageExact(40), ShootSpeedExact(30)) },

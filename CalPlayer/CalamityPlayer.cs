@@ -225,6 +225,7 @@ namespace CalamityMod.CalPlayer
         public int auralisAurora = 0;
         public int necroReviveCounter = -1;
         public int hideOfDeusTimer = 0;
+        public int murasamaHitCooldown = 0;
         public int giantShellPostHit = 0;
         public int tortShellPostHit = 0;
         public int spiritOriginBullseyeShootCountdown = 0;
@@ -509,6 +510,7 @@ namespace CalamityMod.CalPlayer
         public int ascendantInsigniaCooldown = 0;
         public bool ascendantTrail = false;
         public bool eGauntlet = false;
+        public int gloveLevel = 0; // Used to prevent glove stacking
         public bool eTalisman = false;
         public int statisTimer = 0;
         public bool nucleogenesis = false;
@@ -985,7 +987,7 @@ namespace CalamityMod.CalPlayer
         public bool wDroid = false;
         public bool resButterfly = false;
         public bool mWorm = false;
-        public bool iClasper = false;
+        public bool IceClasperBool = false;
         public bool magicHat = false;
         public bool herring = false;
         public bool blackhawk = false;
@@ -1677,6 +1679,7 @@ namespace CalamityMod.CalPlayer
             ascendantInsignia = false;
             ascendantTrail = false;
             eGauntlet = false;
+            gloveLevel = 0;
             eTalisman = false;
             nucleogenesis = false;
             nuclearFuelRod = false;
@@ -2008,7 +2011,7 @@ namespace CalamityMod.CalPlayer
             wDroid = false;
             resButterfly = false;
             mWorm = false;
-            iClasper = false;
+            IceClasperBool = false;
             magicHat = false;
             herring = false;
             blackhawk = false;
@@ -2268,6 +2271,7 @@ namespace CalamityMod.CalPlayer
             auralisAurora = 0;
             necroReviveCounter = -1;
             hideOfDeusTimer = 0;
+            murasamaHitCooldown = 0;
             RustyMedallionCooldown = 0;
             SulphWaterPoisoningLevel = 0f;
             holyInfernoFadeIntensity = 0f;

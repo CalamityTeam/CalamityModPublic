@@ -1,12 +1,10 @@
-﻿using CalamityMod.Tiles.Abyss;
-using CalamityMod.Walls;
+﻿using CalamityMod.Items.Ammo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -30,6 +28,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+
+            // If moving fast enough, produce dust. Since it's a bullet, it should always be moving fast enough.
             if (Projectile.velocity.Length() >= 8f)
             {
                 for (int d = 0; d < 2; d++)
@@ -59,180 +59,65 @@ namespace CalamityMod.Projectiles.Ranged
             return false;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
+        private void Explode()
         {
-            int penetrateAmt = Projectile.penetrate;
-            Projectile.ExpandHitboxBy(200);
+            // Apply damage a second time on explosion. This explosion also has double knockback.
+            Projectile.ExpandHitboxBy(MortarRound.HitboxBlastRadius);
             Projectile.maxPenetrate = Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
+            Projectile.knockBack *= 2f;
             Projectile.Damage();
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            Projectile.penetrate = penetrateAmt;
 
-            SpawnDust();
-
-            if (Main.netMode != NetmodeID.Server)
-            {
-                Vector2 goreSource = Projectile.Center;
-                int goreAmt = 3;
-                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
-                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
-                {
-                    float velocityMult = 0.33f;
-                    if (goreIndex < (goreAmt / 3))
-                    {
-                        velocityMult = 0.66f;
-                    }
-                    if (goreIndex >= (2 * goreAmt / 3))
-                    {
-                        velocityMult = 1f;
-                    }
-                    Mod mod = ModContent.GetInstance<CalamityMod>();
-                    int type = Main.rand.Next(61, 64);
-                    int smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
-                    Gore gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y += 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y += 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y -= 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y -= 1f;
-                }
-            }
-
-            Projectile.ExpandHitboxBy(14);
-
+            // Actually destroy tiles. Blast radius is significantly increased in GFB.
             if (Projectile.owner == Main.myPlayer)
-            {
-                DestroyTiles();
-            }
+                Projectile.ExplodeTiles(MortarRound.TileBlastRadius, true);
 
-            Projectile.penetrate--;
-            if (Projectile.penetrate <= 0)
+            // Play standard explosion sound.
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
+
+            // Spawn standard explosion dust and gores.
+            MortarRoundProj.SpawnDust(Projectile);
+            MortarRoundProj.SpawnExplosionGores(Projectile);
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            // If there are no bounces left, just explode with no other effects.
+            if (Projectile.penetrate <= 1)
             {
                 Projectile.Kill();
                 Projectile.active = false;
+                return false;
             }
-            else
+
+            // Otherwise, the Rubber Mortar Round will explode AND bounce, in that order.
+
+            // Explosions change both the penetrate value and hitbox, so the previous values have to be stored.
+            Rectangle origHitbox = Projectile.Hitbox;
+            int origPen = Projectile.penetrate;
+            Explode();
+            Projectile.Hitbox = origHitbox;
+            Projectile.penetrate = origPen;
+
+            // Each bounce consumes a penetrate value.
+            --Projectile.penetrate;
+
+            // If bounces are still left, bounce.
+            if (Projectile.velocity.X != oldVelocity.X)
             {
-                if (Projectile.velocity.X != oldVelocity.X)
-                {
-                    Projectile.velocity.X = -oldVelocity.X;
-                }
-                if (Projectile.velocity.Y != oldVelocity.Y)
-                {
-                    Projectile.velocity.Y = -oldVelocity.Y;
-                }
-                Projectile.velocity *= 1.25f;
+                Projectile.velocity.X = -oldVelocity.X;
             }
+            if (Projectile.velocity.Y != oldVelocity.Y)
+            {
+                Projectile.velocity.Y = -oldVelocity.Y;
+            }
+            Projectile.velocity *= 1.25f;
+
+            // Do not use vanilla tile collide logic.
             return false;
         }
 
-        public override void OnKill(int timeLeft)
-        {
-            Projectile.ExpandHitboxBy(200);
-            Projectile.maxPenetrate = Projectile.penetrate = -1;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
-            Projectile.knockBack *= 5f;
-            Projectile.Damage();
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-
-            SpawnDust();
-
-            if (Main.netMode != NetmodeID.Server)
-            {
-                Vector2 goreSource = Projectile.Center;
-                int goreAmt = 3;
-                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
-                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
-                {
-                    float velocityMult = 0.33f;
-                    if (goreIndex < (goreAmt / 3))
-                    {
-                        velocityMult = 0.66f;
-                    }
-                    if (goreIndex >= (2 * goreAmt / 3))
-                    {
-                        velocityMult = 1f;
-                    }
-                    Mod mod = ModContent.GetInstance<CalamityMod>();
-                    int type = Main.rand.Next(61, 64);
-                    int smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
-                    Gore gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y += 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y += 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y -= 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y -= 1f;
-                }
-            }
-
-            Projectile.ExpandHitboxBy(14);
-
-            if (Projectile.owner == Main.myPlayer)
-            {
-                DestroyTiles();
-            }
-        }
-
-        private void SpawnDust()
-        {
-            for (int d = 0; d < 40; d++)
-            {
-                int smoke = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 100, default, 2f);
-                Main.dust[smoke].velocity *= 3f;
-                if (Main.rand.NextBool())
-                {
-                    Main.dust[smoke].scale = 0.5f;
-                    Main.dust[smoke].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                }
-            }
-            for (int d = 0; d < 70; d++)
-            {
-                int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 3f);
-                Main.dust[fire].noGravity = true;
-                Main.dust[fire].velocity *= 5f;
-                fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[fire].velocity *= 2f;
-            }
-        }
-
-        private void DestroyTiles()
-        {
-            Projectile.ExplodeandDestroyTiles(5, true, new List<int>(), new List<int>());
-        }
+        public override void OnKill(int timeLeft) => Explode();
     }
 }

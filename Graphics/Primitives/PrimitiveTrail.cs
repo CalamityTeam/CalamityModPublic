@@ -39,7 +39,6 @@ namespace CalamityMod
         public VertexWidthFunction WidthFunction;
         public VertexColorFunction ColorFunction;
 
-        public static BasicEffect BaseEffect;
         public MiscShaderData SpecialShader;
         public TrailPointRetrievalFunction TrailPointFunction;
 
@@ -61,24 +60,10 @@ namespace CalamityMod
 
             TrailPointFunction = pointFunction;
 
+            SpecialShader = specialShader ?? GameShaders.Misc["CalamityMod:StandardPrimitiveShader"];
+
             if (specialShader != null)
                 SpecialShader = specialShader;
-
-            if (BaseEffect is null)
-                BaseEffect = new BasicEffect(Main.instance.GraphicsDevice)
-                {
-                    VertexColorEnabled = true,
-                    TextureEnabled = false
-                };
-            UpdateBaseEffect(out _, out _);
-        }
-
-        public void UpdateBaseEffect(out Matrix effectProjection, out Matrix effectView)
-        {
-            CalamityUtils.CalculatePerspectiveMatricies(out effectView, out effectProjection);
-
-            BaseEffect.View = effectView;
-            BaseEffect.Projection = effectProjection;
         }
 
         public static List<Vector2> RigidPointRetreivalFunction(IEnumerable<Vector2> originalPositions, Vector2 generalOffset, int totalTrailPoints, IEnumerable<float> _ = null)
@@ -253,7 +238,7 @@ namespace CalamityMod
             if (trailPoints.All(point => point == trailPoints[0]))
                 return;
 
-            UpdateBaseEffect(out Matrix projection, out Matrix view);
+            CalamityUtils.CalculatePerspectiveMatricies(out Matrix view, out Matrix projection);
             VertexPosition2DColor[] vertices = GetVerticesFromTrailPoints(trailPoints);
 
             short[] triangleIndices = GetIndicesFromTrailPoints(trailPoints.Count);
@@ -267,13 +252,8 @@ namespace CalamityMod
             Main.instance.GraphicsDevice.RasterizerState.ScissorTestEnable = true;
             Main.instance.GraphicsDevice.ScissorRectangle = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight); //offscreen culling
 
-            if (SpecialShader != null)
-            {
-                SpecialShader.Shader.Parameters["uWorldViewProjection"].SetValue(view * projection);
-                SpecialShader.Apply();
-            }
-            else
-                BaseEffect.CurrentTechnique.Passes[0].Apply();
+            SpecialShader.Shader.Parameters["uWorldViewProjection"].SetValue(view * projection);
+            SpecialShader.Apply();
 
             Main.instance.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, triangleIndices, 0, triangleIndices.Length / 3);
             Main.pixelShader.CurrentTechnique.Passes[0].Apply();

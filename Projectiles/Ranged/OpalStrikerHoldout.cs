@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.85f;
+            Vector2 tipPosition = (armPosition + Projectile.velocity * Projectile.width * 0.85f) + (Projectile.velocity * 4).RotatedBy(-0.3f * Projectile.direction);
 
             if (SoundEngine.TryGetActiveSound(OpalChargeSlot, out var ChargeSound) && ChargeSound.IsPlaying)
                 ChargeSound.Position = Projectile.Center;

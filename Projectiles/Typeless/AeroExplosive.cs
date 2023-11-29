@@ -1,10 +1,9 @@
 ﻿using CalamityMod.Items.Weapons.Typeless;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -153,7 +152,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             if (Projectile.owner == Main.myPlayer)
             {
-                CalamityUtils.ExplodeandDestroyTiles(Projectile, 7, true, new List<int>() { }, new List<int>() { });
+                Projectile.ExplodeTiles(7, true);
             }
         }
     }

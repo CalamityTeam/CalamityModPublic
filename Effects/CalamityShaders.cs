@@ -120,6 +120,9 @@ namespace CalamityMod.Effects
         // Used by Acid Eels, presumably to have their snaking movements look more smooth.
         internal static Effect PrimTextureOverlayShader;
 
+        // Used as a default for primitive drawing when no specific shader is supplied. This shader simply renders the vertex color data without modification.
+        internal static Effect StandardPrimitiveShader;
+
         // Used by Devourer of Gods. Renders the portal that he escapes through at the end of phase 1.
         internal static Effect DoGPortalShader;
 
@@ -336,6 +339,9 @@ namespace CalamityMod.Effects
 
             PrimTextureOverlayShader = LoadShader("PrimTextureOverlayShader");
             RegisterMiscShader(PrimTextureOverlayShader, "TrailPass", "PrimitiveTexture");
+
+            StandardPrimitiveShader = LoadShader("StandardPrimitiveShader");
+            RegisterMiscShader(StandardPrimitiveShader, "PrimitivePass", "StandardPrimitiveShader");
 
             DoGPortalShader = LoadShader("ScreenShaders/DoGPortalShader");
             RegisterMiscShader(DoGPortalShader, "ScreenPass", "DoGPortal");

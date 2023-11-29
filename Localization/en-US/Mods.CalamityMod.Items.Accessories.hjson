@@ -638,7 +638,8 @@ ElementalGauntlet: {
 	Tooltip:
 		'''
 		Melee attacks and projectiles inflict Elemental Mix
-		15% increased melee speed, damage, and 5% increased melee critical strike chance
+		15% increased melee damage and 5% increased melee critical strike chance
+		15% increased melee speed, does not stack with downgrades
 		20% increased true melee damage
 		Increased melee knockback
 		Enables auto swing for melee weapons
@@ -1976,7 +1977,7 @@ WulfrumBattery: {
 	DisplayName: Wulfrum Battery
 	Tooltip:
 		'''
-		Empowers your summons with wulfrum energy, letting them emit light around them
+		Empowers your summons with wulfrum energy, letting them emit light around them if visibility is enabled
 		7% increased summon damage
 		50% chance to get an extra scrap when killing wulfrum robots
 		Can also be scrapped at an extractinator

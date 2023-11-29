@@ -36,6 +36,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, 1f, 0f, 0f);
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.velocity.X = Projectile.velocity.X + (Main.player[Projectile.owner].velocity.X * 0.5f);
@@ -55,6 +56,11 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.alpha = 30;
             }
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(200, 60, 60, Projectile.alpha);
         }
 
         public override void OnKill(int timeLeft)

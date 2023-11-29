@@ -39,28 +39,20 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+            Player Owner = Main.player[Projectile.owner];
+            float playerDist = Vector2.Distance(Owner.Center, Projectile.Center);
+
             Time++;
             Projectile.velocity *= 1.003f;
             Projectile.scale = 1.3f;
 
             Vector3 DustLight = new Vector3(0.209f, 0.140f, 0.202f);
             Lighting.AddLight(Projectile.Center, DustLight * 8);
-            //Lighting.AddLight(Projectile.Center + Projectile.velocity * 0.6f, 0.6f, 0.2f, 0.5f);
 
-            if (Time % 2 == 0)
+            if (Time > 10 && playerDist < 1400f)
             {
-                Vector2 SparkVelocity1 = Projectile.velocity.RotatedBy(-2.5f, default) * 0.1f - Projectile.velocity / 2f;
-                Vector2 SparkPosition1 = Projectile.velocity.RotatedBy(-0.8, default);
-                SparkParticle spark = new SparkParticle(Projectile.Center + SparkPosition1, SparkVelocity1, false, Main.rand.Next(22, 25), Main.rand.NextFloat(1.2f, 1.9f), Color.Plum);
-                GeneralParticleHandler.SpawnParticle(spark);
-
-            }
-            if (Time % 2 == 0)
-            {
-                Vector2 SparkVelocity2 = Projectile.velocity.RotatedBy(2.5f, default) * 0.1f - Projectile.velocity / 2f;
-                Vector2 SparkPosition2 = Projectile.velocity.RotatedBy(0.8, default);
-                SparkParticle spark2 = new SparkParticle(Projectile.Center + SparkPosition2, SparkVelocity2, false, Main.rand.Next(22, 25), Main.rand.NextFloat(1.2f, 1.9f), Color.Plum);
-                GeneralParticleHandler.SpawnParticle(spark2);
+                SparkParticle spark3 = new SparkParticle(Projectile.Center - Projectile.velocity, Projectile.velocity * 0.01f, false, 18, 3.4f, Color.Plum * 0.6f);
+                GeneralParticleHandler.SpawnParticle(spark3);
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
         }
@@ -101,7 +93,15 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i <= 15; i++)
             {
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 272, Projectile.oldVelocity.X * 0.3f, Projectile.oldVelocity.Y * 0.3f, 0, default, Main.rand.NextFloat(1.7f, 2.1f));
+                Vector2 sparkVelocity = Projectile.velocity.RotatedByRandom(0.4f) * Main.rand.NextFloat(0.6f, 1.5f);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + Projectile.velocity, 272, sparkVelocity.RotatedByRandom(0.1f), 0, default, Main.rand.NextFloat(1.2f, 1.5f));
+                dust.noGravity = true;
+                
+                int sparkLifetime = Main.rand.Next(43, 48);
+                float sparkScale = Main.rand.NextFloat(2.2f, 3f);
+                Color sparkColor = Color.Plum * 0.8f;
+                SparkParticle spark = new SparkParticle(Projectile.Center, sparkVelocity, false, sparkLifetime, sparkScale, sparkColor);
+                GeneralParticleHandler.SpawnParticle(spark);
             }
             Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Color.Plum, new Vector2(2f, 2f), Main.rand.NextFloat(12f, 25f), 0.1f, 1f, 13);
             GeneralParticleHandler.SpawnParticle(pulse);

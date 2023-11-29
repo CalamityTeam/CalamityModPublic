@@ -40,18 +40,26 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public virtual float MinionSlots => 1f;
 
         /// <summary>
-        /// The distance in which the minion can detect an enemy, in pixels.<br/>
+        /// The max distance in which the minion can detect an enemy, in pixels.<br/>
         /// <see cref="ProjectileID.Sets.DrawScreenCheckFluff"/> is set to this value.<br/>
         /// Defaults to 1200f (75 tiles).
         /// </summary>
         public virtual float EnemyDistanceDetection => 1200f;
 
         /// <summary>
+        /// The min distance in which the minion can detect an enemy before it goes to its correspondent enemy distance detection.
+        /// Defaults to 960f (60 tiles), the radius of a 1080p monitor at max zoom.
+        /// </summary>
+        public virtual float MinEnemyDistanceDetection => 960f;
+
+        private float AdaptiveEnemyDistanceDetection => Target == null ? MinEnemyDistanceDetection : EnemyDistanceDetection;
+
+        /// <summary>
         /// The amount of local I-Frames this minion has.<br/>
-        /// Multiplied by <see cref="Projectile.MaxUpdates"/> so changing <see cref="Projectile.extraUpdates"/> won't affect this.<br/>
+        /// Multiplied by <see cref="Projectile.MaxUpdates"/> so changing the updates won't affect this.<br/>
         /// Defaults to 10.
         /// </summary>
-        public int IFrames { get => Projectile.localNPCHitCooldown / Projectile.MaxUpdates; set => Projectile.localNPCHitCooldown = value * Projectile.MaxUpdates; }
+        public int IFrames { get; set; } = 10;
 
         /// <summary>
         /// If <see langword="true"/>, makes the minion only be able to detect and attack enemies through tiles only when there are any bosses alive.<br/>
@@ -64,6 +72,12 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         /// Defaults to <see langword="true"/>.
         /// </summary>
         public virtual bool PreventTargettingUntilTargetHit => true;
+
+        /// <summary>
+        /// The amount of animation frames this minion has.<br/>
+        /// Defaults to 1 frame.
+        /// </summary>
+        public virtual int AnimationFrames => 1;
 
         /// <summary>
         /// The frames that it takes to go to the next frame of animation.<br/>
@@ -83,14 +97,15 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         /// </summary>
         public int TrailCacheLength { get; set; } = 5;
 
-        public Player Owner => Main.player[Projectile.owner];
-        public CalamityPlayer ModdedOwner => Owner.Calamity();
+        public Player Owner { get; set; }
+        public CalamityPlayer ModdedOwner { get; set; }
         public NPC Target { get; set; }
 
         #endregion
 
         public override void SetStaticDefaults()
         {
+            Main.projFrames[Type] = AnimationFrames;
             ProjectileID.Sets.MinionTargettingFeature[Type] = true;
             ProjectileID.Sets.TrailingMode[Type] = TrailingMode;
             ProjectileID.Sets.TrailCacheLength[Type] = TrailCacheLength;
@@ -119,9 +134,10 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
         public override void AI()
         {
+            Projectile.localNPCHitCooldown = IFrames * Projectile.MaxUpdates;
+            SetOwnerTarget();
             CheckMinionExistence();
             DoAnimation();
-            ChooseTarget();
             MinionAI();
         }
 
@@ -166,9 +182,14 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         }
 
         /// <summary>
-        /// Where the null property <see cref="Target"/> is set to a valid target, a non-null value.
+        /// Where the null property <see cref="Target"/>, <see cref="Owner"/> and <see cref="ModdedOwner"/> is set to a non-null value.
         /// </summary>
-        public virtual void ChooseTarget() => Target = Owner.Center.MinionHoming(EnemyDistanceDetection, Owner, !PreHardmodeMinionTileVision || CalamityPlayer.areThereAnyDamnBosses);
+        public virtual void SetOwnerTarget()
+        {
+            Owner = Main.player[Projectile.owner];
+            ModdedOwner = Owner.Calamity();
+            Target = Owner.Center.MinionHoming(AdaptiveEnemyDistanceDetection, Owner, !PreHardmodeMinionTileVision || CalamityPlayer.areThereAnyDamnBosses);
+        }
 
         #endregion
     }

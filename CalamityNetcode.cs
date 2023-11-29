@@ -162,6 +162,9 @@ namespace CalamityMod
                     // Tile Entities
                     //
 
+                    case CalamityModMessageType.UnlockAbyssChests:
+                        Abyss.UnlockAllAbyssChests();
+                        break;
                     case CalamityModMessageType.PowerCellFactory:
                         TEPowerCellFactory.ReadSyncPacket(mod, reader);
                         break;
@@ -359,6 +362,7 @@ namespace CalamityMod
         UpdateCodebreakerConstituents,
         UpdateCodebreakerContainedStuff,
         UpdateCodebreakerDecryptCountdown,
+        UnlockAbyssChests,
 
         // Draedon Summoner
         CodebreakerSummonStuff,

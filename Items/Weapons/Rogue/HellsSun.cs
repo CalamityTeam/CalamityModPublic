@@ -11,13 +11,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class HellsSun : RogueWeapon
     {
-        private static int damage = 240;
-        private static int knockBack = 5;
-        private static float SdamageMult = 0.12f;
-
         public override void SetDefaults()
         {
-            Item.damage = damage;
+            Item.damage = 200;
             Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -26,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.knockBack = knockBack;
+            Item.knockBack = 5;
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.UseSound = SoundID.Item1;
@@ -50,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
         }
 
-		public override float StealthDamageMultiplier => SdamageMult;
+		public override float StealthDamageMultiplier => 0.10f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

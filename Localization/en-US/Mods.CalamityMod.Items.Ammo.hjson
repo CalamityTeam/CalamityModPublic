@@ -115,7 +115,8 @@ MortarRound: {
 	DisplayName: Mortar Round
 	Tooltip:
 		'''
-		Large blast radius. Will destroy tiles
+		Specialized high explosive rounds with a large blast radius
+		Will destroy tiles
 		Used by normal guns
 		'''
 }
@@ -129,7 +130,7 @@ RubberMortarRound: {
 	DisplayName: Rubber Mortar Round
 	Tooltip:
 		'''
-		Large blast radius
+		Specialized high explosive rounds with a large blast radius
 		Will destroy tiles on each bounce
 		Used by normal guns
 		'''

@@ -670,7 +670,7 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.PowerGlove)
             {
-                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("12%", "10%"));
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("12% increased melee speed", "10% increased melee speed, does not stack with downgrades"));
                 EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
             }
 
@@ -680,13 +680,19 @@ namespace CalamityMod.Items
             }
 
             if (item.type == ItemID.MechanicalGlove)
+            {
+                string extraLine = "\n12% increased melee speed, does not stack with downgrades";
+                EditTooltipByNum(1, (line) => line.Text = "12% increased melee damage" + extraLine);
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("12% increased melee speed", "12% increased melee speed, does not stack with downgrades"));
                 EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
+            }
 
             if (item.type == ItemID.FireGauntlet)
             {
                 EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
                 string extraLine = "\n10% increased true melee damage";
-                EditTooltipByNum(1, (line) => line.Text = "14% increased melee damage and speed" + extraLine);
+                string extraLine2 = "\n14% increased melee speed, does not stack with downgrades" + extraLine;
+                EditTooltipByNum(1, (line) => line.Text = "14% increased melee damage" + extraLine2);
             }
 
             // On Fire! debuff immunities

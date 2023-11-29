@@ -34,8 +34,9 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.height = 90;
         }
 
-        public override void ChooseTarget()
+        public override void SetOwnerTarget()
         {
+            base.SetOwnerTarget();
             // Only attack targets if one is explicitly defined. Don't default to a closest target.
             Target = Owner.HasMinionAttackTargetNPC ? Main.npc[Owner.MinionAttackTargetNPC] : null;
         }
