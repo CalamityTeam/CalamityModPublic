@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.position = fireFrom - new Vector2(Projectile.width, Projectile.height) / 2f;
                 Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
                 if (Owner.Calamity().oldFashioned)
-                    Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                    Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
             }
             else
                 Projectile.Kill();

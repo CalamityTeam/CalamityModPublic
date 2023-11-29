@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Summon
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
             if (Owner.Calamity().oldFashioned)
-                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
         }
         
         public override Color? GetAlpha(Color lightColor)
@@ -255,7 +255,7 @@ namespace CalamityMod.Projectiles.Summon
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
             if (Owner.Calamity().oldFashioned)
-                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
             if (Projectile.timeLeft == 600)
             {
                 damage = Projectile.damage;
@@ -457,7 +457,7 @@ namespace CalamityMod.Projectiles.Summon
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
             if (Owner.Calamity().oldFashioned)
-                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
         }
 
         public override bool PreAI()
@@ -731,7 +731,7 @@ namespace CalamityMod.Projectiles.Summon
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
             if (Owner.Calamity().oldFashioned)
-                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
             
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 8)
@@ -898,7 +898,7 @@ namespace CalamityMod.Projectiles.Summon
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
             if (Owner.Calamity().oldFashioned)
-                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
             
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 4)
@@ -1021,7 +1021,7 @@ namespace CalamityMod.Projectiles.Summon
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
             if (Owner.Calamity().oldFashioned)
-                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
             
             if (Projectile.timeLeft > 120)
             {
@@ -1323,7 +1323,7 @@ namespace CalamityMod.Projectiles.Summon
             
             Projectile.damage = (int)owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
             if (owner.Calamity().oldFashioned)
-                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
             
             if (Projectile.ai[1] == 0f)
             {
@@ -1798,7 +1798,7 @@ namespace CalamityMod.Projectiles.Summon
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
             if (Owner.Calamity().oldFashioned)
-                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
             
             int pscState = (int)((!Main.dayTime && psc) ? Providence.BossMode.Night : Providence.BossMode.Day);
             int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ProvUtils.GetDustID(pscState), 0f, 0f, 100, default, !Main.dayTime && psc ? 0.5f : 1f);
@@ -1942,7 +1942,7 @@ namespace CalamityMod.Projectiles.Summon
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
             if (Owner.Calamity().oldFashioned)
-                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
             
             int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
             int num469 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, ProvUtils.GetDustID(pscState), 0f, 0f, 100, default, 1f);
@@ -2062,7 +2062,7 @@ namespace CalamityMod.Projectiles.Summon
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
             if (Owner.Calamity().oldFashioned)
-                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
 
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)

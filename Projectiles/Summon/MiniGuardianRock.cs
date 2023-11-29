@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             if (Owner.Calamity().oldFashioned)
-                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
             
             if (Projectile.ai[0] == 0f) //regular expected behaviour of floaty rocks
             {
