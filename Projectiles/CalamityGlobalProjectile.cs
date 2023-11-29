@@ -2474,6 +2474,9 @@ namespace CalamityMod.Projectiles
                                 {
                                     // Daedalus Rogue Crystals: 2 x 25%, soft cap starts at 120 base damage
                                     int crystalDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30);
+                                    if (modPlayer.oldFashioned)
+                                        crystalDamage = (int)(crystalDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                                     for (int i = 0; i < 2; i++)
                                     {
                                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
