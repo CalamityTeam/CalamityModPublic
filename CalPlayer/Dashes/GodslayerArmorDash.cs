@@ -148,7 +148,7 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.PlayerImmunityFrames = GodSlayerChestplate.DashIFrames;
             hitContext.Damage = (int)player.GetBestClassDamage().ApplyTo(3000f);
             if (player.Calamity().oldFashioned)
-                hitContext.Damage = (int)(hitContext.Damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
 
             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }

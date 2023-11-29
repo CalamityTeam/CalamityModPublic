@@ -273,7 +273,7 @@ namespace CalamityMod.Items
                 // useTime 9 = 0.9 useTime 2 = 0.2
                 double damageMult = 1.0;
                 if (item.useTime < 10)
-                    damageMult -= (10 - item.useTime) / 10.0;
+                    damageMult -= (10 - item.useTime) / 10D;
 
                 double newDamage = damage * damageMult;
 
@@ -281,11 +281,11 @@ namespace CalamityMod.Items
                 {
                     if (item.CountsAsClass<MeleeDamageClass>())
                     {
-                        double meleeDamage = newDamage * 0.25;
+                        int meleeDamage = (int)(newDamage * 0.25f);
                         if (modPlayer.oldFashioned)
-                            meleeDamage = (int)(meleeDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            meleeDamage = CalamityUtils.CalcOldFashionedDamage(meleeDamage);
 
-                        if (meleeDamage >= 1D)
+                        if (meleeDamage >= 1)
                         {
                             int projectile = Projectile.NewProjectile(source, position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)meleeDamage, 0f, player.whoAmI);
                             if (projectile.WithinBounds(Main.maxProjectiles))
@@ -294,11 +294,11 @@ namespace CalamityMod.Items
                     }
                     else if (item.CountsAsClass<ThrowingDamageClass>())
                     {
-                        double throwingDamage = newDamage * 0.2;
+                        int throwingDamage = (int)(newDamage * 0.2f);
                         if (modPlayer.oldFashioned)
-                            throwingDamage = (int)(throwingDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            throwingDamage = CalamityUtils.CalcOldFashionedDamage(throwingDamage);
 
-                        if (throwingDamage >= 1D)
+                        if (throwingDamage >= 1)
                         {
                             int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)throwingDamage, 0f, player.whoAmI);
                             if (projectile.WithinBounds(Main.maxProjectiles))
@@ -313,11 +313,11 @@ namespace CalamityMod.Items
                         // The projectile is fired inside of the scope's code instead
                         if (type != ModContent.ProjectileType<TitaniumRailgunScope>())
                         {
-                            double rangedDamage = newDamage * 0.15;
+                            int rangedDamage = (int)(newDamage * 0.15f);
                             if (modPlayer.oldFashioned)
-                                rangedDamage = (int)(rangedDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                                rangedDamage = CalamityUtils.CalcOldFashionedDamage(rangedDamage);
 
-                            if (rangedDamage >= 1D)
+                            if (rangedDamage >= 1)
                             {
                                 int projectile = Projectile.NewProjectile(source, position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)rangedDamage, 0f, player.whoAmI);
                                 if (projectile.WithinBounds(Main.maxProjectiles))
@@ -327,11 +327,11 @@ namespace CalamityMod.Items
                     }
                     else if (item.CountsAsClass<MagicDamageClass>())
                     {
-                        double magicDamage = newDamage * 0.3;
+                        int magicDamage = (int)(newDamage * 0.3f);
                         if (modPlayer.oldFashioned)
-                            magicDamage = (int)(magicDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            magicDamage = CalamityUtils.CalcOldFashionedDamage(magicDamage);
 
-                        if (magicDamage >= 1D)
+                        if (magicDamage >= 1)
                         {
                             int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)magicDamage, 0f, player.whoAmI);
                             if (projectile.WithinBounds(Main.maxProjectiles))
@@ -340,11 +340,11 @@ namespace CalamityMod.Items
                     }
                     else if (item.CountsAsClass<SummonDamageClass>() && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
                     {
-                        if (damage >= 1D)
+                        if (damage >= 1)
                         {
                             int summonDamage = damage;
                             if (modPlayer.oldFashioned)
-                                summonDamage = (int)(summonDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                                summonDamage = CalamityUtils.CalcOldFashionedDamage(summonDamage);
 
                             int projectile = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), summonDamage, 0f, player.whoAmI);
                             if (projectile.WithinBounds(Main.maxProjectiles))
@@ -366,7 +366,7 @@ namespace CalamityMod.Items
                         // Bloodflare Mage Bolt: 130%, soft cap starts at 2000 base damage
                         int bloodflareBoltDamage = CalamityUtils.DamageSoftCap(damage * 1.3, 2600);
                         if (modPlayer.oldFashioned)
-                            bloodflareBoltDamage = (int)(bloodflareBoltDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            bloodflareBoltDamage = CalamityUtils.CalcOldFashionedDamage(bloodflareBoltDamage);
 
                         Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<GhostlyBolt>(), bloodflareBoltDamage, 1f, player.whoAmI);
                     }
@@ -383,7 +383,7 @@ namespace CalamityMod.Items
                         // This is intentionally extremely low because this effect can be grossly overpowered with sniper rifles and the like.
                         int bloodsplosionDamage = CalamityUtils.DamageSoftCap(damage * 0.8, 120);
                         if (modPlayer.oldFashioned)
-                            bloodsplosionDamage = (int)(bloodsplosionDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            bloodsplosionDamage = CalamityUtils.CalcOldFashionedDamage(bloodsplosionDamage);
 
                         Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<BloodBomb>(), bloodsplosionDamage, 2f, player.whoAmI);
                     }
@@ -398,7 +398,7 @@ namespace CalamityMod.Items
                     int leafAmt = 8 + Main.rand.Next(3); // 8, 9, or 10
                     int leafDamage = (int)(damage * 0.2);
                     if (modPlayer.oldFashioned)
-                        leafDamage = (int)(leafDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        leafDamage = CalamityUtils.CalcOldFashionedDamage(leafDamage);
 
                     for (int l = 0; l < leafAmt; l++)
                     {
@@ -424,7 +424,7 @@ namespace CalamityMod.Items
                     {
                         int ataxiaFlareDamage = (int)(damage * 0.25);
                         if (modPlayer.oldFashioned)
-                            ataxiaFlareDamage = (int)(ataxiaFlareDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            ataxiaFlareDamage = CalamityUtils.CalcOldFashionedDamage(ataxiaFlareDamage);
 
                         Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<HydrothermicFlare>(), ataxiaFlareDamage, 2f, player.whoAmI);
                     }
@@ -440,7 +440,7 @@ namespace CalamityMod.Items
                         // God Slayer Ranged Shrapnel: 100%, soft cap starts at 800 base damage
                         int shrapnelRoundDamage = CalamityUtils.DamageSoftCap(damage, 800);
                         if (modPlayer.oldFashioned)
-                            shrapnelRoundDamage = (int)(shrapnelRoundDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            shrapnelRoundDamage = CalamityUtils.CalcOldFashionedDamage(shrapnelRoundDamage);
 
                         Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), shrapnelRoundDamage, 2f, player.whoAmI);
                     }
@@ -456,7 +456,7 @@ namespace CalamityMod.Items
                     // Ataxia Rogue Flares: 8 x 50%, soft cap starts at 120 base damage
                     int flareDamage = CalamityUtils.DamageSoftCap(damage * 0.5, 120);
                     if (modPlayer.oldFashioned)
-                        flareDamage = (int)(flareDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        flareDamage = CalamityUtils.CalcOldFashionedDamage(flareDamage);
 
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -485,7 +485,7 @@ namespace CalamityMod.Items
                         // Victide All-class Seashells: 200%, soft cap starts at 46 base damage
                         int seashellDamage = CalamityUtils.DamageSoftCap(damage * 2, 46);
                         if (modPlayer.oldFashioned)
-                            seashellDamage = (int)(seashellDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            seashellDamage = CalamityUtils.CalcOldFashionedDamage(seashellDamage);
 
                         Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<Seashell>(), seashellDamage, 1f, player.whoAmI);
                     }
@@ -501,7 +501,7 @@ namespace CalamityMod.Items
 
                     int newDamage = (int)(damage * 2 * damageMult);
                     if (modPlayer.oldFashioned)
-                        newDamage = (int)(newDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        newDamage = CalamityUtils.CalcOldFashionedDamage(newDamage);
 
                     if (player.whoAmI == Main.myPlayer)
                     {

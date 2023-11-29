@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Armor.Silva
                 {
                     int baseDamage = 600;
                     if (modPlayer.oldFashioned)
-                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                     var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), damage, 0f, Main.myPlayer, -20f, 0f);

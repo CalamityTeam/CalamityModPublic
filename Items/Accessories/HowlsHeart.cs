@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(HowlDamage);
                     if (modPlayer.oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                     Projectile howl = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), damage, 1f, player.whoAmI, 0f, 1f);
                     howl.originalDamage = damage;
@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(HowlDamage);
                     if (player.Calamity().oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                     int p = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), damage, 1f, player.whoAmI, 0f, 1f);
                     if (Main.projectile.IndexInRange(p))

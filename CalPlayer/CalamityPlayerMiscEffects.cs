@@ -239,7 +239,7 @@ namespace CalamityMod.CalPlayer
                         Player.velocity.X *= 1.2f;
                         int damage = 75;
                         if (oldFashioned)
-                            damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                         Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), damage, 20f, Player.whoAmI);
                         HasIncreasedDashFirstFrame = true;
@@ -271,7 +271,7 @@ namespace CalamityMod.CalPlayer
                     {
                         int damage = 90;
                         if (oldFashioned)
-                            damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                         Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), damage, 0f, Player.whoAmI);
                     }
@@ -290,7 +290,7 @@ namespace CalamityMod.CalPlayer
                         SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { Volume = 0.4f , PitchVariance = 0.4f }, Player.Center);
                         int damage = 67;
                         if (oldFashioned)
-                            damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                         Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<PauldronDash>(), damage, 16f, Player.whoAmI);
                         HasReducedDashFirstFrame = true;
@@ -320,7 +320,7 @@ namespace CalamityMod.CalPlayer
                     {
                         int damage = 175;
                         if (oldFashioned)
-                            damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                         Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<PauldronDash>(), damage, 10f, Player.whoAmI);
                     }
@@ -1155,7 +1155,7 @@ namespace CalamityMod.CalPlayer
                         {
                             int damage = (int)Player.GetBestClassDamage().ApplyTo(390);
                             if (oldFashioned)
-                                damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                                damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                             var source = Player.GetSource_FromThis(OmegaBlueHelmet.TentacleEntitySourceContext);
                             Vector2 vel = new Vector2(Main.rand.Next(-13, 14), Main.rand.Next(-13, 14)) * 0.25f;
@@ -1266,7 +1266,7 @@ namespace CalamityMod.CalPlayer
                             unstableSelectedTarget.Calamity().arcZapCooldown = 18;
                             int damage = 18;
                             if (oldFashioned)
-                                damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                                damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                             Projectile.NewProjectile(Player.GetSource_FromThis(), new Vector2(Player.Center.X, Player.Center.Y - 20f), new Vector2(0f, -2f), ModContent.ProjectileType<ArcZap>(), damage, 0f, Player.whoAmI, target, 3f);
                             target = -1;
@@ -1954,7 +1954,7 @@ namespace CalamityMod.CalPlayer
                         lightningVel *= Main.rand.NextFloat(1f, 2f);
                         int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(30);
                         if (oldFashioned)
-                            damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                         int projectile = Projectile.NewProjectile(source, Player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), damage, 0, Player.whoAmI, Main.rand.Next(2), 0f);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
@@ -1981,7 +1981,7 @@ namespace CalamityMod.CalPlayer
                         cloudVelocity *= Main.rand.NextFloat(0f, 1f);
                         int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
                         if (oldFashioned)
-                            damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                         int projectile = Projectile.NewProjectile(source, Player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), damage, 0, Player.whoAmI, 0, 0);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
@@ -3047,7 +3047,7 @@ namespace CalamityMod.CalPlayer
                         float ai1 = I * 120;
                         int baseDamage = 3750;
                         if (oldFashioned)
-                            baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                         int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                         int projectile = Projectile.NewProjectile(source, Player.Center.X + (float)(Math.Sin(I * 120) * 550), Player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
@@ -3125,7 +3125,7 @@ namespace CalamityMod.CalPlayer
                     const int BaseDamage = 120;
                     int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(BaseDamage);
                     if (oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                     // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
                     var source = Player.GetSource_FromThis(TarragonHeadSummon.LifeAuraEntitySourceContext);
@@ -3199,7 +3199,7 @@ namespace CalamityMod.CalPlayer
                     const int BaseDamage = 50;
                     int damage = (int)Player.GetBestClassDamage().ApplyTo(BaseDamage);
                     if (oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                     // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
                     var source = Player.GetSource_FromThis(HydrothermicArmor.InfernoPotionEntitySourceContext);
@@ -3266,7 +3266,7 @@ namespace CalamityMod.CalPlayer
                     float babCheck = profanedCrystal ? 1f : 0f;
                     int babDamage = profanedCrystal ? 346 : 52;
                     if (oldFashioned)
-                        babDamage = (int)(babDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        babDamage = CalamityUtils.CalcOldFashionedDamage(babDamage);
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
                     {
@@ -3400,7 +3400,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<BlunderBooster>()));
                     int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(30);
                     if (oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] < 1)
                         Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlunderBoosterAura>(), damage, 0f, Player.whoAmI, 0f, 0f);
@@ -3462,7 +3462,7 @@ namespace CalamityMod.CalPlayer
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<CryoStone>()));
                 int damage = (int)Player.GetBestClassDamage().ApplyTo(70);
                 if (oldFashioned)
-                    damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                    damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                 if (Player.whoAmI == Main.myPlayer && Player.ownedProjectileCounts[ModContent.ProjectileType<CryonicShield>()] == 0)
                     Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<CryonicShield>(), damage, 0f, Player.whoAmI);
@@ -3485,7 +3485,7 @@ namespace CalamityMod.CalPlayer
                 float shootSpeed = 18f;
                 int dmg = (int)Player.GetTotalDamage<MagicDamageClass>().ApplyTo(30);
                 if (oldFashioned)
-                    dmg = (int)(dmg * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                    dmg = CalamityUtils.CalcOldFashionedDamage(dmg);
 
                 Vector2 startPos = Player.RotatedRelativePoint(Player.MountedCenter, true);
                 Vector2 velocity = Main.MouseWorld - startPos;

@@ -44,7 +44,7 @@ namespace CalamityMod.CalPlayer.Dashes
             {
                 int scytheDamage = (int)player.GetBestClassDamage().ApplyTo(250);
                 if (player.Calamity().oldFashioned)
-                    scytheDamage = (int)(scytheDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                    scytheDamage = CalamityUtils.CalcOldFashionedDamage(scytheDamage);
 
                 int scythe = Projectile.NewProjectile(player.GetSource_FromAI(), player.Center, player.velocity.RotatedBy(player.direction * (AngleSwap ? 30 : -30), default) * 0.1f - player.velocity / 2f, ModContent.ProjectileType<CosmicScythe>(), scytheDamage, 5f, player.whoAmI);;
                 if (scythe.WithinBounds(Main.maxProjectiles))

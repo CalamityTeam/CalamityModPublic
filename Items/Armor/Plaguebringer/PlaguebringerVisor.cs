@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Armor.Plaguebringer
                 {
                     int baseDamage = 80;
                     if (player.Calamity().oldFashioned)
-                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                     var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<PlaguebringerSummon>(), damage, 0f, player.whoAmI, 0f, 0f);

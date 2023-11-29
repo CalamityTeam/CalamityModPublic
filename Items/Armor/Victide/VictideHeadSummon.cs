@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Armor.Victide
                 {
                     var baseDamage = 7;
                     if (modPlayer.oldFashioned)
-                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                     var minionDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<VictideSeaSnail>(), minionDamage, 0f, Main.myPlayer, 0f, 0f);

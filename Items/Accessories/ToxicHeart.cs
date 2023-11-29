@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories
             bool shouldInflictPlague = plagueCounter % 60 == 0;
             int auraDamage = (int)player.GetBestClassDamage().ApplyTo(50);
             if (modPlayer.oldFashioned)
-                auraDamage = (int)(auraDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                auraDamage = CalamityUtils.CalcOldFashionedDamage(auraDamage);
 
             int random = Main.rand.Next(10);
             var source = player.GetSource_Accessory(Item);

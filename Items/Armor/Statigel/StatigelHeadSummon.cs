@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Armor.Statigel
                 var minionID = -1;
                 var baseDamage = 33;
                 if (modPlayer.oldFashioned)
-                    baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                    baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                 var minionDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                 if (WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] < 1)

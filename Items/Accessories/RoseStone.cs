@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     int baseDamage = 60;
                     if (modPlayer.oldFashioned)
-                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     int baseDamage = 60;
                     if (modPlayer.oldFashioned)
-                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);

@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     int baseDamage = ElementalDamage;
                     if (player.Calamity().oldFashioned)
-                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectileDirect(player.GetSource_Accessory(Item), player.Center, -Vector2.UnitY, ModContent.ProjectileType<SandElementalMinion>(), damage, 2f, Main.myPlayer);

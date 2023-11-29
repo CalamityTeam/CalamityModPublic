@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Armor.Mollusk
                 {
                     int baseDamage = 140;
                     if (modPlayer.oldFashioned)
-                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                     Projectile clam = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<Shellfish>(), baseDamage, 0f, player.whoAmI);
                     clam.originalDamage = baseDamage;

@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Accessories
                                     if (canSpawnProj && Main.myPlayer == player.whoAmI)
                                     {
                                         if (modPlayer.oldFashioned)
-                                            damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                                         Projectile.NewProjectile(source, center.X, center.Y, 0f, 0f, ModContent.ProjectileType<NebulaStar>(), damage, knockBack, player.whoAmI);
                                         return;

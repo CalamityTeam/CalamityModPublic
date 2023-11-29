@@ -4,6 +4,7 @@ using CalamityMod.Balancing;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using CalamityMod.Events;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -48,6 +49,9 @@ namespace CalamityMod
 
         public static float CalcDamage<T>(this Player player, float baseDamage) where T : DamageClass => player.GetTotalDamage<T>().ApplyTo(baseDamage);
         public static int CalcIntDamage<T>(this Player player, float baseDamage) where T : DamageClass => (int)player.CalcDamage<T>(baseDamage);
+
+        // Calculate and return Old Fashioned damage adjustment for Accessories and Set Bonuses.
+        public static int CalcOldFashionedDamage(int damage) => (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
         // Naively determines the player's chosen (aka "best") class by whichever has the highest damage boost.
         public static DamageClass GetBestClass(this Player player)
@@ -677,7 +681,7 @@ namespace CalamityMod
         }
         #endregion
 
-        #region visual layers
+        #region Visual Layers
         public static void HideAccessories(this Player player, bool hideHeadAccs = true, bool hideBodyAccs = true, bool hideLegAccs = true,  bool hideShield = true)
         {
             if (hideHeadAccs)

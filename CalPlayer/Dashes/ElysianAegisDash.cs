@@ -75,11 +75,11 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.PlayerImmunityFrames = ElysianAegis.ShieldSlamIFrames;
             hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(250f);
             if (player.Calamity().oldFashioned)
-                hitContext.Damage = (int)(hitContext.Damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
 
             int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(120);
             if (player.Calamity().oldFashioned)
-                supremeExplosionDamage = (int)(supremeExplosionDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                supremeExplosionDamage = CalamityUtils.CalcOldFashionedDamage(supremeExplosionDamage);
 
             Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), supremeExplosionDamage, 15f, Main.myPlayer, 1f, 0f);
             npc.AddBuff(ModContent.BuffType<HolyFlames>(), 300);

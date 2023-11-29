@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Accessories
 
             int baseDamage = 50;
             if (modPlayer.oldFashioned)
-                baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
             int elementalDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
             float kBack = 2f + player.GetKnockback<SummonDamageClass>().Additive;
@@ -128,7 +128,7 @@ namespace CalamityMod.Items.Accessories
 
             int baseDamage = 90;
             if (modPlayer.oldFashioned)
-                baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
             int elementalDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
             float kBack = 2f + player.GetKnockback<SummonDamageClass>().Additive;

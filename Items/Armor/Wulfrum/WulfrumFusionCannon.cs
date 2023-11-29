@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
             velocity = velocity.RotatedByRandom(MathHelper.PiOver4 * 0.1f);
 
             if (player.Calamity().oldFashioned)
-                damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                damage = CalamityUtils.CalcOldFashionedDamage(damage);
         }
 
         public override bool CanUseItem(Player player)

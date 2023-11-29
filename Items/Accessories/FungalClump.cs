@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
 
                     int baseDamage = FungalClumpDamage;
                     if (modPlayer.oldFashioned)
-                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                     int damage = (int)player.GetBestClassDamage().ApplyTo(baseDamage);
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), damage, 1f, player.whoAmI);
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Accessories
 
                     int baseDamage = FungalClumpDamage;
                     if (modPlayer.oldFashioned)
-                        baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                     int damage = (int)player.GetBestClassDamage().ApplyTo(baseDamage);
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), damage, 1f, player.whoAmI);

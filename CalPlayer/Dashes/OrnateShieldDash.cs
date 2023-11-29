@@ -61,7 +61,7 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.PlayerImmunityFrames = OrnateShield.ShieldSlamIFrames;
             hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(50f);
             if (player.Calamity().oldFashioned)
-                hitContext.Damage = (int)(hitContext.Damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
 
             npc.AddBuff(BuffID.Frostburn2, 180); //Great, Frostbite is ACTUALLY called Frostburn 2
         }

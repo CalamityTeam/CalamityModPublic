@@ -2423,7 +2423,7 @@ namespace CalamityMod.Projectiles
                                 {
                                     int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(60);
                                     if (modPlayer.oldFashioned)
-                                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                                     Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), damage, 0f, projectile.owner);
                                 }
@@ -2437,7 +2437,7 @@ namespace CalamityMod.Projectiles
                                 {
                                     int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(45);
                                     if (modPlayer.oldFashioned)
-                                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                                     int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), damage, 0f, projectile.owner);
                                     if (proj.WithinBounds(Main.maxProjectiles))
@@ -2454,7 +2454,7 @@ namespace CalamityMod.Projectiles
                                 {
                                     int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(DragonScales.ShitBaseDamage);
                                     if (modPlayer.oldFashioned)
-                                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                                     int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * 1.2f, ProjectileType<DragonShit>(), damage, 0f, projectile.owner);
                                     if (proj.WithinBounds(Main.maxProjectiles))
@@ -2475,7 +2475,7 @@ namespace CalamityMod.Projectiles
                                     // Daedalus Rogue Crystals: 2 x 25%, soft cap starts at 120 base damage
                                     int crystalDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30);
                                     if (modPlayer.oldFashioned)
-                                        crystalDamage = (int)(crystalDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                                        crystalDamage = CalamityUtils.CalcOldFashionedDamage(crystalDamage);
 
                                     for (int i = 0; i < 2; i++)
                                     {
@@ -2998,7 +2998,7 @@ namespace CalamityMod.Projectiles
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                             int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
                             if (player.Calamity().oldFashioned)
-                                damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                                damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                             int soul = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), damage, 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
@@ -3011,7 +3011,7 @@ namespace CalamityMod.Projectiles
                     {
                         int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
                         if (modPlayer.oldFashioned)
-                            damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;

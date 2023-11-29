@@ -2744,7 +2744,7 @@ namespace CalamityMod.CalPlayer
                     float start = 360f / angelAmt;
                     int damage = proj.damage / 10;
                     if (oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                     Projectile.NewProjectile(source, new Vector2((int)(Player.Center.X + (Math.Sin(projIndex * start) * 300)), (int)(Player.Center.Y + (Math.Cos(projIndex * start) * 300))), Vector2.Zero, ModContent.ProjectileType<AngelicAllianceArchangel>(), damage, proj.knockBack / 10f, Player.whoAmI, Main.rand.Next(180), projIndex * start);
                     Player.statLife += 2;
@@ -2760,7 +2760,7 @@ namespace CalamityMod.CalPlayer
                 rogueStealth -= rogueStealthMax * 0.1f;
                 int damage = 7;
                 if (oldFashioned)
-                    damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                    damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                 int veil = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), damage, 8, Player.whoAmI);
                 Main.projectile[veil].Center = Player.Center;
@@ -2897,7 +2897,7 @@ namespace CalamityMod.CalPlayer
 
                     int damage = (int)(Player.GetTotalDamage<RangedDamageClass>().ApplyTo(300f));
                     if (oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                     if (Player.whoAmI == Main.myPlayer)
                     {
@@ -3423,7 +3423,7 @@ namespace CalamityMod.CalPlayer
                         //Spawn explosion. ai[0] is used for transferring the recorded falling time
                         int damage = 300;
                         if (oldFashioned)
-                            damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                         Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SabatonSlam>(), damage, 4f, Player.whoAmI, gSabatonFall);
                         gSabatonFall = 0;
@@ -4009,7 +4009,7 @@ namespace CalamityMod.CalPlayer
                         float speedY5 = veneratedCloneYPos + (float)Main.rand.Next(-30, 31) * 0.02f;
                         int locketDamage = (int)(damage * 0.07f);
                         if (oldFashioned)
-                            locketDamage = (int)(locketDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            locketDamage = CalamityUtils.CalcOldFashionedDamage(locketDamage);
 
                         int p = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, speedX4, speedY5, type, locketDamage, knockBack * 0.5f, Player.whoAmI);
 
@@ -4031,7 +4031,7 @@ namespace CalamityMod.CalPlayer
                         int knifeCount = 12;
                         int knifeDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(55);
                         if (oldFashioned)
-                            knifeDamage = (int)(knifeDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                            knifeDamage = CalamityUtils.CalcOldFashionedDamage(knifeDamage);
 
                         float angleStep = MathHelper.TwoPi / knifeCount;
                         float speed = 14f;
@@ -4056,7 +4056,7 @@ namespace CalamityMod.CalPlayer
                 {
                     int d = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(Items.Accessories.RustyMedallion.AcidDropBaseDamage);
                     if (oldFashioned)
-                        d = (int)(d * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        d = CalamityUtils.CalcOldFashionedDamage(d);
 
                     Vector2 startingPosition = Main.MouseWorld - Vector2.UnitY.RotatedByRandom(0.4f) * 1250f;
                     Vector2 directionToMouse = (Main.MouseWorld - startingPosition).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.1f);

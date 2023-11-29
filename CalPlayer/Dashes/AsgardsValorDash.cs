@@ -72,11 +72,11 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.PlayerImmunityFrames = AsgardsValor.ShieldSlamIFrames;
             hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(100f);
             if (player.Calamity().oldFashioned)
-                hitContext.Damage = (int)(hitContext.Damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
 
             int holyExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(60);
             if (player.Calamity().oldFashioned)
-                holyExplosionDamage = (int)(holyExplosionDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                holyExplosionDamage = CalamityUtils.CalcOldFashionedDamage(holyExplosionDamage);
 
             Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosion>(), holyExplosionDamage, 15f, Main.myPlayer, 0f, 0f);
             npc.AddBuff(ModContent.BuffType<HolyFlames>(), 180);

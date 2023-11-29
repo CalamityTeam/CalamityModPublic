@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Accessories
             {
                 int baseDamage = 5;
                 if (player.Calamity().oldFashioned)
-                    baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                    baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
                 var source = player.GetSource_Accessory(Item);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<MarniteRepulsionHitbox>()] < 1)

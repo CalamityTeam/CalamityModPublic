@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Accessories.Wings
                     var source = player.GetSource_Accessory(Item);
                     int damage = (int)player.GetBestClassDamage().ApplyTo(25);
                     if (modPlayer.oldFashioned)
-                        damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), damage, 3f, player.whoAmI, 1f);
                     if (p.WithinBounds(Main.maxProjectiles))
