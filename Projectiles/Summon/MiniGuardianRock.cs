@@ -1,6 +1,7 @@
 ﻿using System;
 using CalamityMod.Buffs.Summon.Whips;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Potions.Alcohol;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -53,6 +54,9 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.active = false;
                 return;
             }
+
+            if (Owner.Calamity().oldFashioned)
+                Projectile.damage = (int)(Projectile.damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
             
             if (Projectile.ai[0] == 0f) //regular expected behaviour of floaty rocks
             {
