@@ -74,6 +74,8 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = AsgardianAegis.ShieldSlamIFrames;
             hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(300f);
+            if (player.Calamity().oldFashioned)
+                hitContext.Damage = (int)(hitContext.Damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
             int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(135);
             if (player.Calamity().oldFashioned)

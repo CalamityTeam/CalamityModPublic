@@ -365,6 +365,9 @@ namespace CalamityMod.Items
                     {
                         // Bloodflare Mage Bolt: 130%, soft cap starts at 2000 base damage
                         int bloodflareBoltDamage = CalamityUtils.DamageSoftCap(damage * 1.3, 2600);
+                        if (modPlayer.oldFashioned)
+                            bloodflareBoltDamage = (int)(bloodflareBoltDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<GhostlyBolt>(), bloodflareBoltDamage, 1f, player.whoAmI);
                     }
                 }
@@ -379,6 +382,9 @@ namespace CalamityMod.Items
                         // Bloodflare Ranged Bloodsplosion: 80%, soft cap starts at 150 base damage
                         // This is intentionally extremely low because this effect can be grossly overpowered with sniper rifles and the like.
                         int bloodsplosionDamage = CalamityUtils.DamageSoftCap(damage * 0.8, 120);
+                        if (modPlayer.oldFashioned)
+                            bloodsplosionDamage = (int)(bloodsplosionDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<BloodBomb>(), bloodsplosionDamage, 2f, player.whoAmI);
                     }
                 }
@@ -391,6 +397,8 @@ namespace CalamityMod.Items
                     // Tarragon Mage Leaves: (8-10) x 20%, soft cap starts at 200 base damage
                     int leafAmt = 8 + Main.rand.Next(3); // 8, 9, or 10
                     int leafDamage = (int)(damage * 0.2);
+                    if (modPlayer.oldFashioned)
+                        leafDamage = (int)(leafDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
                     for (int l = 0; l < leafAmt; l++)
                     {
@@ -415,6 +423,9 @@ namespace CalamityMod.Items
                     if (player.whoAmI == Main.myPlayer)
                     {
                         int ataxiaFlareDamage = (int)(damage * 0.25);
+                        if (modPlayer.oldFashioned)
+                            ataxiaFlareDamage = (int)(ataxiaFlareDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<HydrothermicFlare>(), ataxiaFlareDamage, 2f, player.whoAmI);
                     }
                 }
@@ -428,6 +439,9 @@ namespace CalamityMod.Items
                     {
                         // God Slayer Ranged Shrapnel: 100%, soft cap starts at 800 base damage
                         int shrapnelRoundDamage = CalamityUtils.DamageSoftCap(damage, 800);
+                        if (modPlayer.oldFashioned)
+                            shrapnelRoundDamage = (int)(shrapnelRoundDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), shrapnelRoundDamage, 2f, player.whoAmI);
                     }
                 }
@@ -441,6 +455,9 @@ namespace CalamityMod.Items
 
                     // Ataxia Rogue Flares: 8 x 50%, soft cap starts at 120 base damage
                     int flareDamage = CalamityUtils.DamageSoftCap(damage * 0.5, 120);
+                    if (modPlayer.oldFashioned)
+                        flareDamage = (int)(flareDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                     if (player.whoAmI == Main.myPlayer)
                     {
                         SoundEngine.PlaySound(SoundID.Item20, player.Center);

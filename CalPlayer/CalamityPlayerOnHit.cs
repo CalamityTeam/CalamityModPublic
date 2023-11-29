@@ -24,6 +24,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
+using MonoMod.Cil;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -346,6 +347,9 @@ namespace CalamityMod.CalPlayer
                             ProjectileID.StarCannonStar
                         });
                         int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(120);
+                        if (oldFashioned)
+                            astralStarDamage = (int)(astralStarDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         Projectile star = CalamityUtils.ProjectileRain(source, position, 400f, 100f, 500f, 800f, 12f, projectileType, astralStarDamage, 5f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                             star.DamageType = DamageClass.Generic;
@@ -361,6 +365,9 @@ namespace CalamityMod.CalPlayer
                     {
                         // Ataxia True Melee Geysers: 15%, softcap starts at 300 base damage
                         int geyserDamage = CalamityUtils.DamageSoftCap(damage * 0.15, 45);
+                        if (oldFashioned)
+                            geyserDamage = (int)(geyserDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         Projectile.NewProjectile(source, position, Vector2.Zero, ProjectileType<ChaoticGeyser>(), geyserDamage, 2f, Player.whoAmI, 0f, 0f);
                     }
                     if (soaring)
@@ -428,6 +435,9 @@ namespace CalamityMod.CalPlayer
                             ProjectileID.StarCannonStar
                         });
                         int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(120);
+                        if (oldFashioned)
+                            astralStarDamage = (int)(astralStarDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         Projectile star = CalamityUtils.ProjectileRain(source, position, 400f, 100f, 500f, 800f, 25f, projectileType, astralStarDamage, 5f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                             star.DamageType = DamageClass.Generic;
@@ -491,6 +501,9 @@ namespace CalamityMod.CalPlayer
                 {
                     // Ataxia Melee Geysers: 15%, softcap starts at 240 base damage
                     int geyserDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.15, 36);
+                    if (oldFashioned)
+                        geyserDamage = (int)(geyserDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                     Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ChaoticGeyser>(), geyserDamage, 0f, Player.whoAmI, 0f, 0f);
                 }
                 if (bloodflareMelee && proj.IsTrueMelee() && bloodflareMeleeHits < 15 && !bloodflareFrenzy && !Player.HasCooldown(BloodflareFrenzy.ID))
@@ -513,6 +526,9 @@ namespace CalamityMod.CalPlayer
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         int leafDamage = (int)(0.25 * proj.damage);
+                        if (oldFashioned)
+                            leafDamage = (int)(leafDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         int leaf = Projectile.NewProjectile(source, position, velocity, ProjectileID.Leaf, leafDamage, 0f, Player.whoAmI);
                         if (leaf.WithinBounds(Main.maxProjectiles))
                         {
@@ -526,6 +542,9 @@ namespace CalamityMod.CalPlayer
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                             int energyDamage = (int)(0.33 * proj.damage);
+                            if (oldFashioned)
+                                energyDamage = (int)(energyDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                             Projectile.NewProjectile(source, proj.Center, velocity, ProjectileType<TarraEnergy>(), energyDamage, 0f, proj.owner);
                         }
                     }
@@ -545,6 +564,9 @@ namespace CalamityMod.CalPlayer
             if (ataxiaMage && ataxiaDmg <= 0)
             {
                 int orbDamage = (int)(proj.damage * 0.6);
+                if (oldFashioned)
+                    orbDamage = (int)(orbDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                 CalamityUtils.SpawnOrb(proj, orbDamage, ProjectileType<HydrothermicSphere>(), 800f, 20f);
                 int cooldown = (int)(orbDamage * 0.5);
                 ataxiaDmg += cooldown;
@@ -563,6 +585,9 @@ namespace CalamityMod.CalPlayer
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         // Bloodflare Mage Fireballs: 3 x 50%, softcap starts at 500 base damage to not overly punish slow weapons
                         int bloodflareFireballDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.5, 250);
+                        if (oldFashioned)
+                            bloodflareFireballDamage = (int)(bloodflareFireballDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         int fire = Projectile.NewProjectile(source, position, velocity, ProjectileID.BallofFire, bloodflareFireballDamage, 0f, Player.whoAmI);
                         if (fire.WithinBounds(Main.maxProjectiles))
                         {
@@ -578,6 +603,9 @@ namespace CalamityMod.CalPlayer
                 SoundEngine.PlaySound(SoundID.Zombie103 , proj.Center); //So scuffed, just because zombie sounds werent ported normally
                 // Silva Mage Blasts: 800 + 60%, softcap on the whole combined thing starts at 1400
                 int silvaBurstDamage = CalamityUtils.DamageSoftCap(800.0 + 0.6 * proj.damage, 1400);
+                if (oldFashioned)
+                    silvaBurstDamage = (int)(silvaBurstDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                 Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SilvaBurst>(), silvaBurstDamage, 8f, Player.whoAmI);
             }
         }
@@ -756,6 +784,9 @@ namespace CalamityMod.CalPlayer
                     case 0:
                         // Exodus Rogue Stars: 80%
                         int starDamage = (int)(proj.damage * 0.8);
+                        if (oldFashioned)
+                            starDamage = (int)(starDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         CalamityUtils.SpawnOrb(proj, starDamage, ProjectileType<EmpyreanStellarDetritus>(), 800f, Main.rand.Next(15, 30));
                         xerocDmg += (int)(starDamage * 0.5);
                         break;
@@ -763,6 +794,9 @@ namespace CalamityMod.CalPlayer
                     case 1:
                         // Exodus Rogue Orbs: 60%
                         int orbDamage = (int)(proj.damage * 0.6);
+                        if (oldFashioned)
+                            orbDamage = (int)(orbDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         CalamityUtils.SpawnOrb(proj, orbDamage, ProjectileType<EmpyreanMarble>(), 800f, 30f);
                         xerocDmg += (int)(orbDamage * 0.5);
                         break;
@@ -770,18 +804,27 @@ namespace CalamityMod.CalPlayer
                     case 2:
                         // Exodus Rogue Fire: 15%
                         int fireDamage = (int)(proj.damage * 0.15);
+                        if (oldFashioned)
+                            fireDamage = (int)(fireDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<EmpyreanEmber>(), fireDamage, 0f, proj.owner, 0f, 0f);
                         break;
 
                     case 3:
                         // Exodus Rogue Blast: 20%
                         int blastDamage = (int)(proj.damage * 0.2);
+                        if (oldFashioned)
+                            blastDamage = (int)(blastDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<EmpyreanBlast>(), blastDamage, 0f, proj.owner, 0f, 0f);
                         break;
 
                     case 4:
                         // Exodus Rogue Bubble: 60%
                         int bubbleDamage = (int)(proj.damage * 0.6);
+                        if (oldFashioned)
+                            bubbleDamage = (int)(bubbleDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         CalamityUtils.SpawnOrb(proj, bubbleDamage, ProjectileType<EmpyreanGlob>(), 800f, 15f);
                         xerocDmg += (int)(bubbleDamage * 0.5);
                         break;
@@ -866,6 +909,9 @@ namespace CalamityMod.CalPlayer
             if (titanHeartSet && modProj.stealthStrike && titanCooldown <= 0 && modProj.stealthStrikeHitCount < 3)
             {
                 int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(40);
+                if (oldFashioned)
+                    damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                 Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<SabatonBoom>(), damage, proj.knockBack, proj.owner, 1f, 0f);
                 SoundEngine.PlaySound(SoundID.Item14, proj.Center);
                 for (int dustexplode = 0; dustexplode < 360; dustexplode++)
@@ -941,6 +987,9 @@ namespace CalamityMod.CalPlayer
                 {
                     // Umbraphile Rogue Blasts: 20%, softcap starts at 50 base damage
                     int umbraBlastDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.20, 50);
+                    if (oldFashioned)
+                        umbraBlastDamage = (int)(umbraBlastDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                     Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<UmbraphileBoom>(), umbraBlastDamage, 0f, Player.whoAmI);
                 }
                 if (electricianGlove && modProj.stealthStrike && modProj.stealthStrikeHitCount < 3)

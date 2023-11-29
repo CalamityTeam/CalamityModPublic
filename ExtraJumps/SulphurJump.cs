@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -27,6 +28,7 @@ namespace CalamityMod.ExtraJumps
             int offset = player.height;
             if (player.gravDir == -1f)
                 offset = 0;
+
             for (int i = 0; i < 25; ++i)
             {
                 Dust dust = Dust.NewDustPerfect(new Vector2(player.Center.X, player.Center.Y + offset), Main.rand.NextBool(3) ? 75 : 161, new Vector2(-player.velocity.X, 6).RotatedByRandom(MathHelper.ToRadians(50f)) * Main.rand.NextFloat(0.1f, 0.8f), 100, default, Main.rand.NextFloat(1.7f, 2.2f));
@@ -45,6 +47,9 @@ namespace CalamityMod.ExtraJumps
             {
                 var source = player.GetSource_Misc("0");
                 int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
+                if (modPlayer.oldFashioned)
+                    damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                 int bubble = Projectile.NewProjectile(source, new Vector2(player.position.X, player.position.Y + (player.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), damage, 0f, player.whoAmI, 1f, 0f);
                 if (bubble.WithinBounds(Main.maxProjectiles))
                     Main.projectile[bubble].DamageType = DamageClass.Generic;

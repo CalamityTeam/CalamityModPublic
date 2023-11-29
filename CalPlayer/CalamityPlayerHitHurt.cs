@@ -2398,7 +2398,10 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_OnHurt(hurtInfo.DamageSource, AerospecBreastplate.FeatherEntitySourceContext);
                     for (int n = 0; n < 4; n++)
                     {
-                        int featherDamage = (int)Player.GetBestClassDamage().ApplyTo(20);
+                        int featherDamage = (int)Player.GetBestClassDamage().ApplyTo(80);
+                        if (oldFashioned)
+                            featherDamage = (int)(featherDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), featherDamage, 1f, Player.whoAmI);
                     }
                 }
@@ -2500,7 +2503,10 @@ namespace CalamityMod.CalPlayer
                     if (hurtInfo.Damage > 0)
                     {
                         SoundEngine.PlaySound(SoundID.Item74, Player.Center);
-                        int eDamage = (int)Player.GetBestClassDamage().ApplyTo(100);
+                        int eDamage = (int)Player.GetBestClassDamage().ApplyTo(300);
+                        if (oldFashioned)
+                            eDamage = (int)(eDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         if (Player.whoAmI == Main.myPlayer)
                             Projectile.NewProjectile(fuckYouBitch, Player.Center, Vector2.Zero, ModContent.ProjectileType<DeepseaBlaze>(), eDamage, 1f, Player.whoAmI, 0f, 0f);
                     }
@@ -2515,7 +2521,10 @@ namespace CalamityMod.CalPlayer
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
-                        int sDamage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(27);
+                        int sDamage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(90);
+                        if (oldFashioned)
+                            sDamage = (int)(sDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         if (Player.whoAmI == Main.myPlayer)
                         {
                             for (int i = 0; i < 8; i++)
@@ -2538,7 +2547,10 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Misc("23");
                     if (hurtInfo.Damage > 0)
                     {
-                        int rDamage = (int)Player.GetBestClassDamage().ApplyTo(80);
+                        int rDamage = (int)Player.GetBestClassDamage().ApplyTo(240);
+                        if (oldFashioned)
+                            rDamage = (int)(rDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         if (Player.whoAmI == Main.myPlayer)
                             Projectile.NewProjectile(source, Player.Center.X, Player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ReaverThornBase>(), rDamage, 0f, Player.whoAmI, 0f, 0f);
                     }
@@ -2554,6 +2566,9 @@ namespace CalamityMod.CalPlayer
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
                         int baseDamage = 675;
+                        if (oldFashioned)
+                            baseDamage = (int)(baseDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                         int shrapnelFinalDamage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(baseDamage);
                         if (Player.whoAmI == Main.myPlayer)
                         {
@@ -2575,6 +2590,9 @@ namespace CalamityMod.CalPlayer
                         for (int l = 0; l < 2; l++)
                         {
                             int shadowbeamDamage = (int)Player.GetBestClassDamage().ApplyTo(3000);
+                            if (oldFashioned)
+                                shadowbeamDamage = (int)(shadowbeamDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                             Projectile beam = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.ShadowBeamFriendly, shadowbeamDamage, 7f, Player.whoAmI);
                             if (beam.whoAmI.WithinBounds(Main.maxProjectiles))
                             {
@@ -2586,6 +2604,9 @@ namespace CalamityMod.CalPlayer
                         for (int l = 0; l < 5; l++)
                         {
                             int scytheDamage = (int)Player.GetBestClassDamage().ApplyTo(5000);
+                            if (oldFashioned)
+                                scytheDamage = (int)(scytheDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
                             Projectile scythe = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.DemonScythe, scytheDamage, 7f, Player.whoAmI);
                             if (scythe.whoAmI.WithinBounds(Main.maxProjectiles))
                             {

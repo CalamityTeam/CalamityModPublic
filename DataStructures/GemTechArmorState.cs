@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Armor.GemTech;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.DataStructures
 {
@@ -146,6 +147,9 @@ namespace CalamityMod.DataStructures
                 return;
 
             int damage = (int)Owner.GetTotalDamage<MeleeDamageClass>().ApplyTo(GemTechHeadgear.MeleeShardBaseDamage);
+            if (Owner.Calamity().oldFashioned)
+                damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
             for (int i = 0; i < 14; i++)
             {
                 Vector2 shootVelocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 3.25f);
@@ -162,6 +166,9 @@ namespace CalamityMod.DataStructures
                 return;
 
             int damage = CalamityUtils.DamageSoftCap((int)(hitDamage * 0.32f), 400);
+            if (Owner.Calamity().oldFashioned)
+                damage = (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
+
             Vector2 spawnPosition = Owner.Center + Main.rand.NextVector2Circular(Owner.width, Owner.height) * 1.35f;
             Vector2 shootVelocity = (target.Center - spawnPosition) * 0.04f;
             if (shootVelocity.Length() < 6f)
@@ -265,6 +272,8 @@ namespace CalamityMod.DataStructures
 
                 // Softcap the damage. This is done primarily to dampen stealth interactions.
                 gemDamage = CalamityUtils.DamageSoftCap(gemDamage, GemTechHeadgear.GemDamageSoftcapThreshold);
+                if (Owner.Calamity().oldFashioned)
+                    gemDamage = (int)(gemDamage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
 
                 if (Main.myPlayer == OwnerIndex)
                     Projectile.NewProjectile(Owner.GetSource_ItemUse(Owner.ActiveItem()), gemPosition, Vector2.Zero, ModContent.ProjectileType<GemTechArmorGem>(), gemDamage, 0f, OwnerIndex, 0f, (int)GemThatShouldBeLost);

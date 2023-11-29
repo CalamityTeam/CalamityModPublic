@@ -1,6 +1,7 @@
 ﻿using System;
 using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Potions.Alcohol;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -71,6 +72,8 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = AsgardsValor.ShieldSlamIFrames;
             hitContext.Damage = (int)player.GetBestClassDamage().ApplyTo(50f);
+            if (player.Calamity().oldFashioned)
+                hitContext.Damage = (int)(hitContext.Damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
         }
     }
 }
