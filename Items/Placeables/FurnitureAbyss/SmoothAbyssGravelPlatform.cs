@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
 
         public override void SetDefaults()
         {
-            Item.width = 8;
-            Item.height = 10;
+            Item.width = 24;
+            Item.height = 14;
             Item.maxStack = 9999;
             Item.useTurn = true;
             Item.autoReuse = true;

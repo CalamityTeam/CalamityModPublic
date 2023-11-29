@@ -1,12 +1,11 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class GoliathRocket : ModProjectile, ILocalizedModType
@@ -65,11 +64,11 @@ namespace CalamityMod.Projectiles.Ranged
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
 
-			if (RocketType == ItemID.DryRocket || RocketType == ItemID.WetRocket || RocketType == ItemID.LavaRocket || RocketType == ItemID.HoneyRocket)
-			{
-				if (Projectile.wet)
-					Projectile.timeLeft = 1;
-			}
+            if (RocketType == ItemID.DryRocket || RocketType == ItemID.WetRocket || RocketType == ItemID.LavaRocket || RocketType == ItemID.HoneyRocket)
+            {
+                if (Projectile.wet)
+                    Projectile.timeLeft = 1;
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -81,12 +80,16 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnKill(int timeLeft)
         {
+            var info = new CalamityUtils.RocketBehaviorInfo((int)RocketType)
+            {
+                smallRadius = 6,
+                mediumRadius = 9,
+                largeRadius = 12
+            };
+            int blastRadius = Projectile.RocketBehavior(info);
             Projectile.ExpandHitboxBy(160);
-            Projectile.maxPenetrate = -1;
-            Projectile.penetrate = -1;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
+
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int j = 0; j < 2; j++)
@@ -111,112 +114,77 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                 }
             }
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
-            for (int i = 0; i < 20; i++)
+
+            if (!Main.dedServ)
             {
-                int dusty = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 100, default, 2f);
-                Main.dust[dusty].velocity *= 3f;
-                if (Main.rand.NextBool())
+                for (int i = 0; i < 20; i++)
                 {
-                    Main.dust[dusty].scale = 0.5f;
-                    Main.dust[dusty].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Dust dusty = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 31, Alpha: 100, Scale: 2f);
+                    dusty.velocity *= 3f;
+                    if (Main.rand.NextBool())
+                    {
+                        dusty.scale = 0.5f;
+                        dusty.fadeIn = Main.rand.NextFloat(1f, 2f);
+                    }
                 }
-            }
-            for (int j = 0; j < 30; j++)
-            {
-                int dusty2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 3f);
-                Main.dust[dusty2].noGravity = true;
-                Main.dust[dusty2].velocity *= 5f;
-                dusty2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[dusty2].velocity *= 2f;
-            }
 
-            if (Main.netMode != NetmodeID.Server)
-            {
-                Vector2 goreSource = Projectile.Center;
-                int goreAmt = 3;
-                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
-                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                for (int j = 0; j < 30; j++)
                 {
-                    float velocityMult = 0.33f;
-                    if (goreIndex < (goreAmt / 3))
-                    {
-                        velocityMult = 0.66f;
-                    }
-                    if (goreIndex >= (2 * goreAmt / 3))
-                    {
-                        velocityMult = 1f;
-                    }
-                    Mod mod = ModContent.GetInstance<CalamityMod>();
-                    int type = Main.rand.Next(61, 64);
-                    int smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
-                    Gore gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y += 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y += 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y -= 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y -= 1f;
+                    Dust flameDust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, Alpha: 100, Scale: 3f);
+                    flameDust.noGravity = true;
+                    flameDust.velocity *= 5f;
+
+                    flameDust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 6, Alpha: 100, Scale: 2f);
+                    flameDust.velocity *= 2f;
                 }
+
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Vector2 goreSource = Projectile.Center;
+                    int goreAmt = 3;
+                    Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                    for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                    {
+                        float velocityMult = 0.33f;
+                        if (goreIndex < (goreAmt / 3))
+                        {
+                            velocityMult = 0.66f;
+                        }
+                        if (goreIndex >= (2 * goreAmt / 3))
+                        {
+                            velocityMult = 1f;
+                        }
+                        int type = Main.rand.Next(61, 64);
+                        int smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                        Gore gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X += 1f;
+                        gore.velocity.Y += 1f;
+                        type = Main.rand.Next(61, 64);
+                        smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                        gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X -= 1f;
+                        gore.velocity.Y += 1f;
+                        type = Main.rand.Next(61, 64);
+                        smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                        gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X += 1f;
+                        gore.velocity.Y -= 1f;
+                        type = Main.rand.Next(61, 64);
+                        smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                        gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X -= 1f;
+                        gore.velocity.Y -= 1f;
+                    }
+                }
+
+                SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             }
-
-            // Only do rocket effects for the owner client side
-            if (Projectile.owner != Main.myPlayer)
-                return;
-
-            int blastRadius = 0;
-            if (RocketType == ItemID.RocketII)
-                blastRadius = 6;
-            else if (RocketType == ItemID.RocketIV)
-                blastRadius = 9;
-            else if (RocketType == ItemID.MiniNukeII)
-                blastRadius = 12;
-
-            Projectile.ExpandHitboxBy(14);
-
-            if (blastRadius > 0)
-                Projectile.ExplodeandDestroyTiles(blastRadius, true, new List<int>(), new List<int>());
-
-			Point center = Projectile.Center.ToTileCoordinates();
-			DelegateMethods.v2_1 = center.ToVector2();
-			DelegateMethods.f_1 = 3f;
-			if (RocketType == ItemID.DryRocket)
-			{
-				DelegateMethods.f_1 = 3.5f;
-				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
-			}
-			else if (RocketType == ItemID.WetRocket)
-			{
-				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
-			}
-			else if (RocketType == ItemID.LavaRocket)
-			{
-				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
-			}
-			else if (RocketType == ItemID.HoneyRocket)
-			{
-				Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
-			}
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(ModContent.BuffType<Plague>(), 180);
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<Plague>(), 180);
     }
 }

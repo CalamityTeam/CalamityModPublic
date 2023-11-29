@@ -742,7 +742,7 @@ MidasPrime: {
 
 MineralMortar: {
 	DisplayName: Mineral Mortar
-	Tooltip: Shoots an onyx bomb that explodes into sand sharks on death
+	Tooltip: Shoots an onyx bomb that explodes into huge area damage
 }
 
 Kingsbane: {

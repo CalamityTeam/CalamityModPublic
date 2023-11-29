@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
         public override ref bool AssociatedMinionBool => ref ModdedOwner.CalamarisLament;
 
         // Increased to be able to target DoG reliably.
-        public override float MaxEnemyDistanceDetection => CalamarisLament.EnemyDistanceDetection;
+        public override float EnemyDistanceDetection => CalamarisLament.EnemyDistanceDetection;
 
         // It's an Abyss-origin summon, it deserves having visibility in Abyss areas.
         public override bool PreventTargettingUntilTargetHit => false;

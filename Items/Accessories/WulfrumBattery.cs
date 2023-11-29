@@ -36,7 +36,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetDamage<SummonDamageClass>() += 0.07f;
-            player.GetModPlayer<WulfrumBatteryPlayer>().battery = true;
+            if (!hideVisual)
+                player.GetModPlayer<WulfrumBatteryPlayer>().battery = true;
         }
 
         //Scrappable for 3-6 wulfrum scrap or a 20% chance to get an energy core
@@ -66,20 +67,22 @@ namespace CalamityMod.Items.Accessories
         {
             if (!projectile.npcProj && !projectile.trap && projectile.minion && !ProjectileID.Sets.MinionShot[projectile.type] && Main.player[projectile.owner].GetModPlayer<WulfrumBatteryPlayer>().battery)
             {
-                float lightMult = 2f;
+                float lightMult = 1f;
                 if (Lighting.UpdateEveryFrame) //The light loks wayyy too bright in retro/trippy
-                    lightMult *= 0.5f;
+                    lightMult *= 0.25f;
 
-                Lighting.AddLight(projectile.Center, Color.DeepSkyBlue.ToVector3() * lightMult);
+                Lighting.AddLight(projectile.Center, Color.LightGreen.ToVector3() * lightMult);
 
 
 
-                if (Main.rand.NextBool(16))
+                if (Main.rand.NextBool(15))
                 {
                     float size = (projectile.Hitbox.Size() / 2f).Length();
 
-                    Dust zapDust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(1f, 1f) * size, 226, Main.rand.NextVector2Circular(1f, 1f) * Main.rand.NextFloat(1f, 2.3f));
+                    Dust zapDust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(1f, 1f) * size, 66, Main.rand.NextVector2Circular(1f, 1f) * Main.rand.NextFloat(0.5f, 1.3f));
                     zapDust.noGravity = true;
+                    zapDust.color = Main.rand.NextBool() ? Color.SkyBlue : Color.LightGreen;
+                    zapDust.velocity = projectile.velocity * 0.2f;
                 }
             }
         }
