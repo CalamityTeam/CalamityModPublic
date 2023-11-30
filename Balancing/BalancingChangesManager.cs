@@ -137,7 +137,7 @@ namespace CalamityMod.Balancing
             // 40% resist to Cryophobia.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<CryoBlast>()))));
 
-            // 40% resist to Mineral Mortar's Projectile.
+            // 20% resist to Mineral Mortar's Projectile.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<MineralMortarProjectile>()))));
 
             // 15% resist to Snowstorm Staff.
@@ -196,6 +196,9 @@ namespace CalamityMod.Balancing
             #region Moon Lord
             // 90% resist to Mercurial Tides (True Biome Blade).
             NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.MoonLordCore, Do(new ProjectileResistBalancingRule(0.1f, ProjectileType<MercurialTides>(), ProjectileType<MercurialTidesMonolith>(), ProjectileType<MercurialTidesBlast>()))));
+
+            // 15% resist to Pestilent Defiler.
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCID.MoonLordCore, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<SicknessRound>(), ProjectileType<Sickness>()))));
             #endregion
 
             #region Profaned Guardians
