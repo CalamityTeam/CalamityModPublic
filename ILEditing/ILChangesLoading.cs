@@ -123,6 +123,9 @@ namespace CalamityMod.ILEditing
             IL_UIWorldCreation.SetDefaultOptions += ChangeDefaultWorldSize;
             IL_UIWorldCreation.AddWorldSizeOptions += SwapSmallDescriptionKey;
             Terraria.IO.On_WorldFile.ClearTempTiles += ClearModdedTempTiles;
+            On_WorldGen.MakeDungeon += LimitDungeonEntranceXPosition;
+            IL_WorldGen.DungeonHalls += LimitDungeonHallsXPosition;
+            IL_WorldGen.MakeDungeon += ChangeDungeonSpikeQuantities;
 
             // Removal of vanilla stupidity
             IL_Player.UpdateBuffs += RemoveFeralBiteRandomDebuffs;
