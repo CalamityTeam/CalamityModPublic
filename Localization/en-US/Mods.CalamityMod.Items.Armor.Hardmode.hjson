@@ -406,7 +406,7 @@ PlaguebringerVisor: {
 	SetBonus:
 		'''
 		Grants a plague dash which can slam through enemies without taking damage
-		Summons a lil' plaguebringer which swarm your foes with little bees
+		Summons a lil' plaguebringer which swarms your foes with little bees
 		+3 max minions
 		'''
 }
