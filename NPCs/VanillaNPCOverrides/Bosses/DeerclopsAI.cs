@@ -622,7 +622,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 int posX = sourceTileCoords.X + rubbleSpawnLocation * npc.direction;
                 int posY = sourceTileCoords.Y + rubbleSpawnAttempts;
-                if (WorldGen.SolidTile(posX, posY))
+                if (WorldGen.ActiveAndWalkableTile(posX, posY))
                 {
                     SpawnRubble(npc, posX, posY, howMany, whichOne, rubble, rubbleDamage);
                     break;
