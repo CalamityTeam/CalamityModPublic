@@ -791,8 +791,6 @@ namespace CalamityMod.CalPlayer
         public bool plagueReaper = false;
         public bool plaguebringerPatronSet = false;
         public bool plaguebringerCarapace = false;
-        public bool plaguebringerPistons = false;
-        public int pistonsCounter = 0;
         public float ataxiaDmg;
         public bool ataxiaMage = false;
         public bool ataxiaGeyser = false;
@@ -1839,7 +1837,6 @@ namespace CalamityMod.CalPlayer
             plagueReaper = false;
             plaguebringerPatronSet = false;
             plaguebringerCarapace = false;
-            plaguebringerPistons = false;
             fathomSwarmer = false;
             fathomSwarmerVisage = false;
             fathomSwarmerBreastplate = false;
@@ -2540,8 +2537,6 @@ namespace CalamityMod.CalPlayer
             plagueReaper = false;
             plaguebringerPatronSet = false;
             plaguebringerCarapace = false;
-            plaguebringerPistons = false;
-            pistonsCounter = 0;
             ataxiaMage = false;
             ataxiaBolt = false;
             ataxiaGeyser = false;
