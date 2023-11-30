@@ -254,7 +254,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Point sourceTileCoords = npc.Top.ToTileCoordinates();
                         int numRubble = 20;
                         int distancedByThisManyTiles = 5;
-                        float upBiasPerRubble = 200f;
                         sourceTileCoords.X += npc.direction * 3;
                         sourceTileCoords.Y -= 10;
                         int screenShakeGateValue = (int)npc.ai[1] - scoopRubbleGateValue;
@@ -270,7 +269,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             rubbleLimit = rubbleStart;
 
                         for (int rubbleIndex = rubbleStart; rubbleIndex < rubbleLimit && rubbleIndex < numRubble; rubbleIndex++)
-                            ShootRubbleUp(npc, ref targetData, ref sourceTileCoords, numRubble, distancedByThisManyTiles, upBiasPerRubble, rubbleIndex, rubble, rubbleDamage);
+                            ShootRubbleUp(npc, ref sourceTileCoords, numRubble, distancedByThisManyTiles, rubbleIndex, rubble, rubbleDamage);
                     }
 
                     if (npc.ai[1] >= 60f)
@@ -613,7 +612,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
         }
 
-        private static void ShootRubbleUp(NPC npc, ref NPCAimedTarget targetData, ref Point sourceTileCoords, int howMany, int distancedByThisManyTiles, float upBiasPerRubble, int whichOne, int rubble, int rubbleDamage)
+        private static void ShootRubbleUp(NPC npc, ref Point sourceTileCoords, int howMany, int distancedByThisManyTiles, int whichOne, int rubble, int rubbleDamage)
         {
             // Loop to spawn rubble
             // The rubble attempts are used to offset the Y coordinates of the rubble spawns to make sure they can spawn in non-solid tiles
@@ -623,27 +622,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 int posX = sourceTileCoords.X + rubbleSpawnLocation * npc.direction;
                 int posY = sourceTileCoords.Y + rubbleSpawnAttempts;
-                Point point = new Vector2(posX, posY).ToTileCoordinates();
-                Tile tileSafely = Framing.GetTileSafely(point);
                 if (WorldGen.SolidTile(posX, posY))
                 {
-                    SpawnRubble(npc, ref targetData, rubbleSpawnLocation, posX, posY, howMany, distancedByThisManyTiles, upBiasPerRubble, whichOne, rubble, rubbleDamage);
-                    break;
-                }
-                else if (TileID.Sets.Platforms[tileSafely.TileType])
-                {
-                    SpawnRubble(npc, ref targetData, rubbleSpawnLocation, posX, posY, howMany, distancedByThisManyTiles, upBiasPerRubble, whichOne, rubble, rubbleDamage);
+                    SpawnRubble(npc, posX, posY, howMany, whichOne, rubble, rubbleDamage);
                     break;
                 }
             }
         }
 
-        private static void SpawnRubble(NPC npc, ref NPCAimedTarget targetData, int rubbleSpawnLocation, int posX, int posY, int howMany, int distancedByThisManyTiles, float upBiasPerRubble, int whichOne, int rubble, int rubbleDamage)
+        private static void SpawnRubble(NPC npc, int posX, int posY, int howMany, int whichOne, int rubble, int rubbleDamage)
         {
-            Vector2 vector = targetData.Center + new Vector2(rubbleSpawnLocation * npc.direction * 20, (0f - upBiasPerRubble) * (float)howMany + (float)rubbleSpawnLocation * upBiasPerRubble / (float)distancedByThisManyTiles);
-            Vector2 vector2 = new Vector2(posX * 16 + 8, posY * 16 + 8);
-            Vector2 rubbleVelocity = (vector - vector2).SafeNormalize(-Vector2.UnitY);
-            rubbleVelocity = new Vector2(0f, -1f).RotatedBy((float)(whichOne * npc.direction) * 0.7f * ((float)Math.PI / 4f / (float)howMany));
+            Vector2 rubbleVelocity = new Vector2(0f, -1f).RotatedBy((float)(whichOne * npc.direction) * 0.7f * ((float)Math.PI / 4f / (float)howMany));
             int ai1_FrameToUse = Main.rand.Next(Main.projFrames[rubble] * 4);
             ai1_FrameToUse = 6 + Main.rand.Next(6);
             float ai2_DelayBeforeGoingUp = whichOne * 20f;
