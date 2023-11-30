@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
             player.Center = Projectile.Center;
             player.fullRotationOrigin = player.Center - player.position;
             player.fullRotation = Projectile.rotation;
-            player.direction = Projectile.direction;
+            player.ChangeDir(Projectile.direction);
             player.heldProj = Projectile.whoAmI;
             player.bodyFrame.Y = player.bodyFrame.Height;
 

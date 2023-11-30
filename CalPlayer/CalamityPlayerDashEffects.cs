@@ -160,7 +160,7 @@ namespace CalamityMod.CalPlayer
 
                     // Decide the player's facing direction.
                     if (Player.velocity.X != 0f)
-                        Player.direction = Math.Sign(Player.velocity.X);
+                        Player.ChangeDir(Math.Sign(Player.velocity.X));
 
                     // Handle mid-dash movement.
                     if (UsedDash.IsOmnidirectional)

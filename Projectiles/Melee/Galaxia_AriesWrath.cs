@@ -166,7 +166,7 @@ namespace CalamityMod.Projectiles.Melee
             //Make the owner look like theyre "holding" the sword bla bla
             Owner.heldProj = Projectile.whoAmI;
             Projectile.velocity = Owner.SafeDirectionTo(Projectile.Center, Vector2.Zero);
-            Owner.direction = Math.Sign(Projectile.velocity.X);
+            Owner.ChangeDir(Math.Sign(Projectile.velocity.X));
             Owner.itemRotation = Projectile.velocity.ToRotation();
             if (Owner.direction != 1)
             {

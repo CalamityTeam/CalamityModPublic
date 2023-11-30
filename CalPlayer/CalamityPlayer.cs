@@ -3523,12 +3523,12 @@ namespace CalamityMod.CalPlayer
                 if (Player.controlLeft)
                 {
                     Player.velocity.X = -speed;
-                    Player.direction = -1;
+                    Player.ChangeDir(-1);
                 }
                 else if (Player.controlRight)
                 {
                     Player.velocity.X = speed;
-                    Player.direction = 1;
+                    Player.ChangeDir(1);
                 }
                 else
                     Player.velocity.X = 0f;

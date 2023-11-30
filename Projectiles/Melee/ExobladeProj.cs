@@ -283,7 +283,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.Center = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
             Owner.heldProj = Projectile.whoAmI;
             Owner.SetDummyItemTime(2);
-            Owner.direction = Direction;
+            Owner.ChangeDir(Direction);
 
             // Decide the arm rotation for the owner.
             float armRotation = SwordRotation - MathHelper.PiOver2;

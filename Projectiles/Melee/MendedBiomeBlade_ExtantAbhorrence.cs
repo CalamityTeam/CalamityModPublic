@@ -166,7 +166,7 @@ namespace CalamityMod.Projectiles.Melee
             //Scaling based on charge
             Projectile.scale = 1f + (Charge / MaxCharge * 0.3f);
 
-            Owner.direction = Math.Sign(direction.X);
+            Owner.ChangeDir(Math.Sign(direction.X));
             Owner.itemRotation = direction.ToRotation();
 
             if (Owner.direction != 1)
