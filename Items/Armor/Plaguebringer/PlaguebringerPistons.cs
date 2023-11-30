@@ -9,7 +9,6 @@ namespace CalamityMod.Items.Armor.Plaguebringer
     public class PlaguebringerPistons : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor.Hardmode";
-        public int counter = 0;
         public override void SetDefaults()
         {
             Item.width = 18;
@@ -22,9 +21,8 @@ namespace CalamityMod.Items.Armor.Plaguebringer
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<SummonDamageClass>() += 0.13f;
+            player.GetDamage<SummonDamageClass>() += 0.15f;
             player.moveSpeed += 0.15f;
-            player.Calamity().plaguebringerPistons = true;
 
             //Flower Boots code
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)

@@ -3326,39 +3326,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (plaguebringerPistons)
-            {
-                //Spawn bees while sprinting or dashing
-                pistonsCounter++;
-                if (pistonsCounter % 12 == 0)
-                {
-                    if (Player.velocity.Length() >= 5f && Player.whoAmI == Main.myPlayer)
-                    {
-                        int beeCount = 1;
-                        if (Main.rand.NextBool(3))
-                            ++beeCount;
-                        if (Main.rand.NextBool(3))
-                            ++beeCount;
-                        if (Player.strongBees && Main.rand.NextBool(3))
-                            ++beeCount;
-                        int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(30);
-                        // TODO -- should be from accessory, can't do that because this code is in the wrong place.
-                        // This needs to be part of the update accessory function of the accessory itself to have the right entity source
-                        // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
-                        var source = Player.GetSource_FromThis("PlaguebringerPistonBees");
-                        for (int index = 0; index < beeCount; ++index)
-                        {
-                            int bee = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, Main.rand.NextFloat(-35f, 35f) * 0.02f, Main.rand.NextFloat(-35f, 35f) * 0.02f, (Main.rand.NextBool(4) ? ModContent.ProjectileType<PlagueBeeSmall>() : Player.beeType()), damage, Player.beeKB(0f), Player.whoAmI, 0f, 0f);
-                            Main.projectile[bee].usesLocalNPCImmunity = true;
-                            Main.projectile[bee].localNPCHitCooldown = 10;
-                            Main.projectile[bee].penetrate = 2;
-                            if (bee.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[bee].DamageType = DamageClass.Generic;
-                        }
-                    }
-                }
-            }
-
             List<int> summonDeleteList = new List<int>()
             {
                 ModContent.ProjectileType<BrimstoneElementalMinion>(),
