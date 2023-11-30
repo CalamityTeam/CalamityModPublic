@@ -106,7 +106,7 @@ AstralachneaStaff: {
 
 AstralStaff: {
 	DisplayName: Astral Staff
-	Tooltip: Summons a large crystal from the sky that has a large area of effect on impact.
+	Tooltip: Summons a large crystal from the sky that has a large area of effect on impact
 }
 
 Atlantis: {
