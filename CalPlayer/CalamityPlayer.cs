@@ -2993,6 +2993,9 @@ namespace CalamityMod.CalPlayer
                         // To compute Forbidden Circlet tornado damage, create a fake stat modifier on the spot which combines both classes.
                         StatModifier forbidden = Player.GetTotalDamage<SummonDamageClass>().CombineWith(Player.GetDamage<RogueDamageClass>());
                         int damage = (int)forbidden.ApplyTo(ForbiddenCirclet.tornadoBaseDmg);
+                        if (oldFashioned)
+                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
+
                         float kBack = Player.GetTotalKnockback<SummonDamageClass>().ApplyTo(ForbiddenCirclet.tornadoBaseKB);
 
                         if (Player.whoAmI == Main.myPlayer)

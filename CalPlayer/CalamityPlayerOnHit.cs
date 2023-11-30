@@ -901,6 +901,9 @@ namespace CalamityMod.CalPlayer
                     xVector *= 10f;
                     yVector *= 10f;
                     int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(40);
+                    if (oldFashioned)
+                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
+
                     int eater = Projectile.NewProjectile(spawnSource, proj.Center.X, proj.Center.Y, xVector, yVector, ProjectileType<ForbiddenCircletEater>(), damage, proj.knockBack, proj.owner);
                     if (eater.WithinBounds(Main.maxProjectiles))
                         Main.projectile[eater].DamageType = DamageClass.Generic;

@@ -52,6 +52,9 @@ namespace CalamityMod.Items.VanillaArmorChanges
             owner.Calamity().MythrilFlareSpawnCountdown = FlareFrameSpawnDelay;
 
             int flareDamage = CalamityUtils.DamageSoftCap(originalDamage * 0.4, FlareDamageSoftcap);
+            if (owner.Calamity().oldFashioned)
+                flareDamage = CalamityUtils.CalcOldFashionedDamage(flareDamage);
+
             Vector2 flareSpawnPosition = victim.Center + Main.rand.NextVector2Circular(10f, 10f);
             Projectile.NewProjectile(owner.GetSource_ItemUse(owner.ActiveItem()), flareSpawnPosition, Vector2.Zero, ModContent.ProjectileType<MythrilFlare>(), flareDamage, 0f, owner.whoAmI);
         }

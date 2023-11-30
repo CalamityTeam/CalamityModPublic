@@ -52,6 +52,9 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
                 if (Main.myPlayer == projectile.owner)
                 {
                     int pulseDamage = (int)Main.player[projectile.owner].GetBestClassDamage().ApplyTo(ChlorophyteArmorSetChange.BaseDamageToEnemies);
+                    if (owner.Calamity().oldFashioned)
+                        pulseDamage = CalamityUtils.CalcOldFashionedDamage(pulseDamage);
+
                     Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<ChlorophyteLifePulse>(), pulseDamage, 0f, projectile.owner);
                 }
             }
