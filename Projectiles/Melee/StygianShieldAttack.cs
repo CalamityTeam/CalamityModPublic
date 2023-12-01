@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 // Actually set the owner center if there's no issues
                 Owner.Center = Projectile.Center;
-                Owner.direction = Projectile.direction;
+                Owner.ChangeDir(Projectile.direction);
                 return;
             }
 

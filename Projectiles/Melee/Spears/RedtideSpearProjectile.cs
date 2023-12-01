@@ -282,7 +282,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public void UpdateOwnerVars()
         {
-            Owner.direction = Math.Sign(BaseRotation.ToRotationVector2().X);
+            Owner.ChangeDir(Math.Sign(BaseRotation.ToRotationVector2().X));
             Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, AppropriateRotation - MathHelper.PiOver2);
             Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;

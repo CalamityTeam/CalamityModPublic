@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Melee
                 SnapCoyoteTime--;
             }
 
-            Owner.direction = Math.Sign(Projectile.velocity.X);
+            Owner.ChangeDir(Math.Sign(Projectile.velocity.X));
             Projectile.rotation = Projectile.AngleFrom(Owner.Center); //Point away from playah
 
             float ratio = GetSwingRatio();

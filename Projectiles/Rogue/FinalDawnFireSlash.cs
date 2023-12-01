@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (player is null || player.dead)
                 Projectile.Kill();
 
-            player.direction = Projectile.direction;
+            player.ChangeDir(Projectile.direction);
             player.heldProj = Projectile.whoAmI;
 
             AdjustPlayerPositionValues(player);

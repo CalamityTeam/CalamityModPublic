@@ -468,7 +468,7 @@ namespace CalamityMod.Items.Accessories
                         correctedVelocity.X = Math.Clamp(correctedVelocity.X, -permittedDistance, permittedDistance);
                         correctedVelocity.Y = Math.Clamp(correctedVelocity.Y, -permittedDistance, permittedDistance);
 
-                        player.direction = correctedVelocity.X > 0 ? 1 : -1; 
+                        player.ChangeDir(MathF.Sign(correctedVelocity.X));
                         Projectile.NewProjectile(source, player.Center, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalWhip>(), whipDamage, 1f, player.whoAmI);
                         player.Calamity().profanedSoulWeaponUsage = 10;
                     }

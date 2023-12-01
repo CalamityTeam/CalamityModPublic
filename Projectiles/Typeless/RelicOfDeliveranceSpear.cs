@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Typeless
                         }
                         SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Projectile.Center);
                     }
-                    player.direction = (Math.Cos(Projectile.rotation) > 0).ToDirectionInt();
+                    player.ChangeDir((Math.Cos(Projectile.rotation) > 0).ToDirectionInt());
                 }
             }
             else
@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Typeless
                 {
                     player.mount.Dismount(player);
                 }
-                player.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                player.ChangeDir((int)Projectile.velocity.X);
                 // Generate dust
                 if (Projectile.ai[0] % DustSpawnInterval == DustSpawnInterval - 1f)
                 {

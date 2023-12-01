@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public void DeterminePlayerVariables()
         {
             bool spearStillInUse = Owner.channel && !Owner.noItems && !Owner.CCed;
-            Owner.direction = (Math.Cos(Projectile.rotation - MathHelper.Pi + MathHelper.PiOver4) > 0f).ToDirectionInt();
+            Owner.ChangeDir((Math.Cos(Projectile.rotation - MathHelper.Pi + MathHelper.PiOver4) > 0f).ToDirectionInt());
             Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = Owner.itemAnimation = 2;
             Owner.itemRotation = CalamityUtils.WrapAngle90Degrees(MathHelper.WrapAngle(Projectile.rotation - MathHelper.Pi + MathHelper.PiOver4));

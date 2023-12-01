@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 600;
             Projectile.arrow = true;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
