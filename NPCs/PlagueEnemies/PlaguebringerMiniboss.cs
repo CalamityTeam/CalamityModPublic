@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
         {
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.7f,
                 PortraitScale = 0.8f,
@@ -76,10 +76,10 @@ namespace CalamityMod.NPCs.PlagueEnemies
         public override void AI()
         {
             Lighting.AddLight((int)((NPC.position.X + (float)(NPC.width / 2)) / 16f), (int)((NPC.position.Y + (float)(NPC.height / 2)) / 16f), 0.1f, 0.3f, 0f);
-            bool flag113 = false;
+            bool outsideJungle = false;
             if (!Main.player[NPC.target].ZoneJungle)
             {
-                flag113 = true;
+                outsideJungle = true;
                 if (NPC.timeLeft > 150)
                 {
                     NPC.timeLeft = 150;
@@ -92,12 +92,12 @@ namespace CalamityMod.NPCs.PlagueEnemies
                     NPC.timeLeft = 750;
                 }
             }
-            int num1038 = 0;
-            for (int num1039 = 0; num1039 < 255; num1039++)
+            int playerAmt = 0;
+            for (int i = 0; i < 255; i++)
             {
-                if (Main.player[num1039].active && !Main.player[num1039].dead && (NPC.Center - Main.player[num1039].Center).Length() < 1000f)
+                if (Main.player[i].active && !Main.player[i].dead && (NPC.Center - Main.player[i].Center).Length() < 1000f)
                 {
-                    num1038++;
+                    playerAmt++;
                 }
             }
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
@@ -129,22 +129,22 @@ namespace CalamityMod.NPCs.PlagueEnemies
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    float num1041 = NPC.ai[1];
-                    int num1042;
+                    float currentAttack = NPC.ai[1];
+                    int nextAttack;
                     do
                     {
-                        num1042 = Main.rand.Next(3);
-                        if (num1042 == 1)
+                        nextAttack = Main.rand.Next(3);
+                        if (nextAttack == 1)
                         {
-                            num1042 = 2;
+                            nextAttack = 2;
                         }
-                        else if (num1042 == 2)
+                        else if (nextAttack == 2)
                         {
-                            num1042 = 3;
+                            nextAttack = 3;
                         }
                     }
-                    while ((float)num1042 == num1041);
-                    NPC.ai[0] = (float)num1042;
+                    while ((float)nextAttack == currentAttack);
+                    NPC.ai[0] = (float)nextAttack;
                     NPC.ai[1] = 0f;
                     NPC.ai[2] = 0f;
                     return;
@@ -152,12 +152,12 @@ namespace CalamityMod.NPCs.PlagueEnemies
             }
             else if (NPC.ai[0] == 0f)
             {
-                int num1043 = 2; //2
-                if (flag113)
+                int chargeDelay = 2; //2
+                if (outsideJungle)
                 {
-                    num1043 += 1;
+                    chargeDelay += 1;
                 }
-                if (NPC.ai[1] > (float)(2 * num1043) && NPC.ai[1] % 2f == 0f)
+                if (NPC.ai[1] > (float)(2 * chargeDelay) && NPC.ai[1] % 2f == 0f)
                 {
                     NPC.ai[0] = -1f;
                     NPC.ai[1] = 0f;
@@ -173,45 +173,45 @@ namespace CalamityMod.NPCs.PlagueEnemies
                         NPC.localAI[0] = 1f;
                         NPC.ai[1] += 1f;
                         NPC.ai[2] = 0f;
-                        float num1044 = 15f;
-                        if (flag113)
+                        float chargeSpeed = 15f;
+                        if (outsideJungle)
                         {
-                            num1044 += 2f;
+                            chargeSpeed += 2f;
                         }
-                        Vector2 vector117 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                        float num1045 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - vector117.X;
-                        float num1046 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - vector117.Y;
-                        float num1047 = (float)Math.Sqrt((double)(num1045 * num1045 + num1046 * num1046));
-                        num1047 = num1044 / num1047;
-                        NPC.velocity.X = num1045 * num1047;
-                        NPC.velocity.Y = num1046 * num1047;
+                        Vector2 chargeBeePos = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                        float chargeTargetX = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - chargeBeePos.X;
+                        float chargeTargetY = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - chargeBeePos.Y;
+                        float chargeTargetDist = (float)Math.Sqrt((double)(chargeTargetX * chargeTargetX + chargeTargetY * chargeTargetY));
+                        chargeTargetDist = chargeSpeed / chargeTargetDist;
+                        NPC.velocity.X = chargeTargetX * chargeTargetDist;
+                        NPC.velocity.Y = chargeTargetY * chargeTargetDist;
                         NPC.spriteDirection = NPC.direction;
                         SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
                         return;
                     }
                     NPC.localAI[0] = 0f;
-                    float num1048 = 12.25f;
-                    float num1049 = 0.155f;
-                    if (flag113)
+                    float lineUpSpeed = 12.25f;
+                    float lineUpAcceleration = 0.155f;
+                    if (outsideJungle)
                     {
-                        num1048 += 1f;
-                        num1049 += 0.075f;
+                        lineUpSpeed += 1f;
+                        lineUpAcceleration += 0.075f;
                     }
                     if (NPC.position.Y + (float)(NPC.height / 2) < Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2))
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num1049;
+                        NPC.velocity.Y = NPC.velocity.Y + lineUpAcceleration;
                     }
                     else
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num1049;
+                        NPC.velocity.Y = NPC.velocity.Y - lineUpAcceleration;
                     }
                     if (NPC.velocity.Y < -12f)
                     {
-                        NPC.velocity.Y = -num1048;
+                        NPC.velocity.Y = -lineUpSpeed;
                     }
                     if (NPC.velocity.Y > 12f)
                     {
-                        NPC.velocity.Y = num1048;
+                        NPC.velocity.Y = lineUpSpeed;
                     }
                     if (Math.Abs(NPC.position.X + (float)(NPC.width / 2) - (Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2))) > 600f)
                     {
@@ -246,13 +246,12 @@ namespace CalamityMod.NPCs.PlagueEnemies
                         NPC.direction = 1;
                     }
                     NPC.spriteDirection = NPC.direction;
-                    int num1050 = 500;
-                    int num1051 = 1;
+                    int chargeDirection = 1;
                     if (NPC.position.X + (float)(NPC.width / 2) < Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2))
                     {
-                        num1051 = -1;
+                        chargeDirection = -1;
                     }
-                    if (NPC.direction == num1051 && Math.Abs(NPC.position.X + (float)(NPC.width / 2) - (Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2))) > (float)num1050)
+                    if (NPC.direction == chargeDirection && Math.Abs(NPC.position.X + (float)(NPC.width / 2) - (Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2))) > 500f)
                     {
                         NPC.ai[2] = 1f;
                     }
@@ -265,13 +264,13 @@ namespace CalamityMod.NPCs.PlagueEnemies
                     NPC.spriteDirection = NPC.direction;
                     NPC.localAI[0] = 0f;
                     NPC.velocity *= 0.9f;
-                    float num1052 = 0.105f;
-                    if (flag113)
+                    float chargeDeceleration = 0.105f;
+                    if (outsideJungle)
                     {
                         NPC.velocity *= 0.9f;
-                        num1052 += 0.075f;
+                        chargeDeceleration += 0.075f;
                     }
-                    if (Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y) < num1052)
+                    if (Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y) < chargeDeceleration)
                     {
                         NPC.ai[2] = 0f;
                         NPC.ai[1] += 1f;
@@ -282,54 +281,54 @@ namespace CalamityMod.NPCs.PlagueEnemies
             {
                 NPC.TargetClosest(true);
                 NPC.spriteDirection = NPC.direction;
-                float num1053 = 12f;
-                float num1054 = 0.1f;
-                if (flag113)
+                float hoverForBeesSpeed = 12f;
+                float hoverForBeesAccel = 0.1f;
+                if (outsideJungle)
                 {
-                    num1054 = 0.12f;
+                    hoverForBeesAccel = 0.12f;
                 }
-                Vector2 vector118 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                float num1055 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - vector118.X;
-                float num1056 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - 200f - vector118.Y;
-                float num1057 = (float)Math.Sqrt((double)(num1055 * num1055 + num1056 * num1056));
-                if (num1057 < 400f)
+                Vector2 hoverForBeesPosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                float hoverForBeesTargetX = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - hoverForBeesPosition.X;
+                float hoverForBeesTargetY = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - 200f - hoverForBeesPosition.Y;
+                float hoverForBeesTargetDist = (float)Math.Sqrt((double)(hoverForBeesTargetX * hoverForBeesTargetX + hoverForBeesTargetY * hoverForBeesTargetY));
+                if (hoverForBeesTargetDist < 400f)
                 {
                     NPC.ai[0] = 1f;
                     NPC.ai[1] = 0f;
                     NPC.netUpdate = true;
                     return;
                 }
-                num1057 = num1053 / num1057;
-                if (NPC.velocity.X < num1055)
+                hoverForBeesTargetDist = hoverForBeesSpeed / hoverForBeesTargetDist;
+                if (NPC.velocity.X < hoverForBeesTargetX)
                 {
-                    NPC.velocity.X = NPC.velocity.X + num1054;
-                    if (NPC.velocity.X < 0f && num1055 > 0f)
+                    NPC.velocity.X = NPC.velocity.X + hoverForBeesAccel;
+                    if (NPC.velocity.X < 0f && hoverForBeesTargetX > 0f)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num1054;
+                        NPC.velocity.X = NPC.velocity.X + hoverForBeesAccel;
                     }
                 }
-                else if (NPC.velocity.X > num1055)
+                else if (NPC.velocity.X > hoverForBeesTargetX)
                 {
-                    NPC.velocity.X = NPC.velocity.X - num1054;
-                    if (NPC.velocity.X > 0f && num1055 < 0f)
+                    NPC.velocity.X = NPC.velocity.X - hoverForBeesAccel;
+                    if (NPC.velocity.X > 0f && hoverForBeesTargetX < 0f)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num1054;
+                        NPC.velocity.X = NPC.velocity.X - hoverForBeesAccel;
                     }
                 }
-                if (NPC.velocity.Y < num1056)
+                if (NPC.velocity.Y < hoverForBeesTargetY)
                 {
-                    NPC.velocity.Y = NPC.velocity.Y + num1054;
-                    if (NPC.velocity.Y < 0f && num1056 > 0f)
+                    NPC.velocity.Y = NPC.velocity.Y + hoverForBeesAccel;
+                    if (NPC.velocity.Y < 0f && hoverForBeesTargetY > 0f)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num1054;
+                        NPC.velocity.Y = NPC.velocity.Y + hoverForBeesAccel;
                     }
                 }
-                else if (NPC.velocity.Y > num1056)
+                else if (NPC.velocity.Y > hoverForBeesTargetY)
                 {
-                    NPC.velocity.Y = NPC.velocity.Y - num1054;
-                    if (NPC.velocity.Y > 0f && num1056 < 0f)
+                    NPC.velocity.Y = NPC.velocity.Y - hoverForBeesAccel;
+                    if (NPC.velocity.Y > 0f && hoverForBeesTargetY < 0f)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num1054;
+                        NPC.velocity.Y = NPC.velocity.Y - hoverForBeesAccel;
                     }
                 }
             }
@@ -337,83 +336,83 @@ namespace CalamityMod.NPCs.PlagueEnemies
             {
                 NPC.localAI[0] = 0f;
                 NPC.TargetClosest(true);
-                Vector2 vector119 = new Vector2(NPC.position.X + (float)(NPC.width / 2) + (float)(40 * NPC.direction), NPC.position.Y + (float)NPC.height * 0.8f);
-                Vector2 vector120 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                float num1058 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - vector120.X;
-                float num1059 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - vector120.Y;
-                float num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
+                Vector2 beeSpawnPosition = new Vector2(NPC.position.X + (float)(NPC.width / 2) + (float)(40 * NPC.direction), NPC.position.Y + (float)NPC.height * 0.8f);
+                Vector2 plaguebringerBeeSpawnPos = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                float beeSpawnTargetX = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - plaguebringerBeeSpawnPos.X;
+                float beeSpawnTargetY = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - plaguebringerBeeSpawnPos.Y;
+                float beeSpawnTargetDist = (float)Math.Sqrt((double)(beeSpawnTargetX * beeSpawnTargetX + beeSpawnTargetY * beeSpawnTargetY));
                 NPC.ai[1] += 1f;
-                NPC.ai[1] += (float)(num1038 / 2);
-                bool flag103 = false;
+                NPC.ai[1] += (float)(playerAmt / 2);
+                bool canSpawnBee = false;
                 if (NPC.ai[1] > 10f)
                 {
                     NPC.ai[1] = 0f;
                     NPC.ai[2] += 1f;
-                    flag103 = true;
+                    canSpawnBee = true;
                 }
-                if (Collision.CanHit(vector119, 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) && flag103)
+                if (Collision.CanHit(beeSpawnPosition, 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) && canSpawnBee)
                 {
                     SoundEngine.PlaySound(SoundID.NPCHit8, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int num1061;
+                        int beeType;
                         if (Main.rand.NextBool(4))
                         {
-                            num1061 = ModContent.NPCType<PlagueChargerLarge>();
+                            beeType = ModContent.NPCType<PlagueChargerLarge>();
                         }
                         else
                         {
-                            num1061 = ModContent.NPCType<PlagueCharger>();
+                            beeType = ModContent.NPCType<PlagueCharger>();
                         }
                         if (NPC.CountNPCS(ModContent.NPCType<PlagueCharger>()) < 3)
                         {
-                            int num1062 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
-                            Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.005f;
-                            Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.005f;
-                            Main.npc[num1062].localAI[0] = 60f;
-                            Main.npc[num1062].netUpdate = true;
+                            int notTheBees = NPC.NewNPC(NPC.GetSource_FromAI(), (int)beeSpawnPosition.X, (int)beeSpawnPosition.Y, beeType, 0, 0f, 0f, 0f, 0f, 255);
+                            Main.npc[notTheBees].velocity.X = (float)Main.rand.Next(-200, 201) * 0.005f;
+                            Main.npc[notTheBees].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.005f;
+                            Main.npc[notTheBees].localAI[0] = 60f;
+                            Main.npc[notTheBees].netUpdate = true;
                         }
                     }
                 }
-                if (num1060 > 400f || !Collision.CanHit(new Vector2(vector119.X, vector119.Y - 30f), 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
+                if (beeSpawnTargetDist > 400f || !Collision.CanHit(new Vector2(beeSpawnPosition.X, beeSpawnPosition.Y - 30f), 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                 {
-                    float num1063 = 14.5f;
-                    float num1064 = 0.105f;
-                    vector120 = vector119;
-                    num1058 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - vector120.X;
-                    num1059 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - vector120.Y;
-                    num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
-                    num1060 = num1063 / num1060;
-                    if (NPC.velocity.X < num1058)
+                    float beeSpawnSpeed = 14.5f;
+                    float beeSpawnAcceleration = 0.105f;
+                    plaguebringerBeeSpawnPos = beeSpawnPosition;
+                    beeSpawnTargetX = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - plaguebringerBeeSpawnPos.X;
+                    beeSpawnTargetY = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - plaguebringerBeeSpawnPos.Y;
+                    beeSpawnTargetDist = (float)Math.Sqrt((double)(beeSpawnTargetX * beeSpawnTargetX + beeSpawnTargetY * beeSpawnTargetY));
+                    beeSpawnTargetDist = beeSpawnSpeed / beeSpawnTargetDist;
+                    if (NPC.velocity.X < beeSpawnTargetX)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num1064;
-                        if (NPC.velocity.X < 0f && num1058 > 0f)
+                        NPC.velocity.X = NPC.velocity.X + beeSpawnAcceleration;
+                        if (NPC.velocity.X < 0f && beeSpawnTargetX > 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num1064;
+                            NPC.velocity.X = NPC.velocity.X + beeSpawnAcceleration;
                         }
                     }
-                    else if (NPC.velocity.X > num1058)
+                    else if (NPC.velocity.X > beeSpawnTargetX)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num1064;
-                        if (NPC.velocity.X > 0f && num1058 < 0f)
+                        NPC.velocity.X = NPC.velocity.X - beeSpawnAcceleration;
+                        if (NPC.velocity.X > 0f && beeSpawnTargetX < 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X - num1064;
+                            NPC.velocity.X = NPC.velocity.X - beeSpawnAcceleration;
                         }
                     }
-                    if (NPC.velocity.Y < num1059)
+                    if (NPC.velocity.Y < beeSpawnTargetY)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num1064;
-                        if (NPC.velocity.Y < 0f && num1059 > 0f)
+                        NPC.velocity.Y = NPC.velocity.Y + beeSpawnAcceleration;
+                        if (NPC.velocity.Y < 0f && beeSpawnTargetY > 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num1064;
+                            NPC.velocity.Y = NPC.velocity.Y + beeSpawnAcceleration;
                         }
                     }
-                    else if (NPC.velocity.Y > num1059)
+                    else if (NPC.velocity.Y > beeSpawnTargetY)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num1064;
-                        if (NPC.velocity.Y > 0f && num1059 < 0f)
+                        NPC.velocity.Y = NPC.velocity.Y - beeSpawnAcceleration;
+                        if (NPC.velocity.Y > 0f && beeSpawnTargetY < 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num1064;
+                            NPC.velocity.Y = NPC.velocity.Y - beeSpawnAcceleration;
                         }
                     }
                 }
@@ -431,123 +430,123 @@ namespace CalamityMod.NPCs.PlagueEnemies
             }
             else if (NPC.ai[0] == 3f)
             {
-                float num1065 = 7f;
-                float num1066 = 0.075f;
-                if (flag113)
+                float stingerAttackSpeed = 7f;
+                float stingerAttackAccel = 0.075f;
+                if (outsideJungle)
                 {
-                    num1066 = 0.09f;
-                    num1065 = 8f;
+                    stingerAttackAccel = 0.09f;
+                    stingerAttackSpeed = 8f;
                 }
-                Vector2 vector121 = new Vector2(NPC.position.X + (float)(NPC.width / 2) + (float)(40 * NPC.direction), NPC.position.Y + (float)NPC.height * 0.8f);
-                Vector2 vector122 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                float num1067 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - vector122.X;
-                float num1068 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - 300f - vector122.Y;
-                float num1069 = (float)Math.Sqrt((double)(num1067 * num1067 + num1068 * num1068));
+                Vector2 stingerSpawnPos = new Vector2(NPC.position.X + (float)(NPC.width / 2) + (float)(40 * NPC.direction), NPC.position.Y + (float)NPC.height * 0.8f);
+                Vector2 stingerAttackPos = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                float stingerAttackTargetX = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - stingerAttackPos.X;
+                float stingerAttackTargetY = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - 300f - stingerAttackPos.Y;
+                float stingerAttackTargetDist = (float)Math.Sqrt((double)(stingerAttackTargetX * stingerAttackTargetX + stingerAttackTargetY * stingerAttackTargetY));
                 NPC.ai[1] += 1f;
-                bool flag104 = false;
+                bool canFireStinger = false;
                 if (NPC.ai[1] % 35f == 34f)
                 {
-                    flag104 = true;
+                    canFireStinger = true;
                 }
-                if (flag104 && NPC.position.Y + (float)NPC.height < Main.player[NPC.target].position.Y && Collision.CanHit(vector121, 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
+                if (canFireStinger && NPC.position.Y + (float)NPC.height < Main.player[NPC.target].position.Y && Collision.CanHit(stingerSpawnPos, 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                 {
                     SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        float num1070 = 6f;
-                        if (flag113)
+                        float stingerSpeed = 6f;
+                        if (outsideJungle)
                         {
-                            num1070 += 2f;
+                            stingerSpeed += 2f;
                         }
-                        float num1071 = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - vector121.X;
-                        float num1072 = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - vector121.Y;
-                        float num1073 = (float)Math.Sqrt((double)(num1071 * num1071 + num1072 * num1072));
-                        num1073 = num1070 / num1073;
-                        num1071 *= num1073;
-                        num1072 *= num1073;
+                        float stingerTargetX = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - stingerSpawnPos.X;
+                        float stingerTargetY = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - stingerSpawnPos.Y;
+                        float stingerTargetDist = (float)Math.Sqrt((double)(stingerTargetX * stingerTargetX + stingerTargetY * stingerTargetY));
+                        stingerTargetDist = stingerSpeed / stingerTargetDist;
+                        stingerTargetX *= stingerTargetDist;
+                        stingerTargetY *= stingerTargetDist;
                         bool fireRocket = Main.rand.NextBool(15);
                         int type = fireRocket ? ModContent.ProjectileType<HiveBombGoliath>() : ModContent.ProjectileType<PlagueStingerGoliathV2>();
                         int damage = fireRocket ? 72 : 52;
                         if (Main.expertMode)
                             damage = fireRocket ? 50 : 35;
 
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), stingerSpawnPos.X, stingerSpawnPos.Y, stingerTargetX, stingerTargetY, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
-                if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
+                if (!Collision.CanHit(new Vector2(stingerSpawnPos.X, stingerSpawnPos.Y - 30f), 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                 {
-                    num1066 = 0.105f;
-                    vector122 = vector121;
-                    num1067 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - vector122.X;
-                    num1068 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - vector122.Y;
-                    if (NPC.velocity.X < num1067)
+                    stingerAttackAccel = 0.105f;
+                    stingerAttackPos = stingerSpawnPos;
+                    stingerAttackTargetX = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2) - stingerAttackPos.X;
+                    stingerAttackTargetY = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2) - stingerAttackPos.Y;
+                    if (NPC.velocity.X < stingerAttackTargetX)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num1066;
-                        if (NPC.velocity.X < 0f && num1067 > 0f)
+                        NPC.velocity.X = NPC.velocity.X + stingerAttackAccel;
+                        if (NPC.velocity.X < 0f && stingerAttackTargetX > 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num1066;
+                            NPC.velocity.X = NPC.velocity.X + stingerAttackAccel;
                         }
                     }
-                    else if (NPC.velocity.X > num1067)
+                    else if (NPC.velocity.X > stingerAttackTargetX)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num1066;
-                        if (NPC.velocity.X > 0f && num1067 < 0f)
+                        NPC.velocity.X = NPC.velocity.X - stingerAttackAccel;
+                        if (NPC.velocity.X > 0f && stingerAttackTargetX < 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X - num1066;
+                            NPC.velocity.X = NPC.velocity.X - stingerAttackAccel;
                         }
                     }
-                    if (NPC.velocity.Y < num1068)
+                    if (NPC.velocity.Y < stingerAttackTargetY)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num1066;
-                        if (NPC.velocity.Y < 0f && num1068 > 0f)
+                        NPC.velocity.Y = NPC.velocity.Y + stingerAttackAccel;
+                        if (NPC.velocity.Y < 0f && stingerAttackTargetY > 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num1066;
+                            NPC.velocity.Y = NPC.velocity.Y + stingerAttackAccel;
                         }
                     }
-                    else if (NPC.velocity.Y > num1068)
+                    else if (NPC.velocity.Y > stingerAttackTargetY)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num1066;
-                        if (NPC.velocity.Y > 0f && num1068 < 0f)
+                        NPC.velocity.Y = NPC.velocity.Y - stingerAttackAccel;
+                        if (NPC.velocity.Y > 0f && stingerAttackTargetY < 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num1066;
+                            NPC.velocity.Y = NPC.velocity.Y - stingerAttackAccel;
                         }
                     }
                 }
-                else if (num1069 > 100f)
+                else if (stingerAttackTargetDist > 100f)
                 {
                     NPC.TargetClosest(true);
                     NPC.spriteDirection = NPC.direction;
-                    num1069 = num1065 / num1069;
-                    if (NPC.velocity.X < num1067)
+                    stingerAttackTargetDist = stingerAttackSpeed / stingerAttackTargetDist;
+                    if (NPC.velocity.X < stingerAttackTargetX)
                     {
-                        NPC.velocity.X = NPC.velocity.X + num1066;
-                        if (NPC.velocity.X < 0f && num1067 > 0f)
+                        NPC.velocity.X = NPC.velocity.X + stingerAttackAccel;
+                        if (NPC.velocity.X < 0f && stingerAttackTargetX > 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X + num1066 * 2f;
+                            NPC.velocity.X = NPC.velocity.X + stingerAttackAccel * 2f;
                         }
                     }
-                    else if (NPC.velocity.X > num1067)
+                    else if (NPC.velocity.X > stingerAttackTargetX)
                     {
-                        NPC.velocity.X = NPC.velocity.X - num1066;
-                        if (NPC.velocity.X > 0f && num1067 < 0f)
+                        NPC.velocity.X = NPC.velocity.X - stingerAttackAccel;
+                        if (NPC.velocity.X > 0f && stingerAttackTargetX < 0f)
                         {
-                            NPC.velocity.X = NPC.velocity.X - num1066 * 2f;
+                            NPC.velocity.X = NPC.velocity.X - stingerAttackAccel * 2f;
                         }
                     }
-                    if (NPC.velocity.Y < num1068)
+                    if (NPC.velocity.Y < stingerAttackTargetY)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y + num1066;
-                        if (NPC.velocity.Y < 0f && num1068 > 0f)
+                        NPC.velocity.Y = NPC.velocity.Y + stingerAttackAccel;
+                        if (NPC.velocity.Y < 0f && stingerAttackTargetY > 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y + num1066 * 2f;
+                            NPC.velocity.Y = NPC.velocity.Y + stingerAttackAccel * 2f;
                         }
                     }
-                    else if (NPC.velocity.Y > num1068)
+                    else if (NPC.velocity.Y > stingerAttackTargetY)
                     {
-                        NPC.velocity.Y = NPC.velocity.Y - num1066;
-                        if (NPC.velocity.Y > 0f && num1068 < 0f)
+                        NPC.velocity.Y = NPC.velocity.Y - stingerAttackAccel;
+                        if (NPC.velocity.Y > 0f && stingerAttackTargetY < 0f)
                         {
-                            NPC.velocity.Y = NPC.velocity.Y - num1066 * 2f;
+                            NPC.velocity.Y = NPC.velocity.Y - stingerAttackAccel * 2f;
                         }
                     }
                 }
@@ -572,32 +571,30 @@ namespace CalamityMod.NPCs.PlagueEnemies
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-            Color color36 = Color.White;
-            float amount9 = 0.5f;
-            int num153 = 7;
+            Vector2 halfSizeTexture = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
+            int afterimageAmt = 7;
             if (NPC.ai[0] != 0f)
-                num153 = 5;
+                afterimageAmt = 5;
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int num155 = 1; num155 < num153; num155 += 2)
+                for (int i = 1; i < afterimageAmt; i += 2)
                 {
-                    Color color38 = drawColor;
-                    color38 = Color.Lerp(color38, color36, amount9);
-                    color38 = NPC.GetAlpha(color38);
-                    color38 *= (float)(num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
-                    vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
-                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    Color afterimageColor = drawColor;
+                    afterimageColor = Color.Lerp(afterimageColor, Color.White, 0.5f);
+                    afterimageColor = NPC.GetAlpha(afterimageColor);
+                    afterimageColor *= (float)(afterimageAmt - i) / 15f;
+                    Vector2 afterimagePos = NPC.oldPos[i] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
+                    afterimagePos -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                    afterimagePos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, afterimagePos, NPC.frame, afterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+            drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -628,23 +625,23 @@ namespace CalamityMod.NPCs.PlagueEnemies
                 NPC.height = 100;
                 NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
-                for (int num621 = 0; num621 < 40; num621++)
+                for (int i = 0; i < 40; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Plague, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int plagueDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Plague, 0f, 0f, 100, default, 2f);
+                    Main.dust[plagueDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[plagueDust].scale = 0.5f;
+                        Main.dust[plagueDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 70; num623++)
+                for (int j = 0; j < 70; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Plague, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Plague, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int plagueDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Plague, 0f, 0f, 100, default, 3f);
+                    Main.dust[plagueDust2].noGravity = true;
+                    Main.dust[plagueDust2].velocity *= 5f;
+                    plagueDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.Plague, 0f, 0f, 100, default, 2f);
+                    Main.dust[plagueDust2].velocity *= 2f;
                 }
             }
         }

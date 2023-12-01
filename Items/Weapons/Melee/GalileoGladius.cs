@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Rapier;
             Item.damage = 92;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = Item.useTime = 10;
+            Item.useAnimation = Item.useTime = 12;
             Item.shoot = ModContent.ProjectileType<GalileoGladiusProj>();
             Item.shootSpeed = 0.9f;
             Item.knockBack = 10f;

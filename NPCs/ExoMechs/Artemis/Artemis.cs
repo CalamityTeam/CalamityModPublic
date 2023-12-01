@@ -183,7 +183,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             NPC.GetNPCDamage();
             NPC.width = 204;
             NPC.height = 226;
-            NPC.defense = 80;
+            NPC.defense = 100;
             NPC.DR_NERD(0.25f);
             NPC.LifeMaxNERB(1250000, 1495000, 650000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -1248,18 +1248,18 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
             Rectangle targetHitbox = target.Hitbox;
 
-            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
+            float hitboxTopLeft = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float hitboxTopRight = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float hitboxBotLeft = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float hitboxBotRight = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
 
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
+            float minDist = hitboxTopLeft;
+            if (hitboxTopRight < minDist)
+                minDist = hitboxTopRight;
+            if (hitboxBotLeft < minDist)
+                minDist = hitboxBotLeft;
+            if (hitboxBotRight < minDist)
+                minDist = hitboxBotRight;
 
             return minDist <= 100f && NPC.Opacity == 1f && AIState == (float)Phase.Charge;
         }
@@ -1562,18 +1562,18 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
             if (NPC.life <= 0)
             {
-                for (int num193 = 0; num193 < 2; num193++)
+                for (int i = 0; i < 2; i++)
                 {
                     Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
                 }
-                for (int num194 = 0; num194 < 20; num194++)
+                for (int j = 0; j < 20; j++)
                 {
-                    int num195 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
-                    Main.dust[num195].noGravity = true;
-                    Main.dust[num195].velocity *= 3f;
-                    num195 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
-                    Main.dust[num195].velocity *= 2f;
-                    Main.dust[num195].noGravity = true;
+                    int plasmaDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
+                    Main.dust[plasmaDust].noGravity = true;
+                    Main.dust[plasmaDust].velocity *= 3f;
+                    plasmaDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                    Main.dust[plasmaDust].velocity *= 2f;
+                    Main.dust[plasmaDust].noGravity = true;
                 }
 
                 if (Main.netMode != NetmodeID.Server)

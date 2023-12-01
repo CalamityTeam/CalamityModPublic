@@ -1,12 +1,14 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.IO;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Graphics.Metaballs;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Particles;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -18,165 +20,131 @@ namespace CalamityMod.Projectiles.Ranged
 
         public Vector2 InitialCenter;
         public Vector2 Destination;
+        public Vector2 NPCDestination;
         public const float MaxRadius = 90f;
-        public float Time
-        {
-            get => Projectile.ai[0];
-            set => Projectile.ai[0] = value;
-        }
-        public int DustType
-        {
-            get => (int)Projectile.ai[1];
-            set => Projectile.ai[1] = value;
-        }
-        public float YDirection
-        {
-            get => Projectile.localAI[1];
-            set => Projectile.localAI[1] = value;
-        }
+        public ref float YDirection => ref Projectile.ai[0];
+        public ref float Time => ref Projectile.ai[1];
+        public Color sparkColor;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 36;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 40;
+            Projectile.width = Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 210;
             Projectile.alpha = 127;
+            Projectile.extraUpdates = 1;
+            Projectile.tileCollide = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(YDirection);
             writer.WriteVector2(Destination);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            YDirection = reader.ReadSingle();
             Destination = reader.ReadVector2();
         }
 
         public override void AI()
         {
+            PhotoMetaball.SpawnParticle(Projectile.Center, 54);
+            PhotoMetaball2.SpawnParticle(Projectile.Center, 50);
+
+            sparkColor = Main.rand.Next(4) switch
+            {
+                0 => Color.Red,
+                1 => Color.MediumTurquoise,
+                2 => Color.Orange,
+                _ => Color.LawnGreen,
+            };
+            
             Lighting.AddLight(Projectile.Center, Color.DarkSlateGray.ToVector3());
-            Projectile.alpha = (int)MathHelper.Lerp(255, 127, Utils.GetLerpValue(0f, 25f, Time, true));
             Projectile.scale = MathHelper.Lerp(0.001f, 1f, Utils.GetLerpValue(0f, 25f, Time, true));
             if (Projectile.localAI[0] == 0f)
             {
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].CanBeChasedBy(Projectile.GetSource_FromThis(), false))
+                        NPCDestination = Main.npc[i].Center + Main.npc[i].velocity * 5f;
+                }
                 InitialCenter = Projectile.Center;
+                Projectile.localAI[0] = 1f;
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    Destination = Main.MouseWorld;
+                    Destination = NPCDestination;
                     Projectile.netUpdate = true;
                 }
-                DustType = Main.rand.NextBool() ? 107 : 234;
-                if (Main.rand.NextBool(4))
-                {
-                    DustType = 269;
-                }
-                Projectile.localAI[0] = 1f;
             }
 
             if (Destination == Vector2.Zero)
                 return;
 
-            if (Time <= 90f)
+            if (Time <= 60f)
             {
-                Projectile.position = Vector2.Lerp(InitialCenter, Destination, Time / 90f);
-                Projectile.position.Y += (float)Math.Sin(Time / 90f * MathHelper.TwoPi) * 75f;
+                Projectile.Center = Vector2.Lerp(InitialCenter, Destination, Time / 60f);
+                Projectile.Center += (Vector2.UnitY * MathF.Sin(Time / 70f * MathHelper.TwoPi) * 75f * YDirection).RotatedBy(Projectile.velocity.ToRotation());
             }
-            else if (Time < 180f)
+            else if (Time < 120f)
             {
                 // For those who haven't seen this yet (namely in the 1.4 source), this allows you to achieve a
                 // fade-in and fade-out effect with relative ease. At 90, multiply by 0, and somewhere in-between until 115, where you multiply by 1.
                 // And then do the same for the fade-out effect of 180f-165. These inverse linear interpolations cannot overlap by definition because
                 // their ranges do not overlap. Overall a really cool trick.
-                float radius = MaxRadius * Utils.GetLerpValue(90f, 115f, Time, true) * Utils.GetLerpValue(180f, 165f, Time, true);
-                radius *= 1f + (float)Math.Cos(Main.GlobalTimeWrappedHourly / 24f) * 0.25f;
+                float radius = MaxRadius * Utils.GetLerpValue(60f, 75f, Time, true) * Utils.GetLerpValue(120f, 105f, Time, true);
+                radius *= 1f + MathF.Cos(Main.GlobalTimeWrappedHourly / 24f) * 0.25f;
                 if (radius < 5f)
                     radius = 5f;
-                Projectile.Center = Destination + ((Time - 90) / 90f * MathHelper.ToRadians(720f) + (YDirection == -1).ToInt() * MathHelper.Pi).ToRotationVector2() * radius;
+                Projectile.Center = Destination + ((Time - 60) / 60f * MathHelper.ToRadians(720f) + (YDirection == -1).ToInt() * MathHelper.Pi).ToRotationVector2() * radius;
             }
-            else if (Time == 180f)
+            else if (Time == 120f)
                 Projectile.Kill();
 
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
             Time++;
         }
 
-        public void GenerateRotationalDust()
-        {
-            for (int i = 0; i < 9; i++)
-            {
-                float angle = Time / 45f + i / 9f * MathHelper.TwoPi;
-                Vector2 offsetSpan = angle.ToRotationVector2() * Projectile.Size * 0.65f * Projectile.scale;
-                Vector2 edgePosition = Projectile.Center + offsetSpan.RotatedBy(Projectile.rotation);
-                Dust dust = Dust.NewDustPerfect(edgePosition + Main.rand.NextVector2Circular(4f, 4f), DustType);
-                dust.velocity = Vector2.Zero;
-                dust.noGravity = true;
-                dust.scale = 0.65f;
-            }
-        }
-
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return CalamityUtils.MulticolorLerp(Time / 60f % 1f, new Color[]
-            {
-                Color.PaleGreen,
-                Color.Violet,
-                Color.SlateGray
-            }) * Projectile.Opacity;
-        }
-        public override bool PreDraw(ref Color lightColor)
-        {
-            Texture2D lightTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SmallGreyscaleCircle").Value;
-            for (int i = 0; i < Projectile.oldPos.Length; i++)
-            {
-                float colorInterpolation = (float)Math.Cos(Projectile.timeLeft / 16f + Main.GlobalTimeWrappedHourly / 20f + i / (float)Projectile.oldPos.Length * MathHelper.Pi) * 0.5f + 0.5f;
-                Color color = CalamityUtils.MulticolorLerp(MathHelper.Clamp(colorInterpolation, 0f, 0.99f), new Color[]
-                {
-                    Color.PaleGreen,
-                    Color.Violet,
-                    Color.SlateGray
-                }) * Projectile.Opacity;
-                color.A = 0;
-                Vector2 drawPosition = Projectile.oldPos[i] + lightTexture.Size() * 0.5f - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY) + new Vector2(-15f, -15f);
-                Color outerColor = color;
-                Color innerColor = color * 0.5f;
-                float intensity = 0.9f + 0.15f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 60f * MathHelper.TwoPi);
-
-                // Become smaller the futher along the old positions we are.
-                intensity *= MathHelper.Lerp(0.15f, 1f, 1f - i / (float)Projectile.oldPos.Length);
-
-                Vector2 outerScale = new Vector2(1.25f) * intensity;
-                Vector2 innerScale = new Vector2(1.25f) * intensity * 0.7f;
-                outerColor *= intensity * Projectile.scale;
-                innerColor *= intensity * Projectile.scale;
-                Main.EntitySpriteDraw(lightTexture, drawPosition, null, outerColor, 0f, lightTexture.Size() * 0.5f, outerScale * 0.6f, SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(lightTexture, drawPosition, null, innerColor, 0f, lightTexture.Size() * 0.5f, innerScale * 0.6f, SpriteEffects.None, 0);
-            }
-            return false;
-        }
-
         public override void OnKill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            float scaleBonus = Time >= 120f ? Main.rand.NextFloat(3.4f, 4.2f) : Main.rand.NextFloat(0.8f, 1.6f);
+            SoundEngine.PlaySound(DeadSunsWind.Explosion with { Volume = 0.7f}, Projectile.Center);
+            float numberOfDusts = Time >= 120f ? 30 : 20;
+            float rotFactor = 360f / numberOfDusts;
+            for (int i = 0; i < numberOfDusts; i++)
             {
-                int projID = ModContent.ProjectileType<ExoSpark>();
-                for (int i = 0; i < 3; i++)
+                sparkColor = Main.rand.Next(4) switch
                 {
-                    Vector2 vel = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 16f;
-                    Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, vel, projID, Projectile.damage, Projectile.knockBack * 0.3f, Projectile.owner);
-                }
+                    0 => Color.Red,
+                    1 => Color.MediumTurquoise,
+                    2 => Color.Orange,
+                    _ => Color.LawnGreen,
+                };
+
+                float rot = MathHelper.ToRadians(i * rotFactor);
+                Vector2 offset = (Vector2.UnitX * Main.rand.NextFloat(0.2f, 3.1f)).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+                Vector2 velOffset = (Vector2.UnitX * Main.rand.NextFloat(0.2f, 3.1f)).RotatedBy(rot * Main.rand.NextFloat(1.1f, 9.1f));
+
+                SquishyLightParticle exoEnergy = new(Projectile.Center + offset, velOffset * (Main.rand.NextFloat(0.5f, 3.5f) + scaleBonus * 0.65f), Time >= 120f ? 0.7f : 0.5f, sparkColor, Time >= 120f ? 50 : 35);
+                GeneralParticleHandler.SpawnParticle(exoEnergy);
             }
+            Projectile.scale = 6.5f * scaleBonus;
+            // we should probably have a generic util to do this whole thing
+            Projectile.maxPenetrate = -1;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
+            Projectile.Damage();
         }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, Projectile.width * Projectile.scale * 0.5f, targetHitbox);
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 360);
 

@@ -24,8 +24,8 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         private void ApplyAnyPieceEffect(Player player)
         {
-            // Remove the vanilla melee speed buff and replace it with damage
-            player.GetAttackSpeed<MeleeDamageClass>() -= 0.07f;
+            // Remove the vanilla crit chance buff and replace it with damage
+            player.GetCritChance<GenericDamageClass>() -= 0.05f;
             player.GetDamage<GenericDamageClass>() += ArmorPieceDamage;
 
             // Give jump boost
@@ -38,7 +38,10 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void ApplyLegPieceEffect(Player player) => ApplyAnyPieceEffect(player);
 
-        public override void UpdateSetBonusText(ref string setBonusText) => setBonusText = "Set bonus: 15% increased max movement speed and acceleration";
+        public override void UpdateSetBonusText(ref string setBonusText)
+        {
+            setBonusText = $"{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
+        }
 
         public override void ApplyArmorSetBonus(Player player)
         {

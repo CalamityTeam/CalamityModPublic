@@ -40,33 +40,33 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.height = 20;
                 Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
                 Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-                for (int num621 = 0; num621 < 10; num621++)
+                for (int i = 0; i < 10; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
+                    Main.dust[dust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[dust].scale = 0.5f;
+                        Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 20; num623++)
+                for (int j = 0; j < 20; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int dust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 3f);
+                    Main.dust[dust2].noGravity = true;
+                    Main.dust[dust2].velocity *= 5f;
+                    dust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
+                    Main.dust[dust2].velocity *= 2f;
                 }
                 count += 1f;
             }
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 4f)
             {
-                for (int num468 = 0; num468 < 5; num468++)
+                for (int k = 0; k < 5; k++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 0.75f);
-                    Main.dust[num469].velocity *= 0f;
+                    int otherDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 0.75f);
+                    Main.dust[otherDust].velocity *= 0f;
                 }
             }
             NPC potentialTarget = Projectile.Center.MinionHoming(1200f, Main.player[Projectile.owner]);

@@ -3,6 +3,7 @@ using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,8 +15,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public int frameCounter = 0;
         public int frame = 0;
-        public bool IDUnlocked(Player player) => DownedBossSystem.downedYharon || player.name == "Jetstream Sam" || player.name == "Samuel Rodrigues";
+        public bool IDUnlocked(Player player) => DownedBossSystem.downedDoG;
 
+        public static readonly SoundStyle OrganicHit = new("CalamityMod/Sounds/Item/MurasamaHitOrganic") { Volume = 0.6f };
+        public static readonly SoundStyle InorganicHit = new("CalamityMod/Sounds/Item/MurasamaHitInorganic") { Volume = 0.65f };
+        public static readonly SoundStyle Swing = new("CalamityMod/Sounds/Item/MurasamaSwing") { Volume = 0.3f };
+        public static readonly SoundStyle BigSwing = new("CalamityMod/Sounds/Item/MurasamaBigSwing") { Volume = 0.35f };
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 13));
@@ -26,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.height = 128;
             Item.width = 56;
-            Item.damage = 3001;
+            Item.damage = 2222;
             Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -44,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 30;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 61;
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {

@@ -42,9 +42,9 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, (float)Main.DiscoR / 255f, (float)Main.DiscoG / 255f, (float)Main.DiscoB / 255f);
-            bool flag64 = Projectile.type == ModContent.ProjectileType<CosmicEnergySpiral>();
+            bool isMinion = Projectile.type == ModContent.ProjectileType<CosmicEnergySpiral>();
             player.AddBuff(ModContent.BuffType<CosmicEnergy>(), 3600);
-            if (flag64)
+            if (isMinion)
             {
                 if (player.dead)
                 {
@@ -55,109 +55,105 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.timeLeft = 2;
                 }
             }
-            float num633 = 1400f; //700
-            float num634 = 1600f; //800
-            float num635 = 2400f; //1200
-            float num636 = 800f;
+            float targetDist = 1400f; //700
             Projectile.rotation += Projectile.velocity.X * 0.1f;
-            Vector2 vector46 = Projectile.position;
-            bool flag25 = false;
+            Vector2 projPos = Projectile.position;
+            bool canAttack = false;
             int target = 0;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(Projectile, false))
                 {
-                    float num646 = Vector2.Distance(npc.Center, Projectile.Center);
-                    if (!flag25 && num646 < num633)
+                    float maxTargetDist = Vector2.Distance(npc.Center, Projectile.Center);
+                    if (!canAttack && maxTargetDist < targetDist)
                     {
-                        vector46 = npc.Center;
-                        flag25 = true;
+                        projPos = npc.Center;
+                        canAttack = true;
                         target = npc.whoAmI;
                     }
                 }
             }
             else
             {
-                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    NPC nPC2 = Main.npc[num645];
+                    NPC nPC2 = Main.npc[i];
                     if (nPC2.CanBeChasedBy(Projectile, false))
                     {
-                        float num646 = Vector2.Distance(nPC2.Center, Projectile.Center);
-                        if (!flag25 && num646 < num633)
+                        float maxTargetDist = Vector2.Distance(nPC2.Center, Projectile.Center);
+                        if (!canAttack && maxTargetDist < targetDist)
                         {
-                            num633 = num646;
-                            vector46 = nPC2.Center;
-                            flag25 = true;
-                            target = num645;
+                            targetDist = maxTargetDist;
+                            projPos = nPC2.Center;
+                            canAttack = true;
+                            target = i;
                         }
                     }
                 }
             }
-            float num647 = num634;
-            if (flag25)
+            float separationAnxietyDist = 1600f;
+            if (canAttack)
             {
-                num647 = num635;
+                separationAnxietyDist = 2400f;
             }
-            if (Vector2.Distance(player.Center, Projectile.Center) > num647)
+            if (Vector2.Distance(player.Center, Projectile.Center) > separationAnxietyDist)
             {
                 Projectile.ai[1] = 1f;
                 Projectile.netUpdate = true;
             }
-            if (flag25 && Projectile.ai[1] == 0f)
+            if (canAttack && Projectile.ai[1] == 0f)
             {
-                Vector2 vector47 = vector46 - Projectile.Center;
-                float num648 = vector47.Length();
-                vector47.Normalize();
-                if (num648 > 200f)
+                Vector2 projDirection = projPos - Projectile.Center;
+                float projDistance = projDirection.Length();
+                projDirection.Normalize();
+                if (projDistance > 200f)
                 {
                     float scaleFactor2 = 6f; //6
-                    vector47 *= scaleFactor2;
-                    Projectile.velocity = (Projectile.velocity * 40f + vector47) / 41f;
+                    projDirection *= scaleFactor2;
+                    Projectile.velocity = (Projectile.velocity * 40f + projDirection) / 41f;
                 }
                 else
                 {
-                    float num649 = 4f; //4
-                    vector47 *= -num649;
-                    Projectile.velocity = (Projectile.velocity * 40f + vector47) / 41f;
+                    projDirection *= -4f;
+                    Projectile.velocity = (Projectile.velocity * 40f + projDirection) / 41f;
                 }
             }
             else
             {
-                bool flag26 = false;
-                if (!flag26)
+                bool isReturning = false;
+                if (!isReturning)
                 {
-                    flag26 = Projectile.ai[1] == 1f;
+                    isReturning = Projectile.ai[1] == 1f;
                 }
-                float num650 = 6f;
-                if (flag26)
+                float returnSpeed = 6f;
+                if (isReturning)
                 {
-                    num650 = 15f;
+                    returnSpeed = 15f;
                 }
                 Vector2 center2 = Projectile.Center;
-                Vector2 vector48 = player.Center - center2 + new Vector2(0f, -60f);
-                float num651 = vector48.Length();
-                if (num651 > 200f && num650 < 8f)
+                Vector2 playerDirection = player.Center - center2 + new Vector2(0f, -60f);
+                float playerDistance = playerDirection.Length();
+                if (playerDistance > 200f && returnSpeed < 8f)
                 {
-                    num650 = 8f;
+                    returnSpeed = 8f;
                 }
-                if (num651 < num636 && flag26 && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+                if (playerDistance < 800f && isReturning && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 {
                     Projectile.ai[1] = 0f;
                     Projectile.netUpdate = true;
                 }
-                if (num651 > 2000f) //2000
+                if (playerDistance > 2000f) //2000
                 {
                     Projectile.position.X = Main.player[Projectile.owner].Center.X - (float)(Projectile.width / 2);
                     Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (float)(Projectile.height / 2);
                     Projectile.netUpdate = true;
                 }
-                if (num651 > 70f)
+                if (playerDistance > 70f)
                 {
-                    vector48.Normalize();
-                    vector48 *= num650;
-                    Projectile.velocity = (Projectile.velocity * 40f + vector48) / 41f;
+                    playerDirection.Normalize();
+                    playerDirection *= returnSpeed;
+                    Projectile.velocity = (Projectile.velocity * 40f + playerDirection) / 41f;
                 }
                 else if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
                 {
@@ -165,9 +161,9 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.velocity.Y = -0.05f;
                 }
             }
-            float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
-            num395 *= 0.2f;
-            Projectile.scale = num395 + 0.95f;
+            float projScale = (float)Main.mouseTextColor / 200f - 0.35f;
+            projScale *= 0.2f;
+            Projectile.scale = projScale + 0.95f;
             if (justSpawned)
             {
                 justSpawned = false;
@@ -180,27 +176,27 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.ai[0] -= 1f;
                     return;
                 }
-                float num396 = Projectile.position.X;
-                float num397 = Projectile.position.Y;
-                float num398 = 1200f;
-                bool flag11 = false;
-                for (int num399 = 0; num399 < Main.maxNPCs; num399++)
+                float projX = Projectile.position.X;
+                float projY = Projectile.position.Y;
+                float homeDistance = 1200f;
+                bool isInRange = false;
+                for (int j = 0; j < Main.maxNPCs; j++)
                 {
-                    if (Main.npc[num399].CanBeChasedBy(Projectile, false))
+                    if (Main.npc[j].CanBeChasedBy(Projectile, false))
                     {
-                        float num400 = Main.npc[num399].position.X + (float)(Main.npc[num399].width / 2);
-                        float num401 = Main.npc[num399].position.Y + (float)(Main.npc[num399].height / 2);
-                        float num402 = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - num400) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - num401);
-                        if (num402 < num398)
+                        float npcX = Main.npc[j].position.X + (float)(Main.npc[j].width / 2);
+                        float npcY = Main.npc[j].position.Y + (float)(Main.npc[j].height / 2);
+                        float npcDistance = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - npcX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - npcY);
+                        if (npcDistance < homeDistance)
                         {
-                            num398 = num402;
-                            num396 = num400;
-                            num397 = num401;
-                            flag11 = true;
+                            homeDistance = npcDistance;
+                            projX = npcX;
+                            projY = npcY;
+                            isInRange = true;
                         }
                     }
                 }
-                if (flag11)
+                if (isInRange)
                 {
                     SoundEngine.PlaySound(SoundID.Item105, Projectile.position);
                     int blastAmt = Main.rand.Next(5, 8);
@@ -210,13 +206,13 @@ namespace CalamityMod.Projectiles.Summon
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<CosmicBlast>(), (int)(Projectile.damage * 0.5), 2f, Projectile.owner, (float)target, 0f);
                     }
                     float speed = 15f;
-                    float num404 = num396 - Projectile.Center.X;
-                    float num405 = num397 - Projectile.Center.Y;
-                    float num406 = (float)Math.Sqrt((double)(num404 * num404 + num405 * num405));
-                    num406 = speed / num406;
-                    num404 *= num406;
-                    num405 *= num406;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, num404, num405, ModContent.ProjectileType<CosmicBlastBig>(), Projectile.damage, 3f, Projectile.owner, (float)target, 0f);
+                    float projXSpeed = projX - Projectile.Center.X;
+                    float projYSpeed = projY - Projectile.Center.Y;
+                    float velocityMult = (float)Math.Sqrt((double)(projXSpeed * projXSpeed + projYSpeed * projYSpeed));
+                    velocityMult = speed / velocityMult;
+                    projXSpeed *= velocityMult;
+                    projYSpeed *= velocityMult;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, projXSpeed, projYSpeed, ModContent.ProjectileType<CosmicBlastBig>(), Projectile.damage, 3f, Projectile.owner, (float)target, 0f);
                     Projectile.ai[0] = 100f;
                 }
             }

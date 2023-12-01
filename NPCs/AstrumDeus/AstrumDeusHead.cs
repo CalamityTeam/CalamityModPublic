@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.70f,
                 PortraitScale = 0.75f,
@@ -149,32 +149,32 @@ namespace CalamityMod.NPCs.AstrumDeus
             bool deathModeEnragePhase = NPC.Calamity().newAI[0] == 3f;
             bool doubleWormPhase = NPC.Calamity().newAI[0] != 0f && !deathModeEnragePhase;
 
-            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
-            Texture2D texture2 = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow2").Value;
-            Vector2 vector = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
+            Texture2D mainWormTex = TextureAssets.Npc[NPC.type].Value;
+            Texture2D secondWormTex = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow2").Value;
+            Vector2 halfSizeTex = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
 
-            Vector2 vector2 = NPC.Center - screenPos;
-            vector2 -= new Vector2(texture.Width, texture.Height) * NPC.scale / 2f;
-            vector2 += vector * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture, vector2, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2(mainWormTex.Width, mainWormTex.Height) * NPC.scale / 2f;
+            drawLocation += halfSizeTex * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(mainWormTex, drawLocation, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTex, NPC.scale, spriteEffects, 0f);
 
-            texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow").Value;
+            mainWormTex = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow").Value;
             Color phaseColor = drawCyan ? Color.Cyan : Color.Orange;
             if (doubleWormPhase)
             {
-                texture = drawCyan ? texture : ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow3").Value;
-                texture2 = drawCyan ? ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow4").Value : texture2;
+                mainWormTex = drawCyan ? mainWormTex : ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow3").Value;
+                secondWormTex = drawCyan ? ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusHeadGlow4").Value : secondWormTex;
             }
-            Color color = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Cyan, 0.5f) * (deathModeEnragePhase ? 1f : NPC.Opacity);
-            Color color2 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Orange, 0.5f) * (deathModeEnragePhase ? 1f : NPC.Opacity);
+            Color mainWormColorLerp = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Cyan, 0.5f) * (deathModeEnragePhase ? 1f : NPC.Opacity);
+            Color secondWormColorLerp = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Orange, 0.5f) * (deathModeEnragePhase ? 1f : NPC.Opacity);
 
             int timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 1 : 2;
             for (int i = 0; i < timesToDraw; i++)
-                spriteBatch.Draw(texture, vector2, NPC.frame, color, NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
+                spriteBatch.Draw(mainWormTex, drawLocation, NPC.frame, mainWormColorLerp, NPC.rotation, halfSizeTex, NPC.scale, spriteEffects, 0f);
 
             timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 2 : 1;
             for (int i = 0; i < timesToDraw; i++)
-                spriteBatch.Draw(texture2, vector2, NPC.frame, color2, NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
+                spriteBatch.Draw(secondWormTex, drawLocation, NPC.frame, secondWormColorLerp, NPC.rotation, halfSizeTex, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -191,23 +191,23 @@ namespace CalamityMod.NPCs.AstrumDeus
                     NPC.height = 50;
                     NPC.position.X = NPC.position.X - (NPC.width / 2);
                     NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                    for (int num621 = 0; num621 < 5; num621++)
+                    for (int i = 0; i < 5; i++)
                     {
-                        int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                        Main.dust[num622].velocity *= 3f;
+                        int purpleDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                        Main.dust[purpleDust].velocity *= 3f;
                         if (Main.rand.NextBool())
                         {
-                            Main.dust[num622].scale = 0.5f;
-                            Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                            Main.dust[purpleDust].scale = 0.5f;
+                            Main.dust[purpleDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                         }
                     }
-                    for (int num623 = 0; num623 < 10; num623++)
+                    for (int j = 0; j < 10; j++)
                     {
-                        int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
-                        Main.dust[num624].noGravity = true;
-                        Main.dust[num624].velocity *= 5f;
-                        num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
-                        Main.dust[num624].velocity *= 2f;
+                        int astralDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
+                        Main.dust[astralDust].noGravity = true;
+                        Main.dust[astralDust].velocity *= 5f;
+                        astralDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
+                        Main.dust[astralDust].velocity *= 2f;
                     }
                 }
             }
@@ -314,12 +314,12 @@ namespace CalamityMod.NPCs.AstrumDeus
             // GFB Worm and Spaghetti drop
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
-                GFBOnly.Add(ItemID.Worm, 1, 1, 9999);
-                GFBOnly.Add(ItemID.CanOfWorms, 1, 1, 9999);
-                GFBOnly.Add(ItemID.GummyWorm, 1, 1, 9999);
-                GFBOnly.Add(ItemID.TruffleWorm, 1, 1, 9999);
-                GFBOnly.Add(ItemID.EnchantedNightcrawler, 1, 1, 9999);
-                GFBOnly.Add(ItemID.Spaghetti, 1, 1, 9999);
+                GFBOnly.Add(ItemID.Worm, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.CanOfWorms, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.GummyWorm, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.TruffleWorm, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.EnchantedNightcrawler, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.Spaghetti, 1, 1, 9999, true);
             }
 
             // Lore

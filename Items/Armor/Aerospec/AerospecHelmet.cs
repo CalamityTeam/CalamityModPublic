@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
@@ -47,10 +48,14 @@ namespace CalamityMod.Items.Armor.Aerospec
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Valkyrie>()] < 1)
                 {
-                    var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(20);
+                    int baseDamage = 20;
+                    if (modPlayer.oldFashioned)
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
+
+                    var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Valkyrie>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 20;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
             }
             player.GetDamage<SummonDamageClass>() += 0.11f;

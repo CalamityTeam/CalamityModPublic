@@ -73,15 +73,15 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.localAI[0] == 0f)
             {
                 int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);
-                for (int num621 = 0; num621 < 10; num621++)
+                for (int i = 0; i < 10; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
-                    Main.dust[num622].noGravity = true;
+                    int holyDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 100, default, 2f);
+                    Main.dust[holyDust].velocity *= 3f;
+                    Main.dust[holyDust].noGravity = true;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[holyDust].scale = 0.5f;
+                        Main.dust[holyDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 Projectile.localAI[0] = 1f;
@@ -105,10 +105,10 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = (Projectile.maxPenetrate != (int)Providence.BossMode.Day) ? ModContent.Request<Texture2D>(Texture).Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyBlastNight").Value;
-            int num214 = texture.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
+            int framing = texture.Height / Main.projFrames[Projectile.type];
+            int y6 = framing * Projectile.frame;
             Projectile.DrawBackglow(ProvUtils.GetProjectileColor(Projectile.maxPenetrate, Projectile.alpha, true), 4f, texture);
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, framing)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, framing / 2f), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 
@@ -134,19 +134,19 @@ namespace CalamityMod.Projectiles.Boss
             SoundEngine.PlaySound(ImpactSound, Projectile.Center);
 
             int dustType = ProvUtils.GetDustID(Projectile.maxPenetrate);
-            for (int num193 = 0; num193 < 4; num193++)
+            for (int j = 0; j < 4; j++)
             {
                 int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 50, default, 2f);
                 Main.dust[dust].noGravity = true;
             }
-            for (int num194 = 0; num194 < 40; num194++)
+            for (int k = 0; k < 40; k++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 4f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 50, default, 2f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int profaned = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 4f);
+                Main.dust[profaned].noGravity = true;
+                Main.dust[profaned].velocity *= 3f;
+                profaned = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 50, default, 2f);
+                Main.dust[profaned].velocity *= 2f;
+                Main.dust[profaned].noGravity = true;
             }
         }
 

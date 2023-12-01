@@ -1,11 +1,11 @@
-﻿using CalamityMod.Events;
+﻿using System;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -61,37 +61,37 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 void SpawnHands()
                 {
-                    int num155 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
-                    Main.npc[num155].ai[0] = -1f;
-                    Main.npc[num155].ai[1] = npc.whoAmI;
-                    Main.npc[num155].target = npc.target;
-                    Main.npc[num155].netUpdate = true;
+                    int skeletronHand = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                    Main.npc[skeletronHand].ai[0] = -1f;
+                    Main.npc[skeletronHand].ai[1] = npc.whoAmI;
+                    Main.npc[skeletronHand].target = npc.target;
+                    Main.npc[skeletronHand].netUpdate = true;
 
-                    num155 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
-                    Main.npc[num155].ai[0] = 1f;
-                    Main.npc[num155].ai[1] = npc.whoAmI;
-                    Main.npc[num155].ai[3] = 150f;
-                    Main.npc[num155].target = npc.target;
-                    Main.npc[num155].netUpdate = true;
+                    skeletronHand = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                    Main.npc[skeletronHand].ai[0] = 1f;
+                    Main.npc[skeletronHand].ai[1] = npc.whoAmI;
+                    Main.npc[skeletronHand].ai[3] = 150f;
+                    Main.npc[skeletronHand].target = npc.target;
+                    Main.npc[skeletronHand].netUpdate = true;
 
                     // Spawn two additional hands with different attack timings
                     if (death)
                     {
-                        num155 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
-                        Main.npc[num155].ai[0] = -1f;
-                        Main.npc[num155].Calamity().newAI[0] = -1f;
-                        Main.npc[num155].ai[1] = npc.whoAmI;
-                        Main.npc[num155].ai[3] = respawnHands ? -75f : 0f;
-                        Main.npc[num155].target = npc.target;
-                        Main.npc[num155].netUpdate = true;
+                        skeletronHand = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                        Main.npc[skeletronHand].ai[0] = -1f;
+                        Main.npc[skeletronHand].Calamity().newAI[0] = -1f;
+                        Main.npc[skeletronHand].ai[1] = npc.whoAmI;
+                        Main.npc[skeletronHand].ai[3] = respawnHands ? -75f : 0f;
+                        Main.npc[skeletronHand].target = npc.target;
+                        Main.npc[skeletronHand].netUpdate = true;
 
-                        num155 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
-                        Main.npc[num155].ai[0] = 1f;
-                        Main.npc[num155].Calamity().newAI[0] = -1f;
-                        Main.npc[num155].ai[1] = npc.whoAmI;
-                        Main.npc[num155].ai[3] = respawnHands ? 75f : 150f;
-                        Main.npc[num155].target = npc.target;
-                        Main.npc[num155].netUpdate = true;
+                        skeletronHand = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                        Main.npc[skeletronHand].ai[0] = 1f;
+                        Main.npc[skeletronHand].Calamity().newAI[0] = -1f;
+                        Main.npc[skeletronHand].ai[1] = npc.whoAmI;
+                        Main.npc[skeletronHand].ai[3] = respawnHands ? 75f : 150f;
+                        Main.npc[skeletronHand].target = npc.target;
+                        Main.npc[skeletronHand].netUpdate = true;
                     }
                 }
             }
@@ -115,17 +115,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Hand immunity
-            int num156 = 0;
-            for (int num157 = 0; num157 < Main.maxNPCs; num157++)
+            int numHandsAlive = 0;
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
-                if (Main.npc[num157].active && Main.npc[num157].type == NPCID.SkeletronHand)
-                    num156++;
+                if (Main.npc[i].active && Main.npc[i].type == NPCID.SkeletronHand)
+                    numHandsAlive++;
             }
-            bool handsDead = num156 == 0;
+            bool handsDead = numHandsAlive == 0;
             npc.chaseable = handsDead;
-            calamityGlobalNPC.DR = num156 > 0 ? 0.9999f : 0.05f;
-            calamityGlobalNPC.unbreakableDR = num156 > 0;
-            calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = num156 > 0;
+            calamityGlobalNPC.DR = numHandsAlive > 0 ? 0.9999f : 0.05f;
+            calamityGlobalNPC.unbreakableDR = numHandsAlive > 0;
+            calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = numHandsAlive > 0;
 
             // Teleport
             if (handsDead || phase2)
@@ -140,28 +140,28 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Fire magic bolt after teleport
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        float num151 = 2f + (distance * 0.005f);
-                        if (num151 > 6f)
-                            num151 = 6f;
+                        float magicBoltSpeed = 2f + (distance * 0.005f);
+                        if (magicBoltSpeed > 6f)
+                            magicBoltSpeed = 6f;
 
                         int type = ProjectileID.Skull;
                         int damage = npc.GetProjectileDamage(type);
                         int numProj = Main.getGoodWorld ? 22 : death ? 5 : 3;
 
-                        float num743 = Main.player[npc.target].Center.X - npc.Center.X;
-                        float num744 = Main.player[npc.target].Center.Y - npc.Center.Y;
-                        float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+                        float boltTargetXDist = Main.player[npc.target].Center.X - npc.Center.X;
+                        float boltTargetYDist = Main.player[npc.target].Center.Y - npc.Center.Y;
+                        float boltTargetDistance = (float)Math.Sqrt(boltTargetXDist * boltTargetXDist + boltTargetYDist * boltTargetYDist);
 
-                        num745 = num151 / num745;
-                        num743 *= num745;
-                        num744 *= num745;
+                        boltTargetDistance = magicBoltSpeed / boltTargetDistance;
+                        boltTargetXDist *= boltTargetDistance;
+                        boltTargetYDist *= boltTargetDistance;
                         Vector2 center = npc.Center;
-                        center.X += num743 * 5f;
-                        center.Y += num744 * 5f;
+                        center.X += boltTargetXDist * 5f;
+                        center.Y += boltTargetYDist * 5f;
 
                         float rotation = MathHelper.ToRadians(Main.getGoodWorld ? 180 : 60);
-                        float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-                        double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+                        float baseSpeed = (float)Math.Sqrt(boltTargetXDist * boltTargetXDist + boltTargetYDist * boltTargetYDist);
+                        double startAngle = Math.Atan2(boltTargetXDist, boltTargetYDist) - rotation / 2;
                         double deltaAngle = rotation / numProj;
                         double offsetAngle;
 
@@ -178,9 +178,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Teleport dust
                     for (int m = 0; m < 30; m++)
                     {
-                        int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
-                        Main.dust[num39].noGravity = true;
-                        Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
+                        int teleportDust = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
+                        Main.dust[teleportDust].noGravity = true;
+                        Main.dust[teleportDust].velocity.X = Main.dust[teleportDust].velocity.X * 2f;
                     }
                 }
 
@@ -198,29 +198,29 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 value53 = npc.Center + new Vector2(npc.direction * 20, 6f);
-                        Vector2 vector251 = Main.player[npc.target].Center - value53;
-                        Point point12 = npc.Center.ToTileCoordinates();
-                        Point point13 = Main.player[npc.target].Center.ToTileCoordinates();
-                        int num1453 = 26;
-                        int num1454 = 4;
-                        int num1455 = 22;
-                        int num1457 = 0;
+                        Vector2 skullFaceDirection = npc.Center + new Vector2(npc.direction * 20, 6f);
+                        Vector2 skullTargetDirection = Main.player[npc.target].Center - skullFaceDirection;
+                        Point skullTileCoords = npc.Center.ToTileCoordinates();
+                        Point targetTileCoords = Main.player[npc.target].Center.ToTileCoordinates();
+                        int randomTeleportOffset = 26;
+                        int skullPositionOffset = 4;
+                        int targetPositionOffset = 22;
+                        int teleportTries = 0;
 
-                        bool flag106 = false;
-                        if (vector251.Length() > 2000f)
-                            flag106 = true;
+                        bool targetTooFar = false;
+                        if (skullTargetDirection.Length() > 2000f)
+                            targetTooFar = true;
 
-                        while (!flag106 && num1457 < 100)
+                        while (!targetTooFar && teleportTries < 100)
                         {
-                            num1457++;
-                            int num1458 = Main.rand.Next(point13.X - num1453, point13.X + num1453 + 1);
-                            int num1459 = Main.rand.Next(point13.Y - num1453, point13.Y + num1453 + 1);
-                            if ((num1459 < point13.Y - num1455 || num1459 > point13.Y + num1455 || num1458 < point13.X - num1455 || num1458 > point13.X + num1455) && (num1459 < point12.Y - num1454 || num1459 > point12.Y + num1454 || num1458 < point12.X - num1454 || num1458 > point12.X + num1454) && !Main.tile[num1458, num1459].HasUnactuatedTile)
+                            teleportTries++;
+                            int teleportTileX = Main.rand.Next(targetTileCoords.X - randomTeleportOffset, targetTileCoords.X + randomTeleportOffset + 1);
+                            int teleportTileY = Main.rand.Next(targetTileCoords.Y - randomTeleportOffset, targetTileCoords.Y + randomTeleportOffset + 1);
+                            if ((teleportTileY < targetTileCoords.Y - targetPositionOffset || teleportTileY > targetTileCoords.Y + targetPositionOffset || teleportTileX < targetTileCoords.X - targetPositionOffset || teleportTileX > targetTileCoords.X + targetPositionOffset) && (teleportTileY < skullTileCoords.Y - skullPositionOffset || teleportTileY > skullTileCoords.Y + skullPositionOffset || teleportTileX < skullTileCoords.X - skullPositionOffset || teleportTileX > skullTileCoords.X + skullPositionOffset) && !Main.tile[teleportTileX, teleportTileY].HasUnactuatedTile)
                             {
                                 // New location params
-                                calamityGlobalNPC.newAI[2] = num1458 * 16 - npc.width / 2;
-                                calamityGlobalNPC.newAI[3] = num1459 * 16 - npc.height;
+                                calamityGlobalNPC.newAI[2] = teleportTileX * 16 - npc.width / 2;
+                                calamityGlobalNPC.newAI[3] = teleportTileY * 16 - npc.height;
                                 npc.SyncExtraAI();
                                 break;
                             }
@@ -233,8 +233,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     for (int m = 0; m < 5; m++)
                     {
                         Vector2 position = new Vector2(calamityGlobalNPC.newAI[2], calamityGlobalNPC.newAI[3]);
-                        int num39 = Dust.NewDust(position, npc.width, npc.height, 27, 0f, 0f, 200, default, 2f);
-                        Main.dust[num39].noGravity = true;
+                        int teleportDust = Dust.NewDust(position, npc.width, npc.height, 27, 0f, 0f, 200, default, 2f);
+                        Main.dust[teleportDust].noGravity = true;
                     }
                 }
 
@@ -257,9 +257,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Teleport dust
                     for (int m = 0; m < 30; m++)
                     {
-                        int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
-                        Main.dust[num39].noGravity = true;
-                        Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
+                        int teleportDust = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
+                        Main.dust[teleportDust].noGravity = true;
+                        Main.dust[teleportDust].velocity.X = Main.dust[teleportDust].velocity.X * 2f;
                     }
 
                     // New location
@@ -278,38 +278,39 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Skull shooting
             if (handsDead && npc.ai[1] == 0f)
             {
-                float num158 = bossRush ? 10f : phase2 ? (60f - (death ? 30f * (1f - lifeRatio) : 0f)) : 75f;
+                float skullProjFrequency = bossRush ? 10f : phase2 ? (60f - (death ? 30f * (1f - lifeRatio) : 0f)) : 75f;
                 if (Main.getGoodWorld)
-                    num158 *= 0.8f;
-                num158 = (float)Math.Ceiling(num158);
+                    skullProjFrequency *= 0.8f;
+                skullProjFrequency = (float)Math.Ceiling(skullProjFrequency);
 
-                if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[1] % num158 == 0f && calamityGlobalNPC.newAI[1] > 45f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[1] % skullProjFrequency == 0f && calamityGlobalNPC.newAI[1] > 45f)
                 {
-                    Vector2 vector18 = npc.Center;
-                    float num159 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector18.X;
-                    float num160 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector18.Y;
-                    float num161 = (float)Math.Sqrt(num159 * num159 + num160 * num160);
-                    if (Collision.CanHit(vector18, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                    Vector2 skullFiringPos = npc.Center;
+                    float skullProjTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - skullFiringPos.X;
+                    float skullProjTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - skullFiringPos.Y;
+                    // Ozzatron: noticed this is unused. Leaving as-is for minimal touch.
+                    float skullProjTargetDist = (float)Math.Sqrt(skullProjTargetX * skullProjTargetX + skullProjTargetY * skullProjTargetY);
+                    if (Collision.CanHit(skullFiringPos, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
-                        float num162 = phase2 ? (5f + (death ? 3f * (1f - lifeRatio) : 0f)) : 4f;
-                        float num163 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector18.X;
-                        float num164 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector18.Y;
-                        float num165 = (float)Math.Sqrt(num163 * num163 + num164 * num164);
-                        num165 = num162 / num165;
-                        num163 *= num165;
-                        num164 *= num165;
+                        float skullProjSpeed = phase2 ? (5f + (death ? 3f * (1f - lifeRatio) : 0f)) : 4f;
+                        skullProjTargetX = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - skullFiringPos.X;
+                        skullProjTargetY = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - skullFiringPos.Y;
+                        skullProjTargetDist = (float)Math.Sqrt(skullProjTargetX * skullProjTargetX + skullProjTargetY * skullProjTargetY);
+                        skullProjTargetDist = skullProjSpeed / skullProjTargetDist;
+                        skullProjTargetX *= skullProjTargetDist;
+                        skullProjTargetY *= skullProjTargetDist;
                         int spread = bossRush ? 100 : 50;
-                        Vector2 vector19 = new Vector2(num163 + Main.rand.Next(-spread, spread + 1) * 0.01f, num164 + Main.rand.Next(-spread, spread + 1) * 0.01f);
-                        vector19.Normalize();
-                        vector19 *= num162;
-                        vector19 += npc.velocity;
-                        num163 = vector19.X;
-                        num164 = vector19.Y;
+                        Vector2 skullProjDirection = new Vector2(skullProjTargetX + Main.rand.Next(-spread, spread + 1) * 0.01f, skullProjTargetY + Main.rand.Next(-spread, spread + 1) * 0.01f);
+                        skullProjDirection.Normalize();
+                        skullProjDirection *= skullProjSpeed;
+                        skullProjDirection += npc.velocity;
+                        skullProjTargetX = skullProjDirection.X;
+                        skullProjTargetY = skullProjDirection.Y;
                         int type = ProjectileID.Skull;
                         int damage = npc.GetProjectileDamage(type);
-                        vector18 += vector19 * 5f;
-                        int num168 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector18.X, vector18.Y, num163, num164, type, damage, 0f, Main.myPlayer, -1f, 0f);
-                        Main.projectile[num168].timeLeft = 300;
+                        skullFiringPos += skullProjDirection * 5f;
+                        int skullProjectile = Projectile.NewProjectile(npc.GetSource_FromAI(), skullFiringPos.X, skullFiringPos.Y, skullProjTargetX, skullProjTargetY, type, damage, 0f, Main.myPlayer, -1f, 0f);
+                        Main.projectile[skullProjectile].timeLeft = 300;
 
                         npc.netUpdate = true;
                     }
@@ -337,58 +338,58 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 npc.rotation = npc.velocity.X / 15f;
 
-                float num169 = 0.04f + (death ? 0.04f * (1f - lifeRatio) : 0f);
-                float num170 = 3.5f - (death ? 1f - lifeRatio : 0f);
-                float num171 = 0.08f + (death ? 0.04f * (1f - lifeRatio) : 0f);
-                float num172 = 8.5f - (death ? 2f * (1f - lifeRatio) : 0f);
+                float headYAcceleration = 0.04f + (death ? 0.04f * (1f - lifeRatio) : 0f);
+                float headYTopSpeed = 3.5f - (death ? 1f - lifeRatio : 0f);
+                float headXAcceleration = 0.08f + (death ? 0.04f * (1f - lifeRatio) : 0f);
+                float headXTopSpeed = 8.5f - (death ? 2f * (1f - lifeRatio) : 0f);
                 if (Main.getGoodWorld)
                 {
-                    num169 += 0.01f;
-                    num170 += 1f;
-                    num171 += 0.05f;
-                    num172 += 2f;
+                    headYAcceleration += 0.01f;
+                    headYTopSpeed += 1f;
+                    headXAcceleration += 0.05f;
+                    headXTopSpeed += 2f;
                 }
                 if (bossRush)
                 {
-                    num169 *= 1.25f;
-                    num170 *= 0.75f;
-                    num171 *= 1.25f;
-                    num172 *= 0.75f;
+                    headYAcceleration *= 1.25f;
+                    headYTopSpeed *= 0.75f;
+                    headXAcceleration *= 1.25f;
+                    headXTopSpeed *= 0.75f;
                 }
 
                 if (npc.position.Y > Main.player[npc.target].position.Y - 250f)
                 {
                     if (npc.velocity.Y > 0f)
                         npc.velocity.Y *= 0.98f;
-                    npc.velocity.Y -= num169;
-                    if (npc.velocity.Y > num170)
-                        npc.velocity.Y = num170;
+                    npc.velocity.Y -= headYAcceleration;
+                    if (npc.velocity.Y > headYTopSpeed)
+                        npc.velocity.Y = headYTopSpeed;
                 }
                 else if (npc.position.Y < Main.player[npc.target].position.Y - 250f)
                 {
                     if (npc.velocity.Y < 0f)
                         npc.velocity.Y *= 0.98f;
-                    npc.velocity.Y += num169;
-                    if (npc.velocity.Y < -num170)
-                        npc.velocity.Y = -num170;
+                    npc.velocity.Y += headYAcceleration;
+                    if (npc.velocity.Y < -headYTopSpeed)
+                        npc.velocity.Y = -headYTopSpeed;
                 }
 
                 if (npc.position.X + (npc.width / 2) > Main.player[npc.target].position.X + (Main.player[npc.target].width / 2))
                 {
                     if (npc.velocity.X > 0f)
                         npc.velocity.X *= 0.98f;
-                    npc.velocity.X -= num171;
-                    if (npc.velocity.X > num172)
-                        npc.velocity.X = num172;
+                    npc.velocity.X -= headXAcceleration;
+                    if (npc.velocity.X > headXTopSpeed)
+                        npc.velocity.X = headXTopSpeed;
                 }
 
                 if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + (Main.player[npc.target].width / 2))
                 {
                     if (npc.velocity.X < 0f)
                         npc.velocity.X *= 0.98f;
-                    npc.velocity.X += num171;
-                    if (npc.velocity.X < -num172)
-                        npc.velocity.X = -num172;
+                    npc.velocity.X += headXAcceleration;
+                    if (npc.velocity.X < -headXTopSpeed)
+                        npc.velocity.X = -headXTopSpeed;
                 }
             }
 
@@ -402,21 +403,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         if (NPC.CountNPCS(NPCID.DarkCaster) < 6)
                         {
-                            int num167 = 1000;
-                            for (int num168 = 0; num168 < num167; num168++)
+                            for (int i = 0; i < 1000; i++)
                             {
-                                int num169 = (int)(npc.Center.X / 16f) + Main.rand.Next(-50, 51);
-                                int num170;
-                                for (num170 = (int)(npc.Center.Y / 16f) + Main.rand.Next(-50, 51); num170 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num169, num170); num170++)
+                                int headYAcceleration = (int)(npc.Center.X / 16f) + Main.rand.Next(-50, 51);
+                                int headYTopSpeed;
+                                for (headYTopSpeed = (int)(npc.Center.Y / 16f) + Main.rand.Next(-50, 51); headYTopSpeed < Main.maxTilesY - 10 && !WorldGen.SolidTile(headYAcceleration, headYTopSpeed); headYTopSpeed++)
                                 {
                                 }
 
-                                num170--;
-                                if (!WorldGen.SolidTile(num169, num170))
+                                headYTopSpeed--;
+                                if (!WorldGen.SolidTile(headYAcceleration, headYTopSpeed))
                                 {
-                                    int num171 = NPC.NewNPC(npc.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, NPCID.DarkCaster);
-                                    if (Main.netMode == NetmodeID.Server && num171 < Main.maxNPCs)
-                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num171);
+                                    int headXAcceleration = NPC.NewNPC(npc.GetSource_FromAI(), headYAcceleration * 16 + 8, headYTopSpeed * 16, NPCID.DarkCaster);
+                                    if (Main.netMode == NetmodeID.Server && headXAcceleration < Main.maxNPCs)
+                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, headXAcceleration);
 
                                     break;
                                 }
@@ -427,21 +427,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             if (!NPC.AnyNPCs(NPCID.DiabolistWhite))
                             {
-                                int num167 = 1000;
-                                for (int num168 = 0; num168 < num167; num168++)
+                                for (int i = 0; i < 1000; i++)
                                 {
-                                    int num169 = (int)(npc.Center.X / 16f) + Main.rand.Next(-50, 51);
-                                    int num170;
-                                    for (num170 = (int)(npc.Center.Y / 16f) + Main.rand.Next(-50, 51); num170 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num169, num170); num170++)
+                                    int headYAcceleration = (int)(npc.Center.X / 16f) + Main.rand.Next(-50, 51);
+                                    int headYTopSpeed;
+                                    for (headYTopSpeed = (int)(npc.Center.Y / 16f) + Main.rand.Next(-50, 51); headYTopSpeed < Main.maxTilesY - 10 && !WorldGen.SolidTile(headYAcceleration, headYTopSpeed); headYTopSpeed++)
                                     {
                                     }
 
-                                    num170--;
-                                    if (!WorldGen.SolidTile(num169, num170))
+                                    headYTopSpeed--;
+                                    if (!WorldGen.SolidTile(headYAcceleration, headYTopSpeed))
                                     {
-                                        int num171 = NPC.NewNPC(npc.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, NPCID.DiabolistWhite);
-                                        if (Main.netMode == NetmodeID.Server && num171 < Main.maxNPCs)
-                                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num171);
+                                        int headXAcceleration = NPC.NewNPC(npc.GetSource_FromAI(), headYAcceleration * 16 + 8, headYTopSpeed * 16, NPCID.DiabolistWhite);
+                                        if (Main.netMode == NetmodeID.Server && headXAcceleration < Main.maxNPCs)
+                                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, headXAcceleration);
 
                                         break;
                                     }
@@ -466,21 +465,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(NPCID.DarkCaster) < 6)
                         {
-                            int num167 = 1000;
-                            for (int num168 = 0; num168 < num167; num168++)
+                            for (int j = 0; j < 1000; j++)
                             {
-                                int num169 = (int)(npc.Center.X / 16f) + Main.rand.Next(-50, 51);
-                                int num170;
-                                for (num170 = (int)(npc.Center.Y / 16f) + Main.rand.Next(-50, 51); num170 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num169, num170); num170++)
+                                int headYAcceleration = (int)(npc.Center.X / 16f) + Main.rand.Next(-50, 51);
+                                int headYTopSpeed;
+                                for (headYTopSpeed = (int)(npc.Center.Y / 16f) + Main.rand.Next(-50, 51); headYTopSpeed < Main.maxTilesY - 10 && !WorldGen.SolidTile(headYAcceleration, headYTopSpeed); headYTopSpeed++)
                                 {
                                 }
 
-                                num170--;
-                                if (!WorldGen.SolidTile(num169, num170))
+                                headYTopSpeed--;
+                                if (!WorldGen.SolidTile(headYAcceleration, headYTopSpeed))
                                 {
-                                    int num171 = NPC.NewNPC(npc.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, NPCID.DarkCaster);
-                                    if (Main.netMode == NetmodeID.Server && num171 < Main.maxNPCs)
-                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num171);
+                                    int headXAcceleration = NPC.NewNPC(npc.GetSource_FromAI(), headYAcceleration * 16 + 8, headYTopSpeed * 16, NPCID.DarkCaster);
+                                    if (Main.netMode == NetmodeID.Server && headXAcceleration < Main.maxNPCs)
+                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, headXAcceleration);
 
                                     break;
                                 }
@@ -498,30 +496,30 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
 
                 npc.rotation += npc.direction * 0.3f;
-                Vector2 vector20 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                float num173 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector20.X;
-                float num174 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector20.Y;
-                float num175 = (float)Math.Sqrt(num173 * num173 + num174 * num174);
+                Vector2 headSpinPos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                float headSpinTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - headSpinPos.X;
+                float headSpinTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - headSpinPos.Y;
+                float headSpinTargetDist = (float)Math.Sqrt(headSpinTargetX * headSpinTargetX + headSpinTargetY * headSpinTargetY);
 
                 // Increase speed while charging
                 npc.damage = (int)(npc.defDamage * 1.3);
-                float num176 = bossRush ? 9f : 4.5f;
+                float headSpinVelocityMult = bossRush ? 9f : 4.5f;
                 float velocityBoost = death ? 1f : 1f - lifeRatio;
                 if (handsDead || bossRush)
-                    num176 += velocityBoost;
+                    headSpinVelocityMult += velocityBoost;
 
-                if (num175 > 150f)
+                if (headSpinTargetDist > 150f)
                 {
-                    float baseDistanceVelocityMult = 1f + MathHelper.Clamp((num175 - 150f) * 0.0015f, 0.05f, 1.5f);
-                    num176 *= baseDistanceVelocityMult;
+                    float baseDistanceVelocityMult = 1f + MathHelper.Clamp((headSpinTargetDist - 150f) * 0.0015f, 0.05f, 1.5f);
+                    headSpinVelocityMult *= baseDistanceVelocityMult;
                 }
 
                 if (Main.getGoodWorld)
-                    num176 *= 1.3f;
+                    headSpinVelocityMult *= 1.3f;
 
-                num175 = num176 / num175;
-                npc.velocity.X = num173 * num175;
-                npc.velocity.Y = num174 * num175;
+                headSpinTargetDist = headSpinVelocityMult / headSpinTargetDist;
+                npc.velocity.X = headSpinTargetX * headSpinTargetDist;
+                npc.velocity.Y = headSpinTargetY * headSpinTargetDist;
             }
 
             // Daytime enrage
@@ -531,13 +529,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 calamityGlobalNPC.DR = 0.9999f;
                 calamityGlobalNPC.unbreakableDR = true;
                 npc.rotation += npc.direction * 0.3f;
-                Vector2 vector21 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                float num177 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector21.X;
-                float num178 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector21.Y;
-                float num179 = (float)Math.Sqrt(num177 * num177 + num178 * num178);
-                num179 = 8f / num179;
-                npc.velocity.X = num177 * num179;
-                npc.velocity.Y = num178 * num179;
+                Vector2 enrageSpinPos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                float enrageSpinTargetX = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - enrageSpinPos.X;
+                float enrageSpinTargetY = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - enrageSpinPos.Y;
+                float enrageSpinTargetDist = (float)Math.Sqrt(enrageSpinTargetX * enrageSpinTargetX + enrageSpinTargetY * enrageSpinTargetY);
+                enrageSpinTargetDist = 8f / enrageSpinTargetDist;
+                npc.velocity.X = enrageSpinTargetX * enrageSpinTargetDist;
+                npc.velocity.Y = enrageSpinTargetY * enrageSpinTargetDist;
             }
 
             // Despawn
@@ -552,19 +550,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Emit dust
-            if (npc.ai[1] != 2f && npc.ai[1] != 3f && num156 != 0)
+            if (npc.ai[1] != 2f && npc.ai[1] != 3f && numHandsAlive != 0)
             {
-                int num180 = Dust.NewDust(new Vector2(npc.position.X + (npc.width / 2) - 15f - npc.velocity.X * 5f, npc.position.Y + npc.height - 2f), 30, 10, 5, -npc.velocity.X * 0.2f, 3f, 0, default, 2f);
-                Main.dust[num180].noGravity = true;
-                Main.dust[num180].velocity.X = Main.dust[num180].velocity.X * 1.3f;
-                Main.dust[num180].velocity.X = Main.dust[num180].velocity.X + npc.velocity.X * 0.4f;
-                Main.dust[num180].velocity.Y = Main.dust[num180].velocity.Y + (2f + npc.velocity.Y);
-                for (int num181 = 0; num181 < 2; num181++)
+                int idleDust = Dust.NewDust(new Vector2(npc.position.X + (npc.width / 2) - 15f - npc.velocity.X * 5f, npc.position.Y + npc.height - 2f), 30, 10, 5, -npc.velocity.X * 0.2f, 3f, 0, default, 2f);
+                Main.dust[idleDust].noGravity = true;
+                Main.dust[idleDust].velocity.X = Main.dust[idleDust].velocity.X * 1.3f;
+                Main.dust[idleDust].velocity.X = Main.dust[idleDust].velocity.X + npc.velocity.X * 0.4f;
+                Main.dust[idleDust].velocity.Y = Main.dust[idleDust].velocity.Y + (2f + npc.velocity.Y);
+                for (int j = 0; j < 2; j++)
                 {
-                    num180 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 120f), npc.width, 60, 5, npc.velocity.X, npc.velocity.Y, 0, default, 2f);
-                    Main.dust[num180].noGravity = true;
-                    Main.dust[num180].velocity -= npc.velocity;
-                    Main.dust[num180].velocity.Y = Main.dust[num180].velocity.Y + 5f;
+                    idleDust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 120f), npc.width, 60, 5, npc.velocity.X, npc.velocity.Y, 0, default, 2f);
+                    Main.dust[idleDust].noGravity = true;
+                    Main.dust[idleDust].velocity -= npc.velocity;
+                    Main.dust[idleDust].velocity.Y = Main.dust[idleDust].velocity.Y + 5f;
                 }
             }
 
@@ -610,9 +608,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Teleport dust
                     for (int m = 0; m < 10; m++)
                     {
-                        int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
-                        Main.dust[num39].noGravity = true;
-                        Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
+                        int teleportDust = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
+                        Main.dust[teleportDust].noGravity = true;
+                        Main.dust[teleportDust].velocity.X = Main.dust[teleportDust].velocity.X * 2f;
                     }
 
                     // New location
@@ -726,20 +724,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                 }
 
-                Vector2 vector22 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                float num182 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - vector22.X;
-                float num183 = Main.npc[(int)npc.ai[1]].position.Y + 230f - vector22.Y;
-                float num184 = (float)Math.Sqrt(num182 * num182 + num183 * num183);
-                npc.rotation = (float)Math.Atan2(num183, num182) + MathHelper.PiOver2;
+                Vector2 handCurrentPos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                float handIdleXPos = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - handCurrentPos.X;
+                float handIdleYPos = Main.npc[(int)npc.ai[1]].position.Y + 230f - handCurrentPos.Y;
+                float handIdleDist = (float)Math.Sqrt(handIdleXPos * handIdleXPos + handIdleYPos * handIdleYPos);
+                npc.rotation = (float)Math.Atan2(handIdleYPos, handIdleXPos) + MathHelper.PiOver2;
                 return false;
             }
             if (npc.ai[2] == 1f)
             {
-                Vector2 vector23 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                float num185 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - vector23.X;
-                float num186 = Main.npc[(int)npc.ai[1]].position.Y + 230f - vector23.Y;
-                float num187 = (float)Math.Sqrt(num185 * num185 + num186 * num186);
-                npc.rotation = (float)Math.Atan2(num186, num185) + MathHelper.PiOver2;
+                Vector2 handCurrentPosition = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                float handDrawbackXPos = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - handCurrentPosition.X;
+                float handDrawbackYPos = Main.npc[(int)npc.ai[1]].position.Y + 230f - handCurrentPosition.Y;
+                float handDrawbackDist = (float)Math.Sqrt(handDrawbackXPos * handDrawbackXPos + handDrawbackYPos * handDrawbackYPos);
+                npc.rotation = (float)Math.Atan2(handDrawbackYPos, handDrawbackXPos) + MathHelper.PiOver2;
                 npc.velocity.X *= 0.95f;
                 npc.velocity.Y -= 0.2f;
 
@@ -750,13 +748,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     npc.TargetClosest();
                     npc.ai[2] = 2f;
-                    vector23 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    num185 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector23.X;
-                    num186 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector23.Y;
-                    num187 = (float)Math.Sqrt(num185 * num185 + num186 * num186);
-                    num187 = 22f / num187;
-                    npc.velocity.X = num185 * num187;
-                    npc.velocity.Y = num186 * num187;
+                    handCurrentPosition = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    handDrawbackXPos = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - handCurrentPosition.X;
+                    handDrawbackYPos = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - handCurrentPosition.Y;
+                    handDrawbackDist = (float)Math.Sqrt(handDrawbackXPos * handDrawbackXPos + handDrawbackYPos * handDrawbackYPos);
+                    handDrawbackDist = 22f / handDrawbackDist;
+                    npc.velocity.X = handDrawbackXPos * handDrawbackDist;
+                    npc.velocity.Y = handDrawbackYPos * handDrawbackDist;
                     npc.netUpdate = true;
                 }
             }
@@ -770,11 +768,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
             else if (npc.ai[2] == 4f)
             {
-                Vector2 vector24 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                float num188 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - vector24.X;
-                float num189 = Main.npc[(int)npc.ai[1]].position.Y + 230f - vector24.Y;
-                float num190 = (float)Math.Sqrt(num188 * num188 + num189 * num189);
-                npc.rotation = (float)Math.Atan2(num189, num188) + MathHelper.PiOver2;
+                Vector2 handStrikeCurrentPos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                float handStrikeXPos = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - handStrikeCurrentPos.X;
+                float handStrikeYPos = Main.npc[(int)npc.ai[1]].position.Y + 230f - handStrikeCurrentPos.Y;
+                float handStrikeDist = (float)Math.Sqrt(handStrikeXPos * handStrikeXPos + handStrikeYPos * handStrikeYPos);
+                npc.rotation = (float)Math.Atan2(handStrikeYPos, handStrikeXPos) + MathHelper.PiOver2;
                 npc.velocity.Y *= 0.95f;
                 npc.velocity.X += 0.2f * -npc.ai[0];
 
@@ -787,13 +785,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     npc.TargetClosest();
                     npc.ai[2] = 5f;
-                    vector24 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    num188 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector24.X;
-                    num189 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector24.Y;
-                    num190 = (float)Math.Sqrt(num188 * num188 + num189 * num189);
-                    num190 = 23f / num190;
-                    npc.velocity.X = num188 * num190;
-                    npc.velocity.Y = num189 * num190;
+                    handStrikeCurrentPos = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    handStrikeXPos = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - handStrikeCurrentPos.X;
+                    handStrikeYPos = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - handStrikeCurrentPos.Y;
+                    handStrikeDist = (float)Math.Sqrt(handStrikeXPos * handStrikeXPos + handStrikeYPos * handStrikeYPos);
+                    handStrikeDist = 23f / handStrikeDist;
+                    npc.velocity.X = handStrikeXPos * handStrikeDist;
+                    npc.velocity.Y = handStrikeYPos * handStrikeDist;
                     npc.netUpdate = true;
                 }
             }

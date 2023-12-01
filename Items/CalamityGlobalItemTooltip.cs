@@ -355,9 +355,9 @@ namespace CalamityMod.Items
                 int cost = (int)(item.mana * Main.LocalPlayer.manaCost * 0.5f);
                 EditTooltipByName("UseMana", (line) => line.Text = $"Uses {cost} mana");
             }
-            if (item.healLife > 0 && Main.LocalPlayer.Calamity().healingPotBonus != 1f)
+            if (item.healLife > 0 && Main.LocalPlayer.Calamity().healingPotionMultiplier != 1f)
             {
-                int healAmt = (int)(item.healLife * Main.LocalPlayer.Calamity().healingPotBonus);
+                int healAmt = (int)(item.healLife * Main.LocalPlayer.Calamity().healingPotionMultiplier);
                 EditTooltipByName("HealLife", (line) => line.Text = $"Restores {healAmt} life");
             }
             #endregion
@@ -670,7 +670,7 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.PowerGlove)
             {
-                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("12%", "10%"));
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("12% increased melee speed", "10% increased melee speed, does not stack with downgrades"));
                 EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
             }
 
@@ -680,13 +680,19 @@ namespace CalamityMod.Items
             }
 
             if (item.type == ItemID.MechanicalGlove)
+            {
+                string extraLine = "\n12% increased melee speed, does not stack with downgrades";
+                EditTooltipByNum(1, (line) => line.Text = "12% increased melee damage" + extraLine);
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("12% increased melee speed", "12% increased melee speed, does not stack with downgrades"));
                 EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
+            }
 
             if (item.type == ItemID.FireGauntlet)
             {
                 EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
                 string extraLine = "\n10% increased true melee damage";
-                EditTooltipByNum(1, (line) => line.Text = "14% increased melee damage and speed" + extraLine);
+                string extraLine2 = "\n14% increased melee speed, does not stack with downgrades" + extraLine;
+                EditTooltipByNum(1, (line) => line.Text = "14% increased melee damage" + extraLine2);
             }
 
             // On Fire! debuff immunities
@@ -699,10 +705,8 @@ namespace CalamityMod.Items
             if (item.type == ItemID.TerrasparkBoots)
                 EditTooltipByNum(3, (line) => line.Text += "\nImmunity to the On Fire! debuff");
 
-            // IT'S HELLFIRE!!!
-            if (item.type == ItemID.MagmaStone || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
-
+            // Ozzatron 23NOV2023: Removed tooltip edits for Magma Skull and Molten Skull Rose, as they were invalid after vanilla tooltip changes.
+            
             // Yoyo Glove/Bag apply a 0.5x damage multiplier on the second yoyo
             if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
                 EditTooltipByNum(0, (line) => line.Text += "\nSecondary yoyos will do 50% less damage");
@@ -797,9 +801,9 @@ namespace CalamityMod.Items
 
             // Palladium
             if (item.type == ItemID.PalladiumBreastplate)
-                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.ChestplateDamagePercentageBoost + 3}% increased damage.");
+                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.ChestplateDamagePercentageBoost + 3}% increased damage");
             if (item.type == ItemID.PalladiumLeggings)
-                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage.");
+                EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage");
 
             // Mythril
             if (item.type == ItemID.MythrilHood)
@@ -1126,6 +1130,64 @@ namespace CalamityMod.Items
                 AddGrappleStats(34.375f, 18f, 24f, 16f);
             if (item.type == ItemID.StaticHook)
                 AddGrappleStats(37.5f, 16f, 24f, 0f);
+            #endregion
+
+            #region Herbs and Seeds Tooltips
+
+            void AddHerbTooltips(string text)
+            {
+                int materialIndex = 0;
+                for (int i = 0; i < tooltips.Count; ++i)
+                    if (tooltips[i].Name == "Material")
+                    {
+                        materialIndex = i;
+                        break;
+                    }
+                tooltips.Insert(materialIndex + 1, new TooltipLine(CalamityMod.Instance, "Tooltip0", text));
+            }
+
+            if (item.type == ItemID.Daybloom)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Daybloom"));
+            if (item.type == ItemID.Moonglow)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Moonglow"));
+            if (item.type == ItemID.Waterleaf)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Waterleaf"));
+            if (item.type == ItemID.Blinkroot)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Blinkroot"));
+            if (item.type == ItemID.Shiverthorn)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Shiverthorn"));
+            if (item.type == ItemID.Deathweed)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Deathweed"));
+            if (item.type == ItemID.Fireblossom)
+                AddHerbTooltips(CalamityUtils.GetTextValue("Vanilla.HerbTooltips.Fireblossom"));
+
+            void AddSeedTooltips(string text)
+            {
+                int materialIndex = 0;
+                for (int i = 0; i < tooltips.Count; ++i)
+                    if (tooltips[i].Name == "Placeable")
+                    {
+                        materialIndex = i;
+                        break;
+                    }
+                tooltips.Insert(materialIndex + 1, new TooltipLine(CalamityMod.Instance, "Tooltip0", text));
+            }
+
+            if (item.type == ItemID.DaybloomSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Daybloom"));
+            if (item.type == ItemID.MoonglowSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Moonglow"));
+            if (item.type == ItemID.WaterleafSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Waterleaf"));
+            if (item.type == ItemID.BlinkrootSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Blinkroot"));
+            if (item.type == ItemID.ShiverthornSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Shiverthorn"));
+            if (item.type == ItemID.DeathweedSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Deathweed"));
+            if (item.type == ItemID.FireblossomSeeds)
+                AddSeedTooltips(CalamityUtils.GetTextValue("Vanilla.SeedTooltips.Fireblossom"));
+
             #endregion
 
             // Beyond this point all code only applies to accessories. Skip it all if the item is not an accessory.

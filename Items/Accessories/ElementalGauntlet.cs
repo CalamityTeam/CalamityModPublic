@@ -28,15 +28,14 @@ namespace CalamityMod.Items.Accessories
             player.kbGlove = true;
             player.autoReuseGlove = true;
             player.meleeScaleGlove = true;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
-            player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
+            modPlayer.gloveLevel = 5;
+            player.GetDamage<TrueMeleeDamageClass>() += 0.10f;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.FireGauntlet).
-                AddIngredient<YharimsInsignia>().
                 AddIngredient(ItemID.LunarBar, 8).
                 AddIngredient<GalacticaSingularity>(4).
                 AddIngredient<AscendantSpiritEssence>(4).

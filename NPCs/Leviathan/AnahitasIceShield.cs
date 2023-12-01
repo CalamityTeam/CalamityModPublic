@@ -56,28 +56,28 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void AI()
         {
-            int num989 = (int)NPC.ai[0];
-            if (Main.npc[num989].active && Main.npc[num989].type == ModContent.NPCType<Anahita>())
+            int anahitaID = (int)NPC.ai[0];
+            if (Main.npc[anahitaID].active && Main.npc[anahitaID].type == ModContent.NPCType<Anahita>())
             {
                 if (NPC.alpha > 100 && NPC.ai[1] == 0f)
                     NPC.alpha -= 2;
 
-                if (Main.npc[num989].damage == 0)
+                if (Main.npc[anahitaID].damage == 0)
                     NPC.ai[1] = 1f;
                 else
                     NPC.ai[1] = 0f;
 
                 if (NPC.ai[1] == 1f)
-                    NPC.alpha = Main.npc[num989].alpha;
+                    NPC.alpha = Main.npc[anahitaID].alpha;
 
-                NPC.dontTakeDamage = Main.npc[num989].damage == 0;
-                NPC.rotation = Main.npc[num989].rotation;
-                NPC.spriteDirection = Main.npc[num989].direction;
+                NPC.dontTakeDamage = Main.npc[anahitaID].damage == 0;
+                NPC.rotation = Main.npc[anahitaID].rotation;
+                NPC.spriteDirection = Main.npc[anahitaID].direction;
                 NPC.velocity = Vector2.Zero;
-                NPC.position = Main.npc[num989].Center;
+                NPC.position = Main.npc[anahitaID].Center;
                 NPC.position.X = NPC.position.X - (NPC.width / 2) + ((NPC.spriteDirection == 1) ? -20f : 20f) * NPC.scale;
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2) - (int)(30 * NPC.scale);
-                NPC.gfxOffY = Main.npc[num989].gfxOffY;
+                NPC.gfxOffY = Main.npc[anahitaID].gfxOffY;
                 Lighting.AddLight((int)NPC.Center.X / 16, (int)NPC.Center.Y / 16, 0f, 0.8f, 1.1f);
                 return;
             }
@@ -87,21 +87,6 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.HitEffect();
             NPC.active = false;
             NPC.netUpdate = true;
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
-        {
-            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
-            {
-                if (projectile.penetrate == -1 && !projectile.minion)
-                {
-                    projectile.penetrate = 1;
-                }
-                else if (projectile.penetrate >= 1)
-                {
-                    projectile.penetrate = 1;
-                }
-            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => NPC.ai[1] == 0f;
@@ -115,6 +100,8 @@ namespace CalamityMod.NPCs.Leviathan
 
             target.AddBuff(BuffID.Frostburn, 240, true);
         }
+
+        public override bool CheckActive() => false;
 
         public override void HitEffect(NPC.HitInfo hit)
         {

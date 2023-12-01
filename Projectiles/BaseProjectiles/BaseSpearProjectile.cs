@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 Player player = Main.player[Projectile.owner];
 
                 // Adjust owner stats based on this projectile
-                player.direction = Projectile.direction;
+                player.ChangeDir(Projectile.direction);
                 player.heldProj = Projectile.whoAmI;
                 player.itemTime = player.itemAnimation;
 
@@ -66,7 +66,8 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 }
 
                 // If at the end of the animation, kill the projectile.
-                if (player.itemAnimation == 0)
+                //Checking if == 0 is too late, lets the projectile linger into chained item uses.
+                if (player.itemAnimation <= 1)
                     Projectile.Kill();
 
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2 + MathHelper.PiOver4;

@@ -16,7 +16,7 @@ AstralChunk: {
 		Summons Astrum Aureus when used in the Astral Infection
 		Enrages during the day while outside the Astral Infection
 		Not consumable
-		'The Infection’s fortress has found another target.'
+		'The Infection's fortress has found another target.'
 		'''
 }
 
@@ -36,7 +36,7 @@ BloodyWormFood: {
 		Summons the Perforator Hive when used in the Crimson
 		Enrages outside the Underground Crimson
 		Not consumable
-		'Do not play with your food, they won’t play with theirs.'
+		'Do not play with your food, they won't play with theirs.'
 		'''
 }
 
@@ -174,7 +174,6 @@ NecroplasmicBeacon: {
 	Tooltip:
 		'''
 		Summons Polterghast when used in the Dungeon
-		Enrages in large spaces
 		Not consumable
 		'The wails of the spirits disturbed something far more terrifying.'
 		'''

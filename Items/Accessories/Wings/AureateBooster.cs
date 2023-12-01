@@ -38,12 +38,12 @@ namespace CalamityMod.Items.Accessories.Wings
                     SoundEngine.PlaySound(SoundID.Item13, player.Center);
                     player.rocketDelay2 = 60;
                 }
-                int num66 = 2;
+                int dustAmt = 2;
                 if (player.controlUp)
                 {
-                    num66 = 4;
+                    dustAmt = 4;
                 }
-                for (int num67 = 0; num67 < num66; num67++)
+                for (int i = 0; i < dustAmt; i++)
                 {
                     int type = 6;
                     float scale = 1.75f;
@@ -53,27 +53,27 @@ namespace CalamityMod.Items.Accessories.Wings
                     {
                         x = player.position.X + (float)(player.width / 2) - 26f;
                     }
-                    float num68 = player.position.Y + (float)player.height - 18f;
-                    if (num67 == 1 || num67 == 3)
+                    float dustYPos = player.position.Y + (float)player.height - 18f;
+                    if (i == 1 || i == 3)
                     {
                         x = player.position.X + (float)(player.width / 2) + 8f;
                         if (player.direction > 0)
                         {
                             x = player.position.X + (float)(player.width / 2) - 20f;
                         }
-                        num68 += 6f;
+                        dustYPos += 6f;
                     }
-                    if (num67 > 1)
+                    if (i > 1)
                     {
-                        num68 += player.velocity.Y;
+                        dustYPos += player.velocity.Y;
                     }
-                    int num69 = Dust.NewDust(new Vector2(x, num68), 8, 8, type, 0f, 0f, alpha, default, scale);
-                    Dust dust = Main.dust[num69];
+                    int boosterDust = Dust.NewDust(new Vector2(x, dustYPos), 8, 8, type, 0f, 0f, alpha, default, scale);
+                    Dust dust = Main.dust[boosterDust];
                     dust.velocity.X *= 0.1f;
-                    dust.velocity.Y = Main.dust[num69].velocity.Y * 1f + 2f * player.gravDir - player.velocity.Y * 0.3f;
+                    dust.velocity.Y = Main.dust[boosterDust].velocity.Y * 1f + 2f * player.gravDir - player.velocity.Y * 0.3f;
                     dust.noGravity = true;
                     dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
-                    if (num66 == 4)
+                    if (dustAmt == 4)
                     {
                         dust.velocity.Y += 6f;
                     }

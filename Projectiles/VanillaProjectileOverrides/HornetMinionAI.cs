@@ -1,115 +1,134 @@
-using Terraria;
-using Terraria.ID;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 {
     public static class HornetMinionAI
     {
-        public static bool DoHornetMinionAI(Projectile projectile)
+        // Shorter range when the minion has no target yet: 40 tiles
+        private const float MinEnemyDistanceDetection = 640f;
+        
+        // Longer range when a target is already acquired: 75 tiles
+        private const float MaxEnemyDistanceDetection = 1200f;
+
+        private static float EnemyDistanceDetection { get => Target is null ? MinEnemyDistanceDetection : MaxEnemyDistanceDetection; }
+
+        private const int FireRate = 40;
+        private const float ProjectileVelocity = 20f;
+        private static NPC Target { get; set; }
+
+        public static bool DoHornetMinionAI(Projectile proj)
         {
-            Player owner = Main.player[projectile.owner];
-            ref float timerToShoot = ref projectile.ai[0];
-            projectile.aiStyle = -1;
+            Player owner = Main.player[proj.owner];
+            Target = owner.Center.MinionHoming(EnemyDistanceDetection, owner, CalamityPlayer.areThereAnyDamnBosses);
+            ref float shootTimer = ref proj.ai[0];
 
-            float enemyDistanceDetection = 1200f;
-            float fireRate = 90f;
-            float projVelocity = 15f;
+            CheckMinionExistence(proj, owner);
+            DoAnimation(proj);
+            DecideDirection(proj);
+            FollowPlayer(proj, owner);
+            proj.MinionAntiClump();
 
-            NPC target = projectile.Center.MinionHoming(enemyDistanceDetection, owner);
+            proj.rotation = MathHelper.ToRadians(proj.velocity.X * 2f);
 
-            if (target is not null)
+            if (Target is not null)
             {
-                timerToShoot++;
-                if (timerToShoot >= fireRate && Main.myPlayer == projectile.owner)
+                shootTimer += Main.rand.NextBool(30) ? 2 : 1;
+                if (shootTimer >= FireRate - (owner.strongBees ? 10 : 0) && proj.owner == Main.myPlayer)
                 {
-                    int stinger = Projectile.NewProjectile(projectile.GetSource_FromThis(),
-                        projectile.Center,
-                        CalamityUtils.CalculatePredictiveAimToTarget(projectile.Center, target.Center, target.velocity, projVelocity),
-                        ProjectileID.HornetStinger,
-                        projectile.damage,
-                        projectile.knockBack,
-                        owner.whoAmI);
+                    Vector2 toTargetDirection = CalamityUtils.CalculatePredictiveAimToTarget(proj.Center, Target, ProjectileVelocity);
 
-                    if (Main.projectile.IndexInRange(stinger))
-                        Main.projectile[stinger].originalDamage = projectile.originalDamage;
-                    
-                    timerToShoot = 0f;
-                    projectile.netUpdate = true;
+                    Projectile.NewProjectileDirect(proj.GetSource_FromThis(),
+                        proj.Center,
+                        toTargetDirection,
+                        ModContent.ProjectileType<BetterHornetStinger>(),
+                        proj.damage,
+                        proj.knockBack,
+                        proj.owner);
+
+                    proj.velocity -= toTargetDirection.SafeNormalize(Vector2.Zero);
+
+                    if (!Main.dedServ)
+                    {
+                        for (int i = 0; i < 15; i++)
+                        {
+                            Dust shootDust = Dust.NewDustPerfect(proj.Center + toTargetDirection.SafeNormalize(Vector2.Zero) * proj.Size / 2f, DustID.JungleGrass, toTargetDirection.SafeNormalize(Vector2.Zero).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(3f, 6f));
+                            shootDust.noGravity = true;
+                            shootDust.noLight = true;
+                            shootDust.noLightEmittence = true;
+                        }
+                        
+                        SoundEngine.PlaySound(SoundID.Item17, proj.Center);
+                    }
+
+                    shootTimer = 0f;
+                    SyncVariables(proj);
                 }
             }
 
-            CheckMinionExistence(owner, projectile);
-
-            DoAnimation(projectile);
-
-            DecideDirection(target, projectile);
-
-            FollowPlayer(owner, projectile, enemyDistanceDetection);
-
-            projectile.MinionAntiClump(.5f);
-
-            // Just so the minion doesn't stay weirdly still.
-            if (projectile.velocity == Vector2.Zero)
-                projectile.velocity += new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-            
             return false;
         }
 
-        #region Methods
+        #region AI Methods
 
-        public static void CheckMinionExistence(Player owner, Projectile projectile)
+        private static void CheckMinionExistence(Projectile proj, Player owner)
         {
-            owner.AddBuff(BuffID.HornetMinion, 1);
-            if (projectile.type != ProjectileID.Hornet)
+            owner.AddBuff(BuffID.HornetMinion, 2);
+            if (proj.type != ProjectileID.Hornet)
                 return;
 
             if (owner.dead)
                 owner.hornetMinion = false;
             if (owner.hornetMinion)
-                projectile.timeLeft = 2;
+                proj.timeLeft = 2;
         }
 
-        public static void DoAnimation(Projectile projectile)
+        private static void DoAnimation(Projectile proj)
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 6 == 0)
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+            proj.frameCounter++;
+            if (proj.frameCounter >= 4)
+            {
+                proj.frame = (proj.frame + 1) % Main.projFrames[proj.type];
+                proj.frameCounter = 0;
+            }
         }
 
-        public static void DecideDirection(NPC target, Projectile projectile)
+        private static void DecideDirection(Projectile proj)
         {
-            // Both directions are negated because some individual decided to make the minion look at the left in the sprite instead of the right.
-            if (target is not null)
-                projectile.direction = projectile.spriteDirection = (target.Center.X - projectile.Center.X < 0).ToDirectionInt();
+            // Both results are negated because some individual decided to make the minion look at the left in the sprite instead of the right.
+            if (Target is not null)
+                proj.direction = proj.spriteDirection = (Target.Center.X - proj.Center.X < 0).ToDirectionInt();
             else
-                projectile.direction = projectile.spriteDirection = -projectile.velocity.X.DirectionalSign();
-                
+                proj.direction = proj.spriteDirection = -proj.velocity.X.DirectionalSign();
         }
 
-        public static void FollowPlayer(Player owner, Projectile projectile, float enemyDistanceDetection)
-        {    
-            // If the minion starts to get far, force the minion to go to you.
-            if (projectile.WithinRange(owner.Center, enemyDistanceDetection) && !projectile.WithinRange(owner.Center, 300f))
+        private static void FollowPlayer(Projectile proj, Player owner)
+        {
+            // The minion will hover around the owner.
+            if (!proj.WithinRange(owner.Center, 160f))
             {
-                projectile.velocity = (owner.Center - projectile.Center) / 30f;
-                projectile.netUpdate = true;
+                proj.velocity = (proj.velocity + proj.SafeDirectionTo(owner.Center)) * 0.9f;
+                SyncVariables(proj);
             }
 
-            // The minion will change directions to you if it's going away from you, meaning it'll just hover around you.
-            else if (!projectile.WithinRange(owner.Center, 160f))
+            // The minion will teleport on the owner if they get far enough.
+            if (!proj.WithinRange(owner.Center, MaxEnemyDistanceDetection))
             {
-                projectile.velocity = (projectile.velocity * 37f + projectile.SafeDirectionTo(owner.Center) * 17f) / 40f;
-                projectile.netUpdate = true;
+                proj.Center = owner.Center;
+                SyncVariables(proj);
             }
+        }
 
-            // Teleport to the owner if sufficiently far away.
-            if (!projectile.WithinRange(owner.Center, enemyDistanceDetection))
-            {
-                projectile.Center = owner.Center;
-                projectile.velocity *= 0.3f;
-                projectile.netUpdate = true;
-            }
+        private static void SyncVariables(Projectile proj)
+        {
+            proj.netUpdate = true;
+            if (proj.netSpam >= 10)
+                proj.netSpam = 9;
         }
 
         #endregion

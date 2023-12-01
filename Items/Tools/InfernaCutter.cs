@@ -59,64 +59,64 @@ namespace CalamityMod.Items.Tools
                     player.itemAnimation == (int)(player.itemAnimationMax * 0.7) ||
                     player.itemAnimation == (int)(player.itemAnimationMax * 0.9))
                 {
-                    float num339 = 0f;
-                    float num340 = 0f;
-                    float num341 = 0f;
-                    float num342 = 0f;
+                    float sparkYVel = 0f;
+                    float sparkXVel = 0f;
+                    float sparkYSpawn = 0f;
+                    float sparkXSpawn = 0f;
                     if (player.itemAnimation == (int)(player.itemAnimationMax * 0.9))
                     {
-                        num339 = -7f;
+                        sparkYVel = -7f;
                     }
                     if (player.itemAnimation == (int)(player.itemAnimationMax * 0.7))
                     {
-                        num339 = -6f;
-                        num340 = 2f;
+                        sparkYVel = -6f;
+                        sparkXVel = 2f;
                     }
                     if (player.itemAnimation == (int)(player.itemAnimationMax * 0.5))
                     {
-                        num339 = -4f;
-                        num340 = 4f;
+                        sparkYVel = -4f;
+                        sparkXVel = 4f;
                     }
                     if (player.itemAnimation == (int)(player.itemAnimationMax * 0.3))
                     {
-                        num339 = -2f;
-                        num340 = 6f;
+                        sparkYVel = -2f;
+                        sparkXVel = 6f;
                     }
                     if (player.itemAnimation == (int)(player.itemAnimationMax * 0.1))
                     {
-                        num340 = 7f;
+                        sparkXVel = 7f;
                     }
                     if (player.itemAnimation == (int)(player.itemAnimationMax * 0.7))
                     {
-                        num342 = 26f;
+                        sparkXSpawn = 26f;
                     }
                     if (player.itemAnimation == (int)(player.itemAnimationMax * 0.3))
                     {
-                        num342 -= 4f;
-                        num341 -= 20f;
+                        sparkXSpawn -= 4f;
+                        sparkYSpawn -= 20f;
                     }
                     if (player.itemAnimation == (int)(player.itemAnimationMax * 0.1))
                     {
-                        num341 += 6f;
+                        sparkYSpawn += 6f;
                     }
                     if (player.direction == -1)
                     {
                         if (player.itemAnimation == (int)(player.itemAnimationMax * 0.9))
                         {
-                            num342 -= 8f;
+                            sparkXSpawn -= 8f;
                         }
                         if (player.itemAnimation == (int)(player.itemAnimationMax * 0.7))
                         {
-                            num342 -= 6f;
+                            sparkXSpawn -= 6f;
                         }
                     }
-                    num339 *= 1.5f;
-                    num340 *= 1.5f;
-                    num342 *= (float)player.direction;
-                    num341 *= player.gravDir;
+                    sparkYVel *= 1.5f;
+                    sparkXVel *= 1.5f;
+                    sparkXSpawn *= (float)player.direction;
+                    sparkYSpawn *= player.gravDir;
                     var source = player.GetSource_ItemUse(Item);
                     int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(Item.damage * 0.2f);
-                    int spark = Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Spark, damage, 0f, player.whoAmI);
+                    int spark = Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + sparkXSpawn, (float)(hitbox.Y + hitbox.Height / 2) + sparkYSpawn, (float)player.direction * sparkXVel, sparkYVel * player.gravDir, ProjectileID.Spark, damage, 0f, player.whoAmI);
                     if (spark.WithinBounds(Main.maxProjectiles))
                         Main.projectile[spark].DamageType = DamageClass.Melee;
                 }

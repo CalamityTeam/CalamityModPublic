@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<OpalStriker>();
         public override string Texture => "CalamityMod/Items/Weapons/Ranged/OpalStriker";
 
-        public static float ChargedDamageMult = 6f;
+        public static float ChargedDamageMult = 4.3f;
         public static float ChargedKBMult = 3f;
         public static float BulletSpeed = 12f;
 
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         private ref float CurrentChargingFrames => ref Projectile.ai[0];
         private bool FullyCharged => CurrentChargingFrames >= OpalStriker.FullChargeFrames;
-
+        public int Time = 0;
         private bool OwnerCanShoot => Owner.channel && !Owner.noItems && !Owner.CCed;
 
         public override void SetDefaults()
@@ -40,6 +40,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            Time++;
+            if (Time == 1)
+                Projectile.alpha = 255;
+            else
+                Projectile.alpha = 0;
+
             if (Owner.dead) // destroy the holdout if the player dies
             {
                 Projectile.Kill();
@@ -47,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             Vector2 armPosition = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
-            Vector2 tipPosition = armPosition + Projectile.velocity * Projectile.width * 0.85f;
+            Vector2 tipPosition = (armPosition + Projectile.velocity * Projectile.width * 0.85f) + (Projectile.velocity * 4).RotatedBy(-0.3f * Projectile.direction);
 
             if (SoundEngine.TryGetActiveSound(OpalChargeSlot, out var ChargeSound) && ChargeSound.IsPlaying)
                 ChargeSound.Position = Projectile.Center;
@@ -130,7 +136,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.myPlayer == Projectile.owner)
             {
-                float interpolant = Utils.GetLerpValue(5f, 25f, Projectile.Distance(Main.MouseWorld), true);
+                float interpolant = Utils.GetLerpValue(5f, 35f, Projectile.Distance(Main.MouseWorld), true);
                 Vector2 oldVelocity = Projectile.velocity;
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
             }

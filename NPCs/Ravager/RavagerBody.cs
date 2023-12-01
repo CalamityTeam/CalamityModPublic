@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.Ravager
         {
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.5f,
                 PortraitPositionYOverride = -40f,
@@ -825,7 +825,12 @@ namespace CalamityMod.NPCs.Ravager
                 if (Vector2.Distance(NPC.Center, player.Center) > distanceFromTarget)
                 {
                     NPC.active = false;
+
                     NPC.netUpdate = true;
+
+                    // Prevent netUpdate from being blocked by the spam counter.
+                    if (NPC.netSpam >= 10)
+                        NPC.netSpam = 9;
                 }
             }
         }
@@ -853,35 +858,35 @@ namespace CalamityMod.NPCs.Ravager
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
             Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
-            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
-            Vector2 vector = center - screenPos;
-            vector -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Value.Height / Main.npcFrameCount[NPC.type]) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
-            Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.Blue);
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Value, vector,
-                NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Vector2 halfSizeTexture = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
+            Vector2 glowmaskPosition = center - screenPos;
+            glowmaskPosition -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Value.Height / Main.npcFrameCount[NPC.type]) * 1f / 2f;
+            glowmaskPosition += halfSizeTexture * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
+            Color glowmaskColor = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.Blue);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Value, glowmaskPosition,
+                NPC.frame, glowmaskColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             float legOffset = 20f;
             float headOffset = 75f;
-            Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
+            Color drawLighting = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
             if (NPC.IsABestiaryIconDummy)
             {
-                color2 = Color.White;
+                drawLighting = Color.White;
                 legOffset = 60f;
                 headOffset = 0f;
             }
 
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegRight").Value, new Vector2(center.X - screenPos.X + NPC.scale * 28f, center.Y - screenPos.Y + legOffset), //72
                 new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegRight").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegRight").Value.Height)),
-                color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+                drawLighting, 0f, default, NPC.scale, SpriteEffects.None, 0f);
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value, new Vector2(center.X - screenPos.X - NPC.scale * 112f, center.Y - screenPos.Y + legOffset), //72
                 new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value.Height)),
-                color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+                drawLighting, 0f, default, NPC.scale, SpriteEffects.None, 0f);
             if (NPC.AnyNPCs(ModContent.NPCType<RavagerHead>()) || NPC.IsABestiaryIconDummy)
             {
                 spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value, new Vector2(center.X - screenPos.X - NPC.scale * 70f, center.Y - screenPos.Y - NPC.scale * headOffset),
                     new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value.Height)),
-                    color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+                    drawLighting, 0f, default, NPC.scale, SpriteEffects.None, 0f);
             }
         }
 
@@ -1042,10 +1047,10 @@ namespace CalamityMod.NPCs.Ravager
             // GFB Sans drops
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
-                GFBOnly.Add(ItemID.Skull);
-                GFBOnly.Add(ItemID.Bone, 1, 1, 9999);
-                GFBOnly.Add(ItemID.Hotdog, 1, 1, 9999);
-                GFBOnly.Add(ModContent.ItemType<AncientBoneDust>(), 1, 1, 9999);
+                GFBOnly.Add(ItemID.Skull, hideLootReport: true);
+                GFBOnly.Add(ItemID.Bone, 1, 1, 9999, true);
+                GFBOnly.Add(ItemID.Hotdog, 1, 1, 9999, true);
+                GFBOnly.Add(ModContent.ItemType<AncientBoneDust>(), 1, 1, 9999, true);
             }
 
             // Lore

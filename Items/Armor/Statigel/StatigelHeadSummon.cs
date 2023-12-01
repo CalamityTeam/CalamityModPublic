@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.ExtraJumps;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -50,6 +51,9 @@ namespace CalamityMod.Items.Armor.Statigel
 
                 var minionID = -1;
                 var baseDamage = 33;
+                if (modPlayer.oldFashioned)
+                    baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
+
                 var minionDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                 if (WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] < 1)
                     minionID = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<CrimsonSlimeGodMinion>(), minionDamage, 0f, Main.myPlayer);

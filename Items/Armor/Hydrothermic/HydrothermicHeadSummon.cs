@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
@@ -48,10 +49,14 @@ namespace CalamityMod.Items.Armor.Hydrothermic
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<HydrothermicVent>()] < 1)
                 {
-                    var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(190);
+                    int baseDamage = 190;
+                    if (modPlayer.oldFashioned)
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
+
+                    var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<HydrothermicVent>(), damage, 0f, Main.myPlayer, 38f, 0f);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 190;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
             }
             player.GetDamage<SummonDamageClass>() += 0.4f;

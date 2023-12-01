@@ -55,14 +55,14 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Projectile.ai[1] == 0f)
             {
-                for (int num621 = 0; num621 < 5; num621++)
+                for (int i = 0; i < 5; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 187, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int mistDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 187, 0f, 0f, 100, default, 2f);
+                    Main.dust[mistDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[mistDust].scale = 0.5f;
+                        Main.dust[mistDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 Projectile.ai[1] = 1f;
@@ -74,15 +74,15 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.localAI[1] = 0f;
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * -Projectile.width / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy(l * MathHelper.Pi / 6f) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy(Projectile.rotation - MathHelper.PiOver2);
-                    int num9 = Dust.NewDust(Projectile.Center, 0, 0, 187, 0f, 0f, 160, default, 1f);
-                    Main.dust[num9].scale = 1.1f;
-                    Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = Projectile.Center + vector3;
-                    Main.dust[num9].velocity = Projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+                    Vector2 dustRotation = Vector2.UnitX * -Projectile.width / 2f;
+                    dustRotation += -Vector2.UnitY.RotatedBy(l * MathHelper.Pi / 6f) * new Vector2(8f, 16f);
+                    dustRotation = dustRotation.RotatedBy(Projectile.rotation - MathHelper.PiOver2);
+                    int extraMistDust = Dust.NewDust(Projectile.Center, 0, 0, 187, 0f, 0f, 160, default, 1f);
+                    Main.dust[extraMistDust].scale = 1.1f;
+                    Main.dust[extraMistDust].noGravity = true;
+                    Main.dust[extraMistDust].position = Projectile.Center + dustRotation;
+                    Main.dust[extraMistDust].velocity = Projectile.velocity * 0.1f;
+                    Main.dust[extraMistDust].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[extraMistDust].position) * 1.25f;
                 }
             }
 
@@ -91,17 +91,17 @@ namespace CalamityMod.Projectiles.Boss
             else
                 Projectile.Opacity = MathHelper.Clamp(1f - ((Projectile.timeLeft - 270) / 30f), 0f, 1f);
 
-            int num103 = Player.FindClosest(Projectile.Center, 1, 1);
+            int playerTracker = Player.FindClosest(Projectile.Center, 1, 1);
             Projectile.ai[1] += 1f;
             if (Projectile.ai[1] < 140f && Projectile.ai[1] > 60f)
             {
-                float scaleFactor2 = Projectile.velocity.Length();
-                Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
-                vector11.Normalize();
-                vector11 *= scaleFactor2;
-                Projectile.velocity = (Projectile.velocity * 24f + vector11) / 25f;
+                float projVelocityMult = Projectile.velocity.Length();
+                Vector2 playerDistance = Main.player[playerTracker].Center - Projectile.Center;
+                playerDistance.Normalize();
+                playerDistance *= projVelocityMult;
+                Projectile.velocity = (Projectile.velocity * 24f + playerDistance) / 25f;
                 Projectile.velocity.Normalize();
-                Projectile.velocity *= scaleFactor2;
+                Projectile.velocity *= projVelocityMult;
             }
             if (Projectile.velocity.Length() < 12f)
                 Projectile.velocity *= 1.02f;

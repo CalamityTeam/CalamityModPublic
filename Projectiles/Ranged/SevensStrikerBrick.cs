@@ -12,10 +12,11 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            Projectile.width = 19;
-            Projectile.height = 19;
+            Projectile.width = 20;
+            Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
+            Projectile.timeLeft = 300;
         }
 
         public override void AI()

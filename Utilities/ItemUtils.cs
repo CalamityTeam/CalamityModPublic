@@ -684,7 +684,7 @@ namespace CalamityMod
             {
                 SoundEngine.PlaySound(item.UseSound.GetValueOrDefault(), player.Center);
 
-                int healAmt = (int)(item.healLife * player.Calamity().healingPotBonus);
+                int healAmt = (int)(item.healLife * player.Calamity().healingPotionMultiplier);
                 if (healAmt > 0 && player.QuickHeal_GetItemToUse() != null)
                 {
                     if (player.QuickHeal_GetItemToUse().type != item.type)

@@ -128,17 +128,18 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.CobaltChainsaw, standardChainsawTweaks },
                 { ProjectileID.CobaltDrill, standardDrillTweaks },
                 { ProjectileID.CrystalBullet, standardBulletTweaks },
-                { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(10)) },
-                { ProjectileID.CrystalVileShardShaft, Do(LocalIFrames(10)) },
+                { ProjectileID.CrystalVileShardHead, Do(LocalIFrames(23)) },
+                { ProjectileID.CrystalVileShardShaft, Do(LocalIFrames(23)) },
                 { ProjectileID.CursedBullet, standardBulletTweaks },
                 { ProjectileID.DD2SquireSonicBoom, Do(PiercingExact(3)) }, // Flying Dragon
                 { ProjectileID.EmeraldBolt, Do(NoPiercing) },
                 { ProjectileID.EmpressBlade, Do(LocalIFrames(30)) }, // Terraprisma
                 { ProjectileID.EnchantedBoomerang, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.ExplosiveBullet, standardBulletTweaks },
+                { ProjectileID.FairyQueenRangedItemShot, Do(PiercingExact(7), ExtraUpdatesExact(1))  }, // Eventide Convert
                 { ProjectileID.FlaironBubble, Do(ExtraUpdatesExact(1), TimeLeftExact(400)) },
                 { ProjectileID.Flamarang, Do(ExtraUpdatesExact(2)) },
-                { ProjectileID.Flames, Do(IDStaticIFrames(10)) }, // Flamethrower + Elf Melter
+		{ ProjectileID.Flames, Do(IDStaticIFrames(5)) }, // Flamethrower AND Elf Melter flames
                 { ProjectileID.FlamingJack, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.FlowerPetal, Do(MaxUpdatesExact(4), LocalIFrames(10)) }, // Orichalcum armor
                 { ProjectileID.FlowerPow, Do(ExtraUpdatesExact(1)) },

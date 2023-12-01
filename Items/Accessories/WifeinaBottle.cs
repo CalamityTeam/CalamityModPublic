@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -48,9 +49,13 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] < 1)
                 {
-                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(ElementalDamage);
+                    int baseDamage = ElementalDamage;
+                    if (player.Calamity().oldFashioned)
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
+
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectileDirect(player.GetSource_Accessory(Item), player.Center, -Vector2.UnitY, ModContent.ProjectileType<SandElementalMinion>(), damage, 2f, Main.myPlayer);
-                    p.originalDamage = ElementalDamage;
+                    p.originalDamage = baseDamage;
                 }
             }
         }

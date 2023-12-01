@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,9 +41,9 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            bool flag64 = Projectile.type == ModContent.ProjectileType<ElementalAxeMinion>();
+            bool isMinion = Projectile.type == ModContent.ProjectileType<ElementalAxeMinion>();
             player.AddBuff(ModContent.BuffType<ElementalAxeBuff>(), 3600);
-            if (flag64)
+            if (isMinion)
             {
                 if (player.dead)
                 {
@@ -68,6 +69,10 @@ namespace CalamityMod.Projectiles.Summon
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<ElementalMix>(), 60);
         }
     }
 }

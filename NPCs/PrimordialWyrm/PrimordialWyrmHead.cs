@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.PrimordialWyrm
         public override void SetStaticDefaults()
         {
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.50f,
                 PortraitScale = 0.6f,
@@ -1366,14 +1366,14 @@ namespace CalamityMod.NPCs.PrimordialWyrm
         {
             for (int num1474 = 0; num1474 < dustAmt; num1474++)
             {
-                Vector2 vector171 = Vector2.Normalize(NPC.velocity) * new Vector2((NPC.width + 50) / 2f, NPC.height) * 0.75f;
-                vector171 = vector171.RotatedBy((num1474 - (dustAmt / 2 - 1)) * (double)pie / (float)dustAmt) + NPC.Center;
-                Vector2 value18 = ((float)(Main.rand.NextDouble() * pie) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
-                int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 172, value18.X * 2f, value18.Y * 2f, 100, default, 1.4f);
-                Main.dust[num1475].noGravity = true;
-                Main.dust[num1475].noLight = true;
-                Main.dust[num1475].velocity /= 4f;
-                Main.dust[num1475].velocity -= NPC.velocity;
+                Vector2 dustRotation = Vector2.Normalize(NPC.velocity) * new Vector2((NPC.width + 50) / 2f, NPC.height) * 0.75f;
+                dustRotation = dustRotation.RotatedBy((num1474 - (dustAmt / 2 - 1)) * (double)pie / (float)dustAmt) + NPC.Center;
+                Vector2 dustVelocity = ((float)(Main.rand.NextDouble() * pie) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
+                int chargeDust = Dust.NewDust(dustRotation + dustVelocity, 0, 0, 172, dustVelocity.X * 2f, dustVelocity.Y * 2f, 100, default, 1.4f);
+                Main.dust[chargeDust].noGravity = true;
+                Main.dust[chargeDust].noLight = true;
+                Main.dust[chargeDust].velocity /= 4f;
+                Main.dust[chargeDust].velocity -= NPC.velocity;
             }
         }
 
@@ -1394,18 +1394,18 @@ namespace CalamityMod.NPCs.PrimordialWyrm
 
             Rectangle targetHitbox = target.Hitbox;
 
-            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
+            float hitboxTopLeft = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float hitboxTopRight = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float hitboxBotLeft = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float hitboxBotRight = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
 
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
+            float minDist = hitboxTopLeft;
+            if (hitboxTopRight < minDist)
+                minDist = hitboxTopRight;
+            if (hitboxBotLeft < minDist)
+                minDist = hitboxBotLeft;
+            if (hitboxBotRight < minDist)
+                minDist = hitboxBotRight;
 
             return minDist <= 70f && NPC.Opacity == 1f;
         }

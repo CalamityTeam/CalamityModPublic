@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void SetStaticDefaults()
         {
-            NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new NPCID.Sets.NPCBestiaryDrawModifiers() { Hide = true }; 
+            NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true }; 
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, bestiaryData);
         }
 
@@ -189,23 +189,23 @@ namespace CalamityMod.NPCs.NormalNPCs
                 NPC.height = 45;
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                for (int num621 = 0; num621 < 2; num621++)
+                for (int i = 0; i < 2; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 90, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int rubyDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 90, 0f, 0f, 100, default, 2f);
+                    Main.dust[rubyDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[rubyDust].scale = 0.5f;
+                        Main.dust[rubyDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 10; num623++)
+                for (int j = 0; j < 10; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 90, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 90, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int rubyDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 90, 0f, 0f, 100, default, 3f);
+                    Main.dust[rubyDust2].noGravity = true;
+                    Main.dust[rubyDust2].velocity *= 5f;
+                    rubyDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 90, 0f, 0f, 100, default, 2f);
+                    Main.dust[rubyDust2].velocity *= 2f;
                 }
             }
         }

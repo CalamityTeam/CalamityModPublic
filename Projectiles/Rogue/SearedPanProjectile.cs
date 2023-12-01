@@ -56,7 +56,8 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // Don't increment the Seared Pan counter when hitting dummies
-            bool dummy = target.type != NPCID.TargetDummy && target.type != ModContent.NPCType<SuperDummyNPC>();
+             //&& target.type != ModContent.NPCType<SuperDummyNPC>() this is here just in case its needed again
+            bool dummy = target.type != NPCID.TargetDummy;
             OnHitEffects(target.whoAmI, target.life, dummy);
         }
 

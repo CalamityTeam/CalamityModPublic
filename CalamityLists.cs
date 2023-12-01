@@ -713,7 +713,8 @@ namespace CalamityMod
                 "Spirit Shield",
                 "Briny_Coffee",
                 "_Skeggy_",
-                "just akkolite"
+                "just akkolite",
+                "J.U.N.E.S",
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -789,7 +790,7 @@ namespace CalamityMod
                 ProjectileType<ApotheosisWorm>(),
                 ProjectileType<SpiritCongregation>(),
                 ProjectileType<RancorLaserbeam>(),
-                ProjectileType<GrandStaffoftheNebulaMage_Held>(),
+                ProjectileType<NebulousCataclysm_Held>(),
 
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<InfernadoFriendly>(),
@@ -1115,6 +1116,7 @@ namespace CalamityMod
                 BuffType<BrimstoneFlames>(),
                 BuffType<BurningBlood>(),
                 BuffType<BrainRot>(),
+                BuffType<ElementalMix>(),
                 BuffType<GlacialState>(),
                 BuffType<GodSlayerInferno>(),
                 BuffType<AstralInfectionDebuff>(),
@@ -1188,6 +1190,7 @@ namespace CalamityMod
                 BuffType<MargaritaBuff>(),
                 BuffType<MoonshineBuff>(),
                 BuffType<MoscowMuleBuff>(),
+                BuffType<OldFashionedBuff>(),
                 BuffType<RedWineBuff>(),
                 BuffType<RumBuff>(),
                 BuffType<ScrewdriverBuff>(),
@@ -1495,7 +1498,9 @@ namespace CalamityMod
 
             needsDebuffIconDisplayList = new List<int>()
             {
-                NPCID.WallofFleshEye
+                NPCID.TargetDummy,
+                NPCID.WallofFleshEye,
+                NPCType<SuperDummyNPC>()
             };
 
             // TODO -- override HoldItem => Player.scope = true; on these items
@@ -1957,6 +1962,7 @@ namespace CalamityMod
             {
                 ProjectileID.Arkhalis,
                 ProjectileID.ChargedBlasterLaser,
+		        ProjectileID.ClingerStaff,
                 ProjectileID.FinalFractal,
                 ProjectileID.FlyingKnife,
                 ProjectileID.LastPrismLaser,

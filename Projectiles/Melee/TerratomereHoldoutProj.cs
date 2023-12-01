@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.SetDummyItemTime(2);
 
             // Make the owner turn in the direction of the blade.
-            Owner.direction = Direction;
+            Owner.ChangeDir(Direction);
         }
 
         public void CreateProjectiles()

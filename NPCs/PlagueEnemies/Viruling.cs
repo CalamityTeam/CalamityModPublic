@@ -20,7 +20,6 @@ namespace CalamityMod.NPCs.PlagueEnemies
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 5;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
         }
 
         public override void SetDefaults()
@@ -67,75 +66,75 @@ namespace CalamityMod.NPCs.PlagueEnemies
             {
                 NPC.TargetClosest(true);
             }
-            float num = 6f;
-            float num2 = 0.05f;
+            float maxSpeed = 6f;
+            float acceleration = 0.05f;
             if (CalamityWorld.revenge)
             {
-                num *= 1.25f;
-                num2 *= 1.25f;
+                maxSpeed *= 1.25f;
+                acceleration *= 1.25f;
             }
             if (CalamityWorld.death)
             {
-                num *= 1.25f;
-                num2 *= 1.25f;
+                maxSpeed *= 1.25f;
+                acceleration *= 1.25f;
             }
             Vector2 vector = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-            float num4 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
-            float num5 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
-            num4 = (float)((int)(num4 / 8f) * 8);
-            num5 = (float)((int)(num5 / 8f) * 8);
+            float targetXDist = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+            float targetYDist = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
+            targetXDist = (float)((int)(targetXDist / 8f) * 8);
+            targetYDist = (float)((int)(targetYDist / 8f) * 8);
             vector.X = (float)((int)(vector.X / 8f) * 8);
             vector.Y = (float)((int)(vector.Y / 8f) * 8);
-            num4 -= vector.X;
-            num5 -= vector.Y;
-            float num6 = (float)Math.Sqrt((double)(num4 * num4 + num5 * num5));
-            if (num6 == 0f)
+            targetXDist -= vector.X;
+            targetYDist -= vector.Y;
+            float targetDistance = (float)Math.Sqrt((double)(targetXDist * targetXDist + targetYDist * targetYDist));
+            if (targetDistance == 0f)
             {
-                num4 = NPC.velocity.X;
-                num5 = NPC.velocity.Y;
+                targetXDist = NPC.velocity.X;
+                targetYDist = NPC.velocity.Y;
             }
             else
             {
-                num6 = num / num6;
-                num4 *= num6;
-                num5 *= num6;
+                targetDistance = maxSpeed / targetDistance;
+                targetXDist *= targetDistance;
+                targetYDist *= targetDistance;
             }
             if (Main.player[NPC.target].dead)
             {
-                num4 = (float)NPC.direction * num / 2f;
-                num5 = -num / 2f;
+                targetXDist = (float)NPC.direction * maxSpeed / 2f;
+                targetYDist = -maxSpeed / 2f;
             }
-            if (NPC.velocity.X < num4)
+            if (NPC.velocity.X < targetXDist)
             {
-                NPC.velocity.X = NPC.velocity.X + num2;
+                NPC.velocity.X = NPC.velocity.X + acceleration;
             }
-            else if (NPC.velocity.X > num4)
+            else if (NPC.velocity.X > targetXDist)
             {
-                NPC.velocity.X = NPC.velocity.X - num2;
+                NPC.velocity.X = NPC.velocity.X - acceleration;
             }
-            if (NPC.velocity.Y < num5)
+            if (NPC.velocity.Y < targetYDist)
             {
-                NPC.velocity.Y = NPC.velocity.Y + num2;
+                NPC.velocity.Y = NPC.velocity.Y + acceleration;
             }
-            else if (NPC.velocity.Y > num5)
+            else if (NPC.velocity.Y > targetYDist)
             {
-                NPC.velocity.Y = NPC.velocity.Y - num2;
+                NPC.velocity.Y = NPC.velocity.Y - acceleration;
             }
-            if (num4 > 0f)
+            if (targetXDist > 0f)
             {
                 NPC.spriteDirection = 1;
-                NPC.rotation = (float)Math.Atan2((double)num5, (double)num4);
+                NPC.rotation = (float)Math.Atan2((double)targetYDist, (double)targetXDist);
             }
-            else if (num4 < 0f)
+            else if (targetXDist < 0f)
             {
                 NPC.spriteDirection = -1;
-                NPC.rotation = (float)Math.Atan2((double)num5, (double)num4) + 3.14f;
+                NPC.rotation = (float)Math.Atan2((double)targetYDist, (double)targetXDist) + 3.14f;
             }
-            float num12 = 0.7f;
+            float recoilSpeed = 0.7f;
             if (NPC.collideX)
             {
                 NPC.netUpdate = true;
-                NPC.velocity.X = NPC.oldVelocity.X * -num12;
+                NPC.velocity.X = NPC.oldVelocity.X * -recoilSpeed;
                 if (NPC.direction == -1 && NPC.velocity.X > 0f && NPC.velocity.X < 2f)
                 {
                     NPC.velocity.X = 2f;
@@ -148,7 +147,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             if (NPC.collideY)
             {
                 NPC.netUpdate = true;
-                NPC.velocity.Y = NPC.oldVelocity.Y * -num12;
+                NPC.velocity.Y = NPC.oldVelocity.Y * -recoilSpeed;
                 if (NPC.velocity.Y > 0f && (double)NPC.velocity.Y < 1.5)
                 {
                     NPC.velocity.Y = 2f;
@@ -162,8 +161,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
             {
                 NPC.netUpdate = true;
             }
-            int num13 = Dust.NewDust(new Vector2(NPC.position.X - NPC.velocity.X, NPC.position.Y - NPC.velocity.Y), NPC.width, NPC.height, 46, NPC.velocity.X * 0.2f, NPC.velocity.Y * 0.2f, 100, default, 2f);
-            Dust dust = Main.dust[num13];
+            int idleDust = Dust.NewDust(new Vector2(NPC.position.X - NPC.velocity.X, NPC.position.Y - NPC.velocity.Y), NPC.width, NPC.height, 46, NPC.velocity.X * 0.2f, NPC.velocity.Y * 0.2f, 100, default, 2f);
+            Dust dust = Main.dust[idleDust];
             dust.noGravity = true;
             dust.velocity.X *= 0.3f;
             dust.velocity.Y *= 0.3f;

@@ -38,7 +38,6 @@ namespace CalamityMod.ILEditing
             IL_Main.DoDraw += AdditiveDrawing;
             On_Main.DrawGore += DrawForegroundStuff;
             On_Main.DrawCursor += UseCoolFireCursorEffect;
-            On_Main.SetDisplayMode += ResetRenderTargetSizes;
             On_Main.SortDrawCacheWorms += DrawFusableParticles;
             On_Main.DrawInfernoRings += DrawForegroundParticles;
             On_TileDrawing.DrawPartialLiquid += DrawCustomLava;
@@ -82,8 +81,8 @@ namespace CalamityMod.ILEditing
             IL_Wiring.HitWireSingle += AddTwinklersToStatue;
             On_Player.UpdateItemDye += FindCalamityItemDyeShader;
 
-            // Mana Burn
-            IL_Player.ApplyLifeAndOrMana += ConditionallyReplaceManaSickness;
+            // Mana Burn (Chaos Stone) and Chalice of the Blood God
+            IL_Player.ApplyLifeAndOrMana += ManaSicknessAndChaliceBufferHeal;
 
             // Custom grappling
             On_Player.GrappleMovement += CustomGrappleMovementCheck;
@@ -112,6 +111,9 @@ namespace CalamityMod.ILEditing
             IL_Player.Update += ManaRegenDelayAdjustment;
             IL_Player.UpdateManaRegen += ManaRegenAdjustment;
 
+            // Debuff balancing
+            IL_Projectile.StatusPlayer += RemoveFrozenInflictionFromDeerclopsIceSpikes;
+
             // World generation
             IL_WorldGen.Pyramid += ReplacePharaohSetInPyramids;
             IL_WorldGen.GrowLivingTree += BlockLivingTreesNearOcean;
@@ -121,6 +123,9 @@ namespace CalamityMod.ILEditing
             IL_UIWorldCreation.SetDefaultOptions += ChangeDefaultWorldSize;
             IL_UIWorldCreation.AddWorldSizeOptions += SwapSmallDescriptionKey;
             Terraria.IO.On_WorldFile.ClearTempTiles += ClearModdedTempTiles;
+            On_WorldGen.MakeDungeon += LimitDungeonEntranceXPosition;
+            IL_WorldGen.DungeonHalls += LimitDungeonHallsXPosition;
+            IL_WorldGen.MakeDungeon += ChangeDungeonSpikeQuantities;
 
             // Removal of vanilla stupidity
             IL_Player.UpdateBuffs += RemoveFeralBiteRandomDebuffs;

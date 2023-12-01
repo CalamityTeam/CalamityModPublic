@@ -281,7 +281,7 @@ MoscowMule: {
 		'''
 		Increases damage by 9%, knockback by 50% and critical strike chance by 3%
 		Reduces life regen by 2 HP/s
-		[c/B00BA5:'I once heard the copper mug can be toxic and I told 'em, 'listen dummy, I'm already poisoning myself!'']
+		[c/B00BA5:'I once heard the copper mug can be toxic and I told 'em, 'listen, dummy, I'm already poisoning myself!'']
 		'''
 }
 
@@ -292,6 +292,16 @@ OddMushroom: {
 		Causes you to see many fake, vibrant copies of all nearby entities
 		[c/C4232C:These visual effects may be nauseating or otherwise bad for some]
 		'Trippy'
+		'''
+}
+
+OldFashioned: {
+	DisplayName: Old Fashioned
+	Tooltip:
+		'''
+		Multiplies all accessory and set bonus damage by 1.5x
+		Decreases all damage by 25%
+		[c/B00BA5:'An old favorite of mine.']
 		'''
 }
 

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
     public class BigNuke : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
-        public static Item FalseLauncher = null;
+        private ref float RocketType => ref Projectile.ai[0];
 
         public override void SetStaticDefaults()
         {
@@ -26,22 +26,9 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
         }
 
-        private static void DefineFalseLauncher()
-        {
-            int rocketID = ItemID.RocketLauncher;
-            FalseLauncher = new Item();
-            FalseLauncher.SetDefaults(rocketID, true);
-        }
-
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(90);
-
-            if (Projectile.ai[0] == 0f)
-            {
-                SoundEngine.PlaySound(SoundID.Item11, Projectile.Center);
-                Projectile.ai[0] = 1f;
-            }
 
             //Animation
             Projectile.frameCounter++;
@@ -57,40 +44,31 @@ namespace CalamityMod.Projectiles.Ranged
 
             if (Projectile.velocity.Length() >= 8f)
             {
-                for (int num246 = 0; num246 < 2; num246++)
+                for (int i = 0; i < 2; i++)
                 {
-                    float num247 = 0f;
-                    float num248 = 0f;
-                    if (num246 == 1)
+                    float halfX = 0f;
+                    float halfY = 0f;
+                    if (i == 1)
                     {
-                        num247 = Projectile.velocity.X * 0.5f;
-                        num248 = Projectile.velocity.Y * 0.5f;
+                        halfX = Projectile.velocity.X * 0.5f;
+                        halfY = Projectile.velocity.Y * 0.5f;
                     }
-                    int num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
-                    Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-                    Main.dust[num249].velocity *= 0.2f;
-                    Main.dust[num249].noGravity = true;
-                    num249 = Dust.NewDust(new Vector2(Projectile.position.X + 3f + num247, Projectile.position.Y + 3f + num248) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 31, 0f, 0f, 100, default, 0.5f);
-                    Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-                    Main.dust[num249].velocity *= 0.05f;
+                    int dusty = Dust.NewDust(new Vector2(Projectile.position.X + 3f + halfX, Projectile.position.Y + 3f + halfY) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 6, 0f, 0f, 100, default, 1f);
+                    Main.dust[dusty].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[dusty].velocity *= 0.2f;
+                    Main.dust[dusty].noGravity = true;
+                    dusty = Dust.NewDust(new Vector2(Projectile.position.X + 3f + halfX, Projectile.position.Y + 3f + halfY) - Projectile.velocity * 0.5f, Projectile.width - 8, Projectile.height - 8, 31, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[dusty].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
+                    Main.dust[dusty].velocity *= 0.05f;
                 }
             }
             CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
 
-            // Construct a fake item to use with vanilla code for the sake of picking ammo.
-            if (FalseLauncher is null)
-                DefineFalseLauncher();
-            Player player = Main.player[Projectile.owner];
-            int projID = ProjectileID.RocketI;
-            float shootSpeed = 0f;
-            int damage = 0;
-            float kb = 0f;
-            player.PickAmmo(FalseLauncher, out projID, out shootSpeed, out damage, out kb, out _, true);
-			if (projID == ProjectileID.DryRocket || projID == ProjectileID.WetRocket || projID == ProjectileID.LavaRocket || projID == ProjectileID.HoneyRocket)
-			{
-				if (Projectile.wet)
-					Projectile.timeLeft = 1;
-			}
+            if (RocketType == ItemID.DryRocket || RocketType == ItemID.WetRocket || RocketType == ItemID.LavaRocket || RocketType == ItemID.HoneyRocket)
+            {
+                if (Projectile.wet)
+                    Projectile.timeLeft = 1;
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -109,23 +87,23 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            for (int num621 = 0; num621 < 90; num621++)
+            for (int i = 0; i < 90; i++)
             {
-                int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 100, default, 2f);
+                Main.dust[dust].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[dust].scale = 0.5f;
+                    Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 180; num623++)
+            for (int j = 0; j < 180; j++)
             {
-                int num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 3f);
+                Main.dust[dust2].noGravity = true;
+                Main.dust[dust2].velocity *= 5f;
+                dust2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 6, 0f, 0f, 100, default, 2f);
+                Main.dust[dust2].velocity *= 2f;
             }
 
             if (Main.netMode != NetmodeID.Server)
@@ -172,45 +150,42 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            // Construct a fake item to use with vanilla code for the sake of picking ammo.
-            if (FalseLauncher is null)
-                DefineFalseLauncher();
-            Player player = Main.player[Projectile.owner];
-            int projID = ProjectileID.RocketI;
-            float shootSpeed = 0f;
-            int damage = 0;
-            float kb = 0f;
-            player.PickAmmo(FalseLauncher, out projID, out shootSpeed, out damage, out kb, out _, true);
+            // Only do rocket effects for the owner client side
+            if (Projectile.owner != Main.myPlayer)
+                return;
 
+            int blastRadius = 0;
+            if (RocketType == ItemID.RocketII)
+                blastRadius = 17;
+            else if (RocketType == ItemID.RocketIV)
+                blastRadius = 20;
+            else if (RocketType == ItemID.MiniNukeII)
+                blastRadius = 23;
             Projectile.ExpandHitboxBy(16);
 
-            if (Projectile.owner == Main.myPlayer && (projID == ProjectileID.RocketII || projID == ProjectileID.RocketIV || projID == ProjectileID.MiniNukeRocketII || projID == ProjectileID.ClusterRocketII))
+            if (blastRadius > 0)
+                Projectile.ExplodeTiles(blastRadius);
+
+            Point center = Projectile.Center.ToTileCoordinates();
+            DelegateMethods.v2_1 = center.ToVector2();
+            DelegateMethods.f_1 = 5f;
+            if (RocketType == ItemID.DryRocket)
             {
-                CalamityUtils.ExplodeandDestroyTiles(Projectile, 23, true, new List<int>() { }, new List<int>() { });
+                DelegateMethods.f_1 = 5.5f;
+                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
             }
-			if (Projectile.owner == Main.myPlayer)
-			{
-				Point center = Projectile.Center.ToTileCoordinates();
-				DelegateMethods.v2_1 = center.ToVector2();
-				DelegateMethods.f_1 = 5f;
-				if (projID == ProjectileID.DryRocket)
-				{
-					DelegateMethods.f_1 = 5.5f;
-					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadDry);
-				}
-				else if (projID == ProjectileID.WetRocket)
-				{
-					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
-				}
-				else if (projID == ProjectileID.LavaRocket)
-				{
-					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
-				}
-				else if (projID == ProjectileID.HoneyRocket)
-				{
-					Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
-				}
-			}
+            else if (RocketType == ItemID.WetRocket)
+            {
+                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadWater);
+            }
+            else if (RocketType == ItemID.LavaRocket)
+            {
+                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadLava);
+            }
+            else if (RocketType == ItemID.HoneyRocket)
+            {
+                Utils.PlotTileArea(center.X, center.Y, DelegateMethods.SpreadHoney);
+            }
         }
     }
 }

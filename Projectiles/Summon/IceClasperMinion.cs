@@ -1,248 +1,201 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class IceClasperMinion : ModProjectile, ILocalizedModType
+    public class IceClasperMinion : BaseMinionProjectile
     {
-        public Player Owner => Main.player[Projectile.owner];
+        public override int AssociatedProjectileTypeID => ModContent.ProjectileType<IceClasperMinion>();
+        public override int AssociatedBuffTypeID => ModContent.BuffType<IceClasperBuff>();
+        public override ref bool AssociatedMinionBool => ref ModdedOwner.IceClasperBool;
 
-        public CalamityPlayer ModdedOwner => Owner.Calamity();
-
-        public enum IceClasperAIState
+        public enum AIState { Follow, Ram }
+        public AIState State
         {
-            FollowOwner,
-            Ram
-        }
-
-        public IceClasperAIState CurrentState
-        {
-            get => (IceClasperAIState)Projectile.ai[0];
-            set => Projectile.ai[0] = (int)value;
+            get => (AIState)Projectile.ai[0];
+            set
+            {
+                Projectile.ai[0] = (int)value;
+                SyncVariables();
+            }
         }
 
         public ref float TimerForShooting => ref Projectile.ai[1];
 
         public ref float AfterimageInterpolant => ref Projectile.localAI[0];
 
-        public bool hasSpawned = false;
-        
-        public new string LocalizationCategory => "Projectiles.Summon";
-
         public override void SetStaticDefaults()
         {
-            Main.projFrames[Projectile.type] = 6;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
-            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
+            base.SetStaticDefaults();
+            Main.projFrames[Type] = 6;
         }
 
         public override void SetDefaults()
         {
-            Projectile.localNPCHitCooldown = AncientIceChunk.IFrames;
-            Projectile.minionSlots = 1f;
-            Projectile.penetrate = -1;
+            base.SetDefaults();
             Projectile.coldDamage = true;
-
-            Projectile.width = 62;
-            Projectile.height = 62;
-            Projectile.DamageType = DamageClass.Summon;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.minion = true;
-            Projectile.netImportant = true;
-            Projectile.friendly = true;
-            Projectile.ignoreWater = true;
-            Projectile.tileCollide = false;
+            Projectile.width = Projectile.height = 62;
         }
 
-        public override void AI()
-        {   
-            CheckMinionExistence();
-            
-            if (!hasSpawned)
+        public override void MinionAI()
+        {
+            switch (State)
             {
-                SpawnEffect();
-                hasSpawned = true;
-            }
-
-            // Detects a target at a given distance.
-            NPC potentialTarget = Projectile.Center.MinionHoming(AncientIceChunk.EnemyDistanceDetection, Owner);
-            switch (CurrentState)
-            {
-                case IceClasperAIState.FollowOwner:
-                    State_FollowOwner(potentialTarget);
+                case AIState.Follow:
+                    FollowState();
                     break;
-                case IceClasperAIState.Ram:
-                    State_Ram(potentialTarget);
+                case AIState.Ram:
+                    RamState();
                     break;
             }
 
-            // Flavor dust visual to show that it is ghostly.
-            if (Main.rand.NextBool(10))
-            {
-                int ghostDust = Dust.NewDust(Projectile.position, 31, 62, 56, -0.5f * Projectile.rotation.ToRotationVector2().X, -0.5f * Projectile.rotation.ToRotationVector2().Y);
-                Main.dust[ghostDust].noLight = true;
-                Main.dust[ghostDust].noLightEmittence = true;
-            }
-
-            DoAnimation();
-            DoRotation(potentialTarget);
-            Lighting.AddLight(Projectile.Center, Color.Cyan.ToVector3());
             Projectile.MinionAntiClump(0.5f);
+
+            if (!Main.dedServ)
+            {
+                if (Main.rand.NextBool(10))
+                {
+                    Dust ghostDust = Dust.NewDustPerfect(Projectile.Center, 56, -Projectile.rotation.ToRotationVector2().RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(2f, 3f));
+                    ghostDust.customData = false;
+                    ghostDust.noLight = true;
+                    ghostDust.noLightEmittence = true;
+                }
+
+                Lighting.AddLight(Projectile.Center, Color.Cyan.ToVector3());
+            }
         }
 
-        #region Methods
+        #region AI Methods
 
-        public void State_FollowOwner(NPC target)
+        public void FollowState()
         {
             // If the minion starts to get far, force the minion to go to you.
-            if (Projectile.WithinRange(Owner.Center, AncientIceChunk.EnemyDistanceDetection) && !Projectile.WithinRange(Owner.Center, AncientIceChunk.MaxDistanceFromOwner + 100f))
+            if (!Projectile.WithinRange(Owner.Center, AncientIceChunk.MaxDistanceFromOwner))
             {
-                Projectile.velocity = (Owner.Center - Projectile.Center) / 30f;
-                Projectile.netUpdate = true;
-            } 
-
-            // The minion will change directions to you if it's going away from you, meaning it'll just hover around you.
-            else if (!Projectile.WithinRange(Owner.Center, AncientIceChunk.MaxDistanceFromOwner))
-            {
-                Projectile.velocity = (Projectile.velocity * 37f + Projectile.SafeDirectionTo(Owner.Center) * 17f) / 40f;
-                Projectile.netUpdate = true;
+                Projectile.velocity = (Projectile.velocity + Projectile.SafeDirectionTo(Owner.Center)) * 0.9f;
+                SyncVariables();
             }
 
             // Teleport to the owner if sufficiently far away.
-            if (!Projectile.WithinRange(Owner.Center, AncientIceChunk.EnemyDistanceDetection))
+            else if (!Projectile.WithinRange(Owner.Center, 1200f))
             {
                 Projectile.Center = Owner.Center;
-                Projectile.velocity *= .3f;
-                Projectile.netUpdate = true;
+                SyncVariables();
             }
 
             // If the target is not null but not in range to dash: shoot.
             // If in range to dash: dash.
-            if (target is not null)
+            if (Target != null)
             {
-                if (Owner.WithinRange(target.Center, AncientIceChunk.DistanceToDash))
-                {
-                    CurrentState = IceClasperAIState.Ram;
-                    Projectile.netUpdate = true;
-                }
+                if (Owner.WithinRange(Target.Center, AncientIceChunk.DistanceToDash))
+                    State = AIState.Ram;
                 else
-                    ShootTarget(target);
+                    ShootTarget();
+
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(Target.Center), .15f);
             }
+            else
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.velocity.ToRotation(), .15f);
         }
 
-        public void State_Ram(NPC target)
+        public void RamState()
         {
-            // If there's no target while dashing or the player's gone far enough from the target: back to shooting.
-            if (target is null || !Owner.WithinRange(Projectile.Center, AncientIceChunk.DistanceToStopDash))
-            {
-                CurrentState = IceClasperAIState.FollowOwner;
-                Projectile.netUpdate = true;
-            }
-            else if (target is not null)
+            if (Target is not null && Owner.WithinRange(Projectile.Center, AncientIceChunk.DistanceToStopDash))
             {
                 // The distance to the target plus a small number so it's not 0, it'd break calculations.
-                float distToTarget = Projectile.Distance(target.Center) + .01f;
+                float distanceToTarget = Projectile.Distance(Target.Center) + .01f;
 
                 // The minion will head towards it's rotation.
                 // If the target's close, the minion'll speed up, and viceversa, so it doesn't circle around the target doing nothing.
-                Projectile.velocity = Projectile.rotation.ToRotationVector2() * (AncientIceChunk.MinVelocity + (12f / (distToTarget * .01f)));
+                Projectile.velocity = Projectile.rotation.ToRotationVector2() * (AncientIceChunk.MinVelocity + (12f / (distanceToTarget * .01f)));
                 Projectile.velocity = Vector2.Clamp(Projectile.velocity, Vector2.One * -25f, Vector2.One * 25f);
-                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(target.Center), .001f * distToTarget);
+                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(Target.Center), .001f * distanceToTarget);
             }
+
+            // If there's no target while dashing or the player's gone far enough from the target: back to shooting.
+            else
+                State = AIState.Follow;
         }
 
-        public void ShootTarget(NPC target)
+        public void ShootTarget()
         {
+            ++TimerForShooting;
             if (TimerForShooting >= AncientIceChunk.TimeToShoot && Projectile.owner == Main.myPlayer)
             {
-                Vector2 velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, target, 20f);
+                Vector2 velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, Target, 25f);
 
-                int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
-                Projectile.Center, 
-                velocity, 
-                ModContent.ProjectileType<IceClasperSummonProjectile>(), 
-                (int)(Projectile.damage * AncientIceChunk.ProjectileDMGMultiplier), 
-                Projectile.knockBack, 
-                Projectile.owner);
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(),
+                    Projectile.Center,
+                    velocity,
+                    ModContent.ProjectileType<IceClasperSummonProjectile>(),
+                    (int)(Projectile.damage * AncientIceChunk.ProjectileDMGMultiplier),
+                    Projectile.knockBack,
+                    Projectile.owner);
 
                 // Flavor recoil effect.
                 Projectile.velocity -= velocity * .1f;
 
-                // For the fucking love of any god you can think of, this sound sucks but I can't find another one that fits better.
-                SoundEngine.PlaySound(SoundID.Item28, Projectile.Center);
+                if (!Main.dedServ)
+                {
+                    // For the fucking love of any god you can think of, this sound sucks but I can't find another one that fits better.
+                    SoundEngine.PlaySound(SoundID.Item28, Projectile.Center);
+                }
 
                 TimerForShooting = 0f;
-                Projectile.netUpdate = true;
+                SyncVariables();
             }
-            
-            if (TimerForShooting < AncientIceChunk.TimeToShoot)
-                TimerForShooting++;
         }
 
-        public void DoRotation(NPC target)
+        public void SyncVariables()
         {
-            if (target is null)
-                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.velocity.ToRotation(), .15f);    
-            else if (target is not null && !Projectile.WithinRange(target.Center, AncientIceChunk.DistanceToDash))
-                Projectile.rotation = Projectile.rotation.AngleTowards(Projectile.AngleTo(target.Center), .15f);
+            Projectile.netUpdate = true;
+            if (Projectile.netSpam >= 10)
+                Projectile.netSpam = 9;
         }
 
-        public void DoAnimation()
-        {
-            Projectile.frameCounter++;
-            if (Projectile.frameCounter % 5 == 0)
-                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
-        }
+        #endregion
 
-        public void CheckMinionExistence()
+        public override void OnSpawn(IEntitySource source)
         {
-            Owner.AddBuff(ModContent.BuffType<IceClasperBuff>(), 3600);
-            if (Projectile.type == ModContent.ProjectileType<IceClasperMinion>())
+            IFrames = AncientIceChunk.IFrames;
+            TrailingMode = 2;
+            TrailCacheLength = 6;
+
+            if (!Main.dedServ)
             {
-                if (Owner.dead)
-                    ModdedOwner.iClasper = false;
-                if (ModdedOwner.iClasper)
-                    Projectile.timeLeft = 2;
+                int dustAmount = 45;
+                for (int dustIndex = 0; dustIndex < dustAmount; dustIndex++)
+                {
+                    float angle = MathHelper.TwoPi / dustAmount * dustIndex;
+                    Vector2 velocity = angle.ToRotationVector2() * Main.rand.NextFloat(3f, 7f);
+                    Dust spawnDust = Dust.NewDustPerfect(Projectile.Center, 56, velocity);
+                    spawnDust.customData = false;
+                    spawnDust.noGravity = true;
+                    spawnDust.velocity *= .75f;
+                    spawnDust.scale = velocity.Length() * .2f;
+                }
             }
         }
 
-        public void SpawnEffect()
-        {
-            int dustAmt = 45;
-            for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
-            {
-                float angle = MathHelper.TwoPi / dustAmt * dustIndex;
-                Vector2 velocity = angle.ToRotationVector2() * Main.rand.NextFloat(3f, 7f);
-                Dust spawnDust = Dust.NewDustPerfect(Projectile.Center, 56, velocity);
-                spawnDust.customData = false;
-                spawnDust.noGravity = true;
-                spawnDust.velocity *= .75f;
-                spawnDust.scale = velocity.Length() * .2f;
-            }
-        }
-
-        public override bool? CanDamage() => (CurrentState == IceClasperAIState.Ram) ? null : false;
+        public override bool? CanDamage() => (State == AIState.Ram) ? null : false;
 
         public override bool PreDraw(ref Color lightColor)
         {
-            NPC target = Projectile.Center.MinionHoming(1200f, Owner);
-            
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
             Vector2 origin = frame.Size() * 0.5f;
 
             // Flavor fade-in-and-out for afterimages.
-            AfterimageInterpolant += ((target is not null && Owner.WithinRange(target.Center, 450f)) || CurrentState == IceClasperAIState.Ram) ? .05f : -.05f;
+            AfterimageInterpolant += ((Target is not null && Owner.WithinRange(Target.Center, 450f)) || State == AIState.Ram) ? .05f : -.05f;
             AfterimageInterpolant = MathHelper.Clamp(AfterimageInterpolant, 0f, 1f);
             float AfterimageFade = MathHelper.Lerp(0f, 1f, AfterimageInterpolant);
 
@@ -257,10 +210,8 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation - MathHelper.PiOver2, origin, Projectile.scale, SpriteEffects.None, 0);
-            
+
             return false;
         }
-
-        #endregion
     }
 }

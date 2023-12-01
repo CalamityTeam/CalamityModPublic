@@ -43,10 +43,10 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Player player = Main.player[Projectile.owner];
             //Give iframes to the player
-            if (player.immuneTime <= 10)
+            if (player.immuneTime <= 30)
             { 
             player.immuneNoBlink = true;
-            player.immuneTime = 10;
+            player.immuneTime = 30;
             }
 
             // Spawn homing flames that chase the HIT enemy only. This is also limited to one burst
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 velocity = Utils.NextVector2Circular(Main.rand, 7.2f, 7.2f);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity,
                                              ModContent.ProjectileType<FinalDawnFireball>(),
-                                             (int)(Projectile.damage * 0.3), Projectile.knockBack, Projectile.owner, 0f,
+                                             (int)(Projectile.damage * 0.2), Projectile.knockBack, Projectile.owner, 0f,
                                              target.whoAmI);
                 }
                 HasHitEnemy = true;
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
             player.Center = Projectile.Center;
             player.fullRotationOrigin = player.Center - player.position;
             player.fullRotation = Projectile.rotation;
-            player.direction = Projectile.direction;
+            player.ChangeDir(Projectile.direction);
             player.heldProj = Projectile.whoAmI;
             player.bodyFrame.Y = player.bodyFrame.Height;
 

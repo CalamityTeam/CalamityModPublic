@@ -41,12 +41,12 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 dspeed = -Projectile.velocity * 0.5f;
             float x2 = Projectile.Center.X - Projectile.velocity.X / 10f;
             float y2 = Projectile.Center.Y - Projectile.velocity.Y / 10f;
-            int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 107, 0f, 0f, 0, default, 1f);
-            Main.dust[num137].alpha = Projectile.alpha;
-            Main.dust[num137].position.X = x2;
-            Main.dust[num137].position.Y = y2;
-            Main.dust[num137].velocity = dspeed;
-            Main.dust[num137].noGravity = true;
+            int dust = Dust.NewDust(new Vector2(x2, y2), 1, 1, 107, 0f, 0f, 0, default, 1f);
+            Main.dust[dust].alpha = Projectile.alpha;
+            Main.dust[dust].position.X = x2;
+            Main.dust[dust].position.Y = y2;
+            Main.dust[dust].velocity = dspeed;
+            Main.dust[dust].noGravity = true;
 
             //Rotation
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();

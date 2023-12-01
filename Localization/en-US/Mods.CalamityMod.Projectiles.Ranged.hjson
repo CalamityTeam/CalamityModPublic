@@ -16,11 +16,14 @@ AstralSandgun.DisplayName: Astral Sandgun
 AstrealArrow.DisplayName: Astreal Arrow
 AstrealFlame.DisplayName: Astreal Flame
 AuralisBullet.DisplayName: Auralis Bullet
+AuricBullet.DisplayName: Auric Bullet
 AuroraFire.DisplayName: Aurora Blaze
 BallistaGreatArrow.DisplayName: Ballista Great Arrow
+BarinadeArrow.DisplayName: Fin Arrow
 BeeRPG.DisplayName: Bee RPG
 BigCoral.DisplayName: Big Coral
 BigNuke.DisplayName: Big Nuke
+BlightFlames.DisplayName: Blight Flames
 BlissfulBombardierDustProjectile.DisplayName: Holy Flare Dust
 BloodBoilerFire.DisplayName: Blood Fire
 BloodClotFriendly.DisplayName: Blood Clot
@@ -51,10 +54,10 @@ ContagionArrow.DisplayName: Contagion Arrow
 ContagionBall.DisplayName: Contagion Ball
 CorinthPrimeAirburst.DisplayName: Airburst
 CorinthPrimeAirburstGrenade.DisplayName: Corinth Prime Airburst Shot
-CorossiveFlames.DisplayName: Plagued Flames
 CorrodedShell.DisplayName: Corroded Shell
 CosmicFire.DisplayName: Dead Sun's Fire
 DaemonsFlameArrow.DisplayName: Daemon's Arrow
+DeadSunExplosion.DisplayName: Dead Sun's Explosion
 DragonsBreathRound.DisplayName: Dragon's Breath Round
 DrataliornusExoArrow.DisplayName: Drataliornus Arrow
 DrataliornusFlame.DisplayName: Drataliornus Arrow
@@ -63,6 +66,7 @@ DrizzlefishFireball.DisplayName: Drizzlefish Fireball
 DrizzlefishFireSplit.DisplayName: Drizzlefish Flames
 DWArrow.DisplayName: Death's Arrow
 ElementalFire.DisplayName: Elemental Fire
+ElementalFlare.DisplayName: Elemental Flare
 ElysianArrowProj.DisplayName: Elysian Arrow
 EmesisGore.DisplayName: Rotten Gore
 EnhancedNanoRoundProj.DisplayName: Enhanced Nano Round
@@ -118,8 +122,9 @@ MagnomalyExplosion.DisplayName: Explosion
 MagnomalyRocket.DisplayName: Nuke
 MarksmanShot.DisplayName: Marksman Shot
 MechanicalBarracuda.DisplayName: Barracuda
+MeowCreature.DisplayName: the creature :3
 MeowFire.DisplayName: Purr Fire
-MeowFire2.DisplayName: Purr Fire
+MineralMortarProjectile.DisplayName: Onyx Bomb
 MiniatureFolly.DisplayName: Miniature Folly
 MiniRocket.DisplayName: Rocket
 MiniSharkron.DisplayName: Mini Sharkron
@@ -135,7 +140,6 @@ NovaShot.DisplayName: Nova Bolt
 Nuke.DisplayName: Nuke
 NullShot.DisplayName: Null
 NullShot2.DisplayName: Null
-OnyxSharkBomb.DisplayName: Onyx Shark
 OpalChargedStrike.DisplayName: Charged Plasma Bolt
 OpalStrike.DisplayName: Heated Bolt
 PiercingBullet.DisplayName: Piercing Blow
@@ -160,6 +164,7 @@ PrismMine.DisplayName: Mine
 PristineFire.DisplayName: Pristine Fire
 PristineSecondary.DisplayName: Pristine Lingering Fire
 PumplerGrenade.DisplayName: Squash Shell
+P90Round.DisplayName: Armor-piercing Round
 RainbowBlast.DisplayName: Blast
 RainbowFront.DisplayName: Rainbow
 RainbowTrail.DisplayName: Rainbow
@@ -168,7 +173,6 @@ RicoshotCoin.DisplayName: Ricoshot Coin
 RocketFire.DisplayName: Fire
 RubberMortarRoundProj.DisplayName: Rubber Mortar
 SandstormBullet.DisplayName: Sandstorm
-SandyWaifuShark.DisplayName: Shark
 ScorchedEarthBlast.DisplayName: Earth Scorcher
 ScorchedEarthClusterBomb.DisplayName: Cluster Bomb
 ScorchedEarthRocket.DisplayName: Rocket
@@ -213,7 +217,8 @@ TerraArrowMain.DisplayName: Terra Arrow
 TerraArrowSplit.DisplayName: Terra Arrow
 TerraBulletMain.DisplayName: Terra Bullet
 TerraBulletSplit.DisplayName: Terra Bullet
-TerraFireGreen.DisplayName: Terra Fire
+TerraFire.DisplayName: Terra Fire
+TerraFlare.DisplayName: Terra Flare
 TheMaelstromExplosion.DisplayName: Reaper Explosion
 TheMaelstromShark.DisplayName: Reaper Shark
 ThePackMinissile.DisplayName: Pack Minissile
@@ -237,3 +242,5 @@ Voidragon.DisplayName: Voidragon Blast
 VoidragonTentacle.DisplayName: Voidragon Tentacle
 WaterSpout.DisplayName: Spout
 WulfrumScrapBullet.DisplayName: High Speed Scrap
+DragonsBreathFlames.DisplayName: Draconic Flames
+DragonsBreathMag.DisplayName: Dragons Breath Cartridge

@@ -16,7 +16,6 @@ using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.Particles;
-using CalamityMod.Particles.Metaballs;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Systems;
@@ -38,6 +37,7 @@ using Terraria.Graphics;
 using Terraria.Graphics.Light;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI.Gamepad;
 
@@ -261,7 +261,7 @@ namespace CalamityMod.ILEditing
                     self.dashTime = 15;
                     return;
                 }
-                
+
                 dashing = true;
                 self.dashTime = 0;
                 self.timeSinceLastDashStarted = 0;
@@ -298,7 +298,7 @@ namespace CalamityMod.ILEditing
                 self.velocity = Collision.AdvancedTileCollision(TileID.Sets.ForAdvancedCollision.ForSandshark, cPosition, self.velocity, cWidth, cHeight, fall, fall, 1);
                 return;
             }
-
+            
             if (self.active && self.Calamity().ShouldFallThroughPlatforms)
                 fall = true;
 
@@ -494,10 +494,53 @@ namespace CalamityMod.ILEditing
         }
         #endregion
 
-        #region Mana Sickness Replacement for Chaos Stone
-        private static void ConditionallyReplaceManaSickness(ILContext il)
+        #region Chaos Stone and Chalice of the Blood God
+        private static void ManaSicknessAndChaliceBufferHeal(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
+
+            //
+            // The following section enables Chalice of the Blood God's feature of healing potions clearing 50% of its bleedout buffer.
+            //
+
+            // Start by finding the moment where health is restored from a healing item.
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchStfld<Player>("statLife")))
+            {
+                LogFailure("Chalice of the Blood God Bleedout Heal", "Could not locate the player's health being restored");
+                return;
+            }
+
+            // Load the player onto the stack for use in the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+
+            // Insert a delegate which applies Chalice of the Blood God's function as appropriate.
+            cursor.EmitDelegate<Action<Player>>(player =>
+            {
+                if (!player.active || player.dead)
+                    return;
+
+                CalamityPlayer modPlayer = player.Calamity();
+                if (modPlayer is null)
+                    return;
+
+                if (modPlayer.chaliceOfTheBloodGod && modPlayer.chaliceBleedoutBuffer > 0D)
+                {
+                    int amountOfBleedToClear = (int)(modPlayer.chaliceBleedoutBuffer * (1f - ChaliceOfTheBloodGod.HealingPotionBufferClear));
+                    modPlayer.chaliceBleedoutBuffer -= amountOfBleedToClear;
+
+                    // Display text indicating that damage was transferred to bleedout.
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        string text = $"(+{amountOfBleedToClear})";
+                        Rectangle location = new Rectangle((int)player.position.X + 4, (int)player.position.Y - 3, player.width - 4, player.height - 4);
+                        CombatText.NewText(location, ChaliceOfTheBloodGod.BleedoutBufferDamageTextColor, Language.GetTextValue(text), dot: true);
+                    }
+                }
+            });
+
+            //
+            // The following section enables Mana Burn for Chaos Stone by conditionally replacing Mana Sickness.
+            //
 
             // Start by finding the vanilla code which applies Mana Sickness (buff ID 94).
             if (!cursor.TryGotoNext(c => c.MatchLdcI4(BuffID.ManaSickness)))
@@ -707,7 +750,6 @@ namespace CalamityMod.ILEditing
         private static void DrawFusableParticles(Terraria.On_Main.orig_SortDrawCacheWorms orig, Main self)
         {
             DeathAshParticle.DrawAll();
-            FusableParticleManager.RenderAllFusableParticles();
 
             if (Main.LocalPlayer.dye.Any(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>()))
                 Main.LocalPlayer.Calamity().ProfanedMoonlightAuroraDrawer?.Draw(Main.LocalPlayer.Center - Main.screenPosition, false, Main.GameViewMatrix.TransformationMatrix, Matrix.Identity);
@@ -719,13 +761,6 @@ namespace CalamityMod.ILEditing
         {
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             orig(self);
-        }
-
-        private static void ResetRenderTargetSizes(Terraria.On_Main.orig_SetDisplayMode orig, int width, int height, bool fullscreen)
-        {
-            if (FusableParticleManager.HasBeenFormallyDefined)
-                FusableParticleManager.LoadParticleRenderSets(true, width, height);
-            orig(width, height, fullscreen);
         }
         #endregion
 
@@ -746,23 +781,23 @@ namespace CalamityMod.ILEditing
                 Main.tileBatch.Draw(liquidTexture, position, liquidSize, colors, default(Vector2), 1f, SpriteEffects.None);
                 return;
             }
-            
+
             Texture2D slopeTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaSlopeTexture : TextureAssets.LiquidSlope[liquidType].Value, LiquidTileType.Slope);
             liquidSize.X += 18 * (slope - 1);
             switch (slope)
             {
-            case 1:
-                Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
-                break;
-            case 2:
-                Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
-                break;
-            case 3:
-                Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
-                break;
-            case 4:
-                Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
-                break;
+                case 1:
+                    Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
+                    break;
+                case 2:
+                    Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
+                    break;
+                case 3:
+                    Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
+                    break;
+                case 4:
+                    Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
+                    break;
             }
         }
 
@@ -804,7 +839,7 @@ namespace CalamityMod.ILEditing
             {
                 initialColor = SelectLavaQuadColor(initialTexture, ref initialColor, liquidType == 1);
 
-                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot || 
+                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot ||
                 liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot ||
                 liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater").Slot ||
                 liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/UpperAbyssWater").Slot ||
@@ -930,7 +965,7 @@ namespace CalamityMod.ILEditing
                 return;
 
             Tile above = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
-            if (!Main.gamePaused && !above.HasTile && above.LiquidAmount <= 0 && Main.rand.NextBool(9) && 
+            if (!Main.gamePaused && !above.HasTile && above.LiquidAmount <= 0 && Main.rand.NextBool(9) &&
             Main.waterStyle == SulphuricWater.Type)
             {
                 MediumMistParticle acidFoam = new(new(x * 16f + Main.rand.NextFloat(16f), y * 16f + 8f), -Vector2.UnitY.RotatedByRandom(0.67f) * Main.rand.NextFloat(1f, 2.4f), Color.LightSeaGreen, Color.White, 0.16f, 128f, 0.02f);

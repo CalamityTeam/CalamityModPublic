@@ -18,7 +18,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
         }
 
         public override void SetDefaults()
@@ -89,7 +88,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         npcPos.X += velocity.X;
                         npcPos.Y += velocity.Y;
                         int spread = Main.getGoodWorld ? 100 : 20;
-                        for (int num186 = 0; num186 < (Main.getGoodWorld ? 10 : 2); num186++)
+                        for (int i = 0; i < (Main.getGoodWorld ? 10 : 2); i++)
                         {
                             velocity = Main.player[NPC.target].Center - npcPos;
                             targetDist = velocity.Length();
@@ -107,15 +106,15 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 NPC.localAI[3] = 1f;
             }
-            Vector2 center16 = NPC.Center;
-            Player player8 = Main.player[NPC.target];
-            if (NPC.target < 0 || NPC.target == Main.maxPlayers || player8.dead || !player8.active)
+            Vector2 shuttleCenter = NPC.Center;
+            Player targetedPlayer = Main.player[NPC.target];
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || targetedPlayer.dead || !targetedPlayer.active)
             {
                 NPC.TargetClosest();
-                player8 = Main.player[NPC.target];
+                targetedPlayer = Main.player[NPC.target];
                 NPC.netUpdate = true;
             }
-            if ((player8.dead || Vector2.Distance(player8.Center, center16) > 3200f) && NPC.ai[0] != 1f)
+            if ((targetedPlayer.dead || Vector2.Distance(targetedPlayer.Center, shuttleCenter) > 3200f) && NPC.ai[0] != 1f)
             {
                 NPC.ai[0] = -1f;
                 NPC.netUpdate = true;
@@ -127,7 +126,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     NPC.timeLeft = 10;
                 }
-                if (!player8.dead)
+                if (!targetedPlayer.dead)
                 {
                     NPC.timeLeft = 300;
                     NPC.ai[1] = 0f;
@@ -139,128 +138,127 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             else if (NPC.ai[0] == 0f)
             {
-                int num1580 = 0;
+                int movementPattern = 0;
                 if (NPC.ai[3] >= 580f)
                 {
-                    num1580 = 0;
+                    movementPattern = 0;
                 }
                 else if (NPC.ai[3] >= 440f)
                 {
-                    num1580 = 5;
+                    movementPattern = 5;
                 }
                 else if (NPC.ai[3] >= 420f)
                 {
-                    num1580 = 4;
+                    movementPattern = 4;
                 }
                 else if (NPC.ai[3] >= 280f)
                 {
-                    num1580 = 3;
+                    movementPattern = 3;
                 }
                 else if (NPC.ai[3] >= 260f)
                 {
-                    num1580 = 2;
+                    movementPattern = 2;
                 }
                 else if (NPC.ai[3] >= 20f)
                 {
-                    num1580 = 1;
+                    movementPattern = 1;
                 }
                 NPC.ai[3] += 1f;
                 if (NPC.ai[3] >= 600f)
                 {
                     NPC.ai[3] = 0f;
                 }
-                int num1581 = num1580;
+                int patternCompare = movementPattern;
                 if (NPC.ai[3] >= 580f)
                 {
-                    num1580 = 0;
+                    movementPattern = 0;
                 }
                 else if (NPC.ai[3] >= 440f)
                 {
-                    num1580 = 5;
+                    movementPattern = 5;
                 }
                 else if (NPC.ai[3] >= 420f)
                 {
-                    num1580 = 4;
+                    movementPattern = 4;
                 }
                 else if (NPC.ai[3] >= 280f)
                 {
-                    num1580 = 3;
+                    movementPattern = 3;
                 }
                 else if (NPC.ai[3] >= 260f)
                 {
-                    num1580 = 2;
+                    movementPattern = 2;
                 }
                 else if (NPC.ai[3] >= 20f)
                 {
-                    num1580 = 1;
+                    movementPattern = 1;
                 }
-                if (num1580 != num1581)
+                if (movementPattern != patternCompare)
                 {
-                    if (num1580 == 0)
+                    if (movementPattern == 0)
                     {
                         NPC.ai[2] = 0f;
                     }
-                    if (num1580 == 1)
+                    if (movementPattern == 1)
                     {
-                        NPC.ai[2] = (float)((Math.Sign((player8.Center - center16).X) == 1) ? 1 : -1);
+                        NPC.ai[2] = (float)((Math.Sign((targetedPlayer.Center - shuttleCenter).X) == 1) ? 1 : -1);
                     }
-                    if (num1580 == 2)
+                    if (movementPattern == 2)
                     {
                         NPC.ai[2] = 0f;
                     }
                     NPC.netUpdate = true;
                 }
-                if (num1580 == 0)
+                if (movementPattern == 0)
                 {
                     if (NPC.ai[2] == 0f)
                     {
-                        NPC.ai[2] = (float)(-600 * Math.Sign((center16 - player8.Center).X));
+                        NPC.ai[2] = (float)(-600 * Math.Sign((shuttleCenter - targetedPlayer.Center).X));
                     }
-                    Vector2 vector196 = player8.Center + new Vector2(NPC.ai[2], -250f) - center16;
-                    if (vector196.Length() < 50f)
+                    Vector2 targetingDirection = targetedPlayer.Center + new Vector2(NPC.ai[2], -250f) - shuttleCenter;
+                    if (targetingDirection.Length() < 50f)
                     {
                         NPC.ai[3] = 19f;
                     }
                     else
                     {
-                        vector196.Normalize();
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, vector196 * 16f, 0.1f);
+                        targetingDirection.Normalize();
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, targetingDirection * 16f, 0.1f);
                     }
                 }
-                if (num1580 == 1)
+                if (movementPattern == 1)
                 {
-                    int num1582 = (int)NPC.Center.X / 16;
-                    int num1583 = (int)(NPC.position.Y + (float)NPC.height) / 16;
-                    int num1584 = 0;
-                    bool flag149 = Main.tile[num1582, num1583].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1582, num1583].TileType] && !Main.tileSolidTop[(int)Main.tile[num1582, num1583].TileType];
-                    if (flag149)
+                    int npcTileX = (int)NPC.Center.X / 16;
+                    int npcTileY = (int)(NPC.position.Y + (float)NPC.height) / 16;
+                    int upwardMoveAmt = 0;
+                    bool solidTilePresent = Main.tile[npcTileX, npcTileY].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[npcTileX, npcTileY].TileType] && !Main.tileSolidTop[(int)Main.tile[npcTileX, npcTileY].TileType];
+                    if (solidTilePresent)
                     {
-                        num1584 = 1;
+                        upwardMoveAmt = 1;
                     }
                     else
                     {
-                        while (num1584 < 150 && num1583 + num1584 < Main.maxTilesY)
+                        while (upwardMoveAmt < 150 && npcTileY + upwardMoveAmt < Main.maxTilesY)
                         {
-                            int num1585 = num1583 + num1584;
-                            bool flag150 = Main.tile[num1582, num1585].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1582, num1585].TileType] && !Main.tileSolidTop[(int)Main.tile[num1582, num1585].TileType];
-                            if (flag150)
+                            int npcTileYUp = npcTileY + upwardMoveAmt;
+                            bool solidTilePresentAgain = Main.tile[npcTileX, npcTileYUp].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[npcTileX, npcTileYUp].TileType] && !Main.tileSolidTop[(int)Main.tile[npcTileX, npcTileYUp].TileType];
+                            if (solidTilePresentAgain)
                             {
-                                num1584--;
+                                upwardMoveAmt--;
                                 break;
                             }
-                            num1584++;
+                            upwardMoveAmt++;
                         }
                     }
-                    float num1586 = (float)(num1584 * 16);
-                    float num1587 = 250f;
-                    if (num1586 < num1587)
+                    float pixelsUpAmt = (float)(upwardMoveAmt * 16);
+                    if (pixelsUpAmt < 250f)
                     {
-                        float num1588 = -4f;
-                        if (-num1588 > num1586)
+                        float velocityUpwards = -4f;
+                        if (-velocityUpwards > pixelsUpAmt)
                         {
-                            num1588 = -num1586;
+                            velocityUpwards = -pixelsUpAmt;
                         }
-                        NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, num1588, 0.05f);
+                        NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, velocityUpwards, 0.05f);
                     }
                     else
                     {
@@ -268,106 +266,104 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                     NPC.velocity.X = 3.5f * NPC.ai[2];
                 }
-                if (num1580 == 2)
+                if (movementPattern == 2)
                 {
                     if (NPC.ai[2] == 0f)
                     {
-                        NPC.ai[2] = (float)(300 * Math.Sign((center16 - player8.Center).X));
+                        NPC.ai[2] = (float)(300 * Math.Sign((shuttleCenter - targetedPlayer.Center).X));
                     }
-                    Vector2 vector197 = player8.Center + new Vector2(NPC.ai[2], -170f) - center16;
-                    int num1589 = (int)NPC.Center.X / 16;
-                    int num1590 = (int)(NPC.position.Y + (float)NPC.height) / 16;
-                    int num1591 = 0;
-                    bool flag151 = Main.tile[num1589, num1590].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1589, num1590].TileType] && !Main.tileSolidTop[(int)Main.tile[num1589, num1590].TileType];
-                    if (flag151)
+                    Vector2 targetingCenter2 = targetedPlayer.Center + new Vector2(NPC.ai[2], -170f) - shuttleCenter;
+                    int npcTileX2 = (int)NPC.Center.X / 16;
+                    int npcTileY2 = (int)(NPC.position.Y + (float)NPC.height) / 16;
+                    int upwardsMovement = 0;
+                    bool solidTile = Main.tile[npcTileX2, npcTileY2].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[npcTileX2, npcTileY2].TileType] && !Main.tileSolidTop[(int)Main.tile[npcTileX2, npcTileY2].TileType];
+                    if (solidTile)
                     {
-                        num1591 = 1;
+                        upwardsMovement = 1;
                     }
                     else
                     {
-                        while (num1591 < 150 && num1590 + num1591 < Main.maxTilesY)
+                        while (upwardsMovement < 150 && npcTileY2 + upwardsMovement < Main.maxTilesY)
                         {
-                            int num1592 = num1590 + num1591;
-                            bool flag152 = Main.tile[num1589, num1592].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1589, num1592].TileType] && !Main.tileSolidTop[(int)Main.tile[num1589, num1592].TileType];
-                            if (flag152)
+                            int npcTileYUp2 = npcTileY2 + upwardsMovement;
+                            bool solidTileAgain = Main.tile[npcTileX2, npcTileYUp2].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[npcTileX2, npcTileYUp2].TileType] && !Main.tileSolidTop[(int)Main.tile[npcTileX2, npcTileYUp2].TileType];
+                            if (solidTileAgain)
                             {
-                                num1591--;
+                                upwardsMovement--;
                                 break;
                             }
-                            num1591++;
+                            upwardsMovement++;
                         }
                     }
-                    float num1593 = (float)(num1591 * 16);
-                    float num1594 = 170f;
-                    if (num1593 < num1594)
+                    float pixelsUpAmt2 = (float)(upwardsMovement * 16);
+                    if (pixelsUpAmt2 < 170f)
                     {
-                        vector197.Y -= num1594 - num1593;
+                        targetingCenter2.Y -= 170f - pixelsUpAmt2;
                     }
-                    if (vector197.Length() < 70f)
+                    if (targetingCenter2.Length() < 70f)
                     {
                         NPC.ai[3] = 279f;
                     }
                     else
                     {
-                        vector197.Normalize();
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, vector197 * 20f, 0.1f);
+                        targetingCenter2.Normalize();
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, targetingCenter2 * 20f, 0.1f);
                     }
                 }
-                else if (num1580 == 3)
+                else if (movementPattern == 3)
                 {
-                    float num1595 = 0.85f;
-                    int num1596 = (int)NPC.Center.X / 16;
-                    int num1597 = (int)(NPC.position.Y + (float)NPC.height) / 16;
-                    int num1598 = 0;
-                    bool flag153 = Main.tile[num1596, num1597].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1596, num1597].TileType] && !Main.tileSolidTop[(int)Main.tile[num1596, num1597].TileType];
-                    if (flag153)
+                    float decelerationMult = 0.85f;
+                    int npcTileX3 = (int)NPC.Center.X / 16;
+                    int npcTileY3 = (int)(NPC.position.Y + (float)NPC.height) / 16;
+                    int upwardsMovement3 = 0;
+                    bool thereIsSolidTile = Main.tile[npcTileX3, npcTileY3].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[npcTileX3, npcTileY3].TileType] && !Main.tileSolidTop[(int)Main.tile[npcTileX3, npcTileY3].TileType];
+                    if (thereIsSolidTile)
                     {
-                        num1598 = 1;
+                        upwardsMovement3 = 1;
                     }
                     else
                     {
-                        while (num1598 < 150 && num1597 + num1598 < Main.maxTilesY)
+                        while (upwardsMovement3 < 150 && npcTileY3 + upwardsMovement3 < Main.maxTilesY)
                         {
-                            int num1599 = num1597 + num1598;
-                            bool flag154 = Main.tile[num1596, num1599].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num1596, num1599].TileType] && !Main.tileSolidTop[(int)Main.tile[num1596, num1599].TileType];
-                            if (flag154)
+                            int npcTileYUp3 = npcTileY3 + upwardsMovement3;
+                            bool thereIsSolidTileAgain = Main.tile[npcTileX3, npcTileYUp3].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[npcTileX3, npcTileYUp3].TileType] && !Main.tileSolidTop[(int)Main.tile[npcTileX3, npcTileYUp3].TileType];
+                            if (thereIsSolidTileAgain)
                             {
-                                num1598--;
+                                upwardsMovement3--;
                                 break;
                             }
-                            num1598++;
+                            upwardsMovement3++;
                         }
                     }
-                    float num1600 = (float)(num1598 * 16);
-                    float num1601 = 170f;
-                    if (num1600 < num1601)
+                    float pixelUpAmt3 = (float)(upwardsMovement3 * 16);
+                    if (pixelUpAmt3 < 170f)
                     {
-                        float num1602 = -4f;
-                        if (-num1602 > num1600)
+                        float velocityUpwards3 = -4f;
+                        if (-velocityUpwards3 > pixelUpAmt3)
                         {
-                            num1602 = -num1600;
+                            velocityUpwards3 = -pixelUpAmt3;
                         }
-                        NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, num1602, 0.05f);
+                        NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, velocityUpwards3, 0.05f);
                     }
                     else
                     {
-                        NPC.velocity.Y = NPC.velocity.Y * num1595;
+                        NPC.velocity.Y = NPC.velocity.Y * decelerationMult;
                     }
-                    NPC.velocity.X = NPC.velocity.X * num1595;
+                    NPC.velocity.X = NPC.velocity.X * decelerationMult;
                 }
-                if (num1580 == 4)
+                if (movementPattern == 4)
                 {
-                    Vector2 vector198 = player8.Center + new Vector2(0f, -250f) - center16;
-                    if (vector198.Length() < 50f)
+                    Vector2 targetingCenter4 = targetedPlayer.Center + new Vector2(0f, -250f) - shuttleCenter;
+                    if (targetingCenter4.Length() < 50f)
                     {
                         NPC.ai[3] = 439f;
                         return;
                     }
-                    vector198.Normalize();
-                    NPC.velocity = Vector2.Lerp(NPC.velocity, vector198 * 16f, 0.1f);
+                    targetingCenter4.Normalize();
+                    NPC.velocity = Vector2.Lerp(NPC.velocity, targetingCenter4 * 16f, 0.1f);
                     return;
                 }
-                else if (num1580 == 5)
+                else if (movementPattern == 5)
                 {
                     NPC.velocity *= 0.85f;
                     return;

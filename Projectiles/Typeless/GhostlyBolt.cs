@@ -31,24 +31,24 @@ namespace CalamityMod.Projectiles.Typeless
             if (Projectile.localAI[0] == 6f)
             {
                 SoundEngine.PlaySound(SoundID.Item8, Projectile.position);
-                for (int num151 = 0; num151 < 40; num151++)
+                for (int i = 0; i < 40; i++)
                 {
-                    int num152 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 181, 0f, 0f, 100, default, 1f);
-                    Main.dust[num152].velocity *= 3f;
-                    Main.dust[num152].velocity += Projectile.velocity * 0.75f;
-                    Main.dust[num152].scale *= 1.2f;
-                    Main.dust[num152].noGravity = true;
+                    int cursedDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 181, 0f, 0f, 100, default, 1f);
+                    Main.dust[cursedDust].velocity *= 3f;
+                    Main.dust[cursedDust].velocity += Projectile.velocity * 0.75f;
+                    Main.dust[cursedDust].scale *= 1.2f;
+                    Main.dust[cursedDust].noGravity = true;
                 }
             }
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 6f)
             {
-                for (int num153 = 0; num153 < 3; num153++)
+                for (int j = 0; j < 3; j++)
                 {
-                    int num154 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 181, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
-                    Main.dust[num154].velocity *= 0.6f;
-                    Main.dust[num154].scale *= 1.4f;
-                    Main.dust[num154].noGravity = true;
+                    int cursedDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 181, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
+                    Main.dust[cursedDust2].velocity *= 0.6f;
+                    Main.dust[cursedDust2].scale *= 1.4f;
+                    Main.dust[cursedDust2].noGravity = true;
                 }
             }
         }

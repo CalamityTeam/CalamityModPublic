@@ -14,6 +14,25 @@ namespace CalamityMod.ILEditing
 {
     public partial class ILChanges
     {
+        public static int DungeonHallXLimit => DungeonHallXLimitOverride ?? (SulphurousSea.BiomeWidth + 25);
+
+        public static int DungeonBaseXLimit => DungeonBaseXLimitOverride ?? (SulphurousSea.BiomeWidth + 167);
+
+        // This exists primarily for Infernum with its larger abyss, but other mods with a reference should be able to theoretically override it.
+        // Calamity by itself does not change its value.
+        public static int? DungeonHallXLimitOverride
+        {
+            get;
+            set;
+        }
+
+        // Same idea as DungeonHallXLimitOverride.
+        public static int? DungeonBaseXLimitOverride
+        {
+            get;
+            set;
+        }
+
         #region Replacement of Pharaoh Set in Pyramids
         // Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
         // The other Pharaoh vanity piece is added automatically if the mask is found in the chest.
@@ -180,5 +199,126 @@ namespace CalamityMod.ILEditing
             }
         }
         #endregion
+
+        #region Prevent Abyss/Dungeon Interactions
+
+        private void LimitDungeonEntranceXPosition(On_WorldGen.orig_MakeDungeon orig, int x, int y)
+        {
+            // Ensure that the base X position stays within its required bounds.
+            x = Utils.Clamp(x, DungeonBaseXLimit, Main.maxTilesX - DungeonBaseXLimit);
+
+            // Adjust the Y position of the dungeon to accomodate for the X shift, so that if the clamp shoves the dungeon into the air it has an
+            // opportunity to ground itself again.
+            WorldUtils.Find(new Point(x, y), Searches.Chain(new Searches.Down(9001), new Conditions.IsSolid()), out Point result);
+            y = result.Y - 10;
+
+            orig(x, y);
+        }
+
+        /// <summary>
+        /// Ensures that the position of dungeon halls do not exceed a certain horizontal range.
+        /// </summary>
+        private static void LimitDungeonHallsXPosition(ILContext il)
+        {
+            var c = new ILCursor(il);
+
+            /* The code being altered is as follows:
+             * Vector2D vector2D = default(Vector2D);
+             * vector2D.X = (double)i;
+             * vector2D.Y = (double)j;
+             * 
+             * In this context, i and j represent the X and Y position of the dungeon hall, and vector2D represents its position as a vector.
+             * The object is to to change the vector2D.X = (double)i; line to actually provide i but clamped.
+             */
+
+            if (!c.TryGotoNext(MoveType.After, x => x.MatchLdarg0()))
+            {
+                LogFailure("Limit Dungeon Hall X Positions", "Could not match the load of argument 0.");
+                return;
+            }
+
+            // Since the above search specifies that the cursor should be placed after ldarg_0, but before the storage into the X component of the vector, it's
+            // possible to simply take in the value as an input for the clamp function and interpret the clamp's output as the true value being stored into the X component.
+            // In C#, this represents the following transformation:
+            //
+            // Original: vector2D.X = (double)i;
+            //
+            // Altered: vector2D.X = (double)Utils.Clamp(i, DungeonHallXLimit, Main.maxTilesX - DungeonHallXLimit);
+            c.EmitDelegate<Func<int, int>>(x => Utils.Clamp(x, DungeonHallXLimit, Main.maxTilesX - DungeonHallXLimit));
+        }
+
+        #endregion Prevent Abyss/Dungeon Interactions
+
+        #region Change Dungeon Spike Quantities
+
+        /// <summary>
+        /// Makes dungeon spikes more infrequent in the dungeon under normal circumstances.
+        /// </summary>
+        private static void ChangeDungeonSpikeQuantities(ILContext il)
+        {
+            var c = new ILCursor(il);
+
+            /* The code being altered is as follows:
+             * int num16 = Main.maxTilesX / 100;
+             * if (WorldGen.getGoodWorldGen)
+             * {
+             *     num16 *= 3;
+             * }
+             * 
+             * The desired change is to halve num16 under typical circumstances but leave them unchanged on the meme seeds (Except for GFB, where it's even more ridiculous).
+             * This should result in the following logical output via this edit:
+             * 
+             * int num16 = Main.maxTilesX / 200;
+             * if (WorldGen.getGoodWorldGen)
+             * {
+             *     num16 *= 6;
+             * }
+             * if (Main.zenithWorld)
+             * {
+             *     num16 *= 4;
+             * }
+             */
+
+            // WorldGen.getGoodWorldGen is only used once in this method, and as such is a reliable entrypoint for getting near the above code.
+            if (!c.TryGotoNext(MoveType.After, x => x.MatchLdsfld<WorldGen>("getGoodWorldGen")))
+            {
+                LogFailure("Change Dungeon Spike Quantities", "Could not match the load of Worldgen.getGoodWorldGen.");
+                return;
+            }
+
+            // Go back to find the local index of num16, being sure to go right before it's stored.
+            if (!c.TryGotoPrev(MoveType.Before, x => x.MatchStloc(out _)))
+            {
+                LogFailure("Change Dungeon Spike Quantities", "Could not match the storage of num16.");
+                return;
+            }
+
+            // Since we're right before the storage of num16, that means that its exact number is right above and available for manipulation.
+            // This will be accomplished via a division by 2 for the default condition and respective multiplications for the meme seeds.
+            // The reason this isn't done in a single multiplication/division is as a means of avoiding the annoyances of casting to floats and back.
+
+            // Divide by two.
+            c.Emit(OpCodes.Ldc_I4_2);
+            c.Emit(OpCodes.Div);
+
+            // Multiply by factors relative to the meme seed.
+            c.EmitDelegate(() =>
+            {
+                int frequencyFactor = 1;
+
+                // Undo the division by 2 in the FTW seed. It will be given the *= 3 after the placement of these edits.
+                if (WorldGen.getGoodWorldGen)
+                    frequencyFactor *= 2;
+
+                // GFB, where good game design dies.
+                if (Main.zenithWorld)
+                    frequencyFactor *= 4;
+
+                return frequencyFactor;
+            });
+            c.Emit(OpCodes.Mul);
+        }
+
+        #endregion Change Dungeon Spike Quantities
     }
 }

@@ -46,23 +46,23 @@ namespace CalamityMod.Projectiles.Boss
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int dust = 0; dust <= 3; dust++)
             {
-                float num463 = Main.rand.Next(-10, 11);
-                float num464 = Main.rand.Next(-10, 11);
-                float num465 = Main.rand.Next(3, 9);
-                float num466 = (float)Math.Sqrt(num463 * num463 + num464 * num464);
-                num466 = num465 / num466;
-                num463 *= num466;
-                num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num467].noGravity = true;
-                Main.dust[num467].position.X = Projectile.Center.X;
-                Main.dust[num467].position.Y = Projectile.Center.Y;
-                Dust expr_149DF_cp_0 = Main.dust[num467];
+                float rando1 = Main.rand.Next(-10, 11);
+                float rando2 = Main.rand.Next(-10, 11);
+                float rando3 = Main.rand.Next(3, 9);
+                float randoAdjuster = (float)Math.Sqrt(rando1 * rando1 + rando2 * rando2);
+                randoAdjuster = rando3 / randoAdjuster;
+                rando1 *= randoAdjuster;
+                rando2 *= randoAdjuster;
+                int sandyDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 85, 0f, 0f, 100, default, 1.2f);
+                Main.dust[sandyDust].noGravity = true;
+                Main.dust[sandyDust].position.X = Projectile.Center.X;
+                Main.dust[sandyDust].position.Y = Projectile.Center.Y;
+                Dust expr_149DF_cp_0 = Main.dust[sandyDust];
                 expr_149DF_cp_0.position.X += Main.rand.Next(-10, 11);
-                Dust expr_14A09_cp_0 = Main.dust[num467];
+                Dust expr_14A09_cp_0 = Main.dust[sandyDust];
                 expr_14A09_cp_0.position.Y += Main.rand.Next(-10, 11);
-                Main.dust[num467].velocity.X = num463;
-                Main.dust[num467].velocity.Y = num464;
+                Main.dust[sandyDust].velocity.X = rando1;
+                Main.dust[sandyDust].velocity.Y = rando2;
             }
         }
 

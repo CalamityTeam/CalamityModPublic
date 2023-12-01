@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -48,9 +49,13 @@ namespace CalamityMod.Items.Armor.Daedalus
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DaedalusCrystal>()] < 1)
                 {
-                    var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(95);
+                    int baseDamage = 95;
+                    if (modPlayer.oldFashioned)
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
+
+                    var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<DaedalusCrystal>(), damage, 0f, Main.myPlayer, 50f, 0f);
-                    p.originalDamage = 95;
+                    p.originalDamage = baseDamage;
                 }
             }
             player.GetDamage<SummonDamageClass>() += 0.2f;

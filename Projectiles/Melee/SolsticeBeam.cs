@@ -175,15 +175,15 @@ namespace CalamityMod.Projectiles.Melee
                     break;
             }
             SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
-            for (int num795 = 0; num795 < 27; num795++)
+            for (int i = 0; i < 27; i++)
             {
-                float num796 = Projectile.oldVelocity.X * (30f / (float)num795);
-                float num797 = Projectile.oldVelocity.Y * (30f / (float)num795);
-                int num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, dustType, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
-                Dust dust = Main.dust[num798];
+                float oldXVel = Projectile.oldVelocity.X * (30f / (float)i);
+                float oldYVel = Projectile.oldVelocity.Y * (30f / (float)i);
+                int solsticeDust = Dust.NewDust(new Vector2(Projectile.oldPosition.X - oldXVel, Projectile.oldPosition.Y - oldYVel), 8, 8, dustType, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
+                Dust dust = Main.dust[solsticeDust];
                 dust.noGravity = true;
                 dust.velocity *= 0.5f;
-                num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, dustType, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
+                solsticeDust = Dust.NewDust(new Vector2(Projectile.oldPosition.X - oldXVel, Projectile.oldPosition.Y - oldYVel), 8, 8, dustType, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
                 dust.velocity *= 0.05f;
             }
         }

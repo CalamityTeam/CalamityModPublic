@@ -36,7 +36,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
                     ArmorChanges[i].AlternativeBodyPieceIDs.Contains(checkItem.type);
                 bool isValidLegPiece = (ArmorChanges[i].LegPieceID ?? ItemID.None) == checkItem.type ||
                     ArmorChanges[i].AlternativeLegPieceIDs.Contains(checkItem.type);
-                if (isValidHeadPiece || isValidBodyPiece || isValidLegPiece)
+                if ((isValidHeadPiece || isValidBodyPiece || isValidLegPiece) && !ArmorChanges[i].NeedsToCreateSetBonusTextManually)
                     ArmorChanges[i].UpdateSetBonusText(ref setBonusText);
             }
         }

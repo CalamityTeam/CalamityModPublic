@@ -56,50 +56,50 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 NPC.TargetClosest(true);
             }
-            bool flag = false;
+            bool shouldDie = false;
             if (NPC.ai[1] <= 0f)
             {
-                flag = true;
+                shouldDie = true;
             }
             else if (Main.npc[(int)NPC.ai[1]].life <= 0)
             {
-                flag = true;
+                shouldDie = true;
             }
-            if (flag && !Main.zenithWorld)
+            if (shouldDie && !Main.zenithWorld)
             {
                 NPC.life = 0;
                 NPC.HitEffect(0, 10.0);
                 NPC.checkDead();
             }
-            Vector2 vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-            float num20 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
-            float num21 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
-            num20 = (float)((int)(num20 / 16f) * 16);
-            num21 = (float)((int)(num21 / 16f) * 16);
-            vector3.X = (float)((int)(vector3.X / 16f) * 16);
-            vector3.Y = (float)((int)(vector3.Y / 16f) * 16);
-            num20 -= vector3.X;
-            num21 -= vector3.Y;
-            float num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
+            Vector2 segmentPosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float targetXDist = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+            float targetYDist = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
+            targetXDist = (float)((int)(targetXDist / 16f) * 16);
+            targetYDist = (float)((int)(targetYDist / 16f) * 16);
+            segmentPosition.X = (float)((int)(segmentPosition.X / 16f) * 16);
+            segmentPosition.Y = (float)((int)(segmentPosition.Y / 16f) * 16);
+            targetXDist -= segmentPosition.X;
+            targetYDist -= segmentPosition.Y;
+            float targetDistance = (float)Math.Sqrt((double)(targetXDist * targetXDist + targetYDist * targetYDist));
             if (NPC.ai[1] > 0f && NPC.ai[1] < (float)Main.npc.Length)
             {
                 try
                 {
-                    vector3 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                    num20 = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - vector3.X;
-                    num21 = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - vector3.Y;
+                    segmentPosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                    targetXDist = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - segmentPosition.X;
+                    targetYDist = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - segmentPosition.Y;
                 } catch
                 {
                 }
-                NPC.rotation = (float)Math.Atan2((double)num21, (double)num20) + 1.57f;
-                num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
-                int num23 = (int)(44f * NPC.scale);
-                num22 = (num22 - (float)num23) / num22;
-                num20 *= num22;
-                num21 *= num22;
+                NPC.rotation = (float)Math.Atan2((double)targetYDist, (double)targetXDist) + 1.57f;
+                targetDistance = (float)Math.Sqrt((double)(targetXDist * targetXDist + targetYDist * targetYDist));
+                int segmentWidth = (int)(44f * NPC.scale);
+                targetDistance = (targetDistance - (float)segmentWidth) / targetDistance;
+                targetXDist *= targetDistance;
+                targetYDist *= targetDistance;
                 NPC.velocity = Vector2.Zero;
-                NPC.position.X = NPC.position.X + num20;
-                NPC.position.Y = NPC.position.Y + num21;
+                NPC.position.X = NPC.position.X + targetXDist;
+                NPC.position.Y = NPC.position.Y + targetYDist;
             }
         }
 

@@ -38,23 +38,23 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.alpha = 0;
             }
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.01f / 255f, (255 - Projectile.alpha) * 0.3f / 255f, (255 - Projectile.alpha) * 0.45f / 255f);
-            for (int num105 = 0; num105 < 2; num105++)
+            for (int i = 0; i < 2; i++)
             {
-                float num99 = Projectile.velocity.X / 3f * (float)num105;
-                float num100 = Projectile.velocity.Y / 3f * (float)num105;
-                int num101 = 4;
-                int frostDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)num101, Projectile.position.Y + (float)num101), Projectile.width - num101 * 2, Projectile.height - num101 * 2, 92, 0f, 0f, 100, default, 1.2f);
+                float shortXVel = Projectile.velocity.X / 3f * (float)i;
+                float shortYVel = Projectile.velocity.Y / 3f * (float)i;
+                int fourConst = 4;
+                int frostDust = Dust.NewDust(new Vector2(Projectile.position.X + (float)fourConst, Projectile.position.Y + (float)fourConst), Projectile.width - fourConst * 2, Projectile.height - fourConst * 2, 92, 0f, 0f, 100, default, 1.2f);
                 Dust dust = Main.dust[frostDust];
                 dust.noGravity = true;
                 dust.velocity *= 0.1f;
                 dust.velocity += Projectile.velocity * 0.1f;
-                dust.position.X -= num99;
-                dust.position.Y -= num100;
+                dust.position.X -= shortXVel;
+                dust.position.Y -= shortYVel;
             }
             if (Main.rand.NextBool(10))
             {
-                int num103 = 4;
-                int frostDustSmol = Dust.NewDust(new Vector2(Projectile.position.X + (float)num103, Projectile.position.Y + (float)num103), Projectile.width - num103 * 2, Projectile.height - num103 * 2, 92, 0f, 0f, 100, default, 0.6f);
+                int otherFourConst = 4;
+                int frostDustSmol = Dust.NewDust(new Vector2(Projectile.position.X + (float)otherFourConst, Projectile.position.Y + (float)otherFourConst), Projectile.width - otherFourConst * 2, Projectile.height - otherFourConst * 2, 92, 0f, 0f, 100, default, 0.6f);
                 Main.dust[frostDustSmol].velocity *= 0.25f;
                 Main.dust[frostDustSmol].velocity += Projectile.velocity * 0.5f;
             }

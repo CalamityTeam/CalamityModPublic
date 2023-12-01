@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Astral
             Main.npcFrameCount[NPC.type] = 4;
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/SightseerSpitterGlow", AssetRequestMode.ImmediateLoad).Value;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.7f,
                 Velocity = 2f,

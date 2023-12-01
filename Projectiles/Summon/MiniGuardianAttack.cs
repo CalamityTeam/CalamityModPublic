@@ -2,6 +2,7 @@
 using System.IO;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon.Whips;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.NPCs.Providence;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -186,7 +187,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public void AdvancedAI(NPC potentialTarget, Player owner, MiniOffenseAIState aiState)
         {
-            
             bool buffedAi = owner.HasBuff<ProfanedCrystalWhipBuff>();
                 
             Vector2 targetDestination = potentialTarget.Center - Projectile.Center;
@@ -360,6 +360,8 @@ namespace CalamityMod.Projectiles.Summon
             
             // Dynamically update stats here, originalDamage can be found in MiscEffects
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
+            if (Owner.Calamity().oldFashioned)
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
             Projectile.localNPCHitCooldown = (SpawnedFromPSC ? 6 : 9);
 
             var currentAIState = getAiState;
@@ -384,7 +386,7 @@ namespace CalamityMod.Projectiles.Summon
                     BaseAI(potentialTarget);
                     break;
                 default:
-                    if (potentialTarget != null)
+                    if (potentialTarget != null && !ForcedVanity)
                         AdvancedAI(potentialTarget, owner, newAIState);
                     else
                         BaseAI(null);

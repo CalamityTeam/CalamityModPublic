@@ -39,17 +39,17 @@ namespace CalamityMod.Items.Weapons.Magic
         
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int num106 = 2 + Main.rand.Next(3);
-            for (int num107 = 0; num107 < num106; num107++)
+            int projAmt = 2 + Main.rand.Next(3);
+            for (int i = 0; i < projAmt; i++)
             {
-                float num110 = 0.025f * (float)num107;
-                velocity.X += (float)Main.rand.Next(-35, 36) * num110;
-                velocity.Y += (float)Main.rand.Next(-35, 36) * num110;
-                float num84 = velocity.Length();
-                num84 = Item.shootSpeed / num84;
-                velocity.X *= num84;
-                velocity.Y *= num84;
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, (float)Main.rand.Next(0, 10 * (num107 + 1)), 0f);
+                float randVelocityDampener = 0.025f * (float)i;
+                velocity.X += (float)Main.rand.Next(-35, 36) * randVelocityDampener;
+                velocity.Y += (float)Main.rand.Next(-35, 36) * randVelocityDampener;
+                float projDistance = velocity.Length();
+                projDistance = Item.shootSpeed / projDistance;
+                velocity.X *= projDistance;
+                velocity.Y *= projDistance;
+                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, (float)Main.rand.Next(0, 10 * (i + 1)), 0f);
                 Projectile.NewProjectile(source, position, velocity, ProjectileID.Leaf, damage, knockback, player.whoAmI);
             }
             return false;

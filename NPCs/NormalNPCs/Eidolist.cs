@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 6;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.75f,
                 PortraitPositionYOverride = 16f
@@ -152,22 +152,22 @@ namespace CalamityMod.NPCs.NormalNPCs
                 return;
             }
             NPC.noTileCollide = true;
-            float num1446 = adultWyrmAlive ? 14f : 7f;
-            float num1447 = 480f;
+            float moveVelocity = adultWyrmAlive ? 14f : 7f;
+            float teleportTimer = 480f;
             if (NPC.localAI[1] == 1f)
             {
                 NPC.localAI[1] = 0f;
                 if (Main.rand.NextBool(4))
                 {
-                    NPC.ai[0] = num1447;
+                    NPC.ai[0] = teleportTimer;
                 }
             }
             NPC.TargetClosest(true);
             NPC.rotation = Math.Abs(NPC.velocity.X) * (float)NPC.direction * 0.1f;
             NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
-            Vector2 value53 = NPC.Center + new Vector2((float)(NPC.direction * 20), 6f);
-            Vector2 vector251 = Main.player[NPC.target].Center - value53;
-            bool flag104 = Collision.CanHit(NPC.Center, 1, 1, Main.player[NPC.target].Center, 1, 1);
+            Vector2 moveDirection = NPC.Center + new Vector2((float)(NPC.direction * 20), 6f);
+            Vector2 attackDirection = Main.player[NPC.target].Center - moveDirection;
+            bool canAttackTarget = Collision.CanHit(NPC.Center, 1, 1, Main.player[NPC.target].Center, 1, 1);
 
             if (NPC.justHit)
                 NPC.localAI[0] = -90f;
@@ -195,29 +195,29 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                     else
                     {
-                        Vector2 vec = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center + Main.player[NPC.target].velocity * 20f);
-                        if (vec.HasNaNs())
+                        Vector2 iceMistDirection = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center + Main.player[NPC.target].velocity * 20f);
+                        if (iceMistDirection.HasNaNs())
                         {
-                            vec = new Vector2((float)NPC.direction, 0f);
+                            iceMistDirection = new Vector2((float)NPC.direction, 0f);
                         }
                         for (int n = 0; n < 1; n++)
                         {
-                            Vector2 vector4 = vec * 4f;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector4, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
+                            Vector2 iceMistVelocity = iceMistDirection * 4f;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, iceMistVelocity, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
                         }
                     }
                 }
             }
-            if (vector251.Length() > 400f || !flag104)
+            if (attackDirection.Length() > 400f || !canAttackTarget)
             {
-                Vector2 value54 = vector251;
-                if (value54.Length() > num1446)
+                Vector2 tooFarMoveVelocity = attackDirection;
+                if (tooFarMoveVelocity.Length() > moveVelocity)
                 {
-                    value54.Normalize();
-                    value54 *= num1446;
+                    tooFarMoveVelocity.Normalize();
+                    tooFarMoveVelocity *= moveVelocity;
                 }
-                int num1448 = 30;
-                NPC.velocity = (NPC.velocity * (float)(num1448 - 1) + value54) / (float)num1448;
+                int tooFarVelMult = 30;
+                NPC.velocity = (NPC.velocity * (float)(tooFarVelMult - 1) + tooFarMoveVelocity) / (float)tooFarVelMult;
             }
             else
             {
@@ -226,10 +226,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (NPC.ai[2] != 0f && NPC.ai[3] != 0f)
             {
                 SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
-                for (int num1449 = 0; num1449 < 20; num1449++)
+                for (int i = 0; i < 20; i++)
                 {
-                    int num1450 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 20, 0f, 0f, 100, Color.Transparent, 1f);
-                    Dust dust = Main.dust[num1450];
+                    int eidolistDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, 20, 0f, 0f, 100, Color.Transparent, 1f);
+                    Dust dust = Main.dust[eidolistDust];
                     dust.velocity *= 3f;
                     dust.noGravity = true;
                     dust.scale = 2.5f;
@@ -239,51 +239,51 @@ namespace CalamityMod.NPCs.NormalNPCs
                 NPC.ai[2] = 0f;
                 NPC.ai[3] = 0f;
                 SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
-                for (int num1451 = 0; num1451 < 20; num1451++)
+                for (int j = 0; j < 20; j++)
                 {
-                    int num1452 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 20, 0f, 0f, 100, Color.Transparent, 1f);
-                    Dust dust = Main.dust[num1452];
+                    int eidolistDust2 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 20, 0f, 0f, 100, Color.Transparent, 1f);
+                    Dust dust = Main.dust[eidolistDust2];
                     dust.velocity *= 3f;
                     dust.noGravity = true;
                     dust.scale = 2.5f;
                 }
             }
             NPC.ai[0] += 1f;
-            if (NPC.ai[0] >= num1447 && Main.netMode != NetmodeID.MultiplayerClient)
+            if (NPC.ai[0] >= teleportTimer && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.ai[0] = 0f;
-                Point point12 = NPC.Center.ToTileCoordinates();
-                Point point13 = Main.player[NPC.target].Center.ToTileCoordinates();
-                int num1453 = 20;
-                int num1454 = 3;
-                int num1455 = 10;
-                int num1456 = 1;
-                int num1457 = 0;
-                bool flag106 = false;
-                if (vector251.Length() > 2000f)
+                Point npcTileCenter = NPC.Center.ToTileCoordinates();
+                Point targetTileCenter = Main.player[NPC.target].Center.ToTileCoordinates();
+                int randTeleportOffset = 20;
+                int npcTeleportRadius = 3;
+                int targetTeleportRadius = 10;
+                int teleportTileCheckRadius = 1;
+                int teleportTries = 0;
+                bool canTeleport = false;
+                if (attackDirection.Length() > 2000f)
                 {
-                    flag106 = true;
+                    canTeleport = true;
                 }
-                while (!flag106 && num1457 < 100)
+                while (!canTeleport && teleportTries < 100)
                 {
-                    num1457++;
-                    int num1458 = Main.rand.Next(point13.X - num1453, point13.X + num1453 + 1);
-                    int num1459 = Main.rand.Next(point13.Y - num1453, point13.Y + num1453 + 1);
-                    if ((num1459 < point13.Y - num1455 || num1459 > point13.Y + num1455 || num1458 < point13.X - num1455 || num1458 > point13.X + num1455) && (num1459 < point12.Y - num1454 || num1459 > point12.Y + num1454 || num1458 < point12.X - num1454 || num1458 > point12.X + num1454) && !Main.tile[num1458, num1459].HasUnactuatedTile)
+                    teleportTries++;
+                    int teleportTileX = Main.rand.Next(targetTileCenter.X - randTeleportOffset, targetTileCenter.X + randTeleportOffset + 1);
+                    int teleportTileY = Main.rand.Next(targetTileCenter.Y - randTeleportOffset, targetTileCenter.Y + randTeleportOffset + 1);
+                    if ((teleportTileY < targetTileCenter.Y - targetTeleportRadius || teleportTileY > targetTileCenter.Y + targetTeleportRadius || teleportTileX < targetTileCenter.X - targetTeleportRadius || teleportTileX > targetTileCenter.X + targetTeleportRadius) && (teleportTileY < npcTileCenter.Y - npcTeleportRadius || teleportTileY > npcTileCenter.Y + npcTeleportRadius || teleportTileX < npcTileCenter.X - npcTeleportRadius || teleportTileX > npcTileCenter.X + npcTeleportRadius) && !Main.tile[teleportTileX, teleportTileY].HasUnactuatedTile)
                     {
-                        bool flag107 = true;
-                        if (flag107 && Main.tile[num1458, num1459].LiquidType == LiquidID.Lava)
+                        bool teleportSuccessful = true;
+                        if (teleportSuccessful && Main.tile[teleportTileX, teleportTileY].LiquidType == LiquidID.Lava)
                         {
-                            flag107 = false;
+                            teleportSuccessful = false;
                         }
-                        if (flag107 && Collision.SolidTiles(num1458 - num1456, num1458 + num1456, num1459 - num1456, num1459 + num1456))
+                        if (teleportSuccessful && Collision.SolidTiles(teleportTileX - teleportTileCheckRadius, teleportTileX + teleportTileCheckRadius, teleportTileY - teleportTileCheckRadius, teleportTileY + teleportTileCheckRadius))
                         {
-                            flag107 = false;
+                            teleportSuccessful = false;
                         }
-                        if (flag107)
+                        if (teleportSuccessful)
                         {
-                            NPC.ai[2] = (float)num1458;
-                            NPC.ai[3] = (float)num1459;
+                            NPC.ai[2] = (float)teleportTileX;
+                            NPC.ai[3] = (float)teleportTileY;
                             break;
                         }
                     }

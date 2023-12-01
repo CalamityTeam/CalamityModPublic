@@ -13,8 +13,6 @@ namespace CalamityMod.Projectiles.Summon
     public class PlaguebringerSummon : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
-        public const float auraRange = 960f;
-        private int auraCounter = 0;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 6;
@@ -24,15 +22,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 30;
+            Projectile.width = Projectile.height = 30;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.minionSlots = 0;
-            Projectile.timeLeft = 18000;
-            Projectile.penetrate = -1;
-            Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Summon;
@@ -40,10 +34,10 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Player player = Main.player[Projectile.owner];
-            CalamityPlayer modPlayer = player.Calamity();
+            Player Owner = Main.player[Projectile.owner];
+            CalamityPlayer modPlayer = Owner.Calamity();
 
-            if (Projectile.frameCounter++ > 6f)
+            if (Projectile.frameCounter++ >= 6f)
             {
                 Projectile.frame++;
                 Projectile.frameCounter = 0;
@@ -54,10 +48,10 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             bool correctMinion = Projectile.type == ModContent.ProjectileType<PlaguebringerSummon>();
-            player.AddBuff(ModContent.BuffType<LilPlaguebringerBuff>(), 3600);
+            Owner.AddBuff(ModContent.BuffType<LilPlaguebringerBuff>(), 3600);
             if (correctMinion)
             {
-                if (player.dead)
+                if (Owner.dead)
                 {
                     modPlayer.plaguebringerPatronSummon = false;
                 }
@@ -71,37 +65,32 @@ namespace CalamityMod.Projectiles.Summon
 
             Projectile.MinionAntiClump();
 
-            int buffType = ModContent.BuffType<Plague>();
-            float range = auraRange;
-            bool dealDamage = auraCounter++ % 60 == 59;
-            int dmg = Projectile.damage;
-            if (Projectile.owner == Main.myPlayer)
+            Projectile.ai[0]++;
+            NPC Target = Projectile.Center.MinionHoming(800f, Owner, false);
+            if (Projectile.owner == Main.myPlayer && Target != null)
             {
-                for (int l = 0; l < Main.maxNPCs; l++)
+                if (Projectile.ai[0] % 12 == 11)
                 {
-                    NPC npc = Main.npc[l];
-                    if (npc.IsAnEnemy() && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(Projectile.Center, npc.Center) <= range)
+                    int beeCount = Main.rand.Next(1, 3);
+                    if (Owner.strongBees && Main.rand.NextBool(3))
+                        ++beeCount;
+
+                    for (int i = 0; i < beeCount; i++)
                     {
-                        if (npc.FindBuffIndex(buffType) == -1)
-                        {
-                            npc.AddBuff(buffType, 120, false);
-                        }
-                        if (dealDamage)
-                        {
-                            Projectile aura = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, Projectile.owner, l);
-                            if (aura.whoAmI.WithinBounds(Main.maxProjectiles))
-                                aura.DamageType = DamageClass.Summon;
-                        }
+                        int beeType = Main.rand.NextBool(4) ? ModContent.ProjectileType<PlagueBeeSmall>() : Owner.beeType(); // 25% chance for plague bee, otherwise depends if Hive Pack or not
+                        Projectile bee = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Circular(0.25f, 0.25f), beeType, Projectile.damage, Owner.beeKB(0f), Projectile.owner);
+                        bee.usesLocalNPCImmunity = true;
+                        bee.localNPCHitCooldown = 10;
+                        bee.penetrate = 2;
+                        bee.DamageType = DamageClass.Generic;
                     }
                 }
             }
 
             float passiveMvtFloat = 0.5f;
-            Projectile.tileCollide = false;
             float safeDist = 100f;
-            Vector2 projPos = new Vector2(Projectile.Center.X, Projectile.Center.Y);
-            float xDist = player.Center.X - projPos.X;
-            float yDist = player.Center.Y - projPos.Y;
+            float xDist = Owner.Center.X - Projectile.Center.X;
+            float yDist = Owner.Center.Y - Projectile.Center.Y;
             yDist += Main.rand.NextFloat(-10f, 20f);
             xDist += Main.rand.NextFloat(-10f, 20f);
             yDist -= 70f;
@@ -110,8 +99,8 @@ namespace CalamityMod.Projectiles.Summon
             float returnSpeed = 18f;
 
             //If player is close enough, resume normal
-            if (playerDist < safeDist && player.velocity.Y == 0f &&
-                Projectile.position.Y + Projectile.height <= player.position.Y + player.height &&
+            if (playerDist < safeDist && Owner.velocity.Y == 0f &&
+                Projectile.position.Y + Projectile.height <= Owner.position.Y + Owner.height &&
                 !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
                 if (Projectile.velocity.Y < -6f)
@@ -123,8 +112,8 @@ namespace CalamityMod.Projectiles.Summon
             //Teleport to player if too far
             if (playerDist > 2000f)
             {
-                Projectile.position.X = player.Center.X - Projectile.width / 2;
-                Projectile.position.Y = player.Center.Y - Projectile.height / 2;
+                Projectile.position.X = Owner.Center.X - Projectile.width / 2;
+                Projectile.position.Y = Owner.Center.Y - Projectile.height / 2;
                 Projectile.netUpdate = true;
             }
 

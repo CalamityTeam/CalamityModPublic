@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public int framesInAir = 0;
         private bool initialized = false;
-        public int SparkChance = 8;
+        public int SparkChance = 1;
 
         public override void SetDefaults()
         {
@@ -51,20 +51,10 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 initialized = true;
             }
-            if (Main.rand.NextBool(SparkChance))
+            if (Projectile.timeLeft % 2 == 0 && Main.rand.NextBool(SparkChance) && Projectile.numHits == 0)
             {
-                Vector2 SparkVelocity1 = Projectile.velocity.RotatedBy(-3, default) * 0.1f - Projectile.velocity / 8f;
-                Vector2 SparkPosition1 = Projectile.velocity.RotatedBy(-0.8, default);
-                SparkParticle spark = new SparkParticle(Projectile.Center + SparkPosition1, SparkVelocity1, false, Main.rand.Next(6, 8), Main.rand.NextFloat(0.7f, 1f), Color.PaleGoldenrod);
+                SparkParticle spark = new SparkParticle(Projectile.Center - Projectile.velocity * 0.5f, Projectile.velocity * 0.01f, false, 7, 0.7f, Color.PaleGoldenrod * 0.3f);
                 GeneralParticleHandler.SpawnParticle(spark);
-
-            }
-            if (Main.rand.NextBool(SparkChance))
-            {
-                Vector2 SparkVelocity2 = Projectile.velocity.RotatedBy(3, default) * 0.1f - Projectile.velocity / 8f;
-                Vector2 SparkPosition2 = Projectile.velocity.RotatedBy(0.8, default);
-                SparkParticle spark2 = new SparkParticle(Projectile.Center + SparkPosition2, SparkVelocity2, false, Main.rand.Next(6, 8), Main.rand.NextFloat(0.7f, 1f), Color.PaleGoldenrod);
-                GeneralParticleHandler.SpawnParticle(spark2);
             }
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
@@ -91,7 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (homeIn)
             {
-                SparkChance = 16;
+                SparkChance = 2;
                 Projectile.extraUpdates = 3;
                 Vector2 moveDirection = Projectile.SafeDirectionTo(center, Vector2.UnitY);
                 Projectile.velocity = (Projectile.velocity * 20f + moveDirection * 12f) / (21f);
@@ -107,7 +97,8 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.damage = (int)(Projectile.damage * 0.8f);
+            if (Projectile.numHits > 0)
+                Projectile.damage = (int)(Projectile.damage * 0.8f);
             if (Projectile.damage < 1)
                 Projectile.damage = 1;
         }

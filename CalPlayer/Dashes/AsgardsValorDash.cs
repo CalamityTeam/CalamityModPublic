@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -70,8 +71,13 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = AsgardsValor.ShieldSlamIFrames;
             hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(100f);
+            if (player.Calamity().oldFashioned)
+                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
 
             int holyExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(60);
+            if (player.Calamity().oldFashioned)
+                holyExplosionDamage = CalamityUtils.CalcOldFashionedDamage(holyExplosionDamage);
+
             Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosion>(), holyExplosionDamage, 15f, Main.myPlayer, 0f, 0f);
             npc.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }

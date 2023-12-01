@@ -3,6 +3,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Enums;
 using CalamityMod.Items.Armor.GodSlayer;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
@@ -146,6 +147,8 @@ namespace CalamityMod.CalPlayer.Dashes
             // This is because its immunity is meant to be completely consistent and not subject to vanilla anticheese.
             hitContext.PlayerImmunityFrames = GodSlayerChestplate.DashIFrames;
             hitContext.Damage = (int)player.GetBestClassDamage().ApplyTo(3000f);
+            if (player.Calamity().oldFashioned)
+                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
 
             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }

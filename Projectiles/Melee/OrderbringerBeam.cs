@@ -83,10 +83,10 @@ namespace CalamityMod.Projectiles.Melee
                 whiteLightTimer = 5;
             }
 
-            int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.6f);
-            Main.dust[num458].noGravity = true;
-            Main.dust[num458].velocity *= 0.5f;
-            Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+            int rainbow = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.6f);
+            Main.dust[rainbow].noGravity = true;
+            Main.dust[rainbow].velocity *= 0.5f;
+            Main.dust[rainbow].velocity += Projectile.velocity * 0.1f;
 
             CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 10f, 20f);
         }
@@ -108,19 +108,19 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
-            for (int num193 = 0; num193 < 2; num193++)
+            for (int i = 0; i < 2; i++)
             {
                 int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);
                 Main.dust[dust].noGravity = true;
             }
-            for (int num194 = 0; num194 < 20; num194++)
+            for (int j = 0; j < 20; j++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int deathRainbow = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 2.5f);
+                Main.dust[deathRainbow].noGravity = true;
+                Main.dust[deathRainbow].velocity *= 3f;
+                deathRainbow = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);
+                Main.dust[deathRainbow].velocity *= 2f;
+                Main.dust[deathRainbow].noGravity = true;
             }
             if (Projectile.owner == Main.myPlayer)
             {

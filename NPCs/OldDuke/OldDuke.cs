@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.OldDuke
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 SpriteDirection = 1,
                 Scale = 0.45f
@@ -136,13 +136,13 @@ namespace CalamityMod.NPCs.OldDuke
             bool tired = NPC.Calamity().newAI[1] == 1f;
             if (NPC.ai[0] == 0f || NPC.ai[0] == 5f || NPC.ai[0] == 10f || NPC.ai[0] == 12f)
             {
-                int num114 = tired ? 14 : 7;
+                int frameChangeFrequency = tired ? 14 : 7;
                 if (NPC.ai[0] == 5f || NPC.ai[0] == 12f)
                 {
-                    num114 = tired ? 12 : 6;
+                    frameChangeFrequency = tired ? 12 : 6;
                 }
                 NPC.frameCounter += 1D;
-                if (NPC.frameCounter > num114)
+                if (NPC.frameCounter > frameChangeFrequency)
                 {
                     NPC.frameCounter = 0D;
                     NPC.frame.Y += frameHeight;
@@ -162,8 +162,8 @@ namespace CalamityMod.NPCs.OldDuke
             }
             if (NPC.ai[0] == 3f || NPC.ai[0] == 8f || NPC.ai[0] == 13f || NPC.ai[0] == -1f)
             {
-                int num115 = 120;
-                if (NPC.ai[2] < (num115 - 50) || NPC.ai[2] > (num115 - 10))
+                int frameChangeGateValue = 120;
+                if (NPC.ai[2] < (frameChangeGateValue - 50) || NPC.ai[2] > (frameChangeGateValue - 10))
                 {
                     NPC.frameCounter += 1D;
                     if (NPC.frameCounter > 7D)
@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs.OldDuke
                 else
                 {
                     NPC.frame.Y = frameHeight * 5;
-                    if (NPC.ai[2] > (num115 - 40) && NPC.ai[2] < (num115 - 15))
+                    if (NPC.ai[2] > (frameChangeGateValue - 40) && NPC.ai[2] < (frameChangeGateValue - 15))
                     {
                         NPC.frame.Y = frameHeight * 6;
                     }
@@ -187,8 +187,8 @@ namespace CalamityMod.NPCs.OldDuke
             }
             if (NPC.ai[0] == 4f || NPC.ai[0] == 9f)
             {
-                int num116 = 180;
-                if (NPC.ai[2] < (num116 - 60) || NPC.ai[2] > (num116 - 20))
+                int secondFrameChangeGateValue = 180;
+                if (NPC.ai[2] < (secondFrameChangeGateValue - 60) || NPC.ai[2] > (secondFrameChangeGateValue - 20))
                 {
                     NPC.frameCounter += 1D;
                     if (NPC.frameCounter > 7D)
@@ -204,7 +204,7 @@ namespace CalamityMod.NPCs.OldDuke
                 else
                 {
                     NPC.frame.Y = frameHeight * 5;
-                    if (NPC.ai[2] > (num116 - 50) && NPC.ai[2] < (num116 - 25))
+                    if (NPC.ai[2] > (secondFrameChangeGateValue - 50) && NPC.ai[2] < (secondFrameChangeGateValue - 25))
                     {
                         NPC.frame.Y = frameHeight * 6;
                     }
@@ -220,43 +220,43 @@ namespace CalamityMod.NPCs.OldDuke
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / Main.npcFrameCount[NPC.type] / 2);
+            Vector2 halfSizeTexture = new Vector2(texture2D15.Width / 2, texture2D15.Height / Main.npcFrameCount[NPC.type] / 2);
             Color color = drawColor;
-            Color color36 = Color.White;
-            float amount9 = 0f;
-            bool flag8 = NPC.ai[0] > 4f;
-            bool flag9 = NPC.ai[0] > 9f && NPC.ai[0] <= 12f;
-            int num150 = 120;
-            int num151 = 60;
-            if (flag9)
+            Color drawLerpColor = Color.White;
+            float drawLerpValue = 0f;
+            bool halfTiredBuffColor = NPC.ai[0] > 4f;
+            bool tiredBuffColor = NPC.ai[0] > 9f && NPC.ai[0] <= 12f;
+            int ai2Compare = 120;
+            int buffColorDivisor = 60;
+            if (tiredBuffColor)
             {
                 color = CalamityGlobalNPC.buffColor(color, 0.4f, 0.8f, 0.4f, 1f);
             }
-            else if (flag8)
+            else if (halfTiredBuffColor)
             {
                 color = CalamityGlobalNPC.buffColor(color, 0.5f, 0.7f, 0.5f, 1f);
             }
-            else if (NPC.ai[0] == 4f && NPC.ai[2] > num150)
+            else if (NPC.ai[0] == 4f && NPC.ai[2] > ai2Compare)
             {
-                float num152 = NPC.ai[2] - num150;
-                num152 /= num151;
-                color = CalamityGlobalNPC.buffColor(color, 1f - 0.5f * num152, 1f - 0.3f * num152, 1f - 0.5f * num152, 1f);
+                float buffColorDampener = NPC.ai[2] - ai2Compare;
+                buffColorDampener /= buffColorDivisor;
+                color = CalamityGlobalNPC.buffColor(color, 1f - 0.5f * buffColorDampener, 1f - 0.3f * buffColorDampener, 1f - 0.5f * buffColorDampener, 1f);
             }
 
-            int num153 = 10;
-            int num154 = 2;
+            int afterimageAmt = 10;
+            int afterimageIncrement = 2;
             if (NPC.ai[0] == -1f)
             {
-                num153 = 0;
+                afterimageAmt = 0;
             }
             if (NPC.ai[0] == 0f || NPC.ai[0] == 5f || NPC.ai[0] == 10f || NPC.ai[0] == 12f)
             {
-                num153 = 7;
+                afterimageAmt = 7;
             }
             if (NPC.ai[0] == 1f || NPC.ai[0] == 6f || NPC.ai[0] > 9f)
             {
-                color36 = Color.Lime;
-                amount9 = 0.5f;
+                drawLerpColor = Color.Lime;
+                drawLerpValue = 0.5f;
             }
             else
             {
@@ -265,140 +265,138 @@ namespace CalamityMod.NPCs.OldDuke
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int num155 = 1; num155 < num153; num155 += num154)
+                for (int i = 1; i < afterimageAmt; i += afterimageIncrement)
                 {
-                    Color color38 = color;
-                    color38 = Color.Lerp(color38, color36, amount9);
-                    color38 = NPC.GetAlpha(color38);
-                    color38 *= (num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                    vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    Color afterimageColor = color;
+                    afterimageColor = Color.Lerp(afterimageColor, drawLerpColor, drawLerpValue);
+                    afterimageColor = NPC.GetAlpha(afterimageColor);
+                    afterimageColor *= (afterimageAmt - i) / 15f;
+                    Vector2 afterimagePos = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                    afterimagePos -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                    afterimagePos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, afterimagePos, NPC.frame, afterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            int num156 = 0;
-            float num157 = 0f;
-            float scaleFactor9 = 0f;
+            int secondAfterimageAmt = 0;
+            float afterimageOpacity = 0f;
+            float afterimageScale = 0f;
 
             if (NPC.ai[0] == -1f)
             {
-                num156 = 0;
+                secondAfterimageAmt = 0;
             }
 
             if (NPC.ai[0] == 3f || NPC.ai[0] == 8f || NPC.ai[0] == 13f)
             {
-                int num158 = 60;
-                int num159 = 30;
-                if (NPC.ai[2] > num158)
+                if (NPC.ai[2] > 60)
                 {
-                    num156 = 6;
-                    num157 = 1f - (float)Math.Cos((NPC.ai[2] - num158) / num159 * MathHelper.TwoPi);
-                    num157 /= 3f;
-                    scaleFactor9 = 40f;
+                    secondAfterimageAmt = 6;
+                    afterimageOpacity = 1f - (float)Math.Cos((NPC.ai[2] - 60) / 30 * MathHelper.TwoPi);
+                    afterimageOpacity /= 3f;
+                    afterimageScale = 40f;
                 }
             }
 
-            if ((NPC.ai[0] == 4f || NPC.ai[0] == 9f) && NPC.ai[2] > num150)
+            if ((NPC.ai[0] == 4f || NPC.ai[0] == 9f) && NPC.ai[2] > ai2Compare)
             {
-                num156 = 6;
-                num157 = 1f - (float)Math.Cos((NPC.ai[2] - num150) / num151 * MathHelper.TwoPi);
-                num157 /= 3f;
-                scaleFactor9 = 60f;
+                secondAfterimageAmt = 6;
+                afterimageOpacity = 1f - (float)Math.Cos((NPC.ai[2] - ai2Compare) / buffColorDivisor * MathHelper.TwoPi);
+                afterimageOpacity /= 3f;
+                afterimageScale = 60f;
             }
 
             if (NPC.ai[0] == 12f)
             {
-                num156 = 6;
-                num157 = 1f - (float)Math.Cos(NPC.ai[2] / 30f * MathHelper.TwoPi);
-                num157 /= 3f;
-                scaleFactor9 = 20f;
+                secondAfterimageAmt = 6;
+                afterimageOpacity = 1f - (float)Math.Cos(NPC.ai[2] / 30f * MathHelper.TwoPi);
+                afterimageOpacity /= 3f;
+                afterimageScale = 20f;
             }
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int num160 = 0; num160 < num156; num160++)
+                for (int j = 0; j < secondAfterimageAmt; j++)
                 {
-                    Color color39 = drawColor;
-                    color39 = Color.Lerp(color39, color36, amount9);
-                    color39 = NPC.GetAlpha(color39);
-                    color39 *= 1f - num157;
-                    Vector2 vector42 = NPC.Center + (num160 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
-                    vector42 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                    vector42 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector42, NPC.frame, color39, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    Color secondAfterimageColor = drawColor;
+                    secondAfterimageColor = Color.Lerp(secondAfterimageColor, drawLerpColor, drawLerpValue);
+                    secondAfterimageColor = NPC.GetAlpha(secondAfterimageColor);
+                    secondAfterimageColor *= 1f - afterimageOpacity;
+                    Vector2 secondAfterimagePos = NPC.Center + (j / (float)secondAfterimageAmt * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * afterimageScale * afterimageOpacity - screenPos;
+                    secondAfterimagePos -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                    secondAfterimagePos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, secondAfterimagePos, NPC.frame, secondAfterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Color color2 = drawColor;
-            color2 = Color.Lerp(color2, color36, amount9);
-            color2 = NPC.GetAlpha(color2);
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, (NPC.ai[0] > 9f ? color2 : NPC.GetAlpha(drawColor)), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Color finalDrawColor = drawColor;
+            finalDrawColor = Color.Lerp(finalDrawColor, drawLerpColor, drawLerpValue);
+            finalDrawColor = NPC.GetAlpha(finalDrawColor);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+            drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, (NPC.ai[0] > 9f ? finalDrawColor : NPC.GetAlpha(drawColor)), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             if (NPC.ai[0] >= 4f && NPC.Calamity().newAI[1] != 1f)
             {
                 texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/OldDuke/OldDukeGlow").Value;
-                Color color40 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
-                color36 = Color.Yellow;
+                Color yellowLerpColor = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+                drawLerpColor = Color.Yellow;
 
-                amount9 = 1f;
-                num157 = 0.5f;
-                scaleFactor9 = 10f;
-                num154 = 1;
+                drawLerpValue = 1f;
+                afterimageOpacity = 0.5f;
+                afterimageScale = 10f;
+                afterimageIncrement = 1;
 
                 if (NPC.ai[0] == 4f || NPC.ai[0] == 9f)
                 {
-                    float num161 = NPC.ai[2] - num150;
-                    num161 /= num151;
-                    color36 *= num161;
-                    color40 *= num161;
+                    float otherAfterimageOpacity = NPC.ai[2] - ai2Compare;
+                    otherAfterimageOpacity /= buffColorDivisor;
+                    drawLerpColor *= otherAfterimageOpacity;
+                    yellowLerpColor *= otherAfterimageOpacity;
                 }
 
                 if (NPC.ai[0] == 12f)
                 {
-                    float num162 = NPC.ai[2];
-                    num162 /= 30f;
-                    if (num162 > 0.5f)
+                    float ai2Opacity = NPC.ai[2];
+                    ai2Opacity /= 30f;
+                    if (ai2Opacity > 0.5f)
                     {
-                        num162 = 1f - num162;
+                        ai2Opacity = 1f - ai2Opacity;
                     }
-                    num162 *= 2f;
-                    num162 = 1f - num162;
-                    color36 *= num162;
-                    color40 *= num162;
+                    ai2Opacity *= 2f;
+                    ai2Opacity = 1f - ai2Opacity;
+                    drawLerpColor *= ai2Opacity;
+                    yellowLerpColor *= ai2Opacity;
                 }
 
                 if (CalamityConfig.Instance.Afterimages)
                 {
-                    for (int num163 = 1; num163 < num153; num163 += num154)
+                    for (int k = 1; k < afterimageAmt; k += afterimageIncrement)
                     {
-                        Color color41 = color40;
-                        color41 = Color.Lerp(color41, color36, amount9);
-                        color41 *= (num153 - num163) / 15f;
-                        Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                        vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                        vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                        spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                        Color yellowAfterimageColor = yellowLerpColor;
+                        yellowAfterimageColor = Color.Lerp(yellowAfterimageColor, drawLerpColor, drawLerpValue);
+                        yellowAfterimageColor *= (afterimageAmt - k) / 15f;
+                        Vector2 yellowAfterimagePos = NPC.oldPos[k] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                        yellowAfterimagePos -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                        yellowAfterimagePos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                        spriteBatch.Draw(texture2D15, yellowAfterimagePos, NPC.frame, yellowAfterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
                     }
 
-                    for (int num164 = 1; num164 < num156; num164++)
+                    for (int l = 1; l < secondAfterimageAmt; l++)
                     {
-                        Color color42 = color40;
-                        color42 = Color.Lerp(color42, color36, amount9);
-                        color42 = NPC.GetAlpha(color42);
-                        color42 *= 1f - num157;
-                        Vector2 vector45 = NPC.Center + (num164 / (float)num156 * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * scaleFactor9 * num157 - screenPos;
-                        vector45 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                        vector45 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                        spriteBatch.Draw(texture2D15, vector45, NPC.frame, color42, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                        Color secondYellowAfterimageColor = yellowLerpColor;
+                        secondYellowAfterimageColor = Color.Lerp(secondYellowAfterimageColor, drawLerpColor, drawLerpValue);
+                        secondYellowAfterimageColor = NPC.GetAlpha(secondYellowAfterimageColor);
+                        secondYellowAfterimageColor *= 1f - afterimageOpacity;
+                        Vector2 secondYellowAfterimagePos = NPC.Center + (l / (float)secondAfterimageAmt * MathHelper.TwoPi + NPC.rotation).ToRotationVector2() * afterimageScale * afterimageOpacity - screenPos;
+                        secondYellowAfterimagePos -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                        secondYellowAfterimagePos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                        spriteBatch.Draw(texture2D15, secondYellowAfterimagePos, NPC.frame, secondYellowAfterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
                     }
                 }
 
-                spriteBatch.Draw(texture2D15, vector43, NPC.frame, color40, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, yellowLerpColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
             }
 
             return false;
@@ -458,7 +456,7 @@ namespace CalamityMod.NPCs.OldDuke
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<OldDukeRelic>());
 
             // GFB Shattered Community drop
-            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<ShatteredCommunity>());
+            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<ShatteredCommunity>(), hideLootReport: true);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<LoreOldDuke>(), desc: DropHelper.FirstKillText);
@@ -486,16 +484,16 @@ namespace CalamityMod.NPCs.OldDuke
         {
             if (NPC.life > 0)
             {
-                int num211 = 0;
-                while (num211 < hit.Damage / NPC.lifeMax * 100.0)
+                int onHitDust = 0;
+                while (onHitDust < hit.Damage / NPC.lifeMax * 100.0)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, hit.HitDirection, -1f, 0, default, 1f);
-                    num211++;
+                    onHitDust++;
                 }
             }
             else
             {
-                for (int num212 = 0; num212 < 150; num212++)
+                for (int r = 0; r < 150; r++)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.SulfurousSeaAcid, 2 * hit.HitDirection, -2f, 0, default, 1f);
                 }

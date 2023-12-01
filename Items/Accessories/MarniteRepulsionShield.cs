@@ -10,6 +10,7 @@ using ReLogic.Content;
 using System.Collections.Generic;
 using System.Linq;
 using static CalamityMod.CalamityUtils;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -37,6 +38,9 @@ namespace CalamityMod.Items.Accessories
             if (player.whoAmI == Main.myPlayer)
             {
                 int baseDamage = 5;
+                if (player.Calamity().oldFashioned)
+                    baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
+
                 var source = player.GetSource_Accessory(Item);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<MarniteRepulsionHitbox>()] < 1)
                 {

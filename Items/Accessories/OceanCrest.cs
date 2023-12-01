@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,12 +19,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.npcTypeNoAggro[NPCID.Shark] = true;
-            player.npcTypeNoAggro[NPCID.SeaSnail] = true;
-            player.npcTypeNoAggro[NPCID.PinkJellyfish] = true;
-            player.npcTypeNoAggro[NPCID.Crab] = true;
-            player.npcTypeNoAggro[NPCID.Squid] = true;
-            player.gills = true;
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.oceanCrest = true;
         }
     }
 }

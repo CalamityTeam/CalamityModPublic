@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.height = 20;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.timeLeft = 240;
+            Projectile.timeLeft = 150;
         }
 
         public override void AI()

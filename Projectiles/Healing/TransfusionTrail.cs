@@ -20,22 +20,22 @@ namespace CalamityMod.Projectiles.Healing
         public override void AI()
         {
             Projectile.HealingProjectile((int)Projectile.ai[1], (int)Projectile.ai[0], 6.5f, 15f);
-            float num494 = Projectile.velocity.X * 0.334f;
-            float num495 = -(Projectile.velocity.Y * 0.334f);
-            int num496 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 183, 0f, 0f, 100, default, 0.7f);
-            Dust dust = Main.dust[num496];
+            float dustX = Projectile.velocity.X * 0.334f;
+            float dustY = -(Projectile.velocity.Y * 0.334f);
+            int healRed = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 183, 0f, 0f, 100, default, 0.7f);
+            Dust dust = Main.dust[healRed];
             dust.noGravity = true;
-            dust.position.X -= num494;
-            dust.position.Y -= num495;
-            for (int num497 = 0; num497 < 2; num497++)
+            dust.position.X -= dustX;
+            dust.position.Y -= dustY;
+            for (int i = 0; i < 2; i++)
             {
-                float num498 = Projectile.velocity.X * 0.2f * (float)num497;
-                float num499 = -(Projectile.velocity.Y * 0.2f) * (float)num497;
-                int num500 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 183, 0f, 0f, 100, default, 0.9f);
-                Dust dust2 = Main.dust[num500];
+                float dustyX = Projectile.velocity.X * 0.2f * (float)i;
+                float dustyY = -(Projectile.velocity.Y * 0.2f) * (float)i;
+                int healRedMore = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 183, 0f, 0f, 100, default, 0.9f);
+                Dust dust2 = Main.dust[healRedMore];
                 dust2.noGravity = true;
-                dust2.position.X -= num498;
-                dust2.position.Y -= num499;
+                dust2.position.X -= dustyX;
+                dust2.position.Y -= dustyY;
             }
         }
     }

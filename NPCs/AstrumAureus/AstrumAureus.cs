@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.27f,
                 PortraitScale = 0.45f,
@@ -276,67 +276,67 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
 
             int frameCount = Main.npcFrameCount[NPC.type];
-            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / frameCount / 2);
+            Vector2 originalDrawSize = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / frameCount / 2);
             Rectangle frame = NPC.frame;
             float scale = NPC.scale;
             float rotation = NPC.rotation;
             float offsetY = NPC.gfxOffY;
-            Color color36 = Color.White;
+            Color slimeColor = Color.White;
             if (Main.zenithWorld && slimePhaseHP)
             {
-                color36 = slimePhase == 0 ? Color.Yellow : Color.Violet;
+                slimeColor = slimePhase == 0 ? Color.Yellow : Color.Violet;
             }
-            float amount9 = 0.5f;
-            int num153 = 7;
+            float colorLerpAmt = 0.5f;
+            int afterimageAmt = 7;
             if (NPC.ai[0] == 3f || NPC.ai[0] == 4f)
-                num153 = 10;
+                afterimageAmt = 10;
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int num155 = 1; num155 < num153; num155 += 2)
+                for (int i = 1; i < afterimageAmt; i += 2)
                 {
-                    Color color38 = drawColor;
-                    color38 = Color.Lerp(color38, color36, amount9);
-                    color38 = NPC.GetAlpha(color38);
-                    color38 *= (num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                    vector41 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
-                    vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-                    spriteBatch.Draw(NPCTexture, vector41, frame, color38, rotation, vector11, scale, spriteEffects, 0f);
+                    Color afterimageColor = drawColor;
+                    afterimageColor = Color.Lerp(afterimageColor, slimeColor, colorLerpAmt);
+                    afterimageColor = NPC.GetAlpha(afterimageColor);
+                    afterimageColor *= (afterimageAmt - i) / 15f;
+                    Vector2 afterimagePos = NPC.oldPos[i] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                    afterimagePos -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
+                    afterimagePos += originalDrawSize * scale + new Vector2(0f, 4f + offsetY);
+                    spriteBatch.Draw(NPCTexture, afterimagePos, frame, afterimageColor, rotation, originalDrawSize, scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
-            vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-            Color toUse = Main.zenithWorld && slimePhaseHP ? color36 : drawColor;
-            spriteBatch.Draw(NPCTexture, vector43, frame, NPC.GetAlpha(toUse), rotation, vector11, scale, spriteEffects, 0f);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2(NPCTexture.Width, NPCTexture.Height / frameCount) * scale / 2f;
+            drawLocation += originalDrawSize * scale + new Vector2(0f, 4f + offsetY);
+            Color toUse = Main.zenithWorld && slimePhaseHP ? slimeColor : drawColor;
+            spriteBatch.Draw(NPCTexture, drawLocation, frame, NPC.GetAlpha(toUse), rotation, originalDrawSize, scale, spriteEffects, 0f);
 
             if (NPC.ai[0] != 1 || (slimePhaseHP && Main.zenithWorld)) //draw only if not recharging
             {
                 Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.Gold);
-                Color color40 = Color.Lerp(Color.White, color, 0.5f);
+                Color attackingColor = Color.Lerp(Color.White, color, 0.5f);
                 if (Main.zenithWorld && slimePhaseHP)
                 {
-                    color40 = slimePhase == 0 ? Color.Violet : Color.Yellow;
+                    attackingColor = slimePhase == 0 ? Color.Violet : Color.Yellow;
                 }
 
                 if (CalamityConfig.Instance.Afterimages)
                 {
-                    for (int num163 = 1; num163 < num153; num163++)
+                    for (int j = 1; j < afterimageAmt; j++)
                     {
-                        Color color41 = color40;
-                        color41 = Color.Lerp(color41, color36, amount9);
-                        color41 = NPC.GetAlpha(color41);
-                        color41 *= (num153 - num163) / 15f;
-                        Vector2 vector44 = NPC.oldPos[num163] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
-                        vector44 -= new Vector2(GlowMaskTexture.Width, GlowMaskTexture.Height / frameCount) * scale / 2f;
-                        vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-                        spriteBatch.Draw(GlowMaskTexture, vector44, frame, color41, rotation, vector11, scale, spriteEffects, 0f);
+                        Color attackingAfterimageColor = attackingColor;
+                        attackingAfterimageColor = Color.Lerp(attackingAfterimageColor, slimeColor, colorLerpAmt);
+                        attackingAfterimageColor = NPC.GetAlpha(attackingAfterimageColor);
+                        attackingAfterimageColor *= (afterimageAmt - j) / 15f;
+                        Vector2 attackAfterimagePos = NPC.oldPos[j] + new Vector2(NPC.width, NPC.height) / 2f - screenPos;
+                        attackAfterimagePos -= new Vector2(GlowMaskTexture.Width, GlowMaskTexture.Height / frameCount) * scale / 2f;
+                        attackAfterimagePos += originalDrawSize * scale + new Vector2(0f, 4f + offsetY);
+                        spriteBatch.Draw(GlowMaskTexture, attackAfterimagePos, frame, attackingAfterimageColor, rotation, originalDrawSize, scale, spriteEffects, 0f);
                     }
                 }
 
-                spriteBatch.Draw(GlowMaskTexture, vector43, frame, color40, rotation, vector11, scale, spriteEffects, 0f);
+                spriteBatch.Draw(GlowMaskTexture, drawLocation, frame, attackingColor, rotation, originalDrawSize, scale, spriteEffects, 0f);
             }
 
             return false;
@@ -387,8 +387,8 @@ namespace CalamityMod.NPCs.AstrumAureus
             // GFB Crab Banner and Asteroid Staff drop
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
-                GFBOnly.Add(ItemID.CrabBanner, 1, 1, 9999);
-                GFBOnly.Add(ModContent.ItemType<AsteroidStaff>());
+                GFBOnly.Add(ItemID.CrabBanner, 1, 1, 9999, true);
+                GFBOnly.Add(ModContent.ItemType<AsteroidStaff>(), hideLootReport: true);
             }
 
             // Lore
@@ -440,23 +440,23 @@ namespace CalamityMod.NPCs.AstrumAureus
                 NPC.height = (int)(100 * NPC.scale);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                for (int num621 = 0; num621 < 50; num621++)
+                for (int r = 0; r < 50; r++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int aureusDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                    Main.dust[aureusDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[aureusDust].scale = 0.5f;
+                        Main.dust[aureusDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 100; num623++)
+                for (int s = 0; s < 100; s++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int aureusDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 3f);
+                    Main.dust[aureusDust2].noGravity = true;
+                    Main.dust[aureusDust2].velocity *= 5f;
+                    aureusDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
+                    Main.dust[aureusDust2].velocity *= 2f;
                 }
             }
         }

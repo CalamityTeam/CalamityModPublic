@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
@@ -57,7 +58,12 @@ namespace CalamityMod.Items.Accessories
 
             var source = player.GetSource_Accessory(Item);
             Vector2 velocity = new Vector2(0f, -1f);
-            int elementalDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(90);
+
+            int baseDamage = 50;
+            if (modPlayer.oldFashioned)
+                baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
+
+            int elementalDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
             float kBack = 2f + player.GetKnockback<SummonDamageClass>().Additive;
 
             if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||
@@ -76,31 +82,31 @@ namespace CalamityMod.Items.Accessories
                 {
                     int p = Projectile.NewProjectile(source, player.Center, velocity, brimmy, elementalDmg, kBack, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 90;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
                 if (player.ownedProjectileCounts[siren] < 1)
                 {
                     int p = Projectile.NewProjectile(source, player.Center, velocity, siren, elementalDmg, kBack, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 90;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
                 if (player.ownedProjectileCounts[healer] < 1)
                 {
                     int p = Projectile.NewProjectile(source, player.Center, velocity, healer, elementalDmg, kBack, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 90;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
                 if (player.ownedProjectileCounts[sandy] < 1)
                 {
                     int p = Projectile.NewProjectile(source, player.Center, velocity, sandy, elementalDmg, kBack, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 90;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
                 if (player.ownedProjectileCounts[cloudy] < 1)
                 {
                     int p = Projectile.NewProjectile(source, player.Center, velocity, cloudy, elementalDmg, kBack, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 90;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
             }
         }
@@ -119,7 +125,12 @@ namespace CalamityMod.Items.Accessories
 
             var source = player.GetSource_Accessory(Item);
             Vector2 velocity = new Vector2(0f, -1f);
-            int elementalDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(90);
+
+            int baseDamage = 90;
+            if (modPlayer.oldFashioned)
+                baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
+
+            int elementalDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
             float kBack = 2f + player.GetKnockback<SummonDamageClass>().Additive;
 
             if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||
@@ -138,31 +149,31 @@ namespace CalamityMod.Items.Accessories
                 {
                     int p = Projectile.NewProjectile(source, player.Center, velocity, brimmy, elementalDmg, kBack, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 90;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
                 if (player.ownedProjectileCounts[siren] < 1)
                 {
                     int p = Projectile.NewProjectile(source, player.Center, velocity, siren, elementalDmg, kBack, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 90;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
                 if (player.ownedProjectileCounts[healer] < 1)
                 {
                     int p = Projectile.NewProjectile(source, player.Center, velocity, healer, elementalDmg, kBack, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 90;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
                 if (player.ownedProjectileCounts[sandy] < 1)
                 {
                     int p = Projectile.NewProjectile(source, player.Center, velocity, sandy, elementalDmg, kBack, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 90;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
                 if (player.ownedProjectileCounts[cloudy] < 1)
                 {
                     int p = Projectile.NewProjectile(source, player.Center, velocity, cloudy, elementalDmg, kBack, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 90;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
             }
         }

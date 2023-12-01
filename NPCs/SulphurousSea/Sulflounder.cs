@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.SulphurousSea
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
             value.Position.Y -= 10f;
             value.PortraitPositionYOverride = -36f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
@@ -56,10 +56,10 @@ namespace CalamityMod.NPCs.SulphurousSea
         public override void AI()
         {
             NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
-            int num = 200;
+            int alphaControl = 200;
             if (NPC.ai[2] == 0f)
             {
-                NPC.alpha = num;
+                NPC.alpha = alphaControl;
                 NPC.TargetClosest(true);
                 if (!Main.player[NPC.target].dead && (Main.player[NPC.target].Center - NPC.Center).Length() < 170f &&
                     Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             {
                 if (NPC.alpha > 0)
                 {
-                    NPC.alpha -= num / 16;
+                    NPC.alpha -= alphaControl / 16;
                     if (NPC.alpha < 0)
                     {
                         NPC.alpha = 0;

@@ -31,9 +31,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            StringBuilder sb = new StringBuilder(256);
-            sb.Append("\nEvery 10 defense gives you +0.5 HP/s life regen, 1% increased damage and 1% increased critical strike chance\nThese effects cap at 40 defense");
-            setBonusText += sb.ToString();
+            setBonusText += $"\n{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
         }
 
         public override void ApplyArmorSetBonus(Player player)

@@ -230,16 +230,16 @@ namespace CalamityMod.NPCs.Cryogen
             if (NPC.ai[2] == 0f && NPC.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (NPC.ai[0] < 3f || bossRush || (death && NPC.ai[0] > 3f))) //spawn shield for phase 0 1 2, not 3 4 5
             {
                 SoundEngine.PlaySound(ShieldRegenSound, NPC.Center);
-                int num6 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CryogenShield>(), NPC.whoAmI);
-                NPC.ai[2] = num6 + 1;
+                int shieldSpawn = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CryogenShield>(), NPC.whoAmI);
+                NPC.ai[2] = shieldSpawn + 1;
                 NPC.localAI[1] = -1f;
                 NPC.netUpdate = true;
-                Main.npc[num6].ai[0] = NPC.whoAmI;
-                Main.npc[num6].netUpdate = true;
+                Main.npc[shieldSpawn].ai[0] = NPC.whoAmI;
+                Main.npc[shieldSpawn].netUpdate = true;
             }
 
-            int num7 = (int)NPC.ai[2] - 1;
-            if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<CryogenShield>())
+            int shieldTracker = (int)NPC.ai[2] - 1;
+            if (shieldTracker != -1 && Main.npc[shieldTracker].active && Main.npc[shieldTracker].type == ModContent.NPCType<CryogenShield>())
             {
                 NPC.dontTakeDamage = true;
             }
@@ -292,21 +292,20 @@ namespace CalamityMod.NPCs.Cryogen
                 int spawnType = Main.zenithWorld ? NPCID.RedDevil : NPCID.IceGolem;
                 if (!NPC.AnyNPCs(spawnType))
                 {
-                    int num167 = 1000;
-                    for (int num168 = 0; num168 < num167; num168++)
+                    for (int i = 0; i < 1000; i++)
                     {
-                        int num169 = (int)(NPC.Center.X / 16f) + Main.rand.Next(-50, 51);
-                        int num170;
-                        for (num170 = (int)(NPC.Center.Y / 16f) + Main.rand.Next(-50, 51); num170 < Main.maxTilesY - 10 && !WorldGen.SolidTile(num169, num170); num170++)
+                        int enemySpawnX = (int)(NPC.Center.X / 16f) + Main.rand.Next(-50, 51);
+                        int enemySpawnY;
+                        for (enemySpawnY = (int)(NPC.Center.Y / 16f) + Main.rand.Next(-50, 51); enemySpawnY < Main.maxTilesY - 10 && !WorldGen.SolidTile(enemySpawnX, enemySpawnY); enemySpawnY++)
                         {
                         }
 
-                        num170--;
-                        if (!WorldGen.SolidTile(num169, num170))
+                        enemySpawnY--;
+                        if (!WorldGen.SolidTile(enemySpawnX, enemySpawnY))
                         {
-                            int num171 = NPC.NewNPC(NPC.GetSource_FromAI(), num169 * 16 + 8, num170 * 16, spawnType);
-                            if (Main.netMode == NetmodeID.Server && num171 < Main.maxNPCs)
-                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num171);
+                            int legendEnemySpawn = NPC.NewNPC(NPC.GetSource_FromAI(), enemySpawnX * 16 + 8, enemySpawnY * 16, spawnType);
+                            if (Main.netMode == NetmodeID.Server && legendEnemySpawn < Main.maxNPCs)
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, legendEnemySpawn);
 
                             break;
                         }
@@ -352,8 +351,8 @@ namespace CalamityMod.NPCs.Cryogen
                         Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
                         for (int k = 0; k < totalProjectiles; k++)
                         {
-                            Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer);
+                            Vector2 projSpreadRotation = spinningPoint.RotatedBy(radians * k);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(projSpreadRotation) * 30f, projSpreadRotation, type, damage, 0f, Main.myPlayer);
                         }
                     }
                 }
@@ -382,31 +381,31 @@ namespace CalamityMod.NPCs.Cryogen
                             Vector2 spinningPoint = new Vector2(0f, -velocity);
                             for (int k = 0; k < totalProjectiles; k++)
                             {
-                                Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer);
+                                Vector2 projSpreadRotation = spinningPoint.RotatedBy(radians * k);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(projSpreadRotation) * 30f, projSpreadRotation, type, damage, 0f, Main.myPlayer);
                             }
                         }
                     }
                 }
 
-                Vector2 vector142 = new Vector2(NPC.Center.X, NPC.Center.Y);
-                float num1243 = player.Center.X - vector142.X;
-                float num1244 = player.Center.Y - vector142.Y;
-                float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
+                Vector2 cryogenCenter = new Vector2(NPC.Center.X, NPC.Center.Y);
+                float playerXDist = player.Center.X - cryogenCenter.X;
+                float playerYDist = player.Center.Y - cryogenCenter.Y;
+                float playerDistance = (float)Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
 
-                float num1246 = revenge ? 5f : 4f;
-                num1246 += 4f * enrageScale;
+                float cryogenSpeed = revenge ? 5f : 4f;
+                cryogenSpeed += 4f * enrageScale;
 
-                num1245 = num1246 / num1245;
-                num1243 *= num1245;
-                num1244 *= num1245;
+                playerDistance = cryogenSpeed / playerDistance;
+                playerXDist *= playerDistance;
+                playerYDist *= playerDistance;
 
                 float inertia = 50f;
                 if (Main.getGoodWorld)
                     inertia *= 0.5f;
 
-                NPC.velocity.X = (NPC.velocity.X * inertia + num1243) / (inertia + 1f);
-                NPC.velocity.Y = (NPC.velocity.Y * inertia + num1244) / (inertia + 1f);
+                NPC.velocity.X = (NPC.velocity.X * inertia + playerXDist) / (inertia + 1f);
+                NPC.velocity.Y = (NPC.velocity.Y * inertia + playerYDist) / (inertia + 1f);
 
                 if (phase2)
                 {
@@ -443,8 +442,8 @@ namespace CalamityMod.NPCs.Cryogen
                                 Vector2 spinningPoint = new Vector2(0f, -velocity2);
                                 for (int k = 0; k < totalProjectiles; k++)
                                 {
-                                    Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer);
+                                    Vector2 projSpreadRotation = spinningPoint.RotatedBy(radians * k);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(projSpreadRotation) * 30f, projSpreadRotation, type, damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
@@ -527,8 +526,8 @@ namespace CalamityMod.NPCs.Cryogen
                                     Vector2 spinningPoint = i == 0 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
                                     for (int k = 0; k < totalProjectilesShot; k++)
                                     {
-                                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
+                                        Vector2 projSpreadRotation = spinningPoint.RotatedBy(radians * k);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(projSpreadRotation) * 30f, projSpreadRotation, type, damage, 0f, Main.myPlayer, 0f, velocity);
                                     }
                                 }
                             }
@@ -619,31 +618,31 @@ namespace CalamityMod.NPCs.Cryogen
                                 Vector2 spinningPoint = new Vector2(0f, -velocity);
                                 for (int k = 0; k < totalProjectiles; k++)
                                 {
-                                    Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer);
+                                    Vector2 projSpreadRotation = spinningPoint.RotatedBy(radians * k);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(projSpreadRotation) * 30f, projSpreadRotation, type, damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
                     }
 
-                    Vector2 vector142 = new Vector2(NPC.Center.X, NPC.Center.Y);
-                    float num1243 = player.Center.X - vector142.X;
-                    float num1244 = player.Center.Y - vector142.Y;
-                    float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
+                    Vector2 cryogenCenter = new Vector2(NPC.Center.X, NPC.Center.Y);
+                    float playerXDist = player.Center.X - cryogenCenter.X;
+                    float playerYDist = player.Center.Y - cryogenCenter.Y;
+                    float playerDistance = (float)Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
 
-                    float num1246 = revenge ? 7f : 6f;
-                    num1246 += 4f * enrageScale;
+                    float cryogenSpeed = revenge ? 7f : 6f;
+                    cryogenSpeed += 4f * enrageScale;
 
-                    num1245 = num1246 / num1245;
-                    num1243 *= num1245;
-                    num1244 *= num1245;
+                    playerDistance = cryogenSpeed / playerDistance;
+                    playerXDist *= playerDistance;
+                    playerYDist *= playerDistance;
 
                     float inertia = 50f;
                     if (Main.getGoodWorld)
                         inertia *= 0.5f;
 
-                    NPC.velocity.X = (NPC.velocity.X * inertia + num1243) / (inertia + 1f);
-                    NPC.velocity.Y = (NPC.velocity.Y * inertia + num1244) / (inertia + 1f);
+                    NPC.velocity.X = (NPC.velocity.X * inertia + playerXDist) / (inertia + 1f);
+                    NPC.velocity.Y = (NPC.velocity.Y * inertia + playerYDist) / (inertia + 1f);
                 }
                 else if (NPC.ai[1] < chargeGateValue)
                 {
@@ -675,8 +674,8 @@ namespace CalamityMod.NPCs.Cryogen
                                     Vector2 spinningPoint = i == 1 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
                                     for (int k = 0; k < totalProjectilesShot; k++)
                                     {
-                                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
+                                        Vector2 projSpreadRotation = spinningPoint.RotatedBy(radians * k);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(projSpreadRotation) * 30f, projSpreadRotation, type, damage, 0f, Main.myPlayer, 0f, velocity);
                                     }
                                 }
                             }
@@ -769,31 +768,31 @@ namespace CalamityMod.NPCs.Cryogen
                             Vector2 spinningPoint = new Vector2(0f, -velocity);
                             for (int k = 0; k < totalProjectiles; k++)
                             {
-                                Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer);
+                                Vector2 projSpreadRotation = spinningPoint.RotatedBy(radians * k);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(projSpreadRotation) * 30f, projSpreadRotation, type, damage, 0f, Main.myPlayer);
                             }
                         }
                     }
                 }
 
-                Vector2 vector142 = new Vector2(NPC.Center.X, NPC.Center.Y);
-                float num1243 = player.Center.X - vector142.X;
-                float num1244 = player.Center.Y - vector142.Y;
-                float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
+                Vector2 cryogenCenter = new Vector2(NPC.Center.X, NPC.Center.Y);
+                float playerXDist = player.Center.X - cryogenCenter.X;
+                float playerYDist = player.Center.Y - cryogenCenter.Y;
+                float playerDistance = (float)Math.Sqrt(playerXDist * playerXDist + playerYDist * playerYDist);
 
                 float speed = revenge ? 5.5f : 5f;
                 speed += 3f * enrageScale;
 
-                num1245 = speed / num1245;
-                num1243 *= num1245;
-                num1244 *= num1245;
+                playerDistance = speed / playerDistance;
+                playerXDist *= playerDistance;
+                playerYDist *= playerDistance;
 
                 float inertia = 50f;
                 if (Main.getGoodWorld)
                     inertia *= 0.5f;
 
-                NPC.velocity.X = (NPC.velocity.X * inertia + num1243) / (inertia + 1f);
-                NPC.velocity.Y = (NPC.velocity.Y * inertia + num1244) / (inertia + 1f);
+                NPC.velocity.X = (NPC.velocity.X * inertia + playerXDist) / (inertia + 1f);
+                NPC.velocity.Y = (NPC.velocity.Y * inertia + playerYDist) / (inertia + 1f);
 
                 if (NPC.ai[1] == 0f)
                 {
@@ -804,37 +803,37 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             NPC.TargetClosest();
                             NPC.localAI[2] = 0f;
-                            int num1249 = 0;
-                            int num1250;
-                            int num1251;
+                            int attackTimer = 0;
+                            int playerTileX;
+                            int playerTileY;
                             while (true)
                             {
-                                num1249++;
-                                num1250 = (int)player.Center.X / 16;
-                                num1251 = (int)player.Center.Y / 16;
+                                attackTimer++;
+                                playerTileX = (int)player.Center.X / 16;
+                                playerTileY = (int)player.Center.Y / 16;
 
                                 int min = 16;
                                 int max = 20;
 
                                 if (Main.rand.NextBool())
-                                    num1250 += Main.rand.Next(min, max);
+                                    playerTileX += Main.rand.Next(min, max);
                                 else
-                                    num1250 -= Main.rand.Next(min, max);
+                                    playerTileX -= Main.rand.Next(min, max);
 
                                 if (Main.rand.NextBool())
-                                    num1251 += Main.rand.Next(min, max);
+                                    playerTileY += Main.rand.Next(min, max);
                                 else
-                                    num1251 -= Main.rand.Next(min, max);
+                                    playerTileY -= Main.rand.Next(min, max);
 
-                                if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2(num1250 * 16, num1251 * 16), 1, 1, player.position, player.width, player.height))
+                                if (!WorldGen.SolidTile(playerTileX, playerTileY) && Collision.CanHit(new Vector2(playerTileX * 16, playerTileY * 16), 1, 1, player.position, player.width, player.height))
                                     break;
 
-                                if (num1249 > 100)
+                                if (attackTimer > 100)
                                     goto Block;
                             }
                             NPC.ai[1] = 1f;
-                            teleportLocationX = num1250;
-                            calamityGlobalNPC.newAI[2] = num1251;
+                            teleportLocationX = playerTileX;
+                            calamityGlobalNPC.newAI[2] = playerTileY;
                             NPC.netUpdate = true;
                             Block:
                             ;
@@ -861,8 +860,8 @@ namespace CalamityMod.NPCs.Cryogen
 
                         for (int n = 0; n < 15; n++)
                         {
-                            int num39 = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, 0f, 0f, 100, default, 3f);
-                            Main.dust[num39].noGravity = true;
+                            int iceDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, dustType, 0f, 0f, 100, default, 3f);
+                            Main.dust[iceDust].noGravity = true;
                         }
 
                         if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
@@ -890,8 +889,8 @@ namespace CalamityMod.NPCs.Cryogen
                                     Vector2 spinningPoint = i == 0 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
-                                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
+                                        Vector2 projSpreadRotation = spinningPoint.RotatedBy(radians * k);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(projSpreadRotation) * 30f, projSpreadRotation, type, damage, 0f, Main.myPlayer, 0f, velocity);
                                     }
                                 }
                             }
@@ -976,8 +975,8 @@ namespace CalamityMod.NPCs.Cryogen
                                     Vector2 spinningPoint = i == 0 ? new Vector2(0f, -newVelocity) : new Vector2(-velocityX, -newVelocity);
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
-                                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, ai, 1f);
+                                        Vector2 projSpreadRotation = spinningPoint.RotatedBy(radians * k);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(projSpreadRotation) * 30f, projSpreadRotation, type, damage, 0f, Main.myPlayer, ai, 1f);
                                     }
                                 }
                             }
@@ -1012,29 +1011,29 @@ namespace CalamityMod.NPCs.Cryogen
                     return;
                 }
 
-                float num1372 = 18f + enrageScale * 2f;
+                float chargeVelMult = 18f + enrageScale * 2f;
 
-                Vector2 vector167 = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
-                float num1373 = player.position.X + player.width * 0.5f - vector167.X;
-                float num1374 = player.Center.Y - vector167.Y;
-                float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
-                float num1376 = num1372 / num1375;
-                num1373 *= num1376;
-                num1374 *= num1376;
+                Vector2 chargeDirection = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
+                float playerchargeXDist = player.position.X + player.width * 0.5f - chargeDirection.X;
+                float playerchargeYDist = player.Center.Y - chargeDirection.Y;
+                float playerDistance = (float)Math.Sqrt(playerchargeXDist * playerchargeXDist + playerchargeYDist * playerchargeYDist);
+                float chargeSpeed = chargeVelMult / playerDistance;
+                playerchargeXDist *= chargeSpeed;
+                playerchargeYDist *= chargeSpeed;
                 calamityGlobalNPC.newAI[2] -= 1f;
 
                 float chargeStartDistance = 300f;
                 float chargeCooldown = 30f;
 
-                if (num1375 < chargeStartDistance || calamityGlobalNPC.newAI[2] > 0f)
+                if (playerDistance < chargeStartDistance || calamityGlobalNPC.newAI[2] > 0f)
                 {
-                    if (num1375 < chargeStartDistance)
+                    if (playerDistance < chargeStartDistance)
                         calamityGlobalNPC.newAI[2] = chargeCooldown;
 
-                    if (NPC.velocity.Length() < num1372)
+                    if (NPC.velocity.Length() < chargeVelMult)
                     {
                         NPC.velocity.Normalize();
-                        NPC.velocity *= num1372;
+                        NPC.velocity *= chargeVelMult;
                     }
 
                     NPC.rotation += NPC.direction * 0.5f;
@@ -1046,17 +1045,17 @@ namespace CalamityMod.NPCs.Cryogen
                 if (Main.getGoodWorld)
                     inertia *= 0.5f;
 
-                NPC.velocity.X = (NPC.velocity.X * inertia + num1373) / (inertia + 1f);
-                NPC.velocity.Y = (NPC.velocity.Y * inertia + num1374) / (inertia + 1f);
-                if (num1375 < chargeStartDistance + 200f)
+                NPC.velocity.X = (NPC.velocity.X * inertia + playerchargeXDist) / (inertia + 1f);
+                NPC.velocity.Y = (NPC.velocity.Y * inertia + playerchargeYDist) / (inertia + 1f);
+                if (playerDistance < chargeStartDistance + 200f)
                 {
-                    NPC.velocity.X = (NPC.velocity.X * 9f + num1373) / 10f;
-                    NPC.velocity.Y = (NPC.velocity.Y * 9f + num1374) / 10f;
+                    NPC.velocity.X = (NPC.velocity.X * 9f + playerchargeXDist) / 10f;
+                    NPC.velocity.Y = (NPC.velocity.Y * 9f + playerchargeYDist) / 10f;
                 }
-                if (num1375 < chargeStartDistance + 100f)
+                if (playerDistance < chargeStartDistance + 100f)
                 {
-                    NPC.velocity.X = (NPC.velocity.X * 4f + num1373) / 5f;
-                    NPC.velocity.Y = (NPC.velocity.Y * 4f + num1374) / 5f;
+                    NPC.velocity.X = (NPC.velocity.X * 4f + playerchargeXDist) / 5f;
+                    NPC.velocity.Y = (NPC.velocity.Y * 4f + playerchargeYDist) / 5f;
                 }
 
                 NPC.rotation = NPC.velocity.X * 0.15f;
@@ -1081,8 +1080,8 @@ namespace CalamityMod.NPCs.Cryogen
                     Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity2) : new Vector2(velocityX, -velocity2);
                     for (int k = 0; k < totalProjectiles; k++)
                     {
-                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer);
+                        Vector2 projSpreadRotation = spinningPoint.RotatedBy(radians * k);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(projSpreadRotation) * 30f, projSpreadRotation, type, damage, 0f, Main.myPlayer);
                     }
                 }
 
@@ -1250,23 +1249,23 @@ namespace CalamityMod.NPCs.Cryogen
             }
             if (NPC.life <= 0)
             {
-                for (int num621 = 0; num621 < 40; num621++)
+                for (int i = 0; i < 40; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int icyDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
+                    Main.dust[icyDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[icyDust].scale = 0.5f;
+                        Main.dust[icyDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 70; num623++)
+                for (int j = 0; j < 70; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int icyDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 3f);
+                    Main.dust[icyDust2].noGravity = true;
+                    Main.dust[icyDust2].velocity *= 5f;
+                    icyDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, dusttype, 0f, 0f, 100, default, 2f);
+                    Main.dust[icyDust2].velocity *= 2f;
                 }
                 if (Main.netMode != NetmodeID.Server && !Main.zenithWorld)
                 {
@@ -1326,7 +1325,7 @@ namespace CalamityMod.NPCs.Cryogen
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CryogenRelic>());
 
             // GFB Bloodflare Core drop
-            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<BloodflareCore>());
+            npcLoot.DefineConditionalDropSet(DropHelper.GFB).Add(ModContent.ItemType<BloodflareCore>(), hideLootReport: true);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCryogen, ModContent.ItemType<LoreArchmage>(), desc: DropHelper.FirstKillText);
@@ -1361,18 +1360,18 @@ namespace CalamityMod.NPCs.Cryogen
         {
             Rectangle targetHitbox = target.Hitbox;
 
-            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
+            float hitboxTopLeft = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float hitboxTopRight = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float hitboxBotLeft = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float hitboxBotRight = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
 
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
+            float minDist = hitboxTopLeft;
+            if (hitboxTopRight < minDist)
+                minDist = hitboxTopRight;
+            if (hitboxBotLeft < minDist)
+                minDist = hitboxBotLeft;
+            if (hitboxBotRight < minDist)
+                minDist = hitboxBotRight;
 
             return minDist <= 40f * NPC.scale;
         }

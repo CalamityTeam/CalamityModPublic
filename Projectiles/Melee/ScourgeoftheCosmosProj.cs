@@ -33,19 +33,19 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Projectile.alpha <= 200)
             {
-                int num3;
-                for (int num20 = 0; num20 < 2; num20 = num3 + 1)
+                int inc;
+                for (int i = 0; i < 2; i = inc + 1)
                 {
                     int dustType = Main.rand.NextBool(3) ? 56 : 242;
-                    float num21 = Projectile.velocity.X / 4f * num20;
-                    float num22 = Projectile.velocity.Y / 4f * num20;
-                    int num23 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
-                    Main.dust[num23].position.X = Projectile.Center.X - num21;
-                    Main.dust[num23].position.Y = Projectile.Center.Y - num22;
-                    Dust dust = Main.dust[num23];
+                    float shortXVel = Projectile.velocity.X / 4f * i;
+                    float shortYVel = Projectile.velocity.Y / 4f * i;
+                    int scourgeDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
+                    Main.dust[scourgeDust].position.X = Projectile.Center.X - shortXVel;
+                    Main.dust[scourgeDust].position.Y = Projectile.Center.Y - shortYVel;
+                    Dust dust = Main.dust[scourgeDust];
                     dust.velocity *= 0f;
-                    Main.dust[num23].scale = 0.7f;
-                    num3 = num20;
+                    Main.dust[scourgeDust].scale = 0.7f;
+                    inc = i;
                 }
             }
             Projectile.alpha -= 50;
@@ -82,18 +82,18 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile.velocity.Y = -oldVelocity.Y;
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int num626 = 1;
+                    int minisAmt = 1;
                     if (Main.rand.NextBool(10))
-                        num626++;
-                    int num3;
-                    for (int num627 = 0; num627 < num626; num627 = num3 + 1)
+                        minisAmt++;
+                    int inc;
+                    for (int j = 0; j < minisAmt; j = inc + 1)
                     {
-                        float num628 = Main.rand.Next(-35, 36) * 0.02f;
-                        float num629 = Main.rand.Next(-35, 36) * 0.02f;
-                        num628 *= 10f;
-                        num629 *= 10f;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<ScourgeoftheCosmosMini>(), (int)(Projectile.damage * 0.75), Projectile.knockBack * 0.35f, Main.myPlayer);
-                        num3 = num627;
+                        float randXDirect = Main.rand.Next(-35, 36) * 0.02f;
+                        float randYDirect = Main.rand.Next(-35, 36) * 0.02f;
+                        randXDirect *= 10f;
+                        randYDirect *= 10f;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, randXDirect, randYDirect, ModContent.ProjectileType<ScourgeoftheCosmosMini>(), (int)(Projectile.damage * 0.75), Projectile.knockBack * 0.35f, Main.myPlayer);
+                        inc = j;
                     }
                 }
             }
@@ -103,40 +103,40 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnKill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCHit4, Projectile.position);
-            int num3;
-            for (int num622 = 0; num622 < 10; num622 = num3 + 1)
+            int inc;
+            for (int i = 0; i < 10; i = inc + 1)
             {
                 int dustType = Main.rand.NextBool(3) ? 56 : 242;
-                int num623 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
-                Dust dust = Main.dust[num623];
+                int killedDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
+                Dust dust = Main.dust[killedDust];
                 dust.scale *= 1.1f;
-                Main.dust[num623].noGravity = true;
-                num3 = num622;
+                Main.dust[killedDust].noGravity = true;
+                inc = i;
             }
-            for (int num624 = 0; num624 < 15; num624 = num3 + 1)
+            for (int j = 0; j < 15; j = inc + 1)
             {
                 int dustType = Main.rand.NextBool(3) ? 56 : 242;
-                int num625 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
-                Dust dust = Main.dust[num625];
+                int killedDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, 0f, 0f, 0, default, 1f);
+                Dust dust = Main.dust[killedDust2];
                 dust.velocity *= 2.5f;
-                dust = Main.dust[num625];
+                dust = Main.dust[killedDust2];
                 dust.scale *= 0.8f;
-                Main.dust[num625].noGravity = true;
-                num3 = num624;
+                Main.dust[killedDust2].noGravity = true;
+                inc = j;
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                int num626 = 3;
+                int minisAmt = 3;
                 if (Main.rand.NextBool(10))
-                    num626++;
-                for (int num627 = 0; num627 < num626; num627 = num3 + 1)
+                    minisAmt++;
+                for (int j = 0; j < minisAmt; j = inc + 1)
                 {
-                    float num628 = Main.rand.Next(-35, 36) * 0.02f;
-                    float num629 = Main.rand.Next(-35, 36) * 0.02f;
-                    num628 *= 10f;
-                    num629 *= 10f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<ScourgeoftheCosmosMini>(), (int)(Projectile.damage * 0.7), Projectile.knockBack * 0.35f, Main.myPlayer);
-                    num3 = num627;
+                    float randXDirect = Main.rand.Next(-35, 36) * 0.02f;
+                    float randYDirect = Main.rand.Next(-35, 36) * 0.02f;
+                    randXDirect *= 10f;
+                    randYDirect *= 10f;
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, randXDirect, randYDirect, ModContent.ProjectileType<ScourgeoftheCosmosMini>(), (int)(Projectile.damage * 0.7), Projectile.knockBack * 0.35f, Main.myPlayer);
+                    inc = j;
                 }
             }
         }

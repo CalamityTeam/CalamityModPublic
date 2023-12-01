@@ -35,14 +35,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float angle = MathHelper.Lerp(-0.145f, 0.145f, 1f / 3f);
-            int acid1 = Projectile.NewProjectile(source, position, velocity.RotatedBy(angle), type, damage, knockback, player.whoAmI);
+            int acid1 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(-8f)), type, damage, knockback, player.whoAmI);
 
-            angle = MathHelper.Lerp(-0.145f, 0.145f, 2f / 3f);
-            int acid2 = Projectile.NewProjectile(source, position, velocity.RotatedBy(angle), type, damage, knockback, player.whoAmI);
+            int acid2 = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
 
-            angle = MathHelper.Lerp(-0.145f, 0.145f, 1f);
-            int acid3 = Projectile.NewProjectile(source, position, velocity.RotatedBy(angle), type, damage, knockback, player.whoAmI);
+            int acid3 = Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(8f)), type, damage, knockback, player.whoAmI);
 
             // Keep track of the other 2 acid streams
             if (Main.projectile.IndexInRange(acid1))

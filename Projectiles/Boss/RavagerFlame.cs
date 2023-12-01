@@ -29,11 +29,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            for (int num468 = 0; num468 < 2; num468++)
+            for (int i = 0; i < 2; i++)
             {
-                int num469 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 135, 0f, 0f, 100, default, 3f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int icyFlame = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 135, 0f, 0f, 100, default, 3f);
+                Main.dust[icyFlame].noGravity = true;
+                Main.dust[icyFlame].velocity *= 0f;
             }
             if (Projectile.ai[1] == 0f)
             {

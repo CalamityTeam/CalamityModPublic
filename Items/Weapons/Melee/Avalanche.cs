@@ -42,8 +42,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
             for (int k = 0; k < totalProjectiles; k++)
             {
-                Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(source, target.Center, vector255, type, bombDamage, hit.Knockback, Main.myPlayer);
+                Vector2 projRotation = spinningPoint.RotatedBy(radians * k);
+                Projectile.NewProjectile(source, target.Center, projRotation, type, bombDamage, hit.Knockback, Main.myPlayer);
             }
         }
 
@@ -61,8 +61,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
             for (int k = 0; k < totalProjectiles; k++)
             {
-                Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(source, target.Center, vector255, type, bombDamage, 0f, Main.myPlayer);
+                Vector2 projRotation = spinningPoint.RotatedBy(radians * k);
+                Projectile.NewProjectile(source, target.Center, projRotation, type, bombDamage, 0f, Main.myPlayer);
             }
         }
 
@@ -70,8 +70,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (Main.rand.NextBool(3))
             {
-                int num250 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 67, (float)(player.direction * 2), 0f, 150, default, 1.5f);
-                Main.dust[num250].velocity *= 0.2f;
+                int iceDust = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 67, (float)(player.direction * 2), 0f, 150, default, 1.5f);
+                Main.dust[iceDust].velocity *= 0.2f;
             }
         }
     }

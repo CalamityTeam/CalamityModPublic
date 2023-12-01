@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Vector2 value7 = new Vector2(6f, 12f);
+            Vector2 rotationMult = new Vector2(6f, 12f);
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] == 48f)
             {
@@ -32,19 +32,19 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
             {
-                for (int num41 = 0; num41 < 2; num41++)
+                for (int i = 0; i < 2; i++)
                 {
-                    Vector2 value8 = Vector2.UnitX * -15f;
-                    value8 = -Vector2.UnitY.RotatedBy((double)(Projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default) * value7 * 0.75f;
-                    int num42 = Dust.NewDust(Projectile.Center, 0, 0, 173, 0f, 0f, 160, default, 0.75f);
-                    Main.dust[num42].noGravity = true;
-                    Main.dust[num42].position = Projectile.Center + value8;
-                    Main.dust[num42].velocity = Projectile.velocity;
+                    Vector2 dustRotation = Vector2.UnitX * -15f;
+                    dustRotation = -Vector2.UnitY.RotatedBy((double)(Projectile.localAI[0] * 0.1308997f + (float)i * 3.14159274f), default) * rotationMult * 0.75f;
+                    int shrapnelDust = Dust.NewDust(Projectile.Center, 0, 0, 173, 0f, 0f, 160, default, 0.75f);
+                    Main.dust[shrapnelDust].noGravity = true;
+                    Main.dust[shrapnelDust].position = Projectile.Center + dustRotation;
+                    Main.dust[shrapnelDust].velocity = Projectile.velocity;
                 }
             }
 
-            int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1f);
-            Main.dust[num458].noGravity = true;
+            int extraDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 1f);
+            Main.dust[extraDust].noGravity = true;
 
             if (Projectile.timeLeft < 150)
                 CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 12f, 20f);

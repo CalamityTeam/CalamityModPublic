@@ -14,7 +14,6 @@ using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.DevourerofGods;
-using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -271,10 +270,6 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody1>(), immuneToEverything },
                 { ModContent.NPCType<ThanatosBody2>(), immuneToEverything },
                 { ModContent.NPCType<ThanatosTail>(), immuneToEverything },
-
-                // 20FEB2023: Ozzatron: made Ares immune to Miracle Blight, because otherwise he vanishes when affected by it
-                // The "correct" way to fix this involves a colossal amount of work and will be handled at a later date
-                { ModContent.NPCType<AresBody>(), new(GeneralImmunityStatus.None, new int[] { ModContent.BuffType<MiracleBlight>() }) },
 
                 { ModContent.NPCType<SupremeCalamitas>(), crags },
                 { ModContent.NPCType<SupremeCatastrophe>(), crags },

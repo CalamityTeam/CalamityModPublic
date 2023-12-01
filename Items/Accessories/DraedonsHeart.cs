@@ -59,6 +59,9 @@ namespace CalamityMod.Items.Accessories
             modPlayer.hadNanomachinesLastFrame = true;
             modPlayer.AdrenalineDuration = NanomachinesDuration;
             modPlayer.contactDamageReduction += ContactDamageReduction;
+
+            // Multiplies the player's defense damage ratio directly, instead of being hardcoded into various places
+            modPlayer.defenseDamageRatio *= DefenseDamageMultiplier;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

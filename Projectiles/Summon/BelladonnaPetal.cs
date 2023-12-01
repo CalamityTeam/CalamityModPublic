@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon
 
         // A variable where the potential target will be written on.
         public NPC targetFound;
-        
+
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
 
                 // Check for it so it doesn't update the velocity indefinetly, meaning it would be homing.
-                if (CheckForFiring == 0f) 
+                if (CheckForFiring == 0f)
                 {
                     Projectile.velocity = CalamityUtils.CalculatePredictiveAimToTarget(Projectile.Center, targetFound, BelladonnaSpiritStaff.PetalVelocity);
 
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Summon
 
                     SoundEngine.PlaySound(SoundID.Grass, Projectile.Center);
                     CheckForFiring = 1f;
-                    Projectile.netUpdate= true;
+                    Projectile.netUpdate = true;
                 }
 
                 // In case the shot was about to fade out, un-fade.
@@ -97,7 +97,6 @@ namespace CalamityMod.Projectiles.Summon
             // If there's target, but 1 second hasn't passed, rotate to point at the target, while still having gravity.
             else if (target != null && AITimer < BelladonnaSpiritStaff.PetalTimeBeforeTargetting)
             {
-                
                 // "(AITimer / It's maxuimum value)" so it's a fraction between 0 and 1.
                 Projectile.rotation = MathHelper.Lerp(Projectile.rotation,
                     (target.Center - Projectile.Center).ToRotation() + MathHelper.PiOver2,
@@ -108,7 +107,7 @@ namespace CalamityMod.Projectiles.Summon
 
                 // Puts the potentialTarget on this variable that won't update constantly so the projectile doesn't become incredibly homing.
                 targetFound = target;
-                
+
                 Projectile.netUpdate = true;
             }
 

@@ -66,6 +66,17 @@ AbyssalMirror: {
 		'''
 }
 
+AscendantInsignia: {
+	DisplayName: Ascendant Insignia
+	Tooltip:
+		'''
+		Increases wing flight time by 30%
+		Increases movement and jump speed by 10% and acceleration by 1.1x
+		Pressing [KEY] will give you the power of ascension, providing infinite flight time for 4 seconds
+		Ascension has a 40 second cooldown
+		'''
+}
+
 AeroStone: {
 	DisplayName: Aero Stone
 	Tooltip:
@@ -229,7 +240,6 @@ AsgardianAegis: {
 		Immune to most debuffs
 		+40 max life and +0.5 HP/s life regen
 		Grants a cosmic inferno dash which can slam through enemies without taking damage
-		Can be used to ram enemies
 		+20 defense while submerged in liquid
 		'''
 }
@@ -274,9 +284,9 @@ BloodflareCore: {
 	DisplayName: Bloodflare Core
 	Tooltip:
 		'''
-		You lose up to half your defense after taking damage
-		Lost defense regenerates over time
-		You gain 1 health for every 1 defense gained as it regenerates
+		Taking defense damage heals you over time
+		You gain 1 health for every 1 defense damage recovered
+		Taking damage always deals at least half of your total defense in defense damage
 		'''
 }
 
@@ -284,10 +294,8 @@ BloodPact: {
 	DisplayName: Blood Pact
 	Tooltip:
 		'''
-		Doubles your max HP
-		Causes you to take critical damage 25% of the time
-		After a critical hit, you gain various buffs for ten seconds
-		Any healing potions consumed during this time period heal 50% more health
+		Increases max HP by 25%
+		Healing Potions are 25% more effective
 		'''
 }
 
@@ -346,6 +354,19 @@ Calamity: {
 		'''
 }
 
+ChaliceOfTheBloodGod: {
+	DisplayName: Chalice of the Blood God
+	Tooltip:
+		'''
+		Increases max HP by 25%
+		Taking more than 5 damage converts the hit into a damage over time bleed debuff
+		This bleeding does not interfere with life regeneration
+		Drinking a Healing Potion removes half of the remaining bleed damage
+		Unequipping this accessory while bleeding inflicts the remaining damage instantly
+		'All that for a drop of blood...'
+		'''
+}
+
 ChaosStone: {
 	DisplayName: Chaos Stone
 	Tooltip:
@@ -363,17 +384,6 @@ CoinofDeceit: {
 		'''
 		Stealth strikes only expend 85% of your max stealth
 		6% increased rogue crit chance
-		'''
-}
-
-CoreOfTheBloodGod: {
-	DisplayName: Core of the Blood God
-	Tooltip:
-		'''
-		Boosts your max HP by 15%
-		Healing Potions are 25% more effective
-		Halves enemy contact damage
-		When you take contact damage this effect has a 20 second cooldown
 		'''
 }
 
@@ -537,7 +547,7 @@ DimensionalSoulArtifact: {
 	Tooltip:
 		'''
 		Power
-		Boosts all damage by 25%, but at the cost of increasing damage taken by 15%
+		Multiplies all damage by 1.2x, but at the cost of increasing damage taken by 15%
 		'''
 }
 
@@ -627,8 +637,9 @@ ElementalGauntlet: {
 	DisplayName: Elemental Gauntlet
 	Tooltip:
 		'''
-		Melee attacks and projectiles inflict Hellfire
-		15% increased melee speed, damage, and 5% increased melee critical strike chance
+		Melee attacks and projectiles inflict Elemental Mix
+		15% increased melee damage and 5% increased melee critical strike chance
+		15% increased melee speed, does not stack with downgrades
 		20% increased true melee damage
 		Increased melee knockback
 		Enables auto swing for melee weapons
@@ -653,7 +664,6 @@ ElysianAegis: {
 		Grants immunity to knockback and the Burning, On Fire!, and Holy Flames debuffs
 		+30 max life
 		Grants an enhanced holy flame dash which can slam through enemies without taking damage
-		Can be used to ram enemies
 		Blessed by the Profaned Flame
 		'''
 }
@@ -826,7 +836,7 @@ GloveOfRecklessness: {
 	DisplayName: Glove of Recklessness
 	Tooltip:
 		'''
-		Increases rogue attack speed by 15%, but decreases damage by 10% and crit by 10%
+		Increases rogue attack speed by 15%, but decreases damage by 10% and crit by 5%
 		15% increased stealth regeneration
 		Adds inaccuracy to rogue weapons
 		'''
@@ -990,8 +1000,8 @@ LeviathanAmbergris: {
 	DisplayName: Leviathan Ambergris
 	Tooltip:
 		'''
-		15% increased dash velocity
-		You gain 5% damage reduction while dashing
+		20% increased dash velocity
+		Delay after dashing is reduced by 33%
 		Your dashes are empowered by water, knocking back and damaging nearby enemies with viscous currents
 		'''
 }
@@ -1160,7 +1170,11 @@ OccultSkullCrown: {
 
 OceanCrest: {
 	DisplayName: Ocean Crest
-	Tooltip: Most ocean enemies become friendly and provides waterbreathing
+	Tooltip:
+		'''
+		You recover air while standing still underwater
+		15% increased mining speed while wet
+		'''
 }
 
 OldDie: {
@@ -1532,7 +1546,8 @@ SlagsplitterPauldron: {
 	DisplayName: Slagsplitter Pauldron
 	Tooltip:
 		'''
-		You gain 5% damage reduction while dashing
+		You gain 10% damage reduction while dashing
+		Enemies you dash through are afflicted with Armor Crunch
 		Your dashes are empowered by fire, shredding enemies near you with violent explosions
 		'''
 }
@@ -1856,7 +1871,7 @@ TrinketofChi: {
 	DisplayName: Trinket of Chi
 	Tooltip:
 		'''
-		Provides 10% damage reduction after not being hit for 15 seconds, this is removed when you are hit
+		Provides 4% damage reduction after not being hit for 5 seconds, this is removed when you are hit
 		+1 HP/s life regen for you and everyone on your team
 		'''
 }
@@ -1962,7 +1977,7 @@ WulfrumBattery: {
 	DisplayName: Wulfrum Battery
 	Tooltip:
 		'''
-		Empowers your summons with wulfrum energy, letting them emit light around them
+		Empowers your summons with wulfrum energy, letting them emit light around them if visibility is enabled
 		7% increased summon damage
 		50% chance to get an extra scrap when killing wulfrum robots
 		Can also be scrapped at an extractinator
@@ -1977,17 +1992,6 @@ YharimsGift: {
 		Exploding dragon dust is left behind as you move
 		Damage and movement speed increased by 15%
 		The power to kill a god pulses from within this artifact
-		'''
-}
-
-YharimsInsignia: {
-	DisplayName: Yharim's Insignia
-	Tooltip:
-		'''
-		10% increased damage when under 50% life
-		15% increased melee and true melee damage
-		All melee attacks inflict Holy Flames
-		Increased melee knockback
 		'''
 }
 

@@ -68,6 +68,16 @@ GuideChat: {
 	Hardmode2: That earthquake wasn't natural, something must have caused it... Beware when exploring, whatever caused it must be a powerful entity, perhaps even otherworldly.
 }
 
+HerbTooltips: {
+	Daybloom: "[C/FFEB8A:A cheerful herb which blooms under daylight]"
+	Moonglow: "[C/8AFFFF:A radiant herb which blossoms under moonlight]"
+	Waterleaf: "[C/8AFFAF:A tenacious herb that blossoms in the rain]"
+	Blinkroot: "[C/FFC28A:A fickle herb, whose blooming is unpredictable]"
+	Shiverthorn: "[C/AADEFA:A frigid herb that blooms slowly and permanently]"
+	Deathweed: "[C/A98AFF:A foul herb, blossoming under the Full or Blood Moon]"
+	Fireblossom: "[C/FF8063:A vibrant herb, blossoming in the sunset hours]"
+}
+
 MechanicChat: {
 	MoonLordDefeated: What do you mean your traps aren't making the cut? Don't look at me!
 	Eclipse: Um... should my nightlight be on?
@@ -115,6 +125,16 @@ PirateChat: {
 	Ocean: Now this is a scene that I can admire any time! I feel like something is watching me though.
 	SulphurSea1: It ain't much of a sight, but there's still life living in these waters.
 	SulphurSea2: Me ship might just sink from the acid alone.
+}
+
+SeedTooltips: {
+	Daybloom: "[C/FFEB8A:Must be planted in regular Grass]"
+	Moonglow: "[C/8AFFFF:Must be planted in Jungle Grass]"
+	Waterleaf: "[C/8AFFAF:Must be placed in Sand]"
+	Blinkroot: "[C/FFC28A:Must be sown in Dirt or Mud]"
+	Shiverthorn: "[C/AADEFA:Must be placed in Snow or Ice]"
+	Deathweed: "[C/A98AFF:Must be buried in Evil Grass or Evil Stone]"
+	Fireblossom: "[C/FF8063:Must be buried in Ash]"
 }
 
 SkeletonMerchantChat.Normal: What'dya buyin'?

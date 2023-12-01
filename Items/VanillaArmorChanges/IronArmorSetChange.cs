@@ -28,9 +28,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            StringBuilder sb = new StringBuilder(256);
-            sb.Append("\nIncreases damage reduction by 6%\n+1 HP/s life regen");
-            setBonusText += sb.ToString();
+            setBonusText += $"\n{CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}")}";
         }
 
         public override void ApplyArmorSetBonus(Player player)

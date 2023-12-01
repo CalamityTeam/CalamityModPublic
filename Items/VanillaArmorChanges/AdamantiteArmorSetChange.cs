@@ -30,11 +30,13 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            setBonusText = setBonusText.Replace("20% increased melee and movement speed", "15% increased melee speed and 20% increased movement speed");
-            setBonusText += "\nHalf of your current DR is added to your critical strike chance\n" +
-                $"Continuously doing damage makes you gradually gain more and more defense, up to a maximum of {DefenseBoostMax}\n" +
-                "When not doing damage, this bonus gradually decays\n" +
-                "This added defense can be broken by defense damage";
+            Player player = Main.LocalPlayer;
+            if (player.armor[0].type == ItemID.AdamantiteHelmet)
+            {
+                setBonusText = CalamityUtils.GetTextValue($"Vanilla.Armor.SetBonus.{ArmorSetName}.Melee");
+            }
+            
+            setBonusText += $"\n{CalamityUtils.GetText($"Vanilla.Armor.SetBonus.{ArmorSetName}").Format(DefenseBoostMax)}";
         }
 
         public override void ApplyArmorSetBonus(Player player)

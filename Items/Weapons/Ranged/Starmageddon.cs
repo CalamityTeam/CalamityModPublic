@@ -56,9 +56,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<Starfleet>().
                 AddIngredient<BarracudaGun>().
-                AddIngredient<CosmiliteBar>(5).
-                AddIngredient<DarksunFragment>(10).
                 AddIngredient<ExodiumCluster>(15).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<DarksunFragment>(8).
                 AddTile<CosmicAnvil>().
                 Register();
         }

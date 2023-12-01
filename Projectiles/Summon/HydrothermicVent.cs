@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = Projectile.type == ModContent.ProjectileType<HydrothermicVent>();
+            bool isMinion = Projectile.type == ModContent.ProjectileType<HydrothermicVent>();
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.chaosSpirit)
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.active = false;
                 return;
             }
-            if (flag64)
+            if (isMinion)
             {
                 if (player.dead)
                 {
@@ -59,12 +59,11 @@ namespace CalamityMod.Projectiles.Summon
             dust--;
             if (dust >= 0)
             {
-                int num501 = 50;
-                for (int num502 = 0; num502 < num501; num502++)
+                for (int i = 0; i < 50; i++)
                 {
-                    int num503 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, Main.rand.NextBool(3) ? 16 : 127, 0f, 0f, 0, default, 1f);
-                    Main.dust[num503].velocity *= 2f;
-                    Main.dust[num503].scale *= 1.15f;
+                    int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y + 16f), Projectile.width, Projectile.height - 16, Main.rand.NextBool(3) ? 16 : 127, 0f, 0f, 0, default, 1f);
+                    Main.dust[dust].velocity *= 2f;
+                    Main.dust[dust].scale *= 1.15f;
                 }
             }
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 1f / 255f, (255 - Projectile.alpha) * 0.35f / 255f, (255 - Projectile.alpha) * 0f / 255f);

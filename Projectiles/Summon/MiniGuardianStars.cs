@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Potions.Alcohol;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,6 +34,8 @@ namespace CalamityMod.Projectiles.Summon
 
             Player owner = Main.player[Projectile.owner];
             Projectile.damage = (int)owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
+            if (owner.Calamity().oldFashioned)
+                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
             
             if (Projectile.ai[0] < 240f)
             {

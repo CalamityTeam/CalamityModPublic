@@ -40,12 +40,12 @@ namespace CalamityMod.Projectiles.Magic
                 SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
                 Projectile.localAI[0] += 1f;
             }
-            for (int num457 = 0; num457 < 3; num457++)
+            for (int i = 0; i < 3; i++)
             {
-                int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 55, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num458].noGravity = true;
-                Main.dust[num458].velocity *= 0.5f;
-                Main.dust[num458].velocity += Projectile.velocity * 0.1f;
+                int venusDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 55, 0f, 0f, 100, default, 1.2f);
+                Main.dust[venusDust].noGravity = true;
+                Main.dust[venusDust].velocity *= 0.5f;
+                Main.dust[venusDust].velocity += Projectile.velocity * 0.1f;
             }
         }
 
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Magic
                 float explosionKB = 6f;
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<VenusianExplosion>(), explosionDamage, explosionKB, Projectile.owner);
 
-                int cinderDamage = (int)(Projectile.damage * 0.75);
+                int cinderDamage = (int)(Projectile.damage * 0.20);
                 float cinderKB = 0f;
                 Vector2 cinderPos = Projectile.oldPosition + 0.5f * Projectile.Size;
                 int numCinders = Main.rand.Next(7, 10);

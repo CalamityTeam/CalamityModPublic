@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            Owner.direction = Math.Sign(Owner.Calamity().mouseWorld.X - Owner.position.X);
+            Owner.ChangeDir(Math.Sign(Owner.Calamity().mouseWorld.X - Owner.position.X));
 
             Projectile.velocity = Vector2.Zero;
 
@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Owner.direction = Math.Sign(Owner.Calamity().mouseWorld.X - Owner.position.X);
+            Owner.ChangeDir(Math.Sign(Owner.Calamity().mouseWorld.X - Owner.position.X));
 
             Texture2D maceTexture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D whirlpoolTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/RedtideWhirlpool").Value;

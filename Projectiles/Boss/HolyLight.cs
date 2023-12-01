@@ -62,34 +62,32 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D value = ModContent.Request<Texture2D>(Texture).Value;
-            Color color33 = new Color(54, 209, 54, 0);
-            Vector2 vector28 = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
-            Color color34 = color33;
-            Vector2 origin5 = value.Size() / 2f;
-            Color color35 = color33 * 0.5f;
-            float num162 = Utils.GetLerpValue(15f, 30f, Projectile.timeLeft, clamped: true) * Utils.GetLerpValue(240f, 200f, Projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
-            Vector2 vector29 = new Vector2(0.5f, 1f) * num162;
-            Vector2 vector30 = new Vector2(0.5f, 1f) * num162;
-            color34 *= num162;
-            color35 *= num162;
+            Texture2D drawTexture = ModContent.Request<Texture2D>(Texture).Value;
+            Color brightGreen = new Color(54, 209, 54, 0);
+            Vector2 projDirection = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+            Vector2 halfTextureSize = drawTexture.Size() / 2f;
+            Color halfBrightGreen = brightGreen * 0.5f;
+            float timeLeftColorScale = Utils.GetLerpValue(15f, 30f, Projectile.timeLeft, clamped: true) * Utils.GetLerpValue(240f, 200f, Projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTimeWrappedHourly % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
+            Vector2 timeLeftDrawEffect = new Vector2(0.5f, 1f) * timeLeftColorScale;
+            Vector2 timeLeftDrawEffect2 = new Vector2(0.5f, 1f) * timeLeftColorScale;
+            brightGreen *= timeLeftColorScale;
+            halfBrightGreen *= timeLeftColorScale;
 
-            int num163 = 0;
-            Vector2 position3 = vector28 + Projectile.velocity.SafeNormalize(Vector2.Zero) * Utils.GetLerpValue(0.5f, 1f, Projectile.localAI[0] / 60f, clamped: true) * num163;
+            Vector2 position3 = projDirection + Projectile.velocity.SafeNormalize(Vector2.Zero) * Utils.GetLerpValue(0.5f, 1f, Projectile.localAI[0] / 60f, clamped: true) * 0;
 
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Main.EntitySpriteDraw(value, position3, null, color34, (float)Math.PI / 2f, origin5, vector29, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, position3, null, color34, 0f, origin5, vector30, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, position3, null, color35, (float)Math.PI / 2f, origin5, vector29 * 0.6f, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, position3, null, color35, 0f, origin5, vector30 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(drawTexture, position3, null, brightGreen, (float)Math.PI / 2f, halfTextureSize, timeLeftDrawEffect, spriteEffects, 0);
+            Main.EntitySpriteDraw(drawTexture, position3, null, brightGreen, 0f, halfTextureSize, timeLeftDrawEffect2, spriteEffects, 0);
+            Main.EntitySpriteDraw(drawTexture, position3, null, halfBrightGreen, (float)Math.PI / 2f, halfTextureSize, timeLeftDrawEffect * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(drawTexture, position3, null, halfBrightGreen, 0f, halfTextureSize, timeLeftDrawEffect2 * 0.6f, spriteEffects, 0);
 
-            Main.EntitySpriteDraw(value, position3, null, color34, MathHelper.PiOver4, origin5, vector29 * 0.6f, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, position3, null, color34, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.6f, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, position3, null, color35, MathHelper.PiOver4, origin5, vector29 * 0.36f, spriteEffects, 0);
-            Main.EntitySpriteDraw(value, position3, null, color35, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.36f, spriteEffects, 0);
+            Main.EntitySpriteDraw(drawTexture, position3, null, brightGreen, MathHelper.PiOver4, halfTextureSize, timeLeftDrawEffect * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(drawTexture, position3, null, brightGreen, MathHelper.PiOver4 * 3f, halfTextureSize, timeLeftDrawEffect2 * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(drawTexture, position3, null, halfBrightGreen, MathHelper.PiOver4, halfTextureSize, timeLeftDrawEffect * 0.36f, spriteEffects, 0);
+            Main.EntitySpriteDraw(drawTexture, position3, null, halfBrightGreen, MathHelper.PiOver4 * 3f, halfTextureSize, timeLeftDrawEffect2 * 0.36f, spriteEffects, 0);
 
             return false;
         }
@@ -103,25 +101,25 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 40;
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
-            for (int num621 = 0; num621 < 5; num621++)
+            for (int i = 0; i < 5; i++)
             {
-                int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
-                Main.dust[num622].noGravity = true;
+                int holyYellow = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
+                Main.dust[holyYellow].velocity *= 3f;
+                Main.dust[holyYellow].noGravity = true;
                 if (Main.rand.NextBool())
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                    Main.dust[holyYellow].scale = 0.5f;
+                    Main.dust[holyYellow].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 8; num623++)
+            for (int j = 0; j < 8; j++)
             {
-                int num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 247, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
-                Main.dust[num624].noGravity = true;
+                int holyYellow2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 247, 0f, 0f, 100, default, 3f);
+                Main.dust[holyYellow2].noGravity = true;
+                Main.dust[holyYellow2].velocity *= 5f;
+                holyYellow2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
+                Main.dust[holyYellow2].velocity *= 2f;
+                Main.dust[holyYellow2].noGravity = true;
             }
         }
     }

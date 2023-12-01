@@ -74,6 +74,7 @@ ExtensionName: {
 // Cooldowns
 Cooldowns: {
 	AquaticHeartIceShield: Ice Shield Cooldown
+	AscendEffect: Ascension Cooldown
 	BloodflareFrenzy: Blood Frenzy Cooldown
 	BloodflareRangedSet: Bloodflare Soul Cooldown
 	BrimflameFrenzy: Brimflame Frenzy Cooldown
@@ -85,6 +86,7 @@ Cooldowns: {
 	ParryCooldown: Parry Ability Cooldown
 	EvasionScarf: Scarf Cooldown
 	FleshTotem: Contact Damage Halving Cooldown
+	GaelsRage: Gael's Greatsword Rage Cooldown
 	GlobalDodge: Dodge Cooldown
 	GodSlayerDash: God Slayer Dash Cooldown
 	InkBomb: Ink Bomb Cooldown
@@ -235,7 +237,7 @@ Disenchant: Disenchant
 // Worldgen Tasks
 EvilIslandCorrupt: Adding a putrid floating island
 EvilIslandCrimson: Adding a grotesque floating island
-BetterDungeon: Building a better dungeon
+AstralChest: Placing an astral chest
 BetterJungleTemple: Building a bigger jungle temple
 JungleTempleAltar: Placing the Lihzahrd altar
 GiantBeehive: Building a giant beehive

@@ -233,6 +233,9 @@ namespace CalamityMod.CalPlayer
             if (calamityPlayer.dragonFire && drawInfo.shadow == 0f)
                 Dragonfire.DrawEffects(drawInfo);
 
+            if (calamityPlayer.elementalMix && drawInfo.shadow == 0f)
+                ElementalMix.DrawEffects(drawInfo);
+
             if (calamityPlayer.eutrophication && drawInfo.shadow == 0f)
                 Eutrophication.DrawEffects(drawInfo);
 
@@ -472,10 +475,8 @@ namespace CalamityMod.CalPlayer
 
                     SpriteEffects spriteEffects = Player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-                    float num25 = -4f;
-                    float num24 = -8f;
                     DrawData howDoIDrawThings = new DrawData(thingToDraw,
-                        new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) + num25 * drawPlayer.direction, (int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir + num24 * drawPlayer.gravDir)),
+                        new Vector2((int)(drawPlayer.position.X - Main.screenPosition.X + (drawPlayer.width / 2) - (9 * drawPlayer.direction)) - 4f * drawPlayer.direction, (int)(drawPlayer.position.Y - Main.screenPosition.Y + (drawPlayer.height / 2) + 2f * drawPlayer.gravDir - 8f * drawPlayer.gravDir)),
                         new Rectangle(0, 0, thingToDraw.Width, thingToDraw.Height),
                         drawInfo.colorArmorBody,
                         drawPlayer.bodyRotation,

@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.4f,
             };
@@ -212,17 +212,17 @@ namespace CalamityMod.NPCs.SunkenSea
                         {
                             if (Main.rand.NextBool())
                             {
-                                int num5 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 226, 0f, 0f, 200, default, 1.5f);
-                                Main.dust[num5].noGravity = true;
-                                Main.dust[num5].velocity *= 0.75f;
-                                Main.dust[num5].fadeIn = 1.3f;
+                                int attackDust = Dust.NewDust(NPC.position, NPC.width, NPC.height, 226, 0f, 0f, 200, default, 1.5f);
+                                Main.dust[attackDust].noGravity = true;
+                                Main.dust[attackDust].velocity *= 0.75f;
+                                Main.dust[attackDust].fadeIn = 1.3f;
                                 Vector2 vector = new Vector2((float)Main.rand.Next(-200, 201), (float)Main.rand.Next(-200, 201));
                                 vector.Normalize();
                                 vector *= (float)Main.rand.Next(100, 200) * 0.04f;
-                                Main.dust[num5].velocity = vector;
+                                Main.dust[attackDust].velocity = vector;
                                 vector.Normalize();
                                 vector *= 34f;
-                                Main.dust[num5].position = NPC.Center - vector;
+                                Main.dust[attackDust].position = NPC.Center - vector;
                             }
                             NPC.alpha -= Main.hardMode ? 7 : 4;
                             if (NPC.alpha <= 0)
@@ -356,7 +356,7 @@ namespace CalamityMod.NPCs.SunkenSea
                     else if (attack == 2)
                     {
                         SoundEngine.PlaySound(SoundID.Item67, NPC.position);
-                        Vector2 value9 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                        Vector2 clamPosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(NPC.velocity.X, NPC.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -365,18 +365,18 @@ namespace CalamityMod.NPCs.SunkenSea
                         int damage = Main.expertMode ? 28 : 35;
                         float speed = 5f;
                         Vector2 vector = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)(NPC.height / 2));
-                        float num6 = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - vector.X + (float)Main.rand.Next(-20, 21);
-                        float num7 = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-20, 21);
-                        float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
-                        num8 = speed / num8;
-                        num6 *= num8;
-                        num7 *= num8;
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, num6, num7, projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
+                        float targetXDist = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - vector.X + (float)Main.rand.Next(-20, 21);
+                        float targetYDist = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-20, 21);
+                        float targetDistance = (float)Math.Sqrt((double)(targetXDist * targetXDist + targetYDist * targetYDist));
+                        targetDistance = speed / targetDistance;
+                        targetXDist *= targetDistance;
+                        targetYDist *= targetDistance;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, targetXDist, targetYDist, projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
                         for (int i = 0; i < 4; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 3f), (float)(-Math.Cos(offsetAngle) * 3f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), clamPosition.X, clamPosition.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), clamPosition.X, clamPosition.Y, (float)(-Math.Sin(offsetAngle) * 3f), (float)(-Math.Cos(offsetAngle) * 3f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                         attack = -1;
                         NPC.ai[3] = 0f;
@@ -507,12 +507,12 @@ namespace CalamityMod.NPCs.SunkenSea
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/SunkenSea/GiantClamGlow").Value;
             SpriteEffects spriteEffects = SpriteEffects.None;
             Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
-            Vector2 vector11 = new Vector2((float)(texture.Width / 2), (float)(texture.Height / Main.npcFrameCount[NPC.type] / 2));
+            Vector2 halfSizeTexture = new Vector2((float)(texture.Width / 2), (float)(texture.Height / Main.npcFrameCount[NPC.type] / 2));
             Vector2 vector = center - screenPos;
             vector -= new Vector2((float)glowmask.Width, (float)(glowmask.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
+            vector += halfSizeTexture * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
             Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
-            Main.EntitySpriteDraw(glowmask, vector, NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(glowmask, vector, NPC.frame, color, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0);
         }
 
         public override void OnKill()

@@ -1,126 +1,151 @@
-﻿using Terraria;
-using Terraria.ID;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 {
     public static class ImpMinionAI
     {
-        public static bool DoImpMinionAI(Projectile projectile)
+        // Shorter range when the minion has no target yet: 40 tiles
+        private const float MinEnemyDistanceDetection = 640f;
+
+        // Longer range when a target is already acquired: 75 tiles
+        private const float MaxEnemyDistanceDetection = 1200f;
+
+        private static float EnemyDistanceDetection { get => Target is null ? MinEnemyDistanceDetection : MaxEnemyDistanceDetection; }
+
+        private const int FireRate = 75;
+        private const float ProjectileVelocity = 20f;
+        private static NPC Target { get; set; }
+
+        public static bool DoImpMinionAI(Projectile proj)
         {
-            Player owner = Main.player[projectile.owner];
-            ref float timerToShoot = ref projectile.ai[0];
-            projectile.aiStyle = -1;
+            Player owner = Main.player[proj.owner];
+            Target = owner.Center.MinionHoming(EnemyDistanceDetection, owner, CalamityPlayer.areThereAnyDamnBosses);
+            ref float shootTimer = ref proj.ai[0];
 
-            float enemyDistanceDetection = 1200f;
-            float fireRate = 120f; // In frames.
-            float projVelocity = 20f;
+            CheckMinionExistence(proj, owner);
+            DoAnimation(proj);
+            DecideDirection(proj);
+            FollowPlayer(proj, owner);
+            proj.MinionAntiClump();
 
-            // Detects a target.
-            NPC target = projectile.Center.MinionHoming(enemyDistanceDetection, owner);
-
-            if (target is not null)
+            if (Target is not null)
             {
-                if (timerToShoot >= fireRate && Main.myPlayer == projectile.owner)
+                shootTimer += Main.rand.NextBool(20) ? 2 : 1;
+                if (shootTimer >= FireRate && proj.owner == Main.myPlayer)
                 {
-                    int fireball = Projectile.NewProjectile(projectile.GetSource_FromThis(),
-                        projectile.Center,
-                        CalamityUtils.CalculatePredictiveAimToTarget(projectile.Center, target.Center, target.velocity, projVelocity),
-                        ProjectileID.ImpFireball,
-                        projectile.damage,
-                        projectile.knockBack,
-                        owner.whoAmI);
+                    Vector2 toTargetDirection = CalamityUtils.CalculatePredictiveAimToTarget(proj.Center, Target, ProjectileVelocity);
 
-                    if (Main.projectile.IndexInRange(fireball))
+                    Projectile fireball = Projectile.NewProjectileDirect(proj.GetSource_FromThis(),
+                        proj.Center,
+                        toTargetDirection,
+                        ProjectileID.ImpFireball,
+                        proj.damage,
+                        proj.knockBack,
+                        proj.owner);
+
+                    fireball.localNPCHitCooldown = 30;
+                    fireball.Size *= 2f;
+                    fireball.tileCollide = false;
+                    fireball.usesLocalNPCImmunity = true;
+                    fireball.usesIDStaticNPCImmunity = false;
+
+                    proj.velocity -= toTargetDirection.SafeNormalize(Vector2.Zero);
+
+                    if (!Main.dedServ)
                     {
-                        Main.projectile[fireball].originalDamage = projectile.originalDamage;
-                        Main.projectile[fireball].usesLocalNPCImmunity = true;
-                        Main.projectile[fireball].localNPCHitCooldown = 30;
-                        Main.projectile[fireball].usesIDStaticNPCImmunity = false;
+                        for (int i = 0; i < 15; i++)
+                        {
+                            Dust shootDust = Dust.NewDustPerfect(proj.Center + toTargetDirection.SafeNormalize(Vector2.Zero) * proj.Size / 2f, DustID.Torch, toTargetDirection.SafeNormalize(Vector2.Zero).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(3f, 5f), Scale: 2f);
+                            shootDust.noGravity = true;
+                            shootDust.noLight = true;
+                            shootDust.noLightEmittence = true;
+                        }
                     }
-                
-                    timerToShoot = 0f;
-                    projectile.netUpdate = true;
+
+                    shootTimer = 0f;
+                    SyncVariables(proj);
                 }
-            
-                if (timerToShoot < fireRate)
-                    timerToShoot++;
+            }
+            else
+            {
+                // Quickly deaccelerate when getting too close to the owner.
+                if (proj.WithinRange(owner.Center, 128f))
+                {
+                    proj.velocity *= 0.875f;
+                    SyncVariables(proj);
+                }
             }
 
-            CheckMinionExistence(owner, projectile);
-
-            DoAnimation(projectile);
-
-            DecideDirection(target, projectile);
-
-            FollowPlayer(owner, projectile, enemyDistanceDetection);
-
-            projectile.MinionAntiClump(.5f);
-
-            // Just so the minion doesn't stay weirdly still.
-            if (projectile.velocity == Vector2.Zero)
-                projectile.velocity += new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-
-            // Flavor fire dust effect.
-            int dustEffect = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, Main.rand.NextBool() ? 1f : -1f, Main.rand.NextBool() ? 1f : -1f);
-            Main.dust[dustEffect].noGravity = true;
+            if (!Main.dedServ)
+            {
+                // Flavor fire dust effect.
+                Dust dustEffect = Dust.NewDustDirect(proj.position, proj.width, proj.height, DustID.Torch);
+                dustEffect.noGravity = true;
+                dustEffect.noLight = true;
+                dustEffect.noLightEmittence = true;
+            }
 
             return false;
         }
 
-        #region Methods
-        
-        public static void CheckMinionExistence(Player owner, Projectile projectile)
+        #region AI Methods
+
+        private static void CheckMinionExistence(Projectile proj, Player owner)
         {
-            owner.AddBuff(BuffID.ImpMinion, 1);
-            if (projectile.type != ProjectileID.FlyingImp)
+            owner.AddBuff(BuffID.ImpMinion, 2);
+            if (proj.type != ProjectileID.FlyingImp)
                 return;
-            
+
             if (owner.dead)
                 owner.impMinion = false;
             if (owner.impMinion)
-                projectile.timeLeft = 2;
+                proj.timeLeft = 2;
         }
 
-        public static void DoAnimation(Projectile projectile)
+        private static void DoAnimation(Projectile proj)
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter % 6 == 0)
-                projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+            proj.frameCounter++;
+            if (proj.frameCounter >= 6)
+            {
+                proj.frame = (proj.frame + 1) % Main.projFrames[proj.type];
+                proj.frameCounter = 0;
+            }
         }
 
-        public static void DecideDirection(NPC target, Projectile projectile)
+        private static void DecideDirection(Projectile proj)
         {
             // Both results are negated because some individual decided to make the minion look at the left in the sprite instead of the right.
-            if (target is not null)
-                projectile.direction = projectile.spriteDirection = (target.Center.X - projectile.Center.X < 0).ToDirectionInt();
+            if (Target is not null)
+                proj.direction = proj.spriteDirection = (Target.Center.X - proj.Center.X < 0).ToDirectionInt();
             else
-                projectile.direction = projectile.spriteDirection = -projectile.velocity.X.DirectionalSign();
+                proj.direction = proj.spriteDirection = -proj.velocity.X.DirectionalSign();
         }
 
-        public static void FollowPlayer(Player owner, Projectile projectile, float enemyDistanceDetection)
-        {    
-            // If the minion starts to get far, force the minion to go to you.
-            if (projectile.WithinRange(owner.Center, enemyDistanceDetection) && !projectile.WithinRange(owner.Center, 300f))
+        private static void FollowPlayer(Projectile proj, Player owner)
+        {
+            // The minion will hover around the owner.
+            if (!proj.WithinRange(owner.Center, 160f))
             {
-                projectile.velocity = (owner.Center - projectile.Center) / 30f;
-                projectile.netUpdate = true;
+                proj.velocity = (proj.velocity + proj.SafeDirectionTo(owner.Center)) * 0.9f;
+                SyncVariables(proj);
             }
 
-            // The minion will change directions to you if it's going away from you, meaning it'll just hover around you.
-            else if (!projectile.WithinRange(owner.Center, 160f))
+            // The minion will teleport on the owner if they get far enough.
+            if (!proj.WithinRange(owner.Center, MaxEnemyDistanceDetection))
             {
-                projectile.velocity = (projectile.velocity * 37f + projectile.SafeDirectionTo(owner.Center) * 17f) / 40f;
-                projectile.netUpdate = true;
+                proj.Center = owner.Center;
+                SyncVariables(proj);
             }
+        }
 
-            // Teleport to the owner if sufficiently far away.
-            if (!projectile.WithinRange(owner.Center, enemyDistanceDetection))
-            {
-                projectile.Center = owner.Center;
-                projectile.velocity *= 0.3f;
-                projectile.netUpdate = true;
-            }
+        private static void SyncVariables(Projectile proj)
+        {
+            proj.netUpdate = true;
+            if (proj.netSpam >= 10)
+                proj.netSpam = 9;
         }
 
         #endregion

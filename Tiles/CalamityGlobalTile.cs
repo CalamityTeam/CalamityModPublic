@@ -365,17 +365,36 @@ namespace CalamityMod.Tiles
             }
 
 			// Mining set gives a chance for additional ore. This can be abused for infinite ore but it has a cooldown to prevent too much abuse
-            if (player.Calamity().miningSet && player.Calamity().miningSetCooldown <= 0 && !fail)
+            if (player.Calamity().miningSet && player.Calamity().miningSetCooldown <= 0 && !fail && TileID.Sets.Ore[tile.TileType])
             {
-                int item = tile.GetOreItemID();
-                Vector2 pos = new Vector2(i, j) * 16;
 				// 25% chance for additional ore
-                if (Main.rand.NextBool(MiningArmorSetChange.BonusOreChance) && item != -1)
-				{
-                    Item.NewItem(new EntitySource_TileBreak(i, j), pos, item);
-					// Cooldown varies between 3 and 6 seconds
-					player.Calamity().miningSetCooldown = Main.rand.Next(MiningArmorSetChange.CooldownMin, MiningArmorSetChange.CooldownMax + 1);
-				}
+                if (!Main.rand.NextBool(MiningArmorSetChange.BonusOreChance))
+                    return;
+
+                var source = new EntitySource_TileBreak(i, j);
+                Vector2 pos = new Vector2(i, j) * 16;
+                ModTile moddedTile = TileLoader.GetTile(tile.TileType);
+                if (moddedTile != null) // Fetch the modded tile's drop logic
+                {
+                    IEnumerable<Item> itemDrops = moddedTile.GetItemDrops(i, j);
+                    if (itemDrops == null)
+                        return;
+
+                    foreach (Item item in itemDrops)
+                    {
+                        item.Prefix(-1); // You're twisted if you have a prefixable item inside ores but fuck it
+                        int moddedOre = Item.NewItem(source, pos, item);
+                        Main.item[moddedOre].TryCombiningIntoNearbyItems(moddedOre);
+                    }
+                }
+                else // Fetch normal tile-item relationships (all vanilla ores are normal thankfully)
+                {
+                    int itemType = TileLoader.GetItemDropFromTypeAndStyle(tile.TileType);
+                    Item.NewItem(source, pos, itemType);
+                }
+
+                // Cooldown varies between 3 and 6 seconds
+                player.Calamity().miningSetCooldown = Main.rand.Next(MiningArmorSetChange.CooldownMin, MiningArmorSetChange.CooldownMax + 1);
             }
         }
 
@@ -457,19 +476,19 @@ namespace CalamityMod.Tiles
                 return;
             }
 
-            int num = tileSafely.TileFrameX / 22;
-            int num2 = tileSafely.TileFrameY / 22;
-            if (num == 3 && num2 <= 2)
+            int treeTileX = tileSafely.TileFrameX / 22;
+            int treeTileY = tileSafely.TileFrameY / 22;
+            if (treeTileX == 3 && treeTileY <= 2)
                 x++;
-            else if (num == 4 && num2 >= 3 && num2 <= 5)
+            else if (treeTileX == 4 && treeTileY >= 3 && treeTileY <= 5)
                 x--;
-            else if (num == 1 && num2 >= 6 && num2 <= 8)
+            else if (treeTileX == 1 && treeTileY >= 6 && treeTileY <= 8)
                 x--;
-            else if (num == 2 && num2 >= 6 && num2 <= 8)
+            else if (treeTileX == 2 && treeTileY >= 6 && treeTileY <= 8)
                 x++;
-            else if (num == 2 && num2 >= 9)
+            else if (treeTileX == 2 && treeTileY >= 9)
                 x++;
-            else if (num == 3 && num2 >= 9)
+            else if (treeTileX == 3 && treeTileY >= 9)
                 x--;
 
             tileSafely = Framing.GetTileSafely(x, y);

@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.55f,
             };
@@ -122,18 +122,18 @@ namespace CalamityMod.NPCs.CeaselessVoid
         {
             Rectangle targetHitbox = target.Hitbox;
 
-            float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
+            float hitboxTopLeft = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());
+            float hitboxTopRight = Vector2.Distance(NPC.Center, targetHitbox.TopRight());
+            float hitboxBotLeft = Vector2.Distance(NPC.Center, targetHitbox.BottomLeft());
+            float hitboxBotRight = Vector2.Distance(NPC.Center, targetHitbox.BottomRight());
 
-            float minDist = dist1;
-            if (dist2 < minDist)
-                minDist = dist2;
-            if (dist3 < minDist)
-                minDist = dist3;
-            if (dist4 < minDist)
-                minDist = dist4;
+            float minDist = hitboxTopLeft;
+            if (hitboxTopRight < minDist)
+                minDist = hitboxTopRight;
+            if (hitboxBotLeft < minDist)
+                minDist = hitboxBotLeft;
+            if (hitboxBotRight < minDist)
+                minDist = hitboxBotRight;
 
             return minDist <= 50f;
         }
@@ -145,49 +145,47 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
-            Color color36 = Color.White;
-            float amount9 = 0.5f;
-            int num153 = 7;
+            Vector2 halfSizeTexture = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
+            int afterimageAmt = 7;
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int num155 = 1; num155 < num153; num155 += 2)
+                for (int i = 1; i < afterimageAmt; i += 2)
                 {
-                    Color color38 = drawColor;
-                    color38 = Color.Lerp(color38, color36, amount9);
-                    color38 = NPC.GetAlpha(color38);
-                    color38 *= (float)(num153 - num155) / 15f;
-                    Vector2 vector41 = NPC.oldPos[num155] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
-                    vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
-                    vector41 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector41, NPC.frame, color38, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    Color afterimageColor = drawColor;
+                    afterimageColor = Color.Lerp(afterimageColor, Color.White, 0.5f);
+                    afterimageColor = NPC.GetAlpha(afterimageColor);
+                    afterimageColor *= (float)(afterimageAmt - i) / 15f;
+                    Vector2 afterimageDrawPos = NPC.oldPos[i] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
+                    afterimageDrawPos -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                    afterimageDrawPos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, afterimageDrawPos, NPC.frame, afterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+            drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/CeaselessVoid/CeaselessVoidGlow").Value;
-            Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+            Color cyanLerp = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
             {
-                for (int num163 = 1; num163 < num153; num163++)
+                for (int j = 1; j < afterimageAmt; j++)
                 {
-                    Color color41 = color37;
-                    color41 = Color.Lerp(color41, color36, amount9);
-                    color41 *= (float)(num153 - num163) / 15f;
-                    Vector2 vector44 = NPC.oldPos[num163] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
-                    vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
-                    vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-                    spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    Color extraAfterimageColor = cyanLerp;
+                    extraAfterimageColor = Color.Lerp(extraAfterimageColor, Color.White, 0.5f);
+                    extraAfterimageColor *= (float)(afterimageAmt - j) / 15f;
+                    Vector2 extraAfterimageDrawPos = NPC.oldPos[j] + new Vector2((float)NPC.width, (float)NPC.height) / 2f - screenPos;
+                    extraAfterimageDrawPos -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[NPC.type])) * NPC.scale / 2f;
+                    extraAfterimageDrawPos += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                    spriteBatch.Draw(texture2D15, extraAfterimageDrawPos, NPC.frame, extraAfterimageColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
                 }
             }
 
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, cyanLerp, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             return false;
         }
@@ -238,8 +236,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             // GFB Eclipse Mirror and Nucleogenesis drop
             var GFBOnly = npcLoot.DefineConditionalDropSet(DropHelper.GFB);
             {
-                GFBOnly.Add(ModContent.ItemType<EclipseMirror>());
-                GFBOnly.Add(ModContent.ItemType<Nucleogenesis>());
+                GFBOnly.Add(ModContent.ItemType<EclipseMirror>(), hideLootReport: true);
+                GFBOnly.Add(ModContent.ItemType<Nucleogenesis>(), hideLootReport: true);
             }
 
             // Lore
@@ -283,25 +281,25 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 NPC.height = 100;
                 NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
-                for (int num621 = 0; num621 < 40; num621++)
+                for (int i = 0; i < 40; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
-                    Main.dust[num622].noGravity = true;
+                    int purpleDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                    Main.dust[purpleDust].velocity *= 3f;
+                    Main.dust[purpleDust].noGravity = true;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[purpleDust].scale = 0.5f;
+                        Main.dust[purpleDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 70; num623++)
+                for (int j = 0; j < 70; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 2f;
+                    int purpleDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 3f);
+                    Main.dust[purpleDust2].noGravity = true;
+                    Main.dust[purpleDust2].velocity *= 5f;
+                    purpleDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 100, default, 2f);
+                    Main.dust[purpleDust2].noGravity = true;
+                    Main.dust[purpleDust2].velocity *= 2f;
                 }
 
                 if (Main.netMode != NetmodeID.Server)

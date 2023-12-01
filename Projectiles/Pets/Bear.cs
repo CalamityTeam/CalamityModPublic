@@ -34,9 +34,9 @@ namespace CalamityMod.Projectiles.Pets
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             Player player = Main.player[Projectile.owner];
-            Vector2 center2 = Projectile.Center;
-            Vector2 vector48 = player.Center - center2;
-            float playerDistance = vector48.Length();
+            Vector2 projCenter = Projectile.Center;
+            Vector2 playerDirection = player.Center - projCenter;
+            float playerDistance = playerDirection.Length();
             fallThrough = playerDistance > 200f;
             return true;
         }
@@ -67,9 +67,9 @@ namespace CalamityMod.Projectiles.Pets
             if (!fly)
             {
                 Projectile.rotation = 0;
-                Vector2 center2 = Projectile.Center;
-                Vector2 vector48 = player.Center - center2;
-                float playerDistance = vector48.Length();
+                Vector2 projCenter = Projectile.Center;
+                Vector2 playerDirection = player.Center - projCenter;
+                float playerDistance = playerDirection.Length();
                 if (Projectile.velocity.Y == 0 && (HoleBelow() || (playerDistance > 110f && Projectile.position.X == Projectile.oldPosition.X)))
                 {
                     Projectile.velocity.Y = -5f;
@@ -233,18 +233,16 @@ namespace CalamityMod.Projectiles.Pets
             }
             else if (fly)
             {
-                float num16 = 0.3f;
+                float flyingSpeed = 0.3f;
                 Projectile.tileCollide = false;
-                Vector2 vector3 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                float horiPos = Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2) - vector3.X;
-                float vertiPos = Main.player[Projectile.owner].position.Y + (float)(Main.player[Projectile.owner].height / 2) - vector3.Y;
+                Vector2 flyDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                float horiPos = Main.player[Projectile.owner].position.X + (float)(Main.player[Projectile.owner].width / 2) - flyDirection.X;
+                float vertiPos = Main.player[Projectile.owner].position.Y + (float)(Main.player[Projectile.owner].height / 2) - flyDirection.Y;
                 vertiPos += (float)Main.rand.Next(-10, 21);
                 horiPos += (float)Main.rand.Next(-10, 21);
                 horiPos += (float)(60 * -(float)Main.player[Projectile.owner].direction);
                 vertiPos -= 60f;
                 float playerDistance = (float)Math.Sqrt((double)(horiPos * horiPos + vertiPos * vertiPos));
-                float num21 = 18f;
-                float num27 = (float)Math.Sqrt((double)(horiPos * horiPos + vertiPos * vertiPos));
 
                 if (playerDistance > 2000f)
                 {
@@ -254,7 +252,7 @@ namespace CalamityMod.Projectiles.Pets
                 }
                 if (playerDistance < 100f)
                 {
-                    num16 = 0.1f;
+                    flyingSpeed = 0.1f;
                     if (player.velocity.Y == 0f)
                     {
                         ++playerStill;
@@ -275,53 +273,53 @@ namespace CalamityMod.Projectiles.Pets
                     {
                         Projectile.velocity *= 0.90f;
                     }
-                    num16 = 0.01f;
+                    flyingSpeed = 0.01f;
                 }
                 else
                 {
                     if (playerDistance < 100f)
                     {
-                        num16 = 0.1f;
+                        flyingSpeed = 0.1f;
                     }
                     if (playerDistance > 300f)
                     {
-                        num16 = 1f;
+                        flyingSpeed = 1f;
                     }
-                    playerDistance = num21 / playerDistance;
+                    playerDistance = 18f / playerDistance;
                     horiPos *= playerDistance;
                     vertiPos *= playerDistance;
                 }
 
                 if (Projectile.velocity.X <= horiPos)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X + num16;
-                    if (num16 > 0.05f && Projectile.velocity.X < 0f)
+                    Projectile.velocity.X = Projectile.velocity.X + flyingSpeed;
+                    if (flyingSpeed > 0.05f && Projectile.velocity.X < 0f)
                     {
-                        Projectile.velocity.X = Projectile.velocity.X + num16;
+                        Projectile.velocity.X = Projectile.velocity.X + flyingSpeed;
                     }
                 }
                 if (Projectile.velocity.X > horiPos)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X - num16;
-                    if (num16 > 0.05f && Projectile.velocity.X > 0f)
+                    Projectile.velocity.X = Projectile.velocity.X - flyingSpeed;
+                    if (flyingSpeed > 0.05f && Projectile.velocity.X > 0f)
                     {
-                        Projectile.velocity.X = Projectile.velocity.X - num16;
+                        Projectile.velocity.X = Projectile.velocity.X - flyingSpeed;
                     }
                 }
                 if (Projectile.velocity.Y <= vertiPos)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y + num16;
-                    if (num16 > 0.05f && Projectile.velocity.Y < 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y + flyingSpeed;
+                    if (flyingSpeed > 0.05f && Projectile.velocity.Y < 0f)
                     {
-                        Projectile.velocity.Y = Projectile.velocity.Y + num16 * 2f;
+                        Projectile.velocity.Y = Projectile.velocity.Y + flyingSpeed * 2f;
                     }
                 }
                 if (Projectile.velocity.Y > vertiPos)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y - num16;
-                    if (num16 > 0.05f && Projectile.velocity.Y > 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y - flyingSpeed;
+                    if (flyingSpeed > 0.05f && Projectile.velocity.Y > 0f)
                     {
-                        Projectile.velocity.Y = Projectile.velocity.Y - num16 * 2f;
+                        Projectile.velocity.Y = Projectile.velocity.Y - flyingSpeed * 2f;
                     }
                 }
 

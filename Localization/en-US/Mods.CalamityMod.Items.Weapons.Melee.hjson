@@ -65,11 +65,6 @@ Aorta: {
 		'''
 }
 
-AquaticDischarge: {
-	DisplayName: Aquatic Discharge
-	Tooltip: Enemies release electric sparks on hit
-}
-
 ArkoftheCosmos: {
 	DisplayName: Ark of the Cosmos
 	Tooltip:
@@ -549,6 +544,7 @@ GaelsGreatsword: {
 		Swings leave behind exploding blood trails when below 50% health
 		Occasionally summons a barrage of lightning bolts when below 50% health
 		Replaces Rage Mode with an enormous barrage of skulls
+		This attack has a 30 second cooldown
 		'Hand it over, that thing. Your dark soul'
 		'''
 }
@@ -756,7 +752,8 @@ Murasama: {
 	Tooltip:
 		'''
 		A high-frequency blade that can cleanly slice through even the mightiest foe
-		Prove your worth by slaying Yharon, Dragon of Rebirth to unsheath this sword
+		Every third swing deals immense damage
+		Prove your worth by slaying The Devourer of Gods to unsheath this sword
 		[c/F41A31:'There will be blood!']
 		'''
 }
@@ -964,12 +961,23 @@ Roxcalibur: {
 	// The WOF tag generates a new line above when placed at the start of a line
 	Tooltip:
 		'''
-		[WOF]Press <left> to shoot several rock shards
-		Press <right> to dive downwards and bounce off enemies
+		[WOF]Hold <left> to charge up a strike
+		Release with the cursor above you to swing normally, releasing rock shards
+		Release with the cursor below you to dive downwards and bounce off enemies
 		Diving into blocks creates a shockwave
 		You couldn't get it out of the rock, so you just brought the rock instead
 		'''
 	LockedInfo: The hellish Wall of Flesh holds the key to this weapon's power
+}
+
+SaharaSlicers: {
+	DisplayName: Sahara Slicers
+	Tooltip:
+		'''
+		A pair of dual daggers with short range
+		Hitting enemies with the daggers will give you two bolts for each hit, up to 10
+		Pressing <right> will allow you to toss collected bolts at enemies
+		'''
 }
 
 SausageMaker: {
@@ -1294,8 +1302,8 @@ DefiledGreatsword: {
 	Tooltip:
 		'''
 		Fires blazing, hyper, and sunlight blades
-		Gives the player the tyrant's fury buff on enemy hits
-		This buff increases melee damage by 30% and melee crit chance by 10%
+		Gives the player the Brutal Carnage buff on enemy hits
+		This buff increases melee damage by 25% and melee crit chance by 10%
 		'''
 }
 
@@ -1314,8 +1322,8 @@ BlightedCleaver: {
 	Tooltip:
 		'''
 		Fires homing blazing blades
-		Gives the player the tyrant's fury buff on enemy hits
-		This buff increases melee damage by 30% and melee crit chance by 10%
+		Gives the player the Brutal Carnage buff on enemy hits
+		This buff increases melee damage by 25% and melee crit chance by 10%
 		'''
 }
 

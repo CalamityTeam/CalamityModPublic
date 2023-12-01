@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -52,7 +53,10 @@ namespace CalamityMod.Projectiles.Summon
             if (potentialTarget != null)
                 Projectile.velocity = (Projectile.velocity * 5f + Projectile.SafeDirectionTo(potentialTarget.Center) * 13f) / 6f;
         }
-
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<ElementalMix>(), 30);
+        }
         public override void OnKill(int timeLeft)
         {
             if (Main.myPlayer == Projectile.owner)

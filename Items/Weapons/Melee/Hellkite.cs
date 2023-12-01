@@ -55,42 +55,42 @@ namespace CalamityMod.Items.Weapons.Melee
                 target.AddBuff(BuffID.OnFire3, 300);
                 int onHitDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
                 player.ApplyDamageToNPC(target, onHitDamage, 0f, 0, false);
-                float num50 = 1.7f;
-                float num51 = 0.8f;
-                float num52 = 2f;
-                Vector2 value3 = (target.rotation - 1.57079637f).ToRotationVector2();
-                Vector2 value4 = value3 * target.velocity.Length();
+                float firstDustScale = 1.7f;
+                float secondDustScale = 0.8f;
+                float thirdDustScale = 2f;
+                Vector2 dustRotation = (target.rotation - 1.57079637f).ToRotationVector2();
+                Vector2 dustVelocity = dustRotation * target.velocity.Length();
                 SoundEngine.PlaySound(SoundID.Item14, target.Center);
-                int num3;
-                for (int num53 = 0; num53 < 40; num53 = num3 + 1)
+                int increment;
+                for (int i = 0; i < 40; i = increment + 1)
                 {
-                    int num54 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 174, 0f, 0f, 200, default, num50);
-                    Dust dust = Main.dust[num54];
+                    int swingDust = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 174, 0f, 0f, 200, default, firstDustScale);
+                    Dust dust = Main.dust[swingDust];
                     dust.position = target.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)target.width / 2f;
                     dust.noGravity = true;
                     dust.velocity.Y -= 6f;
                     dust.velocity *= 3f;
-                    dust.velocity += value4 * Main.rand.NextFloat();
-                    num54 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 174, 0f, 0f, 100, default, num51);
+                    dust.velocity += dustVelocity * Main.rand.NextFloat();
+                    swingDust = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 174, 0f, 0f, 100, default, secondDustScale);
                     dust.position = target.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)target.width / 2f;
                     dust.velocity.Y -= 6f;
                     dust.velocity *= 2f;
                     dust.noGravity = true;
                     dust.fadeIn = 1f;
                     dust.color = Color.Crimson * 0.5f;
-                    dust.velocity += value4 * Main.rand.NextFloat();
-                    num3 = num53;
+                    dust.velocity += dustVelocity * Main.rand.NextFloat();
+                    increment = i;
                 }
-                for (int num55 = 0; num55 < 20; num55 = num3 + 1)
+                for (int j = 0; j < 20; j = increment + 1)
                 {
-                    int num56 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 174, 0f, 0f, 0, default, num52);
-                    Dust dust = Main.dust[num56];
+                    int swingDust2 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 174, 0f, 0f, 0, default, thirdDustScale);
+                    Dust dust = Main.dust[swingDust2];
                     dust.position = target.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)target.velocity.ToRotation(), default) * (float)target.width / 3f;
                     dust.noGravity = true;
                     dust.velocity.Y -= 6f;
                     dust.velocity *= 0.5f;
-                    dust.velocity += value4 * (0.6f + 0.6f * Main.rand.NextFloat());
-                    num3 = num55;
+                    dust.velocity += dustVelocity * (0.6f + 0.6f * Main.rand.NextFloat());
+                    increment = j;
                 }
             }
         }

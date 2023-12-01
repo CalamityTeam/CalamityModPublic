@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public new string LocalizationCategory => "Items.Weapons.Magic";
         public override void SetDefaults()
         {
-            Item.damage = 126;
+            Item.damage = 1248;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 10;
+            Item.mana = 30;
             Item.width = 60;
             Item.height = 60;
             Item.useTime = 12;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.UseSound = CommonCalamitySounds.WyrmScreamSound;
             Item.autoReuse = true;
-            Item.shootSpeed = 8f;
+            Item.shootSpeed = 14.5f;
             Item.shoot = ModContent.ProjectileType<EidolicWailSoundwave>();
             Item.rare = ModContent.RarityType<PureGreen>();
         }

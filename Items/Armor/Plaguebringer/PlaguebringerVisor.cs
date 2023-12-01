@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer.Dashes;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items.Armor.Plaguebringer
 {
@@ -57,10 +58,14 @@ namespace CalamityMod.Items.Armor.Plaguebringer
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<PlaguebringerSummon>()] < 1)
                 {
-                    var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(80);
+                    int baseDamage = 25;
+                    if (player.Calamity().oldFashioned)
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
+
+                    var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<PlaguebringerSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 80;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
             }
 

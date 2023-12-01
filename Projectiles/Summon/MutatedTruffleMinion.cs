@@ -55,11 +55,33 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
+        public override void DoAnimation()
+        {
+            base.DoAnimation();
+            if (State != AIState.Idle)
+            {
+                if (Projectile.frame <= 7)
+                    Projectile.frame = 8;
+            }
+            else
+            {
+                if (Projectile.frame >= 7)
+                    Projectile.frame = 0;
+            }
+        }
+
         #region AI Methods
 
         private void IdleState()
         {
-            // The minion will hover around the owner.
+            // Quickly deaccelerate when getting too close to the owner.
+            if (Projectile.WithinRange(Owner.Center, 128f))
+            {
+                Projectile.velocity *= 0.875f;
+                SyncVariables();
+            }
+
+            // The minion will turn to the player when it starts getting far away.
             if (!Projectile.WithinRange(Owner.Center, 320f))
             {
                 Projectile.velocity = (Projectile.velocity + Projectile.SafeDirectionTo(Owner.Center)) * 0.9f;
@@ -225,7 +247,8 @@ namespace CalamityMod.Projectiles.Summon
         private void SyncVariables()
         {
             Projectile.netUpdate = true;
-            Projectile.netSpam = 0;
+            if (Projectile.netSpam >= 10)
+                Projectile.netSpam = 9;
         }
 
         #endregion

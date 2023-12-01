@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Particles;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
@@ -31,21 +32,19 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            if (Main.rand.NextBool())
+            if (Main.rand.NextBool(3))
             {
-                Vector2 position = Projectile.Center + Vector2.Normalize(Projectile.velocity);
-                Dust dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 162, 0f, 0f, 0, default, Main.rand.NextFloat(1.2f, 1.5f))];
-                dust.position = position;
-                dust.velocity = Projectile.velocity.RotatedBy(0.2, default) * 0.1f + Projectile.velocity / 8f;
-                dust.position += Projectile.velocity.RotatedBy(0.2, default);
-                dust.fadeIn = 0.5f;
-                dust.noGravity = true;
-                dust = Main.dust[Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 162, 0f, 0f, 0, default, Main.rand.NextFloat(1.2f, 1.5f))];
-                dust.position = position;
-                dust.velocity = Projectile.velocity.RotatedBy(-0.2, default) * 0.1f + Projectile.velocity / 8f;
-                dust.position += Projectile.velocity.RotatedBy(-0.2, default);
-                dust.fadeIn = 0.5f;
-                dust.noGravity = true;
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(7, 7), 162);
+                dust.scale = 1.3f;
+                dust.velocity = -Projectile.velocity * 0.4f;
+            }
+
+            Player Owner = Main.player[Projectile.owner];
+            float playerDist = Vector2.Distance(Owner.Center, Projectile.Center);
+            if (Projectile.timeLeft % 2 == 0 && playerDist < 1400f && Projectile.timeLeft < 290)
+            {
+                SparkParticle spark = new SparkParticle(Projectile.Center - Projectile.velocity * 3f, -Projectile.velocity * 0.05f, false, 9, 2f, Color.OrangeRed * 0.25f);
+                GeneralParticleHandler.SpawnParticle(spark);
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
@@ -61,7 +60,8 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.damage = (int)(Projectile.damage * 0.80f);
+            if (Projectile.numHits > 0)
+                Projectile.damage = (int)(Projectile.damage * 0.80f);
             if (Projectile.damage < 1)
                 Projectile.damage = 1;
         }

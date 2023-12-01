@@ -58,6 +58,11 @@ MoscowMuleBuff: {
 	Description: Damage, critical strike chance, and knockback increased, life regen reduced
 }
 
+OldFashionedBuff: {
+	DisplayName: Old Fashioned
+	Description: Accessory and set bonus damage multiplied, damage reduced
+}
+
 RedWineBuff: {
 	DisplayName: Red Wine
 	Description: Life regen reduced
@@ -136,6 +141,11 @@ BurningBlood: {
 BrainRot: {
 	DisplayName: Brain Rot
 	Description: Your neurons are popping like corn kernels
+}
+
+ElementalMix: {
+	DisplayName: Elemental Mix
+	Description: A beautiful elemental symphony is flaying you alive
 }
 
 CrushDepth: {
@@ -662,15 +672,6 @@ BloodflareBloodFrenzy: {
 	Description: Contact damage is reduced and melee stats are greatly increased
 }
 
-BloodyBoost: {
-	DisplayName: Bloody Boost
-	Description:
-		'''
-		Increased offensive and defensive stats
-		Healing potions grant more health
-		'''
-}
-
 BossEffects: {
 	DisplayName: Boss Effects
 	Description:
@@ -685,6 +686,11 @@ BossEffects: {
 BrimflameFrenzyBuff: {
 	DisplayName: Brimflame Frenzy
 	Description: Dark magic empowers your attacks at the cost of your life
+}
+
+BrutalCarnage: {
+	DisplayName: Brutal Carnage
+	Description: 25% increased melee damage and 10% increased melee crit chance
 }
 
 ChiBuff: {
@@ -828,11 +834,6 @@ ReaverRage: {
 	Description: You are angry
 }
 
-ShellBoost: {
-	DisplayName: Shell Speed Boost
-	Description: Speed is boosted
-}
-
 SilvaRevival: {
 	DisplayName: Silva Immunity
 	Description: You are unkillable and immune to most debuffs
@@ -866,11 +867,6 @@ TarragonImmunity: {
 TarraLifeRegen: {
 	DisplayName: Tarra Life
 	Description: Rapid healing
-}
-
-TyrantsFury: {
-	DisplayName: Tyrant's Fury
-	Description: 30% increased melee damage and 10% increased melee crit chance
 }
 
 AndromedaCripple: {

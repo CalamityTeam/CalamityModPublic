@@ -102,40 +102,40 @@ namespace CalamityMod.NPCs.Perforator
                     NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
             }
 
-            Vector2 vector2 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-            float num39 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
-            float num40 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
+            Vector2 segmentDirection = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+            float targetX = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
+            float targetY = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
 
-            num39 = (int)(num39 / 16f) * 16;
-            num40 = (int)(num40 / 16f) * 16;
-            vector2.X = (int)(vector2.X / 16f) * 16;
-            vector2.Y = (int)(vector2.Y / 16f) * 16;
-            num39 -= vector2.X;
-            num40 -= vector2.Y;
-            float num52 = (float)Math.Sqrt(num39 * num39 + num40 * num40);
+            targetX = (int)(targetX / 16f) * 16;
+            targetY = (int)(targetY / 16f) * 16;
+            segmentDirection.X = (int)(segmentDirection.X / 16f) * 16;
+            segmentDirection.Y = (int)(segmentDirection.Y / 16f) * 16;
+            targetX -= segmentDirection.X;
+            targetY -= segmentDirection.Y;
+            float targetDistance = (float)Math.Sqrt(targetX * targetX + targetY * targetY);
 
             if (NPC.ai[1] > 0f && NPC.ai[1] < Main.npc.Length)
             {
                 try
                 {
-                    vector2 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                    num39 = Main.npc[(int)NPC.ai[1]].position.X + (Main.npc[(int)NPC.ai[1]].width / 2) - vector2.X;
-                    num40 = Main.npc[(int)NPC.ai[1]].position.Y + (Main.npc[(int)NPC.ai[1]].height / 2) - vector2.Y;
+                    segmentDirection = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+                    targetX = Main.npc[(int)NPC.ai[1]].position.X + (Main.npc[(int)NPC.ai[1]].width / 2) - segmentDirection.X;
+                    targetY = Main.npc[(int)NPC.ai[1]].position.Y + (Main.npc[(int)NPC.ai[1]].height / 2) - segmentDirection.Y;
                 }
                 catch
                 {
                 }
 
-                NPC.rotation = (float)Math.Atan2(num40, num39) + MathHelper.PiOver2;
-                num52 = (float)Math.Sqrt(num39 * num39 + num40 * num40);
-                int num53 = NPC.width;
-                num53 = (int)(num53 * NPC.scale);
-                num52 = (num52 - num53) / num52;
-                num39 *= num52;
-                num40 *= num52;
+                NPC.rotation = (float)Math.Atan2(targetY, targetX) + MathHelper.PiOver2;
+                targetDistance = (float)Math.Sqrt(targetX * targetX + targetY * targetY);
+                int npcWidth = NPC.width;
+                npcWidth = (int)(npcWidth * NPC.scale);
+                targetDistance = (targetDistance - npcWidth) / targetDistance;
+                targetX *= targetDistance;
+                targetY *= targetDistance;
                 NPC.velocity = Vector2.Zero;
-                NPC.position.X += num39;
-                NPC.position.Y += num40;
+                NPC.position.X += targetX;
+                NPC.position.Y += targetY;
             }
         }
 
@@ -146,17 +146,17 @@ namespace CalamityMod.NPCs.Perforator
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
+            Vector2 halfSizeTexture = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
 
-            Vector2 vector43 = NPC.Center - screenPos;
-            vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
-            vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Vector2 drawLocation = NPC.Center - screenPos;
+            drawLocation -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * NPC.scale / 2f;
+            drawLocation += halfSizeTexture * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Perforator/PerforatorTailMediumGlow").Value;
-            Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+            Color glowmaskColor = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture2D15, drawLocation, NPC.frame, glowmaskColor, NPC.rotation, halfSizeTexture, NPC.scale, spriteEffects, 0f);
 
             return false;
         }

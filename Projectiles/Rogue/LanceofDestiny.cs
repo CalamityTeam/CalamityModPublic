@@ -45,16 +45,11 @@ namespace CalamityMod.Projectiles.Rogue
             if (!Projectile.Calamity().stealthStrike)
                 Projectile.extraUpdates = 1;
 
-            if (Projectile.timeLeft % 5 == 0)
+            if (Projectile.timeLeft % 2 == 0)
             {
-                float radiusFactor = MathHelper.Lerp(0f, 1f, Utils.GetLerpValue(10f, 30f, Time, true));
                 for (int i = 0; i < 4; i++)
                 {
-                    float offsetRotationAngle = Projectile.velocity.ToRotation() + Time / 20f;
-                    float radius = (20f + (float)Math.Cos(Time / 13f) * 6f) * radiusFactor;
-                    Vector2 dustPosition = Projectile.Center;
-                    dustPosition += offsetRotationAngle.ToRotationVector2().RotatedBy(i / 5f * MathHelper.TwoPi) * radius;
-                    CritSpark spark = new CritSpark(dustPosition, -Projectile.velocity, Color.PaleGoldenrod, Color.Goldenrod, Main.rand.NextFloat(1.1f, 1.5f), Main.rand.Next(5, 8), 5f);
+                    CritSpark spark = new CritSpark(Projectile.Center + Main.rand.NextVector2Circular(10, 10), -Projectile.velocity, Color.PaleGoldenrod, Color.Goldenrod, Main.rand.NextFloat(0.65f, 0.95f), 8, 0, 2.5f);
                     GeneralParticleHandler.SpawnParticle(spark);
                 }
             }
@@ -92,9 +87,11 @@ namespace CalamityMod.Projectiles.Rogue
             }
             for (int i = 0; i <= hitsDust; i++)
             {
-                Dust dust2 = Main.dust[Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 130 : 133, Projectile.oldVelocity.X * Main.rand.NextFloat(1.1f, 1.3f), Projectile.oldVelocity.Y * Main.rand.NextFloat(1.1f, 1.3f), 0, default, 1.1f)];
+                Vector2 sparkVelocity = Projectile.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.6f, 1.5f);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + Projectile.velocity, Main.rand.NextBool(3) ? 130 : 133, sparkVelocity, 0, default, Main.rand.NextFloat(1.2f, 1.5f));
+                dust.noGravity = true;
             }
-            SoundEngine.PlaySound(Hitsound, Projectile.position);
+            SoundEngine.PlaySound(Hitsound, Projectile.Center);
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
@@ -102,7 +99,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 posthit = true;
             }
-            Projectile.damage = (int)(Projectile.damage * 0.9f);
+            if (Projectile.numHits > 0)
+                Projectile.damage = (int)(Projectile.damage * 0.9f);
             if (Projectile.damage < 1)
                 Projectile.damage = 1;
         }

@@ -41,40 +41,40 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.localAI[0] = 0f;
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
-                    int num9 = Dust.NewDust(Projectile.Center, 0, 0, 173, 0f, 0f, 160, default, 1f);
-                    Main.dust[num9].scale = 1.1f;
-                    Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = Projectile.Center + vector3;
-                    Main.dust[num9].velocity = Projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+                    Vector2 dustVel = Vector2.UnitX * (float)-(float)Projectile.width / 2f;
+                    dustVel += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
+                    dustVel = dustVel.RotatedBy((double)(Projectile.rotation - 1.57079637f), default);
+                    int shadowDust = Dust.NewDust(Projectile.Center, 0, 0, 173, 0f, 0f, 160, default, 1f);
+                    Main.dust[shadowDust].scale = 1.1f;
+                    Main.dust[shadowDust].noGravity = true;
+                    Main.dust[shadowDust].position = Projectile.Center + dustVel;
+                    Main.dust[shadowDust].velocity = Projectile.velocity * 0.1f;
+                    Main.dust[shadowDust].velocity = Vector2.Normalize(Projectile.Center - Projectile.velocity * 3f - Main.dust[shadowDust].position) * 1.25f;
                 }
             }
             Projectile.alpha -= 15;
-            int num58 = 150;
+            int alphaControl = 150;
             if (Projectile.Center.Y >= Projectile.ai[1])
             {
-                num58 = 0;
+                alphaControl = 0;
             }
-            if (Projectile.alpha < num58)
+            if (Projectile.alpha < alphaControl)
             {
-                Projectile.alpha = num58;
+                Projectile.alpha = alphaControl;
             }
             Projectile.rotation = Projectile.velocity.ToRotation() - 1.57079637f;
             if (Main.rand.NextBool(16))
             {
                 Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)Projectile.velocity.ToRotation(), default);
-                int num59 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 173, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1.2f);
-                Main.dust[num59].velocity = value3 * 0.66f;
-                Main.dust[num59].position = Projectile.Center + value3 * 12f;
+                int extraDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 173, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1.2f);
+                Main.dust[extraDust].velocity = value3 * 0.66f;
+                Main.dust[extraDust].position = Projectile.Center + value3 * 12f;
             }
             if (Main.rand.NextBool(48) && Main.netMode != NetmodeID.Server)
             {
-                int num60 = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
-                Main.gore[num60].velocity *= 0.66f;
-                Main.gore[num60].velocity += Projectile.velocity * 0.3f;
+                int voidGore = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
+                Main.gore[voidGore].velocity *= 0.66f;
+                Main.gore[voidGore].velocity += Projectile.velocity * 0.3f;
             }
             if (Projectile.ai[1] == 1f)
             {

@@ -17,14 +17,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<StressPills>();
         }
 
         public override void SetDefaults()
         {
-            Item.width = 26;
-            Item.height = 26;
+            Item.width = 46;
+            Item.height = 66;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.accessory = true;
@@ -34,23 +35,6 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.heartOfDarkness = true;
-        }
-
-        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
-        {
-            CalamityUtils.DrawInventoryCustomScale(
-                spriteBatch,
-                texture: TextureAssets.Item[Type].Value,
-                position,
-                frame,
-                drawColor,
-                itemColor,
-                origin,
-                scale,
-                wantedScale: 0.8f,
-                drawOffset: new(-2f, -2f)
-            );
-            return false;
         }
     }
 }

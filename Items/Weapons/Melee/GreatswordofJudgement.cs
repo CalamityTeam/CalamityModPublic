@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = 78;
-            Item.damage = 48;
+            Item.damage = 40;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 18;
             Item.useStyle = ItemUseStyleID.Swing;

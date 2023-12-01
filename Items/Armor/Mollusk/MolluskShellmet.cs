@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items.Armor.Mollusk
 {
@@ -51,8 +52,12 @@ namespace CalamityMod.Items.Armor.Mollusk
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Shellfish>()] < 2)
                 {
-                    Projectile clam = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<Shellfish>(), 140, 0f, player.whoAmI);
-                    clam.originalDamage = 140;
+                    int baseDamage = 140;
+                    if (modPlayer.oldFashioned)
+                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
+
+                    Projectile clam = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<Shellfish>(), baseDamage, 0f, player.whoAmI);
+                    clam.originalDamage = baseDamage;
                 }
             }
             player.Calamity().wearingRogueArmor = true;

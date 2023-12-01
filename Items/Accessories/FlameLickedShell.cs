@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -55,6 +56,9 @@ namespace CalamityMod.Items.Accessories
             float offsetAngle = (float)Math.PI * radialOffset;
             int type = ModContent.ProjectileType<FlameLickedHellblast>();
             int damage = (int)player.GetBestClassDamage().ApplyTo(60);
+            if (calPlayer.oldFashioned)
+                damage = CalamityUtils.CalcOldFashionedDamage(damage);
+
             if (player.whoAmI == Main.myPlayer)
             {
                 if (empowered)
@@ -70,6 +74,9 @@ namespace CalamityMod.Items.Accessories
                 float radians2 = MathHelper.TwoPi / totalProjectiles;
                 type = ModContent.ProjectileType<FlameLickedBarrage>();
                 damage = (int)player.GetBestClassDamage().ApplyTo(20);
+                if (calPlayer.oldFashioned)
+                    damage = CalamityUtils.CalcOldFashionedDamage(damage);
+
                 double angleA = radians2 * 0.5;
                 double angleB = MathHelper.ToRadians(90f) - angleA;
                 float velocityX = (float)(projectileSpeed * Math.Sin(angleA) / Math.Sin(angleB));

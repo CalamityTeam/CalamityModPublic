@@ -32,20 +32,20 @@ namespace CalamityMod.Projectiles.Summon
                     target = CalamityUtils.MinionHoming(Projectile.Center, 1000f, Main.player[Projectile.owner]);
                 if (target != null) //target found
                 {
-                    float num550 = 40f;
-                    Vector2 vector43 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
-                    float num551 = target.Center.X - vector43.X;
-                    float num552 = target.Center.Y - vector43.Y;
-                    float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
-                    if (num553 < 100f)
+                    float projVel = 40f;
+                    Vector2 targetDirection = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);
+                    float targetX = target.Center.X - targetDirection.X;
+                    float targetY = target.Center.Y - targetDirection.Y;
+                    float targetDist = (float)Math.Sqrt((double)(targetX * targetX + targetY * targetY));
+                    if (targetDist < 100f)
                     {
-                        num550 = 28f; //14
+                        projVel = 28f; //14
                     }
-                    num553 = num550 / num553;
-                    num551 *= num553;
-                    num552 *= num553;
-                    Projectile.velocity.X = (Projectile.velocity.X * 20f + num551) / 21f;
-                    Projectile.velocity.Y = (Projectile.velocity.Y * 20f + num552) / 21f;
+                    targetDist = projVel / targetDist;
+                    targetX *= targetDist;
+                    targetY *= targetDist;
+                    Projectile.velocity.X = (Projectile.velocity.X * 20f + targetX) / 21f;
+                    Projectile.velocity.Y = (Projectile.velocity.Y * 20f + targetY) / 21f;
                 }
             }
         }

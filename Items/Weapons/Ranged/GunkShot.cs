@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Item.damage = 23;
             Item.DamageType = DamageClass.Ranged;
-            Item.width = 44;
-            Item.height = 30;
+            Item.width = 76;
+            Item.height = 28;
             Item.useTime = 32;
             Item.useAnimation = 32;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -39,8 +39,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int num6 = Main.rand.Next(3, 5);
-            for (int index = 0; index < num6; ++index)
+            int bulletAmt = Main.rand.Next(3, 5);
+            for (int index = 0; index < bulletAmt; ++index)
             {
                 float SpeedX = velocity.X + (float)Main.rand.Next(-25, 26) * 0.05f;
                 float SpeedY = velocity.Y + (float)Main.rand.Next(-25, 26) * 0.05f;

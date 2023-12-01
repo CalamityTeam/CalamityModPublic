@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 240;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -2;
         }
@@ -89,16 +89,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.BoneJavelin, 240);
-            target.AddBuff(BuffID.Venom, 120);
-            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
+            target.AddBuff(BuffID.BoneJavelin, 180);
+            target.AddBuff(BuffID.Venom, 90);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(BuffID.BoneJavelin, 240);
-            target.AddBuff(BuffID.Venom, 120);
-            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
+            target.AddBuff(BuffID.BoneJavelin, 180);
+            target.AddBuff(BuffID.Venom, 90);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
         }
 
         public override bool? CanHitNPC(NPC target)

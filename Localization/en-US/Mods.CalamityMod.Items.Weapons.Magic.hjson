@@ -106,7 +106,7 @@ AstralachneaStaff: {
 
 AstralStaff: {
 	DisplayName: Astral Staff
-	Tooltip: Summons a large crystal from the sky that has a large area of effect on impact.
+	Tooltip: Summons a large crystal from the sky that has a large area of effect on impact
 }
 
 Atlantis: {
@@ -368,11 +368,6 @@ GloriousEnd: {
 		'''
 }
 
-GrandStaffoftheNebulaMage: {
-	DisplayName: Grand Staff of the Nebula Mage
-	Tooltip: "'The true power of the Nebula Mage rests in your hands...'"
-}
-
 GruesomeEminence: {
 	DisplayName: Gruesome Eminence
 	Tooltip:
@@ -530,6 +525,11 @@ NanoPurge: {
 	Tooltip: Fires a barrage of nano lasers
 }
 
+NebulousCataclysm: {
+	DisplayName: Nebulous Cataclysm
+	Tooltip: "'The true power of the Nebula Mage rests in your hands...'"
+}
+
 NightsRay: {
 	DisplayName: Night's Ray
 	Tooltip:
@@ -643,6 +643,15 @@ RougeSlash: {
 	Tooltip: Fires a wave of 3 rouge air slashes
 }
 
+SandstreamScepter: {
+	DisplayName: Sandstream Scepter
+	Tooltip:
+		'''
+		Fires an explosive stream of sand that falls after hitting an enemy
+		The explosion only occurs when the projectile expires
+		'''
+}
+
 SanguineFlare: {
 	DisplayName: Sanguine Flare
 	Tooltip: Fires a blast of sanguine flares that drain enemy life
@@ -655,7 +664,11 @@ SeethingDischarge: {
 
 Serpentine: {
 	DisplayName: Serpentine
-	Tooltip: Casts a serpent that follows the mouse cursor
+	Tooltip:
+		'''
+		Casts a serpent that follows the mouse cursor
+		Ignores 15 points of enemy Defense
+		'''
 }
 
 ShadecrystalTome: {
@@ -717,11 +730,6 @@ StaffofBlushie: {
 StarShower: {
 	DisplayName: Star Shower
 	Tooltip: Casts a spread of astral stars at the mouse cursor
-}
-
-StormSpray: {
-	DisplayName: Storm Spray
-	Tooltip: Fires a spray of water that drips extra trails of water
 }
 
 SubsumingVortex: {
@@ -792,7 +800,7 @@ ThornBlossom: {
 	DisplayName: Thorn Blossom
 	Tooltip:
 		'''
-		Casts a beaming flower that explodes into homing petals alongisde a deadly thorn
+		Casts a beaming flower that explodes into homing petals alongside a deadly thorn
 		Costs 3 HP to fire
 		'Every rose has its thorn'
 		'''

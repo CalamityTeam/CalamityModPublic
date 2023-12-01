@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class MidasPrime : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
-        internal static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/CrackshotColtShot") { PitchVariance = 0.1f };
+        internal static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/CrackshotColtShot") { Volume = 0.5f, PitchVariance = 0.1f };
 
         // Internal storage used to keep track between UseItem and Shoot hooks whether a gold coin was queued up
         private bool nextShotGoldCoin = false;
@@ -150,7 +150,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         #region Firing Animation
         public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
-            player.direction = Math.Sign((player.Calamity().mouseWorld - player.Center).X);
+            player.ChangeDir(Math.Sign((player.Calamity().mouseWorld - player.Center).X));
             float itemRotation = player.compositeFrontArm.rotation + MathHelper.PiOver2 * player.gravDir;
 
             Vector2 itemPosition = player.MountedCenter + itemRotation.ToRotationVector2() * 7f;
@@ -164,7 +164,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void UseItemFrame(Player player)
         {
-            player.direction = Math.Sign((player.Calamity().mouseWorld - player.Center).X);
+            player.ChangeDir(Math.Sign((player.Calamity().mouseWorld - player.Center).X));
 
             float animProgress = 1 - player.itemTime / (float)player.itemTimeMax;
             float rotation = (player.Center - player.Calamity().mouseWorld).ToRotation() * player.gravDir + MathHelper.PiOver2;

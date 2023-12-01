@@ -43,9 +43,9 @@ namespace CalamityMod.Items.Accessories
                     int myPlayer = Main.myPlayer;
                     if (Main.player[myPlayer].team == player.team && player.team != 0)
                     {
-                        float num = player.position.X - Main.player[myPlayer].position.X;
-                        float num2 = player.position.Y - Main.player[myPlayer].position.Y;
-                        if ((float)Math.Sqrt(num * num + num2 * num2) < 800f)
+                        float teamPlayerXDist = player.position.X - Main.player[myPlayer].position.X;
+                        float teamPlayerYDist = player.position.Y - Main.player[myPlayer].position.Y;
+                        if ((float)Math.Sqrt(teamPlayerXDist * teamPlayerXDist + teamPlayerYDist * teamPlayerYDist) < 800f)
                             Main.player[myPlayer].AddBuff(BuffID.PaladinsShield, 20);
                     }
                 }

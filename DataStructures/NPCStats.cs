@@ -352,6 +352,8 @@ namespace CalamityMod
                 { NPCID.SkeletronHand, new int[] { 20, 44, 55, 66, 99 } },
                 { NPCID.ChaosBall, new int[] { -1, -1, -1, 40, 60 } },
 
+                { NPCID.Deerclops, new int[] { 20, 40, 50, 60, 80 } },
+
                 { ModContent.NPCType<SlimeGodCore>(), new int[] { 40, 80, 96, 104, 135 } },
                 { ModContent.NPCType<EbonianPaladin>(), new int[] { 45, 90, 108, 118, 150 } },
                 { ModContent.NPCType<SplitEbonianPaladin>(), new int[] { 40, 80, 96, 104, 135 } },
@@ -578,6 +580,10 @@ namespace CalamityMod
 
                 { new Tuple<int, int>(NPCID.SkeletronHead, ProjectileID.Skull), new int[] { 46, 68, 84, 92, 126 } }, // 102 damage in non-rev master mode
 
+                { new Tuple<int, int>(NPCID.Deerclops, ProjectileID.DeerclopsIceSpike), new int[] { 26, 52, 76, 84, 114 } }, // 78 damage in non-rev master mode
+                { new Tuple<int, int>(NPCID.Deerclops, ProjectileID.DeerclopsRangedProjectile), new int[] { 36, 72, 88, 96, 132 } }, // 108 damage in non-rev master mode
+                { new Tuple<int, int>(NPCID.Deerclops, ProjectileID.InsanityShadowHostile), new int[] { 20, 40, 60, 68, 90 } }, // 60 damage in non-rev master mode
+
                 { new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<UnstableEbonianGlob>()), new int[] { 42, 68, 84, 92, 126 } },
                 { new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<UnstableCrimulanGlob>()), new int[] { 38, 60, 76, 84, 114 } },
                 { new Tuple<int, int>(ModContent.NPCType<EbonianPaladin>(), ModContent.ProjectileType<UnstableEbonianGlob>()), new int[] { 42, 68, 84, 92, 126 } },
@@ -605,18 +611,18 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<Cryogen>(), ModContent.ProjectileType<IceRain>()), new int[] { 60, 100, 120, 132, 180 } },
                 { new Tuple<int, int>(ModContent.NPCType<CryogenShield>(), ModContent.ProjectileType<IceBlast>()), new int[] { 52, 92, 112, 124, 168 } },
 
-                { new Tuple<int, int>(NPCID.Retinazer, ProjectileID.EyeLaser), new int[] { 40, 76, 92, 100, 138 } }, // 114 damage in non-rev master mode
+                { new Tuple<int, int>(NPCID.Retinazer, ProjectileID.EyeLaser), new int[] { 40, 76, 116, 128, 174 } }, // 114 damage in non-rev master mode
                 { new Tuple<int, int>(NPCID.Retinazer, ProjectileID.DeathLaser), new int[] {
                     50, // 36 in rapid fire
                     92, // 68 in rapid fire
-                    112, // 84 in rapid fire
-                    124, // 92 in rapid fire
-                    168 } }, // 126 in rapid fire; 138 in non-rev master mode, 102 in rapid fire in non-rev master mode
+                    124, // 93 in rapid fire
+                    136, // 102 in rapid fire
+                    186 } }, // 139 in rapid fire; 138 in non-rev master mode, 102 in rapid fire in non-rev master mode
                 { new Tuple<int, int>(NPCID.Retinazer, ModContent.ProjectileType<ScavengerLaser>()), new int[] { 70, 120, 136, 152, 210 } },
-                { new Tuple<int, int>(NPCID.Spazmatism, ProjectileID.CursedFlameHostile), new int[] { 50, 88, 108, 120, 162 } }, // 132 in non-rev master mode
+                { new Tuple<int, int>(NPCID.Spazmatism, ProjectileID.CursedFlameHostile), new int[] { 50, 88, 120, 132, 180 } }, // 132 in non-rev master mode
                 { new Tuple<int, int>(NPCID.Spazmatism, ProjectileID.EyeFire), new int[] { 60, 108, 0, 0, 162 } }, // Only used in non-rev modes
-                { new Tuple<int, int>(NPCID.Spazmatism, ModContent.ProjectileType<Shadowflamethrower>()), new int[] { 70, 120, 136, 152, 210 } },
-                { new Tuple<int, int>(NPCID.Spazmatism, ModContent.ProjectileType<ShadowflameFireball>()), new int[] { 60, 100, 120, 132, 180 } },
+                { new Tuple<int, int>(NPCID.Spazmatism, ModContent.ProjectileType<Shadowflamethrower>()), new int[] { 70, 120, 148, 160, 222 } },
+                { new Tuple<int, int>(NPCID.Spazmatism, ModContent.ProjectileType<ShadowflameFireball>()), new int[] { 60, 100, 128, 140, 192 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<AquaticScourgeHead>(), ModContent.ProjectileType<SulphuricAcidMist>()), new int[] { 60, 100, 120, 132, 180 } },
                 { new Tuple<int, int>(ModContent.NPCType<AquaticScourgeHead>(), ModContent.ProjectileType<SandPoisonCloud>()), new int[] { 70, 120, 136, 152, 210 } },
@@ -627,6 +633,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.TheDestroyerBody, ProjectileID.DeathLaser), new int[] { 44, 72, 116, 128, 174 } }, // 108 in non-rev master mode
                 { new Tuple<int, int>(NPCID.TheDestroyerBody, ModContent.ProjectileType<DestroyerCursedLaser>()), new int[] { 46, 76, 128, 140, 186 } },
                 { new Tuple<int, int>(NPCID.TheDestroyerBody, ModContent.ProjectileType<DestroyerElectricLaser>()), new int[] { 48, 80, 136, 152, 210 } },
+                { new Tuple<int, int>(NPCID.TheDestroyerBody, ProjectileID.EyeLaser), new int[] { 40, 68, 100, 112, 144 } },
                 { new Tuple<int, int>(NPCID.Probe, ProjectileID.PinkLaser), new int[] { 50, 88, 100, 112, 144 } }, // 132 in non-rev master mode
 
                 { new Tuple<int, int>(ModContent.NPCType<BrimstoneElemental>(), ModContent.ProjectileType<BrimstoneHellfireball>()), new int[] { 80, 140, 160, 176, 234 } },

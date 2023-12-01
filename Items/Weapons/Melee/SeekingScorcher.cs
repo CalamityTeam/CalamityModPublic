@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetDefaults()
         {
-            Item.width = 60;
+            Item.width = 86;
+            Item.height = 64;
             Item.damage = 232;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 8.5f;
             Item.UseSound = SoundID.Item1;
             Item.DamageType = DamageClass.MeleeNoSpeed;
-            Item.height = 62;
             Item.shoot = ModContent.ProjectileType<DivineHatchetBoomerang>();
             Item.shootSpeed = 14f;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;

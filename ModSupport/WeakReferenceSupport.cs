@@ -1013,10 +1013,10 @@ namespace CalamityMod
             {
                 { "Terraria KingSlime", new List<int>() { ItemType<LoreKingSlime>(), ItemType<ThankYouPainting>() } },
                 { "Terraria EyeofCthulhu", new List<int>() { ItemType<LoreEyeofCthulhu>(), ItemType<ThankYouPainting>() } },
-                { "Terraria EaterofWorldsHead", new List<int>() { ItemType<LoreEaterofWorlds>(), ItemType<LoreCorruption>(), ItemType<ThankYouPainting>() } },
+                { "Terraria EaterofWorlds", new List<int>() { ItemType<LoreEaterofWorlds>(), ItemType<LoreCorruption>(), ItemType<ThankYouPainting>() } },
                 { "Terraria BrainofCthulhu", new List<int>() { ItemType<LoreBrainofCthulhu>(), ItemType<LoreCrimson>(), ItemType<ThankYouPainting>() } },
                 { "Terraria QueenBee", new List<int>() { ItemType<LoreQueenBee>(), ItemType<ThankYouPainting>() } },
-                { "Terraria SkeletronHead", new List<int>() { ItemType<LoreSkeletron>(), ItemType<ThankYouPainting>() } },
+                { "Terraria Skeletron", new List<int>() { ItemType<LoreSkeletron>(), ItemType<ThankYouPainting>() } },
                 { "Terraria WallofFlesh", new List<int>() { ItemType<LoreWallofFlesh>(), ItemType<LoreUnderworld>(), ItemType<HermitsBoxofOneHundredMedicines>(), ItemType<ThankYouPainting>() } },
                 { "Terraria QueenSlimeBoss", new List<int>() { ItemType<LoreQueenSlime>(), ItemType<ThankYouPainting>() } },
                 { "Terraria TheTwins", new List<int>() { ItemType<LoreTwins>(), ItemType<LoreMechs>(), ItemType<ThankYouPainting>() } },
@@ -1079,7 +1079,7 @@ namespace CalamityMod
             RegisterSummon(ItemType<FrostBlossomStaff>(), BuffType<FrostBlossomBuff>(), ProjectileType<FrostBlossom>());
             RegisterSummon(ItemType<BelladonnaSpiritStaff>(), BuffType<BelladonnaSpiritBuff>(), ProjectileType<BelladonnaSpirit>());
             RegisterSummon(ItemType<StormjawStaff>(), BuffType<BabyStormlionBuff>(), ProjectileType<StormjawBaby>());
-            RegisterSummon(ItemType<SeaboundStaff>(), BuffType<BrittleStar>(), ProjectileType<BrittleStarMinion>());
+            RegisterSummon(ItemType<BrittleStarStaff>(), BuffType<BrittleStar>(), ProjectileType<BrittleStarMinion>());
             RegisterSummon(ItemType<EnchantedConch>(), BuffType<HermitCrab>(), ProjectileType<HermitCrabMinion>());
             RegisterSummon(ItemType<DeathstareRod>(), BuffType<MiniatureEyeofCthulhu>(), ProjectileType<DeathstareEyeball>());
             RegisterSummon(ItemType<PuffShroom>(), BuffType<PuffWarriorBuff>(), ProjectileType<PuffWarrior>());

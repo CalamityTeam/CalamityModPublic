@@ -44,15 +44,15 @@ namespace CalamityMod.Projectiles.Summon
             if (dust == 0f)
             {
                 int dustAmt = 36;
-                for (int num227 = 0; num227 < dustAmt; num227++)
+                for (int i = 0; i < dustAmt; i++)
                 {
-                    Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
-                    Vector2 vector7 = vector6 - Projectile.Center;
-                    int dusty = Dust.NewDust(vector6 + vector7, 0, 0, 7, vector7.X * 1.1f, vector7.Y * 1.1f, 100, default, 1.4f);
+                    Vector2 rotate = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
+                    rotate = rotate.RotatedBy((double)((float)(i - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + Projectile.Center;
+                    Vector2 faceDirection = rotate - Projectile.Center;
+                    int dusty = Dust.NewDust(rotate + faceDirection, 0, 0, 7, faceDirection.X * 1.1f, faceDirection.Y * 1.1f, 100, default, 1.4f);
                     Main.dust[dusty].noGravity = true;
                     Main.dust[dusty].noLight = true;
-                    Main.dust[dusty].velocity = vector7;
+                    Main.dust[dusty].velocity = faceDirection;
                 }
                 dust += 1f;
             }
@@ -69,22 +69,20 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.timeLeft = 2;
                 }
             }
-            bool flag1 = false;
-            bool flag2 = false;
-            bool flag3 = false;
-            bool flag4 = false;
-            int num1 = 60 + 30 * Projectile.minionPos;
+            bool minionMovingLeft = false;
+            bool minionMovingRight = false;
+            bool minionBelowPlayer = false;
+            bool minionShouldJump = false;
             if (Projectile.lavaWet)
             {
                 Projectile.ai[0] = 1f;
                 Projectile.ai[1] = 0f;
             }
-            int num2 = 10;
-            int num3 = 40 * (Projectile.minionPos + 1) * player.direction;
-            if (player.position.X + (float) (player.width / 2) < Projectile.position.X + (float) (Projectile.width / 2) - (float) num2 + (float) num3)
-                flag1 = true;
-            else if (player.position.X + (float) (player.width / 2) > Projectile.position.X + (float) (Projectile.width / 2) + (float) num2 + (float) num3)
-                flag2 = true;
+            int idlePos = 40 * (Projectile.minionPos + 1) * player.direction;
+            if (player.position.X + (float) (player.width / 2) < Projectile.position.X + (float) (Projectile.width / 2) - 10f + (float) idlePos)
+                minionMovingLeft = true;
+            else if (player.position.X + (float) (player.width / 2) > Projectile.position.X + (float) (Projectile.width / 2) + 10f + (float) idlePos)
+                minionMovingRight = true;
 
             if (Projectile.ai[1] == 0f)
             {
@@ -92,9 +90,9 @@ namespace CalamityMod.Projectiles.Summon
                 conflict1 += 40 * Projectile.minionPos;
                 if (Projectile.localAI[0] > 0f)
                     conflict1 += 500;
-                Vector2 vector2 = new Vector2(Projectile.position.X + (float) Projectile.width * 0.5f, Projectile.position.Y + (float) Projectile.height * 0.5f);
-                float playerX = player.position.X + (float) (player.width / 2) - vector2.X;
-                float playerY = player.position.Y + (float) (player.height / 2) - vector2.Y;
+                Vector2 idleMinionPos = new Vector2(Projectile.position.X + (float) Projectile.width * 0.5f, Projectile.position.Y + (float) Projectile.height * 0.5f);
+                float playerX = player.position.X + (float) (player.width / 2) - idleMinionPos.X;
+                float playerY = player.position.Y + (float) (player.height / 2) - idleMinionPos.Y;
                 float playerDist = (float)Math.Sqrt(playerX * playerX + playerY * playerY);
                 if (playerDist > 1500f)
                 {
@@ -111,7 +109,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.tileCollide = false;
                 float npcDetectRange = 1200f;
                 bool npcFound = false;
-                int num6 = -1;
+                int targetIndex = -1;
                 for (int index = 0; index < Main.maxNPCs; ++index)
                 {
                     NPC npc2 = Main.npc[index];
@@ -123,7 +121,7 @@ namespace CalamityMod.Projectiles.Summon
                         if (npcDist < npcDetectRange)
                         {
                             if (Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc2.position, npc2.width, npc2.height))
-                                num6 = index;
+                                targetIndex = index;
                             npcFound = true;
                             break;
                         }
@@ -131,22 +129,22 @@ namespace CalamityMod.Projectiles.Summon
                 }
 
                 //return to normal if npc found
-                if (npcFound && num6 >= 0)
+                if (npcFound && targetIndex >= 0)
                     Projectile.ai[0] = 0f;
 
-                Vector2 vector2 = new Vector2(Projectile.position.X + (float) Projectile.width * 0.5f, Projectile.position.Y + (float) Projectile.height * 0.5f);
-                float xDist = player.position.X + (float) (player.width / 2) - vector2.X;
+                Vector2 returningMinionPos = new Vector2(Projectile.position.X + (float) Projectile.width * 0.5f, Projectile.position.Y + (float) Projectile.height * 0.5f);
+                float xDist = player.position.X + (float) (player.width / 2) - returningMinionPos.X;
                 xDist -= (float) (40 * player.direction);
                 if (!npcFound)
                     xDist -= (float) (40 * Projectile.minionPos * player.direction);
-                float yDist = player.position.Y + (float) (player.height / 2) - vector2.Y;
+                float yDist = player.position.Y + (float) (player.height / 2) - returningMinionPos.Y;
                 yDist -= 60f;
                 float playerDist2 = (float) Math.Sqrt(xDist * xDist + yDist * yDist);
-                float num11 = 12f;
-                float num12 = playerDist2;
-                float conflict2 = 0.4f;
-                if (num11 < Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y))
-                    num11 = Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y);
+                float currentReturnSpeed = 12f;
+                float minionReturnSpeed = playerDist2;
+                float minionReturnAccel = 0.4f;
+                if (currentReturnSpeed < Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y))
+                    currentReturnSpeed = Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y);
 
                 //if close enough to the player and has tile to stand on, return to normal
                 if (playerDist2 < 100f && player.velocity.Y == 0f && (Projectile.position.Y + (float) Projectile.height <= player.position.Y + (float) player.height && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height)))
@@ -167,52 +165,52 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         Projectile.velocity *= 0.99f;
                     }
-                    conflict2 = 0.01f;
+                    minionReturnAccel = 0.01f;
                 }
                 else
                 {
                     if (playerDist2 < 100f)
                     {
-                        conflict2 = 0.1f;
+                        minionReturnAccel = 0.1f;
                     }
                     if (playerDist2 > 300f)
                     {
-                        conflict2 = 1f;
+                        minionReturnAccel = 1f;
                     }
-                    playerDist2 = num12 / playerDist2;
+                    playerDist2 = minionReturnSpeed / playerDist2;
                     xDist *= playerDist2;
                     yDist *= playerDist2;
                 }
                 if (Projectile.velocity.X < xDist)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X + conflict2;
-                    if (conflict2 > 0.05f && Projectile.velocity.X < 0f)
+                    Projectile.velocity.X = Projectile.velocity.X + minionReturnAccel;
+                    if (minionReturnAccel > 0.05f && Projectile.velocity.X < 0f)
                     {
-                        Projectile.velocity.X = Projectile.velocity.X + conflict2;
+                        Projectile.velocity.X = Projectile.velocity.X + minionReturnAccel;
                     }
                 }
                 if (Projectile.velocity.X > xDist)
                 {
-                    Projectile.velocity.X = Projectile.velocity.X - conflict2;
-                    if (conflict2 > 0.05f && Projectile.velocity.X > 0f)
+                    Projectile.velocity.X = Projectile.velocity.X - minionReturnAccel;
+                    if (minionReturnAccel > 0.05f && Projectile.velocity.X > 0f)
                     {
-                        Projectile.velocity.X = Projectile.velocity.X - conflict2;
+                        Projectile.velocity.X = Projectile.velocity.X - minionReturnAccel;
                     }
                 }
                 if (Projectile.velocity.Y < yDist)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y + conflict2;
-                    if (conflict2> 0.05f && Projectile.velocity.Y < 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y + minionReturnAccel;
+                    if (minionReturnAccel> 0.05f && Projectile.velocity.Y < 0f)
                     {
-                        Projectile.velocity.Y = Projectile.velocity.Y + conflict2 * 2f;
+                        Projectile.velocity.Y = Projectile.velocity.Y + minionReturnAccel * 2f;
                     }
                 }
                 if (Projectile.velocity.Y > yDist)
                 {
-                    Projectile.velocity.Y = Projectile.velocity.Y - conflict2;
-                    if (conflict2 > 0.05f && Projectile.velocity.Y > 0f)
+                    Projectile.velocity.Y = Projectile.velocity.Y - minionReturnAccel;
+                    if (minionReturnAccel > 0.05f && Projectile.velocity.Y > 0f)
                     {
-                        Projectile.velocity.Y = Projectile.velocity.Y - conflict2 * 2f;
+                        Projectile.velocity.Y = Projectile.velocity.Y - minionReturnAccel * 2f;
                     }
                 }
                 if (Projectile.frame < 15)
@@ -240,9 +238,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                float conflict3 = (float) (40 * Projectile.minionPos);
+                float exaggeratedMinionPos = (float) (40 * Projectile.minionPos);
                 float attackCooldown = 30f;
-                int num4 = 60;
                 --Projectile.localAI[0];
                 if (Projectile.localAI[0] < 0f)
                     Projectile.localAI[0] = 0f;
@@ -252,113 +249,113 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else
                 {
-                    float num5 = Projectile.position.X;
-                    float num6 = Projectile.position.Y;
-                    float num7 = 100000f;
-                    float num8 = num7;
-                    int num9 = -1;
+                    float minionXTarget = Projectile.position.X;
+                    float minionYTarget = Projectile.position.Y;
+                    float minionAttackMaxDist = 100000f;
+                    float minionAttackDistance = minionAttackMaxDist;
+                    int minionAttackIndex = -1;
                     NPC minionAttackTargetNpc = Projectile.OwnerMinionAttackTargetNPC;
                     if (minionAttackTargetNpc != null && minionAttackTargetNpc.CanBeChasedBy((object) Projectile, false))
                     {
-                        float num10 = minionAttackTargetNpc.position.X + (float) (minionAttackTargetNpc.width / 2);
-                        float num11 = minionAttackTargetNpc.position.Y + (float) (minionAttackTargetNpc.height / 2);
-                        float num12 = Math.Abs(Projectile.position.X + (float) (Projectile.width / 2) - num10) + Math.Abs(Projectile.position.Y + (float) (Projectile.height / 2) - num11);
-                        if (num12 < num7)
+                        float minionTargetXDist = minionAttackTargetNpc.position.X + (float) (minionAttackTargetNpc.width / 2);
+                        float minionTargetYDist = minionAttackTargetNpc.position.Y + (float) (minionAttackTargetNpc.height / 2);
+                        float minionTargetDist = Math.Abs(Projectile.position.X + (float) (Projectile.width / 2) - minionTargetXDist) + Math.Abs(Projectile.position.Y + (float) (Projectile.height / 2) - minionTargetYDist);
+                        if (minionTargetDist < minionAttackMaxDist)
                         {
-                            if (num9 == -1 && num12 <= num8)
+                            if (minionAttackIndex == -1 && minionTargetDist <= minionAttackDistance)
                             {
-                                num8 = num12;
-                                num5 = num10;
-                                num6 = num11;
+                                minionAttackDistance = minionTargetDist;
+                                minionXTarget = minionTargetXDist;
+                                minionYTarget = minionTargetYDist;
                             }
                             if (Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, minionAttackTargetNpc.position, minionAttackTargetNpc.width, minionAttackTargetNpc.height))
                             {
-                                num7 = num12;
-                                num5 = num10;
-                                num6 = num11;
-                                num9 = minionAttackTargetNpc.whoAmI;
+                                minionAttackMaxDist = minionTargetDist;
+                                minionXTarget = minionTargetXDist;
+                                minionYTarget = minionTargetYDist;
+                                minionAttackIndex = minionAttackTargetNpc.whoAmI;
                             }
                         }
                     }
-                    if (num9 == -1)
+                    if (minionAttackIndex == -1)
                     {
                         for (int index = 0; index < Main.maxNPCs; ++index)
                         {
                             if (Main.npc[index].CanBeChasedBy((object) Projectile, false))
                             {
-                                float num10 = Main.npc[index].position.X + (float) (Main.npc[index].width / 2);
-                                float num11 = Main.npc[index].position.Y + (float) (Main.npc[index].height / 2);
-                                float num12 = Math.Abs(Projectile.position.X + (float) (Projectile.width / 2) - num10) + Math.Abs(Projectile.position.Y + (float) (Projectile.height / 2) - num11);
-                                if (num12 < num7)
+                                float minionTargetXDist = Main.npc[index].position.X + (float) (Main.npc[index].width / 2);
+                                float minionTargetYDist = Main.npc[index].position.Y + (float) (Main.npc[index].height / 2);
+                                float minionTargetDist = Math.Abs(Projectile.position.X + (float) (Projectile.width / 2) - minionTargetXDist) + Math.Abs(Projectile.position.Y + (float) (Projectile.height / 2) - minionTargetYDist);
+                                if (minionTargetDist < minionAttackMaxDist)
                                 {
-                                    if (num9 == -1 && num12 <= num8)
+                                    if (minionAttackIndex == -1 && minionTargetDist <= minionAttackDistance)
                                     {
-                                        num8 = num12;
-                                        num5 = num10;
-                                        num6 = num11;
+                                        minionAttackDistance = minionTargetDist;
+                                        minionXTarget = minionTargetXDist;
+                                        minionYTarget = minionTargetYDist;
                                     }
                                     if (Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, Main.npc[index].position, Main.npc[index].width, Main.npc[index].height))
                                     {
-                                        num7 = num12;
-                                        num5 = num10;
-                                        num6 = num11;
-                                        num9 = index;
+                                        minionAttackMaxDist = minionTargetDist;
+                                        minionXTarget = minionTargetXDist;
+                                        minionYTarget = minionTargetYDist;
+                                        minionAttackIndex = index;
                                     }
                                 }
                             }
                         }
                     }
-                    if (num9 == -1 && num8 < num7)
-                        num7 = num8;
-                    float num13 = 400f;
+                    if (minionAttackIndex == -1 && minionAttackDistance < minionAttackMaxDist)
+                        minionAttackMaxDist = minionAttackDistance;
+                    float yDependentTargeting = 400f;
                     if ((double) Projectile.position.Y > Main.worldSurface * 16.0)
-                        num13 = 200f;
-                    if (num7 < num13 + conflict3 && num9 == -1)
+                        yDependentTargeting = 200f;
+                    if (minionAttackMaxDist < yDependentTargeting + exaggeratedMinionPos && minionAttackIndex == -1)
                     {
-                        float num10 = num5 - (Projectile.position.X + (float) (Projectile.width / 2));
-                        if (num10 < -5f)
+                        float minionTargetXDist = minionXTarget - (Projectile.position.X + (float) (Projectile.width / 2));
+                        if (minionTargetXDist < -5f)
                         {
-                            flag1 = true;
-                            flag2 = false;
+                            minionMovingLeft = true;
+                            minionMovingRight = false;
                         }
-                        else if (num10 > 5f)
+                        else if (minionTargetXDist > 5f)
                         {
-                            flag2 = true;
-                            flag1 = false;
+                            minionMovingRight = true;
+                            minionMovingLeft = false;
                         }
                     }
-                    else if (num9 >= 0 && num7 < 800f + conflict3)
+                    else if (minionAttackIndex >= 0 && minionAttackMaxDist < 800f + exaggeratedMinionPos)
                     {
-                        Projectile.localAI[0] = (float) num4;
-                        float num10 = num5 - (Projectile.position.X + (float) (Projectile.width / 2));
-                        if (num10 > 300f || num10 < -300f)
+                        Projectile.localAI[0] = 60f;
+                        float minionTargetXDist = minionXTarget - (Projectile.position.X + (float) (Projectile.width / 2));
+                        if (minionTargetXDist > 300f || minionTargetXDist < -300f)
                         {
-                            if (num10 < -50f)
+                            if (minionTargetXDist < -50f)
                             {
-                                flag1 = true;
-                                flag2 = false;
+                                minionMovingLeft = true;
+                                minionMovingRight = false;
                             }
-                            else if (num10 > 50f)
+                            else if (minionTargetXDist > 50f)
                             {
-                                flag2 = true;
-                                flag1 = false;
+                                minionMovingRight = true;
+                                minionMovingLeft = false;
                             }
                         }
                         else if (Projectile.owner == Main.myPlayer)
                         {
                             Projectile.ai[1] = attackCooldown;
-                            double num11 = 12.0;
-                            Vector2 vector2 = new Vector2(Projectile.Center.X, Projectile.Center.Y - 8f);
-                            float num12 = num5 - vector2.X + Main.rand.NextFloat(-6f, 6f);
-                            float num14 = (float) ((double) (Math.Abs(num12) * 0.1f) * (double) Main.rand.Next(0, 100) * (1.0 / 1000.0));
-                            float num15 = num6 - vector2.Y + Main.rand.NextFloat(-6f, 6f) - num14;
-                            double num16 = Math.Sqrt((double) num12 * (double) num12 + (double) num15 * (double) num15);
-                            float num17 = (float) (num11 / num16);
-                            float SpeedX = num12 * num17;
-                            float SpeedY = num15 * num17;
+                            double plateSpeed = 12.0;
+                            Vector2 projMinionPos = new Vector2(Projectile.Center.X, Projectile.Center.Y - 8f);
+                            float plateTargetX = minionXTarget - projMinionPos.X + Main.rand.NextFloat(-6f, 6f);
+                            float randomPlateYOffset = (float) ((double) (Math.Abs(plateTargetX) * 0.1f) * (double) Main.rand.Next(0, 100) * (1.0 / 1000.0));
+                            float plateTargetY = minionYTarget - projMinionPos.Y + Main.rand.NextFloat(-6f, 6f) - randomPlateYOffset;
+                            double plateTargetDist = Math.Sqrt((double) plateTargetX * (double) plateTargetX + (double) plateTargetY * (double) plateTargetY);
+                            float plateVelocity = (float) (plateSpeed / plateTargetDist);
+                            float SpeedX = plateTargetX * plateVelocity;
+                            float SpeedY = plateTargetY * plateVelocity;
                             int damage = Projectile.damage;
                             int Type = ModContent.ProjectileType<PlateProjectile>();
-                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector2.X, vector2.Y, SpeedX * 2f, SpeedY * 2f, Type, damage, Projectile.knockBack, Projectile.owner);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), projMinionPos.X, projMinionPos.Y, SpeedX * 2f, SpeedY * 2f, Type, damage, Projectile.knockBack, Projectile.owner);
                             if (SpeedX < 0f)
                                 Projectile.direction = -1;
                             if (SpeedX > 0f)
@@ -367,74 +364,71 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                Vector2 vector2_1 = Vector2.Zero;
-                bool flag7 = false;
                 if (Projectile.ai[1] != 0f)
                 {
-                    flag1 = false;
-                    flag2 = false;
+                    minionMovingLeft = false;
+                    minionMovingRight = false;
                 }
                 else if (Projectile.localAI[0] == 0f)
                     Projectile.direction = player.direction;
-                if (!flag7)
-                    Projectile.rotation = 0f;
+                Projectile.rotation = 0f;
                 Projectile.tileCollide = true;
-                float num18 = 0.08f;
-                float num19 = 6.5f;
-                num19 = 6f;
-                num18 = 0.2f;
-                if (num19 < Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y))
+                float groundMinionAccel = 0.08f;
+                float groundMinionMaxVel = 6.5f;
+                groundMinionMaxVel = 6f;
+                groundMinionAccel = 0.2f;
+                if (groundMinionMaxVel < Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y))
                 {
-                    num19 = Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y);
-                    num18 = 0.3f;
+                    groundMinionMaxVel = Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y);
+                    groundMinionAccel = 0.3f;
                 }
-                if (flag1)
+                if (minionMovingLeft)
                 {
                     if (Projectile.velocity.X > -3.5f)
-                        Projectile.velocity.X -= num18;
+                        Projectile.velocity.X -= groundMinionAccel;
                     else
-                        Projectile.velocity.X -= num18 * 0.25f;
+                        Projectile.velocity.X -= groundMinionAccel * 0.25f;
                 }
-                else if (flag2)
+                else if (minionMovingRight)
                 {
                     if (Projectile.velocity.X < 3.5f)
-                        Projectile.velocity.X += num18;
+                        Projectile.velocity.X += groundMinionAccel;
                     else
-                        Projectile.velocity.X += num18 * 0.25f;
+                        Projectile.velocity.X += groundMinionAccel * 0.25f;
                 }
                 else
                 {
                     Projectile.velocity.X *= 0.9f;
-                    if (Projectile.velocity.X >= -num18 && Projectile.velocity.X <= num18)
+                    if (Projectile.velocity.X >= -groundMinionAccel && Projectile.velocity.X <= groundMinionAccel)
                         Projectile.velocity.X = 0f;
                 }
-                if (flag1 | flag2)
+                if (minionMovingLeft | minionMovingRight)
                 {
-                    int conflict4 = (int) ((double) Projectile.position.X + (double) (Projectile.width / 2)) / 16;
+                    int minionTileX = (int) ((double) Projectile.position.X + (double) (Projectile.width / 2)) / 16;
                     int j = (int) ((double) Projectile.position.Y + (double) (Projectile.height / 2)) / 16;
-                    if (flag1)
-                        --conflict4;
-                    if (flag2)
-                        ++conflict4;
-                    if (WorldGen.SolidTile(conflict4 + (int) Projectile.velocity.X, j))
-                        flag4 = true;
+                    if (minionMovingLeft)
+                        --minionTileX;
+                    if (minionMovingRight)
+                        ++minionTileX;
+                    if (WorldGen.SolidTile(minionTileX + (int) Projectile.velocity.X, j))
+                        minionShouldJump = true;
                 }
                 if (player.position.Y + player.height - 8f > Projectile.position.Y + Projectile.height)
-                    flag3 = true;
+                    minionBelowPlayer = true;
                 Collision.StepUp(ref Projectile.position, ref Projectile.velocity, Projectile.width, Projectile.height, ref Projectile.stepSpeed, ref Projectile.gfxOffY, 1, false, 0);
                 if (Projectile.velocity.Y == 0f)
                 {
-                    if (!flag3 && ((double) Projectile.velocity.X < 0.0 || (double) Projectile.velocity.X > 0.0))
+                    if (!minionBelowPlayer && ((double) Projectile.velocity.X < 0.0 || (double) Projectile.velocity.X > 0.0))
                     {
                         int i = (int) ((double) Projectile.position.X + (double) (Projectile.width / 2)) / 16;
                         int j = (int) ((double) Projectile.position.Y + (double) (Projectile.height / 2)) / 16 + 1;
-                        if (flag1)
+                        if (minionMovingLeft)
                             --i;
-                        if (flag2)
+                        if (minionMovingRight)
                             ++i;
                         WorldGen.SolidTile(i, j);
                     }
-                    if (flag4)
+                    if (minionShouldJump)
                     {
                         int i1 = (int) ((double) Projectile.position.X + (double) (Projectile.width / 2)) / 16;
                         int j = (int) ((double) Projectile.position.Y + (double) Projectile.height) / 16 + 1;
@@ -448,20 +442,20 @@ namespace CalamityMod.Projectiles.Summon
                             {
                                 try
                                 {
-                                    int conflict5 = (int) ((double) Projectile.position.X + (double) (Projectile.width / 2)) / 16;
-                                    int conflict7 = (int) ((double) Projectile.position.Y + (double) (Projectile.height / 2)) / 16;
-                                    if (flag1)
-                                        --conflict5;
-                                    if (flag2)
-                                        ++conflict5;
-                                    int i2 = conflict5 + (int) Projectile.velocity.X;
-                                    if (!WorldGen.SolidTile(i2, conflict7 - 1) && !WorldGen.SolidTile(i2, conflict7 - 2))
+                                    int minionJumpTileX = (int) ((double) Projectile.position.X + (double) (Projectile.width / 2)) / 16;
+                                    int minionJumpTileY = (int) ((double) Projectile.position.Y + (double) (Projectile.height / 2)) / 16;
+                                    if (minionMovingLeft)
+                                        --minionJumpTileX;
+                                    if (minionMovingRight)
+                                        ++minionJumpTileX;
+                                    int i2 = minionJumpTileX + (int) Projectile.velocity.X;
+                                    if (!WorldGen.SolidTile(i2, minionJumpTileY - 1) && !WorldGen.SolidTile(i2, minionJumpTileY - 2))
                                         Projectile.velocity.Y = -5.1f;
-                                    else if (!WorldGen.SolidTile(i2, conflict7 - 2))
+                                    else if (!WorldGen.SolidTile(i2, minionJumpTileY - 2))
                                         Projectile.velocity.Y = -7.1f;
-                                    else if (WorldGen.SolidTile(i2, conflict7 - 5))
+                                    else if (WorldGen.SolidTile(i2, minionJumpTileY - 5))
                                         Projectile.velocity.Y = -11.1f;
-                                    else if (WorldGen.SolidTile(i2, conflict7 - 4))
+                                    else if (WorldGen.SolidTile(i2, minionJumpTileY - 4))
                                         Projectile.velocity.Y = -10.1f;
                                     else
                                         Projectile.velocity.Y = -9.1f;
@@ -473,20 +467,20 @@ namespace CalamityMod.Projectiles.Summon
                             }
                         }
                     }
-                    else if (Projectile.type == 266 && flag1 | flag2)
+                    else if (Projectile.type == 266 && minionMovingLeft | minionMovingRight)
                         Projectile.velocity.Y -= 6f;
                 }
-                if (Projectile.velocity.X > num19)
-                    Projectile.velocity.X = num19;
-                if (Projectile.velocity.X < -num19)
-                    Projectile.velocity.X = -num19;
+                if (Projectile.velocity.X > groundMinionMaxVel)
+                    Projectile.velocity.X = groundMinionMaxVel;
+                if (Projectile.velocity.X < -groundMinionMaxVel)
+                    Projectile.velocity.X = -groundMinionMaxVel;
                 if (Projectile.velocity.X < 0f)
                     Projectile.direction = -1;
                 if (Projectile.velocity.X > 0f)
                     Projectile.direction = 1;
-                if (Projectile.velocity.X > num18 & flag2)
+                if (Projectile.velocity.X > groundMinionAccel & minionMovingRight)
                     Projectile.direction = 1;
-                if (Projectile.velocity.X < -num18 & flag1)
+                if (Projectile.velocity.X < -groundMinionAccel & minionMovingLeft)
                     Projectile.direction = -1;
                 if (Projectile.direction == -1)
                     Projectile.spriteDirection = -1;

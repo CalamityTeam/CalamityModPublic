@@ -59,7 +59,7 @@ DesertProwlerHat: {
 	DisplayName: Desert Prowler Hat
 	Tooltip: 4% increased ranged critical strike chance and 20% chance to not consume ammo
 	SetBonus: Ranged attacks deal an extra {0} flat damage
-	AbilityBrief: Sandsmoke Bomb - Double tap DOWN to shroud yourself in a small cloud of sand
+	AbilityBrief: Sandsmoke Bomb - Double tap {0} to shroud yourself in a small cloud of sand
 	AbilityDescription:
 		'''
 		While the sand cloud is active, gain increased mobility but heavily reduced defense
@@ -296,7 +296,7 @@ WulfrumHat: {
 		Comes equipped with hair extensions
 		'''
 	SetBonus: +1 max minion
-	AbilityBrief: Wulfrum Bastion - Double tap DOWN while dismounted to equip wulfrum power armor
+	AbilityBrief: Wulfrum Bastion - Double tap {0} while dismounted to equip wulfrum power armor
 	AbilityDescription:
 		'''
 		While the armor is active, you can only use the integrated fusion cannon, but your defensive stats are increased

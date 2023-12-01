@@ -51,18 +51,17 @@ namespace CalamityMod.Projectiles.Magic
                 float x = Projectile.position.X + (float)Main.rand.Next(-100, 100);
                 float y = Projectile.position.Y - (float)Main.rand.Next(500, 600);
                 Vector2 vector = new Vector2(x, y);
-                float num15 = Projectile.position.X + (float)(Projectile.width / 2) - vector.X;
-                float num16 = Projectile.position.Y + (float)(Projectile.height / 2) - vector.Y;
-                num15 += (float)Main.rand.Next(-100, 101);
-                int num17 = 25;
-                float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-                num18 = (float)num17 / num18;
-                num15 *= num18;
-                num16 *= num18;
+                float projSpawnX = Projectile.position.X + (float)(Projectile.width / 2) - vector.X;
+                float projSpawnY = Projectile.position.Y + (float)(Projectile.height / 2) - vector.Y;
+                projSpawnX += (float)Main.rand.Next(-100, 101);
+                float projSpawnDist = (float)Math.Sqrt((double)(projSpawnX * projSpawnX + projSpawnY * projSpawnY));
+                projSpawnDist = 25f / projSpawnDist;
+                projSpawnX *= projSpawnDist;
+                projSpawnY *= projSpawnDist;
 
-                float ai2 = num16 + Projectile.position.Y;
+                float flareAI = projSpawnY + Projectile.position.Y;
                 if (Projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), x, y, num15, num16, ProjectileID.LunarFlare, Projectile.damage / 2, 5f, Projectile.owner, 0f, ai2);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), x, y, projSpawnX, projSpawnY, ProjectileID.LunarFlare, Projectile.damage / 2, 5f, Projectile.owner, 0f, flareAI);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,7 +10,8 @@ namespace CalamityMod.Projectiles.Ranged
     public class DrizzlefishFire : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
-        private int splitTimer = 30;
+        private int splitTimer = 45;
+        public int Time = 0;
 
         public override void SetDefaults()
         {
@@ -18,15 +20,28 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Ranged;
-            Projectile.penetrate = 5;
+            Projectile.penetrate = -1;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 90;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
         }
-
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+        }
         public override bool PreDraw(ref Color lightColor)
         {
+            if (Time < 7)
+                CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1, ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value);
+            else
+            {
+                if (Projectile.ai[1] == 1f)
+                    CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1, ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/DrizzlefishFire2").Value);
+                else
+                    CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1, ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/DrizzlefishFire").Value);
+            }
             //Changes the texture of the projectile
             if (Projectile.ai[1] == 1f)
             {
@@ -39,21 +54,79 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            Time++;
+            Player Owner = Main.player[Projectile.owner];
+            if (Main.zenithWorld && Time == 1 && Owner.Calamity().dragoonDrizzlefishGelBoost > 1)
+                Projectile.damage = (int)(Projectile.damage * Owner.Calamity().dragoonDrizzlefishGelBoost);
+            Projectile.scale = 1.5f;
             int dustType = 235;
+            int dustType2 = 235;
             if (Projectile.ai[1] == 1f)
             {
                 if (Main.rand.NextBool())
                 {
-                    dustType = 35;
+                    dustType = 174;
                 }
                 else
                 {
-                    dustType = 55;
+                    dustType = 162;
                 }
             }
             else
             {
-                dustType = 235;
+                if (Main.rand.NextBool())
+                {
+                    dustType = 183;
+                }
+                else
+                {
+                    dustType = 90;
+                }
+            }
+            if (Time > 7)
+            {
+                Projectile.alpha = 0;
+                for (int i = 0; i < 5; i++)
+                {
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(9, 9) - Projectile.velocity * 1.5f, dustType, -Projectile.velocity);
+                    dust.noGravity = true;
+                    dust.velocity *= 0f;
+                    dust.scale = Owner.Calamity().dragoonDrizzlefishGelBoost > 1 ? Main.rand.NextFloat(0.7f + Owner.Calamity().dragoonDrizzlefishGelBoost * 0.5f, 1.4f + Owner.Calamity().dragoonDrizzlefishGelBoost * 0.5f) : Main.rand.NextFloat(1.2f, 1.9f);
+                }
+            }
+            else
+                Projectile.alpha = 255;
+            if (Time == 4)
+            {
+                for (int i = 0; i <= 16; i++)
+                {
+                    if (Projectile.ai[1] == 1f)
+                    {
+                        if (Main.rand.NextBool())
+                        {
+                            dustType2 = 174;
+                        }
+                        else
+                        {
+                            dustType2 = 162;
+                        }
+                    }
+                    else
+                    {
+                        if (Main.rand.NextBool())
+                        {
+                            dustType2 = 183;
+                        }
+                        else
+                        {
+                            dustType2 = 90;
+                        }
+                    }
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, dustType2, Projectile.velocity);
+                    dust.scale = Main.rand.NextFloat(1.8f, 2.3f);
+                    dust.velocity = Projectile.velocity.RotatedByRandom(1.1f) * Main.rand.NextFloat(0.6f, 1.9f);
+                    dust.noGravity = true;
+                }
             }
             splitTimer--;
             if (splitTimer <= 0)
@@ -86,57 +159,14 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Projectile.timeLeft = 90;
             }
-            if (Projectile.ai[0] > 7f)
-            {
-                float num296 = 1f;
-                if (Projectile.ai[0] == 8f)
-                {
-                    num296 = 0.25f;
-                }
-                else if (Projectile.ai[0] == 9f)
-                {
-                    num296 = 0.5f;
-                }
-                else if (Projectile.ai[0] == 10f)
-                {
-                    num296 = 0.75f;
-                }
-                Projectile.ai[0] += 1f;
-                for (int num298 = 0; num298 < 2; num298++)
-                {
-                    int num299 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, dustType, Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f, 100, default, 1f);
-                    if (Main.rand.NextBool(3))
-                    {
-                        Main.dust[num299].noGravity = true;
-                        Main.dust[num299].scale *= 2.5f;
-                        Dust expr_DBEF_cp_0 = Main.dust[num299];
-                        expr_DBEF_cp_0.velocity.X *= 2f;
-                        Dust expr_DC0F_cp_0 = Main.dust[num299];
-                        expr_DC0F_cp_0.velocity.Y *= 2f;
-                    }
-                    else
-                    {
-                        Main.dust[num299].scale *= 2f;
-                    }
-                    Dust expr_DC74_cp_0 = Main.dust[num299];
-                    expr_DC74_cp_0.velocity.X *= 1.2f;
-                    Dust expr_DC94_cp_0 = Main.dust[num299];
-                    expr_DC94_cp_0.velocity.Y *= 1.2f;
-                    Main.dust[num299].scale *= num296;
-                }
-            }
-            else
-            {
-                Projectile.ai[0] += 1f;
-            }
-            Projectile.rotation += 0.3f * (float)Projectile.direction;
+            Projectile.rotation += 0.5f * (float)Projectile.direction;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (Projectile.ai[1] == 1f)
             {
-                target.AddBuff(BuffID.OnFire, 180);
+                target.AddBuff(BuffID.OnFire3, 120);
             }
             else
             {

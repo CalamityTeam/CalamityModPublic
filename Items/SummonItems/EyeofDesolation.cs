@@ -67,31 +67,31 @@ namespace CalamityMod.Items.SummonItems
                 safeBox.Height = 2500;
                 spawnYAdd = 125;
 
-                int num52 = (int)(safeBox.X + (float)(safeBox.Width / 2)) / 16;
-                int num53 = (int)(safeBox.Y + (float)(safeBox.Height / 2)) / 16;
-                int num54 = safeBox.Width / 2 / 16 + 1;
-                for (int num55 = num52 - num54; num55 <= num52 + num54; num55++)
+                int safeBoxTilesX = (int)(safeBox.X + (float)(safeBox.Width / 2)) / 16;
+                int safeBoxTilesY = (int)(safeBox.Y + (float)(safeBox.Height / 2)) / 16;
+                int safeBoxTilesWidth = safeBox.Width / 2 / 16 + 1;
+                for (int i = safeBoxTilesX - safeBoxTilesWidth; i <= safeBoxTilesX + safeBoxTilesWidth; i++)
                 {
-                    for (int num56 = num53 - num54; num56 <= num53 + num54; num56++)
+                    for (int j = safeBoxTilesY - safeBoxTilesWidth; j <= safeBoxTilesY + safeBoxTilesWidth; j++)
                     {
-                        if (!WorldGen.InWorld(num55, num56, 2))
+                        if (!WorldGen.InWorld(i, j, 2))
                             continue;
 
                         int xoffset = 0;
                         int yoffset = 0;
 
-                        if ((num55 == num52 - num54 || num55 == num52 + num54 || num56 == num53 - num54 || num56 == num53 + num54) && !Main.tile[num55 + xoffset, num56 + yoffset].HasTile)
+                        if ((i == safeBoxTilesX - safeBoxTilesWidth || i == safeBoxTilesX + safeBoxTilesWidth || j == safeBoxTilesY - safeBoxTilesWidth || j == safeBoxTilesY + safeBoxTilesWidth) && !Main.tile[i + xoffset, j + yoffset].HasTile)
                         {
-                            Main.tile[num55 + xoffset, num56 + yoffset].TileType = (ushort)ModContent.TileType<Tiles.ArenaTile>();
-                            Main.tile[num55 + xoffset, num56 + yoffset].Get<TileWallWireStateData>().HasTile = true;
+                            Main.tile[i + xoffset, j + yoffset].TileType = (ushort)ModContent.TileType<Tiles.ArenaTile>();
+                            Main.tile[i + xoffset, j + yoffset].Get<TileWallWireStateData>().HasTile = true;
                         }
                         if (Main.netMode == NetmodeID.Server)
                         {
-                            NetMessage.SendTileSquare(-1, num55 + xoffset, num56 + yoffset, 1, TileChangeType.None);
+                            NetMessage.SendTileSquare(-1, i + xoffset, j + yoffset, 1, TileChangeType.None);
                         }
                         else
                         {
-                            WorldGen.SquareTileFrame(num55 + xoffset, num56 + yoffset, true);
+                            WorldGen.SquareTileFrame(i + xoffset, j + yoffset, true);
                         }
                     }
                 }

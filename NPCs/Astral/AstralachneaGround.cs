@@ -1,19 +1,15 @@
-﻿using CalamityMod.BiomeManagers;
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using Terraria;
-using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using ReLogic.Content;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -23,13 +19,12 @@ namespace CalamityMod.NPCs.Astral
 
         public override void SetStaticDefaults()
         {
-
             Main.npcFrameCount[NPC.type] = 5;
 
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AstralachneaGroundGlow", AssetRequestMode.ImmediateLoad).Value;
 
-            base.SetStaticDefaults();
+            this.HideFromBestiary();
         }
 
         public override void SetDefaults()
@@ -46,7 +41,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.timeLeft = NPC.activeTime * 2;
             AnimationType = NPCID.WallCreeper;
-            Banner = NPC.type;
+            Banner = ModContent.NPCType<AstralachneaWall>();
             BannerItem = ModContent.ItemType<AstralachneaBanner>();
             if (DownedBossSystem.downedAstrumAureus)
             {
@@ -57,15 +52,6 @@ namespace CalamityMod.NPCs.Astral
             }
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
-            SpawnModBiomes = new int[1] { ModContent.GetInstance<UndergroundAstralBiome>().Type };
-        }
-
-        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-        {
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] 
-            {
-				new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.Astralachnea")
-            });
         }
 
         public override void AI()
@@ -95,19 +81,6 @@ namespace CalamityMod.NPCs.Astral
 
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.IsABestiaryIconDummy)
-            {
-                NPC.frameCounter += 1;
-                if (NPC.frameCounter > 6)
-                {
-                    NPC.frame.Y += frameHeight;
-                    NPC.frameCounter = 0;
-                }
-                if (NPC.frame.Y > frameHeight * 5)
-                {
-                    NPC.frame.Y = 0;
-                }
-            }
             //DO DUST
             int frame = NPC.frame.Y / frameHeight;
             Rectangle rect = new Rectangle(62, 4, 14, 6);
@@ -181,13 +154,6 @@ namespace CalamityMod.NPCs.Astral
                 target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 75, true);
         }
 
-        public static void ModifyAstralachneaLoot(NPCLoot npcLoot)
-        {
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 2, 3);
-            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 4);
-            npcLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<AstralachneaStaff>(), 7);
-        }
-
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => ModifyAstralachneaLoot(npcLoot);
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => AstralachneaWall.ModifyAstralachneaLoot(npcLoot);
     }
 }

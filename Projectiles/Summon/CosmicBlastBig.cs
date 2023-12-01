@@ -41,23 +41,23 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.rand.NextBool(8))
             {
                 Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)Projectile.velocity.ToRotation(), default);
-                int num59 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.2f);
-                Main.dust[num59].noGravity = true;
-                Main.dust[num59].velocity = value3 * 0.66f;
-                Main.dust[num59].position = Projectile.Center + value3 * 12f;
+                int rainbowDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.2f);
+                Main.dust[rainbowDust].noGravity = true;
+                Main.dust[rainbowDust].velocity = value3 * 0.66f;
+                Main.dust[rainbowDust].position = Projectile.Center + value3 * 12f;
             }
             if (Main.rand.NextBool(24) && Main.netMode != NetmodeID.Server)
             {
-                int num60 = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
-                Main.gore[num60].velocity *= 0.66f;
-                Main.gore[num60].velocity += Projectile.velocity * 0.3f;
+                int rainbowGore = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
+                Main.gore[rainbowGore].velocity *= 0.66f;
+                Main.gore[rainbowGore].velocity += Projectile.velocity * 0.3f;
             }
             if (Projectile.ai[1] == 1f)
             {
                 if (Main.rand.NextBool(5))
                 {
-                    int num59 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.2f);
-                    Main.dust[num59].noGravity = true;
+                    int rainbowDust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.2f);
+                    Main.dust[rainbowDust].noGravity = true;
                 }
                 if (Main.rand.NextBool(10) && Main.netMode != NetmodeID.Server)
                 {
@@ -90,19 +90,19 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
             SoundEngine.PlaySound(SoundID.Zombie103, Projectile.Center);
-            for (int num193 = 0; num193 < 3; num193++)
+            for (int i = 0; i < 3; i++)
             {
                 int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);
                 Main.dust[dust].noGravity = true;
             }
-            for (int num194 = 0; num194 < 30; num194++)
+            for (int j = 0; j < 30; j++)
             {
-                int num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int rainbowDusty = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 2.5f);
+                Main.dust[rainbowDusty].noGravity = true;
+                Main.dust[rainbowDusty].velocity *= 3f;
+                rainbowDusty = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);
+                Main.dust[rainbowDusty].velocity *= 2f;
+                Main.dust[rainbowDusty].noGravity = true;
             }
         }
     }

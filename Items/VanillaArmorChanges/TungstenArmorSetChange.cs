@@ -34,16 +34,9 @@ namespace CalamityMod.Items.VanillaArmorChanges
             float kb = player.GetWeaponKnockback(player.ActiveItem());
             float bonus = MathHelper.Clamp(kb, 0f, MaxKnockbackCritConversion);
             
-            StringBuilder sb = new StringBuilder(256);
-            sb.Append("\nIncreases your critical strike chance by 100% of the knockback of your held weapon");
-            sb.Append("\nThis effect caps at Insane knockback, which gives 10% increased critical strike chance");
-            sb.Append("\nIncreases all knockback by 33%, this counts for the above boost");
-            sb.Append("\nCurrent bonus: ");
-            sb.Append(bonus.ToString("n2"));
-            sb.Append("% critical strike chance from ");
-            sb.Append(kb.ToString("n2"));
-            sb.Append(" knockback");
-            setBonusText += sb.ToString();
+            string bonusText = bonus.ToString("n2");
+            string kbText = kb.ToString("n2");
+            setBonusText += $"\n{CalamityUtils.GetText($"Vanilla.Armor.SetBonus.{ArmorSetName}").Format(bonusText, kbText)}";
         }
 
         public override void ApplyArmorSetBonus(Player player)

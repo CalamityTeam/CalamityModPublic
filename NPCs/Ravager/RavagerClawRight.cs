@@ -82,14 +82,13 @@ namespace CalamityMod.NPCs.Ravager
             if (NPC.ai[0] == 0f)
             {
                 NPC.noTileCollide = true;
-                float num659 = 36f;
-                Vector2 vector79 = new Vector2(NPC.Center.X, NPC.Center.Y);
-                float num660 = Main.npc[CalamityGlobalNPC.scavenger].Center.X - vector79.X;
-                float num661 = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - vector79.Y;
-                num660 += 120f;
-                num661 += 50f;
-                float num662 = (float)Math.Sqrt(num660 * num660 + num661 * num661);
-                if (num662 < 12f + num659)
+                Vector2 npcCenter = new Vector2(NPC.Center.X, NPC.Center.Y);
+                float ravBodyXDist = Main.npc[CalamityGlobalNPC.scavenger].Center.X - npcCenter.X;
+                float ravBodyYDist = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - npcCenter.Y;
+                ravBodyXDist += 120f;
+                ravBodyYDist += 50f;
+                float ravBodyDistance = (float)Math.Sqrt(ravBodyXDist * ravBodyXDist + ravBodyYDist * ravBodyYDist);
+                if (ravBodyDistance < 48f)
                 {
                     NPC.rotation = 0f;
                     NPC.Center = Main.npc[CalamityGlobalNPC.scavenger].Center + new Vector2(120f, 50f);
@@ -128,9 +127,9 @@ namespace CalamityMod.NPCs.Ravager
                 }
                 else
                 {
-                    num662 = num659 / num662;
-                    NPC.velocity.X = num660 * num662;
-                    NPC.velocity.Y = num661 * num662;
+                    ravBodyDistance = 36f / ravBodyDistance;
+                    NPC.velocity.X = ravBodyXDist * ravBodyDistance;
+                    NPC.velocity.Y = ravBodyYDist * ravBodyDistance;
                     NPC.rotation = (float)Math.Atan2(-NPC.velocity.Y, -NPC.velocity.X);
                 }
             }
@@ -140,26 +139,26 @@ namespace CalamityMod.NPCs.Ravager
                 NPC.noTileCollide = true;
                 NPC.collideX = false;
                 NPC.collideY = false;
-                float num663 = 12f;
+                float clawSpeed = 12f;
                 if (NPC.life < NPC.lifeMax / 2 || death)
                 {
-                    num663 += 2f;
+                    clawSpeed += 2f;
                 }
                 if (NPC.life < NPC.lifeMax / 3 || death)
                 {
-                    num663 += 2f;
+                    clawSpeed += 2f;
                 }
                 if (NPC.life < NPC.lifeMax / 5 || death)
                 {
-                    num663 += 5f;
+                    clawSpeed += 5f;
                 }
-                Vector2 vector80 = new Vector2(NPC.Center.X, NPC.Center.Y);
-                float num664 = Main.player[NPC.target].Center.X - vector80.X;
-                float num665 = Main.player[NPC.target].Center.Y - vector80.Y;
-                float num666 = (float)Math.Sqrt(num664 * num664 + num665 * num665);
-                num666 = num663 / num666;
-                NPC.velocity.X = num664 * num666;
-                NPC.velocity.Y = num665 * num666;
+                Vector2 npcCenterAttack = new Vector2(NPC.Center.X, NPC.Center.Y);
+                float targetX = Main.player[NPC.target].Center.X - npcCenterAttack.X;
+                float targetY = Main.player[NPC.target].Center.Y - npcCenterAttack.Y;
+                float targetDistance = (float)Math.Sqrt(targetX * targetX + targetY * targetY);
+                targetDistance = clawSpeed / targetDistance;
+                NPC.velocity.X = targetX * targetDistance;
+                NPC.velocity.Y = targetY * targetDistance;
                 NPC.ai[0] = 2f;
                 NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X);
             }
@@ -187,15 +186,15 @@ namespace CalamityMod.NPCs.Ravager
                         NPC.noTileCollide = false;
                     }
                 }
-                Vector2 vector81 = new Vector2(NPC.Center.X, NPC.Center.Y);
-                float num667 = Main.npc[CalamityGlobalNPC.scavenger].Center.X - vector81.X;
-                float num668 = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - vector81.Y;
-                num667 += Main.npc[CalamityGlobalNPC.scavenger].velocity.X;
-                num668 += Main.npc[CalamityGlobalNPC.scavenger].velocity.Y;
-                num668 += 40f;
-                num667 += 110f;
-                float num669 = (float)Math.Sqrt(num667 * num667 + num668 * num668);
-                if ((num669 > (death ? 900f : 700f) || NPC.collideX || NPC.collideY) | NPC.justHit)
+                Vector2 npcCenterRetract = new Vector2(NPC.Center.X, NPC.Center.Y);
+                float bodyReturnXDist = Main.npc[CalamityGlobalNPC.scavenger].Center.X - npcCenterRetract.X;
+                float bodyReturnYDist = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - npcCenterRetract.Y;
+                bodyReturnXDist += Main.npc[CalamityGlobalNPC.scavenger].velocity.X;
+                bodyReturnYDist += Main.npc[CalamityGlobalNPC.scavenger].velocity.Y;
+                bodyReturnYDist += 40f;
+                bodyReturnXDist += 110f;
+                float bodyReturnDistance = (float)Math.Sqrt(bodyReturnXDist * bodyReturnXDist + bodyReturnYDist * bodyReturnYDist);
+                if ((bodyReturnDistance > (death ? 900f : 700f) || NPC.collideX || NPC.collideY) | NPC.justHit)
                 {
                     NPC.noTileCollide = true;
                     NPC.ai[0] = 0f;
@@ -204,45 +203,44 @@ namespace CalamityMod.NPCs.Ravager
             else if (NPC.ai[0] == 3f)
             {
                 NPC.noTileCollide = true;
-                float num671 = 12f;
-                float num672 = 0.4f;
-                Vector2 vector82 = new Vector2(NPC.Center.X, NPC.Center.Y);
-                float num673 = Main.player[NPC.target].Center.X - vector82.X;
-                float num674 = Main.player[NPC.target].Center.Y - vector82.Y;
-                float num675 = (float)Math.Sqrt(num673 * num673 + num674 * num674);
-                num675 = num671 / num675;
-                num673 *= num675;
-                num674 *= num675;
-                if (NPC.velocity.X < num673)
+                float velocityMult = 0.4f;
+                Vector2 clawCenter = new Vector2(NPC.Center.X, NPC.Center.Y);
+                float playerX = Main.player[NPC.target].Center.X - clawCenter.X;
+                float playerY = Main.player[NPC.target].Center.Y - clawCenter.Y;
+                float playerDist = (float)Math.Sqrt(playerX * playerX + playerY * playerY);
+                playerDist = 12f / playerDist;
+                playerX *= playerDist;
+                playerY *= playerDist;
+                if (NPC.velocity.X < playerX)
                 {
-                    NPC.velocity.X += num672;
-                    if (NPC.velocity.X < 0f && num673 > 0f)
+                    NPC.velocity.X += velocityMult;
+                    if (NPC.velocity.X < 0f && playerX > 0f)
                     {
-                        NPC.velocity.X += num672 * 2f;
+                        NPC.velocity.X += velocityMult * 2f;
                     }
                 }
-                else if (NPC.velocity.X > num673)
+                else if (NPC.velocity.X > playerX)
                 {
-                    NPC.velocity.X -= num672;
-                    if (NPC.velocity.X > 0f && num673 < 0f)
+                    NPC.velocity.X -= velocityMult;
+                    if (NPC.velocity.X > 0f && playerX < 0f)
                     {
-                        NPC.velocity.X -= num672 * 2f;
+                        NPC.velocity.X -= velocityMult * 2f;
                     }
                 }
-                if (NPC.velocity.Y < num674)
+                if (NPC.velocity.Y < playerY)
                 {
-                    NPC.velocity.Y += num672;
-                    if (NPC.velocity.Y < 0f && num674 > 0f)
+                    NPC.velocity.Y += velocityMult;
+                    if (NPC.velocity.Y < 0f && playerY > 0f)
                     {
-                        NPC.velocity.Y += num672 * 2f;
+                        NPC.velocity.Y += velocityMult * 2f;
                     }
                 }
-                else if (NPC.velocity.Y > num674)
+                else if (NPC.velocity.Y > playerY)
                 {
-                    NPC.velocity.Y -= num672;
-                    if (NPC.velocity.Y > 0f && num674 < 0f)
+                    NPC.velocity.Y -= velocityMult;
+                    if (NPC.velocity.Y > 0f && playerY < 0f)
                     {
-                        NPC.velocity.Y -= num672 * 2f;
+                        NPC.velocity.Y -= velocityMult * 2f;
                     }
                 }
                 NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X);
@@ -303,11 +301,11 @@ namespace CalamityMod.NPCs.Ravager
         {
             if (NPC.life > 0)
             {
-                int num285 = 0;
-                while (num285 < hit.Damage / NPC.lifeMax * 100.0)
+                int dustCounter = 0;
+                while (dustCounter < hit.Damage / NPC.lifeMax * 100.0)
                 {
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hit.HitDirection, -1f, 0, default, 1f);
-                    num285++;
+                    dustCounter++;
                 }
             }
             else

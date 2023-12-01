@@ -406,19 +406,19 @@ namespace CalamityMod
                 {
                     player.piggyBankProjTracker.Clear();
                     player.voidLensChest.Clear();
-                    int num213 = Chest.FindChest(left, top);
-                    if (num213 != -1)
+                    int dresserChestID = Chest.FindChest(left, top);
+                    if (dresserChestID != -1)
                     {
                         Main.stackSplit = 600;
-                        if (num213 == player.chest)
+                        if (dresserChestID == player.chest)
                         {
                             player.chest = -1;
                             Recipe.FindRecipes();
                             SoundEngine.PlaySound(SoundID.MenuClose);
                         }
-                        else if (num213 != player.chest && player.chest == -1)
+                        else if (dresserChestID != player.chest && player.chest == -1)
                         {
-                            player.chest = num213;
+                            player.chest = dresserChestID;
                             Main.playerInventory = true;
                             Main.recBigList = false;
                             SoundEngine.PlaySound(SoundID.MenuOpen);
@@ -427,7 +427,7 @@ namespace CalamityMod
                         }
                         else
                         {
-                            player.chest = num213;
+                            player.chest = dresserChestID;
                             Main.playerInventory = true;
                             Main.recBigList = false;
                             SoundEngine.PlaySound(SoundID.MenuTick);

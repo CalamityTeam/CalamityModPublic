@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Astral
         {
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HadarianGlow", AssetRequestMode.ImmediateLoad).Value;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers();
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
             value.Position.X += 10f;
             value.Position.Y += 10f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;

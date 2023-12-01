@@ -34,11 +34,11 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 4f)
             {
-                for (int num468 = 0; num468 < 2; num468++)
+                for (int i = 0; i < 2; i++)
                 {
                     Vector2 dspeed = -Projectile.velocity * 0.7f;
-                    int num469 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 5, dspeed.X, dspeed.Y, 100, default, 2f);
-                    Main.dust[num469].noGravity = true;
+                    int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 5, dspeed.X, dspeed.Y, 100, default, 2f);
+                    Main.dust[dust].noGravity = true;
                 }
             }
         }

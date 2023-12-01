@@ -2,6 +2,7 @@
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,18 +12,21 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class DeadSunsWind : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
+
+        public static readonly SoundStyle Shoot = new("CalamityMod/Sounds/Item/DeadSunShot") { PitchVariance = 0.35f, Volume = 0.4f };
+        public static readonly SoundStyle Ricochet = new("CalamityMod/Sounds/Item/DeadSunRicochet") { Volume = 0.35f };
+        public static readonly SoundStyle Explosion = new("CalamityMod/Sounds/Item/DeadSunExplosion") { Volume = 0.5f };
         public override void SetDefaults()
         {
-            Item.damage = 80;
+            Item.damage = 100;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 70;
             Item.height = 24;
-            Item.useTime = 6;
-            Item.useAnimation = 18;
+            Item.useTime = Item.useAnimation = 22;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3.5f;
-            Item.UseSound = SoundID.Item34;
+            Item.UseSound = Shoot;
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Cyan;
             Item.autoReuse = true;
@@ -31,17 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useAmmo = AmmoID.Gel;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
-
-        public override bool CanConsumeAmmo(Item ammo, Player player)
-        {
-            if (Main.rand.Next(0, 100) < 70)
-                return false;
-            return true;
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
         public override void AddRecipes()
         {

@@ -77,23 +77,23 @@ namespace CalamityMod.NPCs.Ravager
                     {
                         SoundEngine.PlaySound(SoundID.Item62, NPC.Center);
 
-                        for (int num621 = 0; num621 < 10; num621++)
+                        for (int i = 0; i < 10; i++)
                         {
-                            int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
-                            Main.dust[num622].velocity *= 3f;
+                            int rockDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                            Main.dust[rockDust].velocity *= 3f;
                             if (Main.rand.NextBool())
                             {
-                                Main.dust[num622].scale = 0.5f;
-                                Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                                Main.dust[rockDust].scale = 0.5f;
+                                Main.dust[rockDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                             }
                         }
-                        for (int num623 = 0; num623 < 10; num623++)
+                        for (int j = 0; j < 10; j++)
                         {
-                            int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
-                            Main.dust[num624].noGravity = true;
-                            Main.dust[num624].velocity *= 5f;
-                            num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
-                            Main.dust[num624].velocity *= 2f;
+                            int rockDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+                            Main.dust[rockDust2].noGravity = true;
+                            Main.dust[rockDust2].velocity *= 5f;
+                            rockDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                            Main.dust[rockDust2].velocity *= 2f;
                         }
 
                         NPC.noTileCollide = true;
@@ -151,23 +151,23 @@ namespace CalamityMod.NPCs.Ravager
                 NPC.height = 360;
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
-                for (int num621 = 0; num621 < 30; num621++)
+                for (int i = 0; i < 30; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int rockDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                    Main.dust[rockDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[rockDust].scale = 0.5f;
+                        Main.dust[rockDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 30; num623++)
+                for (int j = 0; j < 30; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int rockDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+                    Main.dust[rockDust2].noGravity = true;
+                    Main.dust[rockDust2].velocity *= 5f;
+                    rockDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                    Main.dust[rockDust2].velocity *= 2f;
                 }
 
                 if (Main.netMode != NetmodeID.Server)
@@ -188,23 +188,23 @@ namespace CalamityMod.NPCs.Ravager
             }
             else
             {
-                for (int num621 = 0; num621 < 2; num621++)
+                for (int i = 0; i < 2; i++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int rockDust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                    Main.dust[rockDust].velocity *= 3f;
                     if (Main.rand.NextBool())
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[rockDust].scale = 0.5f;
+                        Main.dust[rockDust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 2; num623++)
+                for (int j = 0; j < 2; j++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int rockDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Stone, 0f, 0f, 100, default, 3f);
+                    Main.dust[rockDust2].noGravity = true;
+                    Main.dust[rockDust2].velocity *= 5f;
+                    rockDust2 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Iron, 0f, 0f, 100, default, 2f);
+                    Main.dust[rockDust2].velocity *= 2f;
                 }
             }
         }

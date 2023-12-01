@@ -22,12 +22,12 @@ namespace CalamityMod.World.Planets
                 GenVars.structures = new StructureMap();
             var config = WorldGenConfiguration.FromEmbeddedPath("Terraria.GameContent.WorldBuilding.Configuration.json");
 
-            int totalPlanetoidsToGenerate = Main.maxTilesX / 1500 + 2;
+            int totalPlanetoidsToGenerate = Main.maxTilesX / 1200 + 2;
             for (int i = 0; i < totalPlanetoidsToGenerate; i++)
             {
-                for (int tries = 0; tries < 6000; tries++)
+                for (int tries = 0; tries < 15000; tries++)
                 {
-                    Point planetoidOrigin = new Point(WorldGen.genRand.Next(Main.maxTilesX / 2 - 800, Main.maxTilesX / 2 + 800), WorldGen.genRand.Next(75, 125));
+                    Point planetoidOrigin = new Point(WorldGen.genRand.Next((int)(Main.maxTilesX*0.15), (int)(Main.maxTilesX*0.85)), WorldGen.genRand.Next(75, 125));
                     if (WorldGen.genRand.NextBool(2))
                     {
                         if (config.CreateBiome<LuminitePlanet>().Place(planetoidOrigin, GenVars.structures))
@@ -44,7 +44,7 @@ namespace CalamityMod.World.Planets
 
         public override bool Place(Point origin, StructureMap structures)
         {
-            int radius = _random.Next(16, 21);
+            int radius = _random.Next(14, 18);
 
             if (!CheckIfPlaceable(origin, radius, structures))
                 return false;

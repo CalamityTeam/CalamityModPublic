@@ -1,3 +1,4 @@
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -76,19 +77,22 @@ namespace CalamityMod.Projectiles.Melee
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
-
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(ModContent.BuffType<ElementalMix>(), 30);
+        }
         public override void OnKill(int timeLeft)
         {
-            for (int num795 = 4; num795 < 12; num795++)
+            for (int i = 4; i < 12; i++)
             {
-                float num796 = Projectile.oldVelocity.X * (30f / num795);
-                float num797 = Projectile.oldVelocity.Y * (30f / num795);
-                int num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, 56, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
-                Main.dust[num798].noGravity = true;
-                Dust dust = Main.dust[num798];
+                float projOldX = Projectile.oldVelocity.X * (30f / i);
+                float projOldY = Projectile.oldVelocity.Y * (30f / i);
+                int spatial = Dust.NewDust(new Vector2(Projectile.oldPosition.X - projOldX, Projectile.oldPosition.Y - projOldY), 8, 8, 56, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.8f);
+                Main.dust[spatial].noGravity = true;
+                Dust dust = Main.dust[spatial];
                 dust.velocity *= 0.5f;
-                num798 = Dust.NewDust(new Vector2(Projectile.oldPosition.X - num796, Projectile.oldPosition.Y - num797), 8, 8, 56, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
-                dust = Main.dust[num798];
+                spatial = Dust.NewDust(new Vector2(Projectile.oldPosition.X - projOldX, Projectile.oldPosition.Y - projOldY), 8, 8, 56, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 100, default, 1.4f);
+                dust = Main.dust[spatial];
                 dust.velocity *= 0.05f;
             }
         }

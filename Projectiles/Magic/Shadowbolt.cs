@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -47,7 +47,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            Projectile.damage = (int)(Projectile.damage * 1.15);
+            if (Projectile.numHits > 0)
+                Projectile.damage = (int)(Projectile.damage * 1.15);
         }
 
         public override void AI()
@@ -55,15 +56,15 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 9f)
             {
-                for (int num447 = 0; num447 < 4; num447++)
+                for (int i = 0; i < 4; i++)
                 {
-                    Vector2 vector33 = Projectile.position;
-                    vector33 -= Projectile.velocity * ((float)num447 * 0.25f);
+                    Vector2 projPos = Projectile.position;
+                    projPos -= Projectile.velocity * ((float)i * 0.25f);
                     Projectile.alpha = 255;
-                    int num448 = Dust.NewDust(vector33, 1, 1, 173, 0f, 0f, 0, default, 1f);
-                    Main.dust[num448].position = vector33;
-                    Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-                    Main.dust[num448].velocity *= 0.2f;
+                    int shadowDust = Dust.NewDust(projPos, 1, 1, 173, 0f, 0f, 0, default, 1f);
+                    Main.dust[shadowDust].position = projPos;
+                    Main.dust[shadowDust].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+                    Main.dust[shadowDust].velocity *= 0.2f;
                 }
             }
         }

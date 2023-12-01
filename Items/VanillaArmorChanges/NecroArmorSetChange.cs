@@ -22,9 +22,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            string extraLines = "\nAllows you to temporarily survive fatal damage\n" +
-                $"Grants up to {PostMortemDuration} seconds of life before imminent death";
-            setBonusText += extraLines;
+            setBonusText += $"\n{CalamityUtils.GetText($"Vanilla.Armor.SetBonus.{ArmorSetName}").Format(PostMortemDuration)}";
         }
 
         public override void ApplyArmorSetBonus(Player player) => player.Calamity().necroSet = true;

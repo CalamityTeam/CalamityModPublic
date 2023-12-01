@@ -3,6 +3,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -73,8 +74,13 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = AsgardianAegis.ShieldSlamIFrames;
             hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(300f);
+            if (player.Calamity().oldFashioned)
+                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
 
             int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(135);
+            if (player.Calamity().oldFashioned)
+                supremeExplosionDamage = CalamityUtils.CalcOldFashionedDamage(supremeExplosionDamage);
+
             Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), supremeExplosionDamage, 20f, Main.myPlayer, 3f, 0f);
             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }

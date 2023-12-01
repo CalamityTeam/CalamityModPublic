@@ -382,7 +382,7 @@ PlaguebringerCarapace: {
 	Tooltip:
 		'''
 		Grants immunity to the Plague
-		12% increased summon damage
+		15% increased summon damage
 		Friendly bees inflict the plague
 		'''
 }
@@ -391,9 +391,8 @@ PlaguebringerPistons: {
 	DisplayName: Plaguebringer Pistons
 	Tooltip:
 		'''
-		13% increased summon damage and 15% increased movement speed
+		15% increased summon damage and 15% increased movement speed
 		You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt
-		You spawn bees while sprinting or dashing
 		'''
 }
 
@@ -407,7 +406,7 @@ PlaguebringerVisor: {
 	SetBonus:
 		'''
 		Grants a plague dash which can slam through enemies without taking damage
-		Summons a lil' plaguebringer to protect you and empower nearby minions
+		Summons a lil' plaguebringer which swarms your foes with little bees
 		+3 max minions
 		'''
 }

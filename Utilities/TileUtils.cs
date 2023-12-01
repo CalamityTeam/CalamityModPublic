@@ -114,13 +114,13 @@ namespace CalamityMod
             int height = 16;
             int yOffset = TileObjectData.GetTileData(tile).DrawYOffset;
 
-            ulong num190 = Main.TileFrameSeed ^ (ulong)((long)j << 32 | (long)(uint)i);
+            ulong randShakeEffect = Main.TileFrameSeed ^ (ulong)((long)j << 32 | (long)(uint)i);
             float drawPositionX = i * 16 - (int)Main.screenPosition.X - (width - 16f) / 2f;
             float drawPositionY = j * 16 - (int)Main.screenPosition.Y;
             for (int c = 0; c < 7; c++)
             {
-                float shakeX = Utils.RandomInt(ref num190, -10, 11) * 0.15f;
-                float shakeY = Utils.RandomInt(ref num190, -10, 1) * 0.35f;
+                float shakeX = Utils.RandomInt(ref randShakeEffect, -10, 11) * 0.15f;
+                float shakeY = Utils.RandomInt(ref randShakeEffect, -10, 1) * 0.35f;
                 Main.spriteBatch.Draw(flameTexture, new Vector2(drawPositionX + shakeX, drawPositionY + shakeY + yOffset) + zero, new Rectangle(tile.TileFrameX + offsetX, tile.TileFrameY + offsetY, width, height), new Color(100, 100, 100, 0), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
             }
         }
@@ -665,101 +665,6 @@ namespace CalamityMod
             }
 
             return !Main.tileContainer[tile.TileType] && !tileExcludeList.Contains(tile.TileType);
-        }
-
-        /// <summary>
-        /// Gets the item drop of an ore tile
-        /// </summary>
-        /// <param name="tile"></param>
-        /// <returns>The item a tile breaks when drops if it's an ore</returns>
-        public static int GetOreItemID(this Tile tile)
-        {
-            int item = -1;
-
-			// If it's not ore, then return
-			if (!TileID.Sets.Ore[tile.TileType])
-				return item;
-
-            ModTile moddedTile = TileLoader.GetTile(tile.TileType);
-
-            //Getting the item drop of a modded tile is pretty easy.
-            if (moddedTile != null)
-                item = TileLoader.GetItemDropFromTypeAndStyle(moddedTile.Type);
-
-            //There is no easy way for getting vanilla item drops :(
-            else
-            {
-                switch (tile.TileType)
-                {
-                    case TileID.LunarOre:
-                        item = ItemID.LunarOre;
-                        break;
-                    case TileID.Chlorophyte:
-                        item = ItemID.ChlorophyteOre;
-                        break;
-                    case TileID.Titanium:
-                        item = ItemID.TitaniumOre;
-                        break;
-                    case TileID.Adamantite:
-                        item = ItemID.AdamantiteOre;
-                        break;
-                    case TileID.Orichalcum:
-                        item = ItemID.OrichalcumOre;
-                        break;
-                    case TileID.Mythril:
-                        item = ItemID.MythrilOre;
-                        break;
-                    case TileID.Palladium:
-                        item = ItemID.PalladiumOre;
-                        break;
-                    case TileID.Cobalt:
-                        item = ItemID.CobaltOre;
-                        break;
-                    case TileID.Hellstone:
-                        item = ItemID.Hellstone;
-                        break;
-                    case TileID.Obsidian:
-                        item = ItemID.Obsidian;
-                        break;
-                    case TileID.Meteorite:
-                        item = ItemID.Meteorite;
-                        break;
-                    case TileID.Demonite:
-                        item = ItemID.DemoniteOre;
-                        break;
-                    case TileID.Crimtane:
-						item = ItemID.CrimtaneOre;
-                        break;
-                    case TileID.Platinum:
-                        item = ItemID.PlatinumOre;
-                        break;
-                    case TileID.Gold:
-                        item = ItemID.GoldOre;
-                        break;
-                    case TileID.Tungsten:
-                        item = ItemID.TungstenOre;
-                        break;
-                    case TileID.Silver:
-                        item = ItemID.SilverOre;
-                        break;
-                    case TileID.Lead:
-                        item = ItemID.LeadOre;
-                        break;
-                    case TileID.Iron:
-                        item = ItemID.IronOre;
-                        break;
-                    case TileID.Tin:
-                        item = ItemID.TinOre;
-                        break;
-                    case TileID.Copper:
-                        item = ItemID.CopperOre;
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            return item;
         }
     }
 }

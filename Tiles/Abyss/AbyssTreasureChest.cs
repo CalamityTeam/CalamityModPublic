@@ -29,10 +29,7 @@ namespace CalamityMod.Tiles.Abyss
         {
             //Skeletron must be dead, NPC.downedBoss3 is added as failsave in case chests fail to open in the Abyss' method. AbleToUnlockChests should be false unless
             //the Abyss' unlock method is being run to prevent chests spawning already unlocked.
-            if (World.Abyss.AbleToUnlockChests || NPC.downedBoss3) 
-                return true; 
-            else
-                return false;
+            return World.Abyss.UnlockChests || NPC.downedBoss3;
         }
 
         public override bool RightClick(int i, int j) 

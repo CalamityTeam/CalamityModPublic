@@ -4,10 +4,13 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Microsoft.Xna.Framework;
+using CalamityMod;
+
 
 namespace CalamityMod.Items.Accessories.Vanity
 {
-    public class CocosFeather : ModItem, ILocalizedModType
+    public class CocosFeather : ModItem, IExtendedHat, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
         public override void Load()
@@ -42,7 +45,7 @@ namespace CalamityMod.Items.Accessories.Vanity
             Item.width = 42;
             Item.height = 38;
             Item.accessory = true;
-            Item.value = CalamityGlobalItem.Rarity1BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity2BuyPrice;
             Item.rare = ItemRarityID.Green;
             Item.vanity = true;
             Item.Calamity().devItem = true;
@@ -60,5 +63,7 @@ namespace CalamityMod.Items.Accessories.Vanity
                 player.Calamity().cocosFeather = true;
             }
         }
+        public string ExtensionTexture => "CalamityMod/Items/Accessories/Vanity/Birds_Head_Extension";
+        public Vector2 ExtensionSpriteOffset(PlayerDrawSet drawInfo) => new Vector2(0, -4f);
     }
 }

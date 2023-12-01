@@ -59,7 +59,11 @@
         // Rogue stealth
         // If stealth is too weak, increase this number. If stealth is too strong, decrease this number.
         // This value is intentionally not readonly.
-        public static double UniversalStealthStrikeDamageFactor = 0.5;
+        public static double UniversalStealthStrikeDamageFactor = 0.42;
+        // Shade 23/10/2023: So stealth apparently was indeed way too strong after the bugfix with nearly every weapon being way stronger than before
+        // due to Flawless now working properly and thus the stealth factor was changed back to 0.42 from 0.5.
+        // This nerf takes feedback from various players as well as my own personal experience with testing rogue stuff today; it feels too strong and
+        // something needed to be done about it.
 
         internal static readonly float BaseStealthGenTime = 4f; // 4 seconds
         internal static readonly float MovingStealthGenRatio = 0.5f;
@@ -92,6 +96,26 @@
         // Minimum and maximum allowed attack speed ratios when using Calamity Global Item Tweaks
         internal static readonly float MinimumAllowedAttackSpeed = 0.25f;
         internal static readonly float MaximumAllowedAttackSpeed = 10f;
+
+        // Defense Damage
+        internal const double DefaultDefenseDamageRatio = 0.3333;
+
+        // Defense damage floor: PHM | HM | PML
+        //
+        // Normal/Expert: 3 |  8 | 16
+        // Revengeance:   4 | 10 | 20
+        // Death Mode:    5 | 12 | 24
+        // Boss Rush:     25
+        internal static readonly int DefenseDamageFloor_NormalPHM = 3;
+        internal static readonly int DefenseDamageFloor_NormalHM  = 8;
+        internal static readonly int DefenseDamageFloor_NormalPML = 16;
+        internal static readonly int DefenseDamageFloor_RevPHM    = 4;
+        internal static readonly int DefenseDamageFloor_RevHM     = 10;
+        internal static readonly int DefenseDamageFloor_RevPML    = 20;
+        internal static readonly int DefenseDamageFloor_DeathPHM  = 5;
+        internal static readonly int DefenseDamageFloor_DeathHM   = 12;
+        internal static readonly int DefenseDamageFloor_DeathPML  = 24;
+        internal static readonly int DefenseDamageFloor_BossRush  = 25;
 
         // TODO -- Add all balance related constants here that don't belong in other files.
         // Review all constants and static readonlys in the entire mod to find things to add.

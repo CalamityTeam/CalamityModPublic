@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
@@ -21,11 +21,11 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.penetrate = -1;
-            Projectile.timeLeft = 60;
+            Projectile.penetrate = 3;
+            Projectile.timeLeft = 30;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.idStaticNPCHitCooldown = 30;
         }
 
         public override void AI()
@@ -36,60 +36,60 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
                 Projectile.localAI[0] += 1f;
             }
-            bool flag15 = false;
-            bool flag16 = false;
+            bool xflag = false;
+            bool yflag = false;
             if (Projectile.velocity.X < 0f && Projectile.position.X < Projectile.ai[0])
             {
-                flag15 = true;
+                xflag = true;
             }
             if (Projectile.velocity.X > 0f && Projectile.position.X > Projectile.ai[0])
             {
-                flag15 = true;
+                xflag = true;
             }
             if (Projectile.velocity.Y < 0f && Projectile.position.Y < Projectile.ai[1])
             {
-                flag16 = true;
+                yflag = true;
             }
             if (Projectile.velocity.Y > 0f && Projectile.position.Y > Projectile.ai[1])
             {
-                flag16 = true;
+                yflag = true;
             }
-            if (flag15 && flag16)
+            if (xflag && yflag)
             {
                 Projectile.Kill();
             }
-            float num461 = 25f;
+            float projTimer = 25f;
             if (Projectile.ai[0] > 180f)
             {
-                num461 -= (Projectile.ai[0] - 180f) / 2f;
+                projTimer -= (Projectile.ai[0] - 180f) / 2f;
             }
-            if (num461 <= 0f)
+            if (projTimer <= 0f)
             {
-                num461 = 0f;
+                projTimer = 0f;
                 Projectile.Kill();
             }
-            num461 *= 0.7f;
+            projTimer *= 0.7f;
             Projectile.ai[0] += 4f;
-            int num462 = 0;
-            while ((float)num462 < num461)
+            int timerCounter = 0;
+            while ((float)timerCounter < projTimer)
             {
-                float num463 = (float)Main.rand.Next(-10, 11);
-                float num464 = (float)Main.rand.Next(-10, 11);
-                float num465 = (float)Main.rand.Next(3, 9);
-                float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
-                num466 = num465 / num466;
-                num463 *= num466;
-                num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.5f);
-                Dust dust = Main.dust[num467];
+                float rand1 = (float)Main.rand.Next(-10, 11);
+                float rand2 = (float)Main.rand.Next(-10, 11);
+                float rand3 = (float)Main.rand.Next(3, 9);
+                float randAdjuster = (float)Math.Sqrt((double)(rand1 * rand1 + rand2 * rand2));
+                randAdjuster = rand3 / randAdjuster;
+                rand1 *= randAdjuster;
+                rand2 *= randAdjuster;
+                int brimDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1.5f);
+                Dust dust = Main.dust[brimDust];
                 dust.noGravity = true;
                 dust.position.X = Projectile.Center.X;
                 dust.position.Y = Projectile.Center.Y;
                 dust.position.X += (float)Main.rand.Next(-10, 11);
                 dust.position.Y += (float)Main.rand.Next(-10, 11);
-                dust.velocity.X = num463;
-                dust.velocity.Y = num464;
-                num462++;
+                dust.velocity.X = rand1;
+                dust.velocity.Y = rand2;
+                timerCounter++;
             }
         }
 

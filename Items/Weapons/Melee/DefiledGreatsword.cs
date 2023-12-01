@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = 102;
-            Item.damage = 112;
+            Item.damage = 124;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 18;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -63,13 +63,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
-            player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
+            player.AddBuff(ModContent.BuffType<BrutalCarnage>(), 300);
             target.AddBuff(BuffID.Venom, 150);
         }
 
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
-            player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
+            player.AddBuff(ModContent.BuffType<BrutalCarnage>(), 300);
             target.AddBuff(BuffID.Venom, 150);
         }
 

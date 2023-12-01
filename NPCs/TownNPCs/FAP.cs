@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 .SetNPCAffection(NPCID.TaxCollector, AffectionLevel.Dislike)
                 .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Hate)
                 .SetNPCAffection(NPCID.Angler, AffectionLevel.Hate);
-			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers() {
+			NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0) {
 				Velocity = 1f // Draws the NPC in the bestiary as if its walking +1 tiles in the x direction
 			};
 			NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifiers);
@@ -290,7 +290,6 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-                Main.LocalPlayer.Calamity().newCirrusInventory = false;
                 shopName = "Shop";
             }
             else
@@ -319,6 +318,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 .AddWithCustomValue(ModContent.ItemType<EvergreenGin>(), Item.buyPrice(gold: 8), Condition.DownedPlantera)
                 .AddWithCustomValue(ModContent.ItemType<CaribbeanRum>(), Item.buyPrice(gold: 8), Condition.DownedPlantera)
                 .AddWithCustomValue(ModContent.ItemType<Margarita>(), Item.buyPrice(gold: 8), Condition.DownedPlantera)
+                .AddWithCustomValue(ModContent.ItemType<OldFashioned>(), Item.buyPrice(gold: 8), Condition.DownedPlantera)
                 .AddWithCustomValue(ItemID.EmpressButterfly, Item.buyPrice(gold: 10), Condition.DownedPlantera)
                 .AddWithCustomValue(ModContent.ItemType<Everclear>(), Item.buyPrice(gold: 3), downedAureus)
                 .AddWithCustomValue(ModContent.ItemType<BloodyMary>(), Item.buyPrice(gold: 4), downedAureus, Condition.BloodMoon)

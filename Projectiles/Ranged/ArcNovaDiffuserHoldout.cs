@@ -19,6 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
         public static int FramesPerLoad = 13;
         public static int MaxLoadableShots = 15;
         public static float BulletSpeed = 12f;
+        public int Time = 0;
 
         private Player Owner => Main.player[Projectile.owner];
         public SlotId NovaChargeSlot;
@@ -43,6 +44,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            Time++;
+            if (Time == 1)
+                Projectile.alpha = 255;
+            else
+                Projectile.alpha = 0;
+
             if (Owner.dead) // destroy the holdout if the player dies
             {
                 Projectile.Kill();
@@ -74,9 +81,9 @@ namespace CalamityMod.Projectiles.Ranged
                         float charge2KB = Projectile.knockBack * 3f;
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<NovaChargedShot>(), charge2Damage, charge2KB, Projectile.owner);
                         Owner.Calamity().GeneralScreenShakePower = 6.5f;
-                        for (int i = 0; i <= 20; i++)
+                        for (int i = 0; i <= 25; i++)
                         {
-                            Dust dust = Dust.NewDustPerfect(tipPosition, 107, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.2f, 1.2f), 0, default, Main.rand.NextFloat(1.5f, 2.3f));
+                            Dust dust = Dust.NewDustPerfect(tipPosition - Projectile.velocity * 15, 107, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.2f, 1.2f), 0, default, Main.rand.NextFloat(1f, 2.3f));
                             dust.noGravity = true;
                         }
 
@@ -106,9 +113,9 @@ namespace CalamityMod.Projectiles.Ranged
                         Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * BulletSpeed;
                         Vector2 fireVec = shootVelocity.RotatedByRandom(MathHelper.ToRadians(2f));
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, fireVec, ModContent.ProjectileType<NovaShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        for (int i = 0; i <= 3; i++)
+                        for (int i = 0; i <= 4; i++)
                         {
-                            Dust dust = Dust.NewDustPerfect(tipPosition, 107, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.9f, 1.2f), 0, default, Main.rand.NextFloat(1.3f, 1.7f));
+                            Dust dust = Dust.NewDustPerfect(tipPosition - Projectile.velocity * 15, 107, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.9f, 1.2f), 0, default, Main.rand.NextFloat(0.8f, 1.8f));
                             dust.noGravity = true;
                         }
 
@@ -214,11 +221,17 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.myPlayer == Projectile.owner)
             {
-                float interpolant = Utils.GetLerpValue(5f, 25f, Projectile.Distance(Main.MouseWorld), true);
+                float interpolant = Utils.GetLerpValue(5f, 40f, Projectile.Distance(Main.MouseWorld), true);
                 Vector2 oldVelocity = Projectile.velocity;
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.SafeDirectionTo(Main.MouseWorld), interpolant);
+                if (Projectile.velocity != oldVelocity)
+                {
+                    Projectile.netSpam = 0;
+                    Projectile.netUpdate = true;
+                }
             }
-            Projectile.Center = armPosition + Projectile.velocity * MathHelper.Clamp(30f - ShootRecoilTimer, 0f, 30f) + new Vector2 (0, 7);
+            Vector2 shootOffset = Projectile.velocity * MathHelper.Clamp(30f - ShootRecoilTimer, 0f, 30f) + new Vector2(0, 7);
+            Projectile.Center = armPosition + shootOffset;
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == -1 ? MathHelper.Pi : 0f);
             Projectile.spriteDirection = Projectile.direction;
 

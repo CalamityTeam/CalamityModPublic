@@ -46,11 +46,11 @@ namespace CalamityMod.Projectiles.Boss
 
                 Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
-                for (int num322 = 0; num322 < 2; num322++)
+                for (int i = 0; i < 2; i++)
                 {
-                    int num323 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, Projectile.velocity.X, Projectile.velocity.Y, 50, default, 0.6f);
-                    Main.dust[num323].noGravity = true;
-                    Dust dust = Main.dust[num323];
+                    int icyDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, Projectile.velocity.X, Projectile.velocity.Y, 50, default, 0.6f);
+                    Main.dust[icyDust].noGravity = true;
+                    Dust dust = Main.dust[icyDust];
                     dust.velocity *= 0.3f;
                 }
             }
@@ -61,11 +61,11 @@ namespace CalamityMod.Projectiles.Boss
 
                 Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
-                for (int num322 = 0; num322 < 2; num322++)
+                for (int i = 0; i < 2; i++)
                 {
-                    int num323 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, Projectile.velocity.X, Projectile.velocity.Y, 50, default, 0.6f);
-                    Main.dust[num323].noGravity = true;
-                    Dust dust = Main.dust[num323];
+                    int icyDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 92, Projectile.velocity.X, Projectile.velocity.Y, 50, default, 0.6f);
+                    Main.dust[icyDust].noGravity = true;
+                    Dust dust = Main.dust[icyDust];
                     dust.velocity *= 0.3f;
                 }
             }
@@ -90,13 +90,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnKill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item27 with { Volume = SoundID.Item27.Volume * 0.25f }, Projectile.Center);
-            for (int num373 = 0; num373 < 3; num373++)
+            //SoundEngine.PlaySound(SoundID.Item27 with { Volume = SoundID.Item27.Volume * 0.25f }, Projectile.Center);
+            for (int j = 0; j < 3; j++)
             {
-                int num374 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 76, 0f, 0f, 0, default, 1f);
-                Main.dust[num374].noGravity = true;
-                Main.dust[num374].noLight = true;
-                Main.dust[num374].scale = 0.7f;
+                int snowDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 76, 0f, 0f, 0, default, 1f);
+                Main.dust[snowDust].noGravity = true;
+                Main.dust[snowDust].noLight = true;
+                Main.dust[snowDust].scale = 0.7f;
             }
         }
 

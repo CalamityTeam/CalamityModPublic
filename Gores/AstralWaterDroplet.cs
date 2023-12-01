@@ -28,52 +28,52 @@ namespace CalamityMod.Gores
             {
                 gore.alpha = 100;
             }
-            int num = 4;
+            int goreFrameDelay = 4;
             gore.frameCounter++;
             if (gore.frame <= 4)
             {
-                int num2 = (int)(gore.position.X / 16f);
-                int num3 = (int)(gore.position.Y / 16f) - 1;
-                if (WorldGen.InWorld(num2, num3, 0) && !Main.tile[num2, num3].HasTile)
+                int goreXPos = (int)(gore.position.X / 16f);
+                int goreYPos = (int)(gore.position.Y / 16f) - 1;
+                if (WorldGen.InWorld(goreXPos, goreYPos, 0) && !Main.tile[goreXPos, goreYPos].HasTile)
                 {
                     gore.active = false;
                 }
                 if (gore.frame == 0)
                 {
-                    num = 24 + Main.rand.Next(256);
+                    goreFrameDelay = 24 + Main.rand.Next(256);
                 }
                 if (gore.frame == 1)
                 {
-                    num = 24 + Main.rand.Next(256);
+                    goreFrameDelay = 24 + Main.rand.Next(256);
                 }
                 if (gore.frame == 2)
                 {
-                    num = 24 + Main.rand.Next(256);
+                    goreFrameDelay = 24 + Main.rand.Next(256);
                 }
                 if (gore.frame == 3)
                 {
-                    num = 24 + Main.rand.Next(96);
+                    goreFrameDelay = 24 + Main.rand.Next(96);
                 }
                 if (gore.frame == 5)
                 {
-                    num = 16 + Main.rand.Next(64);
+                    goreFrameDelay = 16 + Main.rand.Next(64);
                 }
-                if ((int)gore.frameCounter >= num)
+                if ((int)gore.frameCounter >= goreFrameDelay)
                 {
                     gore.frameCounter = 0;
                     gore.frame += 1;
                     if (gore.frame == 5 && Main.netMode != NetmodeID.Server)
                     {
-                        int num4 = Gore.NewGore(new EntitySource_Misc("0"), gore.position, gore.velocity, gore.type, 1f);
-                        Main.gore[num4].frame = 9;
-                        Main.gore[num4].velocity *= 0f;
+                        int astralWater = Gore.NewGore(new EntitySource_Misc("0"), gore.position, gore.velocity, gore.type, 1f);
+                        Main.gore[astralWater].frame = 9;
+                        Main.gore[astralWater].velocity *= 0f;
                     }
                 }
             }
             else if (gore.frame <= 6)
             {
-                num = 8;
-                if ((int)gore.frameCounter >= num)
+                goreFrameDelay = 8;
+                if ((int)gore.frameCounter >= goreFrameDelay)
                 {
                     gore.frameCounter = 0;
                     gore.frame += 1;
@@ -85,7 +85,7 @@ namespace CalamityMod.Gores
             }
             else if (gore.frame <= 9)
             {
-                num = 6;
+                goreFrameDelay = 6;
                 gore.velocity.Y += 0.2f;
                 if ((double)gore.velocity.Y < 0.5)
                 {
@@ -95,7 +95,7 @@ namespace CalamityMod.Gores
                 {
                     gore.velocity.Y = 12f;
                 }
-                if ((int)gore.frameCounter >= num)
+                if ((int)gore.frameCounter >= goreFrameDelay)
                 {
                     gore.frameCounter = 0;
                     gore.frame += 1;
@@ -108,7 +108,7 @@ namespace CalamityMod.Gores
             else
             {
                 gore.velocity.Y += 0.1f;
-                if ((int)gore.frameCounter >= num)
+                if ((int)gore.frameCounter >= goreFrameDelay)
                 {
                     gore.frameCounter = 0;
                     gore.frame += 1;
@@ -120,9 +120,9 @@ namespace CalamityMod.Gores
                 }
             }
 
-            Vector2 value3 = gore.velocity;
+            Vector2 goreVelCheck = gore.velocity;
             gore.velocity = Collision.TileCollision(gore.position, gore.velocity, 16, 14, false, false, 1);
-            if (gore.velocity != value3)
+            if (gore.velocity != goreVelCheck)
             {
                 if (gore.frame < 10)
                 {
@@ -146,12 +146,12 @@ namespace CalamityMod.Gores
                     }
                     ((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(gore.position + new Vector2(8f, 8f), 1f, RippleShape.Square, 0f);
                 }
-                int num21 = (int)(gore.position.X + 8f) / 16;
-                int num22 = (int)(gore.position.Y + 14f) / 16;
-                if (Main.tile[num21, num22] != null && Main.tile[num21, num22].LiquidAmount > 0)
+                int goreTileX = (int)(gore.position.X + 8f) / 16;
+                int goreTileY = (int)(gore.position.Y + 14f) / 16;
+                if (Main.tile[goreTileX, goreTileY] != null && Main.tile[goreTileX, goreTileY].LiquidAmount > 0)
                 {
                     gore.velocity *= 0f;
-                    gore.position.Y = (float)(num22 * 16 - (int)(Main.tile[num21, num22].LiquidAmount / 16));
+                    gore.position.Y = (float)(goreTileY * 16 - (int)(Main.tile[goreTileX, goreTileY].LiquidAmount / 16));
                 }
             }
 

@@ -34,30 +34,29 @@ namespace CalamityMod.Items.Weapons.Summon
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int i = Main.myPlayer;
-            float num72 = Item.shootSpeed;
-            int num73 = damage;
+            float projSpeed = Item.shootSpeed;
             player.itemTime = Item.useTime;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+            float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+            float mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                mouseYDist = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - realPlayerPos.Y;
             }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            float mouseDistance = (float)Math.Sqrt((double)(mouseXDist * mouseXDist + mouseYDist * mouseYDist));
+            if ((float.IsNaN(mouseXDist) && float.IsNaN(mouseYDist)) || (mouseXDist == 0f && mouseYDist == 0f))
             {
-                num78 = (float)player.direction;
+                mouseXDist = (float)player.direction;
             }
             else
             {
-                num80 = num72 / num80;
+                mouseDistance = projSpeed / mouseDistance;
             }
-            num78 = 0f;
-            num79 = 0f;
-            vector2.X = (float)Main.mouseX + Main.screenPosition.X;
-            vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            int p = Projectile.NewProjectile(source, vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<HermitCrabMinion>(), num73, knockback, i, 0f, 0f);
+            mouseXDist = 0f;
+            mouseYDist = 0f;
+            realPlayerPos.X = (float)Main.mouseX + Main.screenPosition.X;
+            realPlayerPos.Y = (float)Main.mouseY + Main.screenPosition.Y;
+            int p = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, mouseXDist, mouseYDist, ModContent.ProjectileType<HermitCrabMinion>(), damage, knockback, i, 0f, 0f);
             if (Main.projectile.IndexInRange(p))
                 Main.projectile[p].originalDamage = Item.damage;
             return false;

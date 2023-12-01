@@ -18,6 +18,7 @@ using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent;
@@ -58,7 +59,6 @@ namespace CalamityMod.NPCs
 
         public static int TaxesToCollectLimit => (int)(Item.buyPrice(0, 50, 0, 0) * TaxYieldFactor);
 
-        // TODO -- Update all Discord tags here to new Discord usernames.
         #region Town NPC Patreon Name Sets
         private static readonly string[] AnglerNames =
         {
@@ -69,17 +69,18 @@ namespace CalamityMod.NPCs
         {
             "Drifter",
             "Finchi",
-            "Heniek", // <@!363404700445442050> (Kazurgundu#3791)
+            "Heniek", // <@!363404700445442050> (kazurgundu)
             "Fire", // <@!354362326947856384> (fire#0692)
-            "Barney Calhoun", // <@!634462901431697410> (Potato Power#6578)
+            "Barney Calhoun", // <@!634462901431697410> (potatostego)
             "XiaoEn0426", // <@!440448864772816896> (XiaoEn0426#9157)
             "Jeffred", // <@!295362230038560768> (Knight Solaire#0873)
-            "The Cooler Arthur", // <@!568263512523014154> (better artilery#0001)
-            "Markie", // <@!291141964039061504> (Markie#6969)
+            "The Cooler Arthur", // <@!568263512523014154> (gokuartillery)
+            "Markie", // <@!291141964039061504> (markie_)
         };
         private static readonly string[] ClothierNames =
         {
             "Joeseph Jostar",
+            "Storm Havik", // <@!1013452363178197072> (fishnotduck)
         };
         private static readonly string[] CyborgNames =
         {
@@ -87,13 +88,13 @@ namespace CalamityMod.NPCs
         };
         private static readonly string[] DemolitionistNames =
         {
-            "Tavish DeGroot", // <@!442447226992721930> (Magicoal#2655)
+            "Tavish DeGroot", // <@!442447226992721930> (magicoal)
         };
         private static readonly string[] DryadNames =
         {
             "Rythmi",
             "Izuna",
-            "Jasmine", // <@!430532867479699456> (phantasmagoria#6777)
+            "Jasmine", // <@!430532867479699456> (phantasmagoria.)
             "Cybil", // <@!486507232666845185> (Captain Doofus#????)
             "Ruth", // <@!1001307586068492388> (Briny_Coffee#4393)
         };
@@ -102,13 +103,14 @@ namespace CalamityMod.NPCs
         {
             "Verth",
             "Gormer", // <@!287651204924833795> (Picasso's Bean#2819 -- RIP)
-            "TingFlarg", // <@!185605031716847616> (Smug#7160)
+            "TingFlarg", // <@!185605031716847616> (smugggo)
             "Driser", // <@!121996994406252544> (Driser#8630)
-            "Eddie Spaghetti", // <@!466397267407011841> (Eddie Spaghetti#0002)
-            "G'tok", // <@!335192200956608535> (gtoktas#7589)
+            "Eddie Spaghetti", // <@!466397267407011841> (nathansfriend)
+            "G'tok", // <@!335192200956608535> (gtoktas)
             "Katto", // <@!175972165504466944> (Katto#2858)
-            "Him", // <@!931019614958256139> (@himtheguy1)
+            "Him", // <@!931019614958256139> (himtheguy1)
             "Tooshiboots", // <@!333532730593771522> (ulmod)
+            "Neesh", // <@!175803493464932352> (xjetty)
         };
         private static readonly string[] GolferNames = null;
         private static readonly string[] GuideNames =
@@ -119,36 +121,37 @@ namespace CalamityMod.NPCs
             "Necroplasmic",
             "Devin",
             "Woffle", // <@!185980979427540992> (Chipbeam#2268)
-            "Cameron", // <@!340401981711712258> (CammyWammy#8634)
-            "Wilbur", // <@!295171926324805634> (ChaosChaos#5979)
-            "Good Game Design", // <@!564267767042277385> (Dominic Karma#7777)
+            "Cameron", // <@!340401981711712258> (cammywammy.)
+            "Wilbur", // <@!295171926324805634> (all_imperfect_chaos)
+            "Good Game Design", // <@!564267767042277385> (dominickarma)
             "Danmaku", // <@!756259562268524555> (Danmaku#2659)
             "Grylken", // <@!299970404435361802> (Grylken#1569)
-            "Outlaw", // <@!918311619480657922> (TheChosenOutlaw#8746)
+            "Outlaw", // <@!918311619480657922> (thechosenoutlaw)
             "Alfred Rend", // <@!606301806481375255> (Deadsqurp300#0907)
             "Leeman", // <@!281999243168841728> (Tweee#5831)
             "Mihai", // <@!373941893467209730> (cmihaii.)
+            "Aka Retribution", // <@!302318734633205761> (azurr_nihilo)
         };
         private static readonly string[] MechanicNames =
         {
             "Lilly",
-            "Daawn", // <@!206162323541458944> (Daawnily#3859)
+            "Daawn", // <@!206162323541458944> (daawnily)
             "Robin", // <@!654737510030639112> (Altzeus#8687)
-            "Curly", // <@!673092101780668416> (Curly~Brace#4830)
+            "Curly", // <@!673092101780668416> (curly4830)
         };
         private static readonly string[] MerchantNames =
         {
-            "Morshu", // <@!194931581826236416> (Uberransy#6969)
+            "Morshu", // <@!194931581826236416> (uberransy)
         };
         private static readonly string[] NurseNames =
         {
             "Farsni",
-            "Fanny", // <@!799749125720637460> (zombiewolf511#4581)
-            "Mausi", // <@!194156349347594241> (Sadouken | Daniel#3996)
+            "Fanny", // <@!799749125720637460> (zombiewolf511)
+            "Mausi", // <@!194156349347594241> (sadouken)
         };
         private static readonly string[] PainterNames =
         {
-            "Picasso", // <@!353316526306361347> (SCONICBOOM#2164 -- for the late Picasso's Bean#2819)
+            "Picasso", // <@!353316526306361347> (sconicboom -- for the late Picasso's Bean#2819)
         };
         private static readonly string[] PartyGirlNames =
         {
@@ -157,21 +160,28 @@ namespace CalamityMod.NPCs
         private static readonly string[] PirateNames =
         {
             "Tyler Van Hook",
-            "Cap'n Deek", // "Alex N" on Patreon
-            "Captain Billy Bones", // <@!699589229507772416> (DjackV#2882)
+            "Cap'n Deek", // "Alex N" on Patreon (No discord account)
+            "Captain Billy Bones", // <@!699589229507772416> (djackv)
             "Captain J. Crackers", // <@!233232602994049024> (Qyuuno#3031)
         };
         private static readonly string[] PrincessNames =
         {
-            "Catalyst", // <@!156672312425316352> (xAqult#1122)
-            "Nyapano", // <@!120976656826368003> (Emi - Nyapano She/Her#4040)
-            "Jade", // <@!187395834625785869> (VeryMasterNinja#7728)
-            "Nyavi Aceso", // <@!270260920888852480> (Navigator#8739)
+            "Catalyst", // <@!156672312425316352> (xaqult)
+            "Nyapano", // <@!120976656826368003> (nyapano)
+            "Jade", // <@!187395834625785869> (verymasterninja)
+            "Nyavi Aceso", // <@!270260920888852480> (navigator.)
+            "everquartz", // <@!451343554451865611> (everquartz)
+            "Gwynevere", // <@!142752927348424704> (nuclearchaosazathoth)
+        };
+        private static readonly string[] SantaClausNames =
+        {
+            "Jank", // <@!339950757472239616> (jankle_)
         };
         private static readonly string[] SkeletonMerchantNames =
         {
-            "Sans Undertale", // <@!145379091648872450> (Shayy#5257)
-            "Papyrus Undertale", // <@!262663471189983242> (Nycro#0001)
+            "Sans Undertale", // <@!145379091648872450> (shayy)
+            "Papyrus Undertale", // <@!262663471189983242> (nycro)
+            "Mr. Bones", // <@!359215912856977408> (jaybones.)
         };
         private static readonly string[] SteampunkerNames =
         {
@@ -180,15 +190,15 @@ namespace CalamityMod.NPCs
         };
         private static readonly string[] StylistNames =
         {
-            "Amber", // <@!114677116473180169> (Mishiro Usui#1295)
-            "Faith", // <@!509050283871961123> (Toasty#1007)
-            "Xsiana", // <@!625780237489143839> (xiana.#0015)
+            "Amber", // <@!114677116473180169> (mishirousui)
+            "Faith", // <@!509050283871961123> (toasty1007)
+            "Xsiana", // <@!625780237489143839> (lokistic)
         };
         private static readonly string[] TavernkeepNames =
         {
-            "Tim Lockwood", // <@!605839945483026434> (Deimelo#0001)
-            "Sir Samuel Winchester Jenkins Kester II", // <@!107659695749070848> (Ryaegos#1661)
-            "Brutus", // <@!591889650692521984> (Brutus#4337)
+            "Tim Lockwood", // <@!605839945483026434> (pomvoid)
+            "Sir Samuel Winchester Jenkins Kester II", // <@!107659695749070848> (ryaegos)
+            "Brutus", // <@!591889650692521984> (.brutus._)
             "Sloth", // <@!486265327387279391> (BossyPunch#4983)
         };
         private static readonly string[] TaxCollectorNames =
@@ -198,7 +208,8 @@ namespace CalamityMod.NPCs
         private static readonly string[] TravelingMerchantNames =
         {
             "Stan Pines",
-            "Slap Battles", // <@!923504188615450654> (Conquestor#9009)
+            "Slap Battles", // <@!923504188615450654> (gravityglider.)
+            "Matt Walsh", // <@!522970788203069442> (phallguy)
         };
         private static readonly string[] TruffleNames =
         {
@@ -208,26 +219,26 @@ namespace CalamityMod.NPCs
         {
             "Sok'ar",
             "Toxin", // <@!348174404984766465> (Toxin#9598),
-            "Mixcoatl", // <@!284775927294984203> (SharZz#7777)
-            "Khatunz", // <@!303022375191183360> (jackshiz#7839)
-            "Amnesia Wapers", // <@!326821498323075073> (Retarded Advice from a Retard#6969)
+            "Mixcoatl", // <@!284775927294984203> (.sharzz)
+            "Khatunz", // <@!303022375191183360> (jackshiz)
+            "Amnesia Wapers", // <@!326821498323075073> (retardedadvicefromaretard)
         };
         private static readonly string[] WizardNames =
         {
-            "Mage One-Trick", // <@!340996105460514816> (pixlgray) - going of off memory on this one
+            "Mage One-Trick", // <@!340996105460514816> (pixlgray)
             "Inorim, son of Ivukey",
             "Jensen",
-            "Merasmus", // <@!288066987819663360> (Spider pee pee#3328)
+            "Merasmus", // <@!288066987819663360> (spiderprovidence)
             "Habolo", // <@!163028025494077441> (ChristmasGoat#7810)
-            "Ortho", // <@!264984390910738432> (Worcuus#5225)
-            "Chris Tallballs", // <@!770211589076418571> (Bewearium#1111)
-            "Syethas", // <@!325413275066171393> (CosmicStarIight#4430)
+            "Ortho", // <@!264984390910738432> (worcuus)
+            "Chris Tallballs", // <@!770211589076418571> (bewearium)
+            "Syethas", // <@!325413275066171393> (cosmicstariight)
             "Nextdoor Psycho", // <@!173261518572486656> (⋈-NextdoorPsycho-⋈#0001)
         };
         private static readonly string[] ZoologistNames =
         {
             "Kiriku", // <@!395312478160027668> (rulosss#6814)
-            "Lacuna", // <@!790746689211203604> (Lacuna#8629)
+            "Lacuna", // <@!790746689211203604> (_lacuna_)
             "Mae Borowski", //<@!219158690433990656> (justakkolite)
         };
 
@@ -243,19 +254,19 @@ namespace CalamityMod.NPCs
         private const int TownDogHuskyVanillaNames = 16;
         private static readonly string[] TownDogNames =
         {
-            "Ozymandias", // <@!146333264871686145> (Ozzatron#0001)
+            "Ozymandias", // <@!146333264871686145> (ozzatron)
         };
         private static readonly string[] TownDogLabradorNames =
         {
-            "Riley", // <@!260875558592708619> (potion pal#9979)
+            "Riley", // <@!260875558592708619> (potionpal)
         };
         private static readonly string[] TownDogPitBullNames =
         {
-            "Splinter", // <@!320320801213775873> (Kaimonick#1738)
+            "Splinter", // <@!320320801213775873> (kaimonick)
         };
         private static readonly string[] TownDogBeagleNames =
         {
-            "Kendra", // <@!237247188005158912> (LordMetarex#6407)
+            "Kendra", // <@!237247188005158912> (lordmetarex)
         };
         private static readonly string[] TownDogCorgiNames = null;
         private static readonly string[] TownDogDalmatianNames = null;
@@ -272,21 +283,21 @@ namespace CalamityMod.NPCs
         private const int TownCatWhiteVanillaNames = 15;
         private static readonly string[] TownCatNames =
         {
-            "Smoogle", // <@!709968379334623274> (smoogle#5672)
+            "Smoogle", // <@!709968379334623274> (smooglin)
             "The Meowurer of Gods", // <@!385949114271268864> (GP#7876)
-            "Katsafaros", // <@!190595401328492544> (NavyGuy#2650)
+            "Katsafaros", // <@!190595401328492544> (gr_mm)
             "Lucerne", // <@!271954788676141066> (lord_lucerne)
             "Milo", // <@!401849201597874179> (maskedmilo)
-			"Octo", // <@!796112889353994281> (OctolingGrimm#8888)
+            "Octo", // <@!796112889353994281> (octolinggrimm)
         };
         private static readonly string[] TownCatSiameseNames = null;
         private static readonly string[] TownCatBlackNames =
         {
-            "Bear", // <@!183424826407518208> (Lilac Vrt Olligoci#5585)
+            "Bear", // <@!183424826407518208> (lilac_vrt_olligoci)
         };
         private static readonly string[] TownCatOrangeTabbyNames =
         {
-            "Felix" // <@!183424826407518208> (Lilac Vrt Olligoci#5585)
+            "Felix" // <@!183424826407518208> (lilac_vrt_olligoci)
         };
         private static readonly string[] TownCatRussianBlueNames = null;
         private static readonly string[] TownCatSilverNames = null;
@@ -333,13 +344,13 @@ namespace CalamityMod.NPCs
             // PatreonNames can be null, so can global names, it short circuits in the next step if so
             int combinedLength = (patreonNames?.Length ?? 0) + (globalNames?.Length ?? 0);
             int index = Main.rand.Next(numVanillaNames + combinedLength);
-            
+
             // If the roll isn't low enough, then a "vanilla name" was picked, meaning we change nothing.
             if (index >= combinedLength)
                 return currentName;
 
-            
-            
+
+
             // Change the name to be a randomly selected Patreon name if the roll is low enough.
             if (index >= globalNames.Length)
                 return patreonNames[index - globalNames.Length];
@@ -502,6 +513,9 @@ namespace CalamityMod.NPCs
                 case NPCID.Princess:
                     AddNewNames(nameList, PrincessNames);
                     break;
+                case NPCID.SantaClaus:
+                    AddNewNames(nameList, SantaClausNames);
+                    break;
                 case NPCID.SkeletonMerchant:
                     AddNewNames(nameList, SkeletonMerchantNames);
                     break;
@@ -620,120 +634,47 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region NPC New Shop Alert
+
+        public static List<(int, Predicate<Player>, Action<Player, bool>)> npcAlertList = new List<(int, Predicate<Player>, Action<Player, bool>)>()
+        {
+            (NPCID.Merchant, (Player player) => player.Calamity().newMerchantInventory, (Player player, bool enabled) =>{ player.Calamity().newMerchantInventory = enabled; }),
+            (NPCID.Painter, (Player player) => player.Calamity().newPainterInventory,(Player player, bool enabled) =>{ player.Calamity().newPainterInventory = enabled; }),
+            (NPCID.Golfer, (Player player) => player.Calamity().newGolferInventory, (Player player, bool enabled) =>{ player.Calamity().newGolferInventory = enabled; }),
+            (NPCID.BestiaryGirl, (Player player) => player.Calamity().newZoologistInventory,(Player player, bool enabled) =>{ player.Calamity().newZoologistInventory = enabled; }),
+            (NPCID.DyeTrader, (Player player) => player.Calamity().newDyeTraderInventory, (Player player, bool enabled) =>{ player.Calamity().newDyeTraderInventory = enabled; }),
+            (NPCID.PartyGirl, (Player player) => player.Calamity().newPartyGirlInventory,(Player player, bool enabled) =>{ player.Calamity().newPartyGirlInventory = enabled; }),
+            (NPCID.Stylist, (Player player) => player.Calamity().newStylistInventory, (Player player, bool enabled) =>{ player.Calamity().newStylistInventory = enabled; }),
+            (NPCID.Demolitionist, (Player player) => player.Calamity().newDemolitionistInventory, (Player player, bool enabled) =>{ player.Calamity().newDemolitionistInventory = enabled; }),
+            (NPCID.Dryad, (Player player) => player.Calamity().newDryadInventory, (Player player, bool enabled) =>{ player.Calamity().newDryadInventory = enabled; }),
+            (NPCID.DD2Bartender, (Player player) => player.Calamity().newTavernkeepInventory, (Player player, bool enabled) =>{ player.Calamity().newTavernkeepInventory = enabled; }),
+            (NPCID.ArmsDealer, (Player player) => player.Calamity().newArmsDealerInventory, (Player player, bool enabled) =>{ player.Calamity().newArmsDealerInventory = enabled; }),
+            (NPCID.GoblinTinkerer, (Player player) => player.Calamity().newGoblinTinkererInventory,(Player player, bool enabled) =>{ player.Calamity().newGoblinTinkererInventory = enabled; }),
+            (NPCID.WitchDoctor, (Player player) => player.Calamity().newWitchDoctorInventory, (Player player, bool enabled) =>{ player.Calamity().newWitchDoctorInventory = enabled; }),
+            (NPCID.Clothier, (Player player) => player.Calamity().newClothierInventory, (Player player, bool enabled) =>{ player.Calamity().newClothierInventory = enabled; }),
+            (NPCID.Mechanic, (Player player) => player.Calamity().newMechanicInventory, (Player player, bool enabled) =>{ player.Calamity().newMechanicInventory = enabled; }),
+            (NPCID.Pirate, (Player player) => player.Calamity().newPirateInventory, (Player player, bool enabled) =>{ player.Calamity().newPirateInventory = enabled; }),
+            (NPCID.Truffle, (Player player) => player.Calamity().newTruffleInventory,(Player player, bool enabled) =>{ player.Calamity().newTruffleInventory = enabled; }),
+            (NPCID.Wizard, (Player player) => player.Calamity().newWizardInventory, (Player player, bool enabled) =>{ player.Calamity().newWizardInventory = enabled; }),
+            (NPCID.Steampunker, (Player player) => player.Calamity().newSteampunkerInventory, (Player player, bool enabled) =>{ player.Calamity().newSteampunkerInventory = enabled; }),
+            (NPCID.Cyborg,(Player player) => player.Calamity().newCyborgInventory, (Player player, bool enabled) =>{ player.Calamity().newCyborgInventory = enabled; }),
+            (NPCID.Princess, (Player player) => player.Calamity().newPrincessInventory,(Player player, bool enabled) =>{ player.Calamity().newPrincessInventory = enabled; }),
+            (NPCID.SkeletonMerchant, (Player player) => player.Calamity().newSkeletonMerchantInventory, (Player player, bool enabled) =>{ player.Calamity().newSkeletonMerchantInventory = enabled; }),
+            (NPCType<SEAHOE>(), (Player player) => player.Calamity().newAmidiasInventory,(Player player, bool enabled) =>{ player.Calamity().newAmidiasInventory = enabled; }),
+            (NPCType<THIEF>(), (Player player) => player.Calamity().newBanditInventory,(Player player, bool enabled) =>{ player.Calamity().newBanditInventory = enabled; }),
+            (NPCType<FAP>(), (Player player) => player.Calamity().newCirrusInventory,(Player player, bool enabled) =>{ player.Calamity().newCirrusInventory = enabled; }),
+            (NPCType<DILF>(), (Player player) => player.Calamity().newPermafrostInventory,(Player player, bool enabled) =>{ player.Calamity().newPermafrostInventory = enabled; }),
+            (NPCType<WITCH>(), (Player player) => player.Calamity().newCalamitasInventory,(Player player, bool enabled) =>{ player.Calamity().newCalamitasInventory = enabled; }) // lol
+        };
+
         public void TownNPCAlertSystem(NPC npc, Mod mod, SpriteBatch spriteBatch)
         {
             if (CalamityConfig.Instance.ShopNewAlert && npc.townNPC)
             {
-                if (npc.type == NPCType<DILF>() && Main.LocalPlayer.Calamity().newPermafrostInventory)
+                for (int i = 0; i < npcAlertList.Count; i++)
                 {
-                    DrawNewInventoryAlert(npc);
-                }
-                else if (npc.type == NPCType<FAP>() && Main.LocalPlayer.Calamity().newCirrusInventory)
-                {
-                    DrawNewInventoryAlert(npc);
-                }
-                else if (npc.type == NPCType<SEAHOE>() && Main.LocalPlayer.Calamity().newAmidiasInventory)
-                {
-                    DrawNewInventoryAlert(npc);
-                }
-                else if (npc.type == NPCType<THIEF>() && Main.LocalPlayer.Calamity().newBanditInventory)
-                {
-                    DrawNewInventoryAlert(npc);
-                }
-                else
-                {
-                    switch (npc.type)
+                    if (npc.type == npcAlertList[i].Item1 && npcAlertList[i].Item2(Main.LocalPlayer))
                     {
-                        case NPCID.Merchant:
-                            if (Main.LocalPlayer.Calamity().newMerchantInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Painter:
-                            if (Main.LocalPlayer.Calamity().newPainterInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Golfer:
-                            if (Main.LocalPlayer.Calamity().newGolferInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.BestiaryGirl:
-                            if (Main.LocalPlayer.Calamity().newZoologistInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.DyeTrader:
-                            if (Main.LocalPlayer.Calamity().newDyeTraderInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.PartyGirl:
-                            if (Main.LocalPlayer.Calamity().newPartyGirlInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Stylist:
-                            if (Main.LocalPlayer.Calamity().newStylistInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Demolitionist:
-                            if (Main.LocalPlayer.Calamity().newDemolitionistInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Dryad:
-                            if (Main.LocalPlayer.Calamity().newDryadInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.DD2Bartender:
-                            if (Main.LocalPlayer.Calamity().newTavernkeepInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.ArmsDealer:
-                            if (Main.LocalPlayer.Calamity().newArmsDealerInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.GoblinTinkerer:
-                            if (Main.LocalPlayer.Calamity().newGoblinTinkererInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.WitchDoctor:
-                            if (Main.LocalPlayer.Calamity().newWitchDoctorInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Clothier:
-                            if (Main.LocalPlayer.Calamity().newClothierInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Mechanic:
-                            if (Main.LocalPlayer.Calamity().newMechanicInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Pirate:
-                            if (Main.LocalPlayer.Calamity().newPirateInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Truffle:
-                            if (Main.LocalPlayer.Calamity().newTruffleInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Wizard:
-                            if (Main.LocalPlayer.Calamity().newWizardInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Steampunker:
-                            if (Main.LocalPlayer.Calamity().newSteampunkerInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Cyborg:
-                            if (Main.LocalPlayer.Calamity().newCyborgInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.Princess:
-                            if (Main.LocalPlayer.Calamity().newPrincessInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        case NPCID.SkeletonMerchant:
-                            if (Main.LocalPlayer.Calamity().newSkeletonMerchantInventory)
-                                DrawNewInventoryAlert(npc);
-                            break;
-                        default:
-                            break;
+                        DrawNewInventoryAlert(npc);
                     }
                 }
 
@@ -769,176 +710,27 @@ namespace CalamityMod.NPCs
 
         public override void OnChatButtonClicked(NPC npc, bool firstButton)
         {
-            if (npc.townNPC)
+            for (int i = 0; i < npcAlertList.Count; i++)
             {
-                switch (npc.type)
+                if (npc.type == npcAlertList[i].Item1)
                 {
-                    case NPCID.Merchant:
-                        Main.LocalPlayer.Calamity().newMerchantInventory = false;
-                        break;
-                    case NPCID.Painter:
-                        Main.LocalPlayer.Calamity().newPainterInventory = false;
-                        break;
-                    case NPCID.Golfer:
-                        Main.LocalPlayer.Calamity().newGolferInventory = false;
-                        break;
-                    case NPCID.BestiaryGirl:
-                        Main.LocalPlayer.Calamity().newZoologistInventory = false;
-                        break;
-                    case NPCID.DyeTrader:
-                        Main.LocalPlayer.Calamity().newDyeTraderInventory = false;
-                        break;
-                    case NPCID.PartyGirl:
-                        Main.LocalPlayer.Calamity().newPartyGirlInventory = false;
-                        break;
-                    case NPCID.Stylist:
-                        Main.LocalPlayer.Calamity().newStylistInventory = false;
-                        break;
-                    case NPCID.Demolitionist:
-                        Main.LocalPlayer.Calamity().newDemolitionistInventory = false;
-                        break;
-                    case NPCID.Dryad:
-                        Main.LocalPlayer.Calamity().newDryadInventory = false;
-                        break;
-                    case NPCID.DD2Bartender:
-                        Main.LocalPlayer.Calamity().newTavernkeepInventory = false;
-                        break;
-                    case NPCID.ArmsDealer:
-                        Main.LocalPlayer.Calamity().newArmsDealerInventory = false;
-                        break;
-                    case NPCID.GoblinTinkerer:
-                        Main.LocalPlayer.Calamity().newGoblinTinkererInventory = false;
-                        break;
-                    case NPCID.WitchDoctor:
-                        Main.LocalPlayer.Calamity().newWitchDoctorInventory = false;
-                        break;
-                    case NPCID.Clothier:
-                        Main.LocalPlayer.Calamity().newClothierInventory = false;
-                        break;
-                    case NPCID.Mechanic:
-                        Main.LocalPlayer.Calamity().newMechanicInventory = false;
-                        break;
-                    case NPCID.Pirate:
-                        Main.LocalPlayer.Calamity().newPirateInventory = false;
-                        break;
-                    case NPCID.Truffle:
-                        Main.LocalPlayer.Calamity().newTruffleInventory = false;
-                        break;
-                    case NPCID.Wizard:
-                        Main.LocalPlayer.Calamity().newWizardInventory = false;
-                        break;
-                    case NPCID.Steampunker:
-                        Main.LocalPlayer.Calamity().newSteampunkerInventory = false;
-                        break;
-                    case NPCID.Cyborg:
-                        Main.LocalPlayer.Calamity().newCyborgInventory = false;
-                        break;
-                    case NPCID.Princess:
-                        Main.LocalPlayer.Calamity().newPrincessInventory = false;
-                        break;
-                    case NPCID.SkeletonMerchant:
-                        Main.LocalPlayer.Calamity().newSkeletonMerchantInventory = false;
-                        break;
-                    default:
-                        break;
+                    npcAlertList[i].Item3(Main.LocalPlayer, false);
                 }
             }
         }
 
         public static void SetNewShopVariable(int[] types, bool alreadySet)
         {
+            string npcname = ContentSamples.NpcsByNetId[types[0]].FullName;
             if (!alreadySet)
             {
                 for (int i = 0; i < types.Length; i++)
                 {
-                    if (types[i] == NPCType<DILF>())
+                    for (int n = 0; n < npcAlertList.Count; n++)
                     {
-                        Main.LocalPlayer.Calamity().newPermafrostInventory = true;
-                    }
-                    else if (types[i] == NPCType<FAP>())
-                    {
-                        Main.LocalPlayer.Calamity().newCirrusInventory = true;
-                    }
-                    else if (types[i] == NPCType<SEAHOE>())
-                    {
-                        Main.LocalPlayer.Calamity().newAmidiasInventory = true;
-                    }
-                    else if (types[i] == NPCType<THIEF>())
-                    {
-                        Main.LocalPlayer.Calamity().newBanditInventory = true;
-                    }
-                    else
-                    {
-                        switch (types[i])
+                        if (types[i] == npcAlertList[n].Item1)
                         {
-                            case NPCID.Merchant:
-                                Main.LocalPlayer.Calamity().newMerchantInventory = true;
-                                break;
-                            case NPCID.Painter:
-                                Main.LocalPlayer.Calamity().newPainterInventory = true;
-                                break;
-                            case NPCID.Golfer:
-                                Main.LocalPlayer.Calamity().newGolferInventory = true;
-                                break;
-                            case NPCID.BestiaryGirl:
-                                Main.LocalPlayer.Calamity().newZoologistInventory = true;
-                                break;
-                            case NPCID.DyeTrader:
-                                Main.LocalPlayer.Calamity().newDyeTraderInventory = true;
-                                break;
-                            case NPCID.PartyGirl:
-                                Main.LocalPlayer.Calamity().newPartyGirlInventory = true;
-                                break;
-                            case NPCID.Stylist:
-                                Main.LocalPlayer.Calamity().newStylistInventory = true;
-                                break;
-                            case NPCID.Demolitionist:
-                                Main.LocalPlayer.Calamity().newDemolitionistInventory = true;
-                                break;
-                            case NPCID.Dryad:
-                                Main.LocalPlayer.Calamity().newDryadInventory = true;
-                                break;
-                            case NPCID.DD2Bartender:
-                                Main.LocalPlayer.Calamity().newTavernkeepInventory = true;
-                                break;
-                            case NPCID.ArmsDealer:
-                                Main.LocalPlayer.Calamity().newArmsDealerInventory = true;
-                                break;
-                            case NPCID.GoblinTinkerer:
-                                Main.LocalPlayer.Calamity().newGoblinTinkererInventory = true;
-                                break;
-                            case NPCID.WitchDoctor:
-                                Main.LocalPlayer.Calamity().newWitchDoctorInventory = true;
-                                break;
-                            case NPCID.Clothier:
-                                Main.LocalPlayer.Calamity().newClothierInventory = true;
-                                break;
-                            case NPCID.Mechanic:
-                                Main.LocalPlayer.Calamity().newMechanicInventory = true;
-                                break;
-                            case NPCID.Pirate:
-                                Main.LocalPlayer.Calamity().newPirateInventory = true;
-                                break;
-                            case NPCID.Truffle:
-                                Main.LocalPlayer.Calamity().newTruffleInventory = true;
-                                break;
-                            case NPCID.Wizard:
-                                Main.LocalPlayer.Calamity().newWizardInventory = true;
-                                break;
-                            case NPCID.Steampunker:
-                                Main.LocalPlayer.Calamity().newSteampunkerInventory = true;
-                                break;
-                            case NPCID.Cyborg:
-                                Main.LocalPlayer.Calamity().newCyborgInventory = true;
-                                break;
-                            case NPCID.Princess:
-                                Main.LocalPlayer.Calamity().newPrincessInventory = true;
-                                break;
-                            case NPCID.SkeletonMerchant:
-                                Main.LocalPlayer.Calamity().newSkeletonMerchantInventory = true;
-                                break;
-                            default:
-                                break;
+                            npcAlertList[n].Item3(Main.LocalPlayer, true);
                         }
                     }
                 }
@@ -1343,7 +1135,9 @@ namespace CalamityMod.NPCs
                 shop.AddWithCustomValue(ItemID.JungleRose, Item.buyPrice(gold: 2))
                 .AddWithCustomValue(ItemID.NaturesGift, Item.buyPrice(gold: 10))
                 .Add(ItemType<RomajedaOrchid>())
-                .AddWithCustomValue(ItemID.Grapes, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnough, Condition.DownedSkeletron);
+                .AddWithCustomValue(ItemID.Grapes, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnough, Condition.DownedSkeletron)
+                .Add(ItemID.CorruptSeeds, Condition.CrimsonWorld, Condition.InGraveyard)
+                .Add(ItemID.CrimsonSeeds, Condition.CorruptWorld, Condition.InGraveyard);
             }
 
             if (type == NPCID.GoblinTinkerer)

@@ -42,33 +42,33 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2)
             {
                 int i = Main.myPlayer;
-                float num72 = Item.shootSpeed;
+                float projSpeed = Item.shootSpeed;
                 player.itemTime = Item.useTime;
-                Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-                float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+                Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
+                float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
+                float mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
                 if (player.gravDir == -1f)
                 {
-                    num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+                    mouseYDist = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - realPlayerPos.Y;
                 }
-                float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+                float mouseDistance = (float)Math.Sqrt((double)(mouseXDist * mouseXDist + mouseYDist * mouseYDist));
+                if ((float.IsNaN(mouseXDist) && float.IsNaN(mouseYDist)) || (mouseXDist == 0f && mouseYDist == 0f))
                 {
-                    num78 = (float)player.direction;
-                    num79 = 0f;
-                    num80 = num72;
+                    mouseXDist = (float)player.direction;
+                    mouseYDist = 0f;
+                    mouseDistance = projSpeed;
                 }
                 else
                 {
-                    num80 = num72 / num80;
+                    mouseDistance = projSpeed / mouseDistance;
                 }
-                num78 *= num80;
-                num79 *= num80;
-                vector2.X = (float)Main.mouseX + Main.screenPosition.X;
-                vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-                Vector2 spinningpoint = new Vector2(num78, num79);
+                mouseXDist *= mouseDistance;
+                mouseYDist *= mouseDistance;
+                realPlayerPos.X = (float)Main.mouseX + Main.screenPosition.X;
+                realPlayerPos.Y = (float)Main.mouseY + Main.screenPosition.Y;
+                Vector2 spinningpoint = new Vector2(mouseXDist, mouseYDist);
                 spinningpoint = spinningpoint.RotatedBy(1.5707963705062866, default);
-                int p = Projectile.NewProjectile(source, vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, knockback, i, 0f, 1f);
+                int p = Projectile.NewProjectile(source, realPlayerPos.X + spinningpoint.X, realPlayerPos.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, knockback, i, 0f, 1f);
                 if (Main.projectile.IndexInRange(p))
                     Main.projectile[p].originalDamage = Item.damage;
             }

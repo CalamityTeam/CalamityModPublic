@@ -285,7 +285,7 @@ namespace CalamityMod.Projectiles.Melee
 
             //Make the owner look like theyre holding the sword bla bla
             Owner.heldProj = Projectile.whoAmI;
-            Owner.direction = Math.Sign(Projectile.velocity.X);
+            Owner.ChangeDir(Math.Sign(Projectile.velocity.X));
             Owner.itemRotation = Projectile.rotation;
             if (Owner.direction != 1)
             {
@@ -432,13 +432,6 @@ namespace CalamityMod.Projectiles.Melee
             if (Combo == 3f)
             {
                 SoundEngine.PlaySound(CommonCalamitySounds.ScissorGuillotineSnapSound with { Volume =CommonCalamitySounds.ScissorGuillotineSnapSound.Volume * 1.3f }, Projectile.Center);
-
-                if (Charge <= 1)
-                {
-                    ArkoftheCosmos sword = (Owner.HeldItem.ModItem as ArkoftheCosmos);
-                    if (sword != null)
-                        sword.Charge = 2f;
-                }
             }
         }
 

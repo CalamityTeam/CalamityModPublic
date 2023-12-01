@@ -6,6 +6,7 @@ using CalamityMod.Dusts;
 using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.NPCs;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
@@ -109,6 +110,7 @@ namespace CalamityMod.Projectiles
         public int stealthStrikeHitCount = 0;
         public bool extorterBoost = false;
         public bool LocketClone = false;
+        public bool CannotProc = false;
 
         // Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         // TODO -- uses of this variable are undocumented and unstable. Remove it from the API surface.
@@ -160,7 +162,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion On Spawn
 
-        #region SetDefaults
+        #region Set Defaults
         public override void SetDefaults(Projectile projectile)
         {
             // OLD 1.3 CODE: Disable Lunatic Cultist's homing resistance globally
@@ -171,7 +173,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-        #region PreAI
+        #region Pre AI
         public override bool PreAI(Projectile projectile)
         {
             #region Vanilla Summons AI Changes
@@ -187,6 +189,10 @@ namespace CalamityMod.Projectiles
             // Imp Staff's minion changes.
             if (projectile.type == ProjectileID.FlyingImp)
                 return ImpMinionAI.DoImpMinionAI(projectile);
+
+            // Raven Staff's minion changes.
+            if (projectile.type == ProjectileID.Raven)
+                return RavenMinionAI.DoRavenMinionAI(projectile);
 
             //
             // SENTRY AI CHANGES:
@@ -1010,7 +1016,109 @@ namespace CalamityMod.Projectiles
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                if (projectile.type == ProjectileID.DemonSickle)
+                if (projectile.type == ProjectileID.DeerclopsIceSpike)
+                {
+                    int dustType = 16;
+                    float dustVelocityMultiplier = 0.75f;
+                    int numDust = 5;
+                    int numDust2 = 5;
+                    int fadeInTime = 10;
+                    int fadeOutGateValue = 10;
+                    float killGateValue = 20f;
+                    int maxFrames = 5;
+
+                    bool fadeIn = projectile.ai[0] < (float)fadeInTime;
+                    bool fadeOut = projectile.ai[0] >= (float)fadeOutGateValue;
+                    bool killProjectile = projectile.ai[0] >= killGateValue;
+                    projectile.ai[0] += 1f;
+                    if (projectile.localAI[0] == 0f)
+                    {
+                        projectile.localAI[0] = 1f;
+                        projectile.rotation = projectile.velocity.ToRotation();
+                        projectile.frame = Main.rand.Next(maxFrames);
+
+                        for (int i = 0; i < numDust; i++)
+                        {
+                            Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24f, 24f), dustType, projectile.velocity * dustVelocityMultiplier * MathHelper.Lerp(0.2f, 0.7f, Main.rand.NextFloat()));
+                            dust.velocity += Main.rand.NextVector2Circular(0.5f, 0.5f);
+                            dust.scale = 0.8f + Main.rand.NextFloat() * 0.5f;
+                        }
+
+                        for (int j = 0; j < numDust2; j++)
+                        {
+                            Dust dust2 = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24f, 24f), dustType, Main.rand.NextVector2Circular(2f, 2f) + projectile.velocity * dustVelocityMultiplier * MathHelper.Lerp(0.2f, 0.5f, Main.rand.NextFloat()));
+                            dust2.velocity += Main.rand.NextVector2Circular(0.5f, 0.5f);
+                            dust2.scale = 0.8f + Main.rand.NextFloat() * 0.5f;
+                            dust2.fadeIn = 1f;
+                        }
+
+                        SoundEngine.PlaySound(SoundID.DeerclopsIceAttack, projectile.Center);
+                    }
+
+                    if (fadeIn)
+                    {
+                        projectile.Opacity += 0.1f;
+                        projectile.scale = projectile.Opacity * projectile.ai[1];
+                    }
+
+                    if (fadeOut)
+                        projectile.Opacity -= 0.2f;
+
+                    if (killProjectile)
+                        projectile.Kill();
+
+                    return false;
+                }
+
+                // Override Deerclops rubble behavior to create a wave of rubble instead of it all flying up at the same time
+                // Rubble doesn't deal damage if it's not moving
+                else if (projectile.type == ProjectileID.DeerclopsRangedProjectile)
+                {
+                    projectile.ai[0] += 1f;
+
+                    projectile.frame = (int)projectile.ai[1];
+
+                    if (projectile.localAI[0] == 0f)
+                    {
+                        projectile.localAI[0] = 1f;
+                        projectile.rotation = projectile.velocity.ToRotation();
+                        for (int dustIndex = 0; dustIndex < 5; dustIndex++)
+                        {
+                            Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24f, 24f), 16, projectile.velocity * MathHelper.Lerp(0.2f, 0.7f, Main.rand.NextFloat()));
+                            dust.velocity += Main.rand.NextVector2Circular(0.5f, 0.5f);
+                            dust.scale = 0.8f + Main.rand.NextFloat() * 0.5f;
+                        }
+
+                        for (int dustIndex = 0; dustIndex < 5; dustIndex++)
+                        {
+                            Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(24f, 24f), 16, Main.rand.NextVector2Circular(2f, 2f) + projectile.velocity * MathHelper.Lerp(0.2f, 0.5f, Main.rand.NextFloat()));
+                            dust.velocity += Main.rand.NextVector2Circular(0.5f, 0.5f);
+                            dust.scale = 0.8f + Main.rand.NextFloat() * 0.5f;
+                            dust.fadeIn = 1f;
+                        }
+                    }
+
+                    if (projectile.ai[0] >= 5f + projectile.ai[2])
+                        projectile.velocity.Y += 0.15f;
+
+                    // Create a wave of rubble
+                    // Make sure the projectile doesn't despawn before it starts going up
+                    if (projectile.ai[0] <= projectile.ai[2])
+                    {
+                        projectile.timeLeft += 1;
+
+                        // Use the expected velocity when the time is right
+                        if (projectile.ai[0] == projectile.ai[2])
+                        {
+                            projectile.velocity *= 100f;
+                            projectile.velocity *= 12f + Main.rand.NextFloat() * 2f;
+                        }
+                    }
+
+                    return false;
+                }
+
+                else if (projectile.type == ProjectileID.DemonSickle)
                 {
                     if (Main.wofNPCIndex < 0 || !Main.npc[Main.wofNPCIndex].active || Main.npc[Main.wofNPCIndex].life <= 0)
                         return true;
@@ -2114,7 +2222,8 @@ namespace CalamityMod.Projectiles
                     {
                         if (projectile.type != ProjectileType<RicoshotCoin>())
                             projectile.extraUpdates += 1;
-                        if (projectile.type == ProjectileID.MechanicalPiranha) {
+                        if (projectile.type == ProjectileID.MechanicalPiranha)
+                        {
                             projectile.localNPCHitCooldown *= 2;
                             projectile.timeLeft *= 2;
                         }
@@ -2304,6 +2413,8 @@ namespace CalamityMod.Projectiles
 
                 if (projectile.CountsAsClass<RogueDamageClass>())
                 {
+                    if (!LocketClone && !CannotProc)
+                    {
                         if (modPlayer.nanotech)
                         {
                             if (Main.player[projectile.owner].miscCounter % 30 == 0 && projectile.FinalExtraUpdate())
@@ -2311,6 +2422,9 @@ namespace CalamityMod.Projectiles
                                 if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<NanotechProjectile>()] < 5)
                                 {
                                     int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(60);
+                                    if (modPlayer.oldFashioned)
+                                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
+
                                     Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), damage, 0f, projectile.owner);
                                 }
                             }
@@ -2322,6 +2436,9 @@ namespace CalamityMod.Projectiles
                                 if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 5)
                                 {
                                     int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(45);
+                                    if (modPlayer.oldFashioned)
+                                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
+
                                     int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), damage, 0f, projectile.owner);
                                     if (proj.WithinBounds(Main.maxProjectiles))
                                         Main.projectile[proj].DamageType = DamageClass.Generic;
@@ -2336,10 +2453,15 @@ namespace CalamityMod.Projectiles
                                 if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 5)
                                 {
                                     int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(DragonScales.ShitBaseDamage);
-                                    int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
-                                        damage, 0f, projectile.owner);
+                                    if (modPlayer.oldFashioned)
+                                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
+
+                                    int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * 1.2f, ProjectileType<DragonShit>(), damage, 0f, projectile.owner);
                                     if (proj.WithinBounds(Main.maxProjectiles))
+                                    {
                                         Main.projectile[proj].DamageType = DamageClass.Generic;
+                                        Main.projectile[proj].ArmorPenetration = 10;
+                                    }
                                 }
                             }
                         }
@@ -2352,6 +2474,9 @@ namespace CalamityMod.Projectiles
                                 {
                                     // Daedalus Rogue Crystals: 2 x 25%, soft cap starts at 120 base damage
                                     int crystalDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30);
+                                    if (modPlayer.oldFashioned)
+                                        crystalDamage = CalamityUtils.CalcOldFashionedDamage(crystalDamage);
+
                                     for (int i = 0; i < 2; i++)
                                     {
                                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
@@ -2362,9 +2487,10 @@ namespace CalamityMod.Projectiles
                                 }
                             }
                         }
-                    
+                    }
+
                     if (player.meleeEnchant > 0 && !projectile.noEnchantments && !projectile.noEnchantmentVisuals)
-                        {
+                    {
                         switch (player.meleeEnchant)
                         {
                             case 1:
@@ -2457,7 +2583,7 @@ namespace CalamityMod.Projectiles
                             dust.noGravity = dust.type == 121 ? false : true;
                             if (!player.Calamity().flaskHoly)
                                 dust.fadeIn = 1f;
-                            dust.velocity = player.Calamity().flaskHoly && Main.rand.NextBool(3) ? new Vector2(Main.rand.NextFloat(-0.9f, 0.9f), Main.rand.NextFloat(-6.6f, -9.8f)) : dust.type == 121 ? new Vector2 (Main.rand.NextFloat(-0.7f, 0.7f), Main.rand.NextFloat(0.6f, 1.8f)) : -projectile.velocity * 0.2f;
+                            dust.velocity = player.Calamity().flaskHoly && Main.rand.NextBool(3) ? new Vector2(Main.rand.NextFloat(-0.9f, 0.9f), Main.rand.NextFloat(-6.6f, -9.8f)) : dust.type == 121 ? new Vector2(Main.rand.NextFloat(-0.7f, 0.7f), Main.rand.NextFloat(0.6f, 1.8f)) : -projectile.velocity * 0.2f;
                         }
                     }
                 }
@@ -2660,6 +2786,18 @@ namespace CalamityMod.Projectiles
 
             switch (projectile.type)
             {
+                // Rev+ Deerclops ice spikes can only deal damage while they're not fading out
+                case ProjectileID.DeerclopsIceSpike:
+                    if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+                        return projectile.ai[0] < 10f;
+                    break;
+
+                // Rev+ Deerclops rubble doesn't deal damage while it's not flying upwards
+                case ProjectileID.DeerclopsRangedProjectile:
+                    if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+                        return projectile.ai[0] > projectile.ai[2];
+                    break;
+
                 // Storm Weaver frost waves don't deal damage unless they're at their max velocity
                 case ProjectileID.FrostWave:
                     if (projectile.ai[1] > 0f)
@@ -2772,6 +2910,17 @@ namespace CalamityMod.Projectiles
 
         public override bool PreDraw(Projectile projectile, ref Color lightColor)
         {
+            #region Vanilla Summons Drawing Changes
+
+            //
+            // MINION AI CHANGES:
+            //
+
+            if (projectile.type == ProjectileID.Raven)
+                return RavenMinionAI.DoRavenMinionDrawing(projectile, ref lightColor);
+
+            #endregion
+
             // Chlorophyte Crystal AI rework.
             if (projectile.type == ProjectileID.CrystalLeaf)
                 return ChlorophyteCrystalAI.DoChlorophyteCrystalDrawing(projectile);
@@ -2848,6 +2997,9 @@ namespace CalamityMod.Projectiles
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                             int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
+                            if (player.Calamity().oldFashioned)
+                                damage = CalamityUtils.CalcOldFashionedDamage(damage);
+
                             int soul = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), damage, 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
                             if (soul.WithinBounds(Main.maxProjectiles))
@@ -2858,6 +3010,9 @@ namespace CalamityMod.Projectiles
                     if (modPlayer.scuttlersJewel && stealthStrike && modPlayer.scuttlerCooldown <= 0)
                     {
                         int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
+                        if (modPlayer.oldFashioned)
+                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
+
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))
@@ -2878,7 +3033,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-        #region LifeSteal
+        #region Life Steal
         public static bool CanSpawnLifeStealProjectile(float healMultiplier, float healAmount)
         {
             if (healMultiplier <= 0f || (int)healAmount <= 0)

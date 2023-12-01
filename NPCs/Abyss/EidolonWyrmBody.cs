@@ -82,39 +82,39 @@ namespace CalamityMod.NPCs.Abyss
                     NPC.alpha = 0;
             }
 
-            Vector2 vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-            float num191 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
-            float num192 = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
-            num191 = (float)((int)(num191 / 16f) * 16);
-            num192 = (float)((int)(num192 / 16f) * 16);
-            vector18.X = (float)((int)(vector18.X / 16f) * 16);
-            vector18.Y = (float)((int)(vector18.Y / 16f) * 16);
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
-            float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+            Vector2 segmentPosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+            float targetXDirection = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);
+            float targetYDirection = Main.player[NPC.target].position.Y + (float)(Main.player[NPC.target].height / 2);
+            targetXDirection = (float)((int)(targetXDirection / 16f) * 16);
+            targetYDirection = (float)((int)(targetYDirection / 16f) * 16);
+            segmentPosition.X = (float)((int)(segmentPosition.X / 16f) * 16);
+            segmentPosition.Y = (float)((int)(segmentPosition.Y / 16f) * 16);
+            targetXDirection -= segmentPosition.X;
+            targetYDirection -= segmentPosition.Y;
+            float targetDistance = (float)System.Math.Sqrt((double)(targetXDirection * targetXDirection + targetYDirection * targetYDirection));
             if (NPC.ai[1] > 0f && NPC.ai[1] < (float)Main.npc.Length)
             {
                 try
                 {
-                    vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                    num191 = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - vector18.X;
-                    num192 = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - vector18.Y;
+                    segmentPosition = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
+                    targetXDirection = Main.npc[(int)NPC.ai[1]].position.X + (float)(Main.npc[(int)NPC.ai[1]].width / 2) - segmentPosition.X;
+                    targetYDirection = Main.npc[(int)NPC.ai[1]].position.Y + (float)(Main.npc[(int)NPC.ai[1]].height / 2) - segmentPosition.Y;
                 } catch
                 {
                 }
-                NPC.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
-                num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-                int num194 = NPC.width;
-                num193 = (num193 - (float)num194) / num193;
-                num191 *= num193;
-                num192 *= num193;
+                NPC.rotation = (float)System.Math.Atan2((double)targetYDirection, (double)targetXDirection) + 1.57f;
+                targetDistance = (float)System.Math.Sqrt((double)(targetXDirection * targetXDirection + targetYDirection * targetYDirection));
+                int segmentWidth = NPC.width;
+                targetDistance = (targetDistance - (float)segmentWidth) / targetDistance;
+                targetXDirection *= targetDistance;
+                targetYDirection *= targetDistance;
                 NPC.velocity = Vector2.Zero;
-                NPC.position.X = NPC.position.X + num191;
-                NPC.position.Y = NPC.position.Y + num192;
+                NPC.position.X = NPC.position.X + targetXDirection;
+                NPC.position.Y = NPC.position.Y + targetYDirection;
 
-                if (num191 < 0f)
+                if (targetXDirection < 0f)
                     NPC.spriteDirection = -1;
-                else if (num191 > 0f)
+                else if (targetXDirection > 0f)
                     NPC.spriteDirection = 1;
             }
         }
@@ -127,13 +127,13 @@ namespace CalamityMod.NPCs.Abyss
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
             Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
-            Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
+            Vector2 halfSizeTexture = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2));
             Vector2 vector = center - screenPos;
             vector -= new Vector2((float)ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/EidolonWyrmBodyGlow").Value.Width, (float)(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/EidolonWyrmBodyGlow").Value.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
+            vector += halfSizeTexture * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
             Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
             Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Abyss/EidolonWyrmBodyGlow").Value, vector,
-                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
+                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), color, NPC.rotation, halfSizeTexture, 1f, spriteEffects, 0f);
         }
 
         public override bool CheckActive()

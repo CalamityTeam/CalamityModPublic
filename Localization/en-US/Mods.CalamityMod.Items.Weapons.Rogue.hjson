@@ -977,8 +977,8 @@ ScourgeoftheDesert: {
 	DisplayName: Scourge of the Desert
 	Tooltip:
 		'''
-		Gains velocity over time
-		Stealth strikes gain damage as they damage enemies
+		A javelin that will burrow through the ground and launch itself at enemies
+		Stealth strikes throw three javelins that will burrow multiple times
 		'''
 }
 
@@ -1172,7 +1172,7 @@ StormfrontRazor: {
 	DisplayName: Stormfront Razor
 	Tooltip:
 		'''
-		Throws a knife that summons lightning on hit.
+		Throws a knife that summons lightning on hit
 		Stealth strikes cause the knife to be faster and summon multiple lightning bolts on hit
 		[c/24C7F0:'Strike and stem the flow']
 		'''
