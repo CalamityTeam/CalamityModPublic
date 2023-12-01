@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             // Rotation and directioning.
-            if (Slashing)
+            if (Slashing || CurrentFrame == 10)
             {
                 float velocityAngle = Projectile.velocity.ToRotation();
                 Projectile.rotation = velocityAngle + (Projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
