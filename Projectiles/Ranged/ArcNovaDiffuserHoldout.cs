@@ -81,9 +81,9 @@ namespace CalamityMod.Projectiles.Ranged
                         float charge2KB = Projectile.knockBack * 3f;
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, shootVelocity, ModContent.ProjectileType<NovaChargedShot>(), charge2Damage, charge2KB, Projectile.owner);
                         Owner.Calamity().GeneralScreenShakePower = 6.5f;
-                        for (int i = 0; i <= 20; i++)
+                        for (int i = 0; i <= 25; i++)
                         {
-                            Dust dust = Dust.NewDustPerfect(tipPosition, 107, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.2f, 1.2f), 0, default, Main.rand.NextFloat(1.5f, 2.3f));
+                            Dust dust = Dust.NewDustPerfect(tipPosition - Projectile.velocity * 15, 107, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.2f, 1.2f), 0, default, Main.rand.NextFloat(1f, 2.3f));
                             dust.noGravity = true;
                         }
 
@@ -113,9 +113,9 @@ namespace CalamityMod.Projectiles.Ranged
                         Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * BulletSpeed;
                         Vector2 fireVec = shootVelocity.RotatedByRandom(MathHelper.ToRadians(2f));
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), tipPosition, fireVec, ModContent.ProjectileType<NovaShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        for (int i = 0; i <= 3; i++)
+                        for (int i = 0; i <= 4; i++)
                         {
-                            Dust dust = Dust.NewDustPerfect(tipPosition, 107, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.9f, 1.2f), 0, default, Main.rand.NextFloat(1.3f, 1.7f));
+                            Dust dust = Dust.NewDustPerfect(tipPosition - Projectile.velocity * 15, 107, shootVelocity.RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(0.9f, 1.2f), 0, default, Main.rand.NextFloat(0.8f, 1.8f));
                             dust.noGravity = true;
                         }
 

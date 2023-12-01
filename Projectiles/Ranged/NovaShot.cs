@@ -38,20 +38,11 @@ namespace CalamityMod.Projectiles.Ranged
             //Dust dust = Dust.NewDustPerfect(Projectile.Center, 107); // + Main.rand.NextVector2Circular(-3, 3)
             //dust.noGravity = true;
             //dust.scale = 0.5f;
-            if (Main.rand.NextBool(4))
+            if (Projectile.timeLeft % 2 == 0 && Projectile.timeLeft < 290)
             {
-                Vector2 SparkVelocity1 = Projectile.velocity.RotatedBy(-3, default) * 0.1f - Projectile.velocity / 2f;
-                Vector2 SparkPosition1 = Projectile.velocity.RotatedBy(-0.8, default);
-                SparkParticle spark = new SparkParticle(Projectile.Center + SparkPosition1, SparkVelocity1, false, Main.rand.Next(4, 5), Main.rand.NextFloat(0.4f, 0.6f), Color.Lime);
+                SparkParticle spark = new SparkParticle(Projectile.Center - Projectile.velocity * 0.5f, Projectile.velocity * 0.01f, false, 5, 1f, Color.Lime * 0.6f);
                 GeneralParticleHandler.SpawnParticle(spark);
 
-            }
-            if (Main.rand.NextBool(4))
-            {
-                Vector2 SparkVelocity2 = Projectile.velocity.RotatedBy(3, default) * 0.1f - Projectile.velocity / 2f;
-                Vector2 SparkPosition2 = Projectile.velocity.RotatedBy(0.8, default);
-                SparkParticle spark2 = new SparkParticle(Projectile.Center + SparkPosition2, SparkVelocity2, false, Main.rand.Next(4, 5), Main.rand.NextFloat(0.4f, 0.6f), Main.rand.NextBool(4) ? Color.Chartreuse : Color.Lime);
-                GeneralParticleHandler.SpawnParticle(spark2);
             }
         }
         public override bool PreDraw(ref Color lightColor)

@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public void ManipulatePlayerItemValues(Player player)
         {
-            player.direction = Projectile.direction;
+            player.ChangeDir(Projectile.direction);
             player.heldProj = Projectile.whoAmI;
             player.itemRotation = Projectile.rotation;
             player.itemTime = player.itemAnimation;

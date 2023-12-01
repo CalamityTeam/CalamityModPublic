@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Armor.Plaguebringer
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<PlaguebringerSummon>()] < 1)
                 {
-                    int baseDamage = 50;
+                    int baseDamage = 25;
                     if (player.Calamity().oldFashioned)
                         baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 

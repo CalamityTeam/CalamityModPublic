@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
 
 
             direction = Vector2.UnitY.RotatedBy((MathHelper.PiOver4 + Utils.AngleLerp(0f, MathHelper.PiOver4 * 1.5f, HalfTimer / 20f)) * Math.Sign(Timer - 1 - 20f)) * (float)Math.Sin(HalfTimer / 20f * MathHelper.Pi) * 30;
-            Owner.direction = Math.Sign(direction.X);
+            Owner.ChangeDir(Math.Sign(direction.X));
             Owner.itemRotation = direction.ToRotation();
             if (Owner.direction != 1)
             {

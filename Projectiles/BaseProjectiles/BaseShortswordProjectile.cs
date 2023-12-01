@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
             if (ShortswordAIType == ShortswordType.TypicalShortsword && !player.frozen)
             {
-                player.direction = Projectile.direction;
+                player.ChangeDir(Projectile.direction);
                 player.heldProj = Projectile.whoAmI;
                 player.itemTime = player.itemAnimation;
 

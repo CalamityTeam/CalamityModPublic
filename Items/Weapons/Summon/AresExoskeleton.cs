@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Summon/AresExoskeleton").Value;
-            if (ArmExists(Main.LocalPlayer))
+            if (!Main.gameMenu && ArmExists(Main.LocalPlayer))
             {
                 texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Summon/AresExoskeletonRemote").Value;
                 position.X += scale * 6f;

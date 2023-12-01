@@ -67,8 +67,8 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.ai[1] < 2) player.bodyFrame.Y = 1 * player.bodyFrame.Height;
             else player.bodyFrame.Y = 3 * player.bodyFrame.Height;
 
-            if (Projectile.ai[1] == 4 || Projectile.ai[1] == 5) player.direction = -1 * Projectile.spriteDirection;
-            else player.direction = 1 * Projectile.spriteDirection;
+            if (Projectile.ai[1] == 4 || Projectile.ai[1] == 5) player.ChangeDir(-1 * Projectile.spriteDirection);
+            else player.ChangeDir(Projectile.spriteDirection);
         }
         public override bool PreDraw(ref Color lightColor)
         {

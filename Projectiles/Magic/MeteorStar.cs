@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Magic
                         Projectile.velocity.X = mouseVec.X;
                         Projectile.velocity.Y = mouseVec.Y;
                     }
-                    player.direction = (Projectile.velocity.X > 0).ToDirectionInt();
+                    player.ChangeDir((int)Projectile.velocity.X);
                     player.velocity = Projectile.velocity;
                     if (Projectile.velocity.Y > 16f)
                     {
