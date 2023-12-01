@@ -44,6 +44,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             int shadowHand = ProjectileID.InsanityShadowHostile;
             int shadowHandDamage = npc.GetProjectileDamage(shadowHand);
 
+            if (npc.target.WithinBounds(Main.player.Length) && Main.player[npc.target].dead)
+            {
+                hasTargetBeenInRange = false;
+                borderScalar = 0.9f;
+            }
+                
+
             // Target data
             NPCAimedTarget targetData = npc.GetTargetData();
 
@@ -71,7 +78,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Dust.NewDustDirect(npc.position, npc.width, npc.height, 109, 0f, -3f, 0, default(Color), 1.4f).noGravity = true;
                 }
             }
-            else if (!hasTargetBeenInRange)
+            else if (!hasTargetBeenInRange && npc.target.WithinBounds(Main.player.Length) && !Main.player[npc.target].dead)
             {
                 //Target entered the border for the first time
                 hasTargetBeenInRange = true;

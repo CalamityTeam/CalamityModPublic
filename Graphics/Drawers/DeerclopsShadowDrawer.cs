@@ -27,7 +27,7 @@ namespace CalamityMod.Graphics.Drawers
             bool shouldDraw;
             bool deerclopsInactive = false;
             if (NPC.deerclopsBoss >= 0 && NPC.deerclopsBoss.WithinBounds(Main.npc.Length))
-                shouldDraw = deerclops.HasValidTarget;
+                shouldDraw = true;
             else
             {
                 shouldDraw = DeerclopsAI.borderScalar > 0f;
