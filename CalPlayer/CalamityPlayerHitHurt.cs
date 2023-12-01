@@ -2398,7 +2398,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_OnHurt(hurtInfo.DamageSource, AerospecBreastplate.FeatherEntitySourceContext);
                     for (int n = 0; n < 4; n++)
                     {
-                        int featherDamage = (int)Player.GetBestClassDamage().ApplyTo(80);
+                        int featherDamage = (int)Player.GetBestClassDamage().ApplyTo(65);
                         if (oldFashioned)
                             featherDamage = CalamityUtils.CalcOldFashionedDamage(featherDamage);
 
