@@ -2710,6 +2710,20 @@ namespace CalamityMod.Projectiles
             // Old Fashioned damage boost
             if (modPlayer.oldFashioned)
             {
+                // Honey Balloon, Bee Cloak, Honey Comb, Stinger Necklace, Sweetheart Necklace
+                if (player.honeyCombItem != null)
+                {
+                    if (projectile.type == ProjectileID.Bee)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
+                // Star Cloak, Mana Cloak, Star Veil, Bee Cloak
+                if (player.starCloakItem != null)
+                {
+                    if (projectile.type == ProjectileID.BeeCloakStar || projectile.type == ProjectileID.ManaCloakStar || projectile.type == ProjectileID.StarCloakStar)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
                 // Hive Pack
                 if (player.strongBees)
                 {
