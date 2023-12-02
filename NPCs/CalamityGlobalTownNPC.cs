@@ -64,6 +64,7 @@ namespace CalamityMod.NPCs
         {
             "Dazren",
             "Johnny Test", // <@!589966747977777197> (konorango)
+            "Bling Bling Boy", // <@!522970788203069442> (phallguy)
         };
         private static readonly string[] ArmsDealerNames =
         {
@@ -209,7 +210,6 @@ namespace CalamityMod.NPCs
         {
             "Stan Pines",
             "Slap Battles", // <@!923504188615450654> (gravityglider.)
-            /* NAME REMOVED: "Matt Walsh", */ // <@!522970788203069442> (phallguy)
         };
         private static readonly string[] TruffleNames =
         {
