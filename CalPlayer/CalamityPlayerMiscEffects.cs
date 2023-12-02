@@ -723,6 +723,9 @@ namespace CalamityMod.CalPlayer
 
             Rectangle sigilHitbox = Utils.CenteredRectangle(Main.MouseWorld, new Vector2(35f, 62f));
             int sigilDamage = (int)Player.GetBestClassDamage().ApplyTo(Calamity.BaseDamage);
+            if (oldFashioned)
+                sigilDamage = CalamityUtils.CalcOldFashionedDamage(sigilDamage);
+
             bool brightenedSigil = false;
             for (int i = 0; i < Main.maxNPCs; i++)
             {

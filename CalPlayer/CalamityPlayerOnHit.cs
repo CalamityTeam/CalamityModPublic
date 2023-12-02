@@ -331,6 +331,9 @@ namespace CalamityMod.CalPlayer
                 {
                     hideOfDeusTimer = 10;
                     int bulwarkStarDamage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(320);
+                    if (oldFashioned)
+                        bulwarkStarDamage = CalamityUtils.CalcOldFashionedDamage(bulwarkStarDamage);
+
                     for (int n = 0; n < 3; n++)
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), bulwarkStarDamage, 5f, Player.whoAmI);
                 }
@@ -492,6 +495,9 @@ namespace CalamityMod.CalPlayer
                 {
                     hideOfDeusTimer = 10;
                     int bulwarkStarDamage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(320);
+                    if (oldFashioned)
+                        bulwarkStarDamage = CalamityUtils.CalcOldFashionedDamage(bulwarkStarDamage);
+
                     for (int n = 0; n < 3; n++)
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), bulwarkStarDamage, 5f, Player.whoAmI);
                 }

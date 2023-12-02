@@ -342,15 +342,16 @@ namespace CalamityMod.Items
                     {
                         if (damage >= 1)
                         {
-                            int summonDamage = damage;
+                            int baseDamage = item.damage;
                             if (modPlayer.oldFashioned)
-                                summonDamage = CalamityUtils.CalcOldFashionedDamage(summonDamage);
+                                baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
+                            int summonDamage = baseDamage;
                             int projectile = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), summonDamage, 0f, player.whoAmI);
                             if (projectile.WithinBounds(Main.maxProjectiles))
                             {
                                 Main.projectile[projectile].DamageType = DamageClass.Generic;
-                                Main.projectile[projectile].originalDamage = item.damage;
+                                Main.projectile[projectile].originalDamage = baseDamage;
                             }
                         }
                     }
