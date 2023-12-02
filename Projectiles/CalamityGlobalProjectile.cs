@@ -2711,14 +2711,14 @@ namespace CalamityMod.Projectiles
             if (modPlayer.oldFashioned)
             {
                 // Honey Balloon, Bee Cloak, Honey Comb, Stinger Necklace, Sweetheart Necklace
-                if (player.honeyCombItem != null)
+                if (player.honeyCombItem != null && !player.honeyCombItem.IsAir)
                 {
                     if (projectile.type == ProjectileID.Bee)
                         modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
                 }
 
                 // Star Cloak, Mana Cloak, Star Veil, Bee Cloak
-                if (player.starCloakItem != null)
+                if (player.starCloakItem != null && !player.starCloakItem.IsAir)
                 {
                     if (projectile.type == ProjectileID.BeeCloakStar || projectile.type == ProjectileID.ManaCloakStar || projectile.type == ProjectileID.StarCloakStar)
                         modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
@@ -2732,7 +2732,7 @@ namespace CalamityMod.Projectiles
                 }
 
                 // Bone Glove
-                if (player.boneGloveItem != null)
+                if (player.boneGloveItem != null && !player.boneGloveItem.IsAir)
                 {
                     if (projectile.type == ProjectileID.BoneGloveProj)
                         modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
