@@ -165,6 +165,7 @@ BloodBoiler: {
 		'''
 		Fires twin streams of life stealing bloodfire that returns to you
 		Uses your health as ammo
+                40% chance to save health
 		'''
 }
 
