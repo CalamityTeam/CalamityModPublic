@@ -2707,6 +2707,82 @@ namespace CalamityMod.Projectiles
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
 
+            // Old Fashioned damage boost
+            if (modPlayer.oldFashioned)
+            {
+                // Hive Pack
+                if (player.strongBees)
+                {
+                    if (projectile.type == ProjectileID.GiantBee)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
+                // Bone Glove
+                if (player.boneGloveItem != null)
+                {
+                    if (projectile.type == ProjectileID.BoneGloveProj)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
+                // Bone Helm
+                if (player.HasItem(ItemID.BoneHelm))
+                {
+                    if (projectile.type == ProjectileID.InsanityShadowFriendly)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
+                // Volatile Gelatin
+                if (player.volatileGelatin)
+                {
+                    if (projectile.type == ProjectileID.VolatileGelatinBall)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
+                // Spore Sac
+                if (player.sporeSac)
+                {
+                    if (projectile.type == ProjectileID.SporeTrap || projectile.type == ProjectileID.SporeTrap2 ||
+                        projectile.type == ProjectileID.SporeGas || projectile.type == ProjectileID.SporeGas2 ||
+                        projectile.type == ProjectileID.SporeGas3)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
+                // Spectre Mask bonus
+                if (player.ghostHurt)
+                {
+                    if (projectile.type == ProjectileID.SpectreWrath)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
+                // Orichalcum Armor bonus
+                if (player.onHitPetal)
+                {
+                    if (projectile.type == ProjectileID.FlowerPetal)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
+                // Titanium Armor bonus
+                if (player.onHitTitaniumStorm)
+                {
+                    if (projectile.type == ProjectileID.TitaniumStormShard)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
+                // Forbidden Armor bonus
+                if (player.setForbidden)
+                {
+                    if (projectile.type == ProjectileID.SandnadoFriendly)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
+                // Stardust Armor bonus
+                if (player.setStardust)
+                {
+                    if (projectile.type == ProjectileID.StardustGuardianExplosion || projectile.type == ProjectileID.StardustPunch)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+            }
+
             // The vanilla damage Jousting Lance multiplier is as follows. Calamity overrides this with a new formula.
             // damageScale = 0.1f + player.velocity.Length() / 7f * 0.9f
             if (projectile.type == ProjectileID.JoustingLance || projectile.type == ProjectileID.HallowJoustingLance || projectile.type == ProjectileID.ShadowJoustingLance)
