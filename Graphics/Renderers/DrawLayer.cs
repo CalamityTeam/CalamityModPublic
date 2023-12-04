@@ -1,6 +1,6 @@
-﻿namespace CalamityMod.Graphics.Drawers
+﻿namespace CalamityMod.Graphics.Renderers
 {
-    public enum DrawerLayer
+    public enum DrawLayer
     {
         AfterEverything,
         BeforeTiles,

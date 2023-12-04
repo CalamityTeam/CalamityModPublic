@@ -11,7 +11,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon.Whips;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
-using CalamityMod.Graphics.Drawers;
+using CalamityMod.Graphics.Renderers;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
@@ -5701,8 +5701,8 @@ namespace CalamityMod.NPCs
                     VulnerabilityHexFireDrawer = null;
 
                 // Only draw the NPC if told to by the miracle blight drawer.
-                if (MiracleBlightDrawer.ValidToDraw(npc))
-                    return MiracleBlightDrawer.ActuallyDoPreDraw;
+                if (MiracleBlightRenderer.ValidToDraw(npc))
+                    return MiracleBlightRenderer.ActuallyDoPreDraw;
             }
 
             // Draw a pillar of light and fade the background as an animation when skipping things in the DD2 event.

@@ -4,17 +4,16 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
-namespace CalamityMod.Graphics.Drawers
+namespace CalamityMod.Graphics.Renderers
 {
-    public class DeerclopsShadowDrawer : BaseDrawer
+    public class DeerclopsShadowRenderer : BaseRenderer
     {
         #region Fields/Properties
 
-        public override DrawerLayer Layer => DrawerLayer.AfterEverything;
+        public override DrawLayer Layer => DrawLayer.AfterEverything;
 
-        public NPC deerclops => Main.npc[NPC.deerclopsBoss];
+        public static NPC Deerclops => Main.npc[NPC.deerclopsBoss];
 
         //Should only draw if not in the main menu, deerclops is active or the border is fading post-death,
         //it's rev+ and the boolean for drawing the border is true.
@@ -27,7 +26,7 @@ namespace CalamityMod.Graphics.Drawers
             bool shouldDraw;
             bool deerclopsInactive = false;
             if (NPC.deerclopsBoss >= 0 && NPC.deerclopsBoss.WithinBounds(Main.npc.Length))
-                shouldDraw = true;
+                shouldDraw = Deerclops.HasValidTarget;
             else
             {
                 shouldDraw = DeerclopsAI.borderScalar > 0f;
