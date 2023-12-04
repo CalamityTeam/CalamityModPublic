@@ -1,18 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.ModLoader;
 
-namespace CalamityMod.Graphics.Drawers
+namespace CalamityMod.Graphics.Renderers
 {
     /// <summary>
     /// A class to handle drawing a visual effect to a rendertarget, then drawing the target to the screen at selected layer.
     /// </summary>
-    public abstract class BaseDrawer
+    public abstract class BaseRenderer : ModType
     {
         #region Fields/Properties
         /// <summary>
         /// The layer that the target should be drawn at.
         /// </summary>
-        public abstract DrawerLayer Layer { get; }
+        public abstract DrawLayer Layer { get; }
 
         /// <summary>
         /// Whether the target should draw and be drawn to this frame.
@@ -30,27 +31,18 @@ namespace CalamityMod.Graphics.Drawers
         #endregion
 
         #region Methods
-        public void Load()
+        protected sealed override void Register()
         {
-            MainTarget = new(true, ManagedRenderTarget.CreateScreenSizedTarget);
-            OnLoad();
+            ModTypeLookup<BaseRenderer>.Register(this);
+
+            if (!RendererManager.Renderers.Contains(this))
+                RendererManager.Renderers.Add(this);
         }
 
-        /// <summary>
-        /// Called on mod load.
-        /// </summary>
-        public virtual void OnLoad()
-        {
 
-        }
+        public sealed override void SetupContent() => SetStaticDefaults();
 
-        /// <summary>
-        /// Called on mod unload.
-        /// </summary>
-        public virtual void OnUnload()
-        {
-
-        }
+        public sealed override void SetStaticDefaults() => MainTarget = new(true, ManagedRenderTarget.CreateScreenSizedTarget);
 
         /// <summary>
         /// Draw whatever needed to the target here.
@@ -62,10 +54,7 @@ namespace CalamityMod.Graphics.Drawers
         /// Draw the target here. By default, just draws the target.
         /// </summary>
         /// <param name="spriteBatch"></param>
-        public virtual void DrawTarget(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(MainTarget, Vector2.Zero, Color.White);
-        }
+        public virtual void DrawTarget(SpriteBatch spriteBatch) => spriteBatch.Draw(MainTarget, Vector2.Zero, Color.White);
         #endregion
     }
 }
