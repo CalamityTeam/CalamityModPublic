@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 45;
+            Item.damage = 65;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 10;
             Item.width = 52;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = SoundID.Item102;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<WyvernFeatherPurple>();
-            Item.shootSpeed = 18f;
+            Item.shootSpeed = 35f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -76,12 +76,11 @@ namespace CalamityMod.Items.Weapons.Magic
                 }
                 if (type == ModContent.ProjectileType<WyvernProjectile>())
                 {
-                    damageMult = 20f;
+                    damageMult = 15f;
                     kbMult = 1.5f;
                 }
                 if (type == ModContent.ProjectileType<WyvernFeatherPink>())
                 {
-                    damageMult = 1.2f;
                     kbMult = 2f;
                 }
                 realPlayerPos = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
@@ -101,9 +100,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 mouseDistance = projSpeed / mouseDistance;
                 mouseXDist *= mouseDistance;
                 mouseYDist *= mouseDistance;
-                float speedX4 = mouseXDist + (float)Main.rand.Next(-30, 31) * 0.02f;
-                float speedY5 = mouseYDist + (float)Main.rand.Next(-30, 31) * 0.02f;
-                int feather = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, speedX4, speedY5, type, (int)(damage * damageMult), (int)(knockback * kbMult), player.whoAmI, 0f, (float)Main.rand.Next(15));
+                int feather = Projectile.NewProjectile(source, realPlayerPos.X, realPlayerPos.Y, mouseXDist, mouseYDist, type, (int)(damage * damageMult), (int)(knockback * kbMult), player.whoAmI, 0f, (float)Main.rand.Next(15));
             }
             return false;
         }
