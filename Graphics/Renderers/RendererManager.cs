@@ -121,7 +121,7 @@ namespace CalamityMod.Graphics.Renderers
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer);
 
             foreach (var renderer in renderers)
-				renderer.DrawTarget(Main.spriteBatch);
+                renderer.DrawTarget(Main.spriteBatch);
 
             Main.spriteBatch.End();
         }
