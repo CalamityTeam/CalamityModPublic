@@ -42,6 +42,9 @@ namespace CalamityMod.Graphics.Renderers
             if (Main.netMode == NetmodeID.Server)
                 return;
 
+            // Clear the cached renderers, so they can be readded on mod loading when initialized.
+            Renderers.Clear();
+
             Main.QueueMainThreadAction(() =>
             {
                 // Supposed to be auto-unloaded, but considering TMods poor track record with actually doing this, manually unload them.

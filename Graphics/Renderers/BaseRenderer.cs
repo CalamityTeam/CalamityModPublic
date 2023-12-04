@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
@@ -35,8 +36,10 @@ namespace CalamityMod.Graphics.Renderers
         {
             ModTypeLookup<BaseRenderer>.Register(this);
 
-            if (!RendererManager.Renderers.Contains(this))
-                RendererManager.Renderers.Add(this);
+            if (RendererManager.Renderers.Contains(this))
+                throw new Exception($"Renderer '{Name}' has already been registered!");
+
+            RendererManager.Renderers.Add(this);
         }
 
 
