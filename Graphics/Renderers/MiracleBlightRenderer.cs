@@ -89,7 +89,6 @@ namespace CalamityMod.Graphics.Renderers
             MiscShaderData blightShader = GameShaders.Misc["CalamityMod:MiracleBlight"];
             blightShader.SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons"), 1);
             blightShader.UseOpacity(0.7f);
-            blightShader.Shader.Parameters["uWorldPosition"]?.SetValue(Main.screenPosition);
             blightShader.Apply();
 
             Main.spriteBatch.Draw(MainTarget, Vector2.Zero, Color.White);

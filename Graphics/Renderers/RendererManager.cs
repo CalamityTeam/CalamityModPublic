@@ -16,7 +16,7 @@ namespace CalamityMod.Graphics.Renderers
         {
             get;
             private set;
-        }
+        } = new();
         #endregion
 
         #region Loading
@@ -24,8 +24,6 @@ namespace CalamityMod.Graphics.Renderers
         {
             if (Main.netMode == NetmodeID.Server)
                 return;
-
-            Renderers = new();
 
             Main.QueueMainThreadAction(() =>
             {
@@ -35,7 +33,7 @@ namespace CalamityMod.Graphics.Renderers
                 On_Main.DrawProjectiles += DrawProjectileRenderers;
                 On_Main.DrawPlayers_AfterProjectiles += DrawPlayerRenderers;
                 On_Main.DrawBackgroundBlackFill += DrawBeforeTileRenderers;
-                On_Main.DrawInfernoRings += DrawAfterEverythingDrawers;
+                On_Main.DrawInfernoRings += DrawAfterEverythingRenderers;
             });
         }
 
@@ -52,9 +50,7 @@ namespace CalamityMod.Graphics.Renderers
                 On_Main.DrawProjectiles -= DrawProjectileRenderers;
                 On_Main.DrawPlayers_AfterProjectiles -= DrawPlayerRenderers;
                 On_Main.DrawBackgroundBlackFill -= DrawBeforeTileRenderers;
-                On_Main.DrawInfernoRings -= DrawAfterEverythingDrawers;
-
-                Renderers = null;
+                On_Main.DrawInfernoRings -= DrawAfterEverythingRenderers;
             });
         }
         #endregion
@@ -143,7 +139,7 @@ namespace CalamityMod.Graphics.Renderers
             orig(self);
         }
 
-        private void DrawAfterEverythingDrawers(On_Main.orig_DrawInfernoRings orig, Main self)
+        private void DrawAfterEverythingRenderers(On_Main.orig_DrawInfernoRings orig, Main self)
         {
             var renderers = Renderers.Where(renderer => renderer.ShouldDraw && renderer.Layer is DrawLayer.AfterEverything);
 
