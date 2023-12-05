@@ -400,8 +400,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Phase 1
             else
             {
-                // Set damage
-                npc.damage = npc.defDamage;
+                // Avoid cheap bullshit
+                npc.damage = 0;
 
                 // Creeper count
                 int creeperCount = NPC.CountNPCS(NPCID.Creeper);
