@@ -836,7 +836,7 @@ OverloadedBlaster: {
 	Tooltip:
 		'''
 		Converts gel into a spread of energized slime pearls that overload when they come to a stop
-		Overloaded slime pearls deal double damage but no longer pierce
+		Overloaded slime pearls deal 175% damage but no longer pierce
 		Slime pearls bounce off of walls at very high speed
 		Uses gel for ammo
 		25% chance to save ammo
