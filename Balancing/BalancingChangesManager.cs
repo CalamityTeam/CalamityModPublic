@@ -125,6 +125,9 @@ namespace CalamityMod.Balancing
 
             // 40% resist to Cryophobia.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<CryoBlast>()))));
+
+            // 30% resist to Meowthrower.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<MeowFire>()))));
             #endregion
 
             #region The Destroyer
@@ -142,6 +145,9 @@ namespace CalamityMod.Balancing
 
             // 15% resist to Snowstorm Staff.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<Snowflake>()))));
+
+            // 30% resist to Meowthrower.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<MeowFire>()))));
             #endregion
 
             #region Astrum Aureus
