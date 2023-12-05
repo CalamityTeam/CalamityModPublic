@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Time == EmpowerTime)
             {
                 Projectile.penetrate = 1;
-                Projectile.damage *= 2;
+                Projectile.damage = (int)(Projectile.damage * 1.75f); // 7/4
                 Projectile.velocity *= 0f;
                 Projectile.rotation = Main.rand.NextFloat(0f, MathHelper.TwoPi);
 

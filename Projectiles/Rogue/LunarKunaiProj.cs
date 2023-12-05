@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.width = Projectile.height = 28;
                 Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
                 Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-                Projectile.damage /= 4;
+                Projectile.damage /= 5;
                 Projectile.usesLocalNPCImmunity = true;
                 Projectile.localNPCHitCooldown = 10;
                 for (int i = 0; i < 10; i++)

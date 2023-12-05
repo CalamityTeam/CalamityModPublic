@@ -1314,10 +1314,10 @@ Tumbleweed: {
 
 TyphonsGreed: {
 	DisplayName: Typhon's Greed
-	Tooltip: 
+	Tooltip:
 		'''
 		Summons water spirits while in use
-                These water spirits will home in on enemies after traveling towards the player
+		These water spirits will home in on enemies after traveling towards the player
 		'''
 }
 

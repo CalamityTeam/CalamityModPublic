@@ -125,6 +125,9 @@ namespace CalamityMod.Balancing
 
             // 40% resist to Cryophobia.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<CryoBlast>()))));
+
+            // 30% resist to Meowthrower.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AquaticScourgeIDs, Do(new ProjectileResistBalancingRule(0.7f, ProjectileType<MeowFire>()))));
             #endregion
 
             #region The Destroyer
@@ -137,8 +140,11 @@ namespace CalamityMod.Balancing
             // 40% resist to Cryophobia.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<CryoBlast>()))));
 
-            // 20% resist to Mineral Mortar's Projectile.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<MineralMortarProjectile>()))));
+            // 40% resist to Meowthrower.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.6f, ProjectileType<MeowFire>()))));
+
+            // 15% resist to Mineral Mortar's Projectile.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<MineralMortarProjectile>()))));
 
             // 15% resist to Snowstorm Staff.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DestroyerIDs, Do(new ProjectileResistBalancingRule(0.85f, ProjectileType<Snowflake>()))));
@@ -183,14 +189,14 @@ namespace CalamityMod.Balancing
             // 75% resist to Plaguenades.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AstrumDeusIDs, Do(new ProjectileResistBalancingRule(0.25f, ProjectileType<PlaguenadeBee>(), ProjectileType<PlaguenadeProj>()))));
 
+            // 70% resist to the Stardust Dragon.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AstrumDeusIDs, Do(new ProjectileResistBalancingRule(0.3f, ProjectileID.StardustDragon1, ProjectileID.StardustDragon2, ProjectileID.StardustDragon3, ProjectileID.StardustDragon4))));            
+
             // 50% resist to true melee.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AstrumDeusIDs, Do(ResistTrueMelee(0.5f))));
 
             // 25% resist to Resurrection Butterfly.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AstrumDeusIDs, Do(new ProjectileResistBalancingRule(0.75f, ProjectileType<SakuraBullet>(), ProjectileType<PurpleButterfly>()))));
-
-            // 70% resist to the Stardust Dragon.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.AstrumDeusIDs, Do(new ProjectileResistBalancingRule(0.3f, ProjectileID.StardustDragon1, ProjectileID.StardustDragon2, ProjectileID.StardustDragon3, ProjectileID.StardustDragon4))));
             #endregion
 
             #region Moon Lord

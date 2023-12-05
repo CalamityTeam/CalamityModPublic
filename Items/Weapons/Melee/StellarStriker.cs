@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var source = player.GetSource_ItemUse(Item);
             SoundEngine.PlaySound(SoundID.Item88, player.Center);
-            int j = Main.myPlayer;
+            int i = Main.myPlayer;
             float cometSpeed = Item.shootSpeed;
             Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
             float mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
@@ -69,11 +69,11 @@ namespace CalamityMod.Items.Weapons.Melee
             if (crit)
                 damage /= 2;
 
-            for (int i = 0; i < 2; i++)
+            for (int j = 0; j < 2; j++)
             {
                 realPlayerPos = new Vector2(player.Center.X + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 realPlayerPos.X = (realPlayerPos.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                realPlayerPos.Y -= (float)(100 * i);
+                realPlayerPos.Y -= (float)(100 * j);
                 mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X + (float)Main.rand.Next(-40, 41) * 0.03f;
                 mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
                 if (mouseYDist < 0f)
