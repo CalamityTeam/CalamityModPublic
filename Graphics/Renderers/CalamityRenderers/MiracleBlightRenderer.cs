@@ -8,7 +8,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Graphics.Renderers
+namespace CalamityMod.Graphics.Renderers.CalamityRenderers
 {
     public class MiracleBlightRenderer : BaseRenderer
     {
@@ -68,7 +68,7 @@ namespace CalamityMod.Graphics.Renderers
             ActuallyDoPreDraw = true;
 
             // Draw every npc to a single target that should have the miracle blight visual.
-            foreach (NPC npc in Main.npc)
+            foreach (var npc in Main.npc)
             {
                 // I don't know why this isnt always the case in MP, but if the global npc cant be found then the effect cannot be applied anyway as it is impossible
                 // to tell if they have miracle blight.
@@ -86,7 +86,7 @@ namespace CalamityMod.Graphics.Renderers
         public override void DrawTarget(SpriteBatch spriteBatch)
         {
             // Apply the shader and draw the target.
-            MiscShaderData blightShader = GameShaders.Misc["CalamityMod:MiracleBlight"];
+            var blightShader = GameShaders.Misc["CalamityMod:MiracleBlight"];
             blightShader.SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons"), 1);
             blightShader.UseOpacity(0.7f);
             blightShader.Apply();

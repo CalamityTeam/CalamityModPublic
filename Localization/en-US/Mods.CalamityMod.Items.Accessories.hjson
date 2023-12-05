@@ -1427,7 +1427,6 @@ RoverDrive: {
 		The shield grants 10 defense while active
 		After the shield is broken, it takes 10 seconds to charge back up
 		Being hit again while recharging restarts the charge timer
-		The shield's color will change to match your team selection as needed
 		Can also be scrapped at an extractinator
 		'''
 }
@@ -1842,7 +1841,6 @@ TheSponge: {
 		The barrier starts recharging 9 seconds after being hit
 		Recharging from zero to full charge takes 6 seconds
 		Being hit again while recharging restarts the charge timer
-		The barrier's color will change to match your team selection as needed
 		'''
 }
 

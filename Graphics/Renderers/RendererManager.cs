@@ -58,6 +58,20 @@ namespace CalamityMod.Graphics.Renderers
         }
         #endregion
 
+        #region Updating
+        public override void PreUpdateEntities()
+        {
+            foreach (var renderer in Renderers)
+                renderer.PreUpdate();
+        }
+
+        public override void PostUpdateEverything()
+        {
+            foreach (var renderer in Renderers)
+                renderer.PostUpdate();
+        }
+        #endregion
+
         #region Drawing
         private void DrawToTargets(On_Main.orig_CheckMonoliths orig)
         {

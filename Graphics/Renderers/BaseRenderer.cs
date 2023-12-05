@@ -48,6 +48,22 @@ namespace CalamityMod.Graphics.Renderers
         public sealed override void SetStaticDefaults() => MainTarget = new(true, ManagedRenderTarget.CreateScreenSizedTarget);
 
         /// <summary>
+        /// Called from <see cref="ModSystem.PreUpdateEntities"/>.
+        /// </summary>
+        public virtual void PreUpdate()
+        {
+
+        }
+
+        /// <summary>
+        /// Called from <see cref="ModSystem.PostUpdateEverything"/>.
+        /// </summary>
+        public virtual void PostUpdate()
+        {
+
+        }
+
+        /// <summary>
         /// Draw whatever needed to the target here.
         /// </summary>
         /// <param name="spriteBatch"></param>

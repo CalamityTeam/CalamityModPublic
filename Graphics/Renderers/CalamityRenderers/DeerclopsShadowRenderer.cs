@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 
-namespace CalamityMod.Graphics.Renderers
+namespace CalamityMod.Graphics.Renderers.CalamityRenderers
 {
     public class DeerclopsShadowRenderer : BaseRenderer
     {
@@ -24,7 +24,7 @@ namespace CalamityMod.Graphics.Renderers
         public override void DrawToTarget(SpriteBatch spriteBatch)
         {
             bool shouldDraw;
-            bool deerclopsInactive = false;
+            var deerclopsInactive = false;
             if (NPC.deerclopsBoss >= 0 && NPC.deerclopsBoss.WithinBounds(Main.npc.Length))
                 shouldDraw = Deerclops.HasValidTarget;
             else
