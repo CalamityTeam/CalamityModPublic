@@ -7,7 +7,7 @@ using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Graphics.Renderers
+namespace CalamityMod.Graphics.Renderers.CalamityRenderers
 {
     public class HolyInfernoRenderer : BaseRenderer
     {
@@ -18,7 +18,7 @@ namespace CalamityMod.Graphics.Renderers
         public static Providence Provi => Main.npc[CalamityGlobalNPC.holyBoss].ModNPC as Providence;
 
         //Should only draw if not in the main menu, provi is active and the boolean for drawing the border is true.
-        public override bool ShouldDraw => !Main.gameMenu && CalamityGlobalNPC.holyBoss != -1 && 
+        public override bool ShouldDraw => !Main.gameMenu && CalamityGlobalNPC.holyBoss != -1 &&
             Main.npc[CalamityGlobalNPC.holyBoss].active && Providence.shouldDrawInfernoBorder;
         #endregion
 

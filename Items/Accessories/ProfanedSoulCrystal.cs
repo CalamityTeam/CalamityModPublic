@@ -1,25 +1,26 @@
-﻿using System;
-using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Buffs.Summon.Whips;
 using CalamityMod.CalPlayer;
+using CalamityMod.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using CalamityMod.Buffs.Summon.Whips;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalamityMod.Items.Accessories
 {
     //Developer item, dedicatee: Mishiro Usui/Amber Sienna
-    public class ProfanedSoulCrystal : ModItem, ILocalizedModType
+    public class ProfanedSoulCrystal : ModItem, ILocalizedModType, IDyeableShaderRenderer
     {
         public static string[] contributorNames = new[] { "IbanPlay", "Chen", "Nincity", "Amber", "Mishiro", "LordMetarex", "Memes" };
         public static int ShieldDurabilityMax = 125;
@@ -31,6 +32,35 @@ namespace CalamityMod.Items.Accessories
         public const int maxMinionRequirement = 10;
         public const int maxPscAnimTime = 120;
 
+        // Interface stuff.
+        public float RenderDepth => IDyeableShaderRenderer.ProfanedSoulShieldDepth;
+
+        public bool ShaderIsDyeable => false;
+
+        public bool ShouldDrawDyeableShader
+        {
+            get
+            {
+                bool result = false;
+                for (int i = 0; i < Main.maxPlayers; i++)
+                {
+                    Player player = Main.player[i];
+                    if (player is null || !player.active || player.outOfRange || player.dead)
+                        continue;
+
+                    CalamityPlayer modPlayer = player.Calamity();
+
+                    // Do not render the shield if its visibility is off (or it does not exist)
+                    bool isVanityOnly = modPlayer.pSoulShieldVisible && !modPlayer.pSoulArtifact;
+                    bool shouldNotDraw = modPlayer.andromedaState >= AndromedaPlayerState.LargeRobot; //I am not dealing with drawing that :taxevasion:
+                    bool shieldExists = isVanityOnly || modPlayer.pSoulShieldDurability > 0;
+                    bool shouldntDraw = !modPlayer.pSoulShieldVisible || modPlayer.drawnAnyShieldThisFrame || shouldNotDraw || !shieldExists;
+                    result |= !shouldntDraw;
+                }
+                return result;
+            }
+        }
+
         public enum ProfanedSoulCrystalState
         {
             Vanity, //pre scal/draedon or insufficient minion slots
@@ -38,6 +68,8 @@ namespace CalamityMod.Items.Accessories
             Enraged, //psc but night, some attacks are faster
             Empowered //psc but no other minions, healer guardian functionality, inherits all other functionality (except vanity) and goes even further beyond, any remaining attack changes are here
         }
+
+        public void DrawDyeableShader(SpriteBatch spriteBatch) => ProfanedSoulArtifact.DrawProfanedSoulShields();
 
         internal static ProfanedSoulCrystalState GetPscStateFor(Player player, bool ignoreNoBuffs = false)
         {
