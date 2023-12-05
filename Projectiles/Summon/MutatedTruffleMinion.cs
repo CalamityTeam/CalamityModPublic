@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
         public override int AssociatedBuffTypeID => ModContent.BuffType<MutatedTruffleBuff>();
         public override ref bool AssociatedMinionBool => ref ModdedOwner.MutatedTruffleBool;
         public override float MinionSlots => 3f;
-        public override float EnemyDistanceDetection => MutatedTruffle.EnemyDistanceDetection;
+        public override float MaxEnemyDistanceDetection => MutatedTruffle.EnemyDistanceDetection;
 
         public enum AIState { Idle, Dashing, Toothball, Vortex }
         public AIState State { get => (AIState)Projectile.ai[0]; set => Projectile.ai[0] = (int)value; }
