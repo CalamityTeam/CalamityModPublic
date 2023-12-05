@@ -2435,7 +2435,7 @@ namespace CalamityMod.Projectiles
                             {
                                 if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 5)
                                 {
-                                    int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(45);
+                                    int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(42);
                                     if (modPlayer.oldFashioned)
                                         damage = CalamityUtils.CalcOldFashionedDamage(damage);
 
