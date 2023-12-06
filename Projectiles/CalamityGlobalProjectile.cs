@@ -2710,6 +2710,13 @@ namespace CalamityMod.Projectiles
             // Old Fashioned damage boost
             if (modPlayer.oldFashioned)
             {
+                // Yoyo bullshit
+                if (player.counterWeight > 0)
+                {
+                    if (projectile.type >= ProjectileID.BlackCounterweight && projectile.type <= ProjectileID.YellowCounterweight)
+                        modifiers.SourceDamage *= OldFashioned.AccessoryAndSetBonusDamageMultiplier;
+                }
+
                 // Honey Balloon, Bee Cloak, Honey Comb, Stinger Necklace, Sweetheart Necklace
                 if (player.honeyCombItem != null && !player.honeyCombItem.IsAir)
                 {
