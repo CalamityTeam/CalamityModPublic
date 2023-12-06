@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (Projectile.owner == Main.myPlayer)
                 {
                     var source = Projectile.GetSource_FromThis();
-                    Projectile bubble = CalamityUtils.ProjectileBarrage(source, Projectile.Center, player.Center, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<TyphonsGreedBubble>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, true);
+                    Projectile bubble = CalamityUtils.ProjectileBarrage(source, Projectile.Center, player.Center, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<TyphonsGreedBubble>(), (int)(Projectile.damage * 1), Projectile.knockBack * 0.5f, Projectile.owner, true);
                     bubble.ai[1] = Main.rand.NextFloat() + 0.5f;
                 }
             }
