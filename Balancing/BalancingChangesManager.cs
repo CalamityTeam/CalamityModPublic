@@ -261,6 +261,9 @@ namespace CalamityMod.Balancing
             // 35% resist to Venusian Trident's explosions.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DevourerOfGodsIDs, Do(new ProjectileResistBalancingRule(0.65f, ProjectileType<VenusianBolt>(), ProjectileType<VenusianExplosion>()))));
 
+            // 20% resist to Valediction's typhoons; will catch Nuclear Fury as well but that doesn't matter.
+            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DevourerOfGodsIDs, Do(new ProjectileResistBalancingRule(0.8f, ProjectileType<NuclearFuryProjectile>()))));
+
             // 15% vulnerability to Time Bolt stealth strikes.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.DevourerOfGodsIDs, Do(new StealthStrikeBalancingRule(1.15f, ProjectileType<TimeBoltKnife>()))));
             #endregion The Devourer of Gods

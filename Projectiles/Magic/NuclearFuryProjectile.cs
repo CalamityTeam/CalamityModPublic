@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.ai[0] != 0f)
             {
                 int index = (int)(Projectile.ai[0] - 1);
-                if (Main.npc[index].active && !Main.npc[index].dontTakeDamage && Main.npc[index].immune[Projectile.owner] == 0)
+                if (Main.npc[index].active && !Main.npc[index].dontTakeDamage)
                 {
                     if ((Math.Abs(Projectile.Center.X - Main.npc[index].Center.X) + Math.Abs(Projectile.Center.Y - Main.npc[index].Center.Y)) < 1000f)
                     {
