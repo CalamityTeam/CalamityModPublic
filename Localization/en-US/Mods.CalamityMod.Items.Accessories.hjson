@@ -1539,11 +1539,11 @@ SigilofCalamitas: {
 
 SilencingSheath: {
 	DisplayName: Silencing Sheath
-	Tooltip: 
-    '''
-    +10 maximum stealth
-    Stealth generates 4% faster
-    '''
+	Tooltip:
+		'''
+		+10 maximum stealth
+		Stealth generates 4% faster
+		'''
 }
 
 SlagsplitterPauldron: {
