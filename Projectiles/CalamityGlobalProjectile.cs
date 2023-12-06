@@ -3099,7 +3099,7 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.scuttlersJewel && stealthStrike && modPlayer.scuttlerCooldown <= 0)
                     {
-                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
+                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(18);
                         if (modPlayer.oldFashioned)
                             damage = CalamityUtils.CalcOldFashionedDamage(damage);
 

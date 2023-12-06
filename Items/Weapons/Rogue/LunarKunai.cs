@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Item.width = 38;
             Item.height = 38;
-            Item.damage = 120;
+            Item.damage = 112;
             Item.maxStack = 9999;
             Item.consumable = true;
             Item.noMelee = true;
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             mouseXDist *= mouseDistance;
             mouseYDist *= mouseDistance;
-			int projAmt = player.Calamity().StealthStrikeAvailable() ? 8 : 3;
+			int projAmt = player.Calamity().StealthStrikeAvailable() ? 9 : 3;
 			for (int i = 0; i < projAmt; i++)
 			{
 				float randXOffset = mouseXDist;
@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 				randYOffset *= mouseDistance;
 				float x4 = realPlayerPos.X;
 				float y4 = realPlayerPos.Y;
-				int stealth = Projectile.NewProjectile(source, x4, y4, randXOffset, randYOffset, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockback, player.whoAmI, 0f, 0f);
+				int stealth = Projectile.NewProjectile(source, x4, y4, randXOffset, randYOffset, ModContent.ProjectileType<LunarKunaiProj>(), (int)(damage*1.2f), knockback, player.whoAmI, 0f, 0f);
 				if (stealth.WithinBounds(Main.maxProjectiles) && player.Calamity().StealthStrikeAvailable())
 					Main.projectile[stealth].Calamity().stealthStrike = true;
 			}
