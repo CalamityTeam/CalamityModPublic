@@ -37,6 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
+        public override float StealthDamageMultiplier => 1.2f;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float kunaiSpeed = Item.shootSpeed;
@@ -74,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 				randYOffset *= mouseDistance;
 				float x4 = realPlayerPos.X;
 				float y4 = realPlayerPos.Y;
-				int stealth = Projectile.NewProjectile(source, x4, y4, randXOffset, randYOffset, ModContent.ProjectileType<LunarKunaiProj>(), (int)(damage*1.2f), knockback, player.whoAmI, 0f, 0f);
+				int stealth = Projectile.NewProjectile(source, x4, y4, randXOffset, randYOffset, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockback, player.whoAmI, 0f, 0f);
 				if (stealth.WithinBounds(Main.maxProjectiles) && player.Calamity().StealthStrikeAvailable())
 					Main.projectile[stealth].Calamity().stealthStrike = true;
 			}
