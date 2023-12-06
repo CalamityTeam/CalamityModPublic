@@ -21,6 +21,8 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.rogueStealthMax += 0.1f;
+            modPlayer.stealthGenStandstill += 0.04f;
+            modPlayer.stealthGenMoving += 0.04f;
         }
 
         public override void AddRecipes()
