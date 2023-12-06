@@ -28,6 +28,8 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 2;
             Projectile.ignoreWater = true;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 5;
         }
 
         public override void AI()
@@ -98,7 +100,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.ai[0] != 0f)
             {
                 int index = (int)(Projectile.ai[0] - 1);
-                if (Main.npc[index].active && !Main.npc[index].dontTakeDamage && Main.npc[index].immune[Projectile.owner] == 0)
+                if (Main.npc[index].active && !Main.npc[index].dontTakeDamage)
                 {
                     if ((Math.Abs(Projectile.Center.X - Main.npc[index].Center.X) + Math.Abs(Projectile.Center.Y - Main.npc[index].Center.Y)) < 1000f)
                     {
@@ -141,14 +143,6 @@ namespace CalamityMod.Projectiles.Magic
         public override Color? GetAlpha(Color lightColor)
         {
             return new Color(200, 200, 200, 200);
-        }
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            if (Projectile.ai[1] != 1f) //Nuclear Fury
-            {
-                target.immune[Projectile.owner] = 5;
-            }
         }
 
         public override bool PreDraw(ref Color lightColor)
