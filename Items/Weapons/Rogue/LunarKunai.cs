@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Item.width = 38;
             Item.height = 38;
-            Item.damage = 120;
+            Item.damage = 112;
             Item.maxStack = 9999;
             Item.consumable = true;
             Item.noMelee = true;
@@ -37,6 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
+        public override float StealthDamageMultiplier => 1.2f;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float kunaiSpeed = Item.shootSpeed;
@@ -60,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             mouseXDist *= mouseDistance;
             mouseYDist *= mouseDistance;
-			int projAmt = player.Calamity().StealthStrikeAvailable() ? 8 : 3;
+			int projAmt = player.Calamity().StealthStrikeAvailable() ? 9 : 3;
 			for (int i = 0; i < projAmt; i++)
 			{
 				float randXOffset = mouseXDist;

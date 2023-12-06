@@ -708,7 +708,7 @@ LunarKunai: {
 		'''
 		Throws out a set of three kunai that ignore gravity and slightly home in on enemies
 		After traveling enough distance, the kunai supercharge with lunar energy, homing in far more aggressively and exploding on impact
-		Stealth strikes instantly throw eight supercharged Kunai
+		Stealth strikes instantly throw nine supercharged Kunai
 		'''
 }
 
