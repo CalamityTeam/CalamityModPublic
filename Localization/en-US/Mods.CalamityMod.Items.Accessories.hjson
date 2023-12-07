@@ -236,9 +236,10 @@ AsgardianAegis: {
 	DisplayName: Asgardian Aegis
 	Tooltip:
 		'''
-		Grants immunity to knockback
-		Immune to most debuffs
-		Grants a cosmic inferno dash which can slam through enemies without taking damage
+		Allows the ability to ram dash, empowered by the cosmic inferno
+		This dash can slam through enemies without taking damage
+		Grants immunity to knockback and fire blocks
+		Grants immunity to the vast majority of debuffs, including God Slayer Inferno
 		'''
 }
 
@@ -246,9 +247,10 @@ AsgardsValor: {
 	DisplayName: Asgard's Valor
 	Tooltip:
 		'''
-		Grants immunity to knockback
-		Immune to several debuffs
-		Grants a holy dash which can slam through enemies without taking damage
+		Allows the ability to ram dash
+		This dash can slam through enemies without taking damage
+		Grants immunity to knockback and fire blocks
+		Grants immunity to most debuffs, including most forms of frost and flame
 		'''
 }
 
@@ -657,8 +659,10 @@ ElysianAegis: {
 	DisplayName: Elysian Aegis
 	Tooltip:
 		'''
-		Grants immunity to knockback and several flame debuffs
-		Grants an enhanced holy flame dash which can slam through enemies without taking damage
+		Allows the ability to ram dash, empowered by holy fire
+		This dash can slam through enemies without taking damage
+		Grants immunity to knockback and fire blocks
+		Grants immunity to most fire debuffs, including Daybreak and Holy Flames
 		Blessed by the Profaned Flame
 		'''
 }
@@ -1203,8 +1207,9 @@ OrnateShield: {
 	DisplayName: Ornate Shield
 	Tooltip:
 		'''
+		Allows the ability to ram dash
+		This dash can slam through enemies without taking damage
 		Grants immunity to Chilled, Frostburn, Frostbite, and Frozen
-		Grants a frost dash which can slam through enemies without taking damage
 		'''
 }
 
