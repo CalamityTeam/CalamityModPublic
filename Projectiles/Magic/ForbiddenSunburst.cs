@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.penetrate = -1;
             Projectile.timeLeft = 150;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 8;
         }
 
         public override void AI()
@@ -73,11 +75,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.immune[Projectile.owner] = 8;
-            target.AddBuff(BuffID.OnFire3, 300);
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.OnFire3, 300);
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, ExplosionRadius, targetHitbox);
     }
