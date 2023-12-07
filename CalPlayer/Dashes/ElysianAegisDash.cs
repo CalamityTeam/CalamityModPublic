@@ -2,7 +2,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -57,31 +56,25 @@ namespace CalamityMod.CalPlayer.Dashes
 
         public override void OnHitEffects(Player player, NPC npc, IEntitySource source, ref DashHitContext hitContext)
         {
-            float kbFactor = 12f;
-            bool crit = Main.rand.Next(100) < player.GetCritChance<MeleeDamageClass>();
-            if (player.kbGlove)
-                kbFactor *= 2f;
-            if (player.kbBuff)
-                kbFactor *= 1.5f;
-
+            // Define hit context variables.
             int hitDirection = player.direction;
             if (player.velocity.X != 0f)
                 hitDirection = Math.Sign(player.velocity.X);
-
-            // Define hit context variables.
-            hitContext.CriticalHit = crit;
             hitContext.HitDirection = hitDirection;
-            hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = ElysianAegis.ShieldSlamIFrames;
-            hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(250f);
-            if (player.Calamity().oldFashioned)
-                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
 
-            int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(120);
+            // Define damage parameters.
+            int dashDamage = ElysianAegis.ShieldSlamDamage;
+            hitContext.damageClass = DamageClass.Melee;
+            hitContext.BaseDamage = player.Calamity().oldFashioned ? CalamityUtils.CalcOldFashionedDamage(dashDamage) : dashDamage;
+            hitContext.BaseKnockback = ElysianAegis.ShieldSlamKnockback;
+
+            // On-hit Supreme Holy Explosion
+            int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(ElysianAegis.RamExplosionDamage);
             if (player.Calamity().oldFashioned)
                 supremeExplosionDamage = CalamityUtils.CalcOldFashionedDamage(supremeExplosionDamage);
 
-            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), supremeExplosionDamage, 15f, Main.myPlayer, 1f, 0f);
+            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), supremeExplosionDamage, ElysianAegis.RamExplosionKnockback, Main.myPlayer, 1f, 0f);
             npc.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
     }
