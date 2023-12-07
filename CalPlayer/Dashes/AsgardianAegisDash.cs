@@ -1,10 +1,7 @@
 ﻿using System;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
 using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Potions.Alcohol;
-using CalamityMod.Particles;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -57,31 +54,25 @@ namespace CalamityMod.CalPlayer.Dashes
 
         public override void OnHitEffects(Player player, NPC npc, IEntitySource source, ref DashHitContext hitContext)
         {
-            float kbFactor = 15f;
-            bool crit = Main.rand.Next(100) < player.GetCritChance<MeleeDamageClass>();
-            if (player.kbGlove)
-                kbFactor *= 2f;
-            if (player.kbBuff)
-                kbFactor *= 1.5f;
-
+            // Define hit context variables.
             int hitDirection = player.direction;
             if (player.velocity.X != 0f)
                 hitDirection = Math.Sign(player.velocity.X);
-
-            // Define hit context variables.
-            hitContext.CriticalHit = crit;
             hitContext.HitDirection = hitDirection;
-            hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = AsgardianAegis.ShieldSlamIFrames;
-            hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(300f);
-            if (player.Calamity().oldFashioned)
-                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
 
-            int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(135);
+            // Define damage parameters.
+            int dashDamage = AsgardianAegis.ShieldSlamDamage;
+            hitContext.damageClass = DamageClass.Melee;
+            hitContext.BaseDamage = player.Calamity().oldFashioned ? CalamityUtils.CalcOldFashionedDamage(dashDamage) : dashDamage;
+            hitContext.BaseKnockback = AsgardianAegis.ShieldSlamKnockback;
+
+            // TODO -- Asgardian Aegis should probably spawn some god slayer themed explosion instead of a holy attack
+            int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(AsgardianAegis.RamExplosionDamage);
             if (player.Calamity().oldFashioned)
                 supremeExplosionDamage = CalamityUtils.CalcOldFashionedDamage(supremeExplosionDamage);
 
-            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), supremeExplosionDamage, 20f, Main.myPlayer, 3f, 0f);
+            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), supremeExplosionDamage, AsgardianAegis.RamExplosionKnockback, Main.myPlayer, 3f, 0f);
             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }

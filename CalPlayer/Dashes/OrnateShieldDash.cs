@@ -1,7 +1,6 @@
 ﻿using System;
 using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Potions.Alcohol;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -44,24 +43,18 @@ namespace CalamityMod.CalPlayer.Dashes
 
         public override void OnHitEffects(Player player, NPC npc, IEntitySource source, ref DashHitContext hitContext)
         {
-            float kbFactor = 3f;
-            if (player.kbGlove)
-                kbFactor *= 2f;
-            if (player.kbBuff)
-                kbFactor *= 1.5f;
-
+            // Define hit context variables.
             int hitDirection = player.direction;
             if (player.velocity.X != 0f)
                 hitDirection = Math.Sign(player.velocity.X);
-
-            // Define hit context variables.
-            hitContext.CriticalHit = false;
             hitContext.HitDirection = hitDirection;
-            hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = OrnateShield.ShieldSlamIFrames;
-            hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(50f);
-            if (player.Calamity().oldFashioned)
-                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
+
+            // Define damage parameters.
+            int dashDamage = OrnateShield.ShieldSlamDamage;
+            hitContext.damageClass = DamageClass.Melee;
+            hitContext.BaseDamage = player.Calamity().oldFashioned ? CalamityUtils.CalcOldFashionedDamage(dashDamage) : dashDamage;
+            hitContext.BaseKnockback = OrnateShield.ShieldSlamKnockback;
 
             npc.AddBuff(BuffID.Frostburn2, 180); //Great, Frostbite is ACTUALLY called Frostburn 2
         }
