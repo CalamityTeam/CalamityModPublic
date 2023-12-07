@@ -67,12 +67,12 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.BaseDamage = player.Calamity().oldFashioned ? CalamityUtils.CalcOldFashionedDamage(dashDamage) : dashDamage;
             hitContext.BaseKnockback = AsgardianAegis.ShieldSlamKnockback;
 
-            // TODO -- Asgardian Aegis should probably spawn some god slayer themed explosion instead of a holy attack
-            int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(AsgardianAegis.RamExplosionDamage);
+            // Spawn explosion
+            int explosionDamage = (int)player.GetBestClassDamage().ApplyTo(AsgardianAegis.RamExplosionDamage);
             if (player.Calamity().oldFashioned)
-                supremeExplosionDamage = CalamityUtils.CalcOldFashionedDamage(supremeExplosionDamage);
+                explosionDamage = CalamityUtils.CalcOldFashionedDamage(explosionDamage);
 
-            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), supremeExplosionDamage, AsgardianAegis.RamExplosionKnockback, Main.myPlayer, 3f, 0f);
+            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicDashExplosion>(), explosionDamage, AsgardianAegis.RamExplosionKnockback, Main.myPlayer, 3f, 0f);
             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }
