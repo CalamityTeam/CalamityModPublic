@@ -238,9 +238,7 @@ AsgardianAegis: {
 		'''
 		Grants immunity to knockback
 		Immune to most debuffs
-		+40 max life and +0.5 HP/s life regen
 		Grants a cosmic inferno dash which can slam through enemies without taking damage
-		+20 defense while submerged in liquid
 		'''
 }
 
@@ -249,10 +247,8 @@ AsgardsValor: {
 	Tooltip:
 		'''
 		Grants immunity to knockback
-		Immune to most debuffs
-		+16 defense while submerged in liquid
-		+20 max life
-		Grants a holy flame dash which can slam through enemies without taking damage
+		Immune to several debuffs
+		Grants a holy dash which can slam through enemies without taking damage
 		'''
 }
 
@@ -661,8 +657,7 @@ ElysianAegis: {
 	DisplayName: Elysian Aegis
 	Tooltip:
 		'''
-		Grants immunity to knockback and the Burning, On Fire!, and Holy Flames debuffs
-		+30 max life
+		Grants immunity to knockback and several flame debuffs
 		Grants an enhanced holy flame dash which can slam through enemies without taking damage
 		Blessed by the Profaned Flame
 		'''
