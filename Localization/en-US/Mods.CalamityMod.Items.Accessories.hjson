@@ -1203,7 +1203,7 @@ OrnateShield: {
 	DisplayName: Ornate Shield
 	Tooltip:
 		'''
-		8% increased damage reduction and +20 health while wearing the Daedalus armor
+		Grants immunity to Chilled, Frostburn, Frostbite, and Frozen
 		Grants a frost dash which can slam through enemies without taking damage
 		'''
 }
