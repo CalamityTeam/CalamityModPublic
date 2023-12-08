@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using CalamityMod.Projectiles.Typeless;
-using CalamityMod.World;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -58,10 +56,10 @@ namespace CalamityMod.Items.SummonItems
                 return true;
         }
 
-		public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
-		{
-			// The wiki classifies Boss Rush as an event
-			itemGroup = ContentSamples.CreativeHelper.ItemGroup.EventItem;
-		}
+        public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
+        {
+            // The wiki classifies Boss Rush as an event
+            itemGroup = ContentSamples.CreativeHelper.ItemGroup.EventItem;
+        }
     }
 }
