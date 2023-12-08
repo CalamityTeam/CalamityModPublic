@@ -402,6 +402,25 @@ namespace CalamityMod
 
         #region Immunity Frames
         /// <summary>
+        /// Checks whether the player has any kind of immunity frames (or "iframes" for short) available.
+        /// </summary>
+        /// <param name="player">The player whose immunity frames should be checked.</param>
+        /// <returns>Whether or not they are currently in any immunity frames.</returns>
+        public static bool HasIFrames(this Player player)
+        {
+            // Check old school iframes first (aka "cooldown timer -1". Regular hits, falling damage, etc.)
+            if (player.immune || player.immuneTime > 0)
+                return true;
+
+            // Check more particular iframes. This primarily comes from traps, lava, and bosses.
+            for (int i = 0; i < player.hurtCooldowns.Length; i++)
+                if (player.hurtCooldowns[i] > 0)
+                    return true;
+
+            return false;
+        }
+
+        /// <summary>
         /// Gives the player the specified number of immunity frames (or "iframes" for short).<br />If the player already has more iframes than you want to give them, this function does nothing.
         /// </summary>
         /// <param name="player">The player who should be given immunity frames.</param>
@@ -421,6 +440,7 @@ namespace CalamityMod
                 return false;
 
             // Apply iframes thoroughly.
+            // Player.AddImmuneTime does exist, but is equivalent to the below code.
             player.immune = true;
             player.immuneNoBlink = !blink;
             player.immuneTime = frames;

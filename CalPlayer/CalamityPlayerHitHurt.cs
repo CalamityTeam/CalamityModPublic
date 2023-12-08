@@ -18,7 +18,6 @@ using CalamityMod.Items.Armor.LunicCorps;
 using CalamityMod.Items.Armor.Silva;
 using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Items.Mounts;
-using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs;
@@ -863,15 +862,16 @@ namespace CalamityMod.CalPlayer
                     contactDamageReduction *= (double)Crumbling.MultiplicativeDamageReductionPlayer;
 
                 // Contact damage reduction is reduced by DR Damage, which itself is proportional to defense damage
+                // In GFB, as defense damage is uncapped, DR damage is also uncapped.
                 int currentDefense = Player.GetCurrentDefense(false);
                 if (totalDefenseDamage > 0 && currentDefense > 0)
                 {
                     double drDamageRatio = CurrentDefenseDamage / (double)currentDefense;
-                    if (drDamageRatio > 1D)
+                    if (!Main.getGoodWorld && drDamageRatio > 1D)
                         drDamageRatio = 1D;
 
                     contactDamageReduction *= 1D - drDamageRatio;
-                    if (contactDamageReduction < 0D)
+                    if (!Main.getGoodWorld && contactDamageReduction < 0D)
                         contactDamageReduction = 0D;
                 }
 
@@ -1939,10 +1939,7 @@ namespace CalamityMod.CalPlayer
 
             #region Actually Dealing Defense Damage
             // Check if the player has iframes for the sake of avoiding defense damage.
-            bool hasIFrames = false;
-            for (int i = 0; i < Player.hurtCooldowns.Length; i++)
-                if (Player.hurtCooldowns[i] > 0)
-                    hasIFrames = true;
+            bool hasIFrames = Player.HasIFrames();
 
             // If the player was just hit by something capable of dealing defense damage, then apply defense damage.
             // Bloodflare Core makes every hit deal defense damage (to enable its function).
@@ -1955,11 +1952,11 @@ namespace CalamityMod.CalPlayer
                 int netMitigation = hurtInfo.SourceDamage - hurtInfo.Damage;
                 double standardDefenseDamage = netMitigation * defenseDamageRatio;
 
-                // If Bloodflare Core is equipped and standard defense damage would be less than half the player's total defense,
-                // then instead forcibly deal half of the player's total defense as defense damage.
+                // Bloodflare Core overrides standard defense damage if it would be less than half of the player's total defense.
                 if (bloodflareCore && standardDefenseDamage < halfDefense)
                 {
-                    DealDefenseDamage(hurtInfo, (int)halfDefense, true);
+                    // In this case, forcibly deal half of the player's total defense as defense damage. This ignores ratios.
+                    DealDefenseDamage((int)halfDefense, true);
 
                     // Set up Bloodflare Core's heal over time. Any in-progress heals are overwritten if they would have a shorter duration.
                     if (bloodflareCoreRemainingHealOverTime < halfDefense)
@@ -2747,46 +2744,42 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Defense Damage Function
+        #region Defense Damage Functions
         /// <summary>
-        /// Deals Calamity defense damage to a player.
+        /// Deals Calamity defense damage to a player the "normal way", using an incoming hit.<br />
+        /// This is the convenience function which follows all standard Calamity balancing rules for taking a regular hit.
         /// </summary>
         /// <param name="hurtInfo">HurtInfo of the incoming strike to the player.</param>
-        /// <param name="customIncomingDamage">If set to zero or a positive number, ignores the HurtInfo and uses this value as the incoming damage.</param>
-        /// <param name="absolute">If true, deals exactly the custom amount defense damage, ignoring the standard ratios and Draedon's Heart.<br />
-        /// This also bypasses the 
-        /// This does nothing unless customIncomingDefenseDamage is specified.</param>
-        public void DealDefenseDamage(Player.HurtInfo hurtInfo, int customIncomingDamage = -1, bool absolute = false)
+        public void DealDefenseDamage(Player.HurtInfo hurtInfo)
         {
             // Legacy safeguard: Skip defense damage if the player is somehow "hit for zero" (this should never happen).
             if (hurtInfo.Damage <= 0 || hurtInfo.SourceDamage <= 0)
                 return;
 
-            double ratioToUse = defenseDamageRatio;
-
-            // Calculate the defense damage taken from this hit.
-            // If custom incoming defense damage is specified, then ignore the incoming hurt info and use the custom value.
-            int incomingDamageToUse;
-            if (customIncomingDamage >= 0)
-            {
-                incomingDamageToUse = customIncomingDamage;
-                // If absolute is specified, then ignore the ratio and always inflict EXACTLY THAT MUCH defense damage. This means it bypasses Draedon's Heart!
-                if (absolute)
-                    ratioToUse = 1D;
-            }
-
-            // Standard hits. Defense damage scales with "net mitigation", aka how much damage the player DIDN'T take.
+            // Under typical circumstances, defense damage scales with "net mitigation", aka how much damage the player DIDN'T take.
             // Thematically, this means it scales with how much damage the player's defense took instead of them.
-            else
-            {
-                int netMitigation = hurtInfo.SourceDamage - hurtInfo.Damage;
+            int netMitigation = hurtInfo.SourceDamage - hurtInfo.Damage;
+            int incomingDamageToUse = netMitigation <= 0 ? 0 : netMitigation;
 
-                // If the player somehow took amplified damage (their mitigation was negative) then they take no base defense damage.
-                // The defense damage floor will still apply to them.
-                incomingDamageToUse = netMitigation <= 0 ? 0 : netMitigation;
-            }
+            // Leave it to the direct function to determine how much defense damage is taken. Use standard ratios.
+            DealDefenseDamage(incomingDamageToUse, false);
+        }
 
-            int defenseDamageTaken = (int)Math.Round(incomingDamageToUse * ratioToUse);
+        /// <summary>
+        /// Deals Calamity defense damage to a player. This is the direct function, for unusual sources of defense damage.
+        /// </summary>
+        /// <param name="incomingDamage">The amount of defense damage to deal.</param>
+        /// <param name="absolute">If true, deals exactly the specified defense damage, ignoring the standard ratios and Draedon's Heart.<br />
+        /// Setting this to false is equivalent to considering the first parameter as standard incoming damage to the player.<br />
+        /// Setting this to true bypasses the defense damage floor, and can thus inflict less defense damage than is typically allowed.</param>
+        public void DealDefenseDamage(int incomingDamage, bool absolute = false)
+        {
+            // If absolute is specified, then ignore the ratio and always inflict EXACTLY THAT MUCH defense damage.
+            // This means it bypasses Draedon's Heart!
+            double ratioToUse = absolute ? 1D : defenseDamageRatio;
+
+            // Intended amount of defense damage to take. Can round up, but can also be overwritten by the floor.
+            int defenseDamageTaken = (int)Math.Round(incomingDamage * ratioToUse);
 
             // There is a floor on defense damage based on difficulty; i.e. there is a minimum amount of defense damage from any hit that can deal defense damage.
             // This floor is only applied if bosses are alive, but is bypassed by the absolute flag.
@@ -2801,10 +2794,16 @@ namespace CalamityMod.CalPlayer
                     defenseDamageTaken = defenseDamageFloor;
             }
 
-            //
-            // The amount of defense damage taken is now final.
-            //
-            
+            // The amount of defense damage taken is now final. Apply it.
+            ApplyDefenseDamageInternal(defenseDamageTaken);
+        }
+
+        // Actually applies defense damage. Cannot be called externally.
+        private void ApplyDefenseDamageInternal(int defenseDamage, bool showVisuals = true)
+        {
+            // Can be dynamically reduced by Adamantite set bonus and maybe other future effects.
+            int defenseDamageTaken = defenseDamage;
+
             // Apply incoming defense damage to the Adamantite armor set bonus.
             if (AdamantiteSetDefenseBoost > 0)
             {
@@ -2843,11 +2842,12 @@ namespace CalamityMod.CalPlayer
             // Reset the delay between iframes ending and defense damage recovery starting.
             defenseDamageDelayFrames = DefenseDamageRecoveryDelay;
 
-            // Audiovisual effects
-            ShowDefenseDamageEffects(defenseDamageTaken);
+            if (showVisuals)
+                ShowDefenseDamageEffects(defenseDamage);
         }
 
-        private void ShowDefenseDamageEffects(int defDamage)
+        // Displays visuals for taking defense damage.
+        private void ShowDefenseDamageEffects(int defenseDamage)
         {
             // Play a sound from taking defense damage.
             if (hurtSoundTimer == 0 && Main.myPlayer == Player.whoAmI)
@@ -2857,7 +2857,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Display text indicating that defense damage was taken.
-            string text = (-defDamage).ToString();
+            string text = (-defenseDamage).ToString();
             Color messageColor = Color.LightGray;
             Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
             CombatText.NewText(location, messageColor, Language.GetTextValue(text));
