@@ -61,12 +61,18 @@ namespace CalamityMod.Graphics.Renderers
         #region Updating
         public override void PreUpdateEntities()
         {
+            if (Main.netMode is NetmodeID.Server)
+                return;
+
             foreach (var renderer in Renderers)
                 renderer.PreUpdate();
         }
 
         public override void PostUpdateEverything()
         {
+            if (Main.netMode is NetmodeID.Server)
+                return;
+
             foreach (var renderer in Renderers)
                 renderer.PostUpdate();
         }
