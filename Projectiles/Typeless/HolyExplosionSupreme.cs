@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Typeless
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public override void SetDefaults()
         {
-            Projectile.width = 60;
-            Projectile.height = 60;
+            Projectile.width = 90;
+            Projectile.height = 90;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
@@ -28,36 +28,26 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnKill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
+            SoundStyle HitSound = new("CalamityMod/Sounds/Custom/Providence/ProvidenceHolyBlastImpact") { Volume = 0.6f };
+            SoundEngine.PlaySound(HitSound, Projectile.Center);
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
-            Projectile.width = 60;
-            Projectile.height = 60;
+            Projectile.width = 90;
+            Projectile.height = 90;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 24; i++)
             {
-                int holyDust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
-                Main.dust[holyDust].velocity *= 3f;
-                if (Projectile.ai[0] == 1)
-                    Main.dust[holyDust].shader = GameShaders.Armor.GetSecondaryShader(Owner.cShield, Owner);
-                if (Main.rand.NextBool())
-                {
-                    Main.dust[holyDust].scale = 0.5f;
-                    Main.dust[holyDust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                }
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, 228, new Vector2(4.5f, 4.5f).RotatedByRandom(100) * Main.rand.NextFloat(0.2f, 1.9f), 0, default, Main.rand.NextFloat(1.5f, 2.8f));
+                dust.shader = GameShaders.Armor.GetSecondaryShader(Owner.cShield, Owner);
+                dust.noGravity = true;
             }
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < 12; j++)
             {
-                int holyDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 3f);
-                Main.dust[holyDust2].noGravity = true;
-                Main.dust[holyDust2].velocity *= 5f;
-                if (Projectile.ai[0] == 1)
-                    Main.dust[holyDust2].shader = GameShaders.Armor.GetSecondaryShader(Owner.cShield, Owner);
-                holyDust2 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 246, 0f, 0f, 100, default, 2f);
-                Main.dust[holyDust2].velocity *= 2f;
-                if (Projectile.ai[0] == 1)
-                    Main.dust[holyDust2].shader = GameShaders.Armor.GetSecondaryShader(Owner.cShield, Owner);
+                Vector2 dustVel = new Vector2(6, 6).RotatedByRandom(100) * Main.rand.NextFloat(0.5f, 1.2f);
+
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + dustVel * 2, 259, dustVel, 0, default, 1f);
+                dust.shader = GameShaders.Armor.GetSecondaryShader(Owner.cShield, Owner);
             }
         }
     }
