@@ -62,8 +62,10 @@ namespace CalamityMod.ILEditing
             }
             catch
             {
+                if (!HasLoggedHeldProjectileBlendStateCatch)
+                    LogFailure("FixHeldProjectileBlendState", "The spritebatch was not left properly by another mod! The game will now most likely crash.");
+
                 HasLoggedHeldProjectileBlendStateCatch = true;
-                LogFailure("FixHeldProjectileBlendState", "The spritebatch was not left properly by another mod! The game will now most likely crash.");
             }
         }
         #endregion
