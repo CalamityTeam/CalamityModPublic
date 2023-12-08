@@ -294,7 +294,6 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<ProfanedGuardianCommander>(), TimeChangeContext.Day, type =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Events.BossRushTierThreeEndText2", XerocTextColor); // "May your skills remain sharp for the last challenges."
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, permittedNPCs: new int[] { ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.NPCType<ProfanedGuardianHealer>(), ModContent.NPCType<ProfanedRocks>() }),
 
@@ -371,7 +370,6 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<Yharon>(), spawnContext: type =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Events.BossRushTierFourEndText2", XerocTextColor); // "Go forth and conquer 'til the ritual's end!"
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
                     SoundEngine.PlaySound(Yharon.FireSound, player.Center);
