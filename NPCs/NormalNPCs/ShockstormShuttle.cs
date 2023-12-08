@@ -414,7 +414,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npcLoot.AddIf(() => NPC.downedGolemBoss, ItemID.MartianConduitPlating, 1, 10, 30);
             npcLoot.Add(ModContent.ItemType<EssenceofSunlight>(), 2);
             npcLoot.Add(ModContent.ItemType<TheTransformer>(), 10);
-            npcLoot.Add(ModContent.ItemType<OracleHeadphones>(), (DateTime.Now.Day == 25 && DateTime.Now.Month == 5) ? 9 : 20);
+            npcLoot.Add(ModContent.ItemType<OracleHeadphones>(), (DateTime.Now.Day == 21 && DateTime.Now.Month == 8) ? 9 : 20);
             var postML = npcLoot.DefineConditionalDropSet(() => NPC.downedMoonlord);
             postML.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<ExodiumCluster>(), 1, 8, 12, 11, 16));
         }
