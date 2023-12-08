@@ -285,7 +285,14 @@ RelicOfConvergence: {
 
 Rock: {
 	DisplayName: Rock
-	Tooltip: The first object Xeroc ever created
+	Tooltip:
+		'''
+		When the battle was finally over, the dust having just began to settle
+		Where even the stone refused the course of time, there sat a monk
+		Who dared to question history and stare into fate
+		'What is the true price of the past being ever eternal?
+		Why must our future forever haunt us?'
+		'''
 }
 
 SulphurousSeaWorldSideChanger: {
