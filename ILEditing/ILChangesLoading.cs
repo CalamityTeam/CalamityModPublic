@@ -148,7 +148,7 @@ namespace CalamityMod.ILEditing
             IL_NPC.NPCLoot += FixSplittingWormBannerDrops;
 
             // Fix vanilla not accounting for spritebatch modification in held projectile drawing
-            On_PlayerDrawLayers.DrawHeldProj += On_PlayerDrawLayers_DrawHeldProj;
+            On_PlayerDrawLayers.DrawHeldProj += FixHeldProjectileBlendState;
 
             //Additional detours that are in their own item files given they are only relevant to these specific items:
             //Rover drive detours on Player.DrawInfernoRings to draw its shield
