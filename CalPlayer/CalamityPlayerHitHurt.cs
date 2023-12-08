@@ -2503,7 +2503,7 @@ namespace CalamityMod.CalPlayer
                     if (hurtInfo.Damage > 0)
                     {
                         SoundEngine.PlaySound(SoundID.Item74, Player.Center);
-                        int eDamage = (int)Player.GetBestClassDamage().ApplyTo(300);
+                        int eDamage = (int)Player.GetBestClassDamage().ApplyTo(230);
                         if (oldFashioned)
                             eDamage = CalamityUtils.CalcOldFashionedDamage(eDamage);
 
@@ -2521,7 +2521,7 @@ namespace CalamityMod.CalPlayer
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
-                        int sDamage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(90);
+                        int sDamage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(60);
                         if (oldFashioned)
                             sDamage = CalamityUtils.CalcOldFashionedDamage(sDamage);
 
