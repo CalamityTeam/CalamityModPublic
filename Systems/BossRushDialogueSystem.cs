@@ -25,7 +25,12 @@ namespace CalamityMod.Systems
             internal string LocalizationKey;
             internal Func<bool> skipCondition;
 
-            public BossRushDialogueEvent() { }
+            public BossRushDialogueEvent()
+            {
+                FrameDelay = DefaultFrameDelay;
+                LocalizationKey = null;
+                skipCondition = null;
+            }
             public BossRushDialogueEvent(string key)
             {
                 LocalizationKey = key;
