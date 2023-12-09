@@ -1,17 +1,11 @@
-﻿using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria.ModLoader;
-using Terraria.Utilities;
-using Terraria.DataStructures;
-using Terraria.Audio;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Tiles.Crags;
-using System;
-using System.Linq;
-using System.Collections.Generic;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Crags.Tree
 {
@@ -36,7 +30,7 @@ namespace CalamityMod.Tiles.Crags.Tree
         public override void SetStaticDefaults()
         {
             TileID.Sets.IsATreeTrunk[Type] = true;
-			Main.tileFrameImportant[Type] = true;
+            Main.tileFrameImportant[Type] = true;
             Main.tileAxe[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = false;
@@ -44,7 +38,7 @@ namespace CalamityMod.Tiles.Crags.Tree
             Main.tileBlockLight[Type] = false;
             AddMapEntry(new Color(38, 25, 27), CreateMapEntryName());
             DustType = 155;
-			HitSound = SoundID.DD2_SkeletonHurt;
+            HitSound = SoundID.DD2_SkeletonHurt;
             RegisterItemDrop(ModContent.ItemType<Items.Placeables.ScorchedBone>());
         }
 
@@ -186,21 +180,21 @@ namespace CalamityMod.Tiles.Crags.Tree
         /*private void CheckEntireTree(ref int x, ref int y)
         {
             while (Main.tile[x, y].TileType == Type)
-			{
+            {
                 y--;
-			}
+            }
 
             y++;
 
             if (Main.tile[x, y].TileFrameX == 16)
             {
                 for (int k = 0; k < WorldGen.numTreeShakes; k++)
-				{
+                {
                     if (WorldGen.treeShakeX[k] == x && WorldGen.treeShakeY[k] == y)
-					{
+                    {
                         return;
-					}
-				}
+                    }
+                }
 
                 WorldGen.treeShakeX[WorldGen.numTreeShakes] = x;
                 WorldGen.treeShakeY[WorldGen.numTreeShakes] = y;

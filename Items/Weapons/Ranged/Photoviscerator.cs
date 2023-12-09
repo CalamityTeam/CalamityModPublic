@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Photoviscerator : ModItem, ILocalizedModType
     {
-        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PhotoUseSound") { Volume = 0.55f };
-        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/PhotoHitSound") { Volume = 0.45f };
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PhotoUseSound") { Volume = 0.35f };
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/PhotoHitSound") { Volume = 0.4f };
         public new string LocalizationCategory => "Items.Weapons.Ranged";
 
         // Left-click stats

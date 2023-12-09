@@ -298,8 +298,8 @@ namespace CalamityMod.ILEditing
                 self.velocity = Collision.AdvancedTileCollision(TileID.Sets.ForAdvancedCollision.ForSandshark, cPosition, self.velocity, cWidth, cHeight, fall, fall, 1);
                 return;
             }
-            
-            if (self.active && self.Calamity().ShouldFallThroughPlatforms)
+            var isNpcValid = self.TryGetGlobalNPC(out CalamityGlobalNPC npc); //why the fuck this errors is anybody's guess, it absolutely shouldn't and yet it does
+            if (isNpcValid && self.active && npc.ShouldFallThroughPlatforms)
                 fall = true;
 
             orig(self, fall, cPosition, cWidth, cHeight);

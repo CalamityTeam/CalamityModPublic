@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,9 +8,9 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Graphics.Drawers
+namespace CalamityMod.Graphics.Renderers.CalamityRenderers
 {
-    public class MiracleBlightDrawer : BaseDrawer
+    public class MiracleBlightRenderer : BaseRenderer
     {
         #region Fields/Properties
         /// <summary>
@@ -41,7 +42,7 @@ namespace CalamityMod.Graphics.Drawers
             private set;
         }
 
-        public override DrawerLayer Layer => DrawerLayer.NPC;
+        public override DrawLayer Layer => DrawLayer.NPC;
 
         // Unsure whether its more performant to always draw, or to check if any NPC actually has the debuff.
         public override bool ShouldDraw => true;
@@ -67,8 +68,13 @@ namespace CalamityMod.Graphics.Drawers
             ActuallyDoPreDraw = true;
 
             // Draw every npc to a single target that should have the miracle blight visual.
-            foreach (NPC npc in Main.npc)
+            foreach (var npc in Main.npc)
             {
+                // I don't know why this isnt always the case in MP, but if the global npc cant be found then the effect cannot be applied anyway as it is impossible
+                // to tell if they have miracle blight.
+                if (!npc.TryGetGlobalNPC<CalamityGlobalNPC>(out _))
+                    continue;
+
                 if (ValidToDraw(npc))
                     Main.instance.DrawNPC(npc.whoAmI, npc.behindTiles);
             }
@@ -80,10 +86,9 @@ namespace CalamityMod.Graphics.Drawers
         public override void DrawTarget(SpriteBatch spriteBatch)
         {
             // Apply the shader and draw the target.
-            MiscShaderData blightShader = GameShaders.Misc["CalamityMod:MiracleBlight"];
+            var blightShader = GameShaders.Misc["CalamityMod:MiracleBlight"];
             blightShader.SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons"), 1);
             blightShader.UseOpacity(0.7f);
-            blightShader.Shader.Parameters["uWorldPosition"]?.SetValue(Main.screenPosition);
             blightShader.Apply();
 
             Main.spriteBatch.Draw(MainTarget, Vector2.Zero, Color.White);

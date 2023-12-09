@@ -1,12 +1,11 @@
-﻿using CalamityMod.Tiles.Ores;
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Tiles.Crags.Lily;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Crags
 {
@@ -40,10 +39,10 @@ namespace CalamityMod.Tiles.Crags
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-		{
-			r = 1.82f;
-			g = 0.56f;
-			b = 1.07f;
+        {
+            r = 1.82f;
+            g = 0.56f;
+            b = 1.07f;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -1296,7 +1296,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetDefaults()
         {
             Projectile.DefaultToWhip();
-            Projectile.WhipSettings.Segments = 20;
+            Projectile.WhipSettings.Segments = 40;
             Projectile.WhipSettings.RangeMultiplier = 2.25f;
         }
 

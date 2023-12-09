@@ -88,10 +88,15 @@ namespace CalamityMod.CalPlayer
                             UsedDash.OnHitEffects(Player, n, source, ref hitContext);
 
                             // Don't bother doing anything if no damage is done.
-                            if (hitContext.Damage <= 0)
+                            if (hitContext.damageClass is null || hitContext.BaseDamage <= 0)
                                 continue;
 
-                            Player.ApplyDamageToNPC(n, hitContext.Damage, hitContext.KnockbackFactor, hitContext.HitDirection, hitContext.CriticalHit);
+                            // Duplicated from the way TML edits vanilla ram dash damage (and Shield of Cthulhu)
+                            int dashDamage = (int)Player.GetTotalDamage(hitContext.damageClass).ApplyTo(hitContext.BaseDamage);
+                            float dashKB = Player.GetTotalKnockback(hitContext.damageClass).ApplyTo(hitContext.BaseKnockback);
+                            bool rollCrit = Main.rand.Next(100) < Player.GetTotalCritChance(hitContext.damageClass);
+
+                            Player.ApplyDamageToNPC(n, dashDamage, dashKB, hitContext.HitDirection, rollCrit, hitContext.damageClass, true);
                             if (n.Calamity().dashImmunityTime[Player.whoAmI] < 12)
                                 n.Calamity().dashImmunityTime[Player.whoAmI] = 12;
 

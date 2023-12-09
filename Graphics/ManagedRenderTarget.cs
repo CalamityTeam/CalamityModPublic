@@ -78,6 +78,13 @@ namespace CalamityMod.Graphics
         }
 
         /// <summary>
+        /// Sets the current render target to the provided one.
+        /// </summary>
+        /// <param name="target">The render target to swap to</param>
+        /// <param name="flushColor">The color to clear the screen with. Transparent by default</param>
+        public void SwapTo(Color? flushColor = null) => Target.SwapTo(flushColor);
+
+        /// <summary>
         /// Automatically called by <see cref="RenderTargetManager"/>, do not call!
         /// </summary>
         public void Dispose()

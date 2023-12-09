@@ -236,11 +236,10 @@ AsgardianAegis: {
 	DisplayName: Asgardian Aegis
 	Tooltip:
 		'''
-		Grants immunity to knockback
-		Immune to most debuffs
-		+40 max life and +0.5 HP/s life regen
-		Grants a cosmic inferno dash which can slam through enemies without taking damage
-		+20 defense while submerged in liquid
+		Allows the ability to ram dash, empowered by the cosmic inferno
+		This dash can slam through enemies without taking damage
+		Grants immunity to knockback and fire blocks
+		Grants immunity to the vast majority of debuffs, including God Slayer Inferno
 		'''
 }
 
@@ -248,11 +247,10 @@ AsgardsValor: {
 	DisplayName: Asgard's Valor
 	Tooltip:
 		'''
-		Grants immunity to knockback
-		Immune to most debuffs
-		+16 defense while submerged in liquid
-		+20 max life
-		Grants a holy flame dash which can slam through enemies without taking damage
+		Allows the ability to ram dash
+		This dash can slam through enemies without taking damage
+		Grants immunity to knockback and fire blocks
+		Grants immunity to most debuffs, including most forms of frost and flame
 		'''
 }
 
@@ -661,9 +659,10 @@ ElysianAegis: {
 	DisplayName: Elysian Aegis
 	Tooltip:
 		'''
-		Grants immunity to knockback and the Burning, On Fire!, and Holy Flames debuffs
-		+30 max life
-		Grants an enhanced holy flame dash which can slam through enemies without taking damage
+		Allows the ability to ram dash, empowered by holy fire
+		This dash can slam through enemies without taking damage
+		Grants immunity to knockback and fire blocks
+		Grants immunity to most fire debuffs, including Daybreak and Holy Flames
 		Blessed by the Profaned Flame
 		'''
 }
@@ -1208,8 +1207,9 @@ OrnateShield: {
 	DisplayName: Ornate Shield
 	Tooltip:
 		'''
-		8% increased damage reduction and +20 health while wearing the Daedalus armor
-		Grants a frost dash which can slam through enemies without taking damage
+		Allows the ability to ram dash
+		This dash can slam through enemies without taking damage
+		Grants immunity to Chilled, Frostburn, Frostbite, and Frozen
 		'''
 }
 
@@ -1427,7 +1427,6 @@ RoverDrive: {
 		The shield grants 10 defense while active
 		After the shield is broken, it takes 10 seconds to charge back up
 		Being hit again while recharging restarts the charge timer
-		The shield's color will change to match your team selection as needed
 		Can also be scrapped at an extractinator
 		'''
 }
@@ -1846,7 +1845,6 @@ TheSponge: {
 		The barrier starts recharging 9 seconds after being hit
 		Recharging from zero to full charge takes 6 seconds
 		Being hit again while recharging restarts the charge timer
-		The barrier's color will change to match your team selection as needed
 		'''
 }
 

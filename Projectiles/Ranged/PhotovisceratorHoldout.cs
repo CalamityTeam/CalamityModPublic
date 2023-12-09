@@ -189,7 +189,7 @@ namespace CalamityMod.Projectiles.Ranged
 
                     Projectile.NewProjectile(source, bombPos, bombVel, ProjectileType<ExoLight>(), damage, knockback, Projectile.owner, yDirection);
                 }
-                SoundEngine.PlaySound(HalleysInferno.Hit, Owner.MountedCenter);
+                SoundEngine.PlaySound(HalleysInferno.Hit with { Volume = 0.5f }, Owner.MountedCenter);
             }
         }
 
@@ -223,7 +223,7 @@ namespace CalamityMod.Projectiles.Ranged
                 dust.scale = Main.rand.NextFloat(1.3f, 1.8f);
                 dust.color = sparkColor;
             }
-            SoundEngine.PlaySound(HalleysInferno.Shoot, Owner.MountedCenter);
+            SoundEngine.PlaySound(HalleysInferno.Shoot with { Volume = 0.4f } , Owner.MountedCenter);
 
             int rightClickDamage = (int)(0.5f * damage);
             Projectile.NewProjectile(source, position, velocity, ProjectileType<ExoFlareCluster>(), rightClickDamage, knockback, Projectile.owner);
