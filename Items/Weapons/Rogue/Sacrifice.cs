@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool AltFunctionUse(Player player) => player.ownedProjectileCounts[Item.shoot] > 0;
 
-        public override float StealthDamageMultiplier => 1.7f;
+        public override float StealthDamageMultiplier => 1.65f;
         public override float StealthVelocityMultiplier => 1.5f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
