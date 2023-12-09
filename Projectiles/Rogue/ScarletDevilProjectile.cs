@@ -129,8 +129,8 @@ namespace CalamityMod.Projectiles.Rogue
             if (!Main.player[Projectile.owner].moonLeech)
             {
                 // Give on-heal effects from stealth strikes.
-                Main.player[Projectile.owner].statLife += 120;
-                Main.player[Projectile.owner].HealEffect(120);
+                Main.player[Projectile.owner].statLife += 90;
+                Main.player[Projectile.owner].HealEffect(90);
             }
 
             // And spawn a bloom of bullets.

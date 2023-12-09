@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.nCore = true;
             player.GetDamage<GenericDamageClass>() += 0.1f;
             int damage = (int)player.GetBestClassDamage().ApplyTo(250);
+            damage = player.ApplyArmorAccDamageBonusesTo(damage);
             float knockBack = 3f;
             if (Main.rand.NextBool(15))
             {
@@ -92,9 +93,6 @@ namespace CalamityMod.Items.Accessories
                                     }
                                     if (canSpawnProj && Main.myPlayer == player.whoAmI)
                                     {
-                                        if (modPlayer.oldFashioned)
-                                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
-
                                         Projectile.NewProjectile(source, center.X, center.Y, 0f, 0f, ModContent.ProjectileType<NebulaStar>(), damage, knockBack, player.whoAmI);
                                         return;
                                     }

@@ -1,8 +1,9 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
@@ -46,6 +47,10 @@ namespace CalamityMod.Projectiles.Ranged
 
             Projectile.velocity *= 0.98f;
             Projectile.Opacity = Utils.GetLerpValue(150f, 135f, Projectile.timeLeft, true) * Utils.GetLerpValue(0f, 90f, Projectile.timeLeft, true);
+
+            // 08DEC2023: Ozzatron: All below code does not run on dedicated servers as it requires clientside lighting information.
+            if (Main.netMode == NetmodeID.Server)
+                return;
 
             // Calculate light power. This checks below the position of the fog to check if this fog is underground.
             // Without this, it may render over the fullblack that the game renders for obscured tiles.

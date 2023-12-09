@@ -1,7 +1,6 @@
 ﻿using System;
 using CalamityMod.Events;
 using CalamityMod.Items.SummonItems;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Utilities;

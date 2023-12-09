@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -23,9 +23,11 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 3;
             Projectile.alpha = 255;
             Projectile.timeLeft = 300;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 3;
         }
 
         public override void AI()
@@ -56,11 +58,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            Projectile.velocity *= 0.25f;
-            target.immune[Projectile.owner] = 1;
-        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Projectile.velocity *= 0.25f;
 
         public override bool PreDraw(ref Color lightColor)
         {

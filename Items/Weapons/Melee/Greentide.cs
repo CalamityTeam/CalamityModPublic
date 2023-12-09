@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hit, int damageDone)
         {
             var source = player.GetSource_ItemUse(Item);
-            int j = Main.myPlayer;
+            int i = Main.myPlayer;
             float projSpeed = Item.shootSpeed;
             float playerKnockback = hit.Knockback;
             playerKnockback = player.GetWeaponKnockback(Item, playerKnockback);
@@ -56,11 +56,11 @@ namespace CalamityMod.Items.Weapons.Melee
                 mouseDistance = projSpeed / mouseDistance;
             }
 
-            for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
             {
                 realPlayerPos = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 realPlayerPos.X = (realPlayerPos.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                realPlayerPos.Y -= (float)(100 * i);
+                realPlayerPos.Y -= (float)(100 * j);
                 mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
                 mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
                 if (mouseYDist < 0f)
@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, Player.HurtInfo hurtInfo)
         {
             var source = player.GetSource_ItemUse(Item);
-            int j = Main.myPlayer;
+            int i = Main.myPlayer;
             float projSpeed = Item.shootSpeed;
             float playerKnockback = Item.knockBack;
             playerKnockback = player.GetWeaponKnockback(Item, playerKnockback);
@@ -109,11 +109,11 @@ namespace CalamityMod.Items.Weapons.Melee
                 mouseDistance = projSpeed / mouseDistance;
             }
 
-            for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
             {
                 realPlayerPos = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 realPlayerPos.X = (realPlayerPos.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                realPlayerPos.Y -= (float)(100 * i);
+                realPlayerPos.Y -= (float)(100 * j);
                 mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
                 mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
                 if (mouseYDist < 0f)

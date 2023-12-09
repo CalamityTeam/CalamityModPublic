@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.aiStyle = ProjAIStyleID.Nail;
             AIType = ProjectileID.NailFriendly;
-            Projectile.extraUpdates = 1;
         }
 
         public override void AI()

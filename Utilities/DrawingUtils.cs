@@ -865,13 +865,6 @@ namespace CalamityMod
         /// </summary>
         /// <param name="target">The render target to swap to</param>
         /// <param name="flushColor">The color to clear the screen with. Transparent by default</param>
-        public static void SwapTo(this ManagedRenderTarget target, Color? flushColor = null) => SwapTo(target.Target, flushColor);
-
-        /// <summary>
-        /// Sets the current render target to the provided one.
-        /// </summary>
-        /// <param name="target">The render target to swap to</param>
-        /// <param name="flushColor">The color to clear the screen with. Transparent by default</param>
         public static void SwapTo(this RenderTarget2D target, Color? flushColor = null)
         {
             // If we are in the menu, a server, or any of these are null, return.

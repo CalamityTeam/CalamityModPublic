@@ -49,11 +49,10 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] < 1)
                 {
-                    int baseDamage = ElementalDamage;
-                    if (player.Calamity().oldFashioned)
-                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
-
+                    // 08DEC2023: Ozzatron: Sand Elementals spawned with Old Fashioned active will retain their bonus damage indefinitely. Oops. Don't care.
+                    int baseDamage = player.ApplyArmorAccDamageBonusesTo(ElementalDamage);
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
+
                     var p = Projectile.NewProjectileDirect(player.GetSource_Accessory(Item), player.Center, -Vector2.UnitY, ModContent.ProjectileType<SandElementalMinion>(), damage, 2f, Main.myPlayer);
                     p.originalDamage = baseDamage;
                 }

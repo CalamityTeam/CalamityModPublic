@@ -16,7 +16,7 @@ namespace CalamityMod.CalPlayer.Dashes
 
         public override void OnHitEffects(Player player, NPC npc, IEntitySource source, ref DashHitContext hitContext)
         {
-            hitContext.Damage = 0;
+            hitContext.BaseDamage = 0;
             hitContext.PlayerImmunityFrames = 0;
         }
     }

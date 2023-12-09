@@ -7,6 +7,7 @@ using CalamityMod.NPCs.DraedonLabThings;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -16,15 +17,15 @@ namespace CalamityMod.ILEditing
     {
         #region Shimmer Changes
 
-        private static bool AdjustShimmerRequirements(On_Item.orig_CanShimmer orig, Item item)
+        private static bool AdjustShimmerRequirements(On_ShimmerTransforms.orig_IsItemTransformLocked orig, int type)
         {
             //Rod of Harmony / psc requires Draedong and SCal dead instead of Moon Lord.
-            if (item.type == ItemID.RodofDiscord || item.type == ModContent.ItemType<ProfanedSoulCrystal>())
+            if (type == ItemID.RodofDiscord || type == ModContent.ItemType<ProfanedSoulCrystal>())
             {
-                return DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs;
+                return !DownedBossSystem.downedCalamitas || !DownedBossSystem.downedExoMechs;
             }
 
-            return orig(item);
+            return orig(type);
         }
         
         #endregion

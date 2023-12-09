@@ -1,9 +1,8 @@
 ﻿using System;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
 using CalamityMod.Enums;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.GodSlayer;
-using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
@@ -11,8 +10,6 @@ using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer.Dashes
@@ -127,28 +124,22 @@ namespace CalamityMod.CalPlayer.Dashes
                 dust.noGravity = false;
             }
 
-            float kbFactor = 15f;
-            bool crit = Main.rand.Next(100) < player.GetCritChance<MeleeDamageClass>();
-            if (player.kbGlove)
-                kbFactor *= 2f;
-            if (player.kbBuff)
-                kbFactor *= 1.5f;
-
+            // Define hit context variables.
             int hitDirection = player.direction;
             if (player.velocity.X != 0f)
                 hitDirection = Math.Sign(player.velocity.X);
-
-            // Define hit context variables.
-            hitContext.CriticalHit = crit;
             hitContext.HitDirection = hitDirection;
-            hitContext.KnockbackFactor = kbFactor;
+            hitContext.PlayerImmunityFrames = AsgardianAegis.ShieldSlamIFrames;
+
+            // Define damage parameters.
+            int dashDamage = 3000;
+            hitContext.damageClass = player.GetBestClass();
+            hitContext.BaseDamage = player.ApplyArmorAccDamageBonusesTo(dashDamage);
+            hitContext.BaseKnockback = 15f;
 
             // God Slayer Dash intentionally does not use the vanilla function for collision attack iframes.
             // This is because its immunity is meant to be completely consistent and not subject to vanilla anticheese.
             hitContext.PlayerImmunityFrames = GodSlayerChestplate.DashIFrames;
-            hitContext.Damage = (int)player.GetBestClassDamage().ApplyTo(3000f);
-            if (player.Calamity().oldFashioned)
-                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
 
             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }

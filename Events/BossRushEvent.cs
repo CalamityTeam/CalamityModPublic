@@ -1,8 +1,10 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Enums;
 using CalamityMod.Items.SummonItems;
-using CalamityMod.NPCs.Abyss;
-using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -17,8 +19,6 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
-using ApolloBoss = CalamityMod.NPCs.ExoMechs.Apollo.Apollo;
-using ArtemisBoss = CalamityMod.NPCs.ExoMechs.Artemis.Artemis;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
@@ -36,18 +36,17 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
+using CalamityMod.Systems;
 using CalamityMod.UI.DraedonSummoning;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ApolloBoss = CalamityMod.NPCs.ExoMechs.Apollo.Apollo;
+using ArtemisBoss = CalamityMod.NPCs.ExoMechs.Artemis.Artemis;
 
 namespace CalamityMod.Events
 {
@@ -95,7 +94,7 @@ namespace CalamityMod.Events
             }
         }
 
-        internal static IEntitySource Source => new EntitySource_WorldEvent();
+        internal static IEntitySource Source => new EntitySource_WorldEvent("CalamityMod_BossRush");
 
         public static int HostileProjectileKillCounter;
         public static bool BossRushActive = false; // Whether Boss Rush is active or not.
@@ -108,7 +107,7 @@ namespace CalamityMod.Events
         public static int StartTimer;
         public static int EndTimer;
         public static float WhiteDimness;
-        public static readonly Color XerocTextColor = Color.LightCoral;
+        public static readonly Color XerocTextColor = new(250, 213, 77); // #FAD54D
         public const int StartEffectTotalTime = 120;
         public const int EndVisualEffectTime = 340;
         public static int ClosestPlayerToWorldCenter => Player.FindClosest(new Vector2(Main.maxTilesX, Main.maxTilesY) * 16f * 0.5f, 1, 1);
@@ -143,7 +142,14 @@ namespace CalamityMod.Events
             // TODO -- Multiple different lists might be ideal for this at some point instead of a god-struct? This is a lot of parameters.
             Bosses = new List<Boss>()
             {
-                new Boss(NPCID.KingSlime, permittedNPCs: new int[] { NPCID.BlueSlime, NPCID.YellowSlime, NPCID.PurpleSlime, NPCID.RedSlime, NPCID.GreenSlime, NPCID.RedSlime,
+                new Boss(NPCID.KingSlime, spawnContext: type => {
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+
+                    // When King Slime spawns, Boss Rush is considered to be started at least once.
+                    // Xeroc will no longer give his full start monologue anymore for this world.
+                    DownedBossSystem.startedBossRushAtLeastOnce = true;
+                },
+                permittedNPCs: new int[] { NPCID.BlueSlime, NPCID.YellowSlime, NPCID.PurpleSlime, NPCID.RedSlime, NPCID.GreenSlime, NPCID.RedSlime,
                     NPCID.IceSlime, NPCID.UmbrellaSlime, NPCID.Pinky, NPCID.SlimeSpiked, NPCID.RainbowSlime, ModContent.NPCType<KingSlimeJewel>() }),
 
                 new Boss(ModContent.NPCType<DesertScourgeHead>(), spawnContext: type =>
@@ -295,7 +301,6 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<ProfanedGuardianCommander>(), TimeChangeContext.Day, type =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Events.BossRushTierThreeEndText2", XerocTextColor); // "May your skills remain sharp for the last challenges."
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, permittedNPCs: new int[] { ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.NPCType<ProfanedGuardianHealer>(), ModContent.NPCType<ProfanedRocks>() }),
 
@@ -372,7 +377,6 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<Yharon>(), spawnContext: type =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Events.BossRushTierFourEndText2", XerocTextColor); // "Go forth and conquer 'til the ritual's end!"
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
                     SoundEngine.PlaySound(Yharon.FireSound, player.Center);
@@ -402,10 +406,11 @@ namespace CalamityMod.Events
 
             BossDeathEffects = new Dictionary<int, Action<NPC>>()
             {
+                // Wall of Flesh: End of Tier 1
                 [NPCID.WallofFlesh] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Events.BossRushTierOneEndText", XerocTextColor); // "Hmm? Oh, you're still alive. Unexpected, but don't get complacent just yet."
                     CreateTierAnimation(2);
+                    BossRushDialogueSystem.StartDialogue(BossRushDialoguePhase.TierOneComplete);
 
                     // Teleport players to where they came from
                     for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
@@ -423,25 +428,32 @@ namespace CalamityMod.Events
                         }
                     }
                 },
+                // Plantera: End of Tier 2
                 [NPCID.Plantera] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Events.BossRushTierTwoEndText", XerocTextColor); // "Hmm? Persistent aren't you? Perhaps you have some hope of prosperity, unlike past challengers."
                     CreateTierAnimation(3);
+                    BossRushDialogueSystem.StartDialogue(BossRushDialoguePhase.TierTwoComplete);
                 },
+                // Moon Lord: End of Tier 3
                 [NPCID.MoonLordCore] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Events.BossRushTierThreeEndText", XerocTextColor); // "Hmm? Your perseverance is truly a trait to behold. You've come further than even the demigods in a short time."
                     CreateTierAnimation(4);
+                    BossRushDialogueSystem.StartDialogue(BossRushDialoguePhase.TierThreeComplete);
                 },
+                // Devourer of Gods: End of Tier 4
                 [ModContent.NPCType<DevourerofGodsHead>()] = npc =>
                 {
-                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Events.BossRushTierFourEndText", XerocTextColor); // "Hmm? So you've made it to the final tier, a remarkable feat enviable by even the mightiest of the gods."
                     CreateTierAnimation(5);
+                    BossRushDialogueSystem.StartDialogue(BossRushDialoguePhase.TierFourComplete);
                 },
+                // Supreme Calamitas: Ends Boss Rush (also delete all hostile projectiles to be safe)
                 [ModContent.NPCType<SupremeCalamitas>()] = npc =>
                 {
                     CalamityUtils.KillAllHostileProjectiles();
                     HostileProjectileKillCounter = 3;
+
+                    // Display short dialogue if BR has been beaten before.
+                    BossRushDialogueSystem.StartDialogue(DownedBossSystem.downedBossRush ? BossRushDialoguePhase.EndRepeat : BossRushDialoguePhase.End);
                 }
             };
         }
@@ -510,6 +522,9 @@ namespace CalamityMod.Events
             if (!BossRushActive)
                 return;
 
+            // Handle dialogue as appropriate.
+            BossRushDialogueSystem.Tick();
+
             // Disable the stupid credits sequence.
             if (CreditsRollEvent.IsEventOngoing)
                 CreditsRollEvent.SetRemainingTimeDirect(1);
@@ -555,6 +570,7 @@ namespace CalamityMod.Events
                 return;
             }
 
+            // Projectile deletion, preventing Credits and ML from spawning naturally, and dialogue.
             MiscUpdateEffects();
 
             // Do boss rush countdown and shit if no boss is alive.

@@ -1,7 +1,7 @@
-﻿using CalamityMod.DataStructures;
+﻿using System;
+using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -43,14 +43,19 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
                 Projectile.localAI[0] = 1f;
             }
 
-            // Calculate light power. This checks below the position of the fog to check if this fog is underground.
-            // Without this, it may render over the fullblack that the game renders for obscured tiles.
-            float lightPowerBelow = Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16 + 6).ToVector3().Length() / (float)Math.Sqrt(3D);
-            LightPower = MathHelper.Lerp(LightPower, lightPowerBelow, 0.15f);
             Projectile.Opacity = Utils.GetLerpValue(0f, 15f, Time, true) * Utils.GetLerpValue(0f, 60f, Projectile.timeLeft, true);
             Projectile.rotation += Projectile.velocity.X * 0.004f;
             Projectile.velocity *= 0.97f;
             Time++;
+
+            // 08DEC2023: Ozzatron: All below code does not run on dedicated servers as it requires clientside lighting information.
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            // Calculate light power. This checks below the position of the fog to check if this fog is underground.
+            // Without this, it may render over the fullblack that the game renders for obscured tiles.
+            float lightPowerBelow = Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16 + 6).ToVector3().Length() / (float)Math.Sqrt(3D);
+            LightPower = MathHelper.Lerp(LightPower, lightPowerBelow, 0.15f);
         }
 
         public void AdditiveDraw(SpriteBatch spriteBatch)

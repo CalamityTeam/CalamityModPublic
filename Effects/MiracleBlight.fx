@@ -14,16 +14,6 @@ float2 uImageSize0;
 float2 uImageSize1;
 float4 uShaderSpecificData;
 
-// Cosine does not work in shaders in Terraria 1.4. It returns incredibly corrupted values and nobody is sure why.
-// This reimplements cosine using trigonometric identities.
-//
-// Discovery of malfunctioning cosine attributed to ScalarVector from SLR:
-// https://discord.com/channels/103110554649894912/445276626352209920/979928448300634175
-float realCos(float value)
-{
-    return sin(value + 1.57079);
-}
-
 //
 // Based on Devourer of Gods' death animation (by Dominic)
 // in turn, that was based on ExampleMod's cool death animation
@@ -39,7 +29,7 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
     // Temporal drift to make the sprite slide through the noise texture
     float2 drift = float2(5 * sin(0.04165 * uTime), 1.1 * uTime);
 
-    float2 noiseMapTexCoords = coords + drift + uWorldPosition;
+    float2 noiseMapTexCoords = coords + drift;
     float4 noiseColor = tex2D(uImage1, noiseMapTexCoords);
 
     // Define thresholds for total pixel erasure and glowing lines.
@@ -47,12 +37,12 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
     // Rapidly flickering sinewave produced by Desmos, loosely based on the Weierstrass function
     // (infinitely sharp vague sinewave, periodic, continuous everywhere but differentiable nowhere)
     // https://en.wikipedia.org/wiki/Weierstrass_function
-    float flickerOne = 0.05 * realCos(7 * uTime);
-    float flickerTwo = 0.06 * realCos(31 * uTime);
+    float flickerOne = 0.05 * cos(7 * uTime);
+    float flickerTwo = 0.06 * cos(31 * uTime);
     float flickerThree = 0.04 * sin(167 * uTime);
     float fullErasureThreshold = uOpacity + flickerOne + flickerTwo + flickerThree;
     float glowThreshold = fullErasureThreshold - 0.1;
-
+    
     // If the noise over the erasure threshold, completely erase this pixel.
     if (noiseColor.r > fullErasureThreshold)
     {

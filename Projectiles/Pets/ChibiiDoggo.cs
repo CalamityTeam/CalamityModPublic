@@ -2,11 +2,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Pets
 {
@@ -171,6 +170,11 @@ namespace CalamityMod.Projectiles.Pets
             }
 
             //companion cube lighting check and stab
+
+            // 08DEC2023: Ozzatron: All below code does not run on dedicated servers as it requires clientside lighting information.
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
             Color color;
             color = Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16);
             Vector3 vector3_1 = color.ToVector3();

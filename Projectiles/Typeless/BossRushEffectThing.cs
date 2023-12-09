@@ -1,5 +1,7 @@
-﻿using CalamityMod.Events;
+﻿using CalamityMod.Enums;
+using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs;
+using CalamityMod.Systems;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Events;
@@ -61,8 +63,9 @@ namespace CalamityMod.Projectiles.Typeless
 
             BossRushEvent.BossRushStage = 0;
             BossRushEvent.BossRushActive = true;
-            string key = "Mods.CalamityMod.Events.BossRushStartText"; // "Hmm? Ah, another contender. Very well, may the ritual commence!"
-            CalamityUtils.DisplayLocalizedText(key, BossRushEvent.XerocTextColor);
+
+            // Play startup dialogue
+            BossRushDialogueSystem.StartDialogue(DownedBossSystem.startedBossRushAtLeastOnce ? BossRushDialoguePhase.StartRepeat : BossRushDialoguePhase.Start);
 
             CalamityNetcode.SyncWorld();
             if (Main.netMode == NetmodeID.Server)

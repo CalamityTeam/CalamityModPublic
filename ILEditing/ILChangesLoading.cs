@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Reflection;
+using CalamityMod.Graphics.Renderers.CalamityRenderers;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.LunicCorps;
 using CalamityMod.Tiles.DraedonStructures;
 using CalamityMod.Tiles.FurnitureExo;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.Drawing;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.ItemDropRules;
@@ -49,13 +51,11 @@ namespace CalamityMod.ILEditing
             On_TileDrawing.Draw += ClearTilePings;
             On_CommonCode.ModifyItemDropFromNPC += ColorBlightedGel;
 
-            // Graphics (Energy shields)
-            // ORDER MATTERS. Whichever hook is registered last will draw a shield first, blocking all other hooks
-            // Please order these hooks in the ordering priority you want energy shields to have
-            On_Main.DrawInfernoRings += RoverDrive.DrawRoverDriveShields;
-            On_Main.DrawInfernoRings += LunicCorpsHelmet.DrawHaloShields;
-            On_Main.DrawInfernoRings += ProfanedSoulArtifact.DrawProfanedSoulShields; //both psa and psc
-            On_Main.DrawInfernoRings += TheSponge.DrawSpongeShields;
+            // Graphics (dyeable shader stuff)
+            On_Player.UpdateItemDye += DyeableShadersRenderer.FindDyesDetour;
+            On_Player.ApplyEquipFunctional += DyeableShadersRenderer.CheckAccessoryDetour;
+            On_Player.ApplyEquipVanity_Item += DyeableShadersRenderer.CheckVanityDetour;
+            On_Player.UpdateArmorSets += DyeableShadersRenderer.CheckArmorSetsDetour;
 
             // NPC behavior
             IL_Main.UpdateTime += PermitNighttimeTownNPCSpawning;
@@ -132,7 +132,7 @@ namespace CalamityMod.ILEditing
             IL_Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
             IL_Item.TryGetPrefixStatMultipliersForItem += RelaxPrefixRequirements;
             On_NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
-            On_Item.CanShimmer += AdjustShimmerRequirements;
+            On_ShimmerTransforms.IsItemTransformLocked += AdjustShimmerRequirements;
 
             // TODO -- Beat Lava Slimes once and for all
             // IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;

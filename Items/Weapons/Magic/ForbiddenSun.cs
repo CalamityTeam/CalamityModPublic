@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Yellow;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<ForbiddenSunProjectile>();
-            Item.shootSpeed = 9f;
+            Item.shootSpeed = 13f;
         }
 
         public override void AddRecipes()

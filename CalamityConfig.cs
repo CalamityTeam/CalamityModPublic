@@ -210,6 +210,16 @@ namespace CalamityMod
         [DefaultValue(MinTownNPCSpawnMultiplier)]
         public int TownNPCSpawnRateMultiplier { get; set; }
 
+        private const int MinPlayerRespawnTime_BossAlive = 15;
+        private const int MaxPlayerRespawnTime_BossAlive = 60;
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [Range(MinPlayerRespawnTime_BossAlive, MaxPlayerRespawnTime_BossAlive)]
+        [Increment(1)]
+        [DrawTicks]
+        [DefaultValue(MinPlayerRespawnTime_BossAlive)]
+        public int PlayerRespawnTime_BossAlive { get; set; }
+
         private const float MinBossHealthBoost = 0f;
         private const float MaxBossHealthBoost = 900f;
 

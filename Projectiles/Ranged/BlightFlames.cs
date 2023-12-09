@@ -1,13 +1,13 @@
 ﻿using System;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using CalamityMod.Particles;
-using Terraria.ModLoader;
-using Terraria.ID;
-using CalamityMod.Items.Weapons.Ranged;
 using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -97,15 +97,19 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.velocity *= 0.99f;
             Projectile.Opacity = Utils.GetLerpValue(30f, 50f, Projectile.timeLeft, true) * Utils.GetLerpValue(0f, 130f, Projectile.timeLeft, true);
 
-            // Calculate light power. This checks below the position of the fog to check if this fog is underground.
-            // Without this, it may render over the fullblack that the game renders for obscured tiles.
-            float lightPowerBelow = Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16 + 6).ToVector3().Length() / (float)Math.Sqrt(3D);
-            LightPower = MathHelper.Lerp(LightPower, lightPowerBelow, 0.15f);
-
             if (postEnemyHit && !postTileHit)
             {
                 CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 25f, 35f);
             }
+
+            // 08DEC2023: Ozzatron: All below code does not run on dedicated servers as it requires clientside lighting information.
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            // Calculate light power. This checks below the position of the fog to check if this fog is underground.
+            // Without this, it may render over the fullblack that the game renders for obscured tiles.
+            float lightPowerBelow = Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16 + 6).ToVector3().Length() / (float)Math.Sqrt(3D);
+            LightPower = MathHelper.Lerp(LightPower, lightPowerBelow, 0.15f);
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)

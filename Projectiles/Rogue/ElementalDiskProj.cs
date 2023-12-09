@@ -157,7 +157,6 @@ namespace CalamityMod.Projectiles.Rogue
                                 Main.projectile[disk].idStaticNPCHitCooldown = Main.projectile[disk2].idStaticNPCHitCooldown = 8;
                                 Main.projectile[disk].usesIDStaticNPCImmunity = Main.projectile[disk2].usesIDStaticNPCImmunity = true;
                                 Main.projectile[disk].timeLeft = Main.projectile[disk2].timeLeft = 60;
-                                Main.projectile[disk].Calamity().CannotProc = Main.projectile[disk2].Calamity().CannotProc = true;
                             }
                         }
                     }
