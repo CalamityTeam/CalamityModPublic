@@ -54,6 +54,7 @@ namespace CalamityMod
         // Events
         internal static bool _downedEoCAcidRain = false;
         internal static bool _downedAquaticScourgeAcidRain = false;
+        internal static bool _startedBossRushAtLeastOnce = false;
         internal static bool _downedBossRush = false;
 
         // Betsy and Dreadnautilus because vanilla doesn't track them
@@ -493,6 +494,11 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedAquaticScourgeAcidRain, -1);
             }
         }
+        public static bool startedBossRushAtLeastOnce
+        {
+            get => _startedBossRushAtLeastOnce;
+            set => _startedBossRushAtLeastOnce = value; // Starting Boss Rush for the first time does not trigger a Lantern Night
+        }
         public static bool downedBossRush
         {
             get => _downedBossRush;
@@ -552,6 +558,8 @@ namespace CalamityMod
 
             downedMauler = false;
             downedNuclearTerror = false;
+
+            startedBossRushAtLeastOnce = false;
             downedBossRush = false;
         }
 
@@ -654,6 +662,9 @@ namespace CalamityMod
                 downed.Add("mauler");
             if (downedNuclearTerror)
                 downed.Add("nuclearTerror");
+
+            if (startedBossRushAtLeastOnce)
+                downed.Add("startedBossRush");
             if (downedBossRush)
                 downed.Add("bossRush");
 
@@ -710,6 +721,8 @@ namespace CalamityMod
 
             downedMauler = downed.Contains("mauler");
             downedNuclearTerror = downed.Contains("nuclearTerror");
+
+            startedBossRushAtLeastOnce = downed.Contains("startedBossRush");
             downedBossRush = downed.Contains("bossRush");
         }
     }

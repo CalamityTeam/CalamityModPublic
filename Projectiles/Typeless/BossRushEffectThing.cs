@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Typeless
             BossRushEvent.BossRushActive = true;
 
             // Play startup dialogue
-            BossRushDialogueSystem.StartDialogue(DownedBossSystem.downedBossRush ? BossRushDialoguePhase.StartRepeat : BossRushDialoguePhase.Start);
+            BossRushDialogueSystem.StartDialogue(DownedBossSystem.startedBossRushAtLeastOnce ? BossRushDialoguePhase.StartRepeat : BossRushDialoguePhase.Start);
 
             CalamityNetcode.SyncWorld();
             if (Main.netMode == NetmodeID.Server)

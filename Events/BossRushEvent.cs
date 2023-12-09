@@ -142,7 +142,14 @@ namespace CalamityMod.Events
             // TODO -- Multiple different lists might be ideal for this at some point instead of a god-struct? This is a lot of parameters.
             Bosses = new List<Boss>()
             {
-                new Boss(NPCID.KingSlime, permittedNPCs: new int[] { NPCID.BlueSlime, NPCID.YellowSlime, NPCID.PurpleSlime, NPCID.RedSlime, NPCID.GreenSlime, NPCID.RedSlime,
+                new Boss(NPCID.KingSlime, spawnContext: type => {
+                    NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
+
+                    // When King Slime spawns, Boss Rush is considered to be started at least once.
+                    // Xeroc will no longer give his full start monologue anymore for this world.
+                    DownedBossSystem.startedBossRushAtLeastOnce = true;
+                },
+                permittedNPCs: new int[] { NPCID.BlueSlime, NPCID.YellowSlime, NPCID.PurpleSlime, NPCID.RedSlime, NPCID.GreenSlime, NPCID.RedSlime,
                     NPCID.IceSlime, NPCID.UmbrellaSlime, NPCID.Pinky, NPCID.SlimeSpiked, NPCID.RainbowSlime, ModContent.NPCType<KingSlimeJewel>() }),
 
                 new Boss(ModContent.NPCType<DesertScourgeHead>(), spawnContext: type =>
