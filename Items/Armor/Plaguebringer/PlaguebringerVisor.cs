@@ -58,11 +58,10 @@ namespace CalamityMod.Items.Armor.Plaguebringer
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<PlaguebringerSummon>()] < 1)
                 {
-                    int baseDamage = 25;
-                    if (player.Calamity().oldFashioned)
-                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
-
+                    // 08DEC2023: Ozzatron: Plaguebringer armor dudes spawned with Old Fashioned active will retain their bonus damage indefinitely. Oops. Don't care.
+                    int baseDamage = player.ApplyArmorAccDamageBonusesTo(25);
                     var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
+
                     var p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<PlaguebringerSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = baseDamage;

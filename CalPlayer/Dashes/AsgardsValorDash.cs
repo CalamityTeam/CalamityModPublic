@@ -63,7 +63,7 @@ namespace CalamityMod.CalPlayer.Dashes
             // Define damage parameters.
             int dashDamage = AsgardsValor.ShieldSlamDamage;
             hitContext.damageClass = DamageClass.Melee;
-            hitContext.BaseDamage = player.Calamity().oldFashioned ? CalamityUtils.CalcOldFashionedDamage(dashDamage) : dashDamage;
+            hitContext.BaseDamage = player.ApplyArmorAccDamageBonusesTo(dashDamage);
             hitContext.BaseKnockback = AsgardsValor.ShieldSlamKnockback;
 
             int Dusts = 12;

@@ -59,11 +59,10 @@ namespace CalamityMod.Items.Accessories
             var source = player.GetSource_Accessory(Item);
             Vector2 velocity = new Vector2(0f, -1f);
 
-            int baseDamage = 50;
-            if (modPlayer.oldFashioned)
-                baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
-
+            // 08DEC2023: Ozzatron: Elementals spawned with Old Fashioned active will retain their bonus damage indefinitely. Oops. Don't care.
+            int baseDamage = player.ApplyArmorAccDamageBonusesTo(50);
             int elementalDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
+
             float kBack = 2f + player.GetKnockback<SummonDamageClass>().Additive;
 
             if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||
@@ -126,11 +125,10 @@ namespace CalamityMod.Items.Accessories
             var source = player.GetSource_Accessory(Item);
             Vector2 velocity = new Vector2(0f, -1f);
 
-            int baseDamage = 90;
-            if (modPlayer.oldFashioned)
-                baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
-
+            // 08DEC2023: Ozzatron: Elementals spawned with... Hold on a second. Why the fuck are we doing damage calculations when the accessory is in vanity?!
+            int baseDamage = player.ApplyArmorAccDamageBonusesTo(50);
             int elementalDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
+
             float kBack = 2f + player.GetKnockback<SummonDamageClass>().Additive;
 
             if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||

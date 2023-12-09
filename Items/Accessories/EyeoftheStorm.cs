@@ -44,11 +44,11 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] < 1)
                 {
                     var source = player.GetSource_Accessory(Item);
-                    int baseDamage = 45;
-                    if (modPlayer.oldFashioned)
-                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
+                    // 08DEC2023: Ozzatron: Cloud Elementals spawned with Old Fashioned active will retain their bonus damage indefinitely. Oops. Don't care.
+                    int baseDamage = player.ApplyArmorAccDamageBonusesTo(45);
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
+
                     var p = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<CloudElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);
                     p.originalDamage = baseDamage;
                 }
@@ -68,11 +68,11 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] < 1)
                 {
                     var source = player.GetSource_Accessory(Item);
-                    int baseDamage = 45;
-                    if (modPlayer.oldFashioned)
-                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
+                    // 08DEC2023: Ozzatron: Cloud Elementals spawned with... Hold on a second. Why the fuck are we doing damage calculations when the accessory is in vanity?!
+                    int baseDamage = 45;
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
+
                     var p = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<CloudElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);
                     p.originalDamage = baseDamage;
                 }

@@ -301,8 +301,7 @@ namespace CalamityMod.Items.Accessories
                                 int separation = (i * 4) - 8;
                                 int spearBaseDamage = 350;
                                 int spearDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
-                                if (player.Calamity().oldFashioned)
-                                    spearDamage = CalamityUtils.CalcOldFashionedDamage(spearDamage);
+                                spearDamage = player.ApplyArmorAccDamageBonusesTo(spearDamage);
 
                                 int proj = Projectile.NewProjectile(source, player.Center.X, player.Center.Y - separation, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
                                 if (proj.WithinBounds(Main.maxProjectiles))
@@ -319,8 +318,7 @@ namespace CalamityMod.Items.Accessories
                         {
                             int spearBaseDamage = 250;
                             int spearDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
-                            if (player.Calamity().oldFashioned)
-                                spearDamage = CalamityUtils.CalcOldFashionedDamage(spearDamage);
+                            spearDamage = player.ApplyArmorAccDamageBonusesTo(spearDamage);
 
                             int proj = Projectile.NewProjectile(source, player.Center, correctedVelocity * 14f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
                             if (proj.WithinBounds(Main.maxProjectiles))
@@ -346,8 +344,7 @@ namespace CalamityMod.Items.Accessories
                         int projType = isSmallBoomer ? isThiccBoomer ? 1 : 2 : 3;
                         int boomBaseDamage = 200;
                         int boomDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(boomBaseDamage);
-                        if (player.Calamity().oldFashioned)
-                            boomDamage = CalamityUtils.CalcOldFashionedDamage(boomDamage);
+                        boomDamage = player.ApplyArmorAccDamageBonusesTo(boomDamage);
 
                         switch (projType)
                         {
@@ -402,8 +399,7 @@ namespace CalamityMod.Items.Accessories
                             int sickPenalty = (int)(mageFireDamage * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
                             mageFireDamage -= sickPenalty;
                         }
-                        if (player.Calamity().oldFashioned)
-                            mageFireDamage = CalamityUtils.CalcOldFashionedDamage(mageFireDamage);
+                        mageFireDamage = player.ApplyArmorAccDamageBonusesTo(mageFireDamage);
 
                         int proj = Projectile.NewProjectile(source, player.position, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalMageFireball>(), mageFireDamage, 1f, player.whoAmI, empowered ? 1f : 0f);
                         if (proj.WithinBounds(Main.maxProjectiles))
@@ -431,8 +427,7 @@ namespace CalamityMod.Items.Accessories
                             float angle = MathHelper.TwoPi / crystalCount * i;
                             int shardBaseDamage = 176;
                             int shardDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
-                            if (player.Calamity().oldFashioned)
-                                shardDamage = CalamityUtils.CalcOldFashionedDamage(shardDamage);
+                            shardDamage = player.ApplyArmorAccDamageBonusesTo(shardDamage);
 
                             int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 12f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), shardDamage, 1f, player.whoAmI, 0f, 0f);
                             if (proj.WithinBounds(Main.maxProjectiles))
@@ -450,8 +445,7 @@ namespace CalamityMod.Items.Accessories
                         int totalShardProjectiles = empowered ? 360 / 5 : 360 / 10;
                         int shardBaseDamage = empowered ? 125 : 220;
                         int shardDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
-                        if (player.Calamity().oldFashioned)
-                            shardDamage = CalamityUtils.CalcOldFashionedDamage(shardDamage);
+                        shardDamage = player.ApplyArmorAccDamageBonusesTo(shardDamage);
 
                         float interval = totalShardProjectiles / chains * (empowered ? 5f : 10f);
                         double patternInterval = Math.Floor(player.Calamity().profanedSoulWeaponUsage / interval);
@@ -490,9 +484,8 @@ namespace CalamityMod.Items.Accessories
                     if (player.Calamity().profanedSoulWeaponUsage == 0)
                     {
                         int whipBaseDamage = 250;
-                        int whipDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(whipBaseDamage);
-                        if (player.Calamity().oldFashioned)
-                            whipDamage = CalamityUtils.CalcOldFashionedDamage(whipDamage);
+                        int whipDamage = (int)player.GetTotalDamage<SummonMeleeSpeedDamageClass>().ApplyTo(whipBaseDamage);
+                        whipDamage = player.ApplyArmorAccDamageBonusesTo(whipDamage);
 
                         var buffed = player.HasBuff<ProfanedCrystalWhipBuff>();
                         correctedVelocity *= buffed ? 10f : 8f;

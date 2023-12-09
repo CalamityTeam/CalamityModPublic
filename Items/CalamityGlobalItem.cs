@@ -271,19 +271,17 @@ namespace CalamityMod.Items
             if (modPlayer.luxorsGift && !item.channel)
             {
                 // useTime 9 = 0.9 useTime 2 = 0.2
-                double damageMult = 1.0;
+                float damageMult = 1f;
                 if (item.useTime < 10)
-                    damageMult -= (10 - item.useTime) / 10D;
+                    damageMult -= (10 - item.useTime) / 10f;
 
-                double newDamage = damage * damageMult;
+                float newDamage = damage * damageMult;
 
                 if (player.whoAmI == Main.myPlayer)
                 {
                     if (item.CountsAsClass<MeleeDamageClass>())
                     {
-                        int meleeDamage = (int)(newDamage * 0.25f);
-                        if (modPlayer.oldFashioned)
-                            meleeDamage = CalamityUtils.CalcOldFashionedDamage(meleeDamage);
+                        int meleeDamage = player.ApplyArmorAccDamageBonusesTo(newDamage * 0.25f);
 
                         if (meleeDamage >= 1)
                         {
@@ -294,9 +292,7 @@ namespace CalamityMod.Items
                     }
                     else if (item.CountsAsClass<ThrowingDamageClass>())
                     {
-                        int throwingDamage = (int)(newDamage * 0.2f);
-                        if (modPlayer.oldFashioned)
-                            throwingDamage = CalamityUtils.CalcOldFashionedDamage(throwingDamage);
+                        int throwingDamage = player.ApplyArmorAccDamageBonusesTo(newDamage * 0.2f);
 
                         if (throwingDamage >= 1)
                         {
@@ -313,9 +309,7 @@ namespace CalamityMod.Items
                         // The projectile is fired inside of the scope's code instead
                         if (type != ModContent.ProjectileType<TitaniumRailgunScope>())
                         {
-                            int rangedDamage = (int)(newDamage * 0.15f);
-                            if (modPlayer.oldFashioned)
-                                rangedDamage = CalamityUtils.CalcOldFashionedDamage(rangedDamage);
+                            int rangedDamage = player.ApplyArmorAccDamageBonusesTo(newDamage * 0.15f);
 
                             if (rangedDamage >= 1)
                             {
@@ -327,9 +321,7 @@ namespace CalamityMod.Items
                     }
                     else if (item.CountsAsClass<MagicDamageClass>())
                     {
-                        int magicDamage = (int)(newDamage * 0.3f);
-                        if (modPlayer.oldFashioned)
-                            magicDamage = CalamityUtils.CalcOldFashionedDamage(magicDamage);
+                        int magicDamage = player.ApplyArmorAccDamageBonusesTo(newDamage * 0.3f);
 
                         if (magicDamage >= 1)
                         {
@@ -342,11 +334,10 @@ namespace CalamityMod.Items
                     {
                         if (damage >= 1)
                         {
-                            int baseDamage = item.damage;
-                            if (modPlayer.oldFashioned)
-                                baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
-
+                            // 08DEC2023: Ozzatron: Luxor Summons spawned with Old Fashioned active will retain their bonus damage indefinitely. Oops. Don't care.
+                            int baseDamage = player.ApplyArmorAccDamageBonusesTo(item.damage);
                             int summonDamage = baseDamage;
+
                             int projectile = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), summonDamage, 0f, player.whoAmI);
                             if (projectile.WithinBounds(Main.maxProjectiles))
                             {
@@ -366,8 +357,7 @@ namespace CalamityMod.Items
                     {
                         // Bloodflare Mage Bolt: 130%, soft cap starts at 2000 base damage
                         int bloodflareBoltDamage = CalamityUtils.DamageSoftCap(damage * 1.3, 2600);
-                        if (modPlayer.oldFashioned)
-                            bloodflareBoltDamage = CalamityUtils.CalcOldFashionedDamage(bloodflareBoltDamage);
+                        bloodflareBoltDamage = player.ApplyArmorAccDamageBonusesTo(bloodflareBoltDamage);
 
                         Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<GhostlyBolt>(), bloodflareBoltDamage, 1f, player.whoAmI);
                     }
@@ -383,8 +373,7 @@ namespace CalamityMod.Items
                         // Bloodflare Ranged Bloodsplosion: 80%, soft cap starts at 150 base damage
                         // This is intentionally extremely low because this effect can be grossly overpowered with sniper rifles and the like.
                         int bloodsplosionDamage = CalamityUtils.DamageSoftCap(damage * 0.8, 120);
-                        if (modPlayer.oldFashioned)
-                            bloodsplosionDamage = CalamityUtils.CalcOldFashionedDamage(bloodsplosionDamage);
+                        bloodsplosionDamage = player.ApplyArmorAccDamageBonusesTo(bloodsplosionDamage);
 
                         Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<BloodBomb>(), bloodsplosionDamage, 2f, player.whoAmI);
                     }
@@ -397,9 +386,7 @@ namespace CalamityMod.Items
                     modPlayer.tarraCrits = 0;
                     // Tarragon Mage Leaves: (8-10) x 20%, soft cap starts at 200 base damage
                     int leafAmt = 8 + Main.rand.Next(3); // 8, 9, or 10
-                    int leafDamage = (int)(damage * 0.2);
-                    if (modPlayer.oldFashioned)
-                        leafDamage = CalamityUtils.CalcOldFashionedDamage(leafDamage);
+                    int leafDamage = player.ApplyArmorAccDamageBonusesTo(damage * 0.2f);
 
                     for (int l = 0; l < leafAmt; l++)
                     {
@@ -423,10 +410,7 @@ namespace CalamityMod.Items
                     modPlayer.canFireAtaxiaRangedProjectile = false;
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        int ataxiaFlareDamage = (int)(damage * 0.25);
-                        if (modPlayer.oldFashioned)
-                            ataxiaFlareDamage = CalamityUtils.CalcOldFashionedDamage(ataxiaFlareDamage);
-
+                        int ataxiaFlareDamage = player.ApplyArmorAccDamageBonusesTo(damage * 0.25f);
                         Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<HydrothermicFlare>(), ataxiaFlareDamage, 2f, player.whoAmI);
                     }
                 }
@@ -440,8 +424,7 @@ namespace CalamityMod.Items
                     {
                         // God Slayer Ranged Shrapnel: 100%, soft cap starts at 800 base damage
                         int shrapnelRoundDamage = CalamityUtils.DamageSoftCap(damage, 800);
-                        if (modPlayer.oldFashioned)
-                            shrapnelRoundDamage = CalamityUtils.CalcOldFashionedDamage(shrapnelRoundDamage);
+                        shrapnelRoundDamage = player.ApplyArmorAccDamageBonusesTo(shrapnelRoundDamage);
 
                         Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<GodSlayerShrapnelRound>(), shrapnelRoundDamage, 2f, player.whoAmI);
                     }
@@ -456,8 +439,7 @@ namespace CalamityMod.Items
 
                     // Ataxia Rogue Flares: 8 x 50%, soft cap starts at 120 base damage
                     int flareDamage = CalamityUtils.DamageSoftCap(damage * 0.5, 120);
-                    if (modPlayer.oldFashioned)
-                        flareDamage = CalamityUtils.CalcOldFashionedDamage(flareDamage);
+                    flareDamage = player.ApplyArmorAccDamageBonusesTo(flareDamage);
 
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -485,8 +467,7 @@ namespace CalamityMod.Items
                     {
                         // Victide All-class Seashells: 200%, soft cap starts at 46 base damage
                         int seashellDamage = CalamityUtils.DamageSoftCap(damage * 2, 46);
-                        if (modPlayer.oldFashioned)
-                            seashellDamage = CalamityUtils.CalcOldFashionedDamage(seashellDamage);
+                        seashellDamage = player.ApplyArmorAccDamageBonusesTo(seashellDamage);
 
                         Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<Seashell>(), seashellDamage, 1f, player.whoAmI);
                     }
@@ -501,8 +482,7 @@ namespace CalamityMod.Items
                         damageMult = 0.35;
 
                     int newDamage = (int)(damage * 2 * damageMult);
-                    if (modPlayer.oldFashioned)
-                        newDamage = CalamityUtils.CalcOldFashionedDamage(newDamage);
+                    newDamage = player.ApplyArmorAccDamageBonusesTo(newDamage);
 
                     if (player.whoAmI == Main.myPlayer)
                     {

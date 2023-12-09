@@ -1,19 +1,14 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.NPCs;
-using CalamityMod.NPCs.ProfanedGuardians;
+﻿using System;
+using System.IO;
 using CalamityMod.NPCs.Providence;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System;
-using System.IO;
-using CalamityMod.Buffs.Summon.Whips;
-using CalamityMod.Items.Potions.Alcohol;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class MiniGuardianHolyRay : ModProjectile, ILocalizedModType
@@ -67,8 +62,7 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 fireFrom = new Vector2(owner.Center.X, owner.Center.Y);
                 Projectile.position = fireFrom - new Vector2(Projectile.width, Projectile.height) / 2f;
                 Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
-                if (Owner.Calamity().oldFashioned)
-                    Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
+                Projectile.damage = Owner.ApplyArmorAccDamageBonusesTo(Projectile.damage);
             }
             else
                 Projectile.Kill();

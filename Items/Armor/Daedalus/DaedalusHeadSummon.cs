@@ -49,11 +49,10 @@ namespace CalamityMod.Items.Armor.Daedalus
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DaedalusCrystal>()] < 1)
                 {
-                    int baseDamage = 95;
-                    if (modPlayer.oldFashioned)
-                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
-
+                    // 08DEC2023: Ozzatron: Daedalus Crystals spawned with Old Fashioned active will retain their bonus damage indefinitely. Oops. Don't care.
+                    int baseDamage = player.ApplyArmorAccDamageBonusesTo(95);
                     var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
+
                     var p = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<DaedalusCrystal>(), damage, 0f, Main.myPlayer, 50f, 0f);
                     p.originalDamage = baseDamage;
                 }

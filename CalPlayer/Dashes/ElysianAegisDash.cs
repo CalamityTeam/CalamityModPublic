@@ -76,14 +76,12 @@ namespace CalamityMod.CalPlayer.Dashes
             // Define damage parameters.
             int dashDamage = ElysianAegis.ShieldSlamDamage;
             hitContext.damageClass = DamageClass.Melee;
-            hitContext.BaseDamage = player.Calamity().oldFashioned ? CalamityUtils.CalcOldFashionedDamage(dashDamage) : dashDamage;
+            hitContext.BaseDamage = player.ApplyArmorAccDamageBonusesTo(dashDamage);
             hitContext.BaseKnockback = ElysianAegis.ShieldSlamKnockback;
 
             // On-hit Supreme Holy Explosion
             int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(ElysianAegis.RamExplosionDamage);
-            if (player.Calamity().oldFashioned)
-                supremeExplosionDamage = CalamityUtils.CalcOldFashionedDamage(supremeExplosionDamage);
-
+            supremeExplosionDamage = player.ApplyArmorAccDamageBonusesTo(supremeExplosionDamage);
             Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), supremeExplosionDamage, ElysianAegis.RamExplosionKnockback, Main.myPlayer, 1f, 0f);
             npc.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }

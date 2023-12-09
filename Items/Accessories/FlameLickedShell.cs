@@ -56,8 +56,7 @@ namespace CalamityMod.Items.Accessories
             float offsetAngle = (float)Math.PI * radialOffset;
             int type = ModContent.ProjectileType<FlameLickedHellblast>();
             int damage = (int)player.GetBestClassDamage().ApplyTo(60);
-            if (calPlayer.oldFashioned)
-                damage = CalamityUtils.CalcOldFashionedDamage(damage);
+            damage = player.ApplyArmorAccDamageBonusesTo(damage);
 
             if (player.whoAmI == Main.myPlayer)
             {
@@ -74,8 +73,7 @@ namespace CalamityMod.Items.Accessories
                 float radians2 = MathHelper.TwoPi / totalProjectiles;
                 type = ModContent.ProjectileType<FlameLickedBarrage>();
                 damage = (int)player.GetBestClassDamage().ApplyTo(20);
-                if (calPlayer.oldFashioned)
-                    damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                damage = player.ApplyArmorAccDamageBonusesTo(damage);
 
                 double angleA = radians2 * 0.5;
                 double angleB = MathHelper.ToRadians(90f) - angleA;

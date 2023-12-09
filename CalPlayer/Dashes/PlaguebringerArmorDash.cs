@@ -65,7 +65,7 @@ namespace CalamityMod.CalPlayer.Dashes
             // Define damage parameters.
             int dashDamage = 50;
             hitContext.damageClass = DamageClass.Summon;
-            hitContext.BaseDamage = player.Calamity().oldFashioned ? CalamityUtils.CalcOldFashionedDamage(dashDamage) : dashDamage;
+            hitContext.BaseDamage = player.ApplyArmorAccDamageBonusesTo(dashDamage);
             hitContext.BaseKnockback = 3f;
         }
     }

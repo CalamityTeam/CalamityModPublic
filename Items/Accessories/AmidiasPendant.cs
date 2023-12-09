@@ -69,10 +69,9 @@ namespace CalamityMod.Items.Accessories
                                     damage = 30;
                                     break;
                             }
-                            int finalDamage = (int)player.GetBestClassDamage().ApplyTo(damage);
-                            if (player.Calamity().oldFashioned)
-                                finalDamage = CalamityUtils.CalcOldFashionedDamage(finalDamage);
 
+                            int finalDamage = (int)player.GetBestClassDamage().ApplyTo(damage);
+                            finalDamage = player.ApplyArmorAccDamageBonusesTo(finalDamage);
                             Projectile.NewProjectile(source, spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, finalDamage, 5f, Main.myPlayer);
                         }
                     }

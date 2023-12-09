@@ -1,10 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.Localization;
-using CalamityMod.Items.Potions.Alcohol;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -30,8 +28,7 @@ namespace CalamityMod.Items.Accessories
                     if (player.whoAmI == Main.myPlayer)
                     {
                         int damage = (int)player.GetBestClassDamage().ApplyTo(18);
-                        if (player.Calamity().oldFashioned)
-                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                        damage = player.ApplyArmorAccDamageBonusesTo(damage);
 
                         Projectile rain = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), damage, 2f, player.whoAmI);
                         if (rain.whoAmI.WithinBounds(Main.maxProjectiles))

@@ -16,6 +16,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
+using static Humanizer.In;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -142,8 +143,7 @@ namespace CalamityMod.Projectiles.Summon
             Main.dust[num469].velocity *= 0f;
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
-            if (Owner.Calamity().oldFashioned)
-                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
+            Projectile.damage = Owner.ApplyArmorAccDamageBonusesTo(Projectile.damage);
         }
         
         public override Color? GetAlpha(Color lightColor)
@@ -254,8 +254,7 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight(Projectile.Center, 0.5f, 0.1f, 0f);
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
-            if (Owner.Calamity().oldFashioned)
-                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
+            Projectile.damage = Owner.ApplyArmorAccDamageBonusesTo(Projectile.damage);
             if (Projectile.timeLeft == 600)
             {
                 damage = Projectile.damage;
@@ -456,8 +455,7 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight(Projectile.Center, 1f, 0.2f, 0f);
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
-            if (Owner.Calamity().oldFashioned)
-                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
+            Projectile.damage = Owner.ApplyArmorAccDamageBonusesTo(Projectile.damage);
         }
 
         public override bool PreAI()
@@ -730,9 +728,8 @@ namespace CalamityMod.Projectiles.Summon
             
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
-            if (Owner.Calamity().oldFashioned)
-                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
-            
+            Projectile.damage = Owner.ApplyArmorAccDamageBonusesTo(Projectile.damage);
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 8)
             {
@@ -897,9 +894,8 @@ namespace CalamityMod.Projectiles.Summon
         {
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
-            if (Owner.Calamity().oldFashioned)
-                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
-            
+            Projectile.damage = Owner.ApplyArmorAccDamageBonusesTo(Projectile.damage);
+
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 4)
             {
@@ -1020,9 +1016,8 @@ namespace CalamityMod.Projectiles.Summon
         {
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
-            if (Owner.Calamity().oldFashioned)
-                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
-            
+            Projectile.damage = Owner.ApplyArmorAccDamageBonusesTo(Projectile.damage);
+
             if (Projectile.timeLeft > 120)
             {
                 Projectile.rotation += 1f;
@@ -1320,11 +1315,10 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Player owner = Main.player[Projectile.owner];
-            
+
             Projectile.damage = (int)owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
-            if (owner.Calamity().oldFashioned)
-                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
-            
+            Projectile.damage = owner.ApplyArmorAccDamageBonusesTo(Projectile.damage);
+
             if (Projectile.ai[1] == 0f)
             {
                 owner.itemAnimation = owner.itemAnimationMax;
@@ -1792,14 +1786,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            var psc = Projectile.ai[0] > 0f;
-            //Ensure that psa's spears are not coloured by night
-            
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
-            if (Owner.Calamity().oldFashioned)
-                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
-            
+            Projectile.damage = Owner.ApplyArmorAccDamageBonusesTo(Projectile.damage);
+
+            //Ensure that psa's spears are not coloured by night
+            var psc = Projectile.ai[0] > 0f;
             int pscState = (int)((!Main.dayTime && psc) ? Providence.BossMode.Night : Providence.BossMode.Day);
             int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ProvUtils.GetDustID(pscState), 0f, 0f, 100, default, !Main.dayTime && psc ? 0.5f : 1f);
             Main.dust[num469].noGravity = true;
@@ -1941,9 +1933,8 @@ namespace CalamityMod.Projectiles.Summon
         {
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
-            if (Owner.Calamity().oldFashioned)
-                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
-            
+            Projectile.damage = Owner.ApplyArmorAccDamageBonusesTo(Projectile.damage);
+
             int pscState = (int)(Main.dayTime ? Providence.BossMode.Day : Providence.BossMode.Night);
             int num469 = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, ProvUtils.GetDustID(pscState), 0f, 0f, 100, default, 1f);
             Main.dust[num469].noGravity = true;
@@ -2061,8 +2052,7 @@ namespace CalamityMod.Projectiles.Summon
             
             var Owner = Main.player[Projectile.owner];
             Projectile.damage = (int)Owner.GetTotalDamage<SummonDamageClass>().ApplyTo(Projectile.originalDamage);
-            if (Owner.Calamity().oldFashioned)
-                Projectile.damage = CalamityUtils.CalcOldFashionedDamage(Projectile.damage);
+            Projectile.damage = Owner.ApplyArmorAccDamageBonusesTo(Projectile.damage);
 
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)

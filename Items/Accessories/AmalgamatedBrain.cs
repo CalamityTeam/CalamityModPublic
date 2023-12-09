@@ -34,8 +34,7 @@ namespace CalamityMod.Items.Accessories
                     if (player.whoAmI == Main.myPlayer)
                     {
                         int damage = (int)player.GetBestClassDamage().ApplyTo(60);
-                        if (modPlayer.oldFashioned)
-                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                        damage = player.ApplyArmorAccDamageBonusesTo(damage);
 
                         Projectile rain = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), damage, 2f, player.whoAmI);
                         if (rain.whoAmI.WithinBounds(Main.maxProjectiles))

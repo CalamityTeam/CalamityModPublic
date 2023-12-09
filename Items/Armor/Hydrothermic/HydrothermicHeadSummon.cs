@@ -49,11 +49,10 @@ namespace CalamityMod.Items.Armor.Hydrothermic
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<HydrothermicVent>()] < 1)
                 {
-                    int baseDamage = 190;
-                    if (modPlayer.oldFashioned)
-                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
-
+                    // 08DEC2023: Ozzatron: Hydrothermic Vents spawned with Old Fashioned active will retain their bonus damage indefinitely. Oops. Don't care.
+                    int baseDamage = player.ApplyArmorAccDamageBonusesTo(190);
                     var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
+
                     var p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<HydrothermicVent>(), damage, 0f, Main.myPlayer, 38f, 0f);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = baseDamage;
