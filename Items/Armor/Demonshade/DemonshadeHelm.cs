@@ -59,11 +59,10 @@ namespace CalamityMod.Items.Armor.Demonshade
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DemonshadeRedDevil>()] < 1)
                 {
-                    var baseDamage = 10000;
-                    if (modPlayer.oldFashioned)
-                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
-
+                    // 08DEC2023: Ozzatron: Demonshade Red Devils spawned with Old Fashioned active will retain their bonus damage indefinitely. Oops. Don't care.
+                    var baseDamage = player.ApplyArmorAccDamageBonusesTo(10000);
                     var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
+
                     var devil = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<DemonshadeRedDevil>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     devil.originalDamage = baseDamage;
                 }

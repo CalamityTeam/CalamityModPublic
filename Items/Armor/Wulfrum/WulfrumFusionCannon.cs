@@ -81,8 +81,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
         {
             velocity = velocity.RotatedByRandom(MathHelper.PiOver4 * 0.1f);
 
-            if (player.Calamity().oldFashioned)
-                damage = CalamityUtils.CalcOldFashionedDamage(damage);
+            // This weapon is acquired through usage of an armor set bonus and thus counts as armor. This function must be used.
+            damage = player.ApplyArmorAccDamageBonusesTo(damage);
         }
 
         public override bool CanUseItem(Player player)

@@ -50,9 +50,6 @@ namespace CalamityMod
         public static float CalcDamage<T>(this Player player, float baseDamage) where T : DamageClass => player.GetTotalDamage<T>().ApplyTo(baseDamage);
         public static int CalcIntDamage<T>(this Player player, float baseDamage) where T : DamageClass => (int)player.CalcDamage<T>(baseDamage);
 
-        // Calculate and return Old Fashioned damage adjustment for Accessories and Set Bonuses.
-        public static int CalcOldFashionedDamage(int damage) => (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
-
         // Naively determines the player's chosen (aka "best") class by whichever has the highest damage boost.
         public static DamageClass GetBestClass(this Player player)
         {
@@ -128,6 +125,20 @@ namespace CalamityMod
             // Add the best typical damage stat, then return the full modifier.
             ret += best - 1f;
             return ret;
+        }
+
+        /// <summary>
+        /// Extension method which calculates the player's current multiplicative boost to armor set bonus and accessory damage.<br />
+        /// This is currently only used by the Old Fashioned drink.
+        /// </summary>
+        /// <param name="player">The player whose armor / accessory damage bonus should be applied.</param>
+        /// <param name="damage">The damage to apply the bonus to.</param>
+        /// <returns>Boosted damage. If no boosts are applicable, returns the damage parameter that was passed in.</returns>
+        public static int ApplyArmorAccDamageBonusesTo(this Player player, float damage)
+        {
+            if (!player.Calamity().oldFashioned)
+                return (int)damage;
+            return (int)(damage * OldFashioned.AccessoryAndSetBonusDamageMultiplier);
         }
 
         public static float GetRangedAmmoCostReduction(this Player player)

@@ -2422,9 +2422,7 @@ namespace CalamityMod.Projectiles
                                 if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<NanotechProjectile>()] < 5)
                                 {
                                     int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(60);
-                                    if (modPlayer.oldFashioned)
-                                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
-
+                                    damage = player.ApplyArmorAccDamageBonusesTo(damage);
                                     Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), damage, 0f, projectile.owner);
                                 }
                             }
@@ -2436,8 +2434,7 @@ namespace CalamityMod.Projectiles
                                 if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 5)
                                 {
                                     int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(42);
-                                    if (modPlayer.oldFashioned)
-                                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                                    damage = player.ApplyArmorAccDamageBonusesTo(damage);
 
                                     int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), damage, 0f, projectile.owner);
                                     if (proj.WithinBounds(Main.maxProjectiles))
@@ -2453,8 +2450,7 @@ namespace CalamityMod.Projectiles
                                 if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 5)
                                 {
                                     int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(DragonScales.ShitBaseDamage);
-                                    if (modPlayer.oldFashioned)
-                                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                                    damage = player.ApplyArmorAccDamageBonusesTo(damage);
 
                                     int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * 1.2f, ProjectileType<DragonShit>(), damage, 0f, projectile.owner);
                                     if (proj.WithinBounds(Main.maxProjectiles))
@@ -2474,8 +2470,7 @@ namespace CalamityMod.Projectiles
                                 {
                                     // Daedalus Rogue Crystals: 2 x 25%, soft cap starts at 120 base damage
                                     int crystalDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30);
-                                    if (modPlayer.oldFashioned)
-                                        crystalDamage = CalamityUtils.CalcOldFashionedDamage(crystalDamage);
+                                    crystalDamage = player.ApplyArmorAccDamageBonusesTo(crystalDamage);
 
                                     for (int i = 0; i < 2; i++)
                                     {
@@ -3093,9 +3088,9 @@ namespace CalamityMod.Projectiles
                         for (int i = 0; i < 2; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+
                             int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
-                            if (player.Calamity().oldFashioned)
-                                damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                            damage = player.ApplyArmorAccDamageBonusesTo(damage);
 
                             int soul = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), damage, 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
@@ -3107,8 +3102,7 @@ namespace CalamityMod.Projectiles
                     if (modPlayer.scuttlersJewel && stealthStrike && modPlayer.scuttlerCooldown <= 0)
                     {
                         int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(18);
-                        if (modPlayer.oldFashioned)
-                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                        damage = player.ApplyArmorAccDamageBonusesTo(damage);
 
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
