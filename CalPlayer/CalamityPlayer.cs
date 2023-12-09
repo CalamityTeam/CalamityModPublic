@@ -2631,8 +2631,8 @@ namespace CalamityMod.CalPlayer
             }
 
             // Respawn the player faster
-            // 3 seconds normally, 5 seconds while an event is happening and 15 seconds while a boss is alive
-            int respawnTimerSet = areThereAnyDamnBosses ? 900 : areThereAnyDamnEvents ? 300 : 180;
+            // 3 seconds normally and configurable while a boss is alive between 15 and 60 seconds
+            int respawnTimerSet = areThereAnyDamnBosses ? (CalamityConfig.Instance.PlayerRespawnTime_BossAlive * 60) : 180;
             if (Player.respawnTimer > respawnTimerSet)
                 Player.respawnTimer = respawnTimerSet;
         }
