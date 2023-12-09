@@ -38,10 +38,10 @@ namespace CalamityMod.Projectiles.Rogue
                 SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
 
-            //Spawn a skull every 30 frames
-            if (Projectile.timeLeft % 30 == 0)
+            //Spawn a skull every 90 frames
+            if (Projectile.timeLeft % 90 == 0)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0.2f, ModContent.ProjectileType<GrimreaverSkull>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 1f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 0.2f, ModContent.ProjectileType<GrimreaverSkull>(), (int)(Projectile.damage * 0.4f), Projectile.knockBack, Projectile.owner, 1f, 0f);
             }
 
             CalamityUtils.HomeInOnNPC(Projectile, true, 250f, 4f, 14f);
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
                 DustExplosion(15, 6, 12, 30, 2.4f);
                 for (int i = 0; i < 10; i++)
                 {
-                    CalamityUtils.ProjectileRain(Projectile.GetSource_FromThis(), Projectile.Center, 600f, 100f, 700f, 1000f, 20, ModContent.ProjectileType<GrimreaverSkull>(), (int)(Projectile.damage * 0.75f), 3f, Projectile.owner);
+                    CalamityUtils.ProjectileRain(Projectile.GetSource_FromThis(), Projectile.Center, 600f, 100f, 700f, 1000f, 20, ModContent.ProjectileType<GrimreaverSkull>(), (int)(Projectile.damage * 0.35f), 3f, Projectile.owner);
                 }
             }
             else
