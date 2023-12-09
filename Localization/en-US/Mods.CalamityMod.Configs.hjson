@@ -401,13 +401,14 @@ CalamityConfig: {
 			'''
 	}
 
-    PlayerRespawnTime_BossAlive: {
-        Label: "[i:Stopwatch] Player Respawn Time while a Boss is Alive"
-        Tooltip:
-            '''
-            Adjust the amount of time it takes for a player to respawn while a boss is alive, in seconds.
-            '''
-    }
+	PlayerRespawnTime_BossAlive: {
+		Label: "[i:Stopwatch] Boss Fight Player Respawn Time"
+		Tooltip:
+			'''
+			Sets the respawn time for players when a boss is alive, in seconds. This applies equally in single player and multiplayer.
+			When no boss is alive, players will respawn in 3 seconds in both single player and multiplayer.
+			'''
+	}
 
 	TownNPCSpawnRateMultiplier: {
 		Label: "[i:GuideVoodooDoll] Town NPC Spawn Rate Multiplier"
