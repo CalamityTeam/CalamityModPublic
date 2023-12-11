@@ -1,8 +1,11 @@
 ﻿using CalamityMod.NPCs;
+using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Graphics.Renderers;
 
 namespace CalamityMod.ILEditing
 {
@@ -41,5 +44,30 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Brfalse, ret);
         }
         #endregion Fixing Splitting Worm Banner Spam in Deathmode
+
+        #region Fixing Vanilla Not Accounting For Spritebatch Modification in Held Projectiles
+        private static bool HasLoggedHeldProjectileBlendStateCatch = false;
+        private void FixHeldProjectileBlendState(On_PlayerDrawLayers.orig_DrawHeldProj orig, PlayerDrawSet drawinfo, Projectile proj)
+        {
+            orig(drawinfo, proj);
+
+            // Vanilla uses a worse quality sampler state for mounts when moving for some reason. Really couldn't say why.
+            var sampler = (drawinfo.drawPlayer.mount.Active && drawinfo.drawPlayer.fullRotation != 0f) ? LegacyPlayerRenderer.MountedSamplerState : Main.DefaultSamplerState;
+
+            try
+            {
+                // Restart the spritebatch, to ensure that modifications made to it are properly restored.
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, sampler, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            }
+            catch
+            {
+                if (!HasLoggedHeldProjectileBlendStateCatch)
+                    LogFailure("FixHeldProjectileBlendState", "The spritebatch was not left properly by another mod! The game will now most likely crash.");
+
+                HasLoggedHeldProjectileBlendStateCatch = true;
+            }
+        }
+        #endregion
     }
 }
