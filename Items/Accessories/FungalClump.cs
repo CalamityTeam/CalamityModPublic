@@ -36,11 +36,10 @@ namespace CalamityMod.Items.Accessories
                 {
                     var source = player.GetSource_Accessory(Item);
 
-                    int baseDamage = FungalClumpDamage;
-                    if (modPlayer.oldFashioned)
-                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
-
+                    // 08DEC2023: Ozzatron: Fungal Clumps spawned with Old Fashioned active will retain their bonus damage indefinitely. Oops. Don't care.
+                    int baseDamage = player.ApplyArmorAccDamageBonusesTo(FungalClumpDamage);
                     int damage = (int)player.GetBestClassDamage().ApplyTo(baseDamage);
+
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), damage, 1f, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = baseDamage;
@@ -62,11 +61,10 @@ namespace CalamityMod.Items.Accessories
                 {
                     var source = player.GetSource_Accessory(Item);
 
-                    int baseDamage = FungalClumpDamage;
-                    if (modPlayer.oldFashioned)
-                        baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
-
+                    // 08DEC2023: Ozzatron: Fungal Clumps spawned with... Hold on a second. Why the fuck are we doing damage calculations when the accessory is in vanity?!
+                    int baseDamage = player.ApplyArmorAccDamageBonusesTo(FungalClumpDamage);
                     int damage = (int)player.GetBestClassDamage().ApplyTo(baseDamage);
+
                     int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), damage, 1f, player.whoAmI);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = baseDamage;

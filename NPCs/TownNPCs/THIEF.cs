@@ -97,10 +97,11 @@ namespace CalamityMod.NPCs.TownNPCs
             // Patron names
             "Xplizzy", // <@!98826096237109248> (Whitegiraffe#6342)
             "Freakish", // <@!750363283520749598> (Freakish#0001)
-            "Calder", // <@!601897959176798228> (Paltham#8859)
+            "Calder", // <@!601897959176798228> (hardlightcaster)
             "Hunter Jinx", // <@!757401399783850134> (Jinx_enthusiast#1580)
             "Goose", // <@!591421917706321962> (DullElili#8016)
             "Jackson", // <@!525827730646892549> (ChowChow, Sin of Sleep Schedules#1235)
+            "Altarca", // <@!1140673052108128337> (altarca_27226_49175)
 
             // Original names
             this.GetLocalizedValue("Name.Laura"),

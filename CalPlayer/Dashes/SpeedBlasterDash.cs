@@ -1,17 +1,7 @@
-﻿using System;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
-using CalamityMod.Enums;
-using CalamityMod.Items.Armor.GodSlayer;
+﻿using CalamityMod.Enums;
 using CalamityMod.Items.Weapons.Ranged;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
-using CalamityMod.Projectiles.Ranged;
-using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer.Dashes
 {

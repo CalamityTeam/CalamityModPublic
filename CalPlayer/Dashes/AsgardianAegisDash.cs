@@ -1,9 +1,7 @@
 ﻿using System;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
 using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -21,12 +19,14 @@ namespace CalamityMod.CalPlayer.Dashes
         public override DashCollisionType CollisionType => DashCollisionType.ShieldSlam;
         public override bool IsOmnidirectional => false;
         public int Time = 0;
+        public bool PostHit = false;
 
         public override float CalculateDashSpeed(Player player) => 23.3f;
 
         public override void OnDashEffects(Player player)
         {
             Time = 0;
+            PostHit = false;
         }
 
         public override void MidDashEffects(Player player, ref float dashSpeed, ref float dashSpeedDecelerationFactor, ref float runSpeedDecelerationFactor)
@@ -57,31 +57,35 @@ namespace CalamityMod.CalPlayer.Dashes
 
         public override void OnHitEffects(Player player, NPC npc, IEntitySource source, ref DashHitContext hitContext)
         {
-            float kbFactor = 15f;
-            bool crit = Main.rand.Next(100) < player.GetCritChance<MeleeDamageClass>();
-            if (player.kbGlove)
-                kbFactor *= 2f;
-            if (player.kbBuff)
-                kbFactor *= 1.5f;
+            if (!PostHit)
+            {
+                player.Calamity().GeneralScreenShakePower = 5f;
+                PostHit = true;
+            }
 
+            Particle pulse = new DirectionalPulseRing(npc.Center, Vector2.Zero, Color.Aqua, new Vector2(2f, 2f), 0, 0.1f, 0.85f, 36);
+            GeneralParticleHandler.SpawnParticle(pulse);
+
+            Particle explosion2 = new DetailedExplosion(npc.Center, Vector2.Zero, Color.Magenta, Vector2.One, Main.rand.NextFloat(-5, 5), 0f, 0.65f, 26);
+            GeneralParticleHandler.SpawnParticle(explosion2);
+
+            // Define hit context variables.
             int hitDirection = player.direction;
             if (player.velocity.X != 0f)
                 hitDirection = Math.Sign(player.velocity.X);
-
-            // Define hit context variables.
-            hitContext.CriticalHit = crit;
             hitContext.HitDirection = hitDirection;
-            hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = AsgardianAegis.ShieldSlamIFrames;
-            hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(300f);
-            if (player.Calamity().oldFashioned)
-                hitContext.Damage = CalamityUtils.CalcOldFashionedDamage(hitContext.Damage);
 
-            int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(135);
-            if (player.Calamity().oldFashioned)
-                supremeExplosionDamage = CalamityUtils.CalcOldFashionedDamage(supremeExplosionDamage);
+            // Define damage parameters.
+            int dashDamage = AsgardianAegis.ShieldSlamDamage;
+            hitContext.damageClass = DamageClass.Melee;
+            hitContext.BaseDamage = player.ApplyArmorAccDamageBonusesTo(dashDamage);
+            hitContext.BaseKnockback = AsgardianAegis.ShieldSlamKnockback;
 
-            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), supremeExplosionDamage, 20f, Main.myPlayer, 3f, 0f);
+            // On-hit Cosmic Dash Explosion
+            int explosionDamage = (int)player.GetBestClassDamage().ApplyTo(AsgardianAegis.RamExplosionDamage);
+            explosionDamage = player.ApplyArmorAccDamageBonusesTo(explosionDamage);
+            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicDashExplosion>(), explosionDamage, AsgardianAegis.RamExplosionKnockback, Main.myPlayer, 3f, 0f);
             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }

@@ -79,11 +79,8 @@ namespace CalamityMod.Items.Accessories
                     {
                         spinningPoint *= 1.5f;
                         dmgAmt = (int)player.GetBestClassDamage().ApplyTo(dmgAmt);
-                        if (player.Calamity().oldFashioned)
-                            dmgAmt = CalamityUtils.CalcOldFashionedDamage(dmgAmt);
-
+                        dmgAmt = player.ApplyArmorAccDamageBonusesTo(dmgAmt);
                         Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, vector2, projectileType, dmgAmt, 0f, Main.myPlayer);
-
                     }
                 }
                 offset += 10f;

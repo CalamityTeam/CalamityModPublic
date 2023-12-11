@@ -18,7 +18,6 @@ using CalamityMod.Items.Armor.LunicCorps;
 using CalamityMod.Items.Armor.Silva;
 using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Items.Mounts;
-using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs;
@@ -154,8 +153,7 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < 10; i++)
                 {
                     int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(55);
-                    if (oldFashioned)
-                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                    damage = Player.ApplyArmorAccDamageBonusesTo(damage);
 
                     int lumenyl = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), ModContent.ProjectileType<AbyssalMirrorProjectile>(), damage, 0, Player.whoAmI);
                     Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
@@ -187,8 +185,7 @@ namespace CalamityMod.CalPlayer
 
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<EclipseMirror>()));
                 int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(2750);
-                if (oldFashioned)
-                    damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                damage = Player.ApplyArmorAccDamageBonusesTo(damage);
 
                 int eclipse = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<EclipseMirrorBurst>(), damage, 0, Player.whoAmI);
                 if (eclipse.WithinBounds(Main.maxProjectiles))
@@ -863,15 +860,16 @@ namespace CalamityMod.CalPlayer
                     contactDamageReduction *= (double)Crumbling.MultiplicativeDamageReductionPlayer;
 
                 // Contact damage reduction is reduced by DR Damage, which itself is proportional to defense damage
+                // In GFB, as defense damage is uncapped, DR damage is also uncapped.
                 int currentDefense = Player.GetCurrentDefense(false);
                 if (totalDefenseDamage > 0 && currentDefense > 0)
                 {
                     double drDamageRatio = CurrentDefenseDamage / (double)currentDefense;
-                    if (drDamageRatio > 1D)
+                    if (!Main.getGoodWorld && drDamageRatio > 1D)
                         drDamageRatio = 1D;
 
                     contactDamageReduction *= 1D - drDamageRatio;
-                    if (contactDamageReduction < 0D)
+                    if (!Main.getGoodWorld && contactDamageReduction < 0D)
                         contactDamageReduction = 0D;
                 }
 
@@ -1449,9 +1447,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle npcHitbox = n.getRect();
                         if ((Player.getRect()).Intersects(npcHitbox) && (n.noTileCollide || Collision.CanHit(Player.position, Player.width, Player.height, n.position, n.width, n.height)))
                         {
-                            int damage = 150;
-                            if (oldFashioned)
-                                damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                            int damage = Player.ApplyArmorAccDamageBonusesTo(Player.CalcIntDamage<MeleeDamageClass>(GravistarSabaton.PassthroughDamage));
 
                             Projectile.NewProjectile(Player.GetSource_FromThis(), n.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), damage, 0, Main.myPlayer);
 
@@ -1939,10 +1935,7 @@ namespace CalamityMod.CalPlayer
 
             #region Actually Dealing Defense Damage
             // Check if the player has iframes for the sake of avoiding defense damage.
-            bool hasIFrames = false;
-            for (int i = 0; i < Player.hurtCooldowns.Length; i++)
-                if (Player.hurtCooldowns[i] > 0)
-                    hasIFrames = true;
+            bool hasIFrames = Player.HasIFrames();
 
             // If the player was just hit by something capable of dealing defense damage, then apply defense damage.
             // Bloodflare Core makes every hit deal defense damage (to enable its function).
@@ -1955,11 +1948,11 @@ namespace CalamityMod.CalPlayer
                 int netMitigation = hurtInfo.SourceDamage - hurtInfo.Damage;
                 double standardDefenseDamage = netMitigation * defenseDamageRatio;
 
-                // If Bloodflare Core is equipped and standard defense damage would be less than half the player's total defense,
-                // then instead forcibly deal half of the player's total defense as defense damage.
+                // Bloodflare Core overrides standard defense damage if it would be less than half of the player's total defense.
                 if (bloodflareCore && standardDefenseDamage < halfDefense)
                 {
-                    DealDefenseDamage(hurtInfo, (int)halfDefense, true);
+                    // In this case, forcibly deal half of the player's total defense as defense damage. This ignores ratios.
+                    DealDefenseDamage((int)halfDefense, true);
 
                     // Set up Bloodflare Core's heal over time. Any in-progress heals are overwritten if they would have a shorter duration.
                     if (bloodflareCoreRemainingHealOverTime < halfDefense)
@@ -2214,8 +2207,8 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (xerocSet)
                 {
-                    Player.AddBuff(ModContent.BuffType<EmpyreanRage>(), 240);
-                    Player.AddBuff(ModContent.BuffType<EmpyreanWrath>(), 240);
+                    Player.AddBuff(ModContent.BuffType<EmpyreanRage>(), 180);
+                    Player.AddBuff(ModContent.BuffType<EmpyreanWrath>(), 180);
                 }
                 else if (reaverDefense)
                 {
@@ -2398,9 +2391,8 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_OnHurt(hurtInfo.DamageSource, AerospecBreastplate.FeatherEntitySourceContext);
                     for (int n = 0; n < 4; n++)
                     {
-                        int featherDamage = (int)Player.GetBestClassDamage().ApplyTo(80);
-                        if (oldFashioned)
-                            featherDamage = CalamityUtils.CalcOldFashionedDamage(featherDamage);
+                        int featherDamage = (int)Player.GetBestClassDamage().ApplyTo(65);
+                        featherDamage = Player.ApplyArmorAccDamageBonusesTo(featherDamage);
 
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), featherDamage, 1f, Player.whoAmI);
                     }
@@ -2409,13 +2401,12 @@ namespace CalamityMod.CalPlayer
                 {
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
                     SoundEngine.PlaySound(SoundID.Item74, Player.Center);
+
                     int blazeDamage = (int)Player.GetBestClassDamage().ApplyTo(25);
+                    blazeDamage = Player.ApplyArmorAccDamageBonusesTo(blazeDamage);
+
                     int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(320);
-                    if (oldFashioned)
-                    {
-                        blazeDamage = CalamityUtils.CalcOldFashionedDamage(blazeDamage);
-                        astralStarDamage = CalamityUtils.CalcOldFashionedDamage(astralStarDamage);
-                    }
+                    astralStarDamage = Player.ApplyArmorAccDamageBonusesTo(astralStarDamage);
 
                     Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), blazeDamage, 5f, Player.whoAmI, 0f, 1f);
                     for (int n = 0; n < 12; n++)
@@ -2429,8 +2420,7 @@ namespace CalamityMod.CalPlayer
                     for (int n = 0; n < 3; n++)
                     {
                         int deificStarDamage = (int)Player.GetBestClassDamage().ApplyTo(130);
-                        if (oldFashioned)
-                            deificStarDamage = CalamityUtils.CalcOldFashionedDamage(deificStarDamage);
+                        deificStarDamage = Player.ApplyArmorAccDamageBonusesTo(deificStarDamage);
 
                         Projectile star = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.StarVeilStar, deificStarDamage, 4f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
@@ -2457,8 +2447,7 @@ namespace CalamityMod.CalPlayer
                         if (transformer)
                             sDamage += 42;
                         sDamage = (int)Player.GetBestClassDamage().ApplyTo(sDamage);
-                        if (oldFashioned)
-                            sDamage = CalamityUtils.CalcOldFashionedDamage(sDamage);
+                        sDamage = Player.ApplyArmorAccDamageBonusesTo(sDamage);
 
                         if (Player.whoAmI == Main.myPlayer)
                         {
@@ -2503,9 +2492,8 @@ namespace CalamityMod.CalPlayer
                     if (hurtInfo.Damage > 0)
                     {
                         SoundEngine.PlaySound(SoundID.Item74, Player.Center);
-                        int eDamage = (int)Player.GetBestClassDamage().ApplyTo(300);
-                        if (oldFashioned)
-                            eDamage = CalamityUtils.CalcOldFashionedDamage(eDamage);
+                        int eDamage = (int)Player.GetBestClassDamage().ApplyTo(230);
+                        eDamage = Player.ApplyArmorAccDamageBonusesTo(eDamage);
 
                         if (Player.whoAmI == Main.myPlayer)
                             Projectile.NewProjectile(fuckYouBitch, Player.Center, Vector2.Zero, ModContent.ProjectileType<DeepseaBlaze>(), eDamage, 1f, Player.whoAmI, 0f, 0f);
@@ -2521,9 +2509,8 @@ namespace CalamityMod.CalPlayer
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
-                        int sDamage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(90);
-                        if (oldFashioned)
-                            sDamage = CalamityUtils.CalcOldFashionedDamage(sDamage);
+                        int sDamage = (int)Player.GetTotalDamage<RangedDamageClass>().ApplyTo(60);
+                        sDamage = Player.ApplyArmorAccDamageBonusesTo(sDamage);
 
                         if (Player.whoAmI == Main.myPlayer)
                         {
@@ -2548,8 +2535,7 @@ namespace CalamityMod.CalPlayer
                     if (hurtInfo.Damage > 0)
                     {
                         int rDamage = (int)Player.GetBestClassDamage().ApplyTo(240);
-                        if (oldFashioned)
-                            rDamage = CalamityUtils.CalcOldFashionedDamage(rDamage);
+                        rDamage = Player.ApplyArmorAccDamageBonusesTo(rDamage);
 
                         if (Player.whoAmI == Main.myPlayer)
                             Projectile.NewProjectile(source, Player.Center.X, Player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ReaverThornBase>(), rDamage, 0f, Player.whoAmI, 0f, 0f);
@@ -2565,18 +2551,14 @@ namespace CalamityMod.CalPlayer
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
-                        int baseDamage = 675;
-                        if (oldFashioned)
-                            baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
-
-                        int shrapnelFinalDamage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(baseDamage);
+                        int shrapnelDamage = Player.ApplyArmorAccDamageBonusesTo(Player.CalcIntDamage<MeleeDamageClass>(675));
                         if (Player.whoAmI == Main.myPlayer)
                         {
                             for (int i = 0; i < 4; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), shrapnelFinalDamage, 5f, Player.whoAmI, 0f, 0f);
-                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), shrapnelFinalDamage, 5f, Player.whoAmI, 0f, 0f);
+                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), shrapnelDamage, 5f, Player.whoAmI, 0f, 0f);
+                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), shrapnelDamage, 5f, Player.whoAmI, 0f, 0f);
                             }
                         }
                     }
@@ -2590,8 +2572,7 @@ namespace CalamityMod.CalPlayer
                         for (int l = 0; l < 2; l++)
                         {
                             int shadowbeamDamage = (int)Player.GetBestClassDamage().ApplyTo(3000);
-                            if (oldFashioned)
-                                shadowbeamDamage = CalamityUtils.CalcOldFashionedDamage(shadowbeamDamage);
+                            shadowbeamDamage = Player.ApplyArmorAccDamageBonusesTo(shadowbeamDamage);
 
                             Projectile beam = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.ShadowBeamFriendly, shadowbeamDamage, 7f, Player.whoAmI);
                             if (beam.whoAmI.WithinBounds(Main.maxProjectiles))
@@ -2604,8 +2585,7 @@ namespace CalamityMod.CalPlayer
                         for (int l = 0; l < 5; l++)
                         {
                             int scytheDamage = (int)Player.GetBestClassDamage().ApplyTo(5000);
-                            if (oldFashioned)
-                                scytheDamage = CalamityUtils.CalcOldFashionedDamage(scytheDamage);
+                            scytheDamage = Player.ApplyArmorAccDamageBonusesTo(scytheDamage);
 
                             Projectile scythe = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.DemonScythe, scytheDamage, 7f, Player.whoAmI);
                             if (scythe.whoAmI.WithinBounds(Main.maxProjectiles))
@@ -2747,46 +2727,42 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Defense Damage Function
+        #region Defense Damage Functions
         /// <summary>
-        /// Deals Calamity defense damage to a player.
+        /// Deals Calamity defense damage to a player the "normal way", using an incoming hit.<br />
+        /// This is the convenience function which follows all standard Calamity balancing rules for taking a regular hit.
         /// </summary>
         /// <param name="hurtInfo">HurtInfo of the incoming strike to the player.</param>
-        /// <param name="customIncomingDamage">If set to zero or a positive number, ignores the HurtInfo and uses this value as the incoming damage.</param>
-        /// <param name="absolute">If true, deals exactly the custom amount defense damage, ignoring the standard ratios and Draedon's Heart.<br />
-        /// This also bypasses the 
-        /// This does nothing unless customIncomingDefenseDamage is specified.</param>
-        public void DealDefenseDamage(Player.HurtInfo hurtInfo, int customIncomingDamage = -1, bool absolute = false)
+        public void DealDefenseDamage(Player.HurtInfo hurtInfo)
         {
             // Legacy safeguard: Skip defense damage if the player is somehow "hit for zero" (this should never happen).
             if (hurtInfo.Damage <= 0 || hurtInfo.SourceDamage <= 0)
                 return;
 
-            double ratioToUse = defenseDamageRatio;
-
-            // Calculate the defense damage taken from this hit.
-            // If custom incoming defense damage is specified, then ignore the incoming hurt info and use the custom value.
-            int incomingDamageToUse;
-            if (customIncomingDamage >= 0)
-            {
-                incomingDamageToUse = customIncomingDamage;
-                // If absolute is specified, then ignore the ratio and always inflict EXACTLY THAT MUCH defense damage. This means it bypasses Draedon's Heart!
-                if (absolute)
-                    ratioToUse = 1D;
-            }
-
-            // Standard hits. Defense damage scales with "net mitigation", aka how much damage the player DIDN'T take.
+            // Under typical circumstances, defense damage scales with "net mitigation", aka how much damage the player DIDN'T take.
             // Thematically, this means it scales with how much damage the player's defense took instead of them.
-            else
-            {
-                int netMitigation = hurtInfo.SourceDamage - hurtInfo.Damage;
+            int netMitigation = hurtInfo.SourceDamage - hurtInfo.Damage;
+            int incomingDamageToUse = netMitigation <= 0 ? 0 : netMitigation;
 
-                // If the player somehow took amplified damage (their mitigation was negative) then they take no base defense damage.
-                // The defense damage floor will still apply to them.
-                incomingDamageToUse = netMitigation <= 0 ? 0 : netMitigation;
-            }
+            // Leave it to the direct function to determine how much defense damage is taken. Use standard ratios.
+            DealDefenseDamage(incomingDamageToUse, false);
+        }
 
-            int defenseDamageTaken = (int)Math.Round(incomingDamageToUse * ratioToUse);
+        /// <summary>
+        /// Deals Calamity defense damage to a player. This is the direct function, for unusual sources of defense damage.
+        /// </summary>
+        /// <param name="incomingDamage">The amount of defense damage to deal.</param>
+        /// <param name="absolute">If true, deals exactly the specified defense damage, ignoring the standard ratios and Draedon's Heart.<br />
+        /// Setting this to false is equivalent to considering the first parameter as standard incoming damage to the player.<br />
+        /// Setting this to true bypasses the defense damage floor, and can thus inflict less defense damage than is typically allowed.</param>
+        public void DealDefenseDamage(int incomingDamage, bool absolute = false)
+        {
+            // If absolute is specified, then ignore the ratio and always inflict EXACTLY THAT MUCH defense damage.
+            // This means it bypasses Draedon's Heart!
+            double ratioToUse = absolute ? 1D : defenseDamageRatio;
+
+            // Intended amount of defense damage to take. Can round up, but can also be overwritten by the floor.
+            int defenseDamageTaken = (int)Math.Round(incomingDamage * ratioToUse);
 
             // There is a floor on defense damage based on difficulty; i.e. there is a minimum amount of defense damage from any hit that can deal defense damage.
             // This floor is only applied if bosses are alive, but is bypassed by the absolute flag.
@@ -2801,10 +2777,16 @@ namespace CalamityMod.CalPlayer
                     defenseDamageTaken = defenseDamageFloor;
             }
 
-            //
-            // The amount of defense damage taken is now final.
-            //
-            
+            // The amount of defense damage taken is now final. Apply it.
+            ApplyDefenseDamageInternal(defenseDamageTaken);
+        }
+
+        // Actually applies defense damage. Cannot be called externally.
+        private void ApplyDefenseDamageInternal(int defenseDamage, bool showVisuals = true)
+        {
+            // Can be dynamically reduced by Adamantite set bonus and maybe other future effects.
+            int defenseDamageTaken = defenseDamage;
+
             // Apply incoming defense damage to the Adamantite armor set bonus.
             if (AdamantiteSetDefenseBoost > 0)
             {
@@ -2843,11 +2825,12 @@ namespace CalamityMod.CalPlayer
             // Reset the delay between iframes ending and defense damage recovery starting.
             defenseDamageDelayFrames = DefenseDamageRecoveryDelay;
 
-            // Audiovisual effects
-            ShowDefenseDamageEffects(defenseDamageTaken);
+            if (showVisuals)
+                ShowDefenseDamageEffects(defenseDamage);
         }
 
-        private void ShowDefenseDamageEffects(int defDamage)
+        // Displays visuals for taking defense damage.
+        private void ShowDefenseDamageEffects(int defenseDamage)
         {
             // Play a sound from taking defense damage.
             if (hurtSoundTimer == 0 && Main.myPlayer == Player.whoAmI)
@@ -2857,7 +2840,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Display text indicating that defense damage was taken.
-            string text = (-defDamage).ToString();
+            string text = (-defenseDamage).ToString();
             Color messageColor = Color.LightGray;
             Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
             CombatText.NewText(location, messageColor, Language.GetTextValue(text));

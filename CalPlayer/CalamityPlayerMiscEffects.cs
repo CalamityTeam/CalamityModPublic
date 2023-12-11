@@ -237,9 +237,7 @@ namespace CalamityMod.CalPlayer
                     if (!HasIncreasedDashFirstFrame)
                     {
                         Player.velocity.X *= 1.2f;
-                        int damage = 75;
-                        if (oldFashioned)
-                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                        int damage = Player.ApplyArmorAccDamageBonusesTo(Player.GetBestClassDamage().ApplyTo(75));
 
                         Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), damage, 20f, Player.whoAmI);
                         HasIncreasedDashFirstFrame = true;
@@ -269,10 +267,7 @@ namespace CalamityMod.CalPlayer
                     }
                     if (Player.miscCounter % 4 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
                     {
-                        int damage = 90;
-                        if (oldFashioned)
-                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
-
+                        int damage = Player.ApplyArmorAccDamageBonusesTo(Player.GetBestClassDamage().ApplyTo(90));
                         Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<LeviAmberDash>(), damage, 0f, Player.whoAmI);
                     }
                 }
@@ -288,9 +283,7 @@ namespace CalamityMod.CalPlayer
                     if (!HasReducedDashFirstFrame) // Dash isn't reduced, this is used to determine the first frame of dashing
                     {
                         SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact with { Volume = 0.4f , PitchVariance = 0.4f }, Player.Center);
-                        int damage = 67;
-                        if (oldFashioned)
-                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                        int damage = Player.ApplyArmorAccDamageBonusesTo(Player.GetBestClassDamage().ApplyTo(67));
 
                         Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<PauldronDash>(), damage, 16f, Player.whoAmI);
                         HasReducedDashFirstFrame = true;
@@ -318,10 +311,7 @@ namespace CalamityMod.CalPlayer
 
                     if (Player.miscCounter % 5 == 0 && Player.velocity != Vector2.Zero) //every other frame spawn the hitbox
                     {
-                        int damage = 175;
-                        if (oldFashioned)
-                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
-
+                        int damage = Player.ApplyArmorAccDamageBonusesTo(Player.GetBestClassDamage().ApplyTo(175));
                         Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Player.velocity * 1.5f, Vector2.Zero, ModContent.ProjectileType<PauldronDash>(), damage, 10f, Player.whoAmI);
                     }
                 }
@@ -723,6 +713,8 @@ namespace CalamityMod.CalPlayer
 
             Rectangle sigilHitbox = Utils.CenteredRectangle(Main.MouseWorld, new Vector2(35f, 62f));
             int sigilDamage = (int)Player.GetBestClassDamage().ApplyTo(Calamity.BaseDamage);
+            sigilDamage = Player.ApplyArmorAccDamageBonusesTo(sigilDamage);
+
             bool brightenedSigil = false;
             for (int i = 0; i < Main.maxNPCs; i++)
             {
@@ -1154,8 +1146,7 @@ namespace CalamityMod.CalPlayer
                         if (!tentaclesPresent[i])
                         {
                             int damage = (int)Player.GetBestClassDamage().ApplyTo(390);
-                            if (oldFashioned)
-                                damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                            damage = Player.ApplyArmorAccDamageBonusesTo(damage);
 
                             var source = Player.GetSource_FromThis(OmegaBlueHelmet.TentacleEntitySourceContext);
                             Vector2 vel = new Vector2(Main.rand.Next(-13, 14), Main.rand.Next(-13, 14)) * 0.25f;
@@ -1264,9 +1255,7 @@ namespace CalamityMod.CalPlayer
                         {
                             unstableSelectedTarget = Main.npc[target];
                             unstableSelectedTarget.Calamity().arcZapCooldown = 18;
-                            int damage = 18;
-                            if (oldFashioned)
-                                damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                            int damage = Player.ApplyArmorAccDamageBonusesTo(Player.GetBestClassDamage().ApplyTo(18));
 
                             Projectile.NewProjectile(Player.GetSource_FromThis(), new Vector2(Player.Center.X, Player.Center.Y - 20f), new Vector2(0f, -2f), ModContent.ProjectileType<ArcZap>(), damage, 0f, Player.whoAmI, target, 3f);
                             target = -1;
@@ -1953,8 +1942,7 @@ namespace CalamityMod.CalPlayer
                         lightningVel.Normalize();
                         lightningVel *= Main.rand.NextFloat(1f, 2f);
                         int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(30);
-                        if (oldFashioned)
-                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                        damage = Player.ApplyArmorAccDamageBonusesTo(damage);
 
                         int projectile = Projectile.NewProjectile(source, Player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), damage, 0, Player.whoAmI, Main.rand.Next(2), 0f);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
@@ -1980,8 +1968,7 @@ namespace CalamityMod.CalPlayer
                         cloudVelocity.Normalize();
                         cloudVelocity *= Main.rand.NextFloat(0f, 1f);
                         int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
-                        if (oldFashioned)
-                            damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                        damage = Player.ApplyArmorAccDamageBonusesTo(damage);
 
                         int projectile = Projectile.NewProjectile(source, Player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), damage, 0, Player.whoAmI, 0, 0);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
@@ -3045,11 +3032,11 @@ namespace CalamityMod.CalPlayer
                     for (int I = 0; I < 3; I++)
                     {
                         float ai1 = I * 120;
-                        int baseDamage = 3750;
-                        if (oldFashioned)
-                            baseDamage = CalamityUtils.CalcOldFashionedDamage(baseDamage);
 
-                        int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
+                        // 08DEC2023: Ozzatron: Bloodflare mines spawned with Old Fashioned active will retain their bonus damage indefinitely. Oops. Don't care.
+                        int baseDamage = Player.ApplyArmorAccDamageBonusesTo(3750);
+                        int damage = Player.CalcIntDamage<SummonDamageClass>(baseDamage);
+
                         int projectile = Projectile.NewProjectile(source, Player.Center.X + (float)(Math.Sin(I * 120) * 550), Player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
                             ModContent.ProjectileType<GhostlyMine>(), damage, 1f, Player.whoAmI, ai1, 0f);
                         if (projectile.WithinBounds(Main.maxProjectiles))
@@ -3122,10 +3109,7 @@ namespace CalamityMod.CalPlayer
                 // If the timer rolls over, it's time to deal damage. Only run this code for the client which is wearing the armor.
                 if (tarraLifeAuraTimer == 0 && Player.whoAmI == Main.myPlayer)
                 {
-                    const int BaseDamage = 120;
-                    int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(BaseDamage);
-                    if (oldFashioned)
-                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                    int damage = Player.ApplyArmorAccDamageBonusesTo(Player.CalcDamage<SummonDamageClass>(120));
 
                     // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
                     var source = Player.GetSource_FromThis(TarragonHeadSummon.LifeAuraEntitySourceContext);
@@ -3196,10 +3180,7 @@ namespace CalamityMod.CalPlayer
                 // Brimstone flames is applied every single frame, but direct damage is only dealt twice per second.
                 if (Player.whoAmI == Main.myPlayer)
                 {
-                    const int BaseDamage = 50;
-                    int damage = (int)Player.GetBestClassDamage().ApplyTo(BaseDamage);
-                    if (oldFashioned)
-                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                    int damage = Player.ApplyArmorAccDamageBonusesTo(Player.GetBestClassDamage().ApplyTo(50));
 
                     // https://github.com/tModLoader/tModLoader/wiki/IEntitySource#detailed-list
                     var source = Player.GetSource_FromThis(HydrothermicArmor.InfernoPotionEntitySourceContext);
@@ -3262,11 +3243,11 @@ namespace CalamityMod.CalPlayer
 
                     pSoulGuardians = true;
 
+                    // 08DEC2023: Ozzatron: PSA/PSC "babs" spawned with Old Fashioned active will retain their bonus damage indefinitely. Oops. Don't care.
                     int guardianAmt = 1;
                     float babCheck = profanedCrystal ? 1f : 0f;
                     int babDamage = profanedCrystal ? 346 : 52;
-                    if (oldFashioned)
-                        babDamage = CalamityUtils.CalcOldFashionedDamage(babDamage);
+                    babDamage = Player.ApplyArmorAccDamageBonusesTo(babDamage);
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
                     {
@@ -3365,9 +3346,7 @@ namespace CalamityMod.CalPlayer
                 if (Player.whoAmI == Main.myPlayer)
                 {
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<BlunderBooster>()));
-                    int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(30);
-                    if (oldFashioned)
-                        damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                    int damage = Player.ApplyArmorAccDamageBonusesTo(Player.CalcDamage<RogueDamageClass>(30));
 
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] < 1)
                         Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlunderBoosterAura>(), damage, 0f, Player.whoAmI, 0f, 0f);
@@ -3428,8 +3407,7 @@ namespace CalamityMod.CalPlayer
             {
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<CryoStone>()));
                 int damage = (int)Player.GetBestClassDamage().ApplyTo(70);
-                if (oldFashioned)
-                    damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                damage = Player.ApplyArmorAccDamageBonusesTo(damage);
 
                 if (Player.whoAmI == Main.myPlayer && Player.ownedProjectileCounts[ModContent.ProjectileType<CryonicShield>()] == 0)
                     Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<CryonicShield>(), damage, 0f, Player.whoAmI);
@@ -3451,8 +3429,7 @@ namespace CalamityMod.CalPlayer
             {
                 float shootSpeed = 18f;
                 int dmg = (int)Player.GetTotalDamage<MagicDamageClass>().ApplyTo(30);
-                if (oldFashioned)
-                    dmg = CalamityUtils.CalcOldFashionedDamage(dmg);
+                dmg = Player.ApplyArmorAccDamageBonusesTo(dmg);
 
                 Vector2 startPos = Player.RotatedRelativePoint(Player.MountedCenter, true);
                 Vector2 velocity = Main.MouseWorld - startPos;
@@ -3920,19 +3897,16 @@ namespace CalamityMod.CalPlayer
             //
             // Current defense damage can be calculated at any time using the accessor property CurrentDefenseDamage.
             // However, it CANNOT be written to. You can only set the total defense damage.
-            // CalamityPlayer has a function called DealDefenseDamage to handle everything for you, when dealing defense damage.
+            // CalamityPlayer has a function called DealDefenseDamage to handle everything for you when dealing defense damage.
             //
             // The player's current recovery through defense damage is tracked through two frame counts:
             // defenseDamageRecoveryFrames = How many more frames the player will still be recovering from defense damage
             // totalDefenseDamageRecoveryFrames = The total timer for defense damage recovery that the player is undergoing
             //
-            // Defense damage heals over a fixed time (CalamityPlayer.DefenseDamageRecoveryTime).
-            // This is independent of how much defense the player started with, or how much they lost.
-            // If hit again while recovering from defense damage, that fixed time is ADDED to the current recovery timer
-            // (in addition to the player taking more defense damage, of course).
+            // Defense damage does not heal during iframes, and has a delay after they end before it starts recovering.
             if (totalDefenseDamage > 0)
             {
-                // Used to cleanse all defense damage by accessories
+                // If a Full Cleanse is in effect, then cleanse all defense damage and don't do anything else.
                 if (CleansingEffect == 1)
                 {
                     totalDefenseDamage = 0;
@@ -3941,53 +3915,53 @@ namespace CalamityMod.CalPlayer
                     defenseDamageDelayFrames = 0;
                     CleansingEffect = 0;
                 }
-
-                // Defense damage is capped at your maximum defense, no matter what.
-                if (totalDefenseDamage > Player.statDefense)
-                    totalDefenseDamage = Player.statDefense;
-
-                // You cannot begin recovering from defense damage until your iframes wear off.
-                bool hasIFrames = false;
-                for (int i = 0; i < Player.hurtCooldowns.Length; i++)
-                    if (Player.hurtCooldowns[i] > 0)
-                        hasIFrames = true;
-
-                // Delay before defense damage recovery can start. While this delay is ticking down, defense damage doesn't recover at all.
-                if (!hasIFrames && defenseDamageDelayFrames > 0)
-                    --defenseDamageDelayFrames;
-
-                // Once the delay is up, defense damage recovery occurs.
-                else if (defenseDamageDelayFrames <= 0)
+                else
                 {
-                    // Make one frame's worth of progress towards recovery.
-                    --defenseDamageRecoveryFrames;
+                    // Defense damage is capped at your maximum defense, except in GFB.
+                    if (!Main.getGoodWorld && totalDefenseDamage > Player.statDefense)
+                        totalDefenseDamage = Player.statDefense;
 
-                    // If completely recovered, reset defense damage to nothing.
-                    if (defenseDamageRecoveryFrames <= 0)
+                    // You cannot begin recovering from defense damage until your iframes wear off.
+                    if (!Player.HasIFrames())
                     {
-                        totalDefenseDamage = 0;
-                        defenseDamageRecoveryFrames = 0;
-                        totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
-                        defenseDamageDelayFrames = 0;
+                        // Delay before defense damage recovery can start. While this delay is ticking down, defense damage doesn't recover at all.
+                        if (defenseDamageDelayFrames > 0)
+                            --defenseDamageDelayFrames;
+
+                        // Once the delay is up, defense damage recovery actually occurs.
+                        else if (defenseDamageDelayFrames <= 0)
+                        {
+                            // Make one frame's worth of progress towards recovery.
+                            --defenseDamageRecoveryFrames;
+
+                            // If completely recovered, reset defense damage to nothing.
+                            if (defenseDamageRecoveryFrames <= 0)
+                            {
+                                totalDefenseDamage = 0;
+                                defenseDamageRecoveryFrames = 0;
+                                totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
+                                defenseDamageDelayFrames = 0;
+                            }
+                        }
                     }
+
+                    // Get current amount of defense damage to apply this frame.
+                    int currentDefenseDamage = CurrentDefenseDamage;
+
+                    // Apply DR Damage.
+                    //
+                    // DR Damage is applied at exactly the same ratio as defense damage;
+                    // if you lose half your defense to defense damage, you also lose half your DR.
+                    // This is applied first because the math would be wrong if the player's defense was already reduced by defense damage.
+                    if (Player.statDefense > 0 && Player.endurance > 0f)
+                    {
+                        float drDamageRatio = currentDefenseDamage / (float)Player.statDefense;
+                        Player.endurance *= 1f - drDamageRatio;
+                    }
+
+                    // Apply defense damage
+                    Player.statDefense -= currentDefenseDamage;
                 }
-
-                // Get current amount of defense damage to apply this frame.
-                int currentDefenseDamage = CurrentDefenseDamage;
-
-                // Apply DR Damage.
-                //
-                // DR Damage is applied at exactly the same ratio as defense damage;
-                // if you lose half your defense to defense damage, you also lose half your DR.
-                // This is applied first because the math would be wrong if the player's defense was already reduced by defense damage.
-                if (Player.statDefense > 0 && Player.endurance > 0f)
-                {
-                    float drDamageRatio = currentDefenseDamage / (float)Player.statDefense;
-                    Player.endurance *= 1f - drDamageRatio;
-                }
-
-                // Apply defense damage
-                Player.statDefense -= currentDefenseDamage;
             }
 
             // Defense can never be reduced below zero, no matter what

@@ -47,8 +47,7 @@ namespace CalamityMod.ExtraJumps
             {
                 var source = player.GetSource_Misc("0");
                 int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
-                if (modPlayer.oldFashioned)
-                    damage = CalamityUtils.CalcOldFashionedDamage(damage);
+                damage = player.ApplyArmorAccDamageBonusesTo(damage);
 
                 int bubble = Projectile.NewProjectile(source, new Vector2(player.position.X, player.position.Y + (player.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), damage, 0f, player.whoAmI, 1f, 0f);
                 if (bubble.WithinBounds(Main.maxProjectiles))

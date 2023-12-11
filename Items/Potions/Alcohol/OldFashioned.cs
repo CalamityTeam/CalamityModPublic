@@ -8,8 +8,9 @@ namespace CalamityMod.Items.Potions.Alcohol
     public class OldFashioned : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Potions";
-        public const float AccessoryAndSetBonusDamageMultiplier = 1.5f;
-        public const float DamageStatReduction = 0.25f;
+
+        public static readonly float AccessoryAndSetBonusDamageMultiplier = 1.5f;
+        public static readonly float DamageStatReduction = 0.25f;
 
         public override void SetStaticDefaults()
         {

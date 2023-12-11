@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (ReturningToOwner)
             {
-                Projectile.timeLeft = 15;
+                Projectile.timeLeft = 20;
                 Projectile.velocity = Projectile.SafeDirectionTo(Owner.Center) * 28f;
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.Pi + MathHelper.PiOver4;
                 Projectile.damage = 0;
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     if (!Owner.moonLeech && AbleToHealOwner)
                     {
-                        int healAmount = Projectile.Calamity().stealthStrike ? 35 : 3;
+                        int healAmount = Projectile.Calamity().stealthStrike ? 40 : 3;
 
                         Owner.HealEffect(healAmount);
                         Owner.statLife += healAmount;
@@ -84,8 +84,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (Projectile.timeLeft > 90 && !Projectile.Calamity().stealthStrike)
                     Projectile.timeLeft = 90;
-                else if (Projectile.timeLeft > 120 && Projectile.Calamity().stealthStrike)
-                    Projectile.timeLeft = 120;
+                else if (Projectile.timeLeft > 180 && Projectile.Calamity().stealthStrike)
+                    Projectile.timeLeft = 180;
             }
                 Projectile.StickyProjAI(50);
         }

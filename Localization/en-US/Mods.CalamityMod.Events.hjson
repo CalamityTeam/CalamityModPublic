@@ -2,11 +2,55 @@ AcidRain: Acid Rain
 AcidRainStart: A toxic downpour falls over the wasteland seas!
 AcidRainEnd: The sulphuric skies begin to clear...
 BossRush: Boss Rush
-BossRushStartText: Ah, another contender. Very well, may the ritual commence!
-BossRushTierOneEndText: Oh, you're still alive? Unexpected, but don't get complacent just yet.
-BossRushTierTwoEndText: Persistent, aren't you? Perhaps you have some hope of prosperity, unlike past challengers.
-BossRushTierThreeEndText: Your perseverance is truly a trait to behold. You've come further than even the demigods in a short time.
-BossRushTierThreeEndText2: May your skills remain sharp for the last challenges.
-BossRushTierFourEndText: So you've made it to the final tier, a remarkable feat enviable by even the mightiest of the gods.
-BossRushTierFourEndText2: Go forth and conquer until the ritual's end!
-BossRushTierFiveEndText: Hmm? What, you expected a reward beyond this mere pebble? Patience, the true reward will come apparent in time...
+// Boss Rush Xeroc Dialogue
+// Intro text
+BossRushStartText_1: ...How long has it been? Centuries? Perhaps even a millenia?
+BossRushStartText_2: I sank this artifact of mine to the deepest depths of the world to prevent it from being used ever again.
+BossRushStartText_3: Few are aware of its existence, and those who are?
+BossRushStartText_4: They know that the boundless power it was once able to provide can no longer be taken advantage of.
+BossRushStartText_5: It is a surprise to see there is another who is courageous enough to have retrieved it, particularly given these circumstances.
+BossRushStartText_6: A mortal this time, no less! How interesting...
+BossRushStartText_7: What exactly is it that made you go out of your way to claim what is now nothing more than a decaying stone tablet?
+BossRushStartText_8: ...Perhaps this is an opportunity. Claiming this relic is no small feat, and I have caught brief glimpses of your journey.
+BossRushStartText_9: You, who claimed this artifact that ended an era on your quest to end another...
+// Extra text based on defeated bosses
+// You should see all of these if you are at the right progression point for Boss Rush
+BossRushStartText_DoG: Who slew the nameless serpent...
+BossRushStartText_Yharon: Who bested even my old friend, the Phoenix...
+BossRushStartText_DraedonSCal: Whose power may match the only mortal who has ever made me doubt my own...
+// Further intro text
+BossRushStartText_10: I wish to test your strength, using fragments of my Primordial Light taking the form of your past foes.
+BossRushStartText_11: It will be no easy task, yet should you prove yourself strong enough, I will have a proposal for you.
+BossRushStartText_12: Do you believe yourself capable of conquering such a challenge?
+// Shortened intro text for repeat attempts
+BossRushStartText_Repeat: Do you wish to face my challenge?
+// Player responses. Death is if you somehow die while Xeroc is waiting
+BossRushStartText_Decline: I see. Perhaps my faith in you was mistaken. Farewell.
+BossRushStartText_Accept: Very well. Let the trial commence!
+BossRushStartText_Death: ...Did I truly return for this, of all things?
+// Sequential text at the end of Boss Rush Tier 1
+BossRushTierOneEndText_1: A passable display so far, but not nearly enough to meet my expectations.
+BossRushTierOneEndText_2: Prepare both your body and soul for what has yet to come.
+// Sequential text at the end of Boss Rush Tier 2
+BossRushTierTwoEndText_1: I wasn't mistaken. You are indeed an admirable warrior.
+BossRushTierTwoEndText_2: Still, you haven't shown me enough. Shall we escalate things further?
+// Sequential text at the end of Boss Rush Tier 3
+BossRushTierThreeEndText_1: Your determination and will to grow stronger... It reminds me of myself, when I was mortal.
+BossRushTierThreeEndText_2: But the hardest challenges still await. Do not let your guard down, even for a moment.
+// Sequential text at the end of Boss Rush Tier 4
+BossRushTierFourEndText_1: The trial will soon reach its climax.
+BossRushTierFourEndText_2: Now is the time to display your conviction, and the true extent of your strength and will.
+BossRushTierFourEndText_3: Prove to me that you are capable of surpassing even yourself.
+// Victory text
+BossRushEndText_1: A truly excellent display. I see that I was correct! You indeed may be this world's mightiest warrior. However...
+BossRushEndText_2: It seems as though even that power... it is not enough. I'm afraid I will not be sharing my proposal with you.
+BossRushEndText_3: Though, as a consolation prize, I wish for you to take this ancient stone I carved from the Aerie.
+BossRushEndText_4: I have long held it as a... keepsake, of sorts.
+BossRushEndText_5: Though you may have failed to meet my requirements, it is unlikely that this will be the only time our paths cross!
+BossRushEndText_6: Continue to seek greater strength, and when we meet again, perhaps you will have grown enough in power to be worthy.
+BossRushEndText_7: In the meantime, I have my own matters that I must attend to.
+BossRushEndText_8: Farewell, for now.
+// Shortened victory text for repeat attempts
+BossRushEndText_Repeat: You have proven yourself to be a formidable warrior, yet it is not enough. Seek new heights of power, so that you may one day be worthy.
+// Dying during Xeroc's victory monologue gives you this
+BossRushEndText_Death: ...I suppose that I was correct in assuming that this world cannot help itself, much less me.

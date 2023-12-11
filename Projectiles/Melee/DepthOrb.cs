@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 3;
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 75;
         }

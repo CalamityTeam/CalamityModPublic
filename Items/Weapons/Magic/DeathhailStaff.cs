@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int j = Main.myPlayer;
+            int i = Main.myPlayer;
             float beamSpeed = Item.shootSpeed;
             float beamKnockback = knockback;
             beamKnockback = player.GetWeaponKnockback(Item, beamKnockback);
@@ -70,11 +70,11 @@ namespace CalamityMod.Items.Weapons.Magic
             }
 
             int numLasers = 2;
-            for (int i = 0; i < numLasers; i++)
+            for (int j = 0; j < numLasers; j++)
             {
                 realPlayerPos = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(91) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 realPlayerPos.X = (realPlayerPos.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-                realPlayerPos.Y -= (float)(100 * i);
+                realPlayerPos.Y -= (float)(100 * j);
                 mouseXDist = (float)Main.mouseX + Main.screenPosition.X - realPlayerPos.X;
                 mouseYDist = (float)Main.mouseY + Main.screenPosition.Y - realPlayerPos.Y;
                 if (mouseYDist < 0f)

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetDefaults()
         {
-            Item.damage = 310;
+            Item.damage = 300;
             Item.width = Item.height = 68;
             Item.useAnimation = Item.useTime = 9;
             Item.noMelee = true;
@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool AltFunctionUse(Player player) => player.ownedProjectileCounts[Item.shoot] > 0;
 
-        public override float StealthDamageMultiplier => 1.7f;
-        public override float StealthVelocityMultiplier => 1.2f;
+        public override float StealthDamageMultiplier => 1.65f;
+        public override float StealthVelocityMultiplier => 1.5f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -52,6 +52,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                     Main.projectile[i].ModProjectile<SacrificeProjectile>().AbleToHealOwner = attachedNPC.type != NPCID.TargetDummy && attachedNPC.type != ModContent.NPCType<SuperDummyNPC>();
                     Main.projectile[i].netUpdate = true;
                 }
+                //TODO: Add something here to avoid stealth being consumed
                 return false;
             }
 
