@@ -1087,6 +1087,10 @@ namespace CalamityMod.CalPlayer
             {
                 CalamityUtils.Inflict246DebuffsNPC(target, BuffType<RiptideDebuff>());
             }
+            if (lumenousAmulet)
+            {
+                CalamityUtils.Inflict246DebuffsNPC(target, BuffType<CrushDepth>());
+            }
             if (alchFlask)
             {
                 CalamityUtils.Inflict246DebuffsNPC(target, BuffType<Plague>());
