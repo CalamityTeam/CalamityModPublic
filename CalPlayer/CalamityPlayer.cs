@@ -1477,7 +1477,7 @@ namespace CalamityMod.CalPlayer
                 Player.statLifeMax2 += 45;
 
             int percentMaxLifeIncrease = 0;
-            if (ZoneAbyss && abyssalAmulet)
+            if (ZoneAbyss && (abyssalAmulet || lumenousAmulet))
                 percentMaxLifeIncrease += lumenousAmulet ? 25 : 10;
 
             // Blood Pact and Chalice of the Blood God stack their HP bonuses if you want to equip both
