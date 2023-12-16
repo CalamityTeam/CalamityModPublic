@@ -1982,7 +1982,7 @@ namespace CalamityMod
                     return SetPersistentBuffList(buffType4, isPersistent);
 
                 case "CreateCodebreakerDialogOption":
-                    // NOTE: This is a legacy call.
+                    // NOTE: This is a legacy variant of this call. The variant with three arguments is the standard.
                     if (args.Length == 4)
                     {
                         if (args[1] is not string inquiry || args[2] is not string response || args[3] is not Func<bool> condition)
