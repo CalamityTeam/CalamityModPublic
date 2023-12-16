@@ -471,7 +471,8 @@ namespace CalamityMod.UI.DraedonSummoning
                             DialogHistory[^1] = new(inquiry, false);
                             DialogHistory.Add(new(string.Empty, true));
                         }
-                        FullDraedonText = dialog.Response;
+
+                        FullDraedonText = dialog.Response.Replace("\\n", "\n");
                         WrittenDraedonText = string.Empty;
 
                         // Ensure that the player starts at the bottom of the scoller, now that new text is generating there.

@@ -2,6 +2,7 @@
 using System.Text;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Localization;
 
 namespace CalamityMod.UI.DraedonSummoning
 {
@@ -34,13 +35,19 @@ namespace CalamityMod.UI.DraedonSummoning
 
         public bool HasBeenSeen => Main.LocalPlayer.Calamity().SeenDraedonDialogs.Contains(ID);
 
-        public DraedonDialogEntry(string inquiry, string response, Func<bool> condition = null)
+        // NOTE: This is a legacy constructor. It remains so that mod calls that rely on it do not break.
+        internal DraedonDialogEntry(string inquiry, string response, Func<bool> condition = null)
         {
             // Initialize the condition as a simple "always show up" if nothing else is inputted.
             Condition = condition ?? (() => true);
-
             Inquiry = inquiry;
             Response = response;
+        }
+
+        // This is the proper constructor.
+        public DraedonDialogEntry(string localizationKey, Func<bool> condition = null) :
+            this(Language.GetTextValue($"{localizationKey}.Inquiry"), Language.GetTextValue($"{localizationKey}.Response"), condition)
+        {
         }
 
         public void Update()

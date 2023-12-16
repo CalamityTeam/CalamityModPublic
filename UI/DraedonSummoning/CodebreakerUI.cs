@@ -268,7 +268,7 @@ namespace CalamityMod.UI.DraedonSummoning
             Texture2D cancelButton = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DecryptCancelIcon").Value;
             Rectangle clickArea = Utils.CenteredRectangle(drawPosition, cancelButton.Size() * VerificationButtonScale);
 
-            // Check if the mouse is hovering over the communicate button area.
+            // Check if the mouse is hovering over the exit button area.
             if (MouseScreenArea.Intersects(clickArea))
             {
                 // If so, cause the button to inflate a little bit.
@@ -287,12 +287,12 @@ namespace CalamityMod.UI.DraedonSummoning
             Main.spriteBatch.Draw(cancelButton, drawPosition, null, Color.White, 0f, cancelButton.Size() * 0.5f, ExitButtonScale * GeneralScale, 0, 0f);
 
             // And display a text indicator that describes the function of the button.
-            string communicateText = CalamityUtils.GetTextValue("UI.Exit");
+            string exitText = CalamityUtils.GetTextValue("UI.Exit");
 
             // Center the draw position.
-            drawPosition.X -= FontAssets.MouseText.Value.MeasureString(communicateText).X * GeneralScale * 0.5f;
+            drawPosition.X -= FontAssets.MouseText.Value.MeasureString(exitText).X * GeneralScale * 0.5f;
             drawPosition.Y += GeneralScale * 20f;
-            Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, communicateText, drawPosition.X, drawPosition.Y, Color.Red * opacity * (1f - DraedonScreenStaticInterpolant), Color.Black, Vector2.Zero, GeneralScale);
+            Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, exitText, drawPosition.X, drawPosition.Y, Color.Red * opacity, Color.Black * opacity, Vector2.Zero, GeneralScale);
         }
 
         public static void HandleCellSlotInteractions(TECodebreaker codebreakerTileEntity, Item temporaryItem, Vector2 cellIconCenter, Vector2 area)
