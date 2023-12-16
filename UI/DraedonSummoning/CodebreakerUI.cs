@@ -116,10 +116,10 @@ namespace CalamityMod.UI.DraedonSummoning
                 MechIconScale = 1f;
                 DialogScroller.Reset();
                 TopicOptionsScroller.Reset();
-                TextVerticalOffset = 0f;
-                OptionsVerticalOffset = 0f;
+                DialogVerticalOffset = 0f;
+                OptionsTextVerticalOffset = 0f;
                 DialogHeight = 0f;
-                LatestHeightIncrease = 0f;
+                LatestDialogHeightIncrease = 0f;
                 return;
             }
 
@@ -153,10 +153,10 @@ namespace CalamityMod.UI.DraedonSummoning
 
             // Reset communication things.
             DraedonTextCreationTimer = 0;
-            if (!string.IsNullOrEmpty(DraedonText) && DraedonTextComplete == DraedonDialogRegistry.DialogOptions[0].Inquiry)
+            if (!string.IsNullOrEmpty(WrittenDraedonText) && FullDraedonText == DraedonDialogRegistry.DialogOptions[0].Inquiry)
                 Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
 
-            DraedonText = DraedonTextComplete = string.Empty;
+            WrittenDraedonText = FullDraedonText = string.Empty;
             DialogHistory.Clear();
 
             bool canSummonDraedon = codebreakerTileEntity.ReadyToSummonDraedon && CalamityWorld.AbleToSummonDraedon;
