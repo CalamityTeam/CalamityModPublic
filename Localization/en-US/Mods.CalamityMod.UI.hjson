@@ -127,6 +127,7 @@ Cost: "Cost: "
 Contact: Contact
 Summon: Summon
 Evoke: Evoke
+Exit: Exit
 Communicate: Communicate
 ConfirmationText: Are you sure?
 UpgradesRequired: Encryption unsolveable: Upgrades required.
