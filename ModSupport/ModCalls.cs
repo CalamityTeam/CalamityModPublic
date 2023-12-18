@@ -1982,9 +1982,22 @@ namespace CalamityMod
                     return SetPersistentBuffList(buffType4, isPersistent);
 
                 case "CreateCodebreakerDialogOption":
-                    if (args.Length != 4 || args[1] is not string inquiry || args[2] is not string response || args[3] is not Func<bool> condition)
-                        throw new ArgumentException("ERROR: Must specify a string that determines the inquiry, a string that determines the response, and a Func<bool> that determines the condition.");
-                    DraedonDialogRegistry.DialogOptions.Add(new(inquiry, response, condition));
+                    // NOTE: This is a legacy variant of this call. The variant with three arguments is the standard.
+                    if (args.Length == 4)
+                    {
+                        if (args[1] is not string inquiry || args[2] is not string response || args[3] is not Func<bool> condition)
+                            throw new ArgumentException("ERROR: Must specify a string that determines the inquiry, a string that determines the response, and a Func<bool> that determines the condition for the three argument call.");
+                        DraedonDialogRegistry.DialogOptions.Add(new(inquiry, response, condition));
+                    }
+                    else if (args.Length == 3)
+                    {
+                        if (args[1] is not string localizationKey || args[2] is not Func<bool> condition)
+                            throw new ArgumentException("ERROR: Must specify a string that determines the localization key and a Func<bool> that determines the condition for the two argument call.");
+                        DraedonDialogRegistry.DialogOptions.Add(new(localizationKey, condition));
+                    }
+                    else
+                        throw new ArgumentException("ERROR: Must specify either two or three arguments.");
+
                     return null;
 
                 case "AddToVeneratedLocketBanlist":

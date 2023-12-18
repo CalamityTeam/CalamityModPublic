@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CalamityMod.NPCs.ExoMechs;
+using log4net;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -20,8 +21,14 @@ namespace CalamityMod.UI.DraedonSummoning
     {
         public class DialogEntry
         {
+            /// <summary>
+            /// Whether this dialog entry is spoken by Draedon or not.
+            /// </summary>
             public bool FromDraedon;
 
+            /// <summary>
+            /// The text of the dialog.
+            /// </summary>
             public string Dialog;
 
             public DialogEntry(string dialog, bool fromDraedon)
@@ -31,67 +38,133 @@ namespace CalamityMod.UI.DraedonSummoning
             }
         }
 
+        /// <summary>
+        /// The scale of the overall communication panel.
+        /// </summary>
         public static float CommunicationPanelScale
         {
             get;
             set;
-        } = 0f;
+        }
 
+        /// <summary>
+        /// The text creation timer. Once this reaches a value of <see cref="DraedonTextCreationRate"/> this value is set back to 0 and the next character in the dialog sequence is displayed.
+        /// </summary>
         public static int DraedonTextCreationTimer
         {
             get;
             set;
         }
 
-        public static string DraedonText
+        /// <summary>
+        /// The currently written text by Draedon. This string's contents are added to character-by-character. For the completed contents of this, refer to <see cref="FullDraedonText"/>.
+        /// </summary>
+        public static string WrittenDraedonText
         {
             get;
             set;
         } = string.Empty;
 
-        public static List<DialogEntry> DialogHistory
+        /// <summary>
+        /// The text that Draedon is spelling out. For the partially spelt out text, refer to <see cref="WrittenDraedonText"/>.
+        /// </summary>
+        public static string FullDraedonText
         {
             get;
             set;
-        } = new();
+        } = string.Empty;
 
-        public static int DraedonDialogDelayCountdown
+        /// <summary>
+        /// The countdown until the next character sound can be played.
+        /// </summary>
+        public static int DialogSoundDelay
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The intensity of the universal static overlay. This is drawn when communication is initiated, as an indicator of the monitor "powering up".
+        /// </summary>
         public static float DraedonScreenStaticInterpolant
         {
             get;
             set;
         } = 1f;
 
-        public static float DraedonTextOptionsOpacity
+        /// <summary>
+        /// The opacity of text in the topic options menu.
+        /// </summary>
+        public static float OptionsTextOpacity
         {
             get;
             set;
         } = 1f;
 
-        // The text that Draedon should attempt to spell out.
-        public static string DraedonTextComplete
+        /// <summary>
+        /// The vertical offset as a result of scrolling for the dialog.
+        /// </summary>
+        public static float DialogVerticalOffset
         {
             get;
             set;
-        } = string.Empty;
+        }
 
-        // This is used to give a one-frame buffer before dialog actually appears. The reason for this is to prevent dialog sometimes showing up for one frame
-        // in the case of dialog entries being pruned because of going past the natural box.
-        public static bool CanDisplayLatestDialogEntries
+        /// <summary>
+        /// The vertical offset as a result of scrolling for the topic options.
+        /// </summary>
+        public static float OptionsTextVerticalOffset
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// How much the <see cref="DialogHeight"/> of the dialog changed last frame.
+        /// </summary>
+        public static float LatestDialogHeightIncrease
         {
             get;
             set;
-        } = true;
+        }
 
-        public static char PreviousTextCharacter => DraedonText.Length >= 1 ? DraedonTextComplete[DraedonText.Length - 1] : ' ';
+        /// <summary>
+        /// How much vertical space is taken up by the dialog. This includes space that is cut off and requires scrolling to view.
+        /// </summary>
+        public static float DialogHeight
+        {
+            get;
+            private set;
+        }
 
-        public static char NextTextCharacter => DraedonText.Length < DraedonTextComplete.Length ? DraedonTextComplete[DraedonText.Length] : ' ';
+        /// <summary>
+        /// How much vertical space is taken up by the topic options text. This includes space that is cut off and requires scrolling to view.
+        /// </summary>
+        public static float OptionsTextHeight
+        {
+            get;
+            private set;
+        }
 
+        /// <summary>
+        /// The scale of dialog text.
+        /// </summary>
+        public static Vector2 DialogTextScale => Vector2.One * GeneralScale * 0.75f;
+
+        /// <summary>
+        /// The previous character that Draedon spoke.
+        /// </summary>
+        public static char PreviousTextCharacter => WrittenDraedonText.Length >= 1 ? FullDraedonText[WrittenDraedonText.Length - 1] : ' ';
+
+        /// <summary>
+        /// The next character that Draedon will speak.
+        /// </summary>
+        public static char NextTextCharacter => WrittenDraedonText.Length < FullDraedonText.Length ? FullDraedonText[WrittenDraedonText.Length] : ' ';
+
+        /// <summary>
+        /// How much delay in frames there is between now and the next character based what the previous character was.<br></br>
+        /// Most characters have a single frame delay, but things like newlines and sentence terminators have longer delays.
+        /// </summary>
         public static int DraedonTextCreationRate
         {
             get
@@ -106,22 +179,71 @@ namespace CalamityMod.UI.DraedonSummoning
             }
         }
 
+        /// <summary>
+        /// The text Draedon starts off with when you interact with the codebreaker. The first time you see him he says nothing, but in successive calls he asks what your inquiry is.
+        /// </summary>
         public static string InquiryText => Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker ? "State your inquiry." : "...";
 
+        /// <summary>
+        /// The text of the previously hovered topic option. This is used to ensure hover clicking sounds only play if the sound type changes.
+        /// </summary>
         public static string HoverSoundDialogType
         {
             get;
             set;
         } = null;
 
+        /// <summary>
+        /// The history of all dialog spoken since the player latest initiated communication with Draedon. The contents of this can be backtracked via scrolling.
+        /// </summary>
+        public static List<DialogEntry> DialogHistory
+        {
+            get;
+            set;
+        } = new();
+
+        /// <summary>
+        /// The scroller responsible for navigating topic options.
+        /// </summary>
+        public static CodebreakerUIScroller TopicOptionsScroller
+        {
+            get;
+            internal set;
+        } = new();
+
+        /// <summary>
+        /// The scroller responsible for navigating previously spoken dialog.
+        /// </summary>
+        public static CodebreakerUIScroller DialogScroller
+        {
+            get;
+            internal set;
+        } = new();
+
+        /// <summary>
+        /// The font used for displaying dialog.
+        /// </summary>
         public static DynamicSpriteFont DialogFont
         {
             get;
             internal set;
         }
 
+        /// <summary>
+        /// The dialog hover sound.
+        /// </summary>
         public static readonly SoundStyle DialogOptionHoverSound = new("CalamityMod/Sounds/Custom/Codebreaker/DialogOptionHover");
-        
+
+        /// <summary>
+        /// Possible sounds Draedon can play when he speaks.
+        /// </summary>
+        public static readonly SoundStyle[] DraedonTalks = new SoundStyle[]
+        {
+            new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk1"),
+            new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk2"),
+            new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk3")
+        };
+
         public override void OnModLoad()
         {
             if (Main.dedServ)
@@ -153,11 +275,12 @@ namespace CalamityMod.UI.DraedonSummoning
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
 
                 // Apply a glitch shader.
-                GameShaders.Misc["CalamityMod:BlueStatic"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/SharpNoise"));
-                GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["useStaticLine"].SetValue(false);
-                GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["coordinateZoomFactor"].SetValue(0.5f);
-                GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["useTrueNoise"].SetValue(true);
-                GameShaders.Misc["CalamityMod:BlueStatic"].Apply();
+                MiscShaderData blueStatic = GameShaders.Misc["CalamityMod:BlueStatic"];
+                blueStatic.SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/SharpNoise"));
+                blueStatic.Shader.Parameters["useStaticLine"].SetValue(false);
+                blueStatic.Shader.Parameters["coordinateZoomFactor"].SetValue(0.5f);
+                blueStatic.Shader.Parameters["useTrueNoise"].SetValue(true);
+                blueStatic.Apply();
 
                 float readjustedInterpolant = Utils.GetLerpValue(0.42f, 1f, DraedonScreenStaticInterpolant, true);
                 Color staticColor = Color.White * (float)Math.Pow(CalamityUtils.AperiodicSin(readjustedInterpolant * 2.94f) * 0.5f + 0.5f, 0.54) * (float)Math.Pow(readjustedInterpolant, 0.51D);
@@ -173,6 +296,8 @@ namespace CalamityMod.UI.DraedonSummoning
             DisplayDraedonFacePanel(panelCenter, panelScale);
             DisplayTextSelectionOptions(panelArea, panelScale);
             DisplayDialogHistory(panelArea, panelScale);
+            if (OptionsTextOpacity > 0f && DraedonScreenStaticInterpolant <= 0f)
+                DrawExitButton(panelCenter + new Vector2(-16f, 138f) * GeneralScale, OptionsTextOpacity);
         }
 
         public static void DisplayDraedonFacePanel(Vector2 panelCenter, Vector2 panelScale)
@@ -194,13 +319,14 @@ namespace CalamityMod.UI.DraedonSummoning
             Main.spriteBatch.EnforceCutoffRegion(draedonIconArea, Matrix.Identity, SpriteSortMode.Immediate);
 
             // Apply a glitch shader.
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseOpacity(0.04f);
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSecondaryColor(Color.White * 0.75f);
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSaturation(0.75f);
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].Shader.Parameters["frameCount"].SetValue(Vector2.One);
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].Apply();
+            MiscShaderData teleportEffect = GameShaders.Misc["CalamityMod:TeleportDisplacement"];
+            teleportEffect.UseOpacity(0.04f);
+            teleportEffect.UseSecondaryColor(Color.White * 0.75f);
+            teleportEffect.UseSaturation(0.75f);
+            teleportEffect.Shader.Parameters["frameCount"].SetValue(Vector2.One);
+            teleportEffect.Apply();
 
-            Vector2 draedonScale = new Vector2(draedonIconDrawInterpolant, 1f) * 1.6f;
+            Vector2 draedonScale = new Vector2(draedonIconDrawInterpolant, 1f) * Main.UIScale * 1.32f;
             SpriteEffects draedonDirection = SpriteEffects.FlipHorizontally;
             Texture2D draedonFaceTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/HologramDraedon").Value;
 
@@ -208,11 +334,12 @@ namespace CalamityMod.UI.DraedonSummoning
             Main.spriteBatch.ReleaseCutoffRegion(Matrix.Identity, SpriteSortMode.Immediate);
 
             // Draw a glitch effect over the panel and Draedon's icon.
-            GameShaders.Misc["CalamityMod:BlueStatic"].UseColor(Color.Cyan);
-            GameShaders.Misc["CalamityMod:BlueStatic"].UseImage1("Images/Misc/noise");
-            GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["useStaticLine"].SetValue(true);
-            GameShaders.Misc["CalamityMod:BlueStatic"].Shader.Parameters["coordinateZoomFactor"].SetValue(1f);
-            GameShaders.Misc["CalamityMod:BlueStatic"].Apply();
+            MiscShaderData blueStatic = GameShaders.Misc["CalamityMod:BlueStatic"];
+            blueStatic.UseColor(Color.Cyan);
+            blueStatic.UseImage1("Images/Misc/noise");
+            blueStatic.Shader.Parameters["useStaticLine"].SetValue(true);
+            blueStatic.Shader.Parameters["coordinateZoomFactor"].SetValue(1f);
+            blueStatic.Apply();
             Main.spriteBatch.Draw(iconTextureInner, draedonIconDrawTopRight, null, Color.White * draedonIconDrawInterpolant, 0f, Vector2.Zero, draedonIconScale, 0, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Matrix.Identity);
@@ -228,22 +355,41 @@ namespace CalamityMod.UI.DraedonSummoning
             Main.spriteBatch.Draw(selectionOutline, selectionCenter, null, Color.White * selectionOptionsDrawInterpolant, 0f, selectionOutline.Size() * 0.5f, panelScale, 0, 0f);
 
             // Update the options opacity.
-            bool canChooseQuery = DraedonText.Length == DraedonTextComplete.Length;
-            DraedonTextOptionsOpacity = MathHelper.Clamp(DraedonTextOptionsOpacity + canChooseQuery.ToDirectionInt() * 0.1f, 0f, 1f);
+            bool canChooseQuery = WrittenDraedonText.Length == FullDraedonText.Length;
+            OptionsTextOpacity = MathHelper.Clamp(OptionsTextOpacity + canChooseQuery.ToDirectionInt() * 0.1f, 0f, 1f);
 
-            // Display text options in the box.
+            // Enforce a cutoff on everything.
+            Rectangle textCutoffRegion = selectionArea;
+            textCutoffRegion.Y += 6;
+            textCutoffRegion.Height -= 10;
+            var rasterizer = Main.Rasterizer;
+            rasterizer.ScissorTestEnable = true;
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, rasterizer, null, Matrix.Identity);
+            Main.spriteBatch.GraphicsDevice.ScissorRectangle = textCutoffRegion;
+
+            // Draw and update the text scroller if there is some cut off text.
+            Vector2 textTopLeft = selectionArea.TopLeft() + new Vector2(20f, 12f) * panelScale + Vector2.UnitY * OptionsTextVerticalOffset;
+            float cutoffDistance = OptionsTextHeight / GeneralScale - selectionOutline.Height;
+            if (cutoffDistance > 0f && OptionsTextOpacity > 0f)
+            {
+                TopicOptionsScroller.PositionYInterpolant = MathHelper.Clamp(OptionsTextVerticalOffset / -cutoffDistance, 0f, 1f);
+                TopicOptionsScroller.Draw(selectionArea.Top + GeneralScale * 62f, selectionArea.Bottom - GeneralScale * 62f, selectionArea.Right - GeneralScale * 12f, GeneralScale * 0.8f, OptionsTextOpacity);
+                OptionsTextVerticalOffset = TopicOptionsScroller.PositionYInterpolant * -cutoffDistance;
+            }
+
+            // Reset the options text height.
+            OptionsTextHeight = 0f;
+
             bool hoveringOverAnyOption = false;
-            float opacity = DraedonTextOptionsOpacity * (1f - DraedonScreenStaticInterpolant);
-            Vector2 textTopLeft = selectionArea.TopLeft() + new Vector2(20f, 12f) * panelScale;
+            float opacity = OptionsTextOpacity * (1f - DraedonScreenStaticInterpolant);
             Texture2D markerTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquirySelector").Value;
             Vector2 markerScale = panelScale * 0.24f;
             Vector2 markerDrawPositionOffset = Vector2.UnitX * markerTexture.Width * markerScale.X * 0.52f;
             Vector2 markerTextureSize = markerTexture.Size() * markerScale;
-            float bloomTexScale = (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.05f + 0.26f;
-            float bloomTexRot = Main.GlobalTimeWrappedHourly * 0.5f;
-            Vector2 markerTextureOrigin = markerTexture.Size() * 0.5f;
-            float panelOffset = panelScale.Y * 12f;
+            float verticalOffsetPerOption = panelScale.Y * 12f;
 
+            // Display text options in the box.
             foreach (var dialog in DialogOptions.Where(d => d.Condition()))
             {
                 // Skip/isolate the introduction text as needed.
@@ -266,7 +412,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 Color textColor = Color.Cyan;
                 Color markerColor = Color.White;
                 Vector2 textArea = DialogFont.MeasureString(inquiry) * GeneralScale;
-                Rectangle textAreaRect = new((int)textTopLeft.X, (int)textTopLeft.Y, (int)textArea.X, (int)textArea.Y);
+                Rectangle textAreaRect = new((int)textTopLeft.X, (int)textTopLeft.Y, (int)(textArea.X * 0.9f), (int)textArea.Y);
                 Rectangle markerArea = Utils.CenteredRectangle(markerDrawPosition, markerTextureSize);
                 textAreaRect.Y = markerArea.Y;
                 textAreaRect.Height = markerArea.Height;
@@ -278,8 +424,11 @@ namespace CalamityMod.UI.DraedonSummoning
                     Main.spriteBatch.End();
                     Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Matrix.Identity);
 
+                    // Collect bloom flare draw information and draw based on it.
                     Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/UI/ModeIndicator/BloomFlare").Value;
-                    Main.spriteBatch.Draw(bloomTex, markerDrawPosition, null, Color.SteelBlue * dialog.BloomOpacity * opacity, bloomTexRot, new Vector2(123f, 124f), bloomTexScale, 0, 0f);
+                    float bloomTexScale = MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.05f + 0.26f;
+                    float bloomTexRotation = Main.GlobalTimeWrappedHourly * 0.5f;
+                    Main.spriteBatch.Draw(bloomTex, markerDrawPosition, null, Color.SteelBlue * dialog.BloomOpacity * opacity, bloomTexRotation, new Vector2(123f, 124f), bloomTexScale, 0, 0f);
 
                     Main.spriteBatch.End();
                     Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Matrix.Identity);
@@ -306,7 +455,7 @@ namespace CalamityMod.UI.DraedonSummoning
                         if (!Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker)
                         {
                             DialogHistory.Insert(0, new(string.Empty, true));
-                            DraedonTextOptionsOpacity = 0f;
+                            OptionsTextOpacity = 0f;
                         }
 
                         if (inquiry == DialogOptions[0].Inquiry)
@@ -322,23 +471,37 @@ namespace CalamityMod.UI.DraedonSummoning
                             DialogHistory[^1] = new(inquiry, false);
                             DialogHistory.Add(new(string.Empty, true));
                         }
-                        DraedonTextComplete = dialog.Response;
-                        DraedonText = string.Empty;
+
+                        FullDraedonText = dialog.Response.Replace("\\n", "\n");
+                        WrittenDraedonText = string.Empty;
+
+                        // Ensure that the player starts at the bottom of the scoller, now that new text is generating there.
+                        Texture2D dialogOutline = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonDialogOutline").Value;
+                        Rectangle dialogArea = Utils.CenteredRectangle(selectionCenter, dialogOutline.Size() * panelScale);
+                        DialogVerticalOffset = dialogArea.Height - DialogHeight * GeneralScale;
+                        DialogScroller.PositionYInterpolant = 1f;
+                        if (DialogVerticalOffset > 0f)
+                            DialogVerticalOffset = 0f;
+
                         if (!Main.LocalPlayer.Calamity().SeenDraedonDialogs.Contains(dialog.ID))
                             Main.LocalPlayer.Calamity().SeenDraedonDialogs.Add(dialog.ID);
-
-                        CanDisplayLatestDialogEntries = false;
                     }
                 }
 
+                // Draw the marker texture next to the text.
+                Vector2 markerTextureOrigin = markerTexture.Size() * 0.5f;
                 Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, markerColor * opacity, 0f, markerTextureOrigin, markerScale, 0, 0f);
 
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, inquiry, textTopLeft, textColor * opacity, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.76f);
-                textTopLeft.Y += panelOffset;
+                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, inquiry, textTopLeft, textColor * opacity, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.85f);
+                textTopLeft.Y += verticalOffsetPerOption;
+                OptionsTextHeight += verticalOffsetPerOption;
             }
 
             if (!hoveringOverAnyOption)
                 HoverSoundDialogType = null;
+
+            // Return the sprite batch to its default state.
+            Main.spriteBatch.ReleaseCutoffRegion(Matrix.Identity);
         }
 
         public static void DisplayDialogHistory(Rectangle panelArea, Vector2 panelScale)
@@ -350,19 +513,29 @@ namespace CalamityMod.UI.DraedonSummoning
             Rectangle dialogArea = Utils.CenteredRectangle(selectionCenter, dialogOutline.Size() * panelScale);
             Main.spriteBatch.Draw(dialogOutline, selectionCenter, null, Color.White * dialogHistoryDrawInterpolant, 0f, dialogOutline.Size() * 0.5f, panelScale, 0, 0f);
 
+            // Enforce a cutoff on everything.
+            Rectangle textCutoffRegion = dialogArea;
+            textCutoffRegion.Y += 6;
+            textCutoffRegion.Height -= 10;
+            var rasterizer = Main.Rasterizer;
+            rasterizer.ScissorTestEnable = true;
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, rasterizer, null, Matrix.Identity);
+            Main.spriteBatch.GraphicsDevice.ScissorRectangle = textCutoffRegion;
+
             // Intialize Draedon's dialog if necessary.
-            if (string.IsNullOrEmpty(DraedonTextComplete))
-                DraedonTextComplete = InquiryText;
+            if (string.IsNullOrEmpty(FullDraedonText))
+                FullDraedonText = InquiryText;
 
             // Type out Draedon text.
-            if (DraedonDialogDelayCountdown > 0)
-                DraedonDialogDelayCountdown--;
+            if (DialogSoundDelay > 0)
+                DialogSoundDelay--;
             if (DraedonScreenStaticInterpolant <= 0f)
                 DraedonTextCreationTimer++;
-            if (DraedonTextCreationTimer >= DraedonTextCreationRate && DraedonText.Length < DraedonTextComplete.Length)
+            if (DraedonTextCreationTimer >= DraedonTextCreationRate && WrittenDraedonText.Length < FullDraedonText.Length)
             {
-                char nextLetter = DraedonTextComplete[DraedonText.Length];
-                DraedonText += nextLetter;
+                char nextLetter = FullDraedonText[WrittenDraedonText.Length];
+                WrittenDraedonText += nextLetter;
                 DraedonTextCreationTimer = 0;
 
                 // Initialize the dialog history if it's empty.
@@ -370,44 +543,55 @@ namespace CalamityMod.UI.DraedonSummoning
                     DialogHistory.Add(new(string.Empty, true));
 
                 // Update the last dialog history entry as Draedon types.
-                DialogHistory[^1].Dialog = DraedonText;
+                DialogHistory[^1].Dialog += nextLetter;
+
+                // Shift the text downward if it exceeds the current bottom.
+                if (DialogHeight * 1.2f >= textCutoffRegion.Height && !string.IsNullOrEmpty(nextLetter.ToString()) && LatestDialogHeightIncrease > 0f)
+                    DialogVerticalOffset -= LatestDialogHeightIncrease;
 
                 // Move to the next index in the dialog history once Draedon is finished speaking.
-                if (DraedonText.Length >= DraedonTextComplete.Length)
+                if (WrittenDraedonText.Length >= FullDraedonText.Length)
                 {
-                    if (DraedonText == DialogOptions[0].Response)
+                    if (WrittenDraedonText == DialogOptions[0].Response)
                         Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
                     DialogHistory.Add(new(string.Empty, true));
                 }
 
                 // Play a small dialog sound, similar to that of Undertale.
-                if (DraedonDialogDelayCountdown <= 0 && nextLetter != ' ' && nextLetter != '\n')
+                if (DialogSoundDelay <= 0 && nextLetter != ' ' && nextLetter != '\n')
                 {
-                    SoundStyle[] DraedonTalks = { new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk1"),
-                        new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk2"),
-                        new("CalamityMod/Sounds/Custom/Codebreaker/DraedonTalk3")};
-
-                    SoundStyle playThisSound = Main.rand.Next(DraedonTalks.ToArray());
-                    
+                    SoundStyle playThisSound = Main.rand.Next(DraedonTalks);
                     SoundEngine.PlaySound(playThisSound with { Volume = 0.4f }, Main.LocalPlayer.Center);
-                    DraedonDialogDelayCountdown = 4;
+
+                    DialogSoundDelay = 4;
                 }
             }
 
-            // Display text in the box.
-            int textIndex = 0;
-            int entriesToPrune = 0;
-            bool showNewEntries = CanDisplayLatestDialogEntries;
-            var dialogEntries = DialogHistory.Where(d => !string.IsNullOrEmpty(d.Dialog));
+            // Draw and update the text scroller if there is some cut off text.
             Vector2 textTopLeft = dialogArea.TopLeft() + new Vector2(20f, 14f) * panelScale;
+            float cutoffDistance = DialogHeight - dialogOutline.Height;
+            if (cutoffDistance > 0f && OptionsTextOpacity > 0f)
+            {
+                DialogScroller.PositionYInterpolant = MathHelper.Clamp(DialogVerticalOffset / -cutoffDistance, 0f, 1f);
+                DialogScroller.Draw(dialogArea.Top + GeneralScale * 66f, dialogArea.Bottom - GeneralScale * 66f, dialogArea.Right - GeneralScale * 12f, GeneralScale * 0.8f, OptionsTextOpacity);
+                DialogVerticalOffset = DialogScroller.PositionYInterpolant * -cutoffDistance;
+            }
+
+            // Display text in the box.
+            var dialogEntries = DialogHistory.Where(d => !string.IsNullOrEmpty(d.Dialog));
             Texture2D markerTexture = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonInquirySelector").Value;
             Vector2 markerScale = panelScale * 0.24f;
             Vector2 markerDrawPositionOffset = Vector2.UnitX * markerTexture.Width * markerScale.X * 0.6f;
             float markerDrawPositionOffsetY = markerScale.Y * 24f;
             float localTextOffsetY = markerScale.Y * 4f;
             Vector2 markerTextureOrigin = markerTexture.Size() * 0.5f;
-            float panelOffset = panelScale.Y * 7.6f;
-            float panelOffset2 = panelScale.Y * 16f;
+            float panelOffsetPerLine = panelScale.Y * 10f;
+            float panelOffsetPerEntry = panelScale.Y * 16f;
+
+            // Store the top and bottom position of the text. This starts out as floating point extremes but is whittled down to the true
+            // vertical range of the text in the loop below.
+            float top = float.MaxValue;
+            float bottom = float.MinValue;
 
             foreach (var entry in dialogEntries)
             {
@@ -419,18 +603,18 @@ namespace CalamityMod.UI.DraedonSummoning
 
                     // Define a bunch of variables for text. These vary based on whether it's Draedon speaking or not.
                     bool textIsFromDraedon = entry.FromDraedon;
-                    Color dialogColor = Draedon.TextColor;
-                    Vector2 localTextTopLeft = textTopLeft;
-                    Vector2 markerDrawPosition = textTopLeft - markerDrawPositionOffset;
+                    Color dialogColor = Draedon.TextColor * 1.25f;
+                    Vector2 localTextTopLeft = textTopLeft + Vector2.UnitY * DialogVerticalOffset;
+                    Vector2 markerDrawPosition = textTopLeft - markerDrawPositionOffset + Vector2.UnitY * DialogVerticalOffset;
                     markerDrawPosition.Y += markerDrawPositionOffsetY;
                     SpriteEffects markerDirection = SpriteEffects.None;
                     if (!textIsFromDraedon)
                     {
                         // Flip positions to the other side of the dialog outline if the text is being said by the player.
                         Vector2 anchorPoint = new(dialogArea.Center.X, markerDrawPosition.Y);
-                        markerDrawPosition.X = anchorPoint.X + (anchorPoint.X - markerDrawPosition.X);
-                        localTextTopLeft.X = anchorPoint.X + (anchorPoint.X - localTextTopLeft.X);
-                        localTextTopLeft.X -= DialogFont.MeasureString(line).X * GeneralScale * 0.725f;
+                        markerDrawPosition.X = anchorPoint.X + (anchorPoint.X - markerDrawPosition.X) - GeneralScale * 12f;
+                        localTextTopLeft.X = anchorPoint.X + (anchorPoint.X - localTextTopLeft.X) - GeneralScale * 14f;
+                        localTextTopLeft.X -= DialogFont.MeasureString(line).X * DialogTextScale.X;
                         localTextTopLeft.Y -= localTextOffsetY;
 
                         // Use a neutral grey-ish color if text is being said by the player.
@@ -439,42 +623,30 @@ namespace CalamityMod.UI.DraedonSummoning
                         markerDirection = SpriteEffects.FlipHorizontally;
                     }
 
-                    if (entriesToPrune <= 0 && (textIndex < dialogEntries.Count() - 2 || showNewEntries))
-                    {
-                        // Draw the text marker.
-                        if (lineIndex <= 0)
-                            Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, Color.White * dialogHistoryDrawInterpolant, 0f, markerTextureOrigin, markerScale, markerDirection, 0f);
+                    // Draw the text marker.
+                    if (lineIndex <= 0)
+                        Main.spriteBatch.Draw(markerTexture, markerDrawPosition, null, Color.White * dialogHistoryDrawInterpolant, 0f, markerTextureOrigin, markerScale, markerDirection, 0f);
 
-                        // Draw the text itself.
-                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, Vector2.One * GeneralScale * 0.7f);
-                    }
+                    // Draw the text itself.
+                    ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, DialogFont, line, localTextTopLeft, dialogColor * dialogHistoryDrawInterpolant, 0f, Vector2.Zero, DialogTextScale);
 
-                    textTopLeft.Y += panelOffset;
+                    textTopLeft.Y += panelOffsetPerLine;
                     lineIndex++;
+
+                    // Improve the calculation of the top and bottom of the dialog.
+                    top = MathF.Min(top, localTextTopLeft.Y);
+                    bottom = MathF.Max(bottom, localTextTopLeft.Y);
                 }
 
-                textTopLeft.Y += panelOffset2;
-                if (textTopLeft.Y >= dialogArea.Bottom)
-                    entriesToPrune++;
-
-                textIndex++;
+                textTopLeft.Y += panelOffsetPerEntry;
             }
 
-            // If the text entries went past the dialog box, prune the oldest ones.
-            while (entriesToPrune >= 1)
-            {
-                if (DialogHistory.Count <= 0)
-                    break;
+            // Store the dialog text height, along with how much the height changed this frame.
+            LatestDialogHeightIncrease = bottom - top - DialogHeight;
+            DialogHeight = bottom - top;
 
-                string text = DialogHistory[0].Dialog;
-                if (text == DialogOptions[0].Inquiry)
-                    Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
-
-                DialogHistory.RemoveAt(0);
-                entriesToPrune--;
-            }
-
-            CanDisplayLatestDialogEntries = true;
+            // Return the sprite batch to its default state.
+            Main.spriteBatch.ReleaseCutoffRegion(Matrix.Identity);
         }
     }
 }

@@ -50,11 +50,11 @@ namespace CalamityMod.UI.DraedonSummoning
             set;
         } = 1f;
 
-        public static float CancelButtonScale
+        public static float ExitButtonScale
         {
             get;
             set;
-        } = 0.75f;
+        } = 1f;
 
         public static float ContactButtonScale
         {
@@ -68,14 +68,28 @@ namespace CalamityMod.UI.DraedonSummoning
             set;
         } = 1f;
 
+        public static float CancelButtonScale
+        {
+            get;
+            set;
+        } = 1f;
+
         public static float MechIconScale
         {
             get;
             set;
         } = 1f;
 
+        // This variable is currently permanently set to false due to being deemed unfinished and not fit for release.
+        // It used to be a local variable but has been moved to a property so that addon mods can easily enable it.
+        public static bool DraedonTalkFeatureEnabled
+        {
+            get;
+            set;
+        }
+
         public static Vector2 BackgroundCenter => new(500f, Main.screenHeight * 0.5f + 115f);
-        
+
         public static float GeneralScale => MathHelper.Lerp(1f, 0.7f, Utils.GetLerpValue(1325f, 750f, Main.screenWidth, true)) * Main.UIScale;
 
         public static Rectangle MouseScreenArea => Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
@@ -94,11 +108,18 @@ namespace CalamityMod.UI.DraedonSummoning
                 CancelButtonScale = 0.75f;
                 ContactButtonScale = 1f;
                 CommunicateButtonScale = 1f;
+                ExitButtonScale = 1f;
                 CommunicationPanelScale = 0f;
                 ViewedTileEntityID = -1;
                 AwaitingCloseConfirmation = false;
                 DisplayingCommunicationText = false;
                 MechIconScale = 1f;
+                DialogScroller.Reset();
+                TopicOptionsScroller.Reset();
+                DialogVerticalOffset = 0f;
+                OptionsTextVerticalOffset = 0f;
+                DialogHeight = 0f;
+                LatestDialogHeightIncrease = 0f;
                 return;
             }
 
@@ -122,6 +143,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 DraedonScreenStaticInterpolant = 0f;
             }
 
+            // Disable the codebreaker UI's typical functions if currently speaking with Draedon, ignoring everything else in this method.
             if (DisplayingCommunicationText)
             {
                 DisplayCommunicationPanel();
@@ -131,17 +153,14 @@ namespace CalamityMod.UI.DraedonSummoning
 
             // Reset communication things.
             DraedonTextCreationTimer = 0;
-            if (!string.IsNullOrEmpty(DraedonText) && DraedonTextComplete == DraedonDialogRegistry.DialogOptions[0].Inquiry)
+            if (!string.IsNullOrEmpty(WrittenDraedonText) && FullDraedonText == DraedonDialogRegistry.DialogOptions[0].Inquiry)
                 Main.LocalPlayer.Calamity().HasTalkedAtCodebreaker = true;
 
-            DraedonText = DraedonTextComplete = string.Empty;
+            WrittenDraedonText = FullDraedonText = string.Empty;
             DialogHistory.Clear();
 
             bool canSummonDraedon = codebreakerTileEntity.ReadyToSummonDraedon && CalamityWorld.AbleToSummonDraedon;
-            // canTalkToDraedon is currently permanently set to false due to being deemed unfinished and not fit for release.
-            // If there is a desire to re-enable it, replace the following line with the commented line beneath it.
-            bool canTalkToDraedon = false;
-            // bool canTalkToDraedon = codebreakerTileEntity.ReadyToSummonDraedon && DownedBossSystem.downedExoMechs;
+            bool canTalkToDraedon = codebreakerTileEntity.ReadyToSummonDraedon && DownedBossSystem.downedExoMechs && DraedonTalkFeatureEnabled;
             Vector2 backgroundTopLeft = BackgroundCenter - backgroundTexture.Size() * GeneralScale * 0.5f;
 
             // Draw the cell payment slot icon.
@@ -227,18 +246,53 @@ namespace CalamityMod.UI.DraedonSummoning
             // If cells are present, make the item reflect that.
             Item temporaryPowerCell = new Item();
             if (codebreakerTileEntity.ContainsBloodSample)
-            {
                 temporaryPowerCell.SetDefaults(ModContent.ItemType<BloodSample>());
-            }
             else
-            { 
                 temporaryPowerCell.SetDefaults(ModContent.ItemType<DraedonPowerCell>());
-            }
+
+            // Copy the cell stack from the amount of cells in the tile entity.
             temporaryPowerCell.stack = codebreakerTileEntity.InputtedCellCount;
 
             Vector2 cellInteractionArea = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonsArsenal/PowerCellSlot_Empty").Value.Size() * GeneralScale;
             CalamityUtils.DrawPowercellSlot(spriteBatch, temporaryPowerCell, cellDrawCenter, GeneralScale);
             HandleCellSlotInteractions(codebreakerTileEntity, temporaryPowerCell, cellDrawCenter, cellInteractionArea);
+
+            // Draw the exit button.
+            // The prevent confusion, this does not draw if the player is attempting to cancel an ongoing decryption.
+            if (!AwaitingCloseConfirmation)
+                DrawExitButton(Vector2.Lerp(summonButtonCenter, talkButtonCenter, 0.5f), 1f);
+        }
+
+        public static void DrawExitButton(Vector2 drawPosition, float opacity)
+        {
+            Texture2D cancelButton = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DecryptCancelIcon").Value;
+            Rectangle clickArea = Utils.CenteredRectangle(drawPosition, cancelButton.Size() * VerificationButtonScale);
+
+            // Check if the mouse is hovering over the exit button area.
+            if (MouseScreenArea.Intersects(clickArea))
+            {
+                // If so, cause the button to inflate a little bit.
+                ExitButtonScale = MathHelper.Clamp(ExitButtonScale + 0.035f, 1f, 1.4f);
+
+                // If a click is done, leave the Codebreaker UI.
+                if (Main.mouseLeft && Main.mouseLeftRelease)
+                    ViewedTileEntityID = -1;
+            }
+
+            // Otherwise, if not hovering, cause the button to deflate back to its normal size.
+            else
+                ExitButtonScale = MathHelper.Clamp(ExitButtonScale - 0.05f, 1f, 1.4f);
+
+            // Draw the exit button.
+            Main.spriteBatch.Draw(cancelButton, drawPosition, null, Color.White, 0f, cancelButton.Size() * 0.5f, ExitButtonScale * GeneralScale, 0, 0f);
+
+            // And display a text indicator that describes the function of the button.
+            string exitText = CalamityUtils.GetTextValue("UI.Exit");
+
+            // Center the draw position.
+            drawPosition.X -= FontAssets.MouseText.Value.MeasureString(exitText).X * GeneralScale * 0.5f;
+            drawPosition.Y += GeneralScale * 20f;
+            Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, exitText, drawPosition.X, drawPosition.Y, Color.Red * opacity, Color.Black * opacity, Vector2.Zero, GeneralScale);
         }
 
         public static void HandleCellSlotInteractions(TECodebreaker codebreakerTileEntity, Item temporaryItem, Vector2 cellIconCenter, Vector2 area)
@@ -417,7 +471,7 @@ namespace CalamityMod.UI.DraedonSummoning
             Texture2D cellTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/DraedonPowerCell").Value;
             Vector2 offsetDrawPosition = new Vector2(drawPosition.X + ChatManager.GetStringSize(FontAssets.MouseText.Value, text, Vector2.One, -1f).X * GeneralScale + GeneralScale * 15f, drawPosition.Y + GeneralScale * 30f);
             Main.spriteBatch.Draw(cellTexture, offsetDrawPosition, null, Color.White, 0f, cellTexture.Size() * 0.5f, GeneralScale, 0, 0f);
-            
+
             // Display the cell quantity numerically below the drawn cells.
             Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.ItemStack.Value, totalCellsCost.ToString(), offsetDrawPosition.X - GeneralScale * 11f, offsetDrawPosition.Y, Color.White, Color.Black, new Vector2(0.3f), GeneralScale * 0.75f);
         }

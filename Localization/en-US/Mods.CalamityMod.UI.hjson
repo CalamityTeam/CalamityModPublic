@@ -127,12 +127,69 @@ Cost: "Cost: "
 Contact: Contact
 Summon: Summon
 Evoke: Evoke
+Exit: Exit
 Communicate: Communicate
 ConfirmationText: Are you sure?
 UpgradesRequired: Encryption unsolveable: Upgrades required.
 ThanatosIcon: Thanatos, a serpentine terror with impervious armor and innumerable laser turrets.
 AresIcon: Ares, a heavyweight, diabolical monstrosity with four Exo superweapons.
 ArtemisApolloIcon: Artemis and Apollo, a pair of extremely persistent automatons with unstable energy reserves.
+
+// Draedon Contact UI. Repeated newlines indicate pauses in Draedon's speaking. As a result, newline characters may be explicitly defined.
+// The code that interprets these strings will transform them.
+Communication: {
+	WhoAreYou: {
+		Inquiry: Who are you?
+		Response:
+			'''
+			An ambitious question, if you are a philosopher. I will give only the facts.\n\n
+			I am not of this planet. I was born from machines. Or rather, I was... created. It may be misleading to say I was born.\n\n
+			The exact circumstances, I do not know. I do know that my first instance of awareness was that I was surrounded by a workshop.\n\n
+			All I have known since then was the act of creation and destruction.
+			'''
+	}
+
+	CalamitasBeforeDefeat: {
+		Inquiry: Calamitas
+		Response: The witch? She is a walking weapon. Such powerful magic in a living being was destined to be so. Look at yourself now.
+	}
+
+	CalamitasAfterDefeat: {
+		Inquiry: Calamitas
+		Response: She has mellowed, I've noticed. For you creatures so burdened by emotion and guilt, I wonder now, how she manages to live with herself.
+	}
+
+	Plague: {
+		Inquiry: The Plague
+		Response:
+			'''
+			Fascinating, isn't it? I wasn't able to control it, unfortunately, but for science there is no such thing as failure as long as you record the results.\n\n
+			I knew the Astral Infection was capable of converting even machinery, but for nanotechnology I'd given it to react in kind, and begin to use the virus as a building block itself...\n\n
+			Marvelous.
+			'''
+	}
+
+	SulphuricSea: {
+		Inquiry: The Sulphuric Sea
+		Response:
+			'''
+			Your concern for the utter destruction of the ecosystem is understandable, for you biological, and sentimental folk. However, nothing is irreparable or truly unrecreatable. Not even your sacred 'miracle of life'.\n\n
+			The sea simply exists now in a different state than what it once was, one that resulted out of convenience for my work.\n\n
+			Should I ever need to return to that sea? A pointless worry. I shall simply recreate it from the data I gathered, from the bedrock up. I would be a shame as a creator should I not be able to do that.
+			'''
+	}
+
+	TheTyrant: {
+		Inquiry: The Tyrant
+		Response:
+			'''
+			My patron...\n
+			He is not someone I have spoken to in a very long time.\n\n
+			Is that such a surprise? He no longer required my services and I no longer needed his patronage. Many years ago now he withdrew himself to some secret hideaway. I suspect, to the grave of dragons he spoke of...\n\n
+			Should you locate him, I'll await the news of either his or your death. Perhaps I will collect the cadaver.
+			'''
+	}
+}
 
 // Hologram Texts
 Hologram: {
