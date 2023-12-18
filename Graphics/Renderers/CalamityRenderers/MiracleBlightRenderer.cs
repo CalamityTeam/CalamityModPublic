@@ -49,18 +49,39 @@ namespace CalamityMod.Graphics.Renderers.CalamityRenderers
         #endregion
 
         #region Methods
-        // Only draw if:
-        // - A Vanilla or Calamity NPC OR another mod's non boss npc.
-        // - The NPC is active.
-        // - The NPC has miracle blight.
-        // - The current player does not have the shrooms effect.
-        // - The current NPC isnt in an excluded list of NPCs.
-        // - The current NPC does not have the polarity effect.
-        // If this seems really excessive, it's because global complex effects like this are a pain in the ass to implement without having a million
-        // broken edge cases.
-        public static bool ValidToDraw(NPC npc) =>
-            (npc.ModNPC == null || npc.ModNPC.Mod == CalamityMod.Instance || !npc.boss) && npc.active && npc.Calamity().miracleBlight > 0
-                && !(Main.LocalPlayer.Calamity().trippy && !npc.IsABestiaryIconDummy) && !ExcludedNPCs.Contains(npc.type) && npc.PolarityNPC().CurPolarity == 0;
+        /// <summary>
+        /// Checks if the provided npc is eligible to be drawn with the miracle blight visual effect.
+        /// </summary>
+        /// <param name="npc">The NPC to check</param>
+        /// <returns>If the NPC is eligible</returns>
+        public static bool ValidToDraw(NPC npc)
+        {
+            // Do not draw inactive npcs, or ones with weird MP types less than or equal to 0.
+            if (!npc.active || npc.type <= NPCID.None)
+                return false;
+
+            // Do not draw other mod's bosses.
+            if (npc.ModNPC != null && npc.ModNPC.Mod != CalamityMod.Instance && npc.boss)
+                return false;
+
+            // Don't draw excluded NPCs, or if the npc is a bestiary dummy.
+            if (ExcludedNPCs.Contains(npc.type) || npc.IsABestiaryIconDummy)
+                return false;
+
+            // Safety check for weird MP bug when getting global npcs.
+            if (!npc.TryGetGlobalNPC<CalamityGlobalNPC>(out var calNPC) || !npc.TryGetGlobalNPC<CalamityPolarityNPC>(out var polNPC))
+                return false;
+
+            // Do not draw if the npc does not have miracle blight, or has the polarity effect.
+            if (calNPC.miracleBlight <= 0 || polNPC.CurPolarity > 0f)
+                return false;
+
+            // Do not draw if the current player has the trippy effect.
+            if (Main.LocalPlayer.Calamity().trippy)
+                return false;
+
+            return true;
+        }
 
         public override void DrawToTarget(SpriteBatch spriteBatch)
         {
@@ -68,12 +89,13 @@ namespace CalamityMod.Graphics.Renderers.CalamityRenderers
             ActuallyDoPreDraw = true;
 
             // Draw every npc to a single target that should have the miracle blight visual.
-            foreach (var npc in Main.npc)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
-                // I don't know why this isnt always the case in MP, but if the global npc cant be found then the effect cannot be applied anyway as it is impossible
-                // to tell if they have miracle blight.
-                if (!npc.TryGetGlobalNPC<CalamityGlobalNPC>(out _))
-                    continue;
+                // Extra check to ensure that index errors will not occur. If not in range, something has gone wrong and the loop should terminate.
+                if (!Main.npc.IndexInRange(i))
+                    break;
+
+                NPC npc = Main.npc[i];
 
                 if (ValidToDraw(npc))
                     Main.instance.DrawNPC(npc.whoAmI, npc.behindTiles);
