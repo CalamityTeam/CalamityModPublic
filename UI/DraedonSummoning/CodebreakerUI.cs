@@ -143,7 +143,7 @@ namespace CalamityMod.UI.DraedonSummoning
                 DraedonScreenStaticInterpolant = 0f;
             }
 
-            // Drae the communication UI if currently speaking with Draedon, ignoring everything else in this method.
+            // Disable the codebreaker UI's typical functions if currently speaking with Draedon, ignoring everything else in this method.
             if (DisplayingCommunicationText)
             {
                 DisplayCommunicationPanel();
