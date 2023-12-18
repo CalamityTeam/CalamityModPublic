@@ -135,7 +135,7 @@ ThanatosIcon: Thanatos, a serpentine terror with impervious armor and innumerabl
 AresIcon: Ares, a heavyweight, diabolical monstrosity with four Exo superweapons.
 ArtemisApolloIcon: Artemis and Apollo, a pair of extremely persistent automatons with unstable energy reserves.
 
-// Draedon Contact UI. Repeate newlines indicate pauses in Draedon's speaking. As a result, newline characters may be explicitly defined.
+// Draedon Contact UI. Repeated newlines indicate pauses in Draedon's speaking. As a result, newline characters may be explicitly defined.
 // The code that interprets these strings will transform them.
 Communication: {
 	WhoAreYou: {
