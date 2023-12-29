@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-            if (Projectile.ai[0] % 15 == 0) // every 0.25 seconds
+            if (Projectile.ai[0] % 30 == 16) // every 0.25 seconds, starting 8 frames later (extraUpdates = 1 so the values are doubled)
             {
                 target = Projectile.Center.ClosestNPCAt(MaxDistanceToTarget);
             }
@@ -90,7 +90,10 @@ namespace CalamityMod.Projectiles.Melee
             if (target is not null)
             {
                 Vector2 targetVelocity = (target.Center - Projectile.Center).SafeNormalize(Vector2.Zero);
-                targetVelocity *= Projectile.velocity.Length();
+
+                float multiplier = Projectile.velocity.Length() < 4f ? Projectile.velocity.Length() + 1f : 1f;      // Probably a better way to do this, but just a bandaid fix for if the trail velocity ends up being low
+                targetVelocity *= Projectile.velocity.Length() + multiplier;
+
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, targetVelocity, 0.12f);               
             }
 
