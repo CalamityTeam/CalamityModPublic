@@ -51,6 +51,8 @@ namespace CalamityMod.ILEditing
         private static int aLabDoorClosed = -1;
         private static int exoDoorOpen = -1;
         private static int exoDoorClosed = -1;
+        // Cached for use in ChangeWaterQuadColors.
+        private static CustomLavaStyle cachedLavaStyle = default;
 
         // Holds the vanilla game function which spawns town NPCs, wrapped in a delegate for reflection purposes.
         // This function is (optionally) invoked manually in an IL edit to enable NPCs to spawn at night.
@@ -765,6 +767,25 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region Custom Lava Visuals
+
+        private static void CacheLavaStyle(Terraria.On_Main.orig_RenderWater orig, Main self)
+        {
+            // Immediately cache the lava drawing style.
+            // This will pay off in SPADES when we go to draw the tiles.
+            foreach (CustomLavaStyle style in CustomLavaManagement.CustomLavaStyles)
+            {
+                if (style.ChooseLavaStyle())
+                {
+                    cachedLavaStyle = style;
+                    orig(self);
+                    return;
+                }
+            }
+
+            cachedLavaStyle = default;
+            orig(self);
+        }
+        
         private static void DrawCustomLava(Terraria.GameContent.Drawing.On_TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, bool behindBlocks, Tile tileCache, ref Vector2 position, ref Rectangle liquidSize, int liquidType, ref VertexColors colors)
         {
             if (liquidType != 1)
@@ -774,7 +795,7 @@ namespace CalamityMod.ILEditing
             }
 
             int slope = (int)tileCache.Slope;
-            colors = SelectLavaQuadColor(TextureAssets.LiquidSlope[liquidType].Value, ref colors, liquidType == 1);
+            colors = SelectLavaQuadColor(TextureAssets.LiquidSlope[liquidType].Value, ref colors, true);
             if (!TileID.Sets.BlocksWaterDrawingBehindSelf[tileCache.TileType] || behindBlocks || slope == 0)
             {
                 Texture2D liquidTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaBlockTexture : TextureAssets.Liquid[liquidType].Value, LiquidTileType.Block);
@@ -835,16 +856,29 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldloc, 8);
             cursor.Emit(OpCodes.Ldloc, 3);
             cursor.Emit(OpCodes.Ldloc, 4);
+            
+            // Caching these values can save a LOT of overhead at runtime.
+            ModWaterStyle sunkenSeaWater = ModContent.GetInstance<SunkenSeaWater>();
+            ModWaterStyle sulphuricWater = ModContent.GetInstance<SulphuricWater>();
+            ModWaterStyle sulphuricDepthsWater = ModContent.GetInstance<SulphuricDepthsWater>();
+            ModWaterStyle upperAbyssWater = ModContent.GetInstance<UpperAbyssWater>();
+            ModWaterStyle middleAbyssWater = ModContent.GetInstance<MiddleAbyssWater>();
+            ModWaterStyle voidWater = ModContent.GetInstance<VoidWater>();
+            
             cursor.EmitDelegate<Func<VertexColors, Texture2D, int, int, int, VertexColors>>((initialColor, initialTexture, liquidType, x, y) =>
             {
-                initialColor = SelectLavaQuadColor(initialTexture, ref initialColor, liquidType == 1);
+                // Don't bother changing the color if the cached drawing style is null.
+                if (cachedLavaStyle != default)
+                {
+                    initialColor = SelectLavaQuadColor(initialTexture, ref initialColor, liquidType == 1);
+                }
 
-                if (liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot ||
-                liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot ||
-                liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricDepthsWater").Slot ||
-                liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/UpperAbyssWater").Slot ||
-                liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/MiddleAbyssWater").Slot ||
-                liquidType == ModContent.Find<ModWaterStyle>("CalamityMod/VoidWater").Slot)
+                if (liquidType == sunkenSeaWater.Slot ||
+                liquidType == sulphuricWater.Slot ||
+                liquidType == sulphuricDepthsWater.Slot ||
+                liquidType == upperAbyssWater.Slot ||
+                liquidType == middleAbyssWater.Slot ||
+                liquidType == voidWater.Slot)
                 {
                     SelectSulphuricWaterColor(x, y, ref initialColor);
                 }

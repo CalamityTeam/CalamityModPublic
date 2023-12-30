@@ -45,6 +45,7 @@ namespace CalamityMod.ILEditing
             On_Main.DrawInfernoRings += DrawForegroundParticles;
             On_TileDrawing.DrawPartialLiquid += DrawCustomLava;
             On_WaterfallManager.DrawWaterfall_int_int_int_float_Vector2_Rectangle_Color_SpriteEffects += DrawCustomLavafalls;
+            On_Main.RenderWater += CacheLavaStyle;
             IL_LiquidRenderer.DrawNormalLiquids += ChangeWaterQuadColors;
             IL_Main.oldDrawWater += DrawCustomLava3;
             On_TileLightScanner.GetTileLight += MakeSulphSeaWaterBetter;
