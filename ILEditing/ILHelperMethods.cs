@@ -9,6 +9,7 @@ using CalamityMod.Systems;
 using Terraria.Graphics;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework.Input;
 
 namespace CalamityMod.ILEditing
 {
@@ -63,7 +64,7 @@ namespace CalamityMod.ILEditing
             SoundEngine.PlaySound(SoundID.DoorClosed, new Vector2(doorX * 16, doorY * 16));
             return true;
         }
-
+        
         private static Texture2D SelectLavaTexture(Texture2D initialTexture, LiquidTileType type)
         {
             // Use the initial texture if it isn't lava.
@@ -72,20 +73,17 @@ namespace CalamityMod.ILEditing
                 initialTexture != CustomLavaManagement.LavaSlopeTexture)
                 return initialTexture;
 
-            foreach (CustomLavaStyle lavaStyle in CustomLavaManagement.CustomLavaStyles)
+            if (cachedLavaStyle == default)
+                return initialTexture;
+            
+            switch (type)
             {
-                if (lavaStyle.ChooseLavaStyle())
-                {
-                    switch (type)
-                    {
-                        case LiquidTileType.Block:
-                            return lavaStyle.BlockTexture;
-                        case LiquidTileType.Waterflow:
-                            return lavaStyle.LavaTexture;
-                        case LiquidTileType.Slope:
-                            return lavaStyle.SlopeTexture;
-                    }
-                }
+                case LiquidTileType.Block:
+                    return cachedLavaStyle.BlockTexture;
+                case LiquidTileType.Waterflow:
+                    return cachedLavaStyle.LavaTexture;
+                case LiquidTileType.Slope:
+                    return cachedLavaStyle.SlopeTexture;
             }
 
             return initialTexture;
@@ -93,10 +91,23 @@ namespace CalamityMod.ILEditing
 
         private static VertexColors SelectLavaQuadColor(Texture2D initialTexture, ref VertexColors initialColor, bool forceTrue = false)
         {
-            initialColor.TopLeftColor = SelectLavaColor(initialTexture, initialColor.TopLeftColor, forceTrue);
-            initialColor.TopRightColor = SelectLavaColor(initialTexture, initialColor.TopRightColor, forceTrue);
-            initialColor.BottomLeftColor = SelectLavaColor(initialTexture, initialColor.BottomLeftColor, forceTrue);
-            initialColor.BottomRightColor = SelectLavaColor(initialTexture, initialColor.BottomRightColor, forceTrue);
+            // We should handle the 'forceTrue' flag at this level to prevent us from checking the same thing four times.
+            if (!forceTrue)
+            {
+                if (initialTexture != CustomLavaManagement.LavaTexture &&
+                    initialTexture != CustomLavaManagement.LavaBlockTexture &&
+                    initialTexture != CustomLavaManagement.LavaSlopeTexture)
+                    return initialColor;
+            }
+
+            // No lava style to draw? Then skip.
+            if (cachedLavaStyle == default)
+                return initialColor;
+            
+            cachedLavaStyle.SelectLightColor(ref initialColor.TopLeftColor);
+            cachedLavaStyle.SelectLightColor(ref initialColor.TopRightColor);
+            cachedLavaStyle.SelectLightColor(ref initialColor.BottomLeftColor);
+            cachedLavaStyle.SelectLightColor(ref initialColor.BottomRightColor);
             return initialColor;
         }
 
