@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.BaseProjectiles;
@@ -59,6 +59,26 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            OnHitEffect();
+
+            if (NumHits < 3) {      // Just to avoid insanity from stacking so many super dummies or hitting many worm segments at once
+                // 2x bonus for true melee hits (spawns an additional aura plus the one aura from the cosmic shiv ball)
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Vector2.Zero, ModContent.ProjectileType<CosmicShivAura>(), Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI);
+                NumHits++;
+            }
+
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240);
+        }
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            OnHitEffect();
+
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240);
+        }
+
+        public void OnHitEffect()
+        {
             float rand2PI = Main.rand.NextFloat(MathHelper.TwoPi);  // Random rotation offset
             int petalCount = Main.rand.Next(5, 8);                  // Number of star points
             float speed = Main.rand.Next(18, 24);                   // Size of star
@@ -82,27 +102,6 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
                     dust2.fadeIn = -1f;
                 }
             }
-
-            if (NumHits < 3) {      // Just to avoid insanity from stacking so many super dummies or hitting many worm segments at once
-                // 2x bonus for true melee hits (spawns an additional aura plus the one aura from the cosmic shiv ball)
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Vector2.Zero, ModContent.ProjectileType<CosmicShivAura>(), Projectile.damage, Projectile.knockBack, Projectile.owner, target.whoAmI);
-                NumHits++;
-            }
-
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
-        }
-
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
-            // Congrats on trying to PvP with this
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 216000);
-            target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 216000);
-            target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 216000);
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 216000);
-            target.AddBuff(ModContent.BuffType<Nightwither>(), 216000);
-            target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 216000);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 600);           // Not that evil
-            target.AddBuff(BuffID.Stoned, 600);                                 // But just in case you're immune to glacial state
         }
 
         public Vector2 StarPolarEquation(int pointCount, float angle, float offset)     // For OnHitNPC(), Thanks Dominic
