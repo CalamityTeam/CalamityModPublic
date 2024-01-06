@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             // Unexist with target
-            if (!target?.active == true || target is null || target.dontTakeDamage) {
+            if (!target?.active == true || target is null) {
                 Projectile.Kill();
             }
  
