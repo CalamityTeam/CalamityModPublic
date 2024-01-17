@@ -18,6 +18,7 @@ using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
@@ -1039,6 +1040,17 @@ namespace CalamityMod
             Mod fargos = GetInstance<CalamityMod>().fargos;
             if (fargos is null)
                 return;
+
+            // Stat Sheet support
+            double Damage(DamageClass damageClass) => Math.Round(Main.LocalPlayer.GetTotalDamage(damageClass).Additive * Main.LocalPlayer.GetTotalDamage(damageClass).Multiplicative * 100 - 100);
+            int Crit(DamageClass damageClass) => (int)Main.LocalPlayer.GetTotalCritChance(damageClass);
+
+            int rogueItem = ModContent.ItemType<WulfrumKnife>(); 
+            DamageClass rogueDamageClass = ModContent.GetInstance<RogueDamageClass>();
+            Func<string> rogueDamage = () => $"Rogue Damage: {Damage(rogueDamageClass)}%";
+            Func<string> rogueCrit = () => $"Rogue Critical: {Crit(rogueDamageClass)}%";
+            fargos.Call("AddStat", rogueItem, rogueDamage);
+            fargos.Call("AddStat", rogueItem, rogueCrit);
 
             void AddToMutantShop(string bossName, string summonItemName, Func<bool> downed, int price)
             {
