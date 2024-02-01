@@ -61,7 +61,7 @@ namespace CalamityMod
             PlantCheckAgainst[TileID.JunglePlants2] = new int[1] { TileID.JungleGrass };
             PlantCheckAgainst[TileID.HallowedPlants] = new int[1] { TileID.HallowedGrass };
             PlantCheckAgainst[TileID.HallowedPlants2] = new int[1] { TileID.HallowedGrass };
-            PlantCheckAgainst[TileID.CrimsonPlants] = new int[1] { TileID.CrimsonPlants };
+            PlantCheckAgainst[TileID.CrimsonPlants] = new int[1] { TileID.CrimsonGrass };
             PlantCheckAgainst[ModContent.TileType<AstralShortPlants>()] = new int[1] { ModContent.TileType<AstralGrass>() };
             PlantCheckAgainst[ModContent.TileType<AstralTallPlants>()] = new int[1] { ModContent.TileType<AstralGrass>() };
             PlantCheckAgainst[ModContent.TileType<CinderBlossomTallPlants>()] = new int[1] { ModContent.TileType<ScorchedRemainsGrass>() };
