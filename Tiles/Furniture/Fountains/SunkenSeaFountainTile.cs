@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (Main.tile[i, j].TileFrameX >= 36)
+            if (!Main.dedServ && Main.tile[i, j].TileFrameX >= 36)
                 Main.SceneMetrics.ActiveFountainColor = ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater").Slot;
         }
 
