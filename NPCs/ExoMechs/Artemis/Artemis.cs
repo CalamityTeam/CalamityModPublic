@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Graphics.Primitives;
 using CalamityMod.Items.Potions;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
@@ -147,13 +148,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         // Intensity of flash effects during the charge combo
         public float ChargeFlash;
-
-        // Primitive trail drawers for thrusters when charging
-        public PrimitiveTrail ChargeFlameTrail = null;
-        public PrimitiveTrail ChargeFlameTrailBig = null;
-
-        // Primitive trail drawer for the ribbon things
-        public PrimitiveTrail RibbonTrail = null;
 
         //This stores the sound slot of the ML laser sound it makes, so it may be properly updated in terms of position.
         private SlotId DeathraySoundSlot;
@@ -1392,16 +1386,6 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            // Declare the trail drawers if they have yet to be defined.
-            if (ChargeFlameTrail is null)
-                ChargeFlameTrail = new PrimitiveTrail(FlameTrailWidthFunction, FlameTrailColorFunction, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
-
-            if (ChargeFlameTrailBig is null)
-                ChargeFlameTrailBig = new PrimitiveTrail(FlameTrailWidthFunctionBig, FlameTrailColorFunctionBig, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
-
-            if (RibbonTrail is null)
-                RibbonTrail = new PrimitiveTrail(RibbonTrailWidthFunction, RibbonTrailColorFunction);
-
             // Prepare the flame trail shader with its map texture.
             GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
 
@@ -1464,7 +1448,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
                     currentSegmentRotation += segmentRotationOffset;
                 }
-                RibbonTrail.Draw(ribbonDrawPositions, -screenPos, 66);
+                PrimitiveSet.Prepare(ribbonDrawPositions, new(RibbonTrailWidthFunction, RibbonTrailColorFunction), 66);
             }
 
             int instanceCount = (int)MathHelper.Lerp(1f, 15f, ChargeFlash);
@@ -1529,11 +1513,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         for (int i = 0; i < 4; i++)
                         {
                             Vector2 drawOffset = (MathHelper.TwoPi * i / 4f).ToRotationVector2() * 8f;
-                            ChargeFlameTrailBig.Draw(drawPositions, drawOffset - screenPos, 70);
+                            PrimitiveSet.Prepare(drawPositions, new(FlameTrailWidthFunctionBig, FlameTrailColorFunctionBig, (_) => drawOffset, shader: GameShaders.Misc["CalamityMod:ImpFlameTrail"]), 70);
                         }
                     }
                     else
-                        ChargeFlameTrail.Draw(drawPositions, -screenPos, 70);
+                        PrimitiveSet.Prepare(drawPositions, new(FlameTrailWidthFunction, FlameTrailColorFunction, shader: GameShaders.Misc["CalamityMod:ImpFlameTrail"]), 70);
                 }
             }
 

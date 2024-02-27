@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Graphics.Primitives;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +14,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 {
     public class BrimstoneHeart : ModNPC
     {
-        public PrimitiveTrail ChainDrawer = null;
         public int ChainHeartIndex => (int)NPC.ai[0];
         public List<Vector2> ChainEndpoints = new();
         public override void SetStaticDefaults()
@@ -113,8 +113,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (ChainDrawer is null)
-                ChainDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction);
             if (NPC.IsABestiaryIconDummy)
                 return true;
 
@@ -125,7 +123,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     NPC.Center,
                     ChainEndpoints[i] + NPC.DirectionTo(ChainEndpoints[i]) * 25f
                 };
-                ChainDrawer.Draw(points, -screenPos, 40);
+                PrimitiveSet.Prepare(points, new(PrimitiveWidthFunction, PrimitiveColorFunction), 40);
             }
 
             return true;
