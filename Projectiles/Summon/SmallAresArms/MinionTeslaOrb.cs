@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Summon;
+﻿using CalamityMod.Graphics.Primitives;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
 using System;
@@ -16,10 +17,6 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         public ref float Identity => ref Projectile.ai[0];
 
         public ref float Time => ref Projectile.ai[1];
-
-        public PrimitiveTrail LightningDrawer;
-        
-        public PrimitiveTrail LightningBackgroundDrawer;
 
         public override string Texture => "CalamityMod/Projectiles/Boss/AresTeslaOrb";
 
@@ -113,17 +110,12 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (LightningDrawer is null)
-                LightningDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.RigidPointRetreivalFunction);
-            if (LightningBackgroundDrawer is null)
-                LightningBackgroundDrawer = new PrimitiveTrail(BackgroundWidthFunction, BackgroundColorFunction, PrimitiveTrail.RigidPointRetreivalFunction);
-
             Projectile orbToAttachTo = GetOrbToAttachTo();
             if (orbToAttachTo != null)
             {
                 List<Vector2> arcPoints = AresTeslaOrb.DetermineElectricArcPoints(Projectile.Center, orbToAttachTo.Center, 117);
-                LightningBackgroundDrawer.Draw(arcPoints, -Main.screenPosition, 90);
-                LightningDrawer.Draw(arcPoints, -Main.screenPosition, 90);
+                PrimitiveSet.Prepare(arcPoints, new(BackgroundWidthFunction, BackgroundColorFunction, smoothen: false), 90);
+                PrimitiveSet.Prepare(arcPoints, new(WidthFunction, ColorFunction, smoothen: false), 90);
             }
 
             lightColor.R = (byte)(255 * Projectile.Opacity);

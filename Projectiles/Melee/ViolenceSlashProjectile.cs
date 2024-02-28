@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Graphics.Primitives;
+using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -15,7 +16,6 @@ namespace CalamityMod.Projectiles.Melee
     public class ViolenceSlashProjectile : ModProjectile
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<Violence>();
-        internal PrimitiveTrail SliceAfterimageDrawer = null;
         internal Player Owner => Main.player[Projectile.owner];
         internal ref float Time => ref Projectile.ai[0];
         internal float SwingSine => (float)Math.Sin(MathHelper.TwoPi * Time / 50f);
@@ -98,9 +98,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (SliceAfterimageDrawer is null)
-                SliceAfterimageDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"]);
-
             GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/SwordSlashTexture"));
 
             Texture2D spearProjectile = ModContent.Request<Texture2D>(Texture).Value;
@@ -116,7 +113,7 @@ namespace CalamityMod.Projectiles.Melee
                 positions.Add(position);
             }
 
-            SliceAfterimageDrawer.Draw(positions, Projectile.Size * 0.5f - Main.screenPosition, 50);
+            PrimitiveSet.Prepare(positions, new(PrimitiveWidthFunction, PrimitiveColorFunction, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"]), 50);
             return true;
         }
     }

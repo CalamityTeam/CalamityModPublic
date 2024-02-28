@@ -1,4 +1,5 @@
-﻿using CalamityMod.Particles;
+﻿using CalamityMod.Graphics.Primitives;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -176,10 +177,8 @@ namespace CalamityMod.Projectiles.Ranged
             float rotation = Projectile.rotation + MathHelper.PiOver2;
             Vector2 origin = texture.Size() * 0.5f;
 
-            PrimitiveTrail trail = new PrimitiveTrail(TrailWidthFunction, ColorTrailFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/SwordSlashTexture"));
-            trail.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 50);
-
+            PrimitiveSet.Prepare(Projectile.oldPos, new(TrailWidthFunction, ColorTrailFunction, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 50);
             if (CalamityConfig.Instance.Afterimages)
             {
                 for (int i = 0; i < 3; i++)

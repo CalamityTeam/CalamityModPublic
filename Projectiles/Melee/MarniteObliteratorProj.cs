@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Tools;
+﻿using CalamityMod.Graphics.Primitives;
+using CalamityMod.Items.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -19,7 +20,6 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Items/Tools/MarniteObliterator";
         public static Asset<Texture2D> GlowmaskTex;
         public static Asset<Texture2D> BloomTex;
-        internal PrimitiveTrail TrailDrawer;
 
         public Player Owner => Main.player[Projectile.owner];
         public ref float MoveInIntervals => ref Projectile.localAI[0];
@@ -125,7 +125,6 @@ namespace CalamityMod.Projectiles.Melee
             return 29.4f * completionRatio;
         }
 
-
         public void DrawBeam(Texture2D beamTex, Vector2 direction, int beamIndex)
         {
             Vector2 startPos = Owner.MountedCenter + direction * 17f + direction.RotatedBy(MathHelper.PiOver2) * (float)Math.Cos(MathHelper.TwoPi * beamIndex / 3f + SpeenBeams * 0.06f) * 13f;
@@ -174,12 +173,8 @@ namespace CalamityMod.Projectiles.Melee
 
             Main.EntitySpriteDraw(bloomTex, Projectile.Center - Main.screenPosition, null, Color.DeepSkyBlue * 0.3f, MathHelper.PiOver2, bloomTex.Size() / 2f, 0.3f * Projectile.scale, SpriteEffects.None, 0);
 
-
-            if (TrailDrawer is null)
-                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
-
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/DoubleTrail"));
-            TrailDrawer.Draw(new Vector2[] { Projectile.Center , Owner.MountedCenter - normalizedVelocity * 13f}, - Main.screenPosition, 30);
+            PrimitiveSet.Prepare(new Vector2[] { Projectile.Center, Owner.MountedCenter - normalizedVelocity * 13f }, new(WidthFunction, ColorFunction, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 30);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);

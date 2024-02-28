@@ -6,6 +6,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Graphics.Primitives;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -16,7 +17,6 @@ namespace CalamityMod.Projectiles.Typeless
         public ref float Variant => ref Projectile.ai[1];
         public const int UpwardFlyTime = 24;
         public const int RedirectTime = 12;
-        public PrimitiveTrail FlameTrailDrawer = null;
 
         public override string Texture => "CalamityMod/Projectiles/Typeless/GemTechYellowGem";
 
@@ -139,9 +139,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (FlameTrailDrawer is null)
-                FlameTrailDrawer = new PrimitiveTrail(TrailWidth, TrailColor, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
-
             // Prepare the flame trail shader with its map texture.
             GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
 
@@ -174,7 +171,7 @@ namespace CalamityMod.Projectiles.Typeless
             Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(Color.White), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
 
             if (Projectile.ai[0] > UpwardFlyTime + RedirectTime)
-                FlameTrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 71);
+                PrimitiveSet.Prepare(Projectile.oldPos, new(TrailWidth, TrailColor, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:ImpFlameTrail"]), 71);
 
             return false;
         }

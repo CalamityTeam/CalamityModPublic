@@ -9,13 +9,14 @@ using CalamityMod.Particles;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Graphics.Primitives;
+using Microsoft.CodeAnalysis;
 
 namespace CalamityMod.Projectiles.Ranged
 {
     public class ExoCrystalArrow : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
-        public PrimitiveTrail PierceAfterimageDrawer = null;
 
         public bool CreateLightning => Projectile.ai[0] == 1f;
 
@@ -77,8 +78,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(ref Color lightColor)
         {
-            PierceAfterimageDrawer ??= new(PrimitiveWidthFunction, PrimitiveColorFunction, null, GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"]);
-
             float localIdentityOffset = Projectile.identity * 0.1372f;
             Color mainColor = CalamityUtils.MulticolorLerp((Main.GlobalTimeWrappedHourly * 2f + localIdentityOffset) % 1f, Color.Cyan, Color.Lime, Color.GreenYellow, Color.Goldenrod, Color.Orange);
             Color secondaryColor = CalamityUtils.MulticolorLerp((Main.GlobalTimeWrappedHourly * 2f + localIdentityOffset + 0.2f) % 1f, Color.Cyan, Color.Lime, Color.GreenYellow, Color.Goldenrod, Color.Orange);
@@ -86,14 +85,13 @@ namespace CalamityMod.Projectiles.Ranged
             mainColor = Color.Lerp(Color.White, mainColor, 0.85f);
             secondaryColor = Color.Lerp(Color.White, secondaryColor, 0.85f);
 
-            Vector2 trailOffset = Projectile.Size * 0.5f - Main.screenPosition;
+            Vector2 trailOffset = Projectile.Size * 0.5f;
             GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/EternityStreak"));
             GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].UseImage2("Images/Extra_189");
             GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].UseColor(mainColor);
             GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].UseSecondaryColor(secondaryColor);
             GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"].Apply();
-            PierceAfterimageDrawer.Draw(Projectile.oldPos, trailOffset, 53);
-
+            PrimitiveSet.Prepare(Projectile.oldPos, new(PrimitiveWidthFunction, PrimitiveColorFunction, (_) => trailOffset, shader: GameShaders.Misc["CalamityMod:HeavenlyGaleTrail"]), 53);
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             Vector2 origin = tex.Size() * 0.5f;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;

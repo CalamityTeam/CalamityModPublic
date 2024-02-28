@@ -20,16 +20,16 @@ namespace CalamityMod.Graphics.Primitives
         public readonly Color Color;
 
         /// <summary>
-        /// The texure-coordinate of the vertex.
+        /// The texture-coordinate of the vertex.
         /// </summary>
         public readonly Vector2 TextureCoordinates;
 
         /// <summary>
-        /// The vertex declaration. This declares the order and size of the
+        /// The vertex declaration. This declares the layout and size of the data in the vertex shader.
         /// </summary>
-        public VertexDeclaration VertexDeclaration => _vertexDeclaration;
+        public VertexDeclaration VertexDeclaration => VertexDeclaration2D;
 
-        private static readonly VertexDeclaration _vertexDeclaration = new(new VertexElement[]
+        public static readonly VertexDeclaration VertexDeclaration2D = new(new VertexElement[]
         {
             new(0, VertexElementFormat.Vector2, VertexElementUsage.Position, 0),
             new(8, VertexElementFormat.Color, VertexElementUsage.Color, 0),

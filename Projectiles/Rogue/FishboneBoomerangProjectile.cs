@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
     public class FishboneBoomerangProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
-        internal PrimitiveTrail TrailRenderer;
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/FishboneBoomerang";
 
         public static int ChargeupTime = 20;

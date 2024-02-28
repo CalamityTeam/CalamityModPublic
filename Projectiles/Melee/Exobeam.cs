@@ -11,6 +11,7 @@ using static Terraria.ModLoader.ModContent;
 using System;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using CalamityMod.Graphics.Primitives;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -21,8 +22,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public static float MaxWidth = 30;
         public ref float Time => ref Projectile.ai[0];
-        public PrimitiveTrail TrailDrawer = null;
-        public PrimitiveTrail MiniTrailDrawer = null;
 
         public static Asset<Texture2D> BloomTex;
         public static Asset<Texture2D> SlashTex;
@@ -148,10 +147,6 @@ namespace CalamityMod.Projectiles.Melee
             //Draw the blade.
             Main.EntitySpriteDraw(texture, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, Color.White with { A = 0 }, Projectile.rotation + MathHelper.PiOver4, texture.Size() / 2f, bladeScale * Projectile.scale, 0, 0);
 
-
-
-
-
             if (BloomTex == null)
                 BloomTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
             Texture2D bloomTex = BloomTex.Value;
@@ -162,10 +157,6 @@ namespace CalamityMod.Projectiles.Melee
             //Draw the bloom unde the trail
             Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, (mainColor * 0.1f) with { A = 0 }, 0, bloomTex.Size() / 2f, 1.3f * Projectile.scale, 0, 0);
             Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[1] + Projectile.Size / 2f - Main.screenPosition, null, (mainColor * 0.5f) with { A = 0 }, 0, bloomTex.Size() / 2f, 0.34f * Projectile.scale, 0, 0);
-
-
-            TrailDrawer ??= new(TrailWidth, TrailColor, null, GameShaders.Misc["CalamityMod:ExobladePierce"]);
-            MiniTrailDrawer ??= new(MiniTrailWidth, MiniTrailColor, null, GameShaders.Misc["CalamityMod:ExobladePierce"]);
 
             Main.spriteBatch.EnterShaderRegion();
 
@@ -180,21 +171,18 @@ namespace CalamityMod.Projectiles.Melee
 
             GameShaders.Misc["CalamityMod:ExobladePierce"].Apply();
             
-            TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30, Projectile.oldRot);
+            PrimitiveSet.Prepare(Projectile.oldPos, new(TrailWidth, TrailColor, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:ExobladePierce"]), 30);
 
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseColor(Color.White);
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseSecondaryColor(Color.White);
 
-            MiniTrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30, Projectile.oldRot);
+            PrimitiveSet.Prepare(Projectile.oldPos, new(MiniTrailWidth, MiniTrailColor, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:ExobladePierce"]), 30);
 
             Main.spriteBatch.ExitShaderRegion();
 
             //Draw the bloom above the trail
             Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[2] + Projectile.Size / 2f - Main.screenPosition, null, (Color.White * 0.2f) with { A = 0 }, 0, bloomTex.Size() / 2f, 0.78f * Projectile.scale, 0, 0);
-            Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[1] + Projectile.Size / 2f - Main.screenPosition, null, (Color.White * 0.5f) with { A = 0 }, 0, bloomTex.Size() / 2f, 0.2f * Projectile.scale, 0, 0);
-            
-            
-            
+            Main.EntitySpriteDraw(bloomTex, Projectile.oldPos[1] + Projectile.Size / 2f - Main.screenPosition, null, (Color.White * 0.5f) with { A = 0 }, 0, bloomTex.Size() / 2f, 0.2f * Projectile.scale, 0, 0);         
             return false;
         }
     }

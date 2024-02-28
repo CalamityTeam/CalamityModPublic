@@ -117,9 +117,11 @@ namespace CalamityMod.Graphics.Primitives
 
         private static void DrawPrimsToRenderTarget(RenderTarget2D renderTarget, List<IPixelatedPrimitiveRenderer> pixelPrimitives)
         {
+            // Swap to the target regardless, in order to clear any leftover content from last frame. Not doing this results in the final frame lingering once it stops rendering.
+            renderTarget.SwapTo();
+
             if (pixelPrimitives.Any())
             {
-                renderTarget.SwapTo();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null);
 
                 foreach (var pixelPrimitiveDrawer in pixelPrimitives)

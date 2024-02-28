@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.Graphics.Primitives;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -13,7 +14,6 @@ namespace CalamityMod.Projectiles.Boss
     public class InfernadoRevenge : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
-        internal PrimitiveTrail TornadoDrawer;
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public const int TornadoHeight = 8800;
         public override void SetStaticDefaults()
@@ -72,9 +72,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (TornadoDrawer is null)
-                TornadoDrawer = new PrimitiveTrail(_ => Projectile.width * 0.5f + 16f, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:Bordernado"]);
-
             GameShaders.Misc["CalamityMod:Bordernado"].UseSaturation(-0.2f);
             GameShaders.Misc["CalamityMod:Bordernado"].SetShaderTexture(ModContent.Request<Texture2D>("Terraria/Images/Misc/Perlin"));
             Vector2[] drawPoints = new Vector2[5];
@@ -87,7 +84,7 @@ namespace CalamityMod.Projectiles.Boss
                 drawPoints[i] = Vector2.Lerp(top, bottom, i / (float)(drawPoints.Length - 1));
 
             drawPoints[drawPoints.Length - 1] = bottom;
-            TornadoDrawer.Draw(drawPoints, -Main.screenPosition, 85);
+            PrimitiveSet.Prepare(drawPoints, new((_) => Projectile.width * 0.5f + 16f, ColorFunction, shader: GameShaders.Misc["CalamityMod:Bordernado"]), 85);
 
             Texture2D vortexTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/OldDukeVortex").Value;
             for (int i = 0; i < 110; i++)

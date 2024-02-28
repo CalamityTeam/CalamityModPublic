@@ -38,7 +38,7 @@ namespace CalamityMod.Graphics.Primitives
 		/// </summary>
 		public readonly PrimitiveSettings Settings;
 
-		public PrimitiveSet(VertexPosition2DColorTexture[] vertices, int[] indices, PrimitiveSettings settings)
+		private PrimitiveSet(VertexPosition2DColorTexture[] vertices, int[] indices, PrimitiveSettings settings)
 		{
 			Vertices = vertices;
 			Indices = indices;
@@ -59,9 +59,9 @@ namespace CalamityMod.Graphics.Primitives
         /// <summary>
         /// Prepares a <see cref="PrimitiveSet"/> based on the provided information, and optionally renders it.
         /// </summary>
-        /// <param name="positions">The list of positions to use.</param>
+        /// <param name="positions">The list of positions to use. Keep in mind that these are expected to be in <b>world position</b>, and <see cref="Main.screenPosition"/> is automatically subtracted from them all.</param>
         /// <param name="settings">The primitive draw settings to use.</param>
-        /// <param name="pointsToCreate">The amount of points to use. More is higher detailed, but less performant. By default, is the number of positions provided.</param>
+        /// <param name="pointsToCreate">The amount of points to use. More is higher detailed, but less performant. By default, is the number of positions provided. <b>Going above 100 is NOT recommended.</b></param>
         /// <param name="render">Whether to render the set.</param>
         /// <returns>The prepared set.</returns>
         public static PrimitiveSet? Prepare(IEnumerable<Vector2> positions, PrimitiveSettings settings, int? pointsToCreate = null, bool render = true)
@@ -151,13 +151,13 @@ namespace CalamityMod.Graphics.Primitives
                     return endPoints;
 
                 // Remap the original positions across a certain length.
-                for (int i = 0; i < basePoints.Count; i++)
+                for (int i = 0; i < pointsToCreate; i++)
                 {
-                    Vector2 offset = -Main.screenPosition;
-                    if (settings.OffsetFunction != null)
-                        offset += settings.OffsetFunction(i / (float)(basePoints.Count - 1f));
-
-                    endPoints.Add(basePoints[i] + offset);
+                    float completionRatio = i / (float)(pointsToCreate - 1f);
+                    int currentIndex = (int)(completionRatio * (basePoints.Count - 1));
+                    Vector2 currentPoint = basePoints[currentIndex];
+                    Vector2 nextPoint = basePoints[(currentIndex + 1) % basePoints.Count];
+                    endPoints.Add(Vector2.Lerp(currentPoint, nextPoint, completionRatio * (basePoints.Count - 1) % 0.99999f) - Main.screenPosition);
                 }
                 return endPoints;
             }
@@ -225,15 +225,13 @@ namespace CalamityMod.Graphics.Primitives
 		{
 			List<VertexPosition2DColorTexture> vertices = new();
 
-			for (int i = 0; i < positions.Count - 1; i++)
-			{
-                float completionRatio = i / (float)positions.Count;
+            for (int i = 0; i < positions.Count; i++)
+            {
+                float completionRatio = i / (float)(positions.Count - 1);
                 float widthAtVertex = settings.WidthFunction(completionRatio);
                 Color vertexColor = settings.ColorFunction(completionRatio);
-
                 Vector2 currentPosition = positions[i];
-                Vector2 positionAhead = positions[i + 1];
-                Vector2 directionToAhead = (positionAhead - positions[i]).SafeNormalize(Vector2.Zero);
+                Vector2 directionToAhead = i == positions.Count - 1 ? (positions[i] - positions[i - 1]).SafeNormalize(Vector2.Zero) : (positions[i + 1] - positions[i]).SafeNormalize(Vector2.Zero);
 
                 Vector2 leftCurrentTextureCoord = new(completionRatio, 0f);
                 Vector2 rightCurrentTextureCoord = new(completionRatio, 1f);
@@ -242,11 +240,21 @@ namespace CalamityMod.Graphics.Primitives
                 // This doesn't use RotatedBy for the sake of performance (there can potentially be a lot of trail points).
                 Vector2 sideDirection = new(-directionToAhead.Y, directionToAhead.X);
 
+                Vector2 left = currentPosition - sideDirection * widthAtVertex;
+                Vector2 right = currentPosition + sideDirection * widthAtVertex;
+
+                // Override the initial vertex positions if requested.
+                if (i == 0 && settings.InitialVertexPositionsOverride.HasValue && settings.InitialVertexPositionsOverride.Value.Item1 != Vector2.Zero && settings.InitialVertexPositionsOverride.Value.Item2 != Vector2.Zero)
+                {
+                    left = settings.InitialVertexPositionsOverride.Value.Item1;
+                    right = settings.InitialVertexPositionsOverride.Value.Item2;
+                }
+
                 // What this is doing, at its core, is defining a rectangle based on two triangles.
                 // These triangles are defined based on the width of the strip at that point.
                 // The resulting rectangles combined are what make the trail itself.
-                vertices.Add(new VertexPosition2DColorTexture(currentPosition - sideDirection * widthAtVertex, vertexColor, leftCurrentTextureCoord));
-                vertices.Add(new VertexPosition2DColorTexture(currentPosition + sideDirection * widthAtVertex, vertexColor, rightCurrentTextureCoord));
+                vertices.Add(new VertexPosition2DColorTexture(left, vertexColor, leftCurrentTextureCoord));
+                vertices.Add(new VertexPosition2DColorTexture(right, vertexColor, rightCurrentTextureCoord));
             }
 
 			return vertices;
@@ -279,6 +287,7 @@ namespace CalamityMod.Graphics.Primitives
 
         private static void CalcuatePixelatedPerspectiveMatrices(out Matrix viewMatrix, out Matrix projectionMatrix)
         {
+            // Due to the scaling, the normal transformation calcuations do not work with pixelated primitives.
             projectionMatrix = Matrix.CreateOrthographicOffCenter(0, Main.screenWidth, Main.screenHeight, 0, -1, 1);
             viewMatrix = Matrix.Identity;
         }

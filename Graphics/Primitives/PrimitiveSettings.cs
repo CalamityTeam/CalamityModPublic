@@ -61,6 +61,11 @@ namespace CalamityMod.Graphics.Primitives
         /// The shader to apply when rendering.
         /// </summary>
         public readonly MiscShaderData Shader;
+
+        /// <summary>
+        /// An optional override to force the trail to use the provided positions as the side positions of the initial vertex. They are the left and right positions respectively.
+        /// </summary>
+        public readonly (Vector2, Vector2)? InitialVertexPositionsOverride;
         #endregion
 
         /// <summary>
@@ -69,10 +74,11 @@ namespace CalamityMod.Graphics.Primitives
         /// <param name="widthFunction">Used to determine the width of each vertex.</param>
         /// <param name="colorFunction">Used to determine the color of each vertex.</param>
         /// <param name="offsetFunction">Used to offset each position when generating them.</param>
-        /// <param name="smoothen">Whether to use smoothening when generating the vertex positions from the provided ones Recommended to be on by default.</param>
-        /// <param name="pixelate">Whether to pixelate the primitives. Recommended to be on.</param>
-        /// <param name="shader">The shader to apply when rendering.</param>
-        public PrimitiveSettings(VertexWidthFunction widthFunction, VertexColorFunction colorFunction, VertexOffsetFunction offsetFunction = null, bool smoothen = true, bool pixelate = false, MiscShaderData shader = null)
+        /// <param name="smoothen">Whether to use smoothening when generating the vertex positions from the provided ones. Recommended to be enabled.</param>
+        /// <param name="pixelate">Whether to pixelate the primitives. Recommended to be enabled if the effect was designed with this in mind.</param>
+        /// <param name="shader">The shader to apply when rendering the primitives.</param>
+        /// <param name="initialVertexPositionsOverride">An optional override to force the trail to use the provided positions as the side positions of the initial vertex. They are the left and right positions respectively and should be in screen space.</param>
+        public PrimitiveSettings(VertexWidthFunction widthFunction, VertexColorFunction colorFunction, VertexOffsetFunction offsetFunction = null, bool smoothen = true, bool pixelate = false, MiscShaderData shader = null, (Vector2, Vector2)? initialVertexPositionsOverride = null)
         {
             WidthFunction = widthFunction;
             ColorFunction = colorFunction;
@@ -80,6 +86,7 @@ namespace CalamityMod.Graphics.Primitives
             Smoothen = smoothen;
             Pixelate = pixelate;
             Shader = shader;
+            InitialVertexPositionsOverride = initialVertexPositionsOverride;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Graphics.Primitives;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -13,7 +14,6 @@ namespace CalamityMod.Projectiles.Melee
     public class PrismTooth : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        internal PrimitiveTrail TrailDrawer;
         public const int Lifetime = 80;
         public Player Owner => Main.player[Projectile.owner];
         public ref float ShootReach => ref Projectile.ai[0];
@@ -115,9 +115,6 @@ namespace CalamityMod.Projectiles.Melee
             if (Time <= 5f)
                 return true;
 
-            if (TrailDrawer is null)
-                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:PrismaticStreak"]);
-
             // Variable adjustment vector used to prevent the trail for starting somewhat that isn't behind
             // the crystal. This may appear in small amounts, with offsets of a few pixels, but at the speed
             // these crystals go, it's probably not something to worry too much about.
@@ -135,7 +132,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.spriteBatch.EnterShaderRegion();
             GameShaders.Misc["CalamityMod:PrismaticStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
 
-            TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f + generalOffset - Main.screenPosition, 65);
+            PrimitiveSet.Prepare(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f + generalOffset, shader: GameShaders.Misc["CalamityMod:PrismaticStreak"]), 65);
             Main.spriteBatch.ExitShaderRegion();
             return true;
         }
