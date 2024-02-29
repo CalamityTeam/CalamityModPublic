@@ -24,26 +24,26 @@ namespace CalamityMod.Graphics.Primitives
     {
         #region Instance Members
         /// <summary>
-		/// The vertices of the set.
-		/// </summary>
-		public readonly VertexPosition2DColorTexture[] Vertices;
+        /// The vertices of the set.
+        /// </summary>
+        public readonly VertexPosition2DColorTexture[] Vertices;
 
-		/// <summary>
-		/// The indices of the set.
-		/// </summary>
-		public readonly int[] Indices;
+        /// <summary>
+        /// The indices of the set.
+        /// </summary>
+        public readonly int[] Indices;
 
-		/// <summary>
-		/// The settings of the set.
-		/// </summary>
-		public readonly PrimitiveSettings Settings;
+        /// <summary>
+        /// The settings of the set.
+        /// </summary>
+        public readonly PrimitiveSettings Settings;
 
-		private PrimitiveSet(VertexPosition2DColorTexture[] vertices, int[] indices, PrimitiveSettings settings)
-		{
-			Vertices = vertices;
-			Indices = indices;
-			Settings = settings;
-		}
+        private PrimitiveSet(VertexPosition2DColorTexture[] vertices, int[] indices, PrimitiveSettings settings)
+        {
+            Vertices = vertices;
+            Indices = indices;
+            Settings = settings;
+        }
         #endregion
 
         #region Static Members
@@ -65,14 +65,14 @@ namespace CalamityMod.Graphics.Primitives
         /// <param name="render">Whether to render the set.</param>
         /// <returns>The prepared set.</returns>
         public static PrimitiveSet? Prepare(IEnumerable<Vector2> positions, PrimitiveSettings settings, int? pointsToCreate = null, bool render = true)
-		{
+        {
             PerformPixelationSafetyChecks(settings);
 
             int positionCount = positions.Count();
 
-			// Return if not enough to draw anything.
-			if (positionCount <= 2)
-				return null;
+            // Return if not enough to draw anything.
+            if (positionCount <= 2)
+                return null;
 
             // Cull out any zeroed points.
             positions = positions.Where(p => p != Vector2.Zero);
@@ -93,14 +93,14 @@ namespace CalamityMod.Graphics.Primitives
             IEnumerable<VertexPosition2DColorTexture> vertices = CreateVerticesRectangleTrail(trailPoints.ToList(), settings);
             int[] indices = CreateIndicesRectangleTrail(trailPoints.Count);
 
-			// Create the set, and just return it if not asked to render.
-			PrimitiveSet set = new(vertices.ToArray(), indices, settings);
-			if (!render)
-				return set;
+            // Create the set, and just return it if not asked to render.
+            PrimitiveSet set = new(vertices.ToArray(), indices, settings);
+            if (!render)
+                return set;
 
-			// Else render the set and return it.
-			return set.Render();
-		}
+            // Else render the set and return it.
+            return set.Render();
+        }
         #endregion
 
         #region Instance Methods
@@ -109,7 +109,7 @@ namespace CalamityMod.Graphics.Primitives
         /// </summary>
         /// <returns>The provided set.</returns>
         public PrimitiveSet Render()
-		{
+        {
             PerformPixelationSafetyChecks(Settings);
 
             if (Indices.Length % 6 != 0 || Vertices.Length <= 3)
@@ -135,12 +135,12 @@ namespace CalamityMod.Graphics.Primitives
             Main.instance.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, Vertices, 0, Vertices.Length, Indices, 0, Indices.Length / 3);
             Main.pixelShader.CurrentTechnique.Passes[0].Apply();
             return this;
-		}
+        }
         #endregion
 
         #region Set Preperation
         private static IEnumerable<Vector2> PreparePointsRectangleTrail(IEnumerable<Vector2> positions, PrimitiveSettings settings, int pointsToCreate)
-		{
+        {
             // Don't smoothen the points unless explicitly told do so.
             if (!settings.Smoothen)
             {
@@ -221,9 +221,9 @@ namespace CalamityMod.Graphics.Primitives
             return points;
         }
 
-		private static IEnumerable<VertexPosition2DColorTexture> CreateVerticesRectangleTrail(List<Vector2> positions, PrimitiveSettings settings)
-		{
-			List<VertexPosition2DColorTexture> vertices = new();
+        private static IEnumerable<VertexPosition2DColorTexture> CreateVerticesRectangleTrail(List<Vector2> positions, PrimitiveSettings settings)
+        {
+            List<VertexPosition2DColorTexture> vertices = new();
 
             for (int i = 0; i < positions.Count; i++)
             {
@@ -257,33 +257,33 @@ namespace CalamityMod.Graphics.Primitives
                 vertices.Add(new VertexPosition2DColorTexture(right, vertexColor, rightCurrentTextureCoord));
             }
 
-			return vertices;
-		}
+            return vertices;
+        }
 
-		private static int[] CreateIndicesRectangleTrail(int pointCount)
-		{
-			// What this is doing is basically representing each point on the vertices list as
-			// indices. These indices should come together to create a tiny rectangle that acts
-			// as a segment on the trail. This is achieved here by splitting the indices (or rather, points)
-			// into 2 triangles, which requires 6 points.
-			// The logic here basically determines which indices are connected together.
-			int totalIndices = (pointCount - 1) * 6;
-			int[] indices = new int[totalIndices];
+        private static int[] CreateIndicesRectangleTrail(int pointCount)
+        {
+            // What this is doing is basically representing each point on the vertices list as
+            // indices. These indices should come together to create a tiny rectangle that acts
+            // as a segment on the trail. This is achieved here by splitting the indices (or rather, points)
+            // into 2 triangles, which requires 6 points.
+            // The logic here basically determines which indices are connected together.
+            int totalIndices = (pointCount - 1) * 6;
+            int[] indices = new int[totalIndices];
 
-			for (int i = 0; i < pointCount - 2; i++)
-			{
-				int startingTriangleIndex = i * 6;
-				int connectToIndex = i * 2;
-				indices[startingTriangleIndex] = connectToIndex;
-				indices[startingTriangleIndex + 1] = connectToIndex + 1;
-				indices[startingTriangleIndex + 2] = connectToIndex + 2;
-				indices[startingTriangleIndex + 3] = connectToIndex + 2;
-				indices[startingTriangleIndex + 4] = connectToIndex + 1;
-				indices[startingTriangleIndex + 5] = connectToIndex + 3;
-			}
+            for (int i = 0; i < pointCount - 2; i++)
+            {
+                int startingTriangleIndex = i * 6;
+                int connectToIndex = i * 2;
+                indices[startingTriangleIndex] = connectToIndex;
+                indices[startingTriangleIndex + 1] = connectToIndex + 1;
+                indices[startingTriangleIndex + 2] = connectToIndex + 2;
+                indices[startingTriangleIndex + 3] = connectToIndex + 2;
+                indices[startingTriangleIndex + 4] = connectToIndex + 1;
+                indices[startingTriangleIndex + 5] = connectToIndex + 3;
+            }
 
-			return indices;
-		}
+            return indices;
+        }
 
         private static void CalcuatePixelatedPerspectiveMatrices(out Matrix viewMatrix, out Matrix projectionMatrix)
         {
