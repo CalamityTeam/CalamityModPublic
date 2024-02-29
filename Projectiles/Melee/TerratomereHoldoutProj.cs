@@ -237,7 +237,7 @@ namespace CalamityMod.Projectiles.Melee
             PrepareSlashShader(Direction == 1);
 
             if (SwingCompletionAtStartOfTrail > SwingCompletionRatio)
-                PrimitiveSet.Prepare(GenerateSlashPoints(), new(SlashWidthFunction, SlashColorFunction, (_) => Projectile.Center, shader: GameShaders.Misc["CalamityMod:ExobladeSlash"]), 95);
+                PrimitiveRenderer.RenderTrail(GenerateSlashPoints().ToArray(), new(SlashWidthFunction, SlashColorFunction, (_) => Projectile.Center, shader: GameShaders.Misc["CalamityMod:ExobladeSlash"]), 95);
 
             Main.spriteBatch.ExitShaderRegion();
         }

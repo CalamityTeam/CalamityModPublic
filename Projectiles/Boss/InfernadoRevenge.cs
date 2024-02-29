@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Boss
                 drawPoints[i] = Vector2.Lerp(top, bottom, i / (float)(drawPoints.Length - 1));
 
             drawPoints[drawPoints.Length - 1] = bottom;
-            PrimitiveSet.Prepare(drawPoints, new((_) => Projectile.width * 0.5f + 16f, ColorFunction, shader: GameShaders.Misc["CalamityMod:Bordernado"]), 85);
+            PrimitiveRenderer.RenderTrail(drawPoints, new((_) => Projectile.width * 0.5f + 16f, ColorFunction, shader: GameShaders.Misc["CalamityMod:Bordernado"]), 85);
 
             Texture2D vortexTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/OldDukeVortex").Value;
             for (int i = 0; i < 110; i++)

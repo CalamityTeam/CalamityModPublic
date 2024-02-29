@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(ref Color lightColor)
         {
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
-            PrimitiveSet.Prepare(Projectile.oldPos, new PrimitiveSettings(WidthFunction, ColorFunction, OffsetFunction, pixelate: false, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 32);
+            PrimitiveRenderer.RenderTrail(Projectile.oldPos, new PrimitiveSettings(WidthFunction, ColorFunction, OffsetFunction, pixelate: false, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 32);
             return false;
         }
 

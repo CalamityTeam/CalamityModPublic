@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Draw the streak trail.
             GameShaders.Misc["CalamityMod:SideStreakTrail"].UseImage1("Images/Misc/Perlin");
-            PrimitiveSet.Prepare(Projectile.oldPos, new(PrimitiveWidthFunction, PrimitiveTrailColor, PrimitiveOffsetFunction, shader: GameShaders.Misc["CalamityMod:SideStreakTrail"]), 51);
+            PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(PrimitiveWidthFunction, PrimitiveTrailColor, PrimitiveOffsetFunction, shader: GameShaders.Misc["CalamityMod:SideStreakTrail"]), 51);
             Main.spriteBatch.EnterShaderRegion(BlendState.Additive);
             
             GameShaders.Misc["CalamityMod:ExoVortex"].Apply();

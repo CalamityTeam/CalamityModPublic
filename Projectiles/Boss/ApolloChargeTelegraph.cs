@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Boss
                 // It is not used anywhere else.
                 Projectile.ai[0] = i;
 
-                PrimitiveSet.Prepare(positions, new(TelegraphPrimitiveWidth, TelegraphPrimitiveColor, (_) => Projectile.Size * 0.5f, smoothen: false, shader: GameShaders.Misc["CalamityMod:Flame"]), 55);
+                PrimitiveRenderer.RenderTrail(positions, new(TelegraphPrimitiveWidth, TelegraphPrimitiveColor, (_) => Projectile.Size * 0.5f, smoothen: false, shader: GameShaders.Misc["CalamityMod:Flame"]), 55);
             }
             return false;
         }

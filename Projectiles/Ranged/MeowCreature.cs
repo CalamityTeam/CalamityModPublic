@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
         // The creature glows
         public override void PostDraw(Color lightColor)
         {
-            PrimitiveSet.Prepare(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f), 30);
+            PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f), 30);
             Texture2D glow = ModContent.Request<Texture2D>(Texture).Value;
             Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, glow.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
         }

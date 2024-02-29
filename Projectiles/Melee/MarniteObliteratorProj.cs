@@ -174,7 +174,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.EntitySpriteDraw(bloomTex, Projectile.Center - Main.screenPosition, null, Color.DeepSkyBlue * 0.3f, MathHelper.PiOver2, bloomTex.Size() / 2f, 0.3f * Projectile.scale, SpriteEffects.None, 0);
 
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/DoubleTrail"));
-            PrimitiveSet.Prepare(new Vector2[] { Projectile.Center, Owner.MountedCenter - normalizedVelocity * 13f }, new(WidthFunction, ColorFunction, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 30);
+            PrimitiveRenderer.RenderTrail(new Vector2[] { Projectile.Center, Owner.MountedCenter - normalizedVelocity * 13f }, new(WidthFunction, ColorFunction, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 30);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);

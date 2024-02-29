@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Boss
                 basePoints[i] = Projectile.Center - Vector2.UnitY * i / basePoints.Length * LaserLength;
 
             Vector2 overallOffset = Projectile.Size * 0.5f;
-            PrimitiveSet.Prepare(basePoints, new(PrimitiveWidthFunction, PrimitiveColorFunction, (_) => overallOffset, shader: GameShaders.Misc["CalamityMod:Flame"]), 92);
+            PrimitiveRenderer.RenderTrail(basePoints, new(PrimitiveWidthFunction, PrimitiveColorFunction, (_) => overallOffset, shader: GameShaders.Misc["CalamityMod:Flame"]), 92);
             return false;
         }
 

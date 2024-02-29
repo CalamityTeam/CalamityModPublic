@@ -262,7 +262,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (Owner.direction == -1)
                     Utils.Swap(ref leftVertexPosition, ref rightVertexPosition);
 
-                PrimitiveSet.Prepare(drawPoints, new(PrimitiveWidthFunction, PrimitiveColorFunction, (_) => BladeCenterPosition - Projectile.position,
+                PrimitiveRenderer.RenderTrail(drawPoints, new(PrimitiveWidthFunction, PrimitiveColorFunction, (_) => BladeCenterPosition - Projectile.position,
                     shader: GameShaders.Misc["CalamityMod:FadingSolidTrail"], initialVertexPositionsOverride: (leftVertexPosition, rightVertexPosition)), 67);
             }
 

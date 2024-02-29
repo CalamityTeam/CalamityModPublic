@@ -180,7 +180,7 @@ namespace CalamityMod.Projectiles.Ranged
         internal Color ColorFunction(float completionRatio) => GetColor(Projectile.ai[0]) * Projectile.Opacity;
         public override bool PreDraw(ref Color lightColor)
         {
-            PrimitiveSet.Prepare(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f), 20);
+            PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f), 20);
             return true;
         }
     }

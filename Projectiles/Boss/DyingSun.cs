@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Boss
                     rotationPoints.Add(adjustedAngle);
                     drawPoints.Add(Vector2.Lerp(Projectile.Center - offsetDirection * Radius / 2f, Projectile.Center + offsetDirection * Radius / 2f, i / 16f));
                 }
-                PrimitiveSet.Prepare(drawPoints, new(SunWidthFunction, SunColorFunction, shader: GameShaders.Misc["CalamityMod:Flame"]), 24);
+                PrimitiveRenderer.RenderTrail(drawPoints, new(SunWidthFunction, SunColorFunction, shader: GameShaders.Misc["CalamityMod:Flame"]), 24);
             }
             return false;
         }

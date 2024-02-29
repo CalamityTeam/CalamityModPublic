@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Rogue
             else
             {
                 GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
-                PrimitiveSet.Prepare(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f + Projectile.velocity.SafeNormalize(Vector2.Zero) * 86f, false,
+                PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f + Projectile.velocity.SafeNormalize(Vector2.Zero) * 86f, false,
                     shader: GameShaders.Misc["CalamityMod:OverpoweredTouhouSpearShader"]), 60);
 
                 Texture2D spearTexture = ModContent.Request<Texture2D>(Texture).Value;

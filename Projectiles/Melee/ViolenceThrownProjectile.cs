@@ -215,7 +215,7 @@ namespace CalamityMod.Projectiles.Melee
                 drawPoints[i] -= (Projectile.oldRot[i] + MathHelper.PiOver4).ToRotationVector2() * Projectile.height * 0.5f;
 
             if (Time > Projectile.oldPos.Length)
-                PrimitiveSet.Prepare(drawPoints, new(PrimitiveWidthFunction, PrimitiveColorFunction, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 88);
+                PrimitiveRenderer.RenderTrail(drawPoints, new(PrimitiveWidthFunction, PrimitiveColorFunction, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 88);
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             for (int i = 0; i < 6; i++)

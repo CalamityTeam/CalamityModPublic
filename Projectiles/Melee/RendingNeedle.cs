@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D texture = Request<Texture2D>("CalamityMod/Projectiles/Melee/RendingNeedle").Value;
 
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
-            PrimitiveSet.Prepare(Projectile.oldPos, new(WidthFunction, ColorFunction, OffsetFunction, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 30);
+            PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(WidthFunction, ColorFunction, OffsetFunction, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 30);
 
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.Lerp(lightColor, Color.White, 0.5f), Projectile.rotation, texture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
 

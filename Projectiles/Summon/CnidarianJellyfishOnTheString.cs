@@ -239,7 +239,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Vector2[] segmentPositions = Segments.Select(x => x.position).ToArray();
 
-            PrimitiveSet.Prepare(segmentPositions, new(PrimWidthFunction, PrimColorFunction), 66);
+            PrimitiveRenderer.RenderTrail(segmentPositions, new(PrimWidthFunction, PrimColorFunction), 66);
 
             Texture2D tex = Request<Texture2D>(Texture).Value;
 

@@ -229,8 +229,8 @@ namespace CalamityMod.Projectiles.Boss
             if (orbToAttachTo != null)
             {
                 List<Vector2> arcPoints = DetermineElectricArcPoints(Projectile.Center, orbToAttachTo.Center, 117);
-                PrimitiveSet.Prepare(arcPoints, new(BackgroundWidthFunction, BackgroundColorFunction, smoothen: false), 90);
-                PrimitiveSet.Prepare(arcPoints, new(WidthFunction, ColorFunction, smoothen: false), 90);
+                PrimitiveRenderer.RenderTrail(arcPoints, new(BackgroundWidthFunction, BackgroundColorFunction, smoothen: false), 90);
+                PrimitiveRenderer.RenderTrail(arcPoints, new(WidthFunction, ColorFunction, smoothen: false), 90);
             }
 
             lightColor.R = (byte)(255 * Projectile.Opacity);

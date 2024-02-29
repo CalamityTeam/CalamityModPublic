@@ -222,7 +222,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 // Main trail
                 GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
-                PrimitiveSet.Prepare(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f + extraOffset + Main.screenPosition - direction * 80f,
+                PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f + extraOffset + Main.screenPosition - direction * 80f,
                     shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 10);
 
                 ArrowEffect.Parameters["halfSpreadAngle"].SetValue(MathHelper.ToRadians(7.5f));

@@ -171,12 +171,12 @@ namespace CalamityMod.Projectiles.Melee
 
             GameShaders.Misc["CalamityMod:ExobladePierce"].Apply();
             
-            PrimitiveSet.Prepare(Projectile.oldPos, new(TrailWidth, TrailColor, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:ExobladePierce"]), 30);
+            PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(TrailWidth, TrailColor, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:ExobladePierce"]), 30);
 
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseColor(Color.White);
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseSecondaryColor(Color.White);
 
-            PrimitiveSet.Prepare(Projectile.oldPos, new(MiniTrailWidth, MiniTrailColor, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:ExobladePierce"]), 30);
+            PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(MiniTrailWidth, MiniTrailColor, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:ExobladePierce"]), 30);
 
             Main.spriteBatch.ExitShaderRegion();
 
