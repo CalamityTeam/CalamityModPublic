@@ -107,11 +107,12 @@ namespace CalamityMod.Projectiles.Summon
         {
             Projectile.localAI[0] = 0f;
             GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
-            var primSet = PrimitiveSet.Prepare(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:ImpFlameTrail"]), 42);
 
+            var settings = new PrimitiveSettings(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
+            PrimitiveRenderer.RenderTrail(Projectile.oldPos, settings, 42);
             Projectile.localAI[0] = 1f;
-            if (primSet.HasValue)
-                primSet.Value.Render();
+            PrimitiveRenderer.RenderTrail(Projectile.oldPos, settings, 42);
+
             return false;
         }
     }

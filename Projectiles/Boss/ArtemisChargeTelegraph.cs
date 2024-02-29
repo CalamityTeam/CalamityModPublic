@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.Center,
                 Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * TelegraphWidth
             };
-            PrimitiveSet.Prepare(drawPositions, new(TelegraphPrimitiveWidth, TelegraphPrimitiveColor, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:Flame"]), 87);
+            PrimitiveRenderer.RenderTrail(drawPositions, new(TelegraphPrimitiveWidth, TelegraphPrimitiveColor, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:Flame"]), 87);
             return false;
         }
     }

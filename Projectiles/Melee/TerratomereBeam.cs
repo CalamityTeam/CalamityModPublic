@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee
                 points.Add(ControlPoints[i] + ControlPoints[i].SafeNormalize(Vector2.Zero) * (Projectile.scale - 1f) * 40f);
 
             for (int i = 0; i < 3; i++)
-                PrimitiveSet.Prepare(points, new(SlashWidthFunction, SlashColorFunction, (_) => Projectile.Center, shader: GameShaders.Misc["CalamityMod:ExobladeSlash"]), 65);
+                PrimitiveRenderer.RenderTrail(points, new(SlashWidthFunction, SlashColorFunction, (_) => Projectile.Center, shader: GameShaders.Misc["CalamityMod:ExobladeSlash"]), 65);
 
             Main.spriteBatch.ExitShaderRegion();
             return false;

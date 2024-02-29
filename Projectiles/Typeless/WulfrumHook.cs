@@ -235,7 +235,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             if (State == HookState.Grappling)
                 segmentPositions = Owner.GetModPlayer<WulfrumPackPlayer>().Segments.Select(x => x.position).ToArray();
-            PrimitiveSet.Prepare(new List<Vector2>(segmentPositions) { Owner.Center }, new(PrimWidthFunction, PrimColorFunction), 30);
+            PrimitiveRenderer.RenderTrail(new List<Vector2>(segmentPositions) { Owner.Center }, new(PrimWidthFunction, PrimColorFunction, smoothen: State is HookState.Grappling), 30);
 
             Texture2D texture = TextureAssets.Projectile[Type].Value;
 

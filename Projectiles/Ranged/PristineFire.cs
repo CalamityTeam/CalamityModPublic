@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 sinOffset = (Vector2.UnitY * direction * MathF.Sin(i * MathHelper.Pi * 0.125f) * 24f).RotatedBy(Projectile.oldRot[i]);
                     trailPositions.Add(Projectile.oldPos[i] + sinOffset);
                 }
-                PrimitiveSet.Prepare(trailPositions, new(HelixTrailWidthFunction, HelixTrailColorFunction, (_) => Projectile.Size * 0.5f), 60);
+                PrimitiveRenderer.RenderTrail(trailPositions, new(HelixTrailWidthFunction, HelixTrailColorFunction, (_) => Projectile.Size * 0.5f), 60);
             }
             return false;
         }

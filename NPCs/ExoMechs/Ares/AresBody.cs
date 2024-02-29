@@ -1328,13 +1328,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 if (NPC.Opacity > 0f && !NPC.IsABestiaryIconDummy)
                 {
                     List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(armSegmentDrawPosition, arm2DrawPosition + arm2Rotation.ToRotationVector2() * -direction * 20f, 250290787);
-                    PrimitiveSet.Prepare(arm2ElectricArcPoints, new(BackgroundWidthFunction, BackgroundColorFunction, smoothen: false), 90);
-                    PrimitiveSet.Prepare(arm2ElectricArcPoints, new(WidthFunction, ColorFunction, smoothen: false), 90);
+                    PrimitiveRenderer.RenderTrail(arm2ElectricArcPoints, new(BackgroundWidthFunction, BackgroundColorFunction, smoothen: false), 90);
+                    PrimitiveRenderer.RenderTrail(arm2ElectricArcPoints, new(WidthFunction, ColorFunction, smoothen: false), 90);
 
                     // Draw electricity between the final arm and the hand.
                     List<Vector2> handElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm2DrawPosition - arm2Rotation.ToRotationVector2() * direction * 100f, handPosition, 27182);
-                    PrimitiveSet.Prepare(handElectricArcPoints, new(BackgroundWidthFunction, BackgroundColorFunction, smoothen: false), 90);
-                    PrimitiveSet.Prepare(handElectricArcPoints, new(WidthFunction, ColorFunction, smoothen: false), 90);
+                    PrimitiveRenderer.RenderTrail(handElectricArcPoints, new(BackgroundWidthFunction, BackgroundColorFunction, smoothen: false), 90);
+                    PrimitiveRenderer.RenderTrail(handElectricArcPoints, new(WidthFunction, ColorFunction, smoothen: false), 90);
                 }
 
                 shoulderDrawPosition += Vector2.UnitY * NPC.gfxOffY - screenOffset;
@@ -1390,13 +1390,13 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 if (NPC.Opacity > 0f && !NPC.IsABestiaryIconDummy)
                 {
                     List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm1DrawPosition - arm2Rotation.ToRotationVector2() * direction * 10f, arm1DrawPosition + arm2Rotation.ToRotationVector2() * direction * 20f, 31416);
-                    PrimitiveSet.Prepare(arm2ElectricArcPoints, new(BackgroundWidthFunction, BackgroundColorFunction, smoothen: false), 90);
-                    PrimitiveSet.Prepare(arm2ElectricArcPoints, new(WidthFunction, ColorFunction, smoothen: false), 90);
+                    PrimitiveRenderer.RenderTrail(arm2ElectricArcPoints, new(BackgroundWidthFunction, BackgroundColorFunction, smoothen: false), 90);
+                    PrimitiveRenderer.RenderTrail(arm2ElectricArcPoints, new(WidthFunction, ColorFunction, smoothen: false), 90);
 
                     // Draw electricity between the final arm and the hand.
                     List<Vector2> handElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm2DrawPosition - arm2Rotation.ToRotationVector2() * direction * 20f, handPosition, 27182);
-                    PrimitiveSet.Prepare(handElectricArcPoints, new(BackgroundWidthFunction, BackgroundColorFunction, smoothen: false), 90);
-                    PrimitiveSet.Prepare(handElectricArcPoints, new(WidthFunction, ColorFunction, smoothen: false), 90);
+                    PrimitiveRenderer.RenderTrail(handElectricArcPoints, new(BackgroundWidthFunction, BackgroundColorFunction, smoothen: false), 90);
+                    PrimitiveRenderer.RenderTrail(handElectricArcPoints, new(WidthFunction, ColorFunction, smoothen: false), 90);
                 }
 
                 shoulderDrawPosition += Vector2.UnitY * NPC.gfxOffY - screenOffset;

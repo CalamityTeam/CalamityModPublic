@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     NPC.Center,
                     ChainEndpoints[i] + NPC.DirectionTo(ChainEndpoints[i]) * 25f
                 };
-                PrimitiveSet.Prepare(points, new(PrimitiveWidthFunction, PrimitiveColorFunction), 40);
+                PrimitiveRenderer.RenderTrail(points, new(PrimitiveWidthFunction, PrimitiveColorFunction), 40);
             }
 
             return true;
