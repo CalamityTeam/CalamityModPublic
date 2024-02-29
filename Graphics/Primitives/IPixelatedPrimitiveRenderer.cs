@@ -10,11 +10,11 @@ namespace CalamityMod.Graphics.Primitives
         /// <summary>
         /// The layer to render the primitive(s) to.
         /// </summary>
-        public PixelationPrimitiveLayer LayerToRenderTo => PixelationPrimitiveLayer.BeforeProjectiles;
+        PixelationPrimitiveLayer LayerToRenderTo => PixelationPrimitiveLayer.BeforeProjectiles;
 
         /// <summary>
         /// Render primitives that use pixelation here.
         /// </summary>
-        public void RenderPixelatedPrimitives(SpriteBatch spriteBatch);
+        void RenderPixelatedPrimitives(SpriteBatch spriteBatch);
     }
 }
