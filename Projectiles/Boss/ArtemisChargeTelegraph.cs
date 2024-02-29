@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Graphics.Primitives;
+using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.Graphics.Shaders;
@@ -15,7 +16,6 @@ namespace CalamityMod.Projectiles.Boss
         public NPC ThingToAttachTo => Main.npc.IndexInRange((int)Projectile.ai[1]) ? Main.npc[(int)Projectile.ai[1]] : null;
 
         public Vector2 OldVelocity;
-        public PrimitiveTrail TelegraphDrawer = null;
         public const float TelegraphWidth = 2000f;
 
         public override void SetStaticDefaults()
@@ -89,9 +89,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (TelegraphDrawer is null)
-                TelegraphDrawer = new PrimitiveTrail(TelegraphPrimitiveWidth, TelegraphPrimitiveColor, specialShader: GameShaders.Misc["CalamityMod:Flame"]);
-
             GameShaders.Misc["CalamityMod:Flame"].UseImage1("Images/Misc/Perlin");
             GameShaders.Misc["CalamityMod:Flame"].UseSaturation(0.28f);
             Vector2[] drawPositions = new Vector2[]
@@ -99,8 +96,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.Center,
                 Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * TelegraphWidth
             };
-
-            TelegraphDrawer.Draw(drawPositions, Projectile.Size * 0.5f - Main.screenPosition, 87);
+            PrimitiveSet.Prepare(drawPositions, new(TelegraphPrimitiveWidth, TelegraphPrimitiveColor, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:Flame"]), 87);
             return false;
         }
     }

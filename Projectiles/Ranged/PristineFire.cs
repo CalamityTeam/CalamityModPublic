@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Graphics.Primitives;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,9 +16,6 @@ namespace CalamityMod.Projectiles.Ranged
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Particles/MediumMist";
-
-        // Helix trail thing
-        public PrimitiveTrail HelixTrail = null;
 
         public override void SetStaticDefaults()
         {
@@ -92,9 +90,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (HelixTrail is null)
-                HelixTrail = new PrimitiveTrail(HelixTrailWidthFunction, HelixTrailColorFunction);
-
             // Draw a double helix trail
             for (int direction = -1; direction <= 1; direction += 2)
             {
@@ -109,7 +104,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 sinOffset = (Vector2.UnitY * direction * MathF.Sin(i * MathHelper.Pi * 0.125f) * 24f).RotatedBy(Projectile.oldRot[i]);
                     trailPositions.Add(Projectile.oldPos[i] + sinOffset);
                 }
-                HelixTrail.Draw(trailPositions, Projectile.Size * 0.5f- Main.screenPosition, 60);
+                PrimitiveSet.Prepare(trailPositions, new(HelixTrailWidthFunction, HelixTrailColorFunction, (_) => Projectile.Size * 0.5f), 60);
             }
             return false;
         }

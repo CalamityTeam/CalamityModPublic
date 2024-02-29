@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using CalamityMod.Graphics.Primitives;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
@@ -184,10 +185,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Vector2 origin = frame.Size() * 0.5f;
             Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
 
-            PrimitiveTrail trail = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/FabstaffStreak"));
-            trail.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 92);
-
+            PrimitiveSet.Prepare(Projectile.oldPos, new(PrimitiveWidthFunction, PrimitiveColorFunction, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 92);
             return false;
         }
     }

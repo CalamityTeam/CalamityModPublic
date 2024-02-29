@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Graphics.Shaders;
+using CalamityMod.Graphics.Primitives;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -12,8 +13,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public new string LocalizationCategory => "Projectiles.Melee";
         public int TargetIndex = -1;
-
-        public PrimitiveTrail SlashDrawer = null;
         
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -63,16 +62,13 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            // Initialize the slash drawer.
-            SlashDrawer ??= new PrimitiveTrail(SlashWidthFunction, SlashColorFunction, null, GameShaders.Misc["CalamityMod:ExobladePierce"]);
-
             GameShaders.Misc["CalamityMod:ExobladePierce"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/BlobbyNoise"));
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseImage2("Images/Extra_189");
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseColor(Terratomere.TerraColor1);
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseSecondaryColor(Terratomere.TerraColor2);
 
             for (int i = 0; i < 4; i++)
-                SlashDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30);
+                PrimitiveSet.Prepare(Projectile.oldPos, new(SlashWidthFunction, SlashColorFunction, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:ExobladePierce"]), 30);
             return false;
         }
 

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Graphics.Primitives;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -17,7 +18,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public NPC ThingToAttachTo => Main.npc.IndexInRange((int)Projectile.ai[1]) ? Main.npc[(int)Projectile.ai[1]] : null;
 
-        public PrimitiveTrail TelegraphDrawer = null;
         public const float TelegraphFadeTime = 15f;
         public const float TelegraphWidth = 1132.07774f; // a squared plus b squared equals c squared, dumbass
 
@@ -113,9 +113,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (TelegraphDrawer is null)
-                TelegraphDrawer = new PrimitiveTrail(TelegraphPrimitiveWidth, TelegraphPrimitiveColor, PrimitiveTrail.RigidPointRetreivalFunction, GameShaders.Misc["CalamityMod:Flame"]);
-
             GameShaders.Misc["CalamityMod:Flame"].UseImage1("Images/Misc/Perlin");
             GameShaders.Misc["CalamityMod:Flame"].UseSaturation(0.41f);
 
@@ -131,7 +128,7 @@ namespace CalamityMod.Projectiles.Boss
                 // It is not used anywhere else.
                 Projectile.ai[0] = i;
 
-                TelegraphDrawer.Draw(positions, Projectile.Size * 0.5f - Main.screenPosition, 55);
+                PrimitiveSet.Prepare(positions, new(TelegraphPrimitiveWidth, TelegraphPrimitiveColor, (_) => Projectile.Size * 0.5f, smoothen: false, shader: GameShaders.Misc["CalamityMod:Flame"]), 55);
             }
             return false;
         }

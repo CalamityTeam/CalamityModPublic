@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Graphics.Metaballs;
+using CalamityMod.Graphics.Primitives;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using System.Linq;
@@ -18,7 +19,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public static readonly SoundStyle ShotImpact = new("CalamityMod/Sounds/Item/SplatshotImpact") { PitchVariance = 0.3f, Volume = 2.5f };
         public static readonly SoundStyle ShotImpactBig = new("CalamityMod/Sounds/Item/SplatshotBigImpact") { PitchVariance = 0.3f, Volume = 4f };
-        internal PrimitiveTrail TrailDrawer;
 
         public override void SetStaticDefaults()
         {
@@ -180,10 +180,7 @@ namespace CalamityMod.Projectiles.Ranged
         internal Color ColorFunction(float completionRatio) => GetColor(Projectile.ai[0]) * Projectile.Opacity;
         public override bool PreDraw(ref Color lightColor)
         {
-            if (TrailDrawer is null)
-                TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction);
-
-            TrailDrawer.Draw(Projectile.oldPos.Where(oldPos => oldPos != Vector2.Zero), Projectile.Size * 0.5f - Main.screenPosition, 20);
+            PrimitiveSet.Prepare(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f), 20);
             return true;
         }
     }

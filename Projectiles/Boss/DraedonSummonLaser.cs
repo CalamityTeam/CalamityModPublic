@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.Graphics.Primitives;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -17,7 +18,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public PrimitiveTrail RayDrawer = null;
         private const int Lifetime = CalamityWorld.DraedonSummonCountdownMax - 60;
 
         public override void SetStaticDefaults() 
@@ -80,17 +80,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (RayDrawer is null)
-                RayDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:Flame"]);
-
             GameShaders.Misc["CalamityMod:Flame"].UseImage1("Images/Misc/Perlin");
 
             Vector2[] basePoints = new Vector2[8];
             for (int i = 0; i < basePoints.Length; i++)
                 basePoints[i] = Projectile.Center - Vector2.UnitY * i / basePoints.Length * LaserLength;
 
-            Vector2 overallOffset = Projectile.Size * 0.5f - Main.screenPosition;
-            RayDrawer.Draw(basePoints, overallOffset, 92);
+            Vector2 overallOffset = Projectile.Size * 0.5f;
+            PrimitiveSet.Prepare(basePoints, new(PrimitiveWidthFunction, PrimitiveColorFunction, (_) => overallOffset, shader: GameShaders.Misc["CalamityMod:Flame"]), 92);
             return false;
         }
 

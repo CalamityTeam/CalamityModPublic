@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Graphics.Primitives;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
@@ -17,11 +18,6 @@ namespace CalamityMod.Projectiles.Boss
     public class ArtemisSpinLaserbeam : BaseLaserbeamProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
-        public PrimitiveTrail LaserDrawer
-        {
-            get;
-            set;
-        } = null;
 
         public int OwnerIndex
         {
@@ -136,7 +132,6 @@ namespace CalamityMod.Projectiles.Boss
             // This should never happen, but just in case.
             if (Projectile.velocity == Vector2.Zero)
                 return false;
-            LaserDrawer ??= new(LaserWidthFunction, LaserColorFunction, null, GameShaders.Misc["CalamityMod:ArtemisLaser"]);
 
             Vector2 laserEnd = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitY) * LaserLength;
             Vector2[] baseDrawPoints = new Vector2[8];
@@ -147,8 +142,7 @@ namespace CalamityMod.Projectiles.Boss
             GameShaders.Misc["CalamityMod:ArtemisLaser"].UseColor(Color.Cyan);
             GameShaders.Misc["CalamityMod:ArtemisLaser"].UseImage1("Images/Extra_189");
             GameShaders.Misc["CalamityMod:ArtemisLaser"].UseImage2("Images/Misc/Perlin");
-
-            LaserDrawer.Draw(baseDrawPoints, -Main.screenPosition, 64);
+            PrimitiveSet.Prepare(baseDrawPoints, new(LaserWidthFunction, LaserColorFunction, shader: GameShaders.Misc["CalamityMod:ArtemisLaser"]), 64);
             return false;
         }
 

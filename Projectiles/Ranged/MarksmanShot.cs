@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CalamityMod.Graphics.Primitives;
 using CalamityMod.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +18,6 @@ namespace CalamityMod.Projectiles.Ranged
         public new string LocalizationCategory => "Projectiles.Ranged";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         private static readonly int trailLength = 35;
-        private PrimitiveTrail trailDrawer;
         internal List<Vector2> trailPositions;
 
         // Lifetime of a bullet. Defined in terms of updates because Terraria's engine is trash.
@@ -212,11 +212,8 @@ namespace CalamityMod.Projectiles.Ranged
             if (trailPositions is null)
                 return false;
 
-            if (trailDrawer is null)
-                trailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.RigidPointRetreivalFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
-
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/BasicTrail"));
-            trailDrawer.Draw(trailPositions, Projectile.Size * 0.5f - Main.screenPosition, trailLength);
+            PrimitiveSet.Prepare(trailPositions, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f, false, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), trailLength);
 
             return false;
         }

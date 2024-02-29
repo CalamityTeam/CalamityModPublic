@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Graphics.Primitives;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
@@ -24,10 +25,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<Exoblade>();
         public Player Owner => Main.player[Projectile.owner];
-
-        public PrimitiveTrail SlashDrawer = null;
-
-        public PrimitiveTrail PierceAfterimageDrawer = null;
 
         const float BladeLength = 180;
 
@@ -454,10 +451,6 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.Opacity <= 0f || InPostBonkStasis)
                 return false;
 
-            // Initialize the primitives drawers.
-            SlashDrawer ??= new(SlashWidthFunction, SlashColorFunction, null, GameShaders.Misc["CalamityMod:ExobladeSlash"]);
-            PierceAfterimageDrawer ??= new(PierceWidthFunction, PierceColorFunction, null, GameShaders.Misc["CalamityMod:ExobladePierce"]);
-
             DrawSlash();
             DrawPierceTrail();
             DrawBlade();
@@ -480,7 +473,7 @@ namespace CalamityMod.Projectiles.Melee
             GameShaders.Misc["CalamityMod:ExobladeSlash"].Shader.Parameters["flipped"].SetValue(Direction == 1);
             GameShaders.Misc["CalamityMod:ExobladeSlash"].Apply();
 
-            SlashDrawer.Draw(GenerateSlashPoints(), Projectile.Center - Main.screenPosition, 95);
+            PrimitiveSet.Prepare(GenerateSlashPoints(), new(SlashWidthFunction, SlashColorFunction, (_) => Projectile.Center, shader: GameShaders.Misc["CalamityMod:ExobladeSlash"]), 95);
 
             Main.spriteBatch.ExitShaderRegion();
         }
@@ -499,13 +492,13 @@ namespace CalamityMod.Projectiles.Melee
             mainColor = Color.Lerp(Color.White, mainColor, 0.4f + 0.6f * (float)Math.Pow(LungeProgression, 0.5f));
             secondaryColor = Color.Lerp(Color.White, secondaryColor, 0.4f + 0.6f * (float)Math.Pow(LungeProgression, 0.5f));
 
-            Vector2 trailOffset = (Projectile.rotation - Direction * MathHelper.PiOver4).ToRotationVector2() * 98f + Projectile.Size * 0.5f - Main.screenPosition;
+            Vector2 trailOffset = (Projectile.rotation - Direction * MathHelper.PiOver4).ToRotationVector2() * 98f + Projectile.Size * 0.5f;
             GameShaders.Misc["CalamityMod:ExobladePierce"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/EternityStreak"));
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseImage2("Images/Extra_189");
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseColor(mainColor);
             GameShaders.Misc["CalamityMod:ExobladePierce"].UseSecondaryColor(secondaryColor);
             GameShaders.Misc["CalamityMod:ExobladePierce"].Apply();
-            PierceAfterimageDrawer.Draw(Projectile.oldPos.Take(51), trailOffset, 53);
+            PrimitiveSet.Prepare(Projectile.oldPos.Take(51), new(PierceWidthFunction, PierceColorFunction, (_) => trailOffset, shader: GameShaders.Misc["CalamityMod:ExobladePierce"]), 53);
 
             Main.spriteBatch.ExitShaderRegion();
         }

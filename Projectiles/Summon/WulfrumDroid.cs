@@ -15,6 +15,7 @@ using Terraria.Graphics.Effects;
 using static Terraria.ModLoader.ModContent;
 using ReLogic.Content;
 using System.IO;
+using CalamityMod.Graphics.Primitives;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -44,7 +45,6 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        internal PrimitiveTrail TrailDrawer;
         internal Color PrimColorMult;
         public Player healedPlayer;
 
@@ -464,8 +464,6 @@ namespace CalamityMod.Projectiles.Summon
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-                if (TrailDrawer is null)
-                    TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
                 GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ZapTrail"));
 
                 Vector2[] drawPos = new Vector2[] { Projectile.Center, Projectile.Center, healedPlayer.Center + (Projectile.Center - healedPlayer.Center) * 0.5f + Vector2.UnitY * 40f, healedPlayer.Center, healedPlayer.Center };
@@ -473,7 +471,7 @@ namespace CalamityMod.Projectiles.Summon
                 CalamityUtils.DrawChromaticAberration(Vector2.UnitX, 1.8f, delegate (Vector2 offset, Color colorMod)
                 {
                     PrimColorMult = colorMod;
-                    TrailDrawer.Draw(drawPos, - Main.screenPosition + offset, 30);
+                    PrimitiveSet.Prepare(drawPos, new(WidthFunction, ColorFunction, (_) => offset, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 30);
                 });
 
                 Main.spriteBatch.End();

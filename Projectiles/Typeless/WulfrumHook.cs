@@ -13,6 +13,7 @@ using ReLogic.Utilities;
 using CalamityMod.Items.Accessories;
 using System.Collections.Generic;
 using System.Linq;
+using CalamityMod.Graphics.Primitives;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -20,7 +21,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public new string LocalizationCategory => "Projectiles.Typeless";
         public Player Owner => Main.player[Projectile.owner];
-        internal PrimitiveTrail TrailRenderer;
 
         public HookState State
         {
@@ -231,16 +231,11 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(ref Color lightColor)
         {
-            if (TrailRenderer is null)
-                TrailRenderer = new PrimitiveTrail(PrimWidthFunction, PrimColorFunction);
-
             Vector2[] segmentPositions = new Vector2[] {Projectile.Center, Owner.Center };
 
             if (State == HookState.Grappling)
                 segmentPositions = Owner.GetModPlayer<WulfrumPackPlayer>().Segments.Select(x => x.position).ToArray();
-
-            TrailRenderer.Draw(segmentPositions, -Main.screenPosition, 30);
-
+            PrimitiveSet.Prepare(new List<Vector2>(segmentPositions) { Owner.Center }, new(PrimWidthFunction, PrimColorFunction), 30);
 
             Texture2D texture = TextureAssets.Projectile[Type].Value;
 
