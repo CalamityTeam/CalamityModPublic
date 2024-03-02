@@ -236,14 +236,13 @@ namespace CalamityMod.Graphics.Primitives
             VerticesIndex = 0;
             for (int i = 0; i < PositionsIndex; i++)
             {
-                float completionRatio = i / (float)(PositionsIndex - 1);
+                float completionRatio = (i - 1f) / (float)(PositionsIndex - 1);
                 float widthAtVertex = MainSettings.WidthFunction(completionRatio);
                 Color vertexColor = MainSettings.ColorFunction(completionRatio);
                 Vector2 currentPosition = MainPositions[i];
                 Vector2 directionToAhead = i == PositionsIndex - 1 ? (MainPositions[i] - MainPositions[i - 1]).SafeNormalize(Vector2.Zero) : (MainPositions[i + 1] - MainPositions[i]).SafeNormalize(Vector2.Zero);
-
-                Vector2 leftCurrentTextureCoord = new(completionRatio, 0f);
-                Vector2 rightCurrentTextureCoord = new(completionRatio, 1f);
+                Vector2 leftCurrentTextureCoord = new(completionRatio, 0.5f - widthAtVertex * 0.5f);
+                Vector2 rightCurrentTextureCoord = new(completionRatio, 0.5f + widthAtVertex * 0.5f);
 
                 // Point 90 degrees away from the direction towards the next point, and use it to mark the edges of the rectangle.
                 // This doesn't use RotatedBy for the sake of performance (there can potentially be a lot of trail points).
@@ -262,9 +261,9 @@ namespace CalamityMod.Graphics.Primitives
                 // What this is doing, at its core, is defining a rectangle based on two triangles.
                 // These triangles are defined based on the width of the strip at that point.
                 // The resulting rectangles combined are what make the trail itself.
-                MainVertices[VerticesIndex] = new VertexPosition2DColorTexture(left, vertexColor, leftCurrentTextureCoord);
+                MainVertices[VerticesIndex] = new VertexPosition2DColorTexture(left, vertexColor, leftCurrentTextureCoord, widthAtVertex);
                 VerticesIndex++;
-                MainVertices[VerticesIndex] = new VertexPosition2DColorTexture(right, vertexColor, rightCurrentTextureCoord);
+                MainVertices[VerticesIndex] = new VertexPosition2DColorTexture(right, vertexColor, rightCurrentTextureCoord, widthAtVertex);
                 VerticesIndex++;
             }
         }

@@ -22,7 +22,10 @@ namespace CalamityMod.Graphics.Primitives
         /// <summary>
         /// The texture-coordinate of the vertex.
         /// </summary>
-        public readonly Vector2 TextureCoordinates;
+        /// <remarks>
+        /// The Z component isn't actually related to 3D, it holds the width of the vertex at the given point, since arbitrary data cannot be saved on a per-vertex basis and needs to be contained within some pre-defined format.
+        /// </remarks>
+        public readonly Vector3 TextureCoordinates;
 
         /// <summary>
         /// The vertex declaration. This declares the layout and size of the data in the vertex shader.
@@ -33,14 +36,14 @@ namespace CalamityMod.Graphics.Primitives
         {
             new(0, VertexElementFormat.Vector2, VertexElementUsage.Position, 0),
             new(8, VertexElementFormat.Color, VertexElementUsage.Color, 0),
-            new(12, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0),
+            new(12, VertexElementFormat.Vector3, VertexElementUsage.TextureCoordinate, 0)
         });
 
-        public VertexPosition2DColorTexture(Vector2 position, Color color, Vector2 textureCoordinates)
+        public VertexPosition2DColorTexture(Vector2 position, Color color, Vector2 textureCoordinates, float widthCorrectionFactor)
         {
             Position = position;
             Color = color;
-            TextureCoordinates = textureCoordinates;
+            TextureCoordinates = new(textureCoordinates, widthCorrectionFactor);
         }
     }
 }
