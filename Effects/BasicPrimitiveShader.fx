@@ -19,22 +19,21 @@ struct VertexShaderInput
 {
     float4 Position : POSITION0;
     float4 Color : COLOR0;
-    float2 TextureCoordinates : TEXCOORD0;
+    float3 TextureCoordinates : TEXCOORD0;
 };
 
 struct VertexShaderOutput
 {
     float4 Position : SV_POSITION;
     float4 Color : COLOR0;
-    float2 TextureCoordinates : TEXCOORD0;
+    float3 TextureCoordinates : TEXCOORD0;
 };
 
 VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
 {
-    VertexShaderOutput output = (VertexShaderOutput)0;
+    VertexShaderOutput output = (VertexShaderOutput) 0;
     float4 pos = mul(input.Position, uWorldViewProjection);
     output.Position = pos;
-    
     output.Color = input.Color;
     output.TextureCoordinates = input.TextureCoordinates;
 

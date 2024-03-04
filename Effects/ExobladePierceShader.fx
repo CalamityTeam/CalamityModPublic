@@ -23,14 +23,14 @@ struct VertexShaderInput
 {
     float4 Position : POSITION0;
     float4 Color : COLOR0;
-    float2 TextureCoordinates : TEXCOORD0;
+    float3 TextureCoordinates : TEXCOORD0;
 };
 
 struct VertexShaderOutput
 {
     float4 Position : SV_POSITION;
     float4 Color : COLOR0;
-    float2 TextureCoordinates : TEXCOORD0;
+    float3 TextureCoordinates : TEXCOORD0;
 };
 
 VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
@@ -54,6 +54,10 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
     float4 color = input.Color;
     float2 coords = input.TextureCoordinates;
+        
+    // Account for texture distortion artifacts.
+    coords.y = (coords.y - 0.5) / input.TextureCoordinates.z + 0.5;
+    
     float bloomOpacity = pow(sin(coords.y * 3.141), 5.6);
     float noise = tex2D(uImage1, coords * 3 - float2(uTime * 2.44, 0));
     float brightnessStreak = tex2D(uImage2, coords * float2(2, 1) - float2(uTime * 1.61, 0)) + noise * bloomOpacity;

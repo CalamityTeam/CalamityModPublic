@@ -21,22 +21,21 @@ struct VertexShaderInput
 {
     float4 Position : POSITION0;
     float4 Color : COLOR0;
-    float2 TextureCoordinates : TEXCOORD0;
+    float3 TextureCoordinates : TEXCOORD0;
 };
 
 struct VertexShaderOutput
 {
     float4 Position : SV_POSITION;
     float4 Color : COLOR0;
-    float2 TextureCoordinates : TEXCOORD0;
+    float3 TextureCoordinates : TEXCOORD0;
 };
 
 VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
 {
-    VertexShaderOutput output = (VertexShaderOutput)0;
+    VertexShaderOutput output = (VertexShaderOutput) 0;
     float4 pos = mul(input.Position, uWorldViewProjection);
     output.Position = pos;
-    
     output.Color = input.Color;
     output.TextureCoordinates = input.TextureCoordinates;
 
@@ -46,9 +45,15 @@ VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
     float4 color = input.Color;
-    float2 coords = input.TextureCoordinates * uPrimitiveSize / uImageSize1;
+    float2 baseCoords = input.TextureCoordinates.xy;
+    
+    // Account for texture distortion artifacts.
+    baseCoords.y = (baseCoords.y - 0.5) / input.TextureCoordinates.z + 0.5;
+    
+    float2 coords = baseCoords * uPrimitiveSize / uImageSize1;
+    
     coords.x = 1 - frac(coords.x);
-    coords.y = saturate(input.TextureCoordinates.y);
+    coords.y = saturate(baseCoords.y);
     if (flipVertically)
         coords.y = 1 - coords.y;
     
