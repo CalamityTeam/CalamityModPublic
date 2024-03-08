@@ -216,7 +216,7 @@ namespace CalamityMod.Systems
                 tasks.Insert(++currentFinalIndex, new PassLegacy("Aerialite", (progress, config) =>
                 {
                     progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.Aerialite").Value;
-                    AerialiteOreGen.Generate(false);
+                    AerialiteOreGen.Generate();
                 }));
 
                 // Draedon Labs

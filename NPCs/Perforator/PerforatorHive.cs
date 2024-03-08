@@ -524,7 +524,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 string key = "Mods.CalamityMod.Status.Progression.SkyOreText";
                 Color messageColor = Color.Cyan;
-                AerialiteOreGen.Generate(true);
+                AerialiteOreGen.Enchant();
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
