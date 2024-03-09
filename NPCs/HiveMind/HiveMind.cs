@@ -1138,7 +1138,7 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 string key = "Mods.CalamityMod.Status.Progression.SkyOreText";
                 Color messageColor = Color.Cyan;
-                AerialiteOreGen.Generate(true);
+                AerialiteOreGen.Enchant();
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
