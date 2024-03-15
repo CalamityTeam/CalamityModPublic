@@ -151,6 +151,9 @@ namespace CalamityMod.ILEditing
             // Fix vanilla not accounting for spritebatch modification in held projectile drawing
             On_PlayerDrawLayers.DrawHeldProj += FixHeldProjectileBlendState;
 
+            // Fix vanilla not accounting for multiple bobbers when fishing with truffle worm
+            IL_Player.ItemCheck_CheckFishingBobbers += FixTruffleWormFishing;
+
             //Additional detours that are in their own item files given they are only relevant to these specific items:
             //Rover drive detours on Player.DrawInfernoRings to draw its shield
             //Wulfrum armor hooks on Player.KeyDoubleTap and DrawPendingMouseText to activate its set bonus and spoof the mouse text to display the stats of the activated weapon if shift is held
