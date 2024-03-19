@@ -78,38 +78,43 @@ namespace CalamityMod.ILEditing
 
             // Initialize a flag variable whether truffle worm was used.
             il.Method.Body.Variables.Add(new VariableDefinition(il.Module.TypeSystem.Boolean));
+            byte truffleWormUsed = (byte) (il.Method.Body.Variables.Count - 1);
             cursor.Emit(OpCodes.Ldc_I4_0);
-            cursor.Emit(OpCodes.Stloc_S, (byte)5);
+            cursor.Emit(OpCodes.Stloc_S, truffleWormUsed);
+
+            // Move after beq.s, which is before Player.ItemCheck_CheckFishingBobber_PickAndConsumeBait gets called
+            if (!cursor.TryGotoNext(MoveType.After, i => i.Match(OpCodes.Beq_S)))
+            {
+                LogFailure("FixTruffleWormFishing", "Could not locate beq.s before Player.ItemCheck_CheckFishingBobber_PickAndConsumeBait.");
+                return;
+            }
+
+            // Skip if truffle worm was already used.
+            var loopEnd = il.DefineLabel();
+            cursor.Emit(OpCodes.Ldloc_S, truffleWormUsed);
+            cursor.Emit(OpCodes.Brtrue_S, loopEnd);
 
             // Find the call to Player.ItemCheck_CheckFishingBobber_PickAndConsumeBait.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCall<Player>("ItemCheck_CheckFishingBobber_PickAndConsumeBait")))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<Player>("ItemCheck_CheckFishingBobber_PickAndConsumeBait")))
             {
                 LogFailure("FixTruffleWormFishing", "Could not locate the call to Player.ItemCheck_CheckFishingBobber_PickAndConsumeBait.");
                 return;
             }
 
-            // Skip if truffle worm was already used.
-            cursor.Index -= 4; // One should do this before arguments get pushed.
-            var label = il.DefineLabel();
-            cursor.Emit(OpCodes.Ldloc_S, (byte)5);
-            cursor.Emit(OpCodes.Brtrue_S, label);
-            cursor.Index += 4;
-
             // Retrive baitTypeUsed, compare with truffle worm, and save it.
-            cursor.Index++;
             cursor.Emit(OpCodes.Ldloc_S, (byte)4);
             cursor.Emit(OpCodes.Ldc_I4, ItemID.TruffleWorm);
             cursor.Emit(OpCodes.Ceq);
-            cursor.Emit(OpCodes.Stloc_S, (byte)5);
+            cursor.Emit(OpCodes.Stloc_S, truffleWormUsed);
 
             // Move before next ldloc.0, which is the end of the loop
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdloc0()))
             {
-                LogFailure("FixTruffleWormFishing", "Could not find the end of the loop");
+                LogFailure("FixTruffleWormFishing", "Could not find the end of the loop.");
                 return;
             }
 
-            cursor.MarkLabel(label);
+            cursor.MarkLabel(loopEnd);
         }
         #endregion
     }
