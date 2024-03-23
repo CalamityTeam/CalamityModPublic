@@ -1,5 +1,4 @@
-﻿using CalamityMod.BiomeManagers;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Materials;
@@ -16,6 +15,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using System.Linq;
 using CalamityMod.Graphics.Primitives;
+using CalamityMod.BiomeManagers;
 
 namespace CalamityMod.NPCs.AcidRain
 {
