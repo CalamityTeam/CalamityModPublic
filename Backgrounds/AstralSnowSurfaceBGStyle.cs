@@ -5,11 +5,15 @@ using Terraria.Graphics.Effects;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.UI.States;
 
 namespace CalamityMod.Backgrounds
 {
     public class AstralSnowSurfaceBGStyle : ModSurfaceBackgroundStyle
     {
+        internal static readonly FieldInfo screenOffField = typeof(Main).GetField("screenOff", BindingFlags.Instance | BindingFlags.NonPublic);
+        internal static readonly FieldInfo scAdjField = typeof(Main).GetField("scAdj", BindingFlags.Instance | BindingFlags.NonPublic);
+        internal static readonly FieldInfo COSBMAplhaField = typeof(Main).GetField("ColorOfSurfaceBackgroundsModified", BindingFlags.Static | BindingFlags.NonPublic);
         readonly int FrontBGYOffset = 275;
         readonly int CloseBGYOffset = 175;
         readonly int MiddleBGYOffset = 475;
@@ -22,84 +26,57 @@ namespace CalamityMod.Backgrounds
                 {
                     fades[i] += transitionSpeed;
                     if (fades[i] > 1f)
-                    {
                         fades[i] = 1f;
-                    }
                 }
                 else
                 {
                     fades[i] -= transitionSpeed;
                     if (fades[i] < 0f)
-                    {
                         fades[i] = 0f;
-                    }
                 }
             }
         }
 
-        public override int ChooseFarTexture()
-        {
-            return BackgroundTextureLoader.GetBackgroundSlot("CalamityMod/Backgrounds/AstralSurfaceHorizon");
-        }
+        public override int ChooseFarTexture() => BackgroundTextureLoader.GetBackgroundSlot("CalamityMod/Backgrounds/AstralSurfaceHorizon");
 
-        public override int ChooseMiddleTexture()
-        {
-            return BackgroundTextureLoader.GetBackgroundSlot("CalamityMod/Backgrounds/AstralSurfaceFar");
-        }
+        public override int ChooseMiddleTexture() => BackgroundTextureLoader.GetBackgroundSlot("CalamityMod/Backgrounds/AstralSurfaceFar");
 
-        public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
-        {
-            return BackgroundTextureLoader.GetBackgroundSlot("CalamityMod/Skies/AstralSnowSurfaceMiddle");
-        }
+        public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b) => BackgroundTextureLoader.GetBackgroundSlot("CalamityMod/Skies/AstralSnowSurfaceMiddle");
 
         public override bool PreDrawCloseBackground(SpriteBatch spriteBatch)
         {
-            float screenOff = (float)typeof(Main).GetField("screenOff", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(Main.instance);
-            float scAdj = (float)typeof(Main).GetField("scAdj", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(Main.instance);
-            Color COSBMAplha = (Color)typeof(Main).GetField("ColorOfSurfaceBackgroundsModified", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
+            //Please see AstralSurfaceBGStyle for comments, code is pretty much identical here
+            float screenOff = (float)screenOffField.GetValue(Main.instance);
+            float scAdj = (float)scAdjField.GetValue(Main.instance);
+            Color COSBMAplha = (Color)COSBMAplhaField.GetValue(null);
             Color ColorOfSurfaceBackgroundsModified = new Color(63, 51, 90, COSBMAplha.A);
-
-            bool flag = false;
+            bool canBGDraw = false;
             if ((!Main.remixWorld || (Main.gameMenu && !WorldGen.remixWorldGen)) && (!WorldGen.remixWorldGen || !WorldGen.drunkWorldGen))
-            {
-                flag = true;
-            }
+                canBGDraw = true;
             if (Main.mapFullscreen)
-            {
-                flag = false;
-            }
-            int num = 30;
+                canBGDraw = false;
+            int offset = 30;
             if (Main.gameMenu)
-            {
-                num = 0;
-            }
+                offset = 0;
             if (WorldGen.drunkWorldGen)
-            {
-                num = -180;
-            }
-            float num12 = (float)Main.worldSurface;
-            if (num12 == 0f)
-            {
-                num12 = 1f;
-            }
-            float num17 = Main.screenPosition.Y + (float)(Main.screenHeight / 2) - 600f;
-            double backgroundTopMagicNumber = (0f - num17 + screenOff / 2f) / (num12 * 16f);
+                offset = -180;
+            float surfacePosition = (float)Main.worldSurface;
+            if (surfacePosition == 0f)
+                surfacePosition = 1f;
+            float screenPosition = Main.screenPosition.Y + (float)(Main.screenHeight / 2) - 600f;
+            double backgroundTopMagicNumber = (0f - screenPosition + screenOff / 2f) / (surfacePosition * 16f);
             float bgGlobalScaleMultiplier = 2f;
             int pushBGTopHack;
-            int num3 = -180;
-            bool flag2 = true;
-            int num4 = 0;
+            int offset2 = -180;
+            int menuOffset = 0;
             if (Main.gameMenu)
             {
-                num4 -= num3;
+                menuOffset -= offset2;
             }
-            pushBGTopHack = num4;
-            pushBGTopHack += num;
-            if (flag2)
-            {
-                pushBGTopHack += num3;
-            }
-            if (flag)
+            pushBGTopHack = menuOffset;
+            pushBGTopHack += offset;
+            pushBGTopHack += offset2;
+            if (canBGDraw)
             {
                 var bgScale = 1.25f;
                 var bgParallax = 0.4;
