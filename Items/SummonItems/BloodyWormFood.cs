@@ -50,11 +50,13 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
+            Condition downedPerfs = new(CalamityUtils.GetText("Condition.DownedPerfs"), () => DownedBossSystem.downedPerforator);
             CreateRecipe().
                 AddIngredient(ItemID.CrimtaneBar, 3).
                 AddIngredient<BloodSample>(7).
                 AddIngredient(ItemID.Vertebrae, 13).
                 AddTile(TileID.DemonAltar).
+                AddDecraftCondition(downedPerfs).
                 Register();
         }
     }

@@ -50,11 +50,13 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
+            Condition downedHM = new(CalamityUtils.GetText("Condition.DownedHM"), () => DownedBossSystem.downedHiveMind);
             CreateRecipe().
                 AddIngredient(ItemID.DemoniteBar, 3).
                 AddIngredient<RottenMatter>(7).
                 AddIngredient(ItemID.RottenChunk, 13).
                 AddTile(TileID.DemonAltar).
+                AddDecraftCondition(downedHM).
                 Register();
         }
     }
