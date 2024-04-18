@@ -113,6 +113,9 @@ namespace CalamityMod.ILEditing
             IL_Player.Update += ManaRegenDelayAdjustment;
             IL_Player.UpdateManaRegen += ManaRegenAdjustment;
 
+            // Item prefix changes
+            On_Player.GrantPrefixBenefits += PrefixChanges;
+
             // Debuff balancing
             IL_Projectile.StatusPlayer += RemoveFrozenInflictionFromDeerclopsIceSpikes;
 

@@ -324,6 +324,84 @@ namespace CalamityMod.ILEditing
         }
         #endregion
 
+        #region Item Prefix Changes
+        private static void PrefixChanges(On_Player.orig_GrantPrefixBenefits orig, Player self, Item item)
+        {
+            orig(self, item);
+            // Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
+            if (item.prefix == PrefixID.Hard)
+            {
+                /* Prehardmode = 1
+                 * Hardmode = 2
+                 * Post-Moon Lord = 3
+                 * Post-DoG = 4
+                 */
+
+                if (DownedBossSystem.downedDoG)
+                    self.statDefense += 3;
+                else if (NPC.downedMoonlord)
+                    self.statDefense += 2;
+                else if (Main.hardMode)
+                    self.statDefense += 1;
+
+                self.endurance += 0.0025f;
+            }
+            if (item.prefix == PrefixID.Guarding)
+            {
+                /* Prehardmode = 2
+                 * Hardmode = 3
+                 * Post-Moon Lord = 4
+                 * Post-DoG = 6
+                 */
+
+                if (DownedBossSystem.downedDoG)
+                    self.statDefense += 4;
+                else if (NPC.downedMoonlord)
+                    self.statDefense += 2;
+                else if (Main.hardMode)
+                    self.statDefense += 1;
+
+                self.endurance += 0.005f;
+            }
+            if (item.prefix == PrefixID.Armored)
+            {
+                /* Prehardmode = 3
+                 * Hardmode = 5
+                 * Post-Moon Lord = 6
+                 * Post-DoG = 8
+                 */
+
+                if (DownedBossSystem.downedDoG)
+                    self.statDefense += 5;
+                else if (NPC.downedMoonlord)
+                    self.statDefense += 3;
+                else if (Main.hardMode)
+                    self.statDefense += 2;
+
+                self.endurance += 0.0075f;
+            }
+            if (item.prefix == PrefixID.Warding)
+            {
+                /* Prehardmode = 4
+                 * Hardmode = 6
+                 * Post-Moon Lord = 8
+                 * Post-DoG = 10
+                 */
+
+                if (DownedBossSystem.downedDoG)
+                    self.statDefense += 6;
+                else if (NPC.downedMoonlord)
+                    self.statDefense += 4;
+                else if (Main.hardMode)
+                    self.statDefense += 2;
+                self.endurance += 0.01f;
+            }
+
+            if (item.prefix == PrefixID.Lucky)
+                self.luck += 0.05f;
+        }
+        #endregion
+
         #region Damage Variance Dampening and Luck Removal
         private static int AdjustDamageVariance(Terraria.On_Main.orig_DamageVar_float_int_float orig, float dmg, int percent, float luck)
         {
