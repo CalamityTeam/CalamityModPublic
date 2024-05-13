@@ -92,13 +92,10 @@ namespace CalamityMod
         public static Texture2D AstralSurfaceCloseGlow;
         public static Texture2D AstralSurfaceMiddle;
         public static Texture2D AstralSurfaceMiddleGlow;
-        public static Texture2D AstralSurfaceFar;
-        public static Texture2D AstralSurfaceHorizon;
 
         // Astral Desert Sky/BG
         public static Texture2D AstralDesertSurfaceClose;
         public static Texture2D AstralDesertSurfaceMiddle;
-        public static Texture2D AstralDesertSurfaceFar;
 
         // Astral Snow Sky/BG
         public static Texture2D AstralSnowSurfaceMiddle;
@@ -278,22 +275,19 @@ namespace CalamityMod
         {
             // Astral Sky/BG
             AstralSky = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSky", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceFront = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSurfaceFront", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceFrontGlow = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSurfaceFrontGlow", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceClose = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSurfaceClose", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceCloseGlow = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSurfaceCloseGlow", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceMiddle = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSurfaceMiddle", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceMiddleGlow = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSurfaceMiddleGlow", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceFar = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSurfaceFar", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceHorizon = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSurfaceHorizon", AssetRequestMode.ImmediateLoad).Value;
+            AstralSurfaceFront = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceFront", AssetRequestMode.ImmediateLoad).Value;
+            AstralSurfaceFrontGlow = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceFrontGlow", AssetRequestMode.ImmediateLoad).Value;
+            AstralSurfaceClose = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceClose", AssetRequestMode.ImmediateLoad).Value;
+            AstralSurfaceCloseGlow = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceCloseGlow", AssetRequestMode.ImmediateLoad).Value;
+            AstralSurfaceMiddle = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceMiddle", AssetRequestMode.ImmediateLoad).Value;
+            AstralSurfaceMiddleGlow = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceMiddleGlow", AssetRequestMode.ImmediateLoad).Value;
 
-            // Astral Desert Sky/BG
-            AstralDesertSurfaceClose = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralDesertSurfaceClose", AssetRequestMode.ImmediateLoad).Value;
-            AstralDesertSurfaceMiddle = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralDesertSurfaceMiddle", AssetRequestMode.ImmediateLoad).Value;
-            AstralDesertSurfaceFar = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralDesertSurfaceFar", AssetRequestMode.ImmediateLoad).Value;
+            //Astral Desert Sky/BG
+            AstralDesertSurfaceClose = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralDesertSurfaceClose", AssetRequestMode.ImmediateLoad).Value;
+            AstralDesertSurfaceMiddle = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralDesertSurfaceMiddle", AssetRequestMode.ImmediateLoad).Value;
 
-            // Astral Snow Sky/BG
-            AstralSnowSurfaceMiddle = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSnowSurfaceMiddle", AssetRequestMode.ImmediateLoad).Value;
+            //Astral Snow Sky/BG
+            AstralSnowSurfaceMiddle = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSnowSurfaceMiddle", AssetRequestMode.ImmediateLoad).Value;
 
             // Sulpher Sea Sky/BG
             SulphurSeaSky = ModContent.Request<Texture2D>("CalamityMod/Skies/SulphurSeaSky", AssetRequestMode.ImmediateLoad).Value;
@@ -352,10 +346,6 @@ namespace CalamityMod
             SkyManager.Instance["CalamityMod:BrimstoneCrag"] = new BrimstoneCragSky();
 
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
-            SkyManager.Instance["CalamityMod:AstralSurface"] = new AstralSkySurface();
-            SkyManager.Instance["CalamityMod:AstralDesert"] = new AstralSkyDesert();
-            SkyManager.Instance["CalamityMod:AstralSnow"] = new AstralSkySnow();
-            SkyManager.Instance["CalamityMod:MonolithAstral"] = new AstralMonolithSky();
             SkyManager.Instance["CalamityMod:SulphurSea"] = new SulphurSeaSky();
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();

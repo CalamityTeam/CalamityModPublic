@@ -111,6 +111,7 @@ namespace CalamityMod.UI.DraedonSummoning
             get;
             set;
         }
+
         public static float DialogOffYCache = 0;
 
         /// <summary>

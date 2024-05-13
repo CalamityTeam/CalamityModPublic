@@ -4,6 +4,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.BiomeManagers.BestiaryCategories;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
@@ -75,7 +76,7 @@ namespace CalamityMod.NPCs.Astral
             }
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
-            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbovegroundAstralDesertBiome>().Type };
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AstralDesert>().Type };
 
             // Scale stats in Expert and Master
             CalamityGlobalNPC.AdjustExpertModeStatScaling(NPC);

@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Backgrounds
 {
@@ -6,8 +7,8 @@ namespace CalamityMod.Backgrounds
     {
         public override void FillTextureArray(int[] textureSlots)
         {
-            for (int i = 0; i <= 3; i++)
-                textureSlots[i] = BackgroundTextureLoader.GetBackgroundSlot("CalamityMod/Backgrounds/AstralUG" + i.ToString());
+            for (int i = 0; i <= 4; i++)
+                textureSlots[i] = BackgroundTextureLoader.GetBackgroundSlot(i == 4 ? "CalamityMod/Backgrounds/AstralUG" + i.ToString() + "_" + Main.hellBackStyle : "CalamityMod/Backgrounds/AstralUG" + i.ToString());
         }
     }
 }

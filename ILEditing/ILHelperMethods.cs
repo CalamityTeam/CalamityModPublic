@@ -64,7 +64,7 @@ namespace CalamityMod.ILEditing
             SoundEngine.PlaySound(SoundID.DoorClosed, new Vector2(doorX * 16, doorY * 16));
             return true;
         }
-
+        
         private static Texture2D SelectLavaTexture(Texture2D initialTexture, LiquidTileType type)
         {
             // Use the initial texture if it isn't lava.

@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Reflection;
 
 namespace CalamityMod.Skies
 {

@@ -108,7 +108,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.netAlways = true;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
-            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbovegroundAstralBiome>().Type };
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<BiomeManagers.AstralInfectionBiome>().Type };
 
             if (Main.zenithWorld)
             {

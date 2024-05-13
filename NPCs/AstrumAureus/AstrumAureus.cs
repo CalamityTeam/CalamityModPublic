@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
-            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbovegroundAstralBiome>().Type };
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<BiomeManagers.AstralInfectionBiome>().Type };
 
             if (Main.getGoodWorld)
                 NPC.scale *= 0.8f;
@@ -439,7 +439,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
 
             // Drop an Astral Meteor if applicable
-            ThreadPool.QueueUserWorkItem(_ => AstralBiome.PlaceAstralMeteor());
+            ThreadPool.QueueUserWorkItem(_ => World.AstralBiome.PlaceAstralMeteor());
 
             // Mark Astrum Aureus as dead
             DownedBossSystem.downedAstrumAureus = true;
