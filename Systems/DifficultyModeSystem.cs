@@ -59,7 +59,7 @@ namespace CalamityMod.Systems
         public static void CalculateDifficultyData()
         {
             MostAlternateDifficulties = 1;
-            Difficulties.OrderBy(d => d.DifficultyScale);
+            Difficulties = Difficulties.OrderBy(d => d.DifficultyScale).ToList();
 
             //Difficulties are arranged in "tiers". This is done so that multiple mods can add their own alternate difficulties sharing a tier with the base ones
             DifficultyTiers = new List<DifficultyMode[]>();
