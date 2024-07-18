@@ -38,8 +38,8 @@ namespace CalamityMod.Items.SummonItems.Invasion
 
         public override bool? UseItem(Player player)
         {
-            CalamityNetcode.SyncWorld();
-            AcidRainEvent.TryStartEvent(true);
+            AcidRainEvent.TryStartEvent(forceRain: true);
+            //CalamityNetcode.SyncWorld(); //TryStartEvent(forceRain: true) already sync the world data
             return true;
         }
 
