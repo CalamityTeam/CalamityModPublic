@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Summon
             writer.Write(recharging);
             writer.Write(circling);
             writer.Write(circlingPlayer);
-            writer.Write((double)floatyDistance);
+            writer.Write(floatyDistance);
             writer.Write(target is null ? -1 : target.whoAmI);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Summon
             recharging = reader.ReadInt32();
             circling = reader.ReadBoolean();
             circlingPlayer = reader.ReadBoolean();
-            floatyDistance = (float)reader.ReadDouble();
+            floatyDistance = reader.ReadSingle();
             int targ = reader.ReadInt32();
             target = targ == -1 ? null : Main.npc[targ];
         }
