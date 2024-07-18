@@ -34,8 +34,14 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override bool CanUseItem(Player player)
         {
+            //Only SinglePlayer or DedServ should change time to prevent unwanted race condition
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
+
             if (CalamityPlayer.areThereAnyDamnBosses)
                 return false;
+
+
 
             // Early Morning -> Noon
             if (Main.dayTime && Main.time < NoonCutoff)
