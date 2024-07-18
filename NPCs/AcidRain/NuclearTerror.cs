@@ -156,8 +156,8 @@ namespace CalamityMod.NPCs.AcidRain
             hasDoneDeathray = reader.ReadBoolean();
             AttackIndex = reader.ReadInt32();
             DelayTime = reader.ReadInt32();
-            DeathrayTime = reader.ReadInt32();
             JumpTimer = reader.ReadSingle();
+            DeathrayTime = reader.ReadInt32();
             ShootPosition = reader.ReadVector2();
         }
 

@@ -61,8 +61,8 @@ namespace CalamityMod.Projectiles.Magic
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(damageMultiplier);
-            writer.Write(damageShouldDecay);
             writer.Write(decayGracePeriod);
+            writer.Write(damageShouldDecay);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)

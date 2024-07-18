@@ -91,8 +91,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(NPC.localAI[0]);
             writer.Write(playerCrossed);
+            writer.Write(NPC.localAI[0]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
