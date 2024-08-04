@@ -39,7 +39,16 @@ namespace CalamityMod.Items.SummonItems.Invasion
 
         public override bool? UseItem(Player player)
         {
-            Main.StartInvasion(InvasionID.MartianMadness);
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                Main.invasionDelay = 0;
+                Main.StartInvasion(InvasionID.MartianMadness);
+            }
+            else
+            {
+                //-7.0 is hardcoded id for MartianMadness Event
+                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, number: player.whoAmI, number2: -7.0f);
+            }
             return true;
         }
 

@@ -106,8 +106,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            NPC.chaseable = reader.ReadBoolean();
             currentMode = reader.ReadInt32();
+            NPC.chaseable = reader.ReadBoolean();
             NPC.localAI[0] = reader.ReadSingle();
             NPC.localAI[1] = reader.ReadSingle();
             NPC.localAI[3] = reader.ReadSingle();

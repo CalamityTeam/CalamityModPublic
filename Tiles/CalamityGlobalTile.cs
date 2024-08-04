@@ -395,25 +395,47 @@ namespace CalamityMod.Tiles
 
         public override void Drop(int i, int j, int type)/* tModPorter Suggestion: Use CanDrop to decide if items can drop, use this method to drop additional items. See documentation. */
         {
-            Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(i, j);
-            if (tileAtPosition.TileFrameX % 36 == 0 && tileAtPosition.TileFrameY % 36 == 0)
+            // Handle for Demon Altar Drops
+            // Drop:
+            // - Soul of Night (x4) (Only if Early Hardmode Progression Rework is on)
+            // - Evil Smasher (x1) (Every 12th altar)
+            if (type == TileID.DemonAltar && Main.hardMode)
             {
-                if (type == TileID.DemonAltar && Main.hardMode)
+                Vector2 spreadMinMax = new Vector2(-32.0f, 32.0f);
+
+                // Drop 4 Soul of Night
+                if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
                 {
-                    Vector2 pos = new Vector2(i, j) * 16;
-                    if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
-                    {
-                        WorldGen.altarCount++;
-                        int quantity = 4;
-                        for (int k = 0; k < quantity; k += 1)
-                        {
-                            pos.X += Main.rand.NextFloat(-32f, 32f);
-                            pos.Y += Main.rand.NextFloat(-32f, 32f);
-                            Item.NewItem(new EntitySource_TileBreak(i, j), pos, ItemID.SoulofNight);
-                        }
-                    }
-                    if (WorldGen.altarCount % 12 == 0 && WorldGen.altarCount > 1)
-                        Item.NewItem(new EntitySource_TileBreak(i, j), pos, ModContent.ItemType<EvilSmasher>());
+                    DropItem(i, j, ItemID.SoulofNight, quantity: 4, asStack: false, spreadMinMax);
+                    WorldGen.altarCount++; // altarCount does not update automatically if ProgressionRework is enabled!
+                }
+
+                // Drop Evil Smasher on every 12 alter smashed
+                if (WorldGen.altarCount > 1 && WorldGen.altarCount % 12 == 0)
+                {
+                    DropItem(i, j, ModContent.ItemType<EvilSmasher>(), quantity: 1, asStack: true);
+                }
+            }
+        }
+
+        private static void DropItem(int i, int j, int itemType, int quantity, bool asStack, Vector2 spreadMinMax = default)
+        {
+            // Multiplayer Client should not spawn item themselves
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return;
+
+            Vector2 worldPos = new Vector2(i, j) * 16.0f;
+            if (asStack)
+            {
+                Vector2 spawnOffset = Main.rand.NextVector2Unit(spreadMinMax.X, spreadMinMax.Y);
+                Item.NewItem(new EntitySource_TileBreak(i, j), worldPos + spawnOffset, itemType, Stack: quantity);
+            }
+            else
+            {
+                for (int k = 0; k < quantity; k += 1)
+                {
+                    Vector2 spawnOffset = Main.rand.NextVector2Unit(spreadMinMax.X, spreadMinMax.Y);
+                    Item.NewItem(new EntitySource_TileBreak(i, j), worldPos + spawnOffset, itemType, Stack: 1);
                 }
             }
         }

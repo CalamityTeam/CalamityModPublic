@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             hasTeleported = reader.ReadBoolean();
-            ChargeStartingPosition = reader.ReadPackedVector2();
+            ChargeStartingPosition = reader.ReadVector2();
         }
 
         public override void AI()

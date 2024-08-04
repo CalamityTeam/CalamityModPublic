@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
     public class OldLordClaymoreProj : BaseIdleHoldoutProjectile
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<OldLordClaymore>();
-        public enum SwingState
+        public enum SwingState : byte
         {
             Default,
             Swinging,
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee
             writer.Write(Direction);
             writer.Write(PostSwingRepositionDelay);
             writer.Write(ChargePower);
-            writer.Write((int)CurrentState);
+            writer.Write((byte)CurrentState);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Melee
             Direction = reader.ReadInt32();
             PostSwingRepositionDelay = reader.ReadSingle();
             ChargePower = reader.ReadSingle();
-            CurrentState = (SwingState)reader.ReadInt32();
+            CurrentState = (SwingState)reader.ReadByte();
         }
 
         public override void SafeAI()

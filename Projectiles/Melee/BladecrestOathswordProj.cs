@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
     public class BladecrestOathswordProj : BaseIdleHoldoutProjectile
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<BladecrestOathsword>();
-        public enum SwingState
+        public enum SwingState : byte
         {
             Default,
             Swinging
@@ -57,14 +57,14 @@ namespace CalamityMod.Projectiles.Melee
         {
             writer.Write(Direction);
             writer.Write(PostSwingRepositionDelay);
-            writer.Write((int)CurrentState);
+            writer.Write((byte)CurrentState);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             Direction = reader.ReadInt32();
             PostSwingRepositionDelay = reader.ReadSingle();
-            CurrentState = (SwingState)reader.ReadInt32();
+            CurrentState = (SwingState)reader.ReadByte();
         }
 
         public override void SafeAI()

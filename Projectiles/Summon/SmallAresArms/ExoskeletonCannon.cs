@@ -83,6 +83,10 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
         {
             Projectile.rotation = reader.ReadSingle();
 
+            //limb count has passed from SendExtraAI
+            //therefore we should read this for packet aligns sake
+            _ = reader.ReadInt32();
+
             int limbCount = Limbs.Limbs.Length;
             for (int i = 0; i < limbCount; i++)
             {
