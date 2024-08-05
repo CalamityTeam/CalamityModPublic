@@ -10,14 +10,11 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoPlatingTile : ModTile
     {
-        internal static Texture2D GlowTexture;
+        internal static FramedGlowMask GlowMask;
 
         public override void SetStaticDefaults()
         {
-            if (!Main.dedServ)
-            {
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureExo/ExoPlatingTileGlow", AssetRequestMode.ImmediateLoad).Value;
-            }
+            GlowMask = new("CalamityMod/Tiles/FurnitureExo/ExoPlatingTileGlow", 18, 18);
 
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -48,18 +45,22 @@ namespace CalamityMod.Tiles.FurnitureExo
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             // If the cached textures don't exist for some reason, don't bother using them.
-            if (GlowTexture is null)
+            if (GlowMask.Texture is null)
                 return;
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
             int xPos = tile.TileFrameX;
             int frameOffset = j % 2 * AnimationFrameHeight;
             int yPos = tile.TileFrameY + frameOffset;
-            Color drawColour = GetDrawColour(i, j, Color.White);
-            Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;
 
-            TileFraming.SlopedGlowmask(i, j, 0, GlowTexture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            if (GlowMask.HasContentInFramePos(xPos, yPos))
+            {
+                Color drawColour = GetDrawColour(i, j, Color.White);
+                Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+                Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;
+
+                TileFraming.SlopedGlowmask(i, j, 0, GlowMask.Texture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            }
         }
         private Color GetDrawColour(int i, int j, Color colour)
         {
