@@ -59,12 +59,18 @@ namespace CalamityMod.Walls
                 zero = Vector2.Zero;
 
             Vector2 pos = new Vector2((i * 16 - (int)Main.screenPosition.X), (j * 16 - (int)Main.screenPosition.Y)) + zero;
-            Main.spriteBatch.Draw(TextureAssets.Wall[wallType].Value, pos + new Vector2(-8 + xOff, -8), frame, Lighting.GetColor(i, j, Color.White), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(TextureAssets.Wall[wallType].Value, pos + new Vector2(-8 + xOff, -8), frame, Lighting.GetColor(i, j, Color.White), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             Color glowColor = drawcolor * 0.4f;
-            for (int k = 0; k < 3; k++)
+
+            if (VoidstoneWall.IsGlowIncludedInFrame(frame))
             {
-                Vector2 offset = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 0.2f * k;
-                Main.spriteBatch.Draw(GlowTexture, pos + offset + new Vector2(-8 + xOff, -8), frame, glowColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                // For now checking for glowing frames greatly reducing the bottleneck
+                // But maybe we could squeeze bit more by removing the loop
+                for (int k = 0; k < 3; k++)
+                {
+                    Vector2 offset = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 0.2f * k;
+                    spriteBatch.Draw(GlowTexture, pos + offset + new Vector2(-8 + xOff, -8), frame, glowColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                }
             }
         }
 

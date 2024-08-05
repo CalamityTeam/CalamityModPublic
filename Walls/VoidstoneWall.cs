@@ -12,13 +12,29 @@ namespace CalamityMod.Walls
     public class VoidstoneWall : ModWall
     {
         internal static Texture2D GlowTexture;
+        internal static bool[,] GlowTexture_NonEmptyFrame = new bool[13, 5];
+
 
         public override void SetStaticDefaults()
         {
             Main.wallHouse[Type] = true;
             GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Walls/VoidstoneWall_Glowmask", AssetRequestMode.ImmediateLoad).Value;
 
+            // Hardcoded way to filter the Glowing frames
+            // Potentially be replaced to loop which look for actual pixel in certain frame
+            Array.Clear(GlowTexture_NonEmptyFrame);
+            GlowTexture_NonEmptyFrame[7, 2] = true;
+            GlowTexture_NonEmptyFrame[10, 0] = true;
+            GlowTexture_NonEmptyFrame[11, 1] = true;
+
             AddMapEntry(new Color(0, 0, 0));
+        }
+
+        public static bool IsGlowIncludedInFrame(Rectangle frame)
+        {
+            int x = frame.X / 36;
+            int y = frame.Y / 36;
+            return GlowTexture_NonEmptyFrame[x, y];
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -54,12 +70,16 @@ namespace CalamityMod.Walls
                 zero = Vector2.Zero;
 
             Vector2 pos = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
-            Main.spriteBatch.Draw(TextureAssets.Wall[wallType].Value, pos + new Vector2(-8 + xOff, -8), frame, Lighting.GetColor(i, j, Color.White), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(TextureAssets.Wall[wallType].Value, pos + new Vector2(-8 + xOff, -8), frame, Lighting.GetColor(i, j, Color.White), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
             Color glowColor = drawcolor * 0.4f;
-            for (int k = 0; k < 3; k++)
+            
+            if (IsGlowIncludedInFrame(frame))
             {
-                Vector2 offset = new Vector2(Main.rand.NextFloat(-1, 1f), Main.rand.NextFloat(-1, 1f)) * 0.2f * k;
-                Main.spriteBatch.Draw(GlowTexture, pos + offset + new Vector2(-8 + xOff, -8), frame, glowColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                for (int k = 0; k < 3; k++)
+                {
+                    Vector2 offset = new Vector2(Main.rand.NextFloat(-1, 1f), Main.rand.NextFloat(-1, 1f)) * 0.2f * k;
+                    spriteBatch.Draw(GlowTexture, pos + offset + new Vector2(-8 + xOff, -8), frame, glowColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                }
             }
         }
 
