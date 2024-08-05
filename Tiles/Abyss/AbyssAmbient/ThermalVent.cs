@@ -71,13 +71,18 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 
             if (!Main.gamePaused && t.TileFrameX % 36 == 0 && t.TileFrameY % 36 == 0 && Collision.CanHitLine(spawnPosition, 1, 1, spawnPosition - Vector2.UnitY * 100f, 1, 1))
             {
+                if (steamTimer <= 450)
+                    return;
+
+                if (!Main.rand.NextBool(3))
+                    return;
+
                 float positionInterpolant = (i + j) * 0.041f % 1f;
                 Vector2 smokeVelocity = -Vector2.UnitY.RotatedByRandom(0.11f) * MathHelper.Lerp(4.8f, 8.1f, positionInterpolant);
                 smokeVelocity.X += (float)Math.Cos(MathHelper.TwoPi * positionInterpolant) * 1.1f;
                 smokeVelocity.Y -= Main.rand.Next(3, 6);
 
-                if (steamTimer >= 450 && Main.rand.NextBool(3))
-                    Projectile.NewProjectile(new EntitySource_WorldEvent(), spawnPosition, smokeVelocity, ModContent.ProjectileType<ThermalSteam>(), Main.expertMode ? 20 : 30, 0f);
+                Projectile.NewProjectile(new EntitySource_WorldEvent(), spawnPosition, smokeVelocity, ModContent.ProjectileType<ThermalSteam>(), Main.expertMode ? 20 : 30, 0f);
             }
         }
     }
