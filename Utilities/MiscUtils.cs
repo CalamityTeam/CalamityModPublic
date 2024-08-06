@@ -277,7 +277,10 @@ namespace CalamityMod
 
         public static void StopSandstorm()
         {
-            Terraria.GameContent.Events.Sandstorm.Happening = false;
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                Sandstorm.StopSandstorm();
+            }
         }
 
         public static void AddWithCondition<T>(this List<T> list, T type, bool condition)
