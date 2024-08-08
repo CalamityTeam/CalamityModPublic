@@ -1808,11 +1808,21 @@ namespace CalamityMod.Items
                 ItemLoader.ReforgePrice(item, ref value, ref p.discountAvailable);
 
                 // Steal 20% of that money.
-                CalamityWorld.MoneyStolenByBandit += value / 5;
+                int stolen = value / 5;
+                CalamityWorld.MoneyStolenByBandit += stolen;
 
                 // Increment the reforge counter to allow the Bandit to refund
                 // Also triggers Tinkerer dialogue that hints to the player that money is being stolen
                 CalamityWorld.Reforges++;
+
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    ModPacket packet = CalamityMod.Instance.GetPacket();
+                    packet.Write((byte)CalamityModMessageType.SomeoneGotScammedByTinkerer);
+                    packet.Write((byte)p.whoAmI);
+                    packet.Write7BitEncodedInt(stolen);
+                    packet.Send();
+                }
             }
         }
         #endregion

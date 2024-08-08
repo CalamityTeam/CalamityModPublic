@@ -313,6 +313,47 @@ namespace CalamityMod
                         break;
 
                     //
+                    // Bandit refund syncs
+                    //
+                    case CalamityModMessageType.SomeoneGotScammedByTinkerer:
+                        int scammedOne = reader.ReadByte();
+                        int stolen = reader.Read7BitEncodedInt();
+
+                        CalamityWorld.MoneyStolenByBandit += stolen;
+                        CalamityWorld.Reforges++;
+
+                        // Broadcast back for tragic event
+                        // WorldSync DO sync the MoneyStolenByBandit and Refores variable, But spamming SyncWorld is not a ideal action
+                        if (Main.dedServ)
+                        {
+                            ModPacket packet = CalamityMod.Instance.GetPacket();
+                            packet.Write((byte)CalamityModMessageType.SomeoneGotScammedByTinkerer);
+                            packet.Write((byte)scammedOne);
+                            packet.Write7BitEncodedInt(stolen);
+                            packet.Send(ignoreClient: scammedOne);
+                        }
+
+                        break;
+
+                    case CalamityModMessageType.WantToRefundReforges:
+                        int requester = reader.ReadByte();
+
+                        // Only Server should handle this action!
+                        if (!Main.dedServ)
+                            break;
+
+                        int banditIdx = NPC.FindFirstNPC(ModContent.NPCType<THIEF>());
+                        if (banditIdx == -1)
+                            break;
+
+                        NPC bandit = Main.npc[banditIdx];
+                        if (bandit == null || !bandit.active)
+                            break;
+
+                        THIEF.DoRefund(bandit);
+                        break;
+
+                    //
                     // Default case: with no idea how long the packet is, we can't safely read data.
                     // Throw an exception now instead of allowing the network stream to corrupt.
                     //
@@ -437,6 +478,10 @@ namespace CalamityMod
 
         // Music events
         MusicEventSyncRequest,
-        MusicEventSyncResponse
+        MusicEventSyncResponse,
+        
+        // Bandit Reforge Refund
+        SomeoneGotScammedByTinkerer,
+        WantToRefundReforges
     }
 }
