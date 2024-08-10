@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -25,6 +26,8 @@ namespace CalamityMod.Tiles.Furniture
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(99, 99, 99), CalamityUtils.GetItemName<LanternCenter>());
             TileID.Sets.HasOutlines[Type] = true;
+            TileID.Sets.InteractibleByNPCs[Type] = true;
+            TileID.Sets.DisableSmartInteract[Type] = true;
 
             AnimationFrameHeight = 54;
         }
@@ -35,11 +38,20 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
-            frameCounter++;
-            if (frameCounter >= 6)
+            if (!LanternNight.LanternsUp)
             {
-                frame = (frame + 1) % 6;
+                frame = 0;
                 frameCounter = 0;
+            }
+            else
+            {
+                frameCounter++;
+                if (frameCounter >= 6)
+                {
+                    frame = (frame + 1) % 7;
+                    frameCounter = 0;
+                }
+                frame = Math.Clamp(frame, 1, 6);
             }
         }
 
@@ -50,13 +62,11 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void HitWire(int i, int j)
         {
-            CalamityUtils.LightHitWire(Type, i, j, 3, 3);
             LanternNight.ToggleManualLanterns();
         }
 
         public override bool RightClick(int i, int j)
         {
-            CalamityUtils.LightHitWire(Type, i, j, 3, 3);
             LanternNight.ToggleManualLanterns();
             SoundEngine.PlaySound(SoundID.Mech, new Vector2(i * 16, j * 16));
             return true;
