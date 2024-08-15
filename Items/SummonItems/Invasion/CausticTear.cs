@@ -42,7 +42,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 AcidRainEvent.TryStartEvent(forceRain: true);
-                //CalamityNetcode.SyncWorld(); //TryStartEvent(forceRain: true) already sync the world data
+                // TryStartEvent already syncs the world data
             }
 
             return true;
