@@ -1,9 +1,7 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.NPCs.Other;
 using CalamityMod.Rarities;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,11 +37,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.Center);
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<THELORDE>());
-            else
-                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<THELORDE>());
+            CalamityUtils.SpawnBossUsingItem<THELORDE>(player, SoundID.Roar);
             return true;
         }
     }

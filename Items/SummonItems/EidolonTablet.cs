@@ -1,7 +1,6 @@
 ﻿using System;
 using CalamityMod.Events;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -34,21 +33,48 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(NPCID.CultistBoss) && !NPC.LunarApocalypseIsUp && !NPC.AnyNPCs(NPCID.CultistTablet) && !BossRushEvent.BossRushActive;
+            // This is quite ugly, but MP does not sync NPC.LunarApocalypseIsUp
+            // So we should check it ourselves
+            if (BossRushEvent.BossRushActive)
+                return false;
+
+            if (NPC.MoonLordCountdown > 0)
+                return false;
+
+            for(int i = 0; i<200; i++)
+            {
+                if (!Main.npc[i].active)
+                    continue;
+
+                switch (Main.npc[i].type)
+                {
+                    case NPCID.CultistTablet:
+                    case NPCID.CultistBoss:
+                    case NPCID.LunarTowerSolar:
+                    case NPCID.LunarTowerVortex:
+                    case NPCID.LunarTowerNebula:
+                    case NPCID.LunarTowerStardust:
+                    case NPCID.MoonLordCore:
+                        return false;
+                }
+            }
+
+            return true;
         }
 
         public override bool? UseItem(Player player)
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            int posX = (int)player.Center.X + 30;
+            int posY = (int)player.Center.Y - 90;
+            NPC npc = CalamityUtils.SpawnBossOnPosUsingItem(player, NPCID.CultistBoss, posX, posY);
+            if (npc != null)
             {
-                int npc = NPC.NewNPC(new EntitySource_BossSpawn(player), (int)player.Center.X + 30, (int)player.Center.Y - 90, NPCID.CultistBoss, 1);
-                Main.npc[npc].direction = Main.npc[npc].spriteDirection = Math.Sign(player.Center.X - player.Center.X - 30f);
-                Main.npc[npc].timeLeft *= 20;
-                CalamityUtils.BossAwakenMessage(npc);
-            }
-            else
-                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, NPCID.CultistBoss);
+                WorldGen.GetRidOfCultists();
 
+                int newDir = Math.Sign(player.Center.X - player.Center.X - 30f);
+                npc.direction = newDir;
+                npc.spriteDirection = newDir;
+            }
             return true;
         }
     }

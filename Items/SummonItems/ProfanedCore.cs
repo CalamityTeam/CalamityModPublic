@@ -1,8 +1,6 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.NPCs.Providence;
 using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -40,16 +38,10 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(Providence.SpawnSound, player.Center);
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                int npc = NPC.NewNPC(new EntitySource_BossSpawn(player), (int)(player.position.X + Main.rand.Next(-500, 501)), (int)(player.position.Y - 250f), ModContent.NPCType<Providence>(), 1);
-                Main.npc[npc].timeLeft *= 20;
-                CalamityUtils.BossAwakenMessage(npc);
-            }
-            else
-                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<Providence>());
-
+            int posX = (int)(player.position.X + Main.rand.Next(-500, 501));
+            int posY = (int)(player.position.Y - 250f);
+            int bossToSpawn = ModContent.NPCType<Providence>();
+            CalamityUtils.SpawnBossOnPosUsingItem(player, bossToSpawn, posX, posY, Providence.SpawnSound);
             return true;
         }
     }

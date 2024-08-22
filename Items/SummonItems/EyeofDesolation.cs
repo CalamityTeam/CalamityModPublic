@@ -2,10 +2,8 @@
 using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.CalClone;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -52,11 +50,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.Center);
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CalamitasClone>());
-            else
-                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<CalamitasClone>());
+            CalamityUtils.SpawnBossUsingItem<CalamitasClone>(player, SoundID.Roar);
 
             if (Main.netMode != NetmodeID.MultiplayerClient && Main.zenithWorld)
             {

@@ -2,7 +2,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.HiveMind;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,12 +38,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.Center);
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<HiveMind>());
-            else
-                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<HiveMind>());
-
+            CalamityUtils.SpawnBossUsingItem<HiveMind>(player, SoundID.Roar);
             return true;
         }
 

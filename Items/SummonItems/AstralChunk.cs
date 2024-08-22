@@ -2,8 +2,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.AstrumAureus;
 using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -40,16 +38,10 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.Center);
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                int npc = NPC.NewNPC(new EntitySource_BossSpawn(player), (int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), ModContent.NPCType<AstrumAureus>(), 1);
-                Main.npc[npc].timeLeft *= 20;
-                CalamityUtils.BossAwakenMessage(npc);
-            }
-            else
-                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<AstrumAureus>());
-
+            int posX = (int)(player.position.X + Main.rand.Next(-250, 251));
+            int posY = (int)(player.position.Y - 500f);
+            int bossToSpawn = ModContent.NPCType<AstrumAureus>();
+            CalamityUtils.SpawnBossOnPosUsingItem(player, bossToSpawn, posX, posY, SoundID.Roar);
             return true;
         }
 
