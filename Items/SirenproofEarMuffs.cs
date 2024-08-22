@@ -34,13 +34,9 @@ namespace CalamityMod.Items
                 player.Calamity().disableAnahitaSpawns = false;
             else
                 player.Calamity().disableAnahitaSpawns = true;
-            Item.NetStateChanged();
             state = player.Calamity().disableAnahitaSpawns;
 
-            bool favorited = Item.favorited;
-            Item.SetDefaults(ModContent.ItemType<SirenproofEarMuffs>());
-            Item.stack++;
-            Item.favorited = favorited;
+            Item.RestoreConsumedItemByRightClick();
         }
 
         /*
