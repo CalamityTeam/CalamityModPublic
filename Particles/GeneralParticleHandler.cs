@@ -70,6 +70,7 @@ namespace CalamityMod.Particles
             particleTypes = null;
             particleTextures = null;
             particleInstances = null;
+
             batchedAlphaBlendParticles = null;
             batchedNonPremultipliedParticles = null;
             batchedAdditiveBlendParticles = null;
@@ -95,6 +96,9 @@ namespace CalamityMod.Particles
 
         public static void Update()
         {
+            if (Main.dedServ)
+                return;
+
             foreach (Particle particle in particles)
             {
                 if (particle == null)
@@ -110,11 +114,17 @@ namespace CalamityMod.Particles
 
         public static void RemoveParticle(Particle particle)
         {
+            if (Main.dedServ)
+                return;
+
             particlesToKill.Add(particle);
         }
 
         public static void DrawAllParticles(SpriteBatch sb)
         {
+            if (Main.dedServ)
+                return;
+
             if (particles.Count == 0)
                 return;
 
@@ -221,7 +231,13 @@ namespace CalamityMod.Particles
         /// <summary>
         /// Gives you the texture of the particle type. Useful for custom drawing
         /// </summary>
-        public static Texture2D GetTexture(int type) => particleTextures[type];
+        public static Texture2D GetTexture(int type)
+        {
+            if (Main.dedServ)
+                return null;
+
+            return particleTextures[type];
+        }
 
 #pragma warning disable CS0414
         private static string noteToEveryone = "This particle system was inspired by spirit mod's own particle system, with permission granted by Yuyutsu. Love you spirit mod! -Iban";
