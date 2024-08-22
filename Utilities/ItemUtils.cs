@@ -749,6 +749,15 @@ namespace CalamityMod
             }
         }
 
+        public static void RestoreConsumedItemByRightClick(this Item item)
+        {
+            bool favorited = item.favorited;
+            item.SetDefaults(item.type);
+            item.stack++;
+            item.favorited = favorited;
+            item.NetStateChanged();
+        }
+
         #region Rogue Prefixes
         public static int RandomRoguePrefix()
         {
