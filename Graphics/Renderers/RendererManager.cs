@@ -83,7 +83,7 @@ namespace CalamityMod.Graphics.Renderers
         {
             orig();
 
-            if (Main.gameMenu)
+            if (Main.gameMenu || Main.dedServ)
                 return;
 
             foreach (var renderer in Renderers)
@@ -91,10 +91,24 @@ namespace CalamityMod.Graphics.Renderers
                 if (!renderer.ShouldDraw)
                     continue;
 
-                renderer.MainTarget.SwapTo(Color.Transparent);
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-                renderer.DrawToTarget(Main.spriteBatch);
-                Main.spriteBatch.End();
+                try 
+                {
+                    renderer.MainTarget.SwapTo(Color.Transparent);
+                    Main.spriteBatch.TryBegin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                    renderer.DrawToTarget(Main.spriteBatch);
+                }
+                catch (Exception e)
+                {
+                    Main.QueueMainThreadAction(() =>
+                    {
+                        CalamityMod.Instance.Logger.Error($"Exception Found on RenderDetour: {e}");
+                    });
+                }
+                finally
+                {
+                    // Always end the Batch!
+                    Main.spriteBatch.TryEnd();
+                }
             }
 
             Main.instance.GraphicsDevice.SetRenderTarget(null);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using CalamityMod.DataStructures;
@@ -36,19 +37,13 @@ namespace CalamityMod.Graphics.Renderers.CalamityRenderers
         #region Loading
         public override void Load()
         {
-            if (Main.netMode == NetmodeID.Server)
-                return;
-
-            Targets = new();
-            Dyes = new();
-            RenderersToDrawThisFrame = new();
+            Targets = [];
+            Dyes = [];
+            RenderersToDrawThisFrame = [];
         }
 
         public override void Unload()
         {
-            if (Main.netMode == NetmodeID.Server)
-                return;
-
             Targets = null;
             Dyes = null;
             RenderersToDrawThisFrame = null;
@@ -60,6 +55,9 @@ namespace CalamityMod.Graphics.Renderers.CalamityRenderers
         {
             orig(self, isNotInVanitySlot, isSetToHidden, armorItem, dyeItem);
 
+            if (Main.dedServ)
+                return;
+
             if (armorItem.ModItem is not IDyeableShaderRenderer drawer)
                 return;
 
@@ -70,18 +68,29 @@ namespace CalamityMod.Graphics.Renderers.CalamityRenderers
         internal static void CheckVanityDetour(On_Player.orig_ApplyEquipVanity_Item orig, Player self, Item currentItem)
         {
             orig(self, currentItem);
+
+            if (Main.dedServ)
+                return;
+
             CheckIfEquipIsValid(currentItem, false);
         }
 
         internal static void CheckAccessoryDetour(On_Player.orig_ApplyEquipFunctional orig, Player self, Item currentItem, bool hideVisual)
         {
             orig(self, currentItem, hideVisual);
+
+            if (Main.dedServ)
+                return;
+
             CheckIfEquipIsValid(currentItem, hideVisual);
         }
 
         internal static void CheckArmorSetsDetour(On_Player.orig_UpdateArmorSets orig, Player self, int i)
         {
             orig(self, i);
+
+            if (Main.dedServ)
+                return;
 
             // Check each armor piece in the same manner as tMod.
             // If the entire set is equipped, and it is a renderer, it will be marked as valid.
@@ -103,6 +112,9 @@ namespace CalamityMod.Graphics.Renderers.CalamityRenderers
 
         private static void CheckIfEquipIsValid(Item item, bool hideVisual)
         {
+            if (Main.dedServ)
+                return;
+
             // Difficulty mode checks.
             if ((item.expertOnly && !Main.expertMode) || (item.masterOnly && !Main.masterMode))
                 return;
@@ -120,9 +132,15 @@ namespace CalamityMod.Graphics.Renderers.CalamityRenderers
 
         private static void MarkAsValid(IDyeableShaderRenderer renderer)
         {
-            // If it doesn't have a dictonary entry, create one.
-            if (!Targets.ContainsKey(renderer))
-                Main.QueueMainThreadAction(() => Targets[renderer] = new(true, ManagedRenderTarget.CreateScreenSizedTarget));
+            if (Main.dedServ)
+                return;
+
+            Main.QueueMainThreadAction(() =>
+            {
+                // If it doesn't have a dictonary entry, create one.
+                if (!Targets.ContainsKey(renderer))
+                    Main.QueueMainThreadAction(() => Targets[renderer] = new(true, ManagedRenderTarget.CreateScreenSizedTarget));
+            });
 
             // Mark this item as drawable this frame.
             RenderersToDrawThisFrame.AddWithCondition(renderer, renderer.ShouldDrawDyeableShader);
@@ -131,10 +149,13 @@ namespace CalamityMod.Graphics.Renderers.CalamityRenderers
 
         #region Updates/Drawing
         // Clear the list at the beginning of each update, to ensure its only populated by correct ones.
-        public override void PreUpdate() => RenderersToDrawThisFrame.Clear();
+        public override void PreUpdate() => RenderersToDrawThisFrame?.Clear();
 
         public override void DrawToTarget(SpriteBatch spriteBatch)
         {
+            if (Main.dedServ)
+                return;
+
             // Leave if nothing to draw.
             if (!RenderersToDrawThisFrame.Any())
                 return;
@@ -155,6 +176,9 @@ namespace CalamityMod.Graphics.Renderers.CalamityRenderers
 
         public override void DrawTarget(SpriteBatch spriteBatch)
         {
+            if (Main.dedServ)
+                return;
+
             // Leave if nothing to draw.
             if (!RenderersToDrawThisFrame.Any())
                 return;
