@@ -299,8 +299,8 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.width = frameWidth;
             NPC.height = frameHeight;
 
-            NPC.frameCounter += 1.0 / 6.0; // Update each 6 ticks
-            if (NPC.frameCounter >= 1.0)
+            NPC.frameCounter += 1.0; // Update each 6 ticks
+            if (NPC.frameCounter >= 6.0)
             {
                 NPC.frameCounter = 0.0; // Reset the counter
 
