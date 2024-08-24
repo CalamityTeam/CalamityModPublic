@@ -97,8 +97,9 @@ namespace CalamityMod.NPCs.HiveMind
         public static Asset<Texture2D> Phase2Texture;
 
         // Do not directly use those value in AI
-        // Those value should only be used on FindFrame to update following variables and they are what you suppose to use:
-        // - NPC.height, NPC.width
+        // Those value should only be used on FindFrame
+        // Commented out variables are what you suppose to use commonly:
+        // - NPC.height, NPC.width, NPC.frame
         // - frameX, frameY, frameWidth, frameHeight, maxFrameX, maxFrameY
         private const int framesX_P1 = 1;
         private const int framesY_P1 = 16;
@@ -294,7 +295,7 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.width = frameWidth;
             NPC.height = frameHeight;
 
-            NPC.frameCounter += 1.0 / 6.0; // Update each 5 ticks
+            NPC.frameCounter += 1.0 / 6.0; // Update each 6 ticks
             if (NPC.frameCounter >= 1.0)
             {
                 NPC.frameCounter = 0.0; // Reset the counter
