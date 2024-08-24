@@ -297,7 +297,7 @@ namespace CalamityMod.NPCs.HiveMind
 
             // Update NPC Size accordingly
             NPC.width = frameWidth;
-            NPC.height = frameHeight;
+            NPC.height = frameHeight - 2; //Phase 1 Sprite have 2 pixel margin
 
             NPC.frameCounter += 1.0; // Update each 6 ticks
             if (NPC.frameCounter >= 6.0)
@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs.HiveMind
                 }
             }
 
-            NPC.frame = new Rectangle(frameWidth * frameX, frameHeight * frameY, frameWidth, frameHeight);
+            NPC.frame = new Rectangle(frameWidth * frameX, frameHeight * frameY, NPC.width, NPC.height);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -327,8 +327,7 @@ namespace CalamityMod.NPCs.HiveMind
             Texture2D texture = IsPhaseTwo ? Phase2Texture.Value : TextureAssets.Npc[NPC.type].Value;
             SpriteEffects spriteEffects = NPC.direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Vector2 origin = new Vector2(NPC.width / 2, NPC.height);
-            Vector2 center = NPC.position - screenPos;
-            center += new Vector2(NPC.width / 2, NPC.height);
+            Vector2 center = NPC.position - screenPos + origin;
 
             // AfterImage Effect for Phase Two
             if (CalamityConfig.Instance.Afterimages && state != 0 && IsPhaseTwo)
