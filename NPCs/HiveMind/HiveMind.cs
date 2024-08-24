@@ -138,8 +138,12 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.npcSlots = 5f;
             NPC.GetNPCDamage();
+
+            // this is the only allowed case for using constant directly
+            // as it doesn't have proper frame info yet
             NPC.width = frameWidth_P1;
-            NPC.height = frameWidth_P2;
+            NPC.height = frameHeight_P1;
+
             NPC.defense = 8;
             NPC.LifeMaxNERB(7700, 9200, 350000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
