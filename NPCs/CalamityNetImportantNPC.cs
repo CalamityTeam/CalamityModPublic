@@ -51,6 +51,18 @@ namespace CalamityMod.NPCs
 
         public override void SetStaticDefaults()
         {
+            #region Vanilla Enemies
+            MarkNPCToNetImportant(NPCID.EaterofWorldsHead);
+            MarkNPCToNetImportant(NPCID.EaterofWorldsBody);
+            MarkNPCToNetImportant(NPCID.EaterofWorldsTail);
+
+            MarkNPCToNetImportant(NPCID.TheDestroyer);
+            MarkNPCToNetImportant(NPCID.TheDestroyerBody);
+            MarkNPCToNetImportant(NPCID.TheDestroyerTail);
+            #endregion Vanilla Enemies
+
+
+
             #region Pre Hardmode
             MarkNPCToNetImportant<DesertScourgeHead>(netUpdateTickOffset: 1);
             MarkNPCToNetImportant<DesertScourgeBody>(netUpdateTickOffset: 1);
@@ -188,8 +200,12 @@ namespace CalamityMod.NPCs
 
         private void MarkNPCToNetImportant<NPCType>(int netUpdateTickOffset = 0) where NPCType : ModNPC
         {
-            int type = ModContent.NPCType<NPCType>();
-            typesToUpdate[type] = netUpdateTickOffset;
+            MarkNPCToNetImportant(ModContent.NPCType<NPCType>(), netUpdateTickOffset);
+        }
+
+        private void MarkNPCToNetImportant(int npcType, int netUpdateTickOffset = 0)
+        {
+            typesToUpdate[npcType] = netUpdateTickOffset;
         }
     }
 }
