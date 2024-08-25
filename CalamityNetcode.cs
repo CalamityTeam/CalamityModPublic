@@ -198,7 +198,7 @@ namespace CalamityMod
                         Vector2 position = reader.ReadVector2();
                         float rotation = (float)reader.ReadHalf(); //rotation unit is radian (-π/2 ≤ rotation ≤ π/2) so Half precision should works
 
-                        if (npcIndex >= 200)
+                        if (npcIndex >= Main.maxNPCs)
                             break;
 
                         npc = Main.npc[npcIndex];
