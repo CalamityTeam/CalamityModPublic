@@ -24,16 +24,19 @@ using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Chat;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
     public sealed class CalamityNetImportantNPC : GlobalNPC
     {
-        private static HashSet<int> typesToUpdate;
+        private static Dictionary<int, int> typesToUpdate;
 
         public override void Load()
         {
@@ -49,29 +52,29 @@ namespace CalamityMod.NPCs
         public override void SetStaticDefaults()
         {
             #region Pre Hardmode
-            MarkNPCToNetImportant<DesertScourgeHead>();
-            MarkNPCToNetImportant<DesertScourgeBody>();
-            MarkNPCToNetImportant<DesertScourgeTail>();
+            MarkNPCToNetImportant<DesertScourgeHead>(netUpdateTickOffset: 1);
+            MarkNPCToNetImportant<DesertScourgeBody>(netUpdateTickOffset: 1);
+            MarkNPCToNetImportant<DesertScourgeTail>(netUpdateTickOffset: 1);
 
-            MarkNPCToNetImportant<DesertNuisanceHead>();
-            MarkNPCToNetImportant<DesertNuisanceBody>();
-            MarkNPCToNetImportant<DesertNuisanceTail>();
+            MarkNPCToNetImportant<DesertNuisanceHead>(netUpdateTickOffset: 2);
+            MarkNPCToNetImportant<DesertNuisanceBody>(netUpdateTickOffset: 2);
+            MarkNPCToNetImportant<DesertNuisanceTail>(netUpdateTickOffset: 2);
 
-            MarkNPCToNetImportant<DesertNuisanceHeadYoung>();
-            MarkNPCToNetImportant<DesertNuisanceBodyYoung>();
-            MarkNPCToNetImportant<DesertNuisanceTailYoung>();
+            MarkNPCToNetImportant<DesertNuisanceHeadYoung>(netUpdateTickOffset: 3);
+            MarkNPCToNetImportant<DesertNuisanceBodyYoung>(netUpdateTickOffset: 3);
+            MarkNPCToNetImportant<DesertNuisanceTailYoung>(netUpdateTickOffset: 3);
 
-            MarkNPCToNetImportant<PerforatorHeadSmall>();
-            MarkNPCToNetImportant<PerforatorBodySmall>();
-            MarkNPCToNetImportant<PerforatorTailSmall>();
+            MarkNPCToNetImportant<PerforatorHeadSmall>(netUpdateTickOffset: 1);
+            MarkNPCToNetImportant<PerforatorBodySmall>(netUpdateTickOffset: 1);
+            MarkNPCToNetImportant<PerforatorTailSmall>(netUpdateTickOffset: 1);
 
-            MarkNPCToNetImportant<PerforatorHeadMedium>();
-            MarkNPCToNetImportant<PerforatorBodyMedium>();
-            MarkNPCToNetImportant<PerforatorTailMedium>();
+            MarkNPCToNetImportant<PerforatorHeadMedium>(netUpdateTickOffset: 2);
+            MarkNPCToNetImportant<PerforatorBodyMedium>(netUpdateTickOffset: 2);
+            MarkNPCToNetImportant<PerforatorTailMedium>(netUpdateTickOffset: 2);
 
-            MarkNPCToNetImportant<PerforatorHeadLarge>();
-            MarkNPCToNetImportant<PerforatorBodyLarge>();
-            MarkNPCToNetImportant<PerforatorTailLarge>();
+            MarkNPCToNetImportant<PerforatorHeadLarge>(netUpdateTickOffset: 3);
+            MarkNPCToNetImportant<PerforatorBodyLarge>(netUpdateTickOffset: 3);
+            MarkNPCToNetImportant<PerforatorTailLarge>(netUpdateTickOffset: 3);
             #endregion Pre Hardmode
 
 
@@ -97,13 +100,13 @@ namespace CalamityMod.NPCs
 
 
             #region Post ML
-            MarkNPCToNetImportant<CosmicGuardianHead>();
-            MarkNPCToNetImportant<CosmicGuardianBody>();
-            MarkNPCToNetImportant<CosmicGuardianTail>();
+            MarkNPCToNetImportant<CosmicGuardianHead>(netUpdateTickOffset: 1);
+            MarkNPCToNetImportant<CosmicGuardianBody>(netUpdateTickOffset: 1);
+            MarkNPCToNetImportant<CosmicGuardianTail>(netUpdateTickOffset: 1);
 
-            MarkNPCToNetImportant<DevourerofGodsHead>();
-            MarkNPCToNetImportant<DevourerofGodsBody>();
-            MarkNPCToNetImportant<DevourerofGodsTail>();
+            MarkNPCToNetImportant<DevourerofGodsHead>(netUpdateTickOffset: 2);
+            MarkNPCToNetImportant<DevourerofGodsBody>(netUpdateTickOffset: 2);
+            MarkNPCToNetImportant<DevourerofGodsTail>(netUpdateTickOffset: 2);
 
             MarkNPCToNetImportant<StormWeaverHead>();
             MarkNPCToNetImportant<StormWeaverBody>();
@@ -133,10 +136,10 @@ namespace CalamityMod.NPCs
             MarkNPCToNetImportant<BobbitWormHead>();
             MarkNPCToNetImportant<BobbitWormSegment>();
 
-            MarkNPCToNetImportant<EidolonWyrmHead>();
-            MarkNPCToNetImportant<EidolonWyrmBody>();
-            MarkNPCToNetImportant<EidolonWyrmBodyAlt>();
-            MarkNPCToNetImportant<EidolonWyrmTail>();
+            MarkNPCToNetImportant<EidolonWyrmHead>(netUpdateTickOffset: 1);
+            MarkNPCToNetImportant<EidolonWyrmBody>(netUpdateTickOffset: 1);
+            MarkNPCToNetImportant<EidolonWyrmBodyAlt>(netUpdateTickOffset: 1);
+            MarkNPCToNetImportant<EidolonWyrmTail>(netUpdateTickOffset: 1);
 
             MarkNPCToNetImportant<GulperEelHead>();
             MarkNPCToNetImportant<GulperEelBody>();
@@ -147,10 +150,10 @@ namespace CalamityMod.NPCs
             MarkNPCToNetImportant<OarfishBody>();
             MarkNPCToNetImportant<OarfishTail>();
 
-            MarkNPCToNetImportant<PrimordialWyrmHead>();
-            MarkNPCToNetImportant<PrimordialWyrmBody>();
-            MarkNPCToNetImportant<PrimordialWyrmBodyAlt>();
-            MarkNPCToNetImportant<PrimordialWyrmTail>();
+            MarkNPCToNetImportant<PrimordialWyrmHead>(netUpdateTickOffset: 2);
+            MarkNPCToNetImportant<PrimordialWyrmBody>(netUpdateTickOffset: 2);
+            MarkNPCToNetImportant<PrimordialWyrmBodyAlt>(netUpdateTickOffset: 2);
+            MarkNPCToNetImportant<PrimordialWyrmTail>(netUpdateTickOffset: 2);
             #endregion Abyss
         }
 
@@ -164,33 +167,29 @@ namespace CalamityMod.NPCs
             if (!npc.active)
                 return;
 
-            if (Main.GameUpdateCount % 30 != 0)
+            if (!typesToUpdate.TryGetValue(npc.type, out var netUpdateTickOffset))
                 return;
 
-            if (!typesToUpdate.Contains(npc.type))
+            if ((Main.GameUpdateCount + netUpdateTickOffset) % 45 != 0)
                 return;
 
             foreach (var player in Main.ActivePlayers)
             {
-                // Exclude server client from distance check
-                if (player.whoAmI == Main.myPlayer)
-                    continue;
-
                 // distance between 1000~1500 update with 8 tick period
                 // and distance over 1500 will never update
-                // So we forcely update NPC distanced over 1500 with 30 tick period
-                float distance = CalamityUtils.ManhattanDistance(player.Center, npc.Center);
+                // So we forcely update NPC distanced over 1500 with 45 tick period
+                float distance = CalamityUtils.ManhattanDistance(player.position, npc.position);
                 if (distance <= 1499.0f)
                     continue;
 
-                NetMessage.SendData(MessageID.SyncNPC, player.whoAmI, -1, null, npc.whoAmI);
+                npc.SyncNPCPosAndRotOnly(); //Light-weight version to sync it's position
             }
         }
 
-        private void MarkNPCToNetImportant<NPCType>() where NPCType : ModNPC
+        private void MarkNPCToNetImportant<NPCType>(int netUpdateTickOffset = 0) where NPCType : ModNPC
         {
             int type = ModContent.NPCType<NPCType>();
-            typesToUpdate.Add(type);
+            typesToUpdate[type] = netUpdateTickOffset;
         }
     }
 }

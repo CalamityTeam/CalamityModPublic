@@ -310,6 +310,16 @@ namespace CalamityMod
             netMessage.Send();
         }
 
+        public static void SyncNPCPosAndRotOnly(this NPC npc)
+        {
+            ModPacket packet = CalamityMod.Instance.GetPacket();
+            packet.Write((byte)CalamityModMessageType.SyncNPCPosAndRotOnly);
+            packet.Write((byte)npc.whoAmI);
+            packet.WriteVector2(npc.position);
+            packet.Write((Half)npc.rotation);
+            packet.Send();
+        }
+
         /// <summary>
         /// Syncs <see cref="CalamityGlobalNPC.destroyerLaserColor"/>. This exists to sync the Destroyer's lasers so that the telegraphs and segment colors display properly.
         /// </summary>
