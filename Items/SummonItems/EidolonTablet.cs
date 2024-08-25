@@ -41,12 +41,9 @@ namespace CalamityMod.Items.SummonItems
             if (NPC.MoonLordCountdown > 0)
                 return false;
 
-            for(int i = 0; i<200; i++)
+            foreach (var npc in Main.ActiveNPCs)
             {
-                if (!Main.npc[i].active)
-                    continue;
-
-                switch (Main.npc[i].type)
+                switch (npc.type)
                 {
                     case NPCID.CultistTablet:
                     case NPCID.CultistBoss:
