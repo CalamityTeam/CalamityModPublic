@@ -687,7 +687,7 @@ namespace CalamityMod.NPCs.ExoMechs
                 ShouldStartStandingUp = true;
 
             // Different text if Exo Mechdusa
-            if (exoMechdusa)
+            if (exoMechdusa && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (DefeatTimer == DelayBeforeDefeatStandup + 50f)
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.DraedonMechdusaEndText1", TextColor);
@@ -696,7 +696,7 @@ namespace CalamityMod.NPCs.ExoMechs
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.DraedonMechdusaEndText2", TextColor);
             }
             // Otherwise do normal text
-            else
+            else if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (DefeatTimer == DelayBeforeDefeatStandup + 50f)
                     CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Status.Boss.DraedonEndText1", TextColor);
