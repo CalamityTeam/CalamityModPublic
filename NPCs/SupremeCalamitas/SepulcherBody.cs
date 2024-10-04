@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
+    [LongDistanceNetSync(SyncWith = typeof(SepulcherHead))]
     public class SepulcherBody : ModNPC
     {
         private bool setAlpha = false;

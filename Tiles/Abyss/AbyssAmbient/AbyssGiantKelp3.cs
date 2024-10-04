@@ -12,8 +12,12 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 {
     public class AbyssGiantKelp3 : ModTile
     {
+        internal static FramedGlowMask GlowMask;
+
         public override void SetStaticDefaults()
         {
+            GlowMask = new("CalamityMod/Tiles/Abyss/AbyssAmbient/AbyssGiantKelp3Glow", 18, 18);
+
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.Width = 2;
@@ -65,10 +69,12 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Framing.GetTileSafely(i, j);
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AbyssAmbient/AbyssGiantKelp3Glow").Value;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-            spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
+            if (GlowMask.HasContentInFramePos(tile.TileFrameX, tile.TileFrameY))
+            {
+                spriteBatch.Draw(GlowMask.Texture, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
+            }
         }
     }
 }

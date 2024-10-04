@@ -9,11 +9,22 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 {
+    //
+    // Pirate Crate With Glow
+
     public class PirateCrate1 : ModTile
     {
+        protected virtual string GlowAsset => "CalamityMod/Tiles/Abyss/AbyssAmbient/PirateCrate1Glow";
+        internal static FramedGlowMask GlowMask;
+
         public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/CrateBreak", 3) { Volume = 0.8f };
         public override void SetStaticDefaults()
         {
+            if (!string.IsNullOrEmpty(GlowAsset))
+            {
+                GlowMask = new(GlowAsset, 18, 18);
+            }
+
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
             Main.tileWaterDeath[Type] = false;
@@ -44,36 +55,29 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Framing.GetTileSafely(i, j);
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AbyssAmbient/PirateCrate1Glow").Value;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-            spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
+            if (GlowMask is not null && GlowMask.HasContentInFramePos(tile.TileFrameX, tile.TileFrameY))
+            {
+                Vector2 pos = new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero;
+                Rectangle frame = new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16);
+                spriteBatch.Draw(GlowMask.Texture, pos, frame, Color.White);
+            }
         }
     }
 
     public class PirateCrate2 : PirateCrate1
     {
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
-        {
-            Tile tile = Framing.GetTileSafely(i, j);
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AbyssAmbient/PirateCrate2Glow").Value;
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
-
-            spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
-        }
+        protected override string GlowAsset => "CalamityMod/Tiles/Abyss/AbyssAmbient/PirateCrate2Glow";
     }
 
     public class PirateCrate3 : PirateCrate1
     {
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
-        {
-            Tile tile = Framing.GetTileSafely(i, j);
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AbyssAmbient/PirateCrate3Glow").Value;
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
-
-            spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
-        }
+        protected override string GlowAsset => "CalamityMod/Tiles/Abyss/AbyssAmbient/PirateCrate3Glow";
     }
+
+    //
+    // Pirate Crate Without Glow
 
     public class PirateCrate4 : ModTile
     {

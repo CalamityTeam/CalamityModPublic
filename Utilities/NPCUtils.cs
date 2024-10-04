@@ -4,6 +4,7 @@ using CalamityMod.Balancing;
 using CalamityMod.DataStructures;
 using CalamityMod.Enums;
 using CalamityMod.Events;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
@@ -15,7 +16,9 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Chat;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Localization;
@@ -308,6 +311,16 @@ namespace CalamityMod
             netMessage.WriteVector2(npc.Center);
             netMessage.WriteVector2(npc.velocity);
             netMessage.Send();
+        }
+
+        public static void SyncNPCPosAndRotOnly(this NPC npc)
+        {
+            ModPacket packet = CalamityMod.Instance.GetPacket();
+            packet.Write((byte)CalamityModMessageType.SyncNPCPosAndRotOnly);
+            packet.Write((byte)npc.whoAmI);
+            packet.WriteVector2(npc.position);
+            packet.Write((Half)npc.rotation);
+            packet.Send();
         }
 
         /// <summary>
@@ -790,6 +803,103 @@ namespace CalamityMod
             }
             else
                 return null;
+        }
+
+        /// <summary>
+        /// Spawn Boss Method for Using Spawn Items
+        /// <para>NOTE: This method use vanilla's spawn position behaviour!</para>
+        /// </summary>
+        /// <param name="player">Player who used Item</param>
+        /// <param name="npcType">Boss's NPCType to spawn</param>
+        /// <param name="spawnSound">Sound to play when spawn, it play on used player's position</param>
+        public static void SpawnBossUsingItem(Player player, int npcType, in SoundStyle? spawnSound = null)
+        {
+            SoundEngine.PlaySound(spawnSound, player.Center);
+
+            if (player.whoAmI != Main.myPlayer)
+                return;
+
+            // NOTE: MP netcode can be simplified by directly spawn npc like SpawnBossOnPosUsingItem does
+            // but leaving this as vanilla's standard now
+            switch (Main.netMode)
+            {
+                // SP: Spawn Boss Immediately
+                case NetmodeID.SinglePlayer:
+                    NPC.SpawnOnPlayer(player.whoAmI, npcType);
+                    break;
+
+                // MP: Ask server to spawn one
+                case NetmodeID.MultiplayerClient:
+                    NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, npcType);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Spawn Boss Method for Using Spawn Items
+        /// <para>NOTE: This method use vanilla's spawn position behaviour!</para>
+        /// </summary>
+        /// <typeparam name="BossType">Boss's NPCType to spawn</typeparam>
+        /// <param name="player">Player who used Item</param>
+        /// <param name="spawnSound">Sound to play when spawn, it play on used player's position</param>
+        public static void SpawnBossUsingItem<BossType>(Player player, in SoundStyle? spawnSound = null) where BossType : ModNPC
+        {
+            SpawnBossUsingItem(player, NPCType<BossType>(), spawnSound);
+        }
+
+        /// <summary>
+        /// Spawn Boss Method for Using Spawn Items
+        /// <para>NOTE: This method can override spawn position to anywhere you want</para>
+        /// </summary>
+        /// <param name="player">Player who used Item</param>
+        /// <param name="npcType">Boss's NPCType to spawn</param>
+        /// <param name="worldX">Spawn Position X</param>
+        /// <param name="worldY">Spawn Position Y</param>
+        /// <param name="spawnSound">Sound to play when spawn, it play on used player's position</param>
+        /// <returns>Spawned NPC Instance, null on MultiplayerClient</returns>
+        public static NPC SpawnBossOnPosUsingItem(Player player, int npcType, int worldX, int worldY, in SoundStyle? spawnSound = null)
+        {
+            SoundEngine.PlaySound(spawnSound, player.Center);
+
+            // SP or SERVER: Spawn Boss Immediately
+            // This will ensure NPC to be spawned only once on Item.UseItem
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                int spawnedNPCIdx = NPC.NewNPC(new EntitySource_BossSpawn(target: player), worldX, worldY, npcType, Start: 1);
+
+                // 200 is invalid Index
+                if (spawnedNPCIdx >= 200)
+                    return null;
+
+                BossAwakenMessage(spawnedNPCIdx);
+                NPC npc = Main.npc[spawnedNPCIdx];
+                npc.timeLeft *= 20;
+                
+                // Server Exclusive: Sync NPC Data
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, spawnedNPCIdx);
+                }
+
+                return npc;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Spawn Boss Method for Using Spawn Items
+        /// <para>NOTE: This method can override spawn position to anywhere you want</para>
+        /// </summary>
+        /// <typeparam name="BossType"></typeparam>
+        /// <param name="player">Player who used Item</param>
+        /// <param name="worldX">Spawn Position X</param>
+        /// <param name="worldY">Spawn Position Y</param>
+        /// <param name="spawnSound">Sound to play when spawn, it play on used player's position</param>
+        /// <returns>Spawned NPC Instance, null on MultiplayerClient</returns>
+        public static NPC SpawnBossOnPosUsingItem<BossType>(Player player, int worldX, int worldY, in SoundStyle? spawnSound = null) where BossType : ModNPC
+        {
+            return SpawnBossOnPosUsingItem(player, NPCType<BossType>(), worldX, worldY, spawnSound);
         }
 
         /// <summary>

@@ -9,8 +9,12 @@ namespace CalamityMod.Tiles.FurnitureStratus
 {
     public class StratusBricks : ModTile
     {
+        internal static FramedGlowMask GlowMask;
+
         public override void SetStaticDefaults()
         {
+            GlowMask = new("CalamityMod/Tiles/FurnitureStratus/StratusBricksGlow", 18, 18);
+
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             TileID.Sets.HasSlopeFrames[Type] = true;
@@ -38,13 +42,16 @@ namespace CalamityMod.Tiles.FurnitureStratus
         {
             int xPos = Main.tile[i, j].TileFrameX;
             int yPos = Main.tile[i, j].TileFrameY;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStratus/StratusBricksGlow").Value;
-            Color drawColour = GetDrawColour(i, j, new Color(100, 100, 100, 100));
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Tile trackTile = Main.tile[i, j];
 
-            TileFraming.SlopedGlowmask(i, j, 0, glowmask, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            if (GlowMask.HasContentInFramePos(xPos, yPos))
+            {
+                Color drawColour = GetDrawColour(i, j, new Color(100, 100, 100, 100));
+                Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+                Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
+                Tile trackTile = Main.tile[i, j];
+
+                TileFraming.SlopedGlowmask(i, j, 0, GlowMask.Texture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            }
         }
 
         private Color GetDrawColour(int i, int j, Color colour)

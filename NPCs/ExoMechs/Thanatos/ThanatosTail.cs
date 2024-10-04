@@ -17,6 +17,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
+    [LongDistanceNetSync(SyncWith = typeof(ThanatosHead))]
     public class ThanatosTail : ModNPC
     {
         public static int normalIconIndex;

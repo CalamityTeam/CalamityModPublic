@@ -14,12 +14,11 @@ namespace CalamityMod.Tiles.Abyss
     public class Voidstone : ModTile
     {
         public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/VoidstoneMine", 3) { Volume = 0.4f };
-        internal static Texture2D GlowTexture;
+        internal static FramedGlowMask GlowMask;
 
         public override void SetStaticDefaults()
         {
-            if (!Main.dedServ)
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/Voidstone_Glowmask", AssetRequestMode.ImmediateLoad).Value;
+            GlowMask = new("CalamityMod/Tiles/Abyss/Voidstone_Glowmask", 18, 18);
 
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -167,7 +166,7 @@ namespace CalamityMod.Tiles.Abyss
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (GlowTexture is null)
+            if (GlowMask.Texture is null)
                 return;
 
             int xPos = Main.tile[i, j].TileFrameX;
@@ -261,19 +260,23 @@ namespace CalamityMod.Tiles.Abyss
 
             xOffset *= 234;
             xPos += xOffset;
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour(i, j, new Color(255, 255, 255, 255));
-            Tile trackTile = Main.tile[i, j];
-            float brightness = 1f;
-            float declareThisHereToPreventRunningTheSameCalculationMultipleTimes = Main.GameUpdateCount * 0.007f;
-            brightness *= (float)MathF.Sin(i / 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
-            brightness *= (float)MathF.Sin(j / 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
-            brightness *= (float)MathF.Sin(i * 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
-            brightness *= (float)MathF.Sin(j * 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
-            drawColour *= brightness;
 
-            TileFraming.SlopedGlowmask(i, j, 0, GlowTexture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            if (GlowMask.HasContentInFramePos(xPos, yPos))
+            {
+                Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+                Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
+                Color drawColour = GetDrawColour(i, j, new Color(255, 255, 255, 255));
+                Tile trackTile = Main.tile[i, j];
+                float brightness = 1f;
+                float declareThisHereToPreventRunningTheSameCalculationMultipleTimes = Main.GameUpdateCount * 0.007f;
+                brightness *= (float)MathF.Sin(i / 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
+                brightness *= (float)MathF.Sin(j / 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
+                brightness *= (float)MathF.Sin(i * 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
+                brightness *= (float)MathF.Sin(j * 18f + declareThisHereToPreventRunningTheSameCalculationMultipleTimes);
+                brightness *= 0.5f;
+                drawColour *= brightness;
+                TileFraming.SlopedGlowmask(i, j, 0, GlowMask.Texture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            }
         }
 
         private Color GetDrawColour(int i, int j, Color colour)

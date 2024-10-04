@@ -14,8 +14,12 @@ namespace CalamityMod.Tiles.Ores
     [LegacyName("ChaoticOre")]
     public class ScoriaOre : ModTile
     {
+        internal static FramedGlowMask GlowMask;
+
         public override void SetStaticDefaults()
         {
+            GlowMask = new("CalamityMod/Tiles/Ores/ScoriaOreGlow", 18, 18);
+
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -91,13 +95,16 @@ namespace CalamityMod.Tiles.Ores
         {
             int xPos = Main.tile[i, j].TileFrameX;
             int yPos = Main.tile[i, j].TileFrameY;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/Ores/ScoriaOreGlow").Value;
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
-            Tile trackTile = Main.tile[i, j];
-            double num6 = Main.time * 0.08;
-            TileFraming.SlopedGlowmask(i, j, 0, glowmask, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+
+            if (GlowMask.HasContentInFramePos(xPos, yPos))
+            {
+                Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+                Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
+                Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
+                Tile trackTile = Main.tile[i, j];
+                double num6 = Main.time * 0.08;
+                TileFraming.SlopedGlowmask(i, j, 0, GlowMask.Texture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            }
         }
 
         private Color GetDrawColour(int i, int j, Color colour)

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
@@ -38,6 +40,7 @@ using Terraria.GameContent.Liquid;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameInput;
 using Terraria.Graphics;
+using Terraria.Graphics.Capture;
 using Terraria.Graphics.Light;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -46,6 +49,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.UI.Gamepad;
+using static Terraria.WaterfallManager;
 
 namespace CalamityMod.ILEditing
 {
@@ -57,14 +61,12 @@ namespace CalamityMod.ILEditing
         private static int aLabDoorClosed = -1;
         private static int exoDoorOpen = -1;
         private static int exoDoorClosed = -1;
-        // Cached for use in ChangeWaterQuadColors.
-        private static CustomLavaStyle cachedLavaStyle = default;
 
         // Holds the vanilla game function which spawns town NPCs, wrapped in a delegate for reflection purposes.
         // This function is (optionally) invoked manually in an IL edit to enable NPCs to spawn at night.
         private static Action VanillaSpawnTownNPCs;
 
-        private static readonly MethodInfo textureGetValueMethod = typeof(Asset<Texture2D>).GetMethod("get_Value", BindingFlags.Public | BindingFlags.Instance);
+        //private static readonly MethodInfo textureGetValueMethod = typeof(Asset<Texture2D>).GetMethod("get_Value", BindingFlags.Public | BindingFlags.Instance);
 
         public static event Func<VertexColors, int, Point, VertexColors> ExtraColorChangeConditions;
 
@@ -772,332 +774,497 @@ namespace CalamityMod.ILEditing
         }
         #endregion
 
-        #region Custom Lava Visuals
+        #region Lava Style Edits
+        //Nine Layers of Hell brought to you by LIONEIGHTCAKE!!
+        //All new liquid rendering for lava can be found in Systems/LavaRendering.cs
 
-        private static void CacheLavaStyle(Terraria.On_Main.orig_RenderWater orig, Main self)
-        {
-            // Immediately cache the lava drawing style.
-            // This will pay off in SPADES when we go to draw the tiles.
-            foreach (CustomLavaStyle style in CustomLavaManagement.CustomLavaStyles)
-            {
-                if (style.ChooseLavaStyle())
-                {
-                    cachedLavaStyle = style;
-                    orig(self);
-                    return;
-                }
-            }
+        //To save on time, a LOT of the edits are from the BiomeLava mod (owned by myself, lion8cake). Obv every edit has been changed to reflect
+        //Calamity's style of IL edits and to remove any unnessesary edits not relivant to calamity. In the loading of the detours and edits
+        //BiomeLava is a check for whether they load or not. If BiomeLava is active all ModLavaStyles will be turned into ModCalls for BiomeLava.
 
-            cachedLavaStyle = default;
-            orig(self);
-        }
-
-        private static void DrawCustomLava(Terraria.GameContent.Drawing.On_TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, bool behindBlocks, Tile tileCache, ref Vector2 position, ref Rectangle liquidSize, int liquidType, ref VertexColors colors)
-        {
-            if (liquidType != 1)
-            {
-                orig(self, behindBlocks, tileCache, ref position, ref liquidSize, liquidType, ref colors);
-                return;
-            }
-
-            int slope = (int)tileCache.Slope;
-            colors = SelectLavaQuadColor(TextureAssets.LiquidSlope[liquidType].Value, ref colors, true);
-            if (!TileID.Sets.BlocksWaterDrawingBehindSelf[tileCache.TileType] || behindBlocks || slope == 0)
-            {
-                Texture2D liquidTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaBlockTexture : TextureAssets.Liquid[liquidType].Value, LiquidTileType.Block);
-                Main.tileBatch.Draw(liquidTexture, position, liquidSize, colors, default(Vector2), 1f, SpriteEffects.None);
-                return;
-            }
-
-            Texture2D slopeTexture = SelectLavaTexture(liquidType == 1 ? CustomLavaManagement.LavaSlopeTexture : TextureAssets.LiquidSlope[liquidType].Value, LiquidTileType.Slope);
-            liquidSize.X += 18 * (slope - 1);
-            switch (slope)
-            {
-                case 1:
-                    Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
-                    break;
-                case 2:
-                    Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
-                    break;
-                case 3:
-                    Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
-                    break;
-                case 4:
-                    Main.tileBatch.Draw(slopeTexture, position, liquidSize, colors, Vector2.Zero, 1f, SpriteEffects.None);
-                    break;
-            }
-        }
-
-        private static void ChangeWaterQuadColors(ILContext il)
+        #region Lava Rendering
+        private void DoDrawLavas(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-
-            if (!cursor.TryGotoNext(c => c.MatchLdfld<LiquidRenderer>("_liquidTextures")))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdsfld<Main>("drawToScreen"), i => i.MatchBrfalse(out _), i => i.MatchLdarg0(), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawWaters")))
             {
-                LogFailure("Custom Lava Drawing", "Could not locate the liquid texture array load.");
+                LogFailure("DoDraw Lava", "Could not locate the drawing of Background Waters");
                 return;
             }
-
-            // Move to the end of the get_Value() call and then use the resulting texture to check if a new one should replace it.
-            // Adding to the index directly would seem like a simple, direct way of achieving this since the operation is incredibly light, but
-            // it also unsafe due to the potential for NOP operations to appear.
-            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallvirt(textureGetValueMethod)))
+            cursor.EmitDelegate(() => {
+                LavaRendering.instance.DrawLavas(isBackground: true);
+            });
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdsfld<Main>("drawToScreen"), i => i.MatchBrfalse(out _), i => i.MatchLdarg0(), i => i.MatchLdcI4(0), i => i.MatchCall<Main>("DrawWaters")))
             {
-                LogFailure("Custom Lava Drawing", "Could not locate the liquid texture Value call.");
+                LogFailure("DoDraw Lava", "Could not locate the drawing of Waters");
                 return;
             }
-            cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, LiquidTileType.Waterflow));
-
-            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(9)))
-            {
-                LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
-                return;
-            }
-
-            // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
-            cursor.Emit(OpCodes.Ldarg_0);
-            cursor.Emit(OpCodes.Ldfld, typeof(LiquidRenderer).GetField("_liquidTextures"));
-            cursor.Emit(OpCodes.Ldloc, 8);
-            cursor.Emit(OpCodes.Ldelem_Ref);
-            cursor.Emit(OpCodes.Ldloc, 8);
-            cursor.Emit(OpCodes.Ldloc, 3);
-            cursor.Emit(OpCodes.Ldloc, 4);
-
-            // Caching these values can save a LOT of overhead at runtime.
-            ModWaterStyle sunkenSeaWater = ModContent.GetInstance<SunkenSeaWater>();
-            ModWaterStyle sulphuricWater = ModContent.GetInstance<SulphuricWater>();
-            ModWaterStyle sulphuricDepthsWater = ModContent.GetInstance<SulphuricDepthsWater>();
-            ModWaterStyle upperAbyssWater = ModContent.GetInstance<UpperAbyssWater>();
-            ModWaterStyle middleAbyssWater = ModContent.GetInstance<MiddleAbyssWater>();
-            ModWaterStyle voidWater = ModContent.GetInstance<VoidWater>();
-
-            cursor.EmitDelegate<Func<VertexColors, Texture2D, int, int, int, VertexColors>>((initialColor, initialTexture, liquidType, x, y) =>
-            {
-                // Don't bother changing the color if the cached drawing style is null.
-                if (cachedLavaStyle != default)
-                {
-                    initialColor = SelectLavaQuadColor(initialTexture, ref initialColor, liquidType == 1);
-                }
-
-                if (liquidType == sunkenSeaWater.Slot ||
-                liquidType == sulphuricWater.Slot ||
-                liquidType == sulphuricDepthsWater.Slot ||
-                liquidType == upperAbyssWater.Slot ||
-                liquidType == middleAbyssWater.Slot ||
-                liquidType == voidWater.Slot)
-                {
-                    SelectSulphuricWaterColor(x, y, ref initialColor);
-                }
-
-                // Apply any extra color conditions.
-                initialColor = ExtraColorChangeConditions?.Invoke(initialColor, liquidType, new(x, y)) ?? initialColor;
-
-                return initialColor;
+            cursor.EmitDelegate(() => {
+                LavaRendering.instance.DrawLavas();
             });
         }
 
-        private static void DrawCustomLava3(ILContext il)
+        private void RenderLavas(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-
-            // Locate the local index for the liquid color and tile coordinates.
-            int xCoordLocalIndex = 0;
-            int yCoordLocalIndex = 0;
-            int liquidColorLocalIndex = 0;
-            MethodInfo lightingGetColorMethod = typeof(Lighting).GetMethod("GetColor", new Type[] { typeof(int), typeof(int) });
-            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchCallOrCallvirt(lightingGetColorMethod)))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg0(), i => i.MatchLdcI4(0), i => i.MatchCall<Main>("DrawWaters")))
             {
-                LogFailure("Custom Lava Drawing", "Could not lighting GetColor call.");
+                LogFailure("Render Lava", "Could not locate the drawing of Waters");
                 return;
             }
-            if (!cursor.TryGotoPrev(c => c.MatchLdloc(out xCoordLocalIndex)))
-            {
-                LogFailure("Custom Lava Drawing", "Could not X coordinate local variable index.");
-                return;
-            }
-            if (!cursor.TryGotoPrev(c => c.MatchLdloc(out yCoordLocalIndex)))
-            {
-                LogFailure("Custom Lava Drawing", "Could not Y coordinate local variable index.");
-                return;
-            }
-            if (!cursor.TryGotoNext(c => c.MatchStloc(out liquidColorLocalIndex)))
-            {
-                LogFailure("Custom Lava Drawing", "Could not lighting GetColor local variable index.");
-                return;
-            }
-
-            // Shortly after the liquid color local is the liquid type integer. Locate it.
-            int liquidTypeLocalIndex = 0;
-            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdcI4(0)))
-            {
-                LogFailure("Custom Lava Drawing", "Could not default value for the liquid type.");
-                return;
-            }
-            if (!cursor.TryGotoNext(c => c.MatchStloc(out liquidTypeLocalIndex)))
-            {
-                LogFailure("Custom Lava Drawing", "Could not liquid type local variable index.");
-                return;
-            }
-
-            // Select the lava color.
-            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallOrCallvirt<Lighting>("get_NotRetro")))
-            {
-                LogFailure("Custom Lava Drawing", "Could not locate the retro style check.");
-                return;
-            }
-
-            // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
-            cursor.Emit(OpCodes.Ldloc, liquidColorLocalIndex);
-            cursor.Emit(OpCodes.Ldsfld, typeof(TextureAssets).GetField("Liquid"));
-            cursor.Emit(OpCodes.Ldloc, liquidTypeLocalIndex);
-            cursor.Emit(OpCodes.Ldelem_Ref);
-            cursor.Emit(OpCodes.Call, textureGetValueMethod);
-            cursor.Emit(OpCodes.Ldloc, xCoordLocalIndex);
-            cursor.Emit(OpCodes.Ldloc, yCoordLocalIndex);
-            cursor.EmitDelegate<Func<Color, Texture2D, int, int, Color>>((initialColor, initialTexture, x, y) =>
-            {
-                Color c = SelectLavaColor(initialTexture, initialColor);
-
-                if (ExtraColorChangeConditions is not null)
-                    c = ExtraColorChangeConditions(new(c), Main.waterStyle, new(x, y)).TopLeftColor;
-
-                return c;
+            cursor.EmitDelegate(() => {
+                LavaRendering.instance.DrawLavas();
             });
-            cursor.Emit(OpCodes.Stloc, liquidColorLocalIndex);
-
-            // Go back to the start and change textures as necessary.
-            cursor.Index = 0;
-
-            while (cursor.TryGotoNext(c => c.MatchLdsfld(typeof(TextureAssets).GetField("Liquid"))))
-            {
-                // Move to the end of the get_Value() call and then use the resulting texture to check if a new one should replace it.
-                // Adding to the index directly would seem like a simple, direct way of achieving this since the operation is incredibly light, but
-                // it is unsafe due to the potential for NOP operations to appear.
-                if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallvirt(textureGetValueMethod)))
-                {
-                    LogFailure("Custom Lava Drawing", "Could not locate the liquid texture Value call.");
-                    return;
-                }
-
-                cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, LiquidTileType.Block));
-            }
         }
 
-        private static void DrawCustomLavafalls(Terraria.On_WaterfallManager.orig_DrawWaterfall_int_int_int_float_Vector2_Rectangle_Color_SpriteEffects orig, WaterfallManager self, int waterfallType, int x, int y, float opacity, Vector2 position, Rectangle sourceRect, Color color, SpriteEffects effects)
+        private void RenderLavaBackgrounds(ILContext il)
         {
-            waterfallType = CustomLavaManagement.SelectLavafallStyle(waterfallType);
-            color = CustomLavaManagement.SelectLavafallColor(waterfallType, color);
+            ILCursor cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg0(), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawWaters")))
+            {
+                LogFailure("Render Lava Backgroumds", "Could not locate the drawing of Background Waters");
+                return;
+            }
+            cursor.EmitDelegate(() => {
+                LavaRendering.instance.DrawLavas(isBackground: true);
+            });
+        }
 
-            orig(self, waterfallType, x, y, opacity, position, sourceRect, color, effects);
+        private void DrawLavatoCapture(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdsfld<Main>("liquidAlpha"), i => i.MatchCall(out _), i => i.MatchStloc2()))
+            {
+                LogFailure("Draw lavas to captures", "Could not locate the saving of water alphas");
+                return;
+            }
+            cursor.EmitDelegate(() => {
+                LavaRendering.alphaSave = CalamityMod.lavaAlpha.ToArray();
+            });
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(0), i => i.MatchStloc(34), i => i.MatchBr(out _), i => i.MatchLdloc(34), i => i.MatchLdcI4(1), i => i.MatchBeq(out _)))
+            {
+                LogFailure("Draw lavas to captures", "Could not locate the resetting of water alphas");
+                return;
+            }
+            cursor.EmitLdloc(8);
+            cursor.EmitDelegate((CaptureBiome biome) => {
+                for (int i = 0; i < 1; i++)
+                {
+                    CalamityMod.lavaAlpha[i] = ((i == CalamityMod.LavaStyle) ? 1f : 0f);
+                }
+            });
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg0(), i => i.MatchLdcI4(1), i => i.MatchLdsfld<Main>("waterStyle"), i => i.MatchLdcR4(1), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawLiquid")))
+            {
+                LogFailure("Draw lavas to captures", "Could not locate the background of liquid capture drawing");
+                return;
+            }
+            cursor.EmitDelegate(() => {
+                LavaRendering.instance.DrawLiquid(bg: true, CalamityMod.LavaStyle);
+            });
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg0(), i => i.MatchLdcI4(1), i => i.MatchLdsfld<Main>("bloodMoon"), i => i.MatchBrtrue(out _), i => i.MatchLdloc(8), i => i.MatchLdfld<CaptureBiome>("WaterStyle"), i => i.MatchBr(out _), i => i.MatchLdcI4(9), i => i.MatchLdcR4(1), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawLiquid")))
+            {
+                LogFailure("Draw lavas to captures", "Could not locate the second background of liquid capture drawing");
+                return;
+            }
+            cursor.EmitDelegate(() => {
+                LavaRendering.instance.DrawLiquid(bg: true, CalamityMod.LavaStyle);
+            });
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg0(), i => i.MatchLdcI4(0), i => i.MatchLdsfld<Main>("waterStyle"), i => i.MatchLdcR4(1), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawLiquid")))
+            {
+                LogFailure("Draw lavas to captures", "Could not locate the liquid capture drawing");
+                return;
+            }
+            cursor.EmitDelegate(() => {
+                LavaRendering.instance.DrawLiquid(bg: false, CalamityMod.LavaStyle);
+            });
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg0(), i => i.MatchLdcI4(0), i => i.MatchLdloc(8), i => i.MatchLdfld<CaptureBiome>("WaterStyle"), i => i.MatchLdcR4(1), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawLiquid")))
+            {
+                LogFailure("Draw lavas to captures", "Could not locate the second liquid capture drawing");
+                return;
+            }
+            cursor.EmitDelegate(() => {
+                LavaRendering.instance.DrawLiquid(bg: false, CalamityMod.LavaStyle);
+            });
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdloc2(), i => i.MatchStsfld<Main>("liquidAlpha")))
+            {
+                LogFailure("Draw lavas to captures", "Could not locate water style value returner");
+                return;
+            }
+            cursor.EmitDelegate(() => {
+                CalamityMod.lavaAlpha = LavaRendering.alphaSave;
+            });
+        }
+
+        private void AddTileLiquidDrawing(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg0(), i => i.MatchLdarg1(), i => i.MatchLdcI4(0), i => i.MatchLdarg(out _), i => i.MatchLdloc1(), i => i.MatchLdloc2(), i => i.MatchLdloc(12), i => i.MatchLdloc(13), i => i.MatchLdloc(14), i => i.MatchCall<TileDrawing>("DrawTile_LiquidBehindTile")))
+            {
+                LogFailure("Tile Lava Drawing", "Could not locate the drawing of Liquid Behind Tile drawing");
+                return;
+            }
+            cursor.EmitLdloc1();
+            cursor.EmitLdloc2();
+            cursor.EmitLdloc(12);
+            cursor.EmitLdloc(13);
+            cursor.EmitLdloc(14);
+            cursor.EmitDelegate((Microsoft.Xna.Framework.Vector2 unscaledPosition, Microsoft.Xna.Framework.Vector2 vector, int j, int i, Terraria.Tile tile) => {
+                LavaRendering.instance.DrawTile_LiquidBehindTile(solidLayer: false, inFrontOfPlayers: false, -1, unscaledPosition, vector, j, i, tile);
+            });
+        }
+        #endregion
+        
+        #region Lava Blocking
+        private void BlockLavaDrawing(ILContext il)
+        {
+            //This edit to DrawNormalLiquids makes lavas in normal and white lighting draw with an alpha and with new textures
+            //If the parameter for the waterstyle is more than the max waterstyles then its subtracted by the max water style count and thats the lava style ID
+            ILCursor cursor = new ILCursor(il);
+
+            //Continue if statement, basically
+            //if the liquid being drawn is lava and the water style is greater than the max water styles or if the liquid is water and less than the max water styles then the draw code is ran
+            //otherwise the loop/s are continued for the next liquid
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(4), i => i.MatchBr(out _), i => i.MatchLdloc(2), i => i.MatchLdfld(typeof(LiquidRenderer).GetNestedType("LiquidDrawCache", BindingFlags.NonPublic), "IsVisible")))
+            {
+                LogFailure("Liquid Renderer Drawing", "Could not locate the IsVisible boolean check");
+                return;
+            }
+            cursor.EmitLdarg3();
+            cursor.EmitLdloc2(); //Initiated Liquid Draw Cache (needed for the Type parameter)
+            cursor.EmitLdfld(typeof(LiquidRenderer).GetNestedType("LiquidDrawCache", BindingFlags.NonPublic).GetRuntimeField("Type"));
+            cursor.EmitDelegate<Func<bool, int, int, bool>>((IsVisible, style, type) => IsVisible && ((type == 1 && style >= LavaRendering.instance.WaterStyleMaxCount + 1) || (type != 1 && style <= LavaRendering.instance.WaterStyleMaxCount)));
+
+            //Lava alpha color, if the liquid drawn is lava, multiply num by the water alpha
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdloc(2), i => i.MatchLdfld(typeof(LiquidRenderer).GetNestedType("LiquidDrawCache", BindingFlags.NonPublic).GetRuntimeField("Type")), i => i.MatchStloc(8)))
+            {
+                LogFailure("Liquid Renderer Drawing", "Could not locate creation of the local variable num2 (the liquid type holder variable)");
+                return;
+            }
+            cursor.EmitLdloc(8);
+            cursor.EmitLdloca(7);
+            cursor.EmitLdarg(4);
+            cursor.EmitDelegate((int num2, ref float num, float globalAlpha) =>
+            {
+                if (num2 == LiquidID.Lava)
+                {
+                    num *= globalAlpha;
+                }
+            });
+
+            //Conditionally replace the liquid texture whether the liquid is lava or water
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCallvirt(typeof(Asset<Texture2D>).GetMethod("get_Value", BindingFlags.Public | BindingFlags.Instance))))
+            {
+                LogFailure("Liquid Renderer Drawing", "Could not locate the Texture2D array of liquids");
+                return;
+            }
+            cursor.EmitLdarg3();
+            cursor.EmitLdloc2(); //Initiated Liquid Draw Cache (needed for the Type parameter)
+            cursor.EmitLdfld(typeof(LiquidRenderer).GetNestedType("LiquidDrawCache", BindingFlags.NonPublic).GetRuntimeField("Type"));
+            cursor.EmitDelegate<Func<Texture2D, int, int, Texture2D>>((initialTexture, style, type) => (style >= LavaRendering.instance.WaterStyleMaxCount + 1 && type == LiquidID.Lava) ? CalamityMod.LavaTextures.liquid[style - LavaRendering.instance.WaterStyleMaxCount - 1].Value : initialTexture);
+        }
+
+        private void BlockLavaDrawingForSlopes(On_TileDrawing.orig_DrawTile_LiquidBehindTile orig, TileDrawing self, bool solidLayer, bool inFrontOfPlayers, int waterStyleOverride, Vector2 screenPosition, Vector2 screenOffset, int tileX, int tileY, Tile tileCache)
+        {
+            Tile tile = Main.tile[tileX + 1, tileY];
+            Tile tile2 = Main.tile[tileX - 1, tileY];
+            Tile tile3 = Main.tile[tileX, tileY - 1];
+            Tile tile4 = Main.tile[tileX, tileY + 1];
+            if (tileCache.LiquidType == LiquidID.Lava || tile.LiquidType == LiquidID.Lava || tile2.LiquidType == LiquidID.Lava || tile3.LiquidType == LiquidID.Lava || tile4.LiquidType == LiquidID.Lava)
+            {
+                return;
+            }
+            orig.Invoke(self, solidLayer, inFrontOfPlayers, waterStyleOverride, screenPosition, screenOffset, tileX, tileY, tileCache);
+        }
+
+        private void BlockLavaDrawingForSlopes2(On_TileDrawing.orig_DrawPartialLiquid orig, TileDrawing self, bool behindBlocks, Tile tileCache, ref Vector2 position, ref Rectangle liquidSize, int liquidType, ref VertexColors colors)
+        {
+            if (liquidType == 1)
+            {
+                return;
+            }
+            orig.Invoke(self, behindBlocks, tileCache, ref position, ref liquidSize, liquidType, ref colors);
+        }
+
+        private void LavafallRemover(On_WaterfallManager.orig_DrawWaterfall_int_int_int_float_Vector2_Rectangle_Color_SpriteEffects orig, WaterfallManager self, int waterfallType, int x, int y, float opacity, Vector2 position, Rectangle sourceRect, Color color, SpriteEffects effects)
+        {
+            if (waterfallType == 1)
+            {
+                return;
+            }
+            orig.Invoke(self, waterfallType, x, y, opacity, position, sourceRect, color, effects);
+        }
+
+        private void BlockRetroLightingLava(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+            ILLabel target = cursor.DefineLabel();
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCgt(), i => i.MatchLdarg1(), i => i.MatchOr(), i => i.MatchBrfalse(out target)))
+            {
+                LogFailure("old Drawing Waters", "Could not locate the if statement that contains the check for liquid types, amounts and wether the liquid has a bg (arg1) or not");
+                return;
+            }
+            if (target == null)
+            {
+                LogFailure("old Drawing Waters", "The BrFalse returned null, the boolean check getting was unsuccessful");
+                return;
+            }
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdindU1(), i => i.MatchSub(), i => i.MatchConvR4(), i => i.MatchStloc(14)))
+            {
+                LogFailure("old Drawing Waters", "Could not locate the num3 local variable creation to put the if check after");
+                return;
+            }
+            cursor.EmitLdloc(12);
+            cursor.EmitLdloc(11);
+            cursor.EmitDelegate((int i, int j) => {
+                return Main.tile[i, j].LiquidType == LiquidID.Lava;
+            });
+            cursor.EmitBrtrue(target);
+        }
+        #endregion
+        
+        #region Lava Replacing
+        private void LavaBubbleReplacer(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcI4(16), i => i.MatchLdcI4(16), i => i.MatchLdcI4(35)))
+            {
+                LogFailure("Ambient lava bubble replacer", "Could not locate the bubble newdust parameters");
+                return;
+            }
+            cursor.EmitDelegate<Func<int, int>>(type => LavaRendering.dustLava());
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcI4(16), i => i.MatchLdcI4(8), i => i.MatchLdcI4(35)))
+            {
+                LogFailure("Ambient lava bubble replacer", "Could not locate the surface bubble newdust parameters");
+                return;
+            }
+            cursor.EmitDelegate<Func<int, int>>(type2 => LavaRendering.dustLava());
+        }
+        
+        private void LavaDropletReplacer(ILContext il)
+		{
+			ILCursor cursor = new ILCursor(il);
+			if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg(out _), i => i.MatchLdcI4(374), i => i.MatchBneUn(out _), i => i.MatchLdcI4(716)))
+            {
+                LogFailure("Ambient lava droplet replacer", "Could not locate the lava droplet newgore parameters");
+                return;
+            }
+			cursor.EmitDelegate<Func<int, int>>(type => LavaRendering.goreLava());
+		}
+
+        private void SplashEntityLava(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdfld<Entity>("width"), i => i.MatchLdcI4(12), i => i.MatchAdd(), i => i.MatchLdcI4(24), i => i.MatchLdcI4(35)))
+            {
+                LogFailure("Entity Lava Splashing (Item, Projectile, NPC, Player)", "Could not locate the first lava bubble splashing");
+                return;
+            }
+            cursor.EmitDelegate<Func<int, int>>(type => LavaRendering.dustLava());
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdfld<Entity>("width"), i => i.MatchLdcI4(12), i => i.MatchAdd(), i => i.MatchLdcI4(24), i => i.MatchLdcI4(35)))
+            {
+                LogFailure("Entity Lava Splashing (Item, Projectile, NPC, Player)", "Could not locate the second lava bubble splashing");
+                return;
+            }
+            cursor.EmitDelegate<Func<int, int>>(type2 => LavaRendering.dustLava());
+        }
+
+        private void PlayerDebuffEdit(ILContext il)
+        {
+            //Injects code directly at the position where the OnFire debuff is handled
+            ILCursor cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdarg0(), i => i.MatchLdcI4(24), i => i.MatchLdloc(161), i => i.MatchLdcI4(1), i => i.MatchLdcI4(0), i => i.MatchCall<Player>("AddBuff")))
+            {
+                LogFailure("Player Update Lava Debuff", "Could not locate the infliction of the On Fire! debuff inside the Player Update code");
+                return;
+            }
+            cursor.EmitLdarg0();
+            cursor.EmitLdloc(161);
+            cursor.EmitDelegate((Player player, int onFiretime) =>
+            {
+                LavaStylesLoader.InflictDebuff(player, CalamityMod.LavaStyle, onFiretime);
+            });
         }
         #endregion
 
-        #region Water Visuals
-        private static void MakeSulphSeaWaterBetter(Terraria.Graphics.Light.On_TileLightScanner.orig_GetTileLight orig, TileLightScanner self, int x, int y, out Vector3 outputColor)
+        #region Other
+        private Color WaterfallGlowmaskEditor(On_WaterfallManager.orig_StylizeColor orig, float alpha, int maxSteps, int waterfallType, int y, int s, Tile tileCache, Color aColor)
         {
-            orig(self, x, y, out outputColor);
-            if (outputColor == Vector3.One || outputColor == new Vector3(0.25f, 0.25f, 0.25f) || outputColor == new Vector3(0.5f, 0.5f, 0.5f))
-                return;
-
-            Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-            if (tile.LiquidAmount <= 0 || tile.HasTile || (Main.waterStyle != SulphuricWater.Type &&
-            Main.waterStyle != SulphuricDepthsWater.Type && Main.waterStyle != SunkenSeaWater.Type))
-                return;
-
-            Tile above = CalamityUtils.ParanoidTileRetrieval(x, y - 1);
-            if (!Main.gamePaused && !above.HasTile && above.LiquidAmount <= 0 && Main.rand.NextBool(9) &&
-            Main.waterStyle == SulphuricWater.Type)
+            if (CalamityMod.LavaStyle != 0 && !LavaStylesLoader.Get(CalamityMod.LavaStyle).LavafallGlowmask())
             {
-                MediumMistParticle acidFoam = new(new(x * 16f + Main.rand.NextFloat(16f), y * 16f + 8f), -Vector2.UnitY.RotatedByRandom(0.67f) * Main.rand.NextFloat(1f, 2.4f), Color.LightSeaGreen, Color.White, 0.16f, 128f, 0.02f);
-                GeneralParticleHandler.SpawnParticle(acidFoam);
+                return aColor;
             }
-
-            if (tile.TileType != (ushort)ModContent.TileType<RustyChestTile>())
+            else
             {
-                if (Main.waterStyle == SulphuricWater.Type && Main.dayTime && !Main.raining)
-                {
-                    float brightness = MathHelper.Clamp(0.2f - (y / 680), 0f, 0.2f);
-                    if (y > 580)
-                        brightness *= 1f - (y - 580) / 100f;
+                return orig.Invoke(alpha, maxSteps, waterfallType, y, s, tileCache, aColor);
+            }
+        }
 
-                    float waveScale1 = Main.GameUpdateCount * 0.014f;
-                    float waveScale2 = Main.GameUpdateCount * 0.1f;
-                    int scalar = x + (-y / 2);
-                    float wave1 = waveScale1 * -50 + scalar * 15;
-                    float wave2 = waveScale2 * -10 + scalar * 14;
-                    float wave3 = waveScale1 * -100 + scalar * 13;
-                    float wave4 = waveScale2 * 10 + scalar * 25;
-                    float wave5 = waveScale1 * -70 + scalar * 5;
-                    float wave1angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave1));
-                    float wave2angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave2));
-                    float wave3angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave3));
-                    float wave4angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave4));
-                    float wave5angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave5));
-                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f + wave1angle + wave2angle + wave3angle + wave4angle + wave5angle);
-                    outputColor *= brightness;
+        private void LavaFallRedrawer(On_WaterfallManager.orig_Draw orig, WaterfallManager self, SpriteBatch spriteBatch)
+        {
+            orig.Invoke(self, spriteBatch);
+            LavaRendering.instance.InitialDrawLavafall(self);
+        }
+        #endregion
+
+        #endregion
+
+        #region Liquid Visuals
+        //Contains all liquid light and liquid alpha (seethrough-ability)
+        private void LiquidEmitLight(On_TileLightScanner.orig_ApplyLiquidLight orig, TileLightScanner self, Tile tile, ref Vector3 lightColor)
+        {
+            orig.Invoke(self, tile, ref lightColor);
+            if (tile.LiquidAmount > 0 && !tile.HasTile)
+            {
+                if (tile.LiquidType == LiquidID.Water)
+                {
+                    float R = 0f;
+                    float G = 0f;
+                    float B = 0f;
+                    CalamityWaterLoader.ModifyLightSetup(tile.X(), tile.Y(), Main.waterStyle, ref R, ref G, ref B);
+                    if (lightColor.X < R)
+                    {
+                        lightColor.X = R;
+                    }
+                    if (lightColor.Y < G)
+                    {
+                        lightColor.Y = G;
+                    }
+                    if (lightColor.Z < B)
+                    {
+                        lightColor.Z = B;
+                    }
                 }
-
-                if (Main.waterStyle == SulphuricWater.Type && !Main.dayTime && !Main.raining)
+                else if (tile.LiquidType == LiquidID.Lava && CalamityMod.Instance.biomeLava == null)
                 {
-                    float brightness = MathHelper.Clamp(0.17f - (y / 680), 0f, 0.17f);
-                    if (y > 580)
-                        brightness *= 1f - (y - 580) / 100f;
-
-                    float waveScale1 = Main.GameUpdateCount * 0.014f;
-                    float waveScale2 = Main.GameUpdateCount * 0.1f;
-                    int scalar = x + (-y / 2);
-                    float wave1 = waveScale1 * -50 + scalar * 15;
-                    float wave2 = waveScale2 * -10 + scalar * 14;
-                    float wave3 = waveScale1 * -100 + scalar * 13;
-                    float wave4 = waveScale2 * 10 + scalar * 25;
-                    float wave5 = waveScale1 * -70 + scalar * 5;
-                    float wave1angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave1));
-                    float wave2angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave2));
-                    float wave3angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave3));
-                    float wave4angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave4));
-                    float wave5angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave5));
-                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f + wave1angle + wave2angle + wave3angle + wave4angle + wave5angle);
-                    outputColor *= brightness;
-                }
-
-                if (Main.waterStyle == SulphuricWater.Type && Main.raining)
-                {
-                    float brightness = MathHelper.Clamp(1f - (y / 680), 0f, 1f);
-                    if (y > 580)
-                        brightness *= 1f - (y - 580) / 100f;
-
-                    outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
-                    outputColor *= brightness;
-                }
-
-                if (Main.waterStyle == SulphuricDepthsWater.Type)
-                    outputColor = Vector3.Lerp(outputColor, Color.MediumSeaGreen.ToVector3(), 0.18f);
-
-                if (Main.waterStyle == SunkenSeaWater.Type)
-                {
-                    float brightness = MathHelper.Clamp(0.07f, 0f, 0.07f);
-                    float waveScale1 = Main.GameUpdateCount * 0.028f;
-                    float waveScale2 = Main.GameUpdateCount * 0.1f;
-                    int yScale = -y / 2;
-                    int xScale = x / 15;
-                    float wave1 = Main.GameUpdateCount * 0.024f * -50 + ((-x / 30) + (y / 30)) * 25;
-                    float wave2 = waveScale2 * -10 + ((-xScale) + yScale) * 45;
-                    float wave3 = waveScale1 * -100 + ((x / 7) + (y / 50)) * 25;
-                    float wave4 = Main.GameUpdateCount * 0.15f * 10 + ((x / 3) + yScale) * 45;
-                    float wave5 = waveScale1 * -70 + ((-x / 25) + (-y / 25)) * 20;
-                    float wave6 = waveScale2 * -10 + (xScale + yScale) * 45;
-                    float bigwave = Main.GameUpdateCount * 0.01f * -70 + ((-x / 2) + (-y / 40)) * 5;
-                    float wave1angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave1));
-                    float wave2angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave2));
-                    float wave3angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave3));
-                    float wave4angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave4));
-                    float wave5angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave5));
-                    float wave6angle = 0.55f + 0.45f * (float)Math.Sin(MathHelper.ToRadians(wave6));
-                    float bigwaveangle = 0.55f + 0.80f * (float)Math.Sin(MathHelper.ToRadians(bigwave));
-                    outputColor = Vector3.Lerp(outputColor, Color.DeepSkyBlue.ToVector3(), 0.07f + wave1angle + wave2angle + wave3angle + wave4angle + wave5angle + wave6angle + bigwaveangle);
-                    outputColor *= brightness;
+                    Vector3 lavaLight = new Vector3(0.55f, 0.33f, 0.11f);
+                    float R = CalamityMod.LavaStyle == 0 ? lavaLight.X : 0f;
+                    float G = CalamityMod.LavaStyle == 0 ? lavaLight.Y : 0f;
+                    float B = CalamityMod.LavaStyle == 0 ? lavaLight.Z : 0f;
+                    LavaStylesLoader.ModifyLightSetup(tile.X(), tile.Y(), CalamityMod.LavaStyle, ref R, ref G, ref B);
+                    for (int j = 0; j < LavaStylesLoader.TotalCount; j++)
+                    {
+                        if (CalamityMod.lavaAlpha[j] > 0f && j != CalamityMod.LavaStyle)
+                        {
+                            float r = j == 0 ? lavaLight.X : 0f;
+                            float g = j == 0 ? lavaLight.Y : 0f;
+                            float b = j == 0 ? lavaLight.Z : 0f;
+                            LavaStylesLoader.ModifyLightSetup(tile.X(), tile.Y(), j, ref r, ref g, ref b);
+                            float r2 = CalamityMod.LavaStyle == 0 ? lavaLight.X : 0f;
+                            float g2 = CalamityMod.LavaStyle == 0 ? lavaLight.Y : 0f;
+                            float b2 = CalamityMod.LavaStyle == 0 ? lavaLight.Z : 0f;
+                            LavaStylesLoader.ModifyLightSetup(tile.X(), tile.Y(), CalamityMod.LavaStyle, ref r2, ref g2, ref b2);
+                            R = Single.Lerp(r, r2, CalamityMod.lavaAlpha[CalamityMod.LavaStyle]);
+                            G = Single.Lerp(g, g2, CalamityMod.lavaAlpha[CalamityMod.LavaStyle]);
+                            B = Single.Lerp(b, b2, CalamityMod.lavaAlpha[CalamityMod.LavaStyle]);
+                        }
+                    }
+                    if (!(R == 0 && G == 0 && B == 0))
+                    {
+                        float colorManipulator = (float)(270 - Main.mouseTextColor) / 900f;
+                        R += colorManipulator;
+                        G += colorManipulator;
+                        B += colorManipulator;
+                    }
+                    if (lightColor.X < R)
+                    {
+                        lightColor.X = R;
+                    }
+                    if (lightColor.Y < G)
+                    {
+                        lightColor.Y = G;
+                    }
+                    if (lightColor.Z < B)
+                    {
+                        lightColor.Z = B;
+                    }
                 }
             }
+        }
+
+        private void LavafallLightEditor(On_WaterfallManager.orig_AddLight orig, int waterfallType, int x, int y)
+        {
+            if (waterfallType == 1)
+            {
+                float r = 0.55f;
+                float g = 0.33f;
+                float b = 0.11f;
+                LavaStylesLoader.ModifyLightSetup(x, y, CalamityMod.LavaStyle, ref r, ref g, ref b);
+                if (!(r == 0 && g == 0 && b == 0))
+                {
+                    float r8;
+                    float num3 = (r8 = (r + (float)(270 - Main.mouseTextColor) / 900f) * 0.4f);
+                    float g8 = num3 * g;
+                    float b8 = num3 * b;
+                    Lighting.AddLight(x, y, r8, g8, b8);
+                }
+                return;
+            }
+            orig.Invoke(waterfallType, x, y);
+        }
+
+        private static void LiquidDrawColors(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdarg2(), c => c.MatchLdloc3(), c => c.MatchLdloc(4), c => c.MatchCall<Main>("DrawTileInWater")))
+            {
+                LogFailure("Liquid Draw Colors", "Could not locate the liquid vertex colors for drawing");
+                return;
+            }
+
+            cursor.Emit(OpCodes.Ldloc_3);
+            cursor.Emit(OpCodes.Ldloc, 4);
+            cursor.Emit(OpCodes.Ldloc_2);
+            cursor.Emit(OpCodes.Ldfld, typeof(LiquidRenderer).GetNestedType("LiquidDrawCache", BindingFlags.NonPublic).GetRuntimeField("Type"));
+            cursor.Emit(OpCodes.Ldloca, 9);
+
+            cursor.EmitDelegate((int x, int y, int liquidType, ref VertexColors initialColor) =>
+            {
+                if (liquidType == LiquidID.Water)
+                {
+                    CalamityWaterLoader.DrawColorSetup(x, y, Main.waterStyle, ref initialColor);
+                }
+                else if (liquidType == LiquidID.Lava && CalamityMod.Instance.biomeLava == null)
+                {
+                    LavaStylesLoader.DrawColorSetup(x, y, CalamityMod.LavaStyle, ref initialColor);
+                }
+            });
+        }
+
+        private static void LiquidSlopeDrawColors(ILContext il)
+        {
+            ILCursor cursor = new ILCursor(il);
+
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdcI4(0), c => c.MatchStloc(19), c => c.MatchLdloc(11), c => c.MatchBrfalse(out _)))
+            {
+                LogFailure("Liquid Slope Draw Colors", "Could not locate the liquid slope vertex colors for drawing");
+                return;
+            }
+
+            cursor.Emit(OpCodes.Ldarg, 6);
+            cursor.Emit(OpCodes.Ldarg, 7);
+            cursor.Emit(OpCodes.Ldloca, 14);
+            cursor.Emit(OpCodes.Ldloc, 11);
+            cursor.Emit(OpCodes.Ldloc, 10);
+
+            cursor.EmitDelegate((int x, int y, ref VertexColors initialColor, bool flag6, int num2) =>
+            {
+                if (flag6)
+                {
+                    int totalCount = (int)typeof(Loader).GetProperty("TotalCount", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).GetValue(LoaderManager.Get<WaterStylesLoader>());
+                    for (int i = 0; i < totalCount; i++)
+                    {
+                        Tile tile = Main.tile[x, y];
+                        if (i == Main.waterStyle && tile.LiquidType == LiquidID.Water)
+                        {
+                            CalamityWaterLoader.DrawColorSetup(x, y, Main.waterStyle, ref initialColor, true);
+                        }
+                        else if ((tile.LiquidType == LiquidID.Lava || i == 1) && CalamityMod.Instance.biomeLava == null)
+                        {
+                            LavaStylesLoader.DrawColorSetup(x, y, CalamityMod.LavaStyle, ref initialColor);
+                        }
+                    }
+                }
+            });
         }
         #endregion
 

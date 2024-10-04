@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,26 +35,14 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            bool canSummon = false;
-            if (player.Center.Y > Main.worldSurface * 16.0)
-            {
-                int playerTileX = (int)player.Center.X / 16;
-                int playerTileY = (int)player.Center.Y / 16;
-                Tile tile = Framing.GetTileSafely(playerTileX, playerTileY);
-                if (tile.WallType == 87)
-                    canSummon = true;
-            }
-            return canSummon && !NPC.AnyNPCs(NPCID.Golem) && !BossRushEvent.BossRushActive;
+            return player.ZoneLihzhardTemple && !NPC.AnyNPCs(NPCID.Golem) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.Center);
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-                NPC.SpawnOnPlayer(player.whoAmI, NPCID.Golem);
-            else
-                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, NPCID.Golem);
-
+            int posX = (int)player.Center.X;
+            int posY = (int)(player.Center.Y - 150.0f);
+            CalamityUtils.SpawnBossOnPosUsingItem(player, NPCID.Golem, posX, posY, SoundID.Roar);
             return true;
         }
 

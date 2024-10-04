@@ -1,8 +1,6 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.NPCs.Crabulon;
 using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,16 +37,9 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.Center);
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                int npc = NPC.NewNPC(new EntitySource_BossSpawn(player), (int)(player.position.X + Main.rand.Next(-160, 161)), (int)(player.position.Y - 320f), ModContent.NPCType<Crabulon>(), 1);
-                Main.npc[npc].timeLeft *= 20;
-                CalamityUtils.BossAwakenMessage(npc);
-            }
-            else
-                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<Crabulon>());
-
+            int posX = (int)(player.position.X + Main.rand.Next(-160, 161));
+            int posY = (int)(player.position.Y - 320f);
+            CalamityUtils.SpawnBossOnPosUsingItem<Crabulon>(player, posX, posY, SoundID.Roar);
             return true;
         }
 

@@ -51,6 +51,7 @@ using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Schematics;
 using CalamityMod.Skies;
+using CalamityMod.Systems;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.UI.DraedonsArsenal;
@@ -62,6 +63,7 @@ using ReLogic.Content;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Dyes;
+using Terraria.GameContent.Liquid;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -108,6 +110,21 @@ namespace CalamityMod
         // Destroyer glowmasks
         public static Asset<Texture2D>[] DestroyerGlowmasks = new Asset<Texture2D>[3];
 
+        // Holds the Texture Arrays for all the lava textures.
+        // These are used for the lava styles. They are seperate from Textureasset.Instance._liquidTexture as they will conflict with ModWaterStyle
+        // Can hold up to 255 lava styles (more than enough) (excluding the normal lava texture which is liquidTexture 1)
+        public struct LavaTextures
+        {
+            public static Asset<Texture2D>[] liquid = new Asset<Texture2D>[1];
+            public static Asset<Texture2D>[] slope = new Asset<Texture2D>[1];
+            public static Asset<Texture2D>[] block = new Asset<Texture2D>[1];
+            public static Asset<Texture2D>[] fall = new Asset<Texture2D>[1];
+        }
+
+        public static int LavaStyle;
+
+        public static float[] lavaAlpha = new float[1];
+
         // Wall of Flesh glowmasks
         public static Asset<Texture2D> WallOfFleshEyeGlowmask;
         public static Asset<Texture2D> WallOfFleshDemonSickleTexture;
@@ -139,6 +156,7 @@ namespace CalamityMod
 
         // Please keep this in alphabetical order so it's easy to read
         internal Mod ancientsAwakened = null;
+        internal Mod biomeLava = null;
         internal Mod bossChecklist = null;
         internal Mod coloredDamageTypes = null;
         internal Mod crouchMod = null;
@@ -170,6 +188,8 @@ namespace CalamityMod
             ModLoader.TryGetMod("CalamityModMusic", out musicMod);
             ancientsAwakened = null;
             ModLoader.TryGetMod("AAMod", out ancientsAwakened);
+            biomeLava = null;
+            ModLoader.TryGetMod("BiomeLava", out biomeLava);
             bossChecklist = null;
             ModLoader.TryGetMod("BossChecklist", out bossChecklist);
             coloredDamageTypes = null;
@@ -243,7 +263,11 @@ namespace CalamityMod
             SetupVanillaDR();
             SetupBossKillTimes();
             SchematicManager.Load();
-            CustomLavaManagement.Load();
+
+            //lava
+            LavaRendering.instance = new LavaRendering();
+            WeakReferenceSupport.LavaStytleToBiomeLava();
+
             Attunement.Load();
             BalancingChangesManager.Load();
             BaseIdleHoldoutProjectile.LoadAll();
@@ -300,6 +324,13 @@ namespace CalamityMod
             DestroyerGlowmasks[0] = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaBossGlowmasks/DestroyerHeadGlow", AssetRequestMode.AsyncLoad);
             DestroyerGlowmasks[1] = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaBossGlowmasks/DestroyerBodyGlow", AssetRequestMode.AsyncLoad);
             DestroyerGlowmasks[2] = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaBossGlowmasks/DestroyerTailGlow", AssetRequestMode.AsyncLoad);
+
+            // Lava Texture
+            LavaTextures.liquid[0] = LiquidRenderer.Instance._liquidTextures[1];
+            LavaTextures.slope[0] = TextureAssets.LiquidSlope[1];
+            LavaTextures.block[0] = TextureAssets.Liquid[1];
+            var waterfallTexture = (Asset<Texture2D>[])typeof(WaterfallManager).GetField("waterfallTexture", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).GetValue(Main.instance.waterfallManager);
+            LavaTextures.fall[0] = waterfallTexture[1];
 
             // Wall of Flesh glowmasks
             WallOfFleshEyeGlowmask = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaBossGlowmasks/WallOfFleshEyeTelegraphGlow", AssetRequestMode.AsyncLoad);
@@ -416,6 +447,7 @@ namespace CalamityMod
             musicMod = null;
 
             ancientsAwakened = null;
+            biomeLava = null;
             bossChecklist = null;
             coloredDamageTypes = null;
             crouchMod = null;
@@ -447,12 +479,12 @@ namespace CalamityMod
             NPCStats.Unload();
             CalamityGlobalItem.UnloadTweaks();
             CalamityGlobalProjectile.UnloadTweaks();
+            FramedGlowMask.UnloadTexCache();
 
             PopupGUIManager.UnloadGUIs();
             InvasionProgressUIManager.UnloadGUIs();
             BossRushEvent.Unload();
             SchematicManager.Unload();
-            CustomLavaManagement.Unload();
             CooldownRegistry.Unload();
             PlayerDashManager.Unload();
 

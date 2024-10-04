@@ -38,8 +38,13 @@ namespace CalamityMod.Items.SummonItems.Invasion
 
         public override bool? UseItem(Player player)
         {
-            AcidRainEvent.TryStartEvent(forceRain: true);
-            //CalamityNetcode.SyncWorld(); //TryStartEvent(forceRain: true) already sync the world data
+            // Only Single Player client and Server should call this!
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                AcidRainEvent.TryStartEvent(forceRain: true);
+                // TryStartEvent already syncs the world data
+            }
+
             return true;
         }
 

@@ -999,13 +999,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Extra DoT in the lava of the crags. Negated by Flame-licked Shell.
-            if (Player.lavaWet)
-            {
-                if (ZoneCalamity && !flameLickedShell)
-                    Player.AddBuff(ModContent.BuffType<SearingLava>(), 2, false);
-            }
-            else
+            if (!Player.lavaWet)
             {
                 if (Player.lavaImmune)
                 {

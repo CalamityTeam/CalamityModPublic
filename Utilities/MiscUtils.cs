@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CalamityMod.Items.Tools.ClimateChange;
+using CalamityMod.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -195,7 +196,7 @@ namespace CalamityMod
             sfx.Volume = MathHelper.Clamp(sfx.Volume * volumeMultiplier, 0f, 1f);
         }
 
-        public static void StartRain(bool torrentialTear = false, bool maxSeverity = false)
+        public static void StartRain(bool torrentialTear = false, bool maxSeverity = false, bool worldSync = true)
         {
             int framesInDay = 86400;
             int framesInHour = framesInDay / 24;
@@ -245,7 +246,20 @@ namespace CalamityMod
             Main.raining = true;
             if (torrentialTear)
                 TorrentialTear.AdjustRainSeverity(maxSeverity);
-            CalamityNetcode.SyncWorld();
+
+            if (worldSync)
+                CalamityNetcode.SyncWorld();
+        }
+
+        public static void StopRain(bool clearWeather = false, bool worldSync = true)
+        {
+            if (clearWeather)
+                Main.StopRain();
+            else
+                Main.raining = false;
+            
+            if (worldSync)
+                CalamityNetcode.SyncWorld();
         }
 
         public static void StartSandstorm()
@@ -277,7 +291,10 @@ namespace CalamityMod
 
         public static void StopSandstorm()
         {
-            Terraria.GameContent.Events.Sandstorm.Happening = false;
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                Sandstorm.StopSandstorm();
+            }
         }
 
         public static void AddWithCondition<T>(this List<T> list, T type, bool condition)

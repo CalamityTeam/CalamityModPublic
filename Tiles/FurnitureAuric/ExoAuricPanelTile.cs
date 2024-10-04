@@ -11,11 +11,12 @@ namespace CalamityMod.Tiles.FurnitureAuric
 {
     public class ExoAuricPanelTile : ModTile
     {
-        internal static Texture2D GlowTexture;
+        internal static FramedGlowMask GlowMask;
+
         public override void SetStaticDefaults()
         {
-            if (!Main.dedServ)
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureAuric/ExoAuricPanelTile_Glow", AssetRequestMode.ImmediateLoad).Value;
+            GlowMask = new("CalamityMod/Tiles/FurnitureAuric/ExoAuricPanelTile_Glow", 18, 18);
+
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             HitSound = AuricOre.MineSound;
@@ -34,13 +35,17 @@ namespace CalamityMod.Tiles.FurnitureAuric
         {
             int xPos = Main.tile[i, j].TileFrameX;
             int yPos = Main.tile[i, j].TileFrameY;
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour(i, j, Color.White);
-            Tile trackTile = Main.tile[i, j];
-            double num6 = Main.time * 0.08;
 
-            TileFraming.SlopedGlowmask(i, j, 0, GlowTexture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            if (GlowMask.HasContentInFramePos(xPos, yPos))
+            {
+                Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+                Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
+                Color drawColour = GetDrawColour(i, j, Color.White);
+                Tile trackTile = Main.tile[i, j];
+                double num6 = Main.time * 0.08;
+
+                TileFraming.SlopedGlowmask(i, j, 0, GlowMask.Texture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            }
         }
 
         private Color GetDrawColour(int i, int j, Color colour)

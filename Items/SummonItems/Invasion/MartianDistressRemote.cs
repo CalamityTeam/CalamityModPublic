@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -35,20 +36,38 @@ namespace CalamityMod.Items.SummonItems.Invasion
             itemGroup = ContentSamples.CreativeHelper.ItemGroup.EventItem;
         }
 
-        public override bool CanUseItem(Player player) => Main.invasionType == InvasionID.None;
+        public override bool CanUseItem(Player player)
+        {
+            // Do not start new invasion when it's already on going
+            if (Main.invasionType != InvasionID.None)
+                return false;
+
+            // This is the requirement for StartInvasion for some reason
+            // If this part is missing MartianRemote will show DD2 invasion GUI without any enemy spawn on MP
+            if (!Main.player.Any(p => p.active && p.ConsumedLifeCrystals >= 5))
+                return false;
+
+            return true;
+        }
 
         public override bool? UseItem(Player player)
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            // Single Player case
+            if (Main.netMode == NetmodeID.SinglePlayer)
             {
                 Main.invasionDelay = 0;
                 Main.StartInvasion(InvasionID.MartianMadness);
+                return true;
             }
-            else
+
+            // MP case: only owner should send Spawn Message to Master
+            if (player.whoAmI == Main.myPlayer)
             {
                 //-7.0 is hardcoded id for MartianMadness Event
                 NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, number: player.whoAmI, number2: -7.0f);
+                return true;
             }
+
             return true;
         }
 

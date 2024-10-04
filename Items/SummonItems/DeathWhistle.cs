@@ -40,16 +40,10 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.ScaryScream, player.Center);
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                int npc = NPC.NewNPC(new EntitySource_BossSpawn(player), (int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), ModContent.NPCType<RavagerBody>(), 1);
-                Main.npc[npc].timeLeft *= 20;
-                CalamityUtils.BossAwakenMessage(npc);
-            }
-            else
-                NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<RavagerBody>());
-
+            int posX = (int)(player.position.X + Main.rand.Next(-250, 251));
+            int posY = (int)(player.position.Y - 500f);
+            int bossToSpawn = ModContent.NPCType<RavagerBody>();
+            CalamityUtils.SpawnBossOnPosUsingItem(player, bossToSpawn, posX, posY, SoundID.ScaryScream);
             return true;
         }
 

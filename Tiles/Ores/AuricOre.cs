@@ -18,13 +18,14 @@ namespace CalamityMod.Tiles.Ores
     {
         public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/AuricMine", 3);
         public static bool Animate;
-        internal static Texture2D GlowTexture;
+
+        internal static FramedGlowMask GlowMask;
 
 
         public override void SetStaticDefaults()
         {
-            if (!Main.dedServ)
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Ores/AuricOreGlow", AssetRequestMode.ImmediateLoad).Value;
+            GlowMask = new("CalamityMod/Tiles/Ores/AuricOreGlow", 18, 18);
+
             AnimationFrameHeight = 90;
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
@@ -88,13 +89,16 @@ namespace CalamityMod.Tiles.Ores
         {
             int xPos = Main.tile[i, j].TileFrameX;
             int yPos = Main.tile[i, j].TileFrameY + AnimationFrameHeight * Main.tileFrame[Type];
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/Ores/AuricOreGlow").Value;
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour(i, j, new Color(225, 255, 255, 255));
-            Tile trackTile = Main.tile[i, j];
-            double num6 = Main.time * 0.08;
-            TileFraming.SlopedGlowmask(i, j, 0, glowmask, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+
+            if (GlowMask.HasContentInFramePos(xPos, yPos))
+            {
+                Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+                Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
+                Color drawColour = GetDrawColour(i, j, new Color(225, 255, 255, 255));
+                Tile trackTile = Main.tile[i, j];
+                double num6 = Main.time * 0.08;
+                TileFraming.SlopedGlowmask(i, j, 0, GlowMask.Texture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            }
         }
 
         private Color GetDrawColour(int i, int j, Color colour)

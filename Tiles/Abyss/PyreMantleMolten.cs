@@ -14,12 +14,12 @@ namespace CalamityMod.Tiles.Abyss
     public class PyreMantleMolten : ModTile
     {
         public static readonly SoundStyle MineSound = new("CalamityMod/Sounds/Custom/VoidstoneMine", 3) { Volume = 0.4f };
-        internal static Texture2D GlowTexture;
+        internal static FramedGlowMask GlowMask;
+
 
         public override void SetStaticDefaults()
         {
-            if (!Main.dedServ)
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/PyreMantleMolten_Glowmask", AssetRequestMode.ImmediateLoad).Value;
+            GlowMask = new("CalamityMod/Tiles/Abyss/PyreMantleMolten_Glowmask", 18, 18);
 
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
@@ -76,23 +76,26 @@ namespace CalamityMod.Tiles.Abyss
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (GlowTexture is null)
+            if (GlowMask.Texture is null)
                 return;
 
             int xPos = Main.tile[i, j].TileFrameX;
             int yPos = Main.tile[i, j].TileFrameY;
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour(i, j, new Color(200, 200, 200, 200));
-            Tile trackTile = Main.tile[i, j];
-            float glowbrightness = 1f;
-            float glowspeed = Main.GameUpdateCount * 0.01f;
-            glowbrightness *= (float)MathF.Sin(i / 60f + glowspeed);
-            drawColour *= glowbrightness;
-            double num6 = Main.time * 0.08;
 
-            TileFraming.SlopedGlowmask(i, j, 0, GlowTexture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
-            glowbrightness += 0.3f;
+            if (GlowMask.HasContentInFramePos(xPos, yPos))
+            {
+                Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+                Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
+                Color drawColour = GetDrawColour(i, j, new Color(200, 200, 200, 200));
+                Tile trackTile = Main.tile[i, j];
+                float glowbrightness = 1f;
+                float glowspeed = Main.GameUpdateCount * 0.01f;
+                glowbrightness *= (float)MathF.Sin(i / 60f + glowspeed);
+                drawColour *= glowbrightness;
+                double num6 = Main.time * 0.08;
+                TileFraming.SlopedGlowmask(i, j, 0, GlowMask.Texture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+                glowbrightness += 0.3f;
+            }
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

@@ -51,27 +51,15 @@ namespace CalamityMod.Items.SummonItems
         {
             if (player.ZoneDungeon)
             {
-                SoundEngine.PlaySound(CVSound, player.Center);
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                    NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CeaselessVoid>());
-                else
-                    NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<CeaselessVoid>());
+                CalamityUtils.SpawnBossUsingItem<CeaselessVoid>(player, CVSound);
             }
             else if (player.ZoneUnderworldHeight)
             {
-                SoundEngine.PlaySound(SignutSound, player.Center);
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                    NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Signus>());
-                else
-                    NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<Signus>());
+                CalamityUtils.SpawnBossUsingItem<Signus>(player, SignutSound);
             }
             else if (player.ZoneSkyHeight)
             {
-                SoundEngine.PlaySound(StormSound, player.Center);
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                    NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<StormWeaverHead>());
-                else
-                    NetMessage.SendData(MessageID.SpawnBossUseLicenseStartEvent, -1, -1, null, player.whoAmI, ModContent.NPCType<StormWeaverHead>());
+                CalamityUtils.SpawnBossUsingItem<StormWeaverHead>(player, StormSound);
             }
 
             return true;

@@ -13,12 +13,12 @@ namespace CalamityMod.Tiles.Ores
 {
     public class PerennialOre : ModTile
     {
-        internal static Texture2D GlowTexture;
+        internal static FramedGlowMask GlowMask;
 
         public override void SetStaticDefaults()
         {
-            if (!Main.dedServ)
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Ores/PerennialOreGlow", AssetRequestMode.ImmediateLoad).Value;
+            GlowMask = new("CalamityMod/Tiles/Ores/PerennialOreGlow", 18, 18);
+
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
@@ -195,7 +195,7 @@ namespace CalamityMod.Tiles.Ores
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (GlowTexture is null)
+            if (GlowMask.Texture is null)
                 return;
 
             int xPos = Main.tile[i, j].TileFrameX;
@@ -289,11 +289,15 @@ namespace CalamityMod.Tiles.Ores
 
             xOffset *= 234;
             xPos += xOffset;
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour(i, j, new Color(175, 175, 175, 175));
-            Tile trackTile = Main.tile[i, j];
-            TileFraming.SlopedGlowmask(i, j, 0, GlowTexture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+
+            if (GlowMask.HasContentInFramePos(xPos, yPos))
+            {
+                Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+                Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
+                Color drawColour = GetDrawColour(i, j, new Color(175, 175, 175, 175));
+                Tile trackTile = Main.tile[i, j];
+                TileFraming.SlopedGlowmask(i, j, 0, GlowMask.Texture, drawOffset, null, GetDrawColour(i, j, drawColour), default);
+            }
         }
 
         private Color GetDrawColour(int i, int j, Color colour)

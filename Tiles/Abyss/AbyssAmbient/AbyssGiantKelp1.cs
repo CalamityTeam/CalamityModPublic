@@ -12,8 +12,16 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
 {
     public class AbyssGiantKelp1 : ModTile
     {
+        protected virtual string GlowAsset => "CalamityMod/Tiles/Abyss/AbyssAmbient/AbyssGiantKelp1Glow";
+        internal static FramedGlowMask GlowMask;
+
         public override void SetStaticDefaults()
         {
+            if (!string.IsNullOrEmpty(GlowAsset))
+            {
+                GlowMask = new(GlowAsset, 18, 18);
+            }
+
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.Width = 2;
@@ -65,23 +73,20 @@ namespace CalamityMod.Tiles.Abyss.AbyssAmbient
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Framing.GetTileSafely(i, j);
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AbyssAmbient/AbyssGiantKelp1Glow").Value;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
 
-            spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
+            if (GlowMask is not null && GlowMask.HasContentInFramePos(tile.TileFrameX, tile.TileFrameY))
+            {
+                Vector2 pos = new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero;
+                Rectangle frame = new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16);
+                spriteBatch.Draw(GlowMask.Texture, pos, frame, Color.White);
+            }
         }
     }
 
     //just clone the first one its literally the same size
     public class AbyssGiantKelp2 : AbyssGiantKelp1
     {
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
-        {
-            Tile tile = Framing.GetTileSafely(i, j);
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AbyssAmbient/AbyssGiantKelp2Glow").Value;
-            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange, Main.offScreenRange);
-
-            spriteBatch.Draw(tex, new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16), Color.White);
-        }
+        protected override string GlowAsset => "CalamityMod/Tiles/Abyss/AbyssAmbient/AbyssGiantKelp2Glow";
     }
 }

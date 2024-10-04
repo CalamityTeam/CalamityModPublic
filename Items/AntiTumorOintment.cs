@@ -33,13 +33,9 @@ namespace CalamityMod.Items
                 player.Calamity().disableHiveCystSpawns = false;
             else
                 player.Calamity().disableHiveCystSpawns = true;
-            Item.NetStateChanged();
             state = player.Calamity().disableHiveCystSpawns;
 
-            bool favorited = Item.favorited;
-            Item.SetDefaults(ModContent.ItemType<AntiTumorOintment>());
-            Item.stack++;
-            Item.favorited = favorited;
+            Item.RestoreConsumedItemByRightClick();
         }
         /*
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)

@@ -87,6 +87,25 @@ namespace CalamityMod.Items
             return true;
         }
 
+        public override bool CanRightClick() => true;
+
+        // RightClick only called by client, no worry about potential packetstorm
+        public override void RightClick(Player player)
+        {
+            if (Main.netMode == NetmodeID.SinglePlayer)
+            {
+                DeleteDummies();
+            }
+            else
+            {
+                var netMessage = Mod.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.DeleteAllSuperDummies);
+                netMessage.Send();
+            }
+
+            Item.RestoreConsumedItemByRightClick();
+        }
+
         public override void AddRecipes()
         {
             Recipe r = CreateRecipe();

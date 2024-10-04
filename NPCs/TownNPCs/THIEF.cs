@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
@@ -217,20 +218,26 @@ namespace CalamityMod.NPCs.TownNPCs
             int goblinIndex = NPC.FindFirstNPC(NPCID.GoblinTinkerer);
             if (goblinIndex != -1 && CalamityWorld.Reforges >= 1)
             {
-                CalamityWorld.Reforges = 0;
-                int[] coinCounts = Utils.CoinsSplit(CalamityWorld.MoneyStolenByBandit);
-                if (coinCounts[0] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.CopperCoin, coinCounts[0]);
-                if (coinCounts[1] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.SilverCoin, coinCounts[1]);
-                if (coinCounts[2] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.GoldCoin, coinCounts[2]);
-                if (coinCounts[3] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.PlatinumCoin, coinCounts[3]);
+                if (Main.netMode == NetmodeID.SinglePlayer)
+                {
+                    DoRefund(bandit: NPC);
+                }
+                else if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    // Possible Bug here: Minor text bug when two players send request this simultaneously
+                    // Which result to both player to have successful message but only one request got accepted on server
+                    // But since this is how base gamecode works theres no way to fix this clean way (Unless someone implement net queued response for NPC dialog)
+                    // And as this does not duplicate the coin amount, It's not that bad I think...?
+                    //
+                    // Other way possible is to having bandit stolen inventory per player
+                    // But I didn't wanted to change system too much
+                    ModPacket packet = CalamityMod.Instance.GetPacket();
+                    packet.Write((byte)CalamityModMessageType.WantToRefundReforges);
+                    packet.Write((byte)Main.myPlayer);
+                    packet.Send();
+                }
 
-                CalamityWorld.MoneyStolenByBandit = 0;
                 SoundEngine.PlaySound(SoundID.Coins); // Money dink sound
-                CalamityNetcode.SyncWorld();
                 switch (Main.rand.Next(2))
                 {
                     case 0:
@@ -240,6 +247,29 @@ namespace CalamityMod.NPCs.TownNPCs
                 }
             }
             return this.GetLocalizedValue("NoRefund");
+        }
+
+        public static void DoRefund(NPC bandit)
+        {
+            if (bandit == null)
+                return;
+
+            if (CalamityWorld.Reforges <= 0)
+                return;
+
+            int[] coinCounts = Utils.CoinsSplit(CalamityWorld.MoneyStolenByBandit);
+            if (coinCounts[0] > 0)
+                Item.NewItem(new EntitySource_Gift(bandit), bandit.Hitbox, ItemID.CopperCoin, coinCounts[0]);
+            if (coinCounts[1] > 0)
+                Item.NewItem(new EntitySource_Gift(bandit), bandit.Hitbox, ItemID.SilverCoin, coinCounts[1]);
+            if (coinCounts[2] > 0)
+                Item.NewItem(new EntitySource_Gift(bandit), bandit.Hitbox, ItemID.GoldCoin, coinCounts[2]);
+            if (coinCounts[3] > 0)
+                Item.NewItem(new EntitySource_Gift(bandit), bandit.Hitbox, ItemID.PlatinumCoin, coinCounts[3]);
+
+            CalamityWorld.MoneyStolenByBandit = 0;
+            CalamityWorld.Reforges = 0;
+            CalamityNetcode.SyncWorld();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

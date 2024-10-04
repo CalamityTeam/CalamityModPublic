@@ -31,16 +31,19 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override bool? UseItem(Player player)
         {
+            // Only SinglePlayer and Server need to sync those parameters
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
+
             if (!Main.raining)
             {
-                CalamityUtils.StartRain(true);
+                CalamityUtils.StartRain(torrentialTear: true, worldSync: true);
             }
             else
             {
-                Main.raining = false;
+                CalamityUtils.StopRain(clearWeather: false, worldSync: true);
             }
 
-            CalamityNetcode.SyncWorld();
             return true;
         }
 

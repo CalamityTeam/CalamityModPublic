@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -13,15 +14,13 @@ namespace CalamityMod.Tiles
     public class ScoriaBrick : ModTile
     {
         int subsheetHeight = 72;
-        internal static Texture2D GlowTexture;
+        internal static FramedGlowMask GlowMask;
 
 
         public override void SetStaticDefaults()
         {
-            if (!Main.dedServ)
-            {
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/ScoriaBrickGlow", AssetRequestMode.ImmediateLoad).Value;
-            }
+            GlowMask = new("CalamityMod/Tiles/ScoriaBrickGlow", 18, 18);
+
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
@@ -60,17 +59,21 @@ namespace CalamityMod.Tiles
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             // If the cached textures don't exist for some reason, don't bother using them.
-            if (GlowTexture is null)
+            if (GlowMask.Texture is null)
                 return;
 
             Tile tile = CalamityUtils.ParanoidTileRetrieval(i, j);
             int xPos = tile.TileFrameX;
             int frameOffset = j % 2 * 72;
             int yPos = tile.TileFrameY + frameOffset;
-            Color drawColour = GetDrawColour(i, j, Color.White);
-            Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
-            Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;
-            TileFraming.SlopedGlowmask(i, j, 0, GlowTexture, drawPosition + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), GetDrawColour(i, j, drawColour), default);
+
+            if (GlowMask.HasContentInFramePos(xPos, yPos))
+            {
+                Color drawColour = GetDrawColour(i, j, Color.White);
+                Vector2 drawOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+                Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffset;
+                TileFraming.SlopedGlowmask(i, j, 0, GlowMask.Texture, drawPosition + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), GetDrawColour(i, j, drawColour), default);
+            }
         }
         private Color GetDrawColour(int i, int j, Color colour)
         {

@@ -15,14 +15,11 @@ namespace CalamityMod.Tiles
 {
     public class GiantPlanteraBulb : ModTile
     {
-        public static Asset<Texture2D> Glow { get; private set; }
+        public static FramedGlowMask GlowMask { get; private set; }
 
         public override void Load()
         {
-            if (!Main.dedServ)
-            {
-                Glow = ModContent.Request<Texture2D>($"{Texture}Glow");
-            }
+            GlowMask = new($"{Texture}Glow", 18, 18);
         }
 
         public override void SetStaticDefaults()
@@ -63,12 +60,6 @@ namespace CalamityMod.Tiles
 
             DustType = DustID.PlanteraBulb;
             HitSound = SoundID.Grass;
-        }
-
-        public override void Unload()
-        {
-            // Textures are auto disposed by tModLoader, all we need to do is get rid of the asset wrapper reference
-            Glow = null;
         }
 
         // Use the second map entry in Hardmode
@@ -205,12 +196,18 @@ namespace CalamityMod.Tiles
         {
             var tile = Main.tile[i, j];
 
-            spriteBatch.Draw(
-                Glow.Value,
-                new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + CalamityUtils.TileDrawOffset,
-                new Rectangle(tile.TileFrameX, tile.TileFrameY + AnimationFrameHeight * Main.tileFrame[Type], 16, 16),
-                Color.Yellow
-            );
+            var xPos = tile.TileFrameX;
+            var yPos = tile.TileFrameY + AnimationFrameHeight * Main.tileFrame[Type];
+
+            if (GlowMask.HasContentInFramePos(xPos, yPos))
+            {
+                spriteBatch.Draw(
+                    GlowMask.Texture,
+                    new Vector2(i * 16, j * 16 + 2) - Main.screenPosition + CalamityUtils.TileDrawOffset,
+                    new Rectangle(xPos, yPos, 16, 16),
+                    Color.Yellow
+                );
+            }
         }
     }
 }
