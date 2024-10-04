@@ -561,9 +561,7 @@ namespace CalamityMod.CalPlayer
                 // If using Draedon's Heart, you get healing instead of damage.
                 if (draedonsHeart)
                 {
-                    Player.statLife += DraedonsHeart.NanomachinesHealPerFrame;
-                    if (Player.statLife >= Player.statLifeMax2)
-                        Player.statLife = Player.statLifeMax2;
+                    Player.HealPlayer(DraedonsHeart.NanomachinesHealPerFrame, false);
 
                     // Old Draedon's Heart dust effect from its standing still regen. Works just fine.
                     int dustID = DustID.TerraBlade;

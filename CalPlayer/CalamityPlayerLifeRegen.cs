@@ -741,9 +741,7 @@ namespace CalamityMod.CalPlayer
                 if (pinkCandleHealFraction >= 1D)
                 {
                     pinkCandleHealFraction = 0D;
-
-                    if (Player.statLife < Player.statLifeMax2)
-                        Player.statLife++;
+                    Player.HealPlayer(1, false);
                 }
             }
             else
