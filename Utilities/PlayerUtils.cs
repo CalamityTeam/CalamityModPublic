@@ -893,7 +893,7 @@ namespace CalamityMod
         /// A short method that heals the player.
         /// All direct heals in Calamity should use this.
         /// </summary>
-        /// <param name="player">The player being healed..</param>
+        /// <param name="player">The player being healed.</param>
         /// <param name="amount">The amount of life being healed.</param>
         /// <param name="healEffect">Whether the heal CombatText should be displayed.</param>
         /// <param name="broadcast">Whether the heal CombatText should be synced.</param>
