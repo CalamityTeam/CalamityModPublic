@@ -60,10 +60,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 int heal = 6;
                 player.lifeSteal -= heal;
-                player.statLife += heal;
-                player.HealEffect(heal);
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+                player.HealPlayer(heal);
             }
         }
 

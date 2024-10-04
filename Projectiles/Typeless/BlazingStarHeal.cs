@@ -46,10 +46,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (!player.immune && playerDist < 50f && !player.dead && Projectile.position.X < player.position.X + player.width && Projectile.position.X + Projectile.width > player.position.X && Projectile.position.Y < player.position.Y + player.height && Projectile.position.Y + Projectile.height > player.position.Y)
             {
                 int healAmt = Utils.Clamp((200 - Projectile.timeLeft) / 10, 1, 10); //min heal is 5, max heal is 10, achievable after 2 seconds
-                player.HealEffect(healAmt, false);
-                player.statLife += healAmt;
-                if (player.statLife > player.statLifeMax2)
-                    player.statLife = player.statLifeMax2;
+                player.HealPlayer(healAmt, true, false);
 
                 NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, index, healAmt);
 

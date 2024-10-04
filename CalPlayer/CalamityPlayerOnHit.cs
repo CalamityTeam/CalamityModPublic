@@ -119,10 +119,7 @@ namespace CalamityMod.CalPlayer
 
                     int heal = 2;
                     Player.lifeSteal -= heal;
-                    Player.statLife += heal;
-                    Player.HealEffect(heal);
-                    if (Player.statLife > Player.statLifeMax2)
-                        Player.statLife = Player.statLifeMax2;
+                    Player.HealPlayer(heal);
 
                     break;
 
@@ -251,10 +248,7 @@ namespace CalamityMod.CalPlayer
 
                     int heal = 2;
                     Main.player[Main.myPlayer].lifeSteal -= heal;
-                    Player.statLife += heal;
-                    Player.HealEffect(heal);
-                    if (Player.statLife > Player.statLifeMax2)
-                        Player.statLife = Player.statLifeMax2;
+                    Player.HealPlayer(heal);
 
                     break;
 

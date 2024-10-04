@@ -116,10 +116,7 @@ namespace CalamityMod.Projectiles.Melee
 
             int heal = Main.rand.NextBool(4) ? 2 : 1;
             player.lifeSteal -= heal;
-            player.statLife += heal;
-            player.HealEffect(heal);
-            if (player.statLife > player.statLifeMax2)
-                player.statLife = player.statLifeMax2;
+            player.HealPlayer(heal);
         }
 
         public void PlayChainsawSounds()

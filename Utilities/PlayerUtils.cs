@@ -890,6 +890,23 @@ namespace CalamityMod
         public static bool CantUseHoldout(this Player player, bool needsToHold = true) => player == null || !player.active || player.dead || (!player.channel && needsToHold) || player.CCed || player.noItems;
 
         /// <summary>
+        /// A short method that heals the player.
+        /// All direct heals in Calamity should use this.
+        /// </summary>
+        /// <param name="player">The player being healed..</param>
+        /// <param name="amount">The amount of life being healed.</param>
+        /// <param name="healEffect">Whether the heal CombatText should be displayed.</param>
+        /// <param name="broadcast">Whether the heal CombatText should be synced.</param>
+        public static void HealPlayer(this Player player, int amount, bool healEffect = true, bool broadcast = true)
+        {
+            player.statLife += amount;
+            if (player.statLife > player.statLifeMax2)
+                player.statLife = player.statLifeMax2;
+            if (healEffect)
+                player.HealEffect(amount, broadcast);
+        }
+
+        /// <summary>
         /// Makes the given player send the given packet to all appropriate receivers.<br />
         /// If server is false, the packet is sent only to the multiplayer host.<br />
         /// If server is true, the packet is sent to all clients except the player it pertains to.
