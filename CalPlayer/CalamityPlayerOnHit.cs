@@ -7,6 +7,7 @@ using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Cooldowns;
 using CalamityMod.Dusts;
+using CalamityMod.Enums;
 using CalamityMod.EntitySources;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Prismatic;

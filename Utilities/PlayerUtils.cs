@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Enums;
 using static Terraria.Player;
 
 namespace CalamityMod
@@ -895,15 +896,14 @@ namespace CalamityMod
         /// </summary>
         /// <param name="player">The player being healed.</param>
         /// <param name="amount">The amount of life being healed.</param>
-        /// <param name="healEffect">Whether the heal CombatText should be displayed.</param>
-        /// <param name="broadcast">Whether the heal CombatText should be synced.</param>
-        public static void HealPlayer(this Player player, int amount, bool healEffect = true, bool broadcast = true)
+        /// <param name="healTextType">Whether the heal CombatText should be displayed, and whether it should be synced. Displays and syncs by default.</param>
+        public static void HealPlayer(this Player player, int amount, HealTextType healTextType = HealTextType.Broadcast)
         {
             player.statLife += amount;
             if (player.statLife > player.statLifeMax2)
                 player.statLife = player.statLifeMax2;
-            if (healEffect)
-                player.HealEffect(amount, broadcast);
+            if (healTextType != HealTextType.None)
+                player.HealEffect(amount, healTextType == HealTextType.Broadcast);
         }
 
         /// <summary>

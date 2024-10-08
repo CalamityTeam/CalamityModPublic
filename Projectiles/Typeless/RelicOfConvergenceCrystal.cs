@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Dusts;
+using CalamityMod.Enums;
 using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -70,7 +71,7 @@ namespace CalamityMod.Projectiles.Typeless
                     dust.fadeIn = Main.rand.NextFloat(3f, 4f);
                     dust.noGravity = true;
                 }
-                player.HealPlayer(70, true, false);
+                player.HealPlayer(70, HealTextType.Local);
                 SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Projectile.Center);
             }
         }

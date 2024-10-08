@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.Healing;
+﻿using CalamityMod.Enums;
+using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

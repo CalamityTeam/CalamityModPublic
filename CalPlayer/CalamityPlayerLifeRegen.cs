@@ -4,6 +4,7 @@ using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Placeables;
 using CalamityMod.Cooldowns;
+using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Ranged;
@@ -741,7 +742,7 @@ namespace CalamityMod.CalPlayer
                 if (pinkCandleHealFraction >= 1D)
                 {
                     pinkCandleHealFraction = 0D;
-                    Player.HealPlayer(1, false);
+                    Player.HealPlayer(1, HealTextType.None);
                 }
             }
             else

@@ -1,5 +1,6 @@
 ﻿using System;
 using CalamityMod.CalPlayer;
+using CalamityMod.Enums;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -360,7 +361,7 @@ namespace CalamityMod
                 if (projectile.owner == Main.myPlayer && !Main.player[Main.myPlayer].moonLeech)
                 {
                     int healAmt = healing;
-                    player.HealPlayer(healAmt, true, false);
+                    player.HealPlayer(healAmt, HealTextType.Local);
                     NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, target, healAmt, 0f, 0f, 0, 0, 0);
                 }
                 projectile.Kill();

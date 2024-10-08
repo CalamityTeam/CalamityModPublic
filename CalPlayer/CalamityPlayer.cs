@@ -11,6 +11,7 @@ using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Cooldowns;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
+using CalamityMod.Enums;
 using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
 using CalamityMod.Items;

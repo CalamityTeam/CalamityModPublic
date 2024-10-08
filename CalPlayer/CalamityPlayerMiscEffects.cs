@@ -12,6 +12,7 @@ using CalamityMod.Cooldowns;
 using CalamityMod.CustomRecipes;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
+using CalamityMod.Enums;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
@@ -561,7 +562,7 @@ namespace CalamityMod.CalPlayer
                 // If using Draedon's Heart, you get healing instead of damage.
                 if (draedonsHeart)
                 {
-                    Player.HealPlayer(DraedonsHeart.NanomachinesHealPerFrame, false);
+                    Player.HealPlayer(DraedonsHeart.NanomachinesHealPerFrame, HealTextType.None);
 
                     // Old Draedon's Heart dust effect from its standing still regen. Works just fine.
                     int dustID = DustID.TerraBlade;
@@ -2679,7 +2680,7 @@ namespace CalamityMod.CalPlayer
             // Bloodflare Core's heal over time
             if (bloodflareCore && bloodflareCoreRemainingHealOverTime > 0 && Player.miscCounter % BloodflareCore.HealFrameCooldown == 0)
             {
-                Player.HealPlayer(1, true, false);
+                Player.HealPlayer(1, HealTextType.Local);
 
                 // Produce an implosion of blood themed dust so it's obvious an effect is occurring
                 for (int i = 0; i < 3; ++i)
