@@ -785,6 +785,11 @@ namespace CalamityMod.Items
                 return false; // Don't use weapons if you're charging with a spear
             }
 
+            // If the player if using the Drill Containment Unit, ignore all this.
+            // It will start to check for everything below EVERY FRAME, including attacking with PSC or using Charge
+            if (player.mount.Type == MountID.Drill)
+                return base.CanUseItem(item, player);
+
             // Conversion for Andromeda
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
             {
