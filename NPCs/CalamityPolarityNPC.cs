@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs
         public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             // I don't know who would be using this while also inflicting miracle blight, but in that rare case, do not draw these.
-            if (npc.Calamity().miracleBlight > 0)
+            if (CalamityDrawParameterNPC.DrawingMiracleBlight[npc.whoAmI])
                 return;
 
             Main.spriteBatch.End();
