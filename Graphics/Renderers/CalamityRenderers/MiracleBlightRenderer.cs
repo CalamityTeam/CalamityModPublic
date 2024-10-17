@@ -68,16 +68,7 @@ namespace CalamityMod.Graphics.Renderers.CalamityRenderers
             if (ExcludedNPCs.Contains(npc.type) || npc.IsABestiaryIconDummy)
                 return false;
 
-            // Safety check for weird MP bug when getting global npcs.
-            if (!npc.TryGetGlobalNPC<CalamityGlobalNPC>(out var calNPC) || !npc.TryGetGlobalNPC<CalamityPolarityNPC>(out var polNPC))
-                return false;
-
-            // Do not draw if the npc does not have miracle blight, or has the polarity effect.
-            if (calNPC.miracleBlight <= 0 || polNPC.CurPolarity > 0f)
-                return false;
-
-            // Do not draw if the current player has the trippy effect.
-            if (Main.LocalPlayer.Calamity().trippy)
+            if (!CalamityDrawParameterNPC.DrawingMiracleBlight[npc.whoAmI])
                 return false;
 
             return true;
