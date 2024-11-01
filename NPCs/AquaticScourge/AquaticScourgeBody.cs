@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
+    [LongDistanceNetSync(SyncWith = typeof(AquaticScourgeHead))]
     public class AquaticScourgeBody : ModNPC
     {
         public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.AquaticScourgeHead.DisplayName");

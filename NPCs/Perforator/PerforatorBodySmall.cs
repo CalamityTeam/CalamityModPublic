@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Perforator
 {
+    [LongDistanceNetSync(SyncWith = typeof(PerforatorHeadSmall))]
     public class PerforatorBodySmall : ModNPC
     {
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/PerfSmallHit", 3);

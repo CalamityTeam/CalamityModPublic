@@ -22,6 +22,7 @@ using ArtemisBoss = CalamityMod.NPCs.ExoMechs.Artemis.Artemis;
 
 namespace CalamityMod.NPCs.ExoMechs
 {
+    [LongDistanceNetSync]
     public class Draedon : ModNPC
     {
         public int KillReappearTextCountdown;

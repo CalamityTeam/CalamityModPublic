@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
+    [LongDistanceNetSync(SyncWith = typeof(ArmoredDiggerHead))]
     public class ArmoredDiggerBody : ModNPC
     {
         public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.ArmoredDiggerHead.DisplayName");

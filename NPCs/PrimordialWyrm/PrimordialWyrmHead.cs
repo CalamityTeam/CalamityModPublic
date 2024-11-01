@@ -28,6 +28,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.NPCs.PrimordialWyrm
 {
     [AutoloadBossHead]
+    [LongDistanceNetSync]
     public class PrimordialWyrmHead : ModNPC
     {
         public enum Phase

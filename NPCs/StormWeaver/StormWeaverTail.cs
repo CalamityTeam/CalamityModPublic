@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
+    [LongDistanceNetSync(SyncWith = typeof(StormWeaverHead))]
     public class StormWeaverTail : ModNPC
     {
         private int invinceTime = 180;
