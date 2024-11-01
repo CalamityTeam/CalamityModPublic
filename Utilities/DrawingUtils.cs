@@ -335,7 +335,7 @@ namespace CalamityMod
         }
 
         // Cached for efficiency purposes.
-        internal static readonly FieldInfo BeginEndPairField = typeof(SpriteBatch).GetField("inBeginEndPair", BindingFlags.NonPublic | BindingFlags.Instance);
+        internal static readonly FieldInfo BeginCalled = typeof(SpriteBatch).GetField("beginCalled", BindingFlags.NonPublic | BindingFlags.Instance);
 
         /// <summary>
         /// Determines if a <see cref="SpriteBatch"/> is in a lock due to a <see cref="SpriteBatch.Begin"/> call.
@@ -343,7 +343,39 @@ namespace CalamityMod
         /// <param name="spriteBatch">The sprite batch to check.</param>
         public static bool HasBeginBeenCalled(this SpriteBatch spriteBatch)
         {
-            return (bool)BeginEndPairField.GetValue(spriteBatch);
+            return (bool)BeginCalled.GetValue(spriteBatch);
+        }
+
+        public static bool TryBegin(this SpriteBatch spriteBatch, SpriteSortMode sortMode,
+            BlendState blendState,
+            SamplerState samplerState,
+            DepthStencilState depthStencilState,
+            RasterizerState rasterizerState,
+            Effect effect,
+            Matrix transformMatrix)
+        {
+            if (spriteBatch.HasBeginBeenCalled())
+            {
+                return false;
+            }
+            else
+            {
+                spriteBatch.Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, effect, transformMatrix);
+                return true;
+            }
+        }
+
+        public static bool TryEnd(this SpriteBatch spriteBatch)
+        {
+            if (!spriteBatch.HasBeginBeenCalled())
+            {
+                return false;
+            }
+            else
+            {
+                spriteBatch.End();
+                return true;
+            }
         }
 
         /// <summary>

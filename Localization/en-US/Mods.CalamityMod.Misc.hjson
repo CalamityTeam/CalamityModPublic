@@ -21,6 +21,7 @@ RecipeGroup: {
 // Status
 WikiStatus1: "[i:Book] [c/EE4939:Note: The Fandom wiki is no longer supported by Calamity.] [i:Book]"
 WikiStatus2: "[i:Book] [c/EE4939:Check out the Official Calamity Mod Wiki at ][c/3989FF:calamitymod.wiki.gg][c/EE4939:!] [i:Book]"
+GimmeSwagPlushieCampaign: "[i:GreenPresent] [c/3BE022:NOW AVAILABLE! Yharon Plushie!] [c/3989FF:calamitymod.com/plush] [i:GreenPresent]"
 // Recipe Conditions
 Tier1ArsenalRecipeCondition: View an unencrypted schematic from the lab near the Sunken Sea
 Tier2ArsenalRecipeCondition: Decrypt a schematic from the lab in the large planetoid in the sky

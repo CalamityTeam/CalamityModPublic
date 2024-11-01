@@ -193,6 +193,29 @@ namespace CalamityMod
                         }
                         break;
 
+                    case CalamityModMessageType.SyncNPCPosAndRotOnly:
+                        npcIndex = reader.ReadByte();
+                        Vector2 position = reader.ReadVector2();
+                        float rotation = (float)reader.ReadHalf(); //rotation unit is radian (-π/2 ≤ rotation ≤ π/2) so Half precision should works
+
+                        if (npcIndex >= Main.maxNPCs)
+                            break;
+
+                        npc = Main.npc[npcIndex];
+                        npc.position = position;
+                        npc.rotation = rotation;
+
+                        if (Main.dedServ)
+                        {
+                            ModPacket packet = CalamityMod.Instance.GetPacket();
+                            packet.Write((byte)CalamityModMessageType.SyncNPCPosAndRotOnly);
+                            packet.Write((byte)npcIndex);
+                            packet.WriteVector2(position);
+                            packet.Write((Half)rotation);
+                            packet.Send(ignoreClient: whoAmI);
+                        }
+                        break;
+
                     //
                     // Tile Entities
                     //
@@ -400,6 +423,7 @@ namespace CalamityMod
         // General things for entities
         SpawnNPCOnPlayer,
         SyncNPCMotionDataToServer,
+        SyncNPCPosAndRotOnly,
 
         // Tile Entities
         PowerCellFactory,
