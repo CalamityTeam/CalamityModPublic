@@ -1,5 +1,5 @@
 author = Fabsol and the Dev Team
-version = 2.0.4.004
+version = 2.0.4.005
 displayName = Calamity Mod
 modReferences = CalamityModMusic
 homepage = https://discord.gg/calamity
