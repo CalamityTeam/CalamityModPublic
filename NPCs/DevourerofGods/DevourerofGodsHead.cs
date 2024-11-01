@@ -44,6 +44,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DevourerofGods
 {
+    [LongDistanceNetSync]
     public class DevourerofGodsHead : ModNPC
     {
         public static int phase1IconIndex;

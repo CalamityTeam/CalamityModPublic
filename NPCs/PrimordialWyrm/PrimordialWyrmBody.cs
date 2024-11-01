@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.PrimordialWyrm
 {
+    [LongDistanceNetSync(SyncWith = typeof(PrimordialWyrmHead))]
     public class PrimordialWyrmBody : ModNPC
     {
         public static Asset<Texture2D> GlowTexture;

@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
+    [LongDistanceNetSync(SyncWith = typeof(DesertNuisanceHeadYoung))]
     public class DesertNuisanceBodyYoung : ModNPC
     {
         public override LocalizedText DisplayName => CalamityUtils.GetText("NPCs.DesertNuisanceHeadYoung.DisplayName");
