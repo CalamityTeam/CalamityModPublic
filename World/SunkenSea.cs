@@ -739,6 +739,13 @@ namespace CalamityMod.World
                 // As far as I can tell, this just scales up the entire Sunken Sea to be 4x wider and 2x taller than what is listed above
                 Vector2 arbitrary42GodVector = new Vector2(4f, 2f);
 
+                // 04NOV2024: Ozzatron: Remnants mutilates the Underground Desert beyond recognition.
+                // The above code assumes the size of the underground desert with arbitrary hardcoded values instead of checking it.
+                // To ensure the Sunken Sea is centered on an Underground Desert of any size, some adjustments are made.
+                // This would have been easy, but the arbitrary 4-2 God vector makes the math unnecessarily complicated.
+                int sunkenSeaRealWidth = (int)(sunkenSeaAreaX * arbitrary42GodVector.X);
+                origin.X = GenVars.UndergroundDesertLocation.Center.X - sunkenSeaRealWidth / 2;
+
                 // Place the majority of the terrain as clusters
                 ClusterGroup clusterGroup = new ClusterGroup();
                 clusterGroup.Generate(sunkenSeaAreaX, sunkenSeaAreaY);

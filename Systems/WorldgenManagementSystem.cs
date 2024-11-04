@@ -124,10 +124,8 @@ namespace CalamityMod.Systems
                 {
                     progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.SunkenSea").Value;
 
-                    int sunkenSeaX = GenVars.UndergroundDesertLocation.Left;
-                    int sunkenSeaY = Main.maxTilesY - 400;
-
-                    SunkenSea.Place(new Point(sunkenSeaX, sunkenSeaY));
+                    Point ssBottomLeft = new Point(GenVars.UndergroundDesertLocation.Left, Main.maxTilesY - 400);
+                    SunkenSea.Place(ssBottomLeft);
                 }));
             }
 
