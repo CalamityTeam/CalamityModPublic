@@ -84,7 +84,6 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
             "Mercutio 'Merkalto' Takle",
             "Mishiro Usui",
             "Moonburn",
-            "Mr.Small",
             "Nycro",
             "Ozzatron",
             "Piky",

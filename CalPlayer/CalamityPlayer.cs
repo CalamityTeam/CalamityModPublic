@@ -1151,7 +1151,6 @@ namespace CalamityMod.CalPlayer
         public bool omegaBlueTransformationForce;
         public bool omegaBlueTransformationPower;
         public bool redBow;
-        public bool cocosFeather;
         #endregion
 
         #region Calamitas Enchant Effects
@@ -2191,7 +2190,6 @@ namespace CalamityMod.CalPlayer
             omegaBlueTransformation = omegaBlueTransformationForce = omegaBlueTransformationPower = false;
 
             redBow = false;
-            cocosFeather = false;
 
             rageModeActive = false;
             adrenalineModeActive = false;
@@ -4221,12 +4219,6 @@ namespace CalamityMod.CalPlayer
                 Player.legs = EquipLoader.GetEquipSlot(Mod, "RedBow", EquipType.Legs);
                 Player.body = EquipLoader.GetEquipSlot(Mod, "RedBow", EquipType.Body);
                 Player.head = EquipLoader.GetEquipSlot(Mod, "RedBow", EquipType.Head);
-            }
-            if (cocosFeather)
-            {
-                Player.legs = EquipLoader.GetEquipSlot(Mod, "CocosFeather", EquipType.Legs);
-                Player.body = EquipLoader.GetEquipSlot(Mod, "CocosFeather", EquipType.Body);
-                Player.head = EquipLoader.GetEquipSlot(Mod, "CocosFeather", EquipType.Head);
             }
             if (snowRuffianSet)
             {
