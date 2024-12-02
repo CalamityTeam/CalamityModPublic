@@ -57,7 +57,7 @@ namespace CalamityMod.World
                 for (int y = Main.maxTilesY - 90; y <= Main.maxTilesY - 5; y++)
                 {
                     WorldGen.PlaceTile(x, y, (ushort)ModContent.TileType<BrimstoneSlag>());
-                    Main.tile[x, y + 5].WallType = (ushort)ModContent.WallType<BrimstoneSlagWallUnsafe>();
+                    Main.tile[x, y].WallType = (ushort)ModContent.WallType<BrimstoneSlagWallUnsafe>();
                 }
             }
 
@@ -311,8 +311,8 @@ namespace CalamityMod.World
                 }
             }
 
-            //settle all liquids
-            CalamityUtils.SettleWater();
+            //DISABLED. CAUSES LAVA TO GENERATE IN THE SUNKEN SEA
+            //CalamityUtils.SettleWater();
 
             //spread grass on all scorched remains with no lava above them
             for (int x = biomeStart; x <= biomeEdge; x++)

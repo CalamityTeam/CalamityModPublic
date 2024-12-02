@@ -124,7 +124,7 @@ namespace CalamityMod.Graphics.Renderers
             var renderers = Renderers.Where(renderer => renderer.ShouldDraw && renderer.Layer is DrawLayer.NPC);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
             foreach (var renderer in renderers)
                 renderer.DrawTarget(Main.spriteBatch);
@@ -138,7 +138,7 @@ namespace CalamityMod.Graphics.Renderers
 
             var renderers = Renderers.Where(renderer => renderer.ShouldDraw && renderer.Layer is DrawLayer.Projectile);
 
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
             foreach (var renderer in renderers)
                 renderer.DrawTarget(Main.spriteBatch);
@@ -152,7 +152,7 @@ namespace CalamityMod.Graphics.Renderers
 
             var renderers = Renderers.Where(renderer => renderer.ShouldDraw && renderer.Layer is DrawLayer.Player);
 
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
             foreach (var renderer in renderers)
                 renderer.DrawTarget(Main.spriteBatch);
@@ -165,13 +165,13 @@ namespace CalamityMod.Graphics.Renderers
             var renderers = Renderers.Where(renderer => renderer.ShouldDraw && renderer.Layer is DrawLayer.BeforeTiles);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
             foreach (var renderer in renderers)
                 renderer.DrawTarget(Main.spriteBatch);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.Transform);
 
             orig(self);
         }
@@ -181,12 +181,12 @@ namespace CalamityMod.Graphics.Renderers
             var renderers = Renderers.Where(renderer => renderer.ShouldDraw && renderer.Layer is DrawLayer.AfterEverything);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise);
             foreach (var renderer in renderers)
                 renderer.DrawTarget(Main.spriteBatch);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.Transform);
             orig(self);
         }
         #endregion
