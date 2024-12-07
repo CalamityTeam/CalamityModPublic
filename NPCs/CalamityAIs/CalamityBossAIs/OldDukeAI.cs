@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.CalamityAIs.CalamityBossAIs
 
             if (CalamityConfig.Instance.BossesStopWeather)
                 CalamityMod.StopRain();
-            else if (!Main.raining)
+            else if (!Main.raining && !BossRushEvent.BossRushActive)
                 CalamityUtils.StartRain();
 
             // Adjust stats
