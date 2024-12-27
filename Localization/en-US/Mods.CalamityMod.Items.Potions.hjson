@@ -191,7 +191,7 @@ CaribbeanRum: {
 	DisplayName: Caribbean Rum
 	Tooltip:
 		'''
-		Increases life regen by 1 HP/s, movement speed by 10% and wing flight time by 20%
+		Increases life regen by 1 HP/s, movement speed by 10%
 		Makes you floaty and reduces defense by 10%
 		Drinking more than 3 different alcohols might not end well with your liver
 		[c/B00BA5:'Why is the rum gone?']
