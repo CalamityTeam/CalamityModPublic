@@ -30,7 +30,7 @@ ElysianWings: {
 		Acceleration multiplier: 2.7
 		Great vertical speed
 		Flight time: 240
-		Temporary immunity to lava and 10% increased movement speed
+		Immunity to lava and 10% increased movement speed
 		Blessed by the Profaned Flame
 		'''
 }

@@ -1212,11 +1212,11 @@ TheDarkMaster: {
 	DisplayName: The Dark Master
 	Tooltip:
 		'''
-		Fires red echo slash projectiles at full health
-		Projectile damage increases for every point of HP above 400
+		Fires red echo slash projectiles when above 75% health
+		Projectile damage increases for every HP above 400
 		Press <right> to spawn three shadow clones in a Delta formation
 		The clones will mirror your sword swings and release projectiles
-		The clones will always fire projectiles regardless of your own HP
+		Projectiles are fired regardless of your own HP, but deal less damage
 		The clones may only exist while holding this weapon
 		'The blade by which the shadows levy their foes with a terrible fate'
 		'''

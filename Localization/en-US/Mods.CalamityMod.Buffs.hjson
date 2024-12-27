@@ -100,7 +100,7 @@ Trippy: {
 
 VodkaBuff: {
 	DisplayName: Vodka
-	Description: Damage and critical stike chance increased, defense and life regen reduced
+	Description: Damage and critical strike chance increased, defense and life regen reduced
 }
 
 WhiskeyBuff: {

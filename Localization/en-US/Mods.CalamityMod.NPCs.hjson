@@ -169,9 +169,9 @@ Frogfish.DisplayName: Frogfish
 Horse.DisplayName: Earth Elemental
 IceClasper.DisplayName: Ice Clasper
 ImpiousImmolator.DisplayName: Impious Immolator
-KingSlimeJewel.DisplayName: Ruby Jewel
-KingSlimeJewel2.DisplayName: Sapphire Jewel
-KingSlimeJewel3.DisplayName: Emerald Jewel
+KingSlimeJewelEmerald.DisplayName: Emerald Jewel
+KingSlimeJewelRuby.DisplayName: Ruby Jewel
+KingSlimeJewelSapphire.DisplayName: Sapphire Jewel
 LavaSlimeNoLavaDrop.DisplayName: Lava Slime
 MantisShrimp.DisplayName: Mantis Shrimp
 OverloadedSoldier.DisplayName: Overloaded Soldier
@@ -623,7 +623,3 @@ WITCH: {
 		Princess_LovesNPC: "{NPCName} is always lonely, it's why I want to hang out with her, no one should be left alone like that!"
 	}
 }
-
-KingSlimeJewelEmerald.DisplayName: King Slime Jewel Emerald
-KingSlimeJewelRuby.DisplayName: King Slime Jewel Ruby
-KingSlimeJewelSapphire.DisplayName: King Slime Jewel Sapphire
