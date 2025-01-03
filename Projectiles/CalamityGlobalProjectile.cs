@@ -269,6 +269,15 @@ namespace CalamityMod.Projectiles
                     projectile.damage = (int)projectile.ai[2];
             }
 
+            // This code fixes the wacky close-up burst damage bug which occurs with double yoyos and local iframes.
+            // Oh my good friends, do not ask me how or why this works, for I do not know!
+            // That being said, PLEASE DON'T REMOVE THIS, unless you think The Microwave killing Provi in 2 seconds with no effort is okay.
+            if (projectile.aiStyle == ProjAIStyleID.Yoyo)
+            {
+                if (projectile.ai[0] == -1)
+                    projectile.Kill();
+            }
+
             // Chlorophyte Crystal AI rework.
             if (projectile.type == ProjectileID.CrystalLeaf)
                 return ChlorophyteCrystalAI.DoChlorophyteCrystalAI(projectile);
