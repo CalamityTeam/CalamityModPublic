@@ -77,7 +77,6 @@ namespace CalamityMod.NPCs
             "XiaoEn0426", // <@!440448864772816896> (xiaoen0426)
             "Jeffred", // <@!295362230038560768> (paladinsamuel)
             "The Cooler Arthur", // <@!568263512523014154> (gokuartillery)
-            "Markie", // <@!291141964039061504> (markie_)
             "Shark", // <@!874464051697172492> (congratsistrash)
             "Sagi", // <@!508233115781693441> (sagittariod)
         };
