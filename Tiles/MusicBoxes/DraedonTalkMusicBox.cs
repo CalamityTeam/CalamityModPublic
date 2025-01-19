@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -14,6 +15,7 @@ namespace CalamityMod.Tiles.MusicBoxes
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
+            TileID.Sets.HasOutlines[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.Origin = new Point16(0, 1);
             TileObjectData.newTile.LavaDeath = false;
@@ -23,6 +25,8 @@ namespace CalamityMod.Tiles.MusicBoxes
             TileID.Sets.DisableSmartCursor[Type] = true;
             AddMapEntry(new Color(191, 142, 111), CalamityUtils.GetItemName(ItemID.MusicBox));
         }
+
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
         public override void MouseOver(int i, int j)
         {

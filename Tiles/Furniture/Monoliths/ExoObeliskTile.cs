@@ -31,6 +31,7 @@ namespace CalamityMod.Tiles.Furniture.Monoliths
             }
             RegisterItemDrop(ModContent.ItemType<ExoObelisk>());
             Main.tileFrameImportant[Type] = true;
+            TileID.Sets.HasOutlines[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
             TileObjectData.newTile.Height = 5;
             TileObjectData.newTile.Origin = new Point16(1, 4);
@@ -153,6 +154,23 @@ namespace CalamityMod.Tiles.Furniture.Monoliths
                 Color exoColors = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 0.5f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
 
                 Main.spriteBatch.Draw(Numbers.Value, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY + animate, 16, height), exoColors, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+            }
+
+            // Draws the Smart Cursor Highlight. Not 100% accurate, but its close enough
+            bool actuallySelected;
+            Color highlightColor;
+            Texture2D texhighlight = ModContent.Request<Texture2D>(HighlightTexture).Value;
+            if (Main.InSmartCursorHighlightArea(i, j, out actuallySelected))
+            {
+                if (actuallySelected)
+                {
+                    highlightColor = new Color(252, 252, 84);
+                }
+                else
+                {
+                    highlightColor = new Color(125, 125, 125);
+                }
+                Main.spriteBatch.Draw(texhighlight, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.TileFrameX, tile.TileFrameY + animate, 16, height), highlightColor, 0f, default(Vector2), 1f, SpriteEffects.None, 0f); ;
             }
 
             return false;

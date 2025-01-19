@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.DraedonMisc;
+﻿using CalamityMod.Buffs.Potions;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
 using CalamityMod.UI;
 using CalamityMod.UI.DraedonSummoning;
@@ -32,6 +33,12 @@ namespace CalamityMod.Tiles.DraedonSummoner
         public static Texture2D VoltageRegulatorTexture2;
         public static Texture2D CoolingCellTexture;
 
+        public static Texture2D HighlightT1;
+        public static Texture2D HighlightT2;
+        public static Texture2D HighlightT3;
+        public static Texture2D HighlightT4;
+
+
         public override void SetStaticDefaults()
         {
             if (!Main.dedServ)
@@ -43,6 +50,11 @@ namespace CalamityMod.Tiles.DraedonSummoner
                 VoltageRegulatorTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem", AssetRequestMode.ImmediateLoad).Value;
                 VoltageRegulatorTexture2 = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem2", AssetRequestMode.ImmediateLoad).Value;
                 CoolingCellTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerAuricQuantumCoolingCell", AssetRequestMode.ImmediateLoad).Value;
+
+                HighlightT1 = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerT1Highlight", AssetRequestMode.ImmediateLoad).Value;
+                HighlightT2 = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerT2Highlight", AssetRequestMode.ImmediateLoad).Value;
+                HighlightT3 = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerT3Highlight", AssetRequestMode.ImmediateLoad).Value;
+                HighlightT4 = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerT4Highlight", AssetRequestMode.ImmediateLoad).Value;
             }
 
             Main.tileLighted[Type] = true;
@@ -172,6 +184,8 @@ namespace CalamityMod.Tiles.DraedonSummoner
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);
             Rectangle frame = new Rectangle(frameXPos, frameYPos, 16, 16);
+            
+            Texture2D HighlightToUse = HighlightT1;
 
             if ((!t.IsHalfBlock && t.Slope == 0) || t.IsHalfBlock)
             {
@@ -181,7 +195,9 @@ namespace CalamityMod.Tiles.DraedonSummoner
                 if (codebreakerTileEntity != null)
                 {
                     if (codebreakerTileEntity.ContainsDecryptionComputer)
+                    {   
                         spriteBatch.Draw(ComputerTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    }                    
                     if (codebreakerTileEntity.ContainsVoltageRegulationSystem)
                         spriteBatch.Draw(VoltageRegulatorTexture2, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     if (codebreakerTileEntity.ContainsSensorArray)
@@ -192,6 +208,35 @@ namespace CalamityMod.Tiles.DraedonSummoner
                         spriteBatch.Draw(VoltageRegulatorTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                     if (codebreakerTileEntity.ContainsAdvancedDisplay)
                         spriteBatch.Draw(DisplayTexture, drawPosition, frame, drawColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+
+                    // Handles which Smart Cursor highlight to draw
+                    if (codebreakerTileEntity.ContainsDecryptionComputer && codebreakerTileEntity.ContainsSensorArray && !codebreakerTileEntity.ContainsAdvancedDisplay && !codebreakerTileEntity.ContainsVoltageRegulationSystem)
+                        HighlightToUse = HighlightT2;
+                    if (codebreakerTileEntity.ContainsDecryptionComputer && codebreakerTileEntity.ContainsSensorArray && codebreakerTileEntity.ContainsAdvancedDisplay && !codebreakerTileEntity.ContainsVoltageRegulationSystem)
+                        HighlightToUse = HighlightT3;
+                    if (codebreakerTileEntity.ContainsDecryptionComputer && codebreakerTileEntity.ContainsSensorArray && codebreakerTileEntity.ContainsAdvancedDisplay && codebreakerTileEntity.ContainsVoltageRegulationSystem)
+                        HighlightToUse = HighlightT4;
+
+                    // Prevents Smart Cursor highlights from appearing if the Codebreaker upgrades are mismatched
+                    if (codebreakerTileEntity.ContainsDecryptionComputer && !codebreakerTileEntity.ContainsSensorArray && (codebreakerTileEntity.ContainsAdvancedDisplay || codebreakerTileEntity.ContainsVoltageRegulationSystem))
+                        return false;
+                    if (codebreakerTileEntity.ContainsDecryptionComputer && codebreakerTileEntity.ContainsSensorArray && !codebreakerTileEntity.ContainsAdvancedDisplay && codebreakerTileEntity.ContainsVoltageRegulationSystem)
+                        return false;
+
+                    bool actuallySelected;
+                    Color highlightColor;
+                    if (Main.InSmartCursorHighlightArea(i, j, out actuallySelected) && codebreakerTileEntity.ContainsDecryptionComputer)
+                    {
+                        if (actuallySelected)
+                        {
+                            highlightColor = new Color(252, 252, 84);
+                        }
+                        else
+                        {
+                            highlightColor = new Color(125, 125, 125);
+                        }
+                        spriteBatch.Draw(HighlightToUse, drawPosition, frame, highlightColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    }
                 }
             }
             return false;

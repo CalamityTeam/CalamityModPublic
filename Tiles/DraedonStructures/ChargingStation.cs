@@ -34,6 +34,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
+            TileID.Sets.HasOutlines[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             // No need to set width, height, origin, etc. here, Style3x2 is exactly what we want.
             TileObjectData.newTile.LavaDeath = false;
