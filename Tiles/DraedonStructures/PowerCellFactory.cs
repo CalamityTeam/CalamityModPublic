@@ -164,16 +164,5 @@ namespace CalamityMod.Tiles.DraedonStructures
 
             return false;
         }
-
-        /*public void DrawSmartCursorHighlight(int i, int j, ref Color tileLight)
-        {
-            bool actuallySelected;
-            int averageTileLighting = ((int).R + (int)tileLight.G + (int)tileLight.B) / 3;
-            Color highlightcolor = Colors.GetSelectionGlowColor(actuallySelected, averageTileLighting);
-            if (Main.InSmartCursorHighlightArea(i, t.TileFrameY, out actuallySelected))
-            {
-                spriteBatch.Draw(texhighlight, drawOffset, new Rectangle(frameXPos, frameYPos, 16, 16), Color.Yellow, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
-            }
-        }*/
     }
 }
