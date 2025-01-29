@@ -943,7 +943,7 @@ namespace CalamityMod.Items
             // Reduce DD2 armor piece bonuses because they're overpowered, and clarify life regen boosts
             // Squire armor
             if (item.type == ItemID.SquireGreatHelm)
-                EditTooltipByNum(0, (line) => line.Text = "Increases your max number of sentries by 1 and grants +2 HP/s life regen");
+                EditTooltipByNum(0, (line) => line.Text = "Increases your max number of sentries by 1 and grants +1 HP/s life regen");
             if (item.type == ItemID.SquirePlating)
                 EditTooltipByNum(0, (line) => line.Text = "10% increased minion and melee damage");
             if (item.type == ItemID.SquireGreaves)
