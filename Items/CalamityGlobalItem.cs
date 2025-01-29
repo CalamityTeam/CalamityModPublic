@@ -1129,7 +1129,7 @@ namespace CalamityMod.Items
                     break;
 
                 case ItemID.SquireAltShirt:
-                    player.lifeRegen -= 6;
+                    player.lifeRegen -= 2;
                     break;
                 case ItemID.SquireAltPants:
                     player.GetDamage<SummonDamageClass>() -= 0.1f;
