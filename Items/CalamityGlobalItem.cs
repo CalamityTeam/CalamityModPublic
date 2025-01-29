@@ -1026,7 +1026,7 @@ namespace CalamityMod.Items
             }
             else if (set == "SquireTier3")
             {
-                player.lifeRegen += 6;
+                player.lifeRegen += 2;
                 player.GetDamage<SummonDamageClass>() += 0.1f;
                 player.GetCritChance<MeleeDamageClass>() += 10;
                 player.setBonus += $"\n{CalamityUtils.GetTextValue("Vanilla.Armor.SetBonus.SquireTier3")}";
