@@ -26,16 +26,32 @@ namespace CalamityMod.World
 
                 int y = WorldGen.genRand.Next((int)Main.rockLayer, Main.maxTilesY - 500);
 
-                if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType == 60)
+                if (Main.remixWorld)
                 {
-                    Rectangle ugDesert = GenVars.UndergroundDesertLocation;
-                    Rectangle InflatedSunkenSeaLocation = new Rectangle(ugDesert.Left - 160, ugDesert.Center.Y - 160, ugDesert.Width + 320, ugDesert.Height / 2 + 320);
-                    Rectangle TempleLocation = new Rectangle(x - 80, y - 80, 160, 160);
+                    while (Main.tile[x, y].HasTile || Main.tile[x, y].WallType > 0 || y > (int)(Main.worldSurface - 5.0))
+                    {
+                        y--;
+                    }
 
-                    if (!TempleLocation.Intersects(InflatedSunkenSeaLocation))
+                    y++;
+                    if (Main.tile[x, y].HasTile && (Main.tile[x, y].TileType == TileID.JungleGrass || Main.tile[x, y].TileType == TileID.Mud))
                     {
                         success = true;
                         GenNewTemple(x, y);
+                    }
+                }
+                else
+                {
+                    if (Main.tile[x, y].HasTile && Main.tile[x, y].TileType == TileID.JungleGrass)
+                    {
+                        Rectangle ugDesert = GenVars.UndergroundDesertLocation;
+                        Rectangle InflatedSunkenSeaLocation = new Rectangle(ugDesert.Left - 160, ugDesert.Center.Y - 160, ugDesert.Width + 320, ugDesert.Height / 2 + 320);
+                        Rectangle TempleLocation = new Rectangle(x - 80, y - 80, 160, 160);
+                        if (!TempleLocation.Intersects(InflatedSunkenSeaLocation))
+                        {
+                            success = true;
+                            GenNewTemple(x, y);
+                        }
                     }
                 }
             }
