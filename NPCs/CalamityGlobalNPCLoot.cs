@@ -162,19 +162,42 @@ namespace CalamityMod.NPCs
                             return false;
                         });
 
-                        int[] mimicItems = new int[]
-                        {
+                        // Yes, Mimics have three separate loot tables which we must reintegrate
+                        int[] normalMimicItems =
+                        [
                             ItemID.MagicDagger,
                             ItemID.CrossNecklace,
                             ItemID.PhilosophersStone,
                             ItemID.StarCloak,
                             ItemID.TitanGlove,
                             ItemID.DualHook
-                        };
+                        ];
+                        int[] remixPreHardMimicItems =
+                        [
+                            ItemID.BandofRegeneration,
+                            ItemID.MagicMirror,
+                            ItemID.CloudinaBottle,
+                            ItemID.HermesBoots,
+                            ItemID.ShoeSpikes,
+                            ItemID.Mace
+                        ];
+                        int[] remixHardmodeMimicItems =
+                        [
+                            ItemID.WandofSparking,
+                            ItemID.CrossNecklace,
+                            ItemID.PhilosophersStone,
+                            ItemID.StarCloak,
+                            ItemID.TitanGlove,
+                            ItemID.DualHook
+                        ];
 
                         // Mimics will not drop any items if spawned from statues.
-                        var notStatue = npcLoot.DefineConditionalDropSet(new Conditions.NotFromStatue());
-                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, mimicItems));
+                        var notRemix = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !(npc.SpawnedFromStatue || Main.remixWorld)));
+                        var remixPreHM = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !npc.SpawnedFromStatue && Main.remixWorld && !Main.hardMode));
+                        var remixHardmode = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !npc.SpawnedFromStatue && Main.remixWorld && Main.hardMode));
+                        notRemix.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, normalMimicItems));
+                        remixPreHM.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, remixPreHardMimicItems));
+                        remixHardmode.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, remixHardmodeMimicItems));
                     }
                     catch (ArgumentNullException) { }
                     break;
@@ -225,17 +248,38 @@ namespace CalamityMod.NPCs
                             return false;
                         });
 
-                        int[] iceMimicItems = new int[]
-                        {
+                        // Yes, Ice Mimics have three separate loot tables which me must reintegrate
+                        int[] normalIceMimicItems =
+                        [
                             ItemID.Frostbrand,
                             ItemID.IceBow,
                             ItemID.FlowerofFrost
-                        };
+                        ];
+                        int[] remixPreHardIceMimicItems =
+                        [
+                            ItemID.IceBoomerang,
+                            ItemID.IceBlade,
+                            ItemID.IceBow,
+                            ItemID.IceSkates,
+                            ItemID.BlizzardinaBottle,
+                            ItemID.FlurryBoots
+                        ];
+                        int[] remixHardmodeIceMimicItems =
+                        [
+                            ItemID.Frostbrand,
+                            ItemID.SnowballCannon,
+                            ItemID.FlowerofFrost
+                        ];
 
                         // Ice Mimics will not drop any items if spawned from statues.
-                        var notStatue = npcLoot.DefineConditionalDropSet(new Conditions.NotFromStatue());
-                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, iceMimicItems));
-                        notStatue.Add(ItemID.ToySled, 20, 1, 1);
+                        var notRemix = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !(npc.SpawnedFromStatue || Main.remixWorld)));
+                        var remixPreHM = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !npc.SpawnedFromStatue && Main.remixWorld && !Main.hardMode));
+                        var remixHardmode = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !npc.SpawnedFromStatue && Main.remixWorld && Main.hardMode));
+                        notRemix.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, normalIceMimicItems));
+                        remixPreHM.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, remixPreHardIceMimicItems));
+                        remixHardmode.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, remixHardmodeIceMimicItems));
+                        // Independent from all of the Remix madness, Ice Mimics have a 5% chance to drop Toy Sled.
+                        npcLoot.DefineConditionalDropSet(new Conditions.NotFromStatue()).Add(ItemID.ToySled, 20);
                     }
                     catch (ArgumentNullException) { }
                     break;

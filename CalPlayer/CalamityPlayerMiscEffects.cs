@@ -2512,7 +2512,7 @@ namespace CalamityMod.CalPlayer
             if (gravityNormalizer)
             {
                 Player.buffImmune[BuffID.VortexDebuff] = true;
-                if (Player.InSpace())
+                if (Player.ReducedSpaceGravity())
                 {
                     Player.gravity = Player.defaultGravity;
                     if (Player.wet)
