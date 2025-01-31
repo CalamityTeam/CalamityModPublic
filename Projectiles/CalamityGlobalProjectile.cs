@@ -2648,8 +2648,9 @@ namespace CalamityMod.Projectiles
                     return false;
                 }
 
-                else if (projectile.type == ProjectileID.ThornBall && !projectile.tileCollide)
+                else if (projectile.type == ProjectileID.ThornBall && projectile.ai[2] != 0)
                 {
+                    projectile.tileCollide = false;
                     if (projectile.alpha > 0)
                     {
                         projectile.alpha -= 30;
