@@ -1190,8 +1190,11 @@ namespace CalamityMod.CalPlayer
             if (crawCarapace)
             {
                 npc.AddBuff(ModContent.BuffType<Crumbling>(), 900);
-                int onHitDamage = Player.CalcIntDamage<GenericDamageClass>(40);
-                Player.ApplyDamageToNPC(npc, onHitDamage, 0f, 0, false);
+                if (!npc.dontTakeDamage)
+                {
+                    int onHitDamage = Player.CalcIntDamage<GenericDamageClass>(40);
+                    Player.ApplyDamageToNPC(npc, onHitDamage, 0f, 0, false);
+                }
                 SoundEngine.PlaySound(SoundID.NPCHit33 with { Volume = 0.5f }, Player.Center);
             }
 
@@ -1199,8 +1202,11 @@ namespace CalamityMod.CalPlayer
             {
                 npc.AddBuff(ModContent.BuffType<ArmorCrunch>(), 900);
                 npc.AddBuff(ModContent.BuffType<CrushDepth>(), 900);
-                int onHitDamage = Player.CalcIntDamage<GenericDamageClass>(250);
-                Player.ApplyDamageToNPC(npc, onHitDamage, 0f, 0, false);
+                if (!npc.dontTakeDamage)
+                {
+                    int onHitDamage = Player.CalcIntDamage<GenericDamageClass>(250);
+                    Player.ApplyDamageToNPC(npc, onHitDamage, 0f, 0, false);
+                }
                 SoundEngine.PlaySound(BaroclawHit, Player.Center);
                 Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
                 Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
@@ -1220,8 +1226,11 @@ namespace CalamityMod.CalPlayer
             if (absorber)
             {
                 npc.AddBuff(ModContent.BuffType<AbsorberAffliction>(), 900);
-                int onHitDamage = Player.CalcIntDamage<GenericDamageClass>(350);
-                Player.ApplyDamageToNPC(npc, onHitDamage, 0f, 0, false);
+                if (!npc.dontTakeDamage)
+                {
+                    int onHitDamage = Player.CalcIntDamage<GenericDamageClass>(350);
+                    Player.ApplyDamageToNPC(npc, onHitDamage, 0f, 0, false);
+                }
                 SoundEngine.PlaySound(AbsorberHit, Player.Center);
                 Vector2 bloodSpawnPosition = Player.Center + Main.rand.NextVector2Circular(Player.width, Player.height) * 0.04f;
                 Vector2 splatterDirection = (Player.Center - bloodSpawnPosition).SafeNormalize(Vector2.UnitY);
