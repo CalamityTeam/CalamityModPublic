@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.CalamityAIs.CalamityBossAIs
 
             if (CalamityConfig.Instance.BossesStopWeather)
                 CalamityMod.StopRain();
-            else if (!Main.raining)
+            else if (!Main.raining && !BossRushEvent.BossRushActive)
                 CalamityUtils.StartRain();
 
             // Adjust stats
@@ -247,14 +247,14 @@ namespace CalamityMod.NPCs.CalamityAIs.CalamityBossAIs
 
             // Enrage variable
             bool enrage = !bossRush &&
-                (player.position.Y < 300f || player.position.Y > Main.worldSurface * 16.0 ||
+                (player.position.Y < 300f || player.position.Y > Main.worldSurface * 16 ||
                 (player.position.X > 8000f && player.position.X < (Main.maxTilesX * 16 - 8000)));
 
             // Check for the flipped Abyss
             if (Main.remixWorld)
             {
                 enrage = !bossRush &&
-                    (player.position.Y < Main.UnderworldLayer * 0.8f || player.position.Y > Main.UnderworldLayer ||
+                    (player.position.Y < Main.UnderworldLayer * 16 * 0.8f || player.position.Y > Main.UnderworldLayer * 16 ||
                     (player.position.X > 8000f && player.position.X < (Main.maxTilesX * 16 - 8000)));
             }
 

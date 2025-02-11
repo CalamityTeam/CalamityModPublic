@@ -520,7 +520,7 @@ TarragonHeadMelee: {
 	DisplayName: Tarragon Helm
 	Tooltip:
 		'''
-		12% increased melee damage and critical strike chance
+		12% increased melee damage and 10% increased melee critical strike chance
 		10% increased damage reduction
 		'''
 	SetBonus:

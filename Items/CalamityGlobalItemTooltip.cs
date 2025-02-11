@@ -602,9 +602,15 @@ namespace CalamityMod.Items
             // Rebalances to vanilla item stats
             #region Vanilla Item Rebalance Tooltips
 
-            // Ancient Chisel rebalance.
+            // Various mining speed nerfs
+            if (item.type == ItemID.MiningPotion)
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("25%", "15%"));
+
             if (item.type == ItemID.AncientChisel)
-                EditTooltipByNum(0, (line) => line.Text = "Increases mining speed by 15%");
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("25%", "15%"));
+
+            if (item.type == ItemID.HandOfCreation)
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("25%", "15%"));
 
             // Frozen Turtle Shell rebalance.
             if (item.type == ItemID.FrozenTurtleShell)
@@ -640,7 +646,7 @@ namespace CalamityMod.Items
             // Fairy Boots buff.
             if (item.type == ItemID.FairyBoots)
                 EditTooltipByNum(2, (line) => line.Text += "\nFairies can spawn at any time on the surface and spawn far more frequently\n" +
-                "Nearby fairies grant +2 HP/s life regen, 10 defense and  10% movement speed\n" +
+                "Nearby fairies grant +2 HP/s life regen, 10 defense and 10% movement speed\n" +
                 "Fairies are immune to damage and will no longer flee");
 
             // Reduced Nightwither and Holy Flames damage, and melee speed removal.
@@ -836,7 +842,7 @@ namespace CalamityMod.Items
 
             // Lead
             if (item.type == ItemID.LeadHelmet || item.type == ItemID.LeadChainmail || item.type == ItemID.LeadGreaves)
-                AddTooltip("Increases damage reduction by 3%");
+                AddTooltip("Increases damage reduction by 2%");
 
             // Silver
             if (item.type == ItemID.SilverHelmet)

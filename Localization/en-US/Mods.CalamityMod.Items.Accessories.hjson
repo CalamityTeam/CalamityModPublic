@@ -1199,7 +1199,7 @@ OldDukeScales: {
 		25% increased dash velocity and length
 		Gives you a stamina indicator on the cooldown rack
 		Using any dash will consume 20% of your stamina
-		Stamina will gradually recover to 100% after not dashing for 1 second
+		Stamina will gradually recover to 100% after not dashing for 1.5 seconds
 		Stamina recovers faster when you are stationary
 		If your stamina reaches 0%, you become exhausted
 		[c/CE0E18:While exhausted, this item's damage reduction and movement bonuses are negated]
@@ -2024,11 +2024,6 @@ AbandonedWulfrumHelmet: {
 CrystalHeartVodka: {
 	DisplayName: Crystal Heart Vodka
 	Tooltip: "'Tastes like strawberry cream liqueur (and estrogen)'"
-}
-
-CocosFeather: {
-	DisplayName: Coco's Feather
-	Tooltip: ""
 }
 
 HapuFruit: {

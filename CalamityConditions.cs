@@ -56,7 +56,7 @@ namespace CalamityMod
         public static readonly Condition DownedAquaticScourge           = Create("Drops.DownedAS",       () => DownedBossSystem.downedAquaticScourge);
         public static readonly Condition DownedBrimstoneElemental       = Create("Drops.DownedBrim",     () => DownedBossSystem.downedBrimstoneElemental);
         public static readonly Condition DownedCalamitasClone           = Create("Drops.DownedCal",      () => DownedBossSystem.downedCalamitasClone);
-        public static readonly Condition DownedLeviathan                = Create("Drops.DownedLebi",     () => DownedBossSystem.downedLeviathan);
+        public static readonly Condition DownedLeviathan                = Create("Drops.DownedLevi",     () => DownedBossSystem.downedLeviathan);
         public static readonly Condition DownedAstrumAureus             = Create("Drops.DownedAureus",   () => DownedBossSystem.downedAstrumAureus);
         public static readonly Condition DownedPlaguebringer            = Create("Drops.DownedPBG",      () => DownedBossSystem.downedPlaguebringer);
         public static readonly Condition DownedRavager                  = Create("Drops.DownedRav",      () => DownedBossSystem.downedRavager);

@@ -111,7 +111,7 @@ Grax: {
 	DisplayName: Grax
 	Tooltip:
 		'''
-		Hitting an enemy will greatly boost your defense, melee damage and melee crit for a short time
+		Hitting an enemy will greatly boost your melee damage, defense, and damage reduction for a short time
 		Press <right> to use without hammering down walls or chopping down trees
 		'''
 }

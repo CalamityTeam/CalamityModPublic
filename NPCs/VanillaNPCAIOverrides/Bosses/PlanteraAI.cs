@@ -235,9 +235,8 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), adjustProjectileShootLocation ? npc.Center : spawnOffset, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer);
-                            if (projectileType == ProjectileID.ThornBall && (Main.rand.NextBool() || !Main.zenithWorld))
-                                Main.projectile[proj].tileCollide = false;
+                            float ai2 = projectileType == ProjectileID.ThornBall && (Main.rand.NextBool() || !Main.zenithWorld) ? 1f : 0f;
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), adjustProjectileShootLocation ? npc.Center : spawnOffset, projectileVelocity * projectileSpeed, projectileType, damage, 0f, Main.myPlayer, 0f, 0f, ai2);
                         }
                     }
                 }
@@ -800,9 +799,10 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), spawnOffset, projectileVelocity * projectileSpeed, type, damage, 0f, Main.myPlayer);
+                                    float ai2 = 0f;
                                     if (Main.rand.NextBool() || !Main.zenithWorld)
-                                        Main.projectile[proj].tileCollide = false;
+                                        ai2 = 1f;
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), spawnOffset, projectileVelocity * projectileSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f, ai2);
                                 }
                             }
                         }

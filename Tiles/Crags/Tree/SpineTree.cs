@@ -153,7 +153,12 @@ namespace CalamityMod.Tiles.Crags.Tree
             if (!Framing.GetTileSafely(i, j + 1).HasTile)
             {
                 WorldGen.KillTile(i, j, false, false, false);
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, i, j);
+                }
             }
+            
         }
 
 

@@ -265,7 +265,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             if (CalamityConfig.Instance.BossesStopWeather)
                 CalamityMod.StopRain();
-            else if (!Main.raining)
+            else if (!Main.raining && !BossRushEvent.BossRushActive)
                 CalamityUtils.StartRain();
 
             if (!player.active || player.dead)
