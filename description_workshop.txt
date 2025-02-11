@@ -16,6 +16,9 @@ The mod additionally tweaks tons of vanilla features whilst adding new ones to a
 [i]Please note that this mod [b]REQUIRES[/b] Calamity's soundtrack! You will need to download the music mod to be able to play![/i]
 https://steamcommunity.com/sharedfiles/filedetails/?id=2824688266
 
+[i]For even more Calamity music, subscribe to Vanilla Calamity Mod Music![/i]
+https://steamcommunity.com/sharedfiles/filedetails/?id=2816188633
+
 [b]Be sure to join our Discord server linked above to keep up with the latest news about upcoming updates and features.[/b]
 
 [hr]
@@ -34,8 +37,9 @@ A more detailed breakdown of the content available in Calamity:
 [*] 200+ pieces of furniture
 [*] 11 ores
 [*] 2 full difficulty settings above Expert, separate from Master
+[*] Significant improvements and changes to Master difficulty
 [*] 50+ changes to vanilla mechanics
 [*] 30+ new recipes for vanilla items
 [*] 450+ tweaks and improvements to vanilla items
-[*] Cross-mod support for the Thorium Mod
+[*] Minor cross-mod support for the Thorium Mod
 [/olist]
