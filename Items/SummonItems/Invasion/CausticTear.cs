@@ -44,6 +44,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
                 AcidRainEvent.TryStartEvent(forceRain: true);
                 // TryStartEvent already syncs the world data
             }
+            return true;
         }
 
         public override void AddRecipes()

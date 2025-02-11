@@ -37,6 +37,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
                 CalamityUtils.StopSandstorm();
             else
                 CalamityUtils.StartSandstorm();
+            return true;
         }
 
         public override void AddRecipes()
