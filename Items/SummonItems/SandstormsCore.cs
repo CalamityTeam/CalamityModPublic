@@ -50,7 +50,7 @@ namespace CalamityMod.Items.SummonItems
             return true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list) => list.FindAndReplace("[BIOME]", Main.zenithWorld ? CalamityUtils.GetTextValue("Biomes.AstralDesert") : Language.GetTextValue("Bestiary_Biomes.Desert"));
+        public override void ModifyTooltips(List<TooltipLine> list) => list.FindAndReplace("[BIOME]", Main.zenithWorld ? CalamityUtils.GetTextValue("Biomes.AstralDesert.TownNPCDialogueName") : Language.GetTextValue("Bestiary_Biomes.Desert"));
 
         public override void AddRecipes()
         {

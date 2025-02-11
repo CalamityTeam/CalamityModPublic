@@ -32,10 +32,13 @@ namespace CalamityMod.Items.Tools.ClimateChange
             itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
         }
 
-        public override bool CanUseItem(Player player)
+        public override bool CanUseItem(Player player) => !CalamityPlayer.areThereAnyDamnBosses;
+
+        public override bool? UseItem(Player player)
         {
-            if (CalamityPlayer.areThereAnyDamnBosses)
-                return false;
+            //Only SinglePlayer or DedServ should change time to prevent unwanted race condition
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return true;
 
             // Early Morning -> Noon
             if (Main.dayTime && Main.time < NoonCutoff)

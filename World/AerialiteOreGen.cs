@@ -30,11 +30,11 @@ namespace CalamityMod.World
                     Tile tile = Main.tile[x, y];
 
                     // The following conditions must happen in order for aerialite to generate:
-                    // 1. The original tile ID must be that of a cloud.
+                    // 1. The original tile ID must be that of a Cloud, Lesion Block, or Flesh Block.
                     // 2. The original tile must not be empty air.
                     // 3. A random dice-roll must land correctly, to ensure that patches of ore are occasional.
                     // If any of these conditions are not met, this loop iteration is skipped.
-                    if (tile.TileType != TileID.Cloud || !tile.HasTile || !WorldGen.genRand.NextBool(CloudOreConversionChance))
+                    if (!(tile.TileType == TileID.Cloud || tile.TileType == TileID.LesionBlock || tile.TileType == TileID.FleshBlock) || !tile.HasTile || !WorldGen.genRand.NextBool(CloudOreConversionChance))
                         continue;
 
                     int radius = (int)(WorldGen.genRand.Next(3, 5) * WorldGen.genRand.NextFloat(0.74f, 0.82f));
@@ -51,7 +51,7 @@ namespace CalamityMod.World
                     WorldUtils.Gen(new Point(x, y), new ModShapes.All(biggerCircle), Actions.Chain(new GenAction[]
                     {
                         new Actions.ClearTile(),
-                        new Actions.PlaceTile((ushort)TileID.Cloud)
+                        new Actions.PlaceTile(tile.TileType)
                     }));
 
                     // Circle of ore.

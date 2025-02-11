@@ -103,6 +103,9 @@ namespace CalamityMod
                         Wiring.SkipWire(x + k, y + l);
                 }
             }
+
+            if (Main.netMode != NetmodeID.SinglePlayer)
+                NetMessage.SendTileSquare(-1, x, y, tileX, tileY);
         }
 
         public static void DrawFlameEffect(Texture2D flameTexture, int i, int j, int offsetX = 0, int offsetY = 0)

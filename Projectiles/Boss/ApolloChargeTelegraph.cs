@@ -118,11 +118,10 @@ namespace CalamityMod.Projectiles.Boss
 
             for (int i = ChargePositions.Length - 2; i >= 0; i--)
             {
-                Vector2[] positions = new Vector2[2]
-                {
-                    ChargePositions[i],
-                    ChargePositions[i + 1]
-                };
+                // This is effectively a 2-point trail that is extended as Toasty's new Primitive system appears to no longer support them.
+                Vector2[] positions = new Vector2[5];
+                for (int p = 0; p < positions.Length; p++)
+                    positions[p] = Vector2.Lerp(ChargePositions[i], ChargePositions[i + 1], p / (positions.Length - 1f));
 
                 // Stand-in variable used to differentiate between the beams.
                 // It is not used anywhere else.

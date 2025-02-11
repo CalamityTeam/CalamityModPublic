@@ -2512,7 +2512,7 @@ namespace CalamityMod.CalPlayer
             if (gravityNormalizer)
             {
                 Player.buffImmune[BuffID.VortexDebuff] = true;
-                if (Player.InSpace())
+                if (Player.ReducedSpaceGravity())
                 {
                     Player.gravity = Player.defaultGravity;
                     if (Player.wet)
@@ -3616,7 +3616,9 @@ namespace CalamityMod.CalPlayer
                         if (amalgam)
                         {
                             // Every other frame, increase the buff timer by one frame. Thus, the buff lasts twice as long.
-                            if (Player.miscCounter % 2 == 0)
+                            // CIT 1NOV2024: Amalgam does not add to the buff time if it's at 2 or lower,
+                            // to prevent buff duration showing when using infinite buff features from other mods.
+                            if (Player.miscCounter % 2 == 0 && Player.buffTime[l] > 2)
                                 Player.buffTime[l] += 1;
 
                             // Buffs will not go away when you die, to prevent wasting potions.

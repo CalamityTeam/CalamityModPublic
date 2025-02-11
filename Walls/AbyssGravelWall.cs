@@ -20,7 +20,7 @@ namespace CalamityMod.Walls
                 Main.tile[i, j].Get<LiquidData>().LiquidType = LiquidID.Water;
                 Main.tile[i, j].LiquidAmount = byte.MaxValue;
                 WorldGen.SquareTileFrame(i, j);
-                if (Main.netMode == NetmodeID.MultiplayerClient)
+                if (Main.dedServ)
                     NetMessage.sendWater(i, j);
             }
         }

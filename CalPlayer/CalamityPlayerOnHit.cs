@@ -210,6 +210,7 @@ namespace CalamityMod.CalPlayer
 
             cgn.IncreasedHeatEffects_Fireball = fireball;
             cgn.IncreasedHeatEffects_CinnamonRoll = cinnamonRoll;
+            cgn.IncreasedHeatEffects_FlameWakerBoots = flameWakerBoots;
             cgn.IncreasedHeatEffects_HellfireTreads = hellfireTreads;
 
             cgn.IncreasedSicknessEffects_ToxicHeart = toxicHeart;
