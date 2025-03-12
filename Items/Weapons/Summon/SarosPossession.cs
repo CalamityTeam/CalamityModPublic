@@ -29,6 +29,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.noMelee = true;
         }
+        
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.StaffMinionSlotsRequired[Item.type] = 8;
+        }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.maxMinions >= 8;
 

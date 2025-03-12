@@ -51,6 +51,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.rare = ItemRarityID.Yellow;
             Item.Calamity().donorItem = true;
         }
+        
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.StaffMinionSlotsRequired[Item.type] = 3;
+        }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 

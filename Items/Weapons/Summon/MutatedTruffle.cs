@@ -46,6 +46,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.rare = ModContent.RarityType<PureGreen>();
             Item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;
         }
+        
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.StaffMinionSlotsRequired[Item.type] = 3;
+        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

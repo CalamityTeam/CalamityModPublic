@@ -29,6 +29,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
             Item.rare = ModContent.RarityType<Turquoise>();
         }
+        
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.StaffMinionSlotsRequired[Item.type] = 3;
+        }
 
         public override bool CanUseItem(Player player)
         {
