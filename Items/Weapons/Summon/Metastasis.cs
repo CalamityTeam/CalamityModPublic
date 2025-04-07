@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<StaffoftheMechworm>();
+            ItemID.Sets.StaffMinionSlotsRequired[Item.type] = 4;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

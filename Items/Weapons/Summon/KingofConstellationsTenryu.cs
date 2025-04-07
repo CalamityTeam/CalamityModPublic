@@ -35,6 +35,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.DamageType = DamageClass.Summon;
             Item.autoReuse = true;
         }
+        
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.StaffMinionSlotsRequired[Item.type] = 2;
+        }
 
         public override Vector2? HoldoutOffset()
         {

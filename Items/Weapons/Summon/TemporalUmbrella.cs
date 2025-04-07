@@ -33,6 +33,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
+        
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.StaffMinionSlotsRequired[Item.type] = 5;
+        }
 
         public override bool CanUseItem(Player player) => player.maxMinions >= 5;
 

@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             //Icy no problems with that
+            ItemID.Sets.StaffMinionSlotsRequired[Item.type] = 10;
         }
 
         public override void SetDefaults()

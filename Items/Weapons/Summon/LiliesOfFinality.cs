@@ -54,6 +54,11 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = new("CalamityMod/Sounds/Item/LiliesOfFinalitySummonSpawn");
         }
+        
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.StaffMinionSlotsRequired[Item.type] = 2;
+        }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] == 0 && player.maxMinions - player.slotsMinions >= 2;
 
