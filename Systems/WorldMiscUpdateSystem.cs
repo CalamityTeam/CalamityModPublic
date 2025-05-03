@@ -147,12 +147,20 @@ namespace CalamityMod.Systems
 
         public static void HandleTileGrowth()
         {
+            // 2MAY2025: Lucille: By default, the assumption that these values are within a natural min/max relationship with searchBottom being greater than searchTop is sensible.
+            // However, in subworlds where these lines may be placed arbitrarily (such as shoving the surface line near the bottom of the world), this no longer holds true, and results
+            // in the logic below causing a storm of minValue >= maxValue exceptions.
+            int searchTop = (int)Main.worldSurface - 1;
+            int searchBottom = Main.maxTilesY - 20;
+            if (searchBottom <= searchTop)
+                return;
+
             int l = 0;
             float mult2 = (float)(1.5E-05f * WorldGen.GetWorldUpdateRate());
             while (l < Main.maxTilesX * Main.maxTilesY * mult2)
             {
                 int x = WorldGen.genRand.Next(10, Main.maxTilesX - 10);
-                int y = WorldGen.genRand.Next((int)Main.worldSurface - 1, Main.maxTilesY - 20);
+                int y = WorldGen.genRand.Next(searchTop, searchBottom);
 
                 int y2 = y - 1;
                 if (y2 < 10)
