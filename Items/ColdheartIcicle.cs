@@ -23,11 +23,15 @@ namespace CalamityMod.Items
             Item.rare = ModContent.RarityType<CalamityRed>();
         }
 
+        public override void HoldStyle(Player player, Rectangle heldItemFrame)
+        {
+            player.itemRotation = player.MountedCenter.DirectionTo(Main.MouseWorld).ToRotation();
+        }
+
         public override void HoldItem(Player player)
         {
             int offset = player.direction == 1 ? 5 : -Item.width - 5;
             Rectangle itemRect = new Rectangle((int)player.Center.X + offset, (int)player.position.Y - 10, Item.width, Item.height);
-            player.itemRotation = player.MountedCenter.DirectionTo(Main.MouseWorld).ToRotation();
             foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (!npc.dontTakeDamage && npc.type != ModContent.NPCType<THELORDE>())

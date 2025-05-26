@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
-            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<CrystalHeartVodka>();
         }
 
         public override void SetDefaults()
