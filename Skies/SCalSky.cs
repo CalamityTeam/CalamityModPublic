@@ -140,7 +140,7 @@ namespace CalamityMod.Skies
                     return Color.Transparent;
 
                 NPC scal = Main.npc[CalamityGlobalNPC.SCal];
-                bool cirrus = scal.ModNPC<SupremeCalamitas>().cirrus;
+                bool permafrost = scal.ModNPC<SupremeCalamitas>().permafrost;
                 float lifeRatio = scal.life / (float)scal.lifeMax;
 
                 if (NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()) == true && NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) == false)
@@ -151,11 +151,11 @@ namespace CalamityMod.Skies
                     return Color.Lerp(Color.Red, Color.IndianRed, Main.rand.NextFloat(0f, 1f));
 
                 if (lifeRatio > 0.5f)
-                    return Color.Lerp(cirrus ? Color.Pink : Color.Red, cirrus ? Color.Violet : Color.Crimson, Main.rand.NextFloat(0f, 1f));
+                    return Color.Lerp(permafrost ? Color.LightBlue : Color.Red, permafrost ? Color.DarkCyan : Color.Crimson, Main.rand.NextFloat(0f, 1f));
                 else if (lifeRatio > 0.3f || scal.ModNPC<SupremeCalamitas>().postMusicHit == false)
-                    return Color.Lerp(cirrus ? Color.Cyan : Color.Red, cirrus ? Color.DarkCyan : Color.Magenta, Main.rand.NextFloat(0f, 0.7f));
+                    return Color.Lerp(permafrost ? Color.LightBlue : Color.Red, permafrost ? Color.DarkCyan : Color.Magenta, Main.rand.NextFloat(0f, 0.7f));
                 else if (lifeRatio > 0.01f)
-                    return Color.Lerp(cirrus ? Color.Pink : Color.Red, cirrus ? Color.Green : Color.Yellow, Main.rand.NextFloat(0f, 0.88f));
+                    return Color.Lerp(permafrost ? Color.LightBlue : Color.Red, permafrost ? Color.MediumBlue : Color.Yellow, Main.rand.NextFloat(0f, 0.88f));
                 else
                     return Color.Lerp(Color.Gray, Color.White, Main.rand.NextFloat(0f, 0.65f));
             }
@@ -253,15 +253,15 @@ namespace CalamityMod.Skies
             }
 
             NPC scal = Main.npc[CalamityGlobalNPC.SCal];
-            bool cirrus = scal.ModNPC<SupremeCalamitas>().cirrus;
+            bool permafrost = scal.ModNPC<SupremeCalamitas>().permafrost;
             float lifeRatio = scal.life / (float)scal.lifeMax;
 
             if (lifeRatio > 0.5f)
-                cinderColortoBe = Color.Lerp(cirrus ? Color.Pink : Color.Red, cirrus ? Color.Violet : Color.Crimson, Main.rand.NextFloat(0f, 1f));
+                cinderColortoBe = Color.Lerp(permafrost ? Color.Cyan : Color.Red, permafrost ? Color.MediumBlue : Color.Crimson, Main.rand.NextFloat(0f, 1f));
             else if (lifeRatio > 0.3f || scal.ModNPC<SupremeCalamitas>().postMusicHit == false)
-                cinderColortoBe = Color.Lerp(cirrus ? Color.Cyan : Color.Red, cirrus ? Color.DarkCyan : Color.Magenta, Main.rand.NextFloat(0f, 0.7f));
+                cinderColortoBe = Color.Lerp(permafrost ? Color.Cyan : Color.Red, permafrost ? Color.DarkCyan : Color.Magenta, Main.rand.NextFloat(0f, 0.7f));
             else if (lifeRatio > 0.01f)
-                cinderColortoBe = Color.Lerp(cirrus ? Color.Pink : Color.Red, cirrus ? Color.Green : Color.Yellow, Main.rand.NextFloat(0f, 0.88f));
+                cinderColortoBe = Color.Lerp(permafrost ? Color.Cyan : Color.Red, permafrost ? Color.DarkTurquoise : Color.Yellow, Main.rand.NextFloat(0f, 0.88f));
             else
                 cinderColortoBe = Color.Lerp(Color.Gray, Color.White, Main.rand.NextFloat(0.8f));
 

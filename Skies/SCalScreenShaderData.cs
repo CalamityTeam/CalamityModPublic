@@ -44,7 +44,7 @@ namespace CalamityMod.Skies
             {
                 UseTargetPosition(Main.npc[SCalIndex].Center);
 
-                if (Main.npc[SCalIndex].ModNPC<SupremeCalamitas>().cirrus)
+                if (Main.npc[SCalIndex].ModNPC<SupremeCalamitas>().permafrost)
                     Filters.Scene["CalamityMod:SupremeCalamitas"].GetShader().UseColor(0.9f, 0.3f, 0.9f);
             }
             base.Apply();

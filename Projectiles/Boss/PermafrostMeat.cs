@@ -12,11 +12,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class CirrusVolatileVodkaBottle : ModProjectile, ILocalizedModType
+    public class PermafrostMeat : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
 
-        public override string Texture => "CalamityMod/Items/Potions/Alcohol/FabsolsVodka";
+        public override string Texture => "CalamityMod/Items/Potions/DeliciousMeat";
 
         public override void SetDefaults()
         {
@@ -34,8 +34,13 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.ai[0] == 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item106, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.NPCDeath43 with { Volume = SoundID.NPCDeath43.Volume * 0.35f, Pitch = 0.3f }, Projectile.position);
                 Projectile.ai[0] = 1f;
+            }
+            if (Projectile.ai[1] == 0)
+            {
+                Projectile.aiStyle = -1;
+                Projectile.tileCollide = false;
             }
         }
 
@@ -48,11 +53,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnKill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Shatter, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.NPCDeath43 with { Volume = SoundID.NPCDeath43.Volume * 0.35f }, Projectile.position);
 
             for (int i = 0; i < 10; i++)
             {
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 0, default, 1.2f);
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.IceGolem, 0f, 0f, 0, default, 1.2f);
                 Main.dust[dust].velocity *= 3f;
                 if (Main.rand.NextBool())
                 {
@@ -63,32 +68,28 @@ namespace CalamityMod.Projectiles.Boss
 
             for (int i = 0; i < 20; i++)
             {
-                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.BlueCosmilite, 0f, 0f, 0, default, 1.7f);
+                int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.IceGolem, 0f, 0f, 0, default, 1.7f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].velocity *= 5f;
-                dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.PurpleCosmilite, 0f, 0f, 0, default, 1f);
-                Main.dust[dust].velocity *= 2f;
             }
 
-            if (Projectile.owner == Main.myPlayer)
+            if (Projectile.ai[2] == 0)
             {
-                int totalProjectiles = 3;
-                float radians = MathHelper.TwoPi / totalProjectiles;
-                int type = ModContent.ProjectileType<FabRay>();
-                float velocity = 8f;
-                double angleA = radians * 0.5;
-                double angleB = MathHelper.ToRadians(90f) - angleA;
-                float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
-                Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
-                for (int k = 0; k < totalProjectiles; k++)
+                if (Projectile.owner == Main.myPlayer)
                 {
-                    Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Vector2.Normalize(velocity2) * 10f, velocity2, type, (int)Math.Round(Projectile.damage * 0.8), 0f, Main.myPlayer);
-                    if (proj.WithinBounds(Main.maxProjectiles))
+                    int totalProjectiles = 3;
+                    float radians = MathHelper.TwoPi / totalProjectiles;
+                    float velocity = 14f;
+                    double angleA = radians * 0.5;
+                    double angleB = MathHelper.ToRadians(90f) - angleA;
+                    float velocityX2 = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
+                    Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX2, -velocity);
+                    for (int k = 0; k < totalProjectiles; k++)
                     {
-                        Main.projectile[proj].DamageType = DamageClass.Default;
-                        Main.projectile[proj].friendly = false;
-                        Main.projectile[proj].hostile = true;
+                        Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Vector2.Normalize(velocity2) * 10f, velocity2, Type, (int)Math.Round(Projectile.damage * 0.8), 0f, Main.myPlayer, ai2: 1);
+                        Main.projectile[p].tileCollide = false;
+                        Main.projectile[p].aiStyle = -1;
                     }
                 }
             }
@@ -97,7 +98,6 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             Projectile.Kill();
-            target.AddBuff(ModContent.BuffType<FabsolVodkaBuff>(), 54000);
         }
     }
 }

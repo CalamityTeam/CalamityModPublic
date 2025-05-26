@@ -272,7 +272,7 @@ namespace CalamityMod.Projectiles.Boss
             if (cannotBeHurt)
                 return true;
 
-            // Applies Vulnerability Hex and/or the effects of Supreme Cirrus' HAGE faces.
+            // Applies Vulnerability Hex and/or the effects of Supreme Permafrost' HAGE faces.
             OnHitPlayer_Internal(player);
 
             // Compute distance for direct health reduction from overlap.
@@ -334,12 +334,12 @@ namespace CalamityMod.Projectiles.Boss
         {
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 360, true);
 
-            // Remove all positive buffs from the player if they're hit by HAGE while Cirrus is alive.
+            // Remove all positive buffs from the player if they're hit by HAGE while Permafrost is alive.
             if (CalamityGlobalNPC.SCal != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.SCal].active)
                 {
-                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().permafrost)
                     {
                         for (int l = 0; l < Player.MaxBuffs; l++)
                         {
@@ -400,8 +400,8 @@ namespace CalamityMod.Projectiles.Boss
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            bool isCirrus = CalamityGlobalNPC.SCal != -1 && Main.npc[CalamityGlobalNPC.SCal].active && Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus;
-            if (isCirrus)
+            bool isPermafrost = CalamityGlobalNPC.SCal != -1 && Main.npc[CalamityGlobalNPC.SCal].active && Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().permafrost;
+            if (isPermafrost)
             {
                 Texture2D hageTex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/BrimstoneMonsterII").Value;
                 lightColor.B = (byte)(255 * Projectile.Opacity);

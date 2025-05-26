@@ -149,9 +149,7 @@ StylistChat: {
 	ProfanedDonuts: Aww, they're so cute, do they have names?
 }
 
-TavernkeepChat: {
-	FullMoon: Care for a little Moonshine?
-}
+TavernkeepChat.FullMoon: Care for a little Moonshine?
 
 TaxCollectorChat: {
 	DoGDefeated: Devourer of what, you said? Devourer of Funds, if its payroll is anything to go by!
@@ -161,9 +159,7 @@ TaxCollectorChat: {
 	Has100Plat: BAH! Doesn't seem like I'll ever be able to quarrel with the debts of the town again!
 }
 
-TruffleChat: {
-	Normal: I don't feel very safe; I think there's pigs following me around and it frightens me.
-}
+TruffleChat.Normal: I don't feel very safe; I think there's pigs following me around and it frightens me.
 
 WitchDoctorChat: {
 	BloodMoon: This is as good a time as any to pick up the best ingredients for potions.

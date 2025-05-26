@@ -81,7 +81,13 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs) => DownedBossSystem.downedCryogen;
+        public override bool CanTownNPCSpawn(int numTownNPCs)
+        {
+            if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas.SupremeCalamitas>()) && Main.zenithWorld)
+                return false;
+
+            return DownedBossSystem.downedCryogen;
+        }
 
         public override List<string> SetNPCNameList() => new List<string>() { this.GetLocalizedValue("Name.Permafrost") };
 

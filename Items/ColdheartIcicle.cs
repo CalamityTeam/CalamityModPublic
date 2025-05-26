@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
-    public class AlicornonaStick : ModItem, ILocalizedModType
+    [LegacyName("AlicornonaStick")]
+    public class ColdheartIcicle : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Misc";
         public override void SetDefaults()
@@ -26,6 +27,7 @@ namespace CalamityMod.Items
         {
             int offset = player.direction == 1 ? 5 : -Item.width - 5;
             Rectangle itemRect = new Rectangle((int)player.Center.X + offset, (int)player.position.Y - 10, Item.width, Item.height);
+            player.itemRotation = player.MountedCenter.DirectionTo(Main.MouseWorld).ToRotation();
             foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (!npc.dontTakeDamage && npc.type != ModContent.NPCType<THELORDE>())

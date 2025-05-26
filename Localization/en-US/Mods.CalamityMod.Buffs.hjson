@@ -1520,3 +1520,23 @@ LiliesOfFinalityBuff: {
 	DisplayName: Finality
 	Description: Remember our promise
 }
+
+BlueCandleBuff: {
+	DisplayName: Blue Candle Buff
+	Description: Mods.CalamityMod.Buffs.BlueCandleBuff.Description
+}
+
+PinkCandleBuff: {
+	DisplayName: Pink Candle Buff
+	Description: Mods.CalamityMod.Buffs.PinkCandleBuff.Description
+}
+
+PurpleCandleBuff: {
+	DisplayName: Purple Candle Buff
+	Description: Mods.CalamityMod.Buffs.PurpleCandleBuff.Description
+}
+
+YellowCandleBuff: {
+	DisplayName: Yellow Candle Buff
+	Description: Mods.CalamityMod.Buffs.YellowCandleBuff.Description
+}

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.CraftingStations;
+using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs.SupremeCalamitas;
@@ -66,10 +67,10 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
 
         public static void HoverItemIcon()
         {
-            bool vodka = Main.LocalPlayer.HeldItem.type == ModContent.ItemType<FabsolsVodka>() && Main.zenithWorld;
+            bool vodka = Main.LocalPlayer.HeldItem.type == ModContent.ItemType<DeliciousMeat>() && Main.zenithWorld;
             if (vodka)
             {
-                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<FabsolsVodka>();
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<DeliciousMeat>();
             }
             else if (Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>()))
             {
@@ -92,12 +93,12 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             int top = j - tile.TileFrameY / 18;
 
             if (!Main.LocalPlayer.HasItem(ModContent.ItemType<AshesofCalamity>()) &&
-                !Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>()) && !(Main.LocalPlayer.HeldItem.type == ModContent.ItemType<FabsolsVodka>() && Main.zenithWorld))
+                !Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>()) && !(Main.LocalPlayer.HeldItem.type == ModContent.ItemType<DeliciousMeat>() && Main.zenithWorld))
             {
                 return true;
             }
 
-            bool vodka = Main.LocalPlayer.HeldItem.type == ModContent.ItemType<FabsolsVodka>() && Main.zenithWorld;
+            bool meat = Main.LocalPlayer.HeldItem.type == ModContent.ItemType<DeliciousMeat>() && Main.zenithWorld;
 
             if (NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) || BossRushEvent.BossRushActive)
                 return true;
@@ -111,11 +112,11 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             ritualSpawnPosition += new Vector2(0f, -24f);
 
             SoundEngine.PlaySound(SummonSound, ritualSpawnPosition);
-            Projectile.NewProjectile(new EntitySource_WorldEvent(), ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<SCalRitualDrama>(), 0, 0f, Main.myPlayer, 0, vodka.ToInt());
+            Projectile.NewProjectile(new EntitySource_WorldEvent(), ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<SCalRitualDrama>(), 0, 0f, Main.myPlayer, 0, meat.ToInt());
 
-            if (vodka)
+            if (meat)
             {
-                Main.LocalPlayer.ConsumeItem(ModContent.ItemType<FabsolsVodka>(), true);
+                Main.LocalPlayer.ConsumeItem(ModContent.ItemType<DeliciousMeat>(), true);
                 for (int f = 0; f < Main.maxNPCs; f++)
                 {
                     if (Main.npc[f].type == ModContent.NPCType<DILF>() && Main.npc[f].active)

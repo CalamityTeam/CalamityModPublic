@@ -1825,7 +1825,7 @@ namespace CalamityMod.Projectiles
                 int maxHealAmount = 20;
 
                 // If the target has more than 250 max life, incorporate their total life into the max amount to heal.
-                // This is done so that more powerful NPCs, such as Cirrus, do not take an eternity to receive meaningful healing benefits
+                // This is done so that more powerful NPCs, such as Permafrost, do not take an eternity to receive meaningful healing benefits
                 // from the Nurse.
                 if (npcToHeal.lifeMax > 250)
                     maxHealAmount = (int)Math.Max(maxHealAmount, npcToHeal.lifeMax * 0.05f);

@@ -9,13 +9,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class CirrusPhotonRipperProjectile : ModProjectile, ILocalizedModType
+    public class PermafrostAbsoluteZeroProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
 
-        public override string Texture => "CalamityMod/Projectiles/Melee/PhotonRipperProjectile";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/AbsoluteZero";
 
-        public NPC Cirrus => Main.npc.IndexInRange((int)Projectile.ai[2]) ? Main.npc[(int)Projectile.ai[2]] : null;
+        public NPC Permafrost => Main.npc.IndexInRange((int)Projectile.ai[2]) ? Main.npc[(int)Projectile.ai[2]] : null;
         public const float ZeroChargeDamageRatio = 0.36f;
         public const float ToothDamageRatio = 0.1666667f;
         public const int ToothShootRate = 5; // One chainsaw tooth is emitted every this many frames.
@@ -44,36 +44,33 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value;
-            Texture2D glowmaskTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/PhotonRipperGlowmask").Value;
-            Rectangle glowmaskRectangle = glowmaskTexture.Frame(1, 6, 0, Projectile.frame);
             Vector2 origin = texture.Size() * 0.5f;
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
             SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             Main.EntitySpriteDraw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0);
-            Main.EntitySpriteDraw(glowmaskTexture, drawPosition, glowmaskRectangle, Color.HotPink, Projectile.rotation, origin, Projectile.scale, direction, 0);
             return false;
         }
 
         public override void AI()
         {
-            // Die if Cirrus disappears.
-            if (Cirrus is null || !Cirrus.active)
+            // Die if Permafrost disappears.
+            if (Permafrost is null || !Permafrost.active)
             {
                 Projectile.Kill();
                 return;
             }
 
-            // Die if Cirrus shouldn't be using it.
-            int cirrusBulletHellCounter = Cirrus.ModNPC<SupremeCalamitas>().bulletHellCounter2;
-            if (!(cirrusBulletHellCounter > SupremeCalamitas.SecondBulletHellEndValue && cirrusBulletHellCounter < SupremeCalamitas.ThirdBulletHellEndValue) &&
-                !(cirrusBulletHellCounter > SupremeCalamitas.FourthBulletHellEndValue && cirrusBulletHellCounter < SupremeCalamitas.FifthBulletHellEndValue))
+            // Die if Permafrost shouldn't be using it.
+            int permafrostBulletHellCounter = Permafrost.ModNPC<SupremeCalamitas>().bulletHellCounter2;
+            if (!(permafrostBulletHellCounter > SupremeCalamitas.SecondBulletHellEndValue && permafrostBulletHellCounter < SupremeCalamitas.ThirdBulletHellEndValue) &&
+                !(permafrostBulletHellCounter > SupremeCalamitas.FourthBulletHellEndValue && permafrostBulletHellCounter < SupremeCalamitas.FifthBulletHellEndValue))
             {
                 Projectile.Kill();
                 return;
             }
 
-            Projectile.damage = SupremeCalamitas.CirrusPhotonRipperDamage;
+            Projectile.damage = SupremeCalamitas.PermafrostPhotonRipperDamage;
             DetermineDamage();
 
             PlayChainsawSounds();
@@ -81,14 +78,14 @@ namespace CalamityMod.Projectiles.Boss
             // Determines the owner's position whilst incorporating their fullRotation field.
             // It uses vector transformation on a Z rotation matrix based on said rotation under the hood.
             // This is essentially just the pure mathematical definition of the RotatedBy method.
-            Vector2 cirrusRotatedPosition = Cirrus.Center;
-            float rotation = Cirrus.rotation;
-            Vector2 vector = Cirrus.Bottom + new Vector2(0f, Cirrus.gfxOffY);
+            Vector2 permafrostRotatedPosition = Permafrost.Center;
+            float rotation = Permafrost.rotation;
+            Vector2 vector = Permafrost.Bottom + new Vector2(0f, Permafrost.gfxOffY);
             Vector2 vector2 = new Vector2(0f, -4f) + new Vector2(0f, 4f).RotatedBy(rotation);
-            cirrusRotatedPosition.Y += Cirrus.gfxOffY;
-            cirrusRotatedPosition = vector + (cirrusRotatedPosition - vector).RotatedBy(rotation) + vector2;
-            HandleMovement(cirrusRotatedPosition);
-            DetermineVisuals(cirrusRotatedPosition);
+            permafrostRotatedPosition.Y += Permafrost.gfxOffY;
+            permafrostRotatedPosition = vector + (permafrostRotatedPosition - vector).RotatedBy(rotation) + vector2;
+            HandleMovement(permafrostRotatedPosition);
+            DetermineVisuals(permafrostRotatedPosition);
             EmitPrettyDust();
 
             if (Time % ToothShootRate == ToothShootRate - 1f)
@@ -129,7 +126,7 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public void DetermineVisuals(Vector2 cirrusRotatedPosition)
+        public void DetermineVisuals(Vector2 permafrostRotatedPosition)
         {
             float directionAngle = Projectile.velocity.ToRotation();
             Projectile.rotation = directionAngle;
@@ -146,8 +143,8 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.spriteDirection != oldDirection)
                 Projectile.rotation -= MathHelper.Pi;
 
-            // Positioning close to the Cirrus' arm.
-            Projectile.position = cirrusRotatedPosition - Projectile.Size * 0.5f + directionAngle.ToRotationVector2() * 30f;
+            // Positioning close to the Permafrost's arm.
+            Projectile.position = permafrostRotatedPosition - Projectile.Size * 0.5f + directionAngle.ToRotationVector2() * 30f;
 
             // Update the position a tiny bit every frame at random to make it look like the saw is vibrating.
             // It is reset on the next frame.
@@ -164,9 +161,9 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public void HandleMovement(Vector2 cirrusRotatedPosition)
+        public void HandleMovement(Vector2 permafrostRotatedPosition)
         {
-            Vector2 idealAimDirection = (Main.player[Cirrus.target].Center - cirrusRotatedPosition).SafeNormalize(Vector2.UnitX * Cirrus.direction);
+            Vector2 idealAimDirection = (Main.player[Permafrost.target].Center - permafrostRotatedPosition).SafeNormalize(Vector2.UnitX * Permafrost.direction);
 
             float angularAimVelocity = 0.03f;
             float directionAngularDisparity = Projectile.velocity.AngleBetween(idealAimDirection) / MathHelper.Pi;
@@ -179,7 +176,7 @@ namespace CalamityMod.Projectiles.Boss
             else
                 Projectile.velocity = idealAimDirection;
 
-            Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitX * Cirrus.direction);
+            Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitX * Permafrost.direction);
         }
 
         public void EmitPrettyDust()
@@ -213,7 +210,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             float shootReach = MathHelper.SmoothStep(Projectile.width * 1.8f, Projectile.width * 5.3f + 16f, ChargeUpPower);
-            float distanceFromTarget = Cirrus.Distance(Main.player[Cirrus.target].Center);
+            float distanceFromTarget = Permafrost.Distance(Main.player[Permafrost.target].Center);
 
             // If the distance to the mouse is less than the base reach, reach only to mouse.
             // This way the player can more directly control the crystals if they want.
@@ -227,7 +224,7 @@ namespace CalamityMod.Projectiles.Boss
                     shootReach = 72f;
             }
 
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Cirrus.Center, Projectile.velocity, ModContent.ProjectileType<CirrusPhotonRipperPrismTooth>(), (int)ToothDamage, 0f, Projectile.owner, shootReach, Projectile.whoAmI, Projectile.ai[2]);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Permafrost.Center, Projectile.velocity, ModContent.ProjectileType<PermafrostColdheartIcicle>(), (int)ToothDamage, 0f, Projectile.owner, shootReach, Projectile.whoAmI, Projectile.ai[2]);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
