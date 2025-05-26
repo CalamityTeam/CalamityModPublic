@@ -170,7 +170,6 @@ namespace CalamityMod.CalPlayer
         public bool newPrincessInventory = false;
         public bool newSkeletonMerchantInventory = false;
         public bool newPermafrostInventory = false;
-        public bool newCirrusInventory = false;
         public bool newAmidiasInventory = false;
         public bool newBanditInventory = false;
         public bool newCalamitasInventory = false;
@@ -1290,7 +1289,6 @@ namespace CalamityMod.CalPlayer
             newPrincessInventory = false;
             newSkeletonMerchantInventory = false;
             newPermafrostInventory = false;
-            newCirrusInventory = false;
             newAmidiasInventory = false;
             newBanditInventory = false;
             newCalamitasInventory = false;
@@ -1342,7 +1340,6 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("newPrincessInventory", newPrincessInventory);
             boost.AddWithCondition("newSkeletonMerchantInventory", newSkeletonMerchantInventory);
             boost.AddWithCondition("newPermafrostInventory", newPermafrostInventory);
-            boost.AddWithCondition("newCirrusInventory", newCirrusInventory);
             boost.AddWithCondition("newAmidiasInventory", newAmidiasInventory);
             boost.AddWithCondition("newBanditInventory", newBanditInventory);
             boost.AddWithCondition("newCalamitasInventory", newCalamitasInventory);
@@ -1432,7 +1429,6 @@ namespace CalamityMod.CalPlayer
             newPrincessInventory = boost.Contains("newPrincessInventory");
             newSkeletonMerchantInventory = boost.Contains("newSkeletonMerchantInventory");
             newPermafrostInventory = boost.Contains("newPermafrostInventory");
-            newCirrusInventory = boost.Contains("newCirrusInventory");
             newAmidiasInventory = boost.Contains("newAmidiasInventory");
             newBanditInventory = boost.Contains("newBanditInventory");
             newCalamitasInventory = boost.Contains("newCalamitasInventory");

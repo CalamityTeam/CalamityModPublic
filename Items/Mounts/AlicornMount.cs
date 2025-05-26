@@ -69,43 +69,6 @@ namespace CalamityMod.Items.Mounts
             }
         }
 
-        public override void SetMount(Player player, ref bool skipDust)
-        {
-            foreach (NPC npc in Main.ActiveNPCs)
-            {
-                if (npc.type == ModContent.NPCType<FAP>())
-                {
-                    npc.active = false;
-                    npc.netUpdate = true;
-                    break;
-                }
-            }
-        }
-
-        public override void Dismount(Player player, ref bool skipDust)
-        {
-            bool anyPlayerOnFabMount = false;
-            foreach (Player player2 in Main.ActivePlayers)
-            {
-                // The player that is dismounting is technically not on the mount anymore.
-                if (player2.Calamity().fab && player2.whoAmI != player.whoAmI)
-                {
-                    anyPlayerOnFabMount = true;
-                    break;
-                }
-            }
-
-            // Spawn Cirrus if no other players are on the Alicorn mount.
-            if (!anyPlayerOnFabMount)
-            {
-                if (!NPC.AnyNPCs(ModContent.NPCType<FAP>()))
-                {
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                        NPC.NewNPC(NPC.GetSource_TownSpawn(), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<FAP>());
-                }
-            }
-        }
-
         public override void UpdateEffects(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();

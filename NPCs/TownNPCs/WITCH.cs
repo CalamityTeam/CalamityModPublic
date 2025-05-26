@@ -116,10 +116,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 }
             }
 
-            int fab = NPC.FindFirstNPC(NPCType<FAP>());
-            if (fab != -1 && ChildSafety.Disabled)
-                dialogue.Add(this.GetLocalization("Chat.DrunkPrincess").Format(Main.npc[fab].GivenName), 1.45);
-
             if (NPC.AnyNPCs(NPCType<SEAHOE>()))
                 dialogue.Add(this.GetLocalizedValue("Chat.SeaKing"), 1.45);
 

@@ -113,10 +113,6 @@ namespace CalamityMod.NPCs.TownNPCs
             if (witch != -1)
                 dialogue.Add(this.GetLocalizedValue("Chat.BrimstoneWitch"));
 
-            int cirrus = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
-            if (cirrus != -1)
-                dialogue.Add(this.GetLocalization("Chat.DrunkPrincess").Format(Main.npc[cirrus].GivenName));
-
             int partyGirl = NPC.FindFirstNPC(NPCID.PartyGirl);
             if (partyGirl != -1)
                 dialogue.Add(this.GetLocalization("Chat.PartyGirl").Format(Main.npc[partyGirl].GivenName));
