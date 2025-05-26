@@ -17,6 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
         public int framesInAir = 0;
         public int SparkChance = 1;
 
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 34;

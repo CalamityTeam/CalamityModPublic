@@ -5,6 +5,7 @@ using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
@@ -20,6 +21,7 @@ namespace CalamityMod.Projectiles.Ranged
         public bool PostTileHit = false;
         public ref int audioCooldown => ref Main.player[Projectile.owner].Calamity().PhotoAudioCooldown;
 
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 50;

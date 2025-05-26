@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.NoMeleeSpeedVelocityScaling[Projectile.type] = true;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
             Main.projFrames[Projectile.type] = 4;
         }
 

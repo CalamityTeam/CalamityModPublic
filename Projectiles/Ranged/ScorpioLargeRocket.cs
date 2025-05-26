@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
             Main.projFrames[Type] = 4;
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 8;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()

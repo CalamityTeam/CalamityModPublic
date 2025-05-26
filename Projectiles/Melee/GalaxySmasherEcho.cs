@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 15;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
         //This is all copied straight from PwnagehammerEcho with some minor edits.
         public override void SetDefaults()

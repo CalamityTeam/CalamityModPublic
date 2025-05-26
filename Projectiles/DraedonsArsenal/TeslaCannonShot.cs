@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         private int arcs = 0;
 
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 8;
