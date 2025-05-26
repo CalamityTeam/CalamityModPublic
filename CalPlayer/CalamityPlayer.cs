@@ -299,7 +299,6 @@ namespace CalamityMod.CalPlayer
         #region Mount
         public bool onyxExcavator = false;
         public bool rimehound = false;
-        public bool fab = false;
         public bool crysthamyr = false;
         public bool ExoChair = false;
         public AndromedaPlayerState andromedaState;
@@ -1596,7 +1595,6 @@ namespace CalamityMod.CalPlayer
 
             onyxExcavator = false;
             rimehound = false;
-            fab = false;
             crysthamyr = false;
             ExoChair = false;
             miniOldDuke = false;
@@ -2413,7 +2411,6 @@ namespace CalamityMod.CalPlayer
             hallowedPower = false;
             onyxExcavator = false;
             rimehound = false;
-            fab = false;
             crysthamyr = false;
             ExoChair = false;
             abyssalDivingSuitPlates = false;
