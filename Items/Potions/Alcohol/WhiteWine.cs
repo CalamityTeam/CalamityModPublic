@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.value = Item.buyPrice(0, 4, 0, 0);
         }
 
-        public override bool? UseItem(Player player)
+        public override void OnConsumeItem(Player player)
         {
             if (PlayerInput.Triggers.JustPressed.QuickBuff)
             {
@@ -50,7 +50,6 @@ namespace CalamityMod.Items.Potions.Alcohol
                 }
             }
             player.AddBuff(Item.buffType, Item.buffTime);
-            return true;
         }
         public override void AddRecipes()
         {

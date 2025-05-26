@@ -1094,16 +1094,16 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Merchant)
             {
-                shop.AddWithCustomValue(ItemID.Bottle, Item.buyPrice(copper: 20), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.WormholePotion, Item.buyPrice(silver: 5), potionSells, Condition.HappyEnough);
-                shop.Add(ItemID.HealingPotion, potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc)
-                .Add(ItemID.ManaPotion, potionSells, Condition.HappyEnough, Condition.DownedEowOrBoc)
+                shop.AddWithCustomValue(ItemID.Bottle, Item.buyPrice(copper: 20), potionSells, Condition.HappyEnoughToSellPylons)
+                .AddWithCustomValue(ItemID.WormholePotion, Item.buyPrice(silver: 5), potionSells, Condition.HappyEnoughToSellPylons);
+                shop.Add(ItemID.HealingPotion, potionSells, Condition.HappyEnoughToSellPylons, Condition.DownedEowOrBoc)
+                .Add(ItemID.ManaPotion, potionSells, Condition.HappyEnoughToSellPylons, Condition.DownedEowOrBoc)
                 .Add(ItemID.Flare, hasFlareGunUpgrade)
                 .Add(ItemID.BlueFlare, hasFlareGunUpgrade)
                 .AddWithCustomValue(ItemID.AngelStatue, Item.buyPrice(gold: 5), Condition.NpcIsPresent(NPCType<THIEF>()))
-                .AddWithCustomValue(ItemID.Burger, Item.buyPrice(gold: 5), Condition.HappyEnough, Condition.DownedSkeletron)
-                .AddWithCustomValue(ItemID.Hotdog, Item.buyPrice(gold: 5), Condition.HappyEnough, Condition.DownedSkeletron)
-                .AddWithCustomValue(ItemID.CoffeeCup, Item.buyPrice(gold: 2), Condition.HappyEnough);
+                .AddWithCustomValue(ItemID.Burger, Item.buyPrice(gold: 5), Condition.HappyEnoughToSellPylons, Condition.DownedSkeletron)
+                .AddWithCustomValue(ItemID.Hotdog, Item.buyPrice(gold: 5), Condition.HappyEnoughToSellPylons, Condition.DownedSkeletron)
+                .AddWithCustomValue(ItemID.CoffeeCup, Item.buyPrice(gold: 2), Condition.HappyEnoughToSellPylons);
             }
 
             if (type == NPCID.DyeTrader)
@@ -1136,7 +1136,7 @@ namespace CalamityMod.NPCs
                 .Add(ItemType<RageHairDye>(), revengeance)
                 .AddWithCustomValue(ItemID.StylistKilLaKillScissorsIWish, Item.buyPrice(gold: 15))
                 .Add(ItemType<CirrusDress>(), Condition.NpcIsPresent(NPCType<FAP>()), drunk)
-                .AddWithCustomValue(ItemID.ChocolateChipCookie, Item.buyPrice(gold: 3), Condition.HappyEnough, Condition.NpcIsPresent(NPCType<FAP>()));
+                .AddWithCustomValue(ItemID.ChocolateChipCookie, Item.buyPrice(gold: 3), Condition.HappyEnoughToSellPylons, Condition.NpcIsPresent(NPCType<FAP>()));
             }
 
             if (type == NPCID.Cyborg)
@@ -1151,21 +1151,21 @@ namespace CalamityMod.NPCs
                 shop.AddWithCustomValue(ItemID.JungleRose, Item.buyPrice(gold: 2))
                 .AddWithCustomValue(ItemID.NaturesGift, Item.buyPrice(gold: 10))
                 .Add(ItemType<RomajedaOrchid>())
-                .AddWithCustomValue(ItemID.Grapes, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnough, Condition.DownedSkeletron)
+                .AddWithCustomValue(ItemID.Grapes, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnoughToSellPylons, Condition.DownedSkeletron)
                 .Add(ItemID.CorruptSeeds, Condition.CrimsonWorld, Condition.InGraveyard)
                 .Add(ItemID.CrimsonSeeds, Condition.CorruptWorld, Condition.InGraveyard);
             }
 
             if (type == NPCID.GoblinTinkerer)
             {
-                shop.AddWithCustomValue(ItemID.StinkPotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnough)
+                shop.AddWithCustomValue(ItemID.StinkPotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnoughToSellPylons)
                 .Add(ItemType<StatMeter>())
-                .AddWithCustomValue(ItemID.Spaghetti, Item.buyPrice(gold: 5), Condition.HappyEnough, Condition.DownedSkeletron);
+                .AddWithCustomValue(ItemID.Spaghetti, Item.buyPrice(gold: 5), Condition.HappyEnoughToSellPylons, Condition.DownedSkeletron);
             }
 
             if (type == NPCID.Mechanic)
             {
-                shop.AddWithCustomValue(ItemID.BuilderPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnough)
+                shop.AddWithCustomValue(ItemID.BuilderPotion, Item.buyPrice(gold: 4), potionSells, Condition.HappyEnoughToSellPylons)
                 .AddWithCustomValue(ItemID.CombatWrench, Item.buyPrice(gold: 10));
             }
 
@@ -1211,14 +1211,14 @@ namespace CalamityMod.NPCs
                 .Add(ItemType<AstralFountainItem>())
                 .Add(ItemType<BrimstoneLavaFountainItem>())
                 .AddWithCustomValue(ItemID.ButterflyDust, Item.buyPrice(gold: 10), Condition.DownedGolem)
-                .AddWithCustomValue(ItemID.FriedEgg, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnough);
+                .AddWithCustomValue(ItemID.FriedEgg, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnoughToSellPylons);
             }
 
             if (type == NPCID.PartyGirl)
             {
-                shop.AddWithCustomValue(ItemID.GenderChangePotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.Pizza, Item.buyPrice(gold: 5), Condition.HappyEnough, Condition.DownedSkeletron)
-                .AddWithCustomValue(ItemID.CreamSoda, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnough);
+                shop.AddWithCustomValue(ItemID.GenderChangePotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnoughToSellPylons)
+                .AddWithCustomValue(ItemID.Pizza, Item.buyPrice(gold: 5), Condition.HappyEnoughToSellPylons, Condition.DownedSkeletron)
+                .AddWithCustomValue(ItemID.CreamSoda, Item.buyPrice(gold: 2, silver: 50), Condition.HappyEnoughToSellPylons);
             }
 
             if (type == NPCID.Princess)
@@ -1244,12 +1244,12 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Golfer)
             {
-                shop.AddWithCustomValue(ItemID.PotatoChips, Item.buyPrice(gold: 1), Condition.HappyEnough);
+                shop.AddWithCustomValue(ItemID.PotatoChips, Item.buyPrice(gold: 1), Condition.HappyEnoughToSellPylons);
             }
 
             if (type == NPCID.BestiaryGirl)
             {
-                shop.AddWithCustomValue(ItemID.Steak, Item.buyPrice(gold: 5), Condition.HappyEnough, Condition.Hardmode);
+                shop.AddWithCustomValue(ItemID.Steak, Item.buyPrice(gold: 5), Condition.HappyEnoughToSellPylons, Condition.Hardmode);
             }
         }
         #endregion

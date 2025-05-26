@@ -160,7 +160,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 .AddWithCustomValue(ModContent.ItemType<Popo>(), Item.buyPrice(5))
                 .AddWithCustomValue(ModContent.ItemType<FrigidMonolith>(), Item.buyPrice(5))
                 .Add(ModContent.ItemType<BloodRune>(), Condition.PlayerCarriesItem(ModContent.ItemType<IceBarrage>()))
-                .Add(ItemID.IceCream, Condition.HappyEnough, Condition.InSnow)
+                .Add(ItemID.IceCream, Condition.HappyEnoughToSellPylons, Condition.InSnow)
                 .Register();
         }
 

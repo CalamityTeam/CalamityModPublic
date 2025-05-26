@@ -31,10 +31,9 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.value = Item.buyPrice(0, 0, 65, 0);
         }
 
-        public override bool? UseItem(Player player)
+        public override void GetHealLife(Player player, bool quickHeal, ref int healValue)
         {
-            Item.healLife = player.Calamity().baguette ? 250 : 200;
-            return null;
+            healValue = player.Calamity().baguette ? 250 : 200;
         }
 
         public override void OnConsumeItem(Player player)

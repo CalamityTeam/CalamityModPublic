@@ -236,8 +236,6 @@ namespace CalamityMod.Projectiles
 
             if (pointBlankShotDuration > 0)
                 pointBlankShotDuration--;
-            if (pointBlankShotDistanceTravelled < PointBlankShotDistanceLimit)
-                pointBlankShotDistanceTravelled += projectile.velocity.Length() * projectile.MaxUpdates;
 
             // Reduce secondary yoyo damage if the player has Yoyo Glove
             // Brief behavior documentation of yoyo AI: ai[0, 1] are the x, y co-ords and localAI[0] is the airtime in frames
@@ -4027,6 +4025,12 @@ namespace CalamityMod.Projectiles
                 if (flatDRTimer <= 0)
                     flatDR = 0;
             }
+
+            // CIT 29JUN2024: Moved from PreAI to PostAI so that it is called every update instead of every frame.
+            // This makes the distance traveled increment more accurately for projectiles with extra updates, as previously projectiles with extra updates
+            // would add the distance traveled for the whole frame on the first update, making the distance checking much choppier.
+            if (pointBlankShotDistanceTravelled < PointBlankShotDistanceLimit)
+                pointBlankShotDistanceTravelled += projectile.velocity.Length();
 
             // optimization to remove conversion X/Y loop for irrelevant projectiles
             bool isConversionProjectile = projectile.type == ProjectileID.PurificationPowder
