@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Azathoth : ModItem, ILocalizedModType
+    [LegacyName("Azathoth")]
+    public class Ozzathoth : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public override void SetStaticDefaults()
