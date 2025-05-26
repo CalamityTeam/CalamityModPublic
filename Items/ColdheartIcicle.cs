@@ -25,7 +25,13 @@ namespace CalamityMod.Items
 
         public override void HoldStyle(Player player, Rectangle heldItemFrame)
         {
-            player.itemRotation = player.MountedCenter.DirectionTo(Main.MouseWorld).ToRotation();
+            player.itemRotation = player.direction == -1 ? -MathHelper.PiOver4 : MathHelper.PiOver4;
+            player.itemLocation = player.GetBackHandPosition(Player.CompositeArmStretchAmount.Full, player.direction * MathHelper.PiOver4) + Vector2.UnitX * player.direction * 14;
+        }
+
+        public override void HoldItemFrame(Player player)
+        {
+            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, -player.direction * MathHelper.PiOver4);
         }
 
         public override void HoldItem(Player player)
