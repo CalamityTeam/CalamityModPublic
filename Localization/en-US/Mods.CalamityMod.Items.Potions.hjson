@@ -175,7 +175,7 @@ ZergPotion: {
 	Tooltip: Vastly increases enemy spawn rate
 }
 
-// Drunk Princess Shop Items
+// Very normal Keg crafts
 BloodyMary: {
 	DisplayName: Bloody Mary
 	Tooltip:
@@ -183,7 +183,6 @@ BloodyMary: {
 		10% increased damage and movement speed during a Blood Moon
 		Reduces life regen by 2 HP/s and defense by 4%
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'Extra spicy... and bloody!']
 		'''
 }
 
@@ -194,7 +193,6 @@ CaribbeanRum: {
 		Increases life regen by 1 HP/s, movement speed by 10%
 		Makes you floaty and reduces defense by 10%
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'Why is the rum gone?']
 		'''
 }
 
@@ -205,7 +203,6 @@ CinnamonRoll: {
 		Increases mana regeneration rate and multiplies all fire-based debuff damage by 1.5x
 		Reduces defense by 10%
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'A great-tasting cinnamon whiskey with a touch of cream soda.']
 		'''
 }
 
@@ -217,7 +214,6 @@ Everclear: {
 		Reduces life regen by 5 HP/s and defense by 30%
 		Counts as 2 alcohols for Alcohol Poisoning
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'This is the most potent booze I have, be careful with it.']
 		'''
 }
 
@@ -228,7 +224,6 @@ EvergreenGin: {
 		Multiplies all sickness and water-related debuff damage by 1.25x
 		Reduces life regen by 0.5 HP/s
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'It tastes like a Christmas tree, if you can imagine that.']
 		'''
 }
 
@@ -250,7 +245,6 @@ Fireball: {
 		Multiplies all fire-based debuff damage by 1.25x
 		Reduces life regen by 0.5 HP/s
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'A great-tasting cinnamon whiskey.']
 		'''
 }
 
@@ -260,7 +254,6 @@ GrapeBeer: {
 		'''
 		Reduces defense by 3% for 15 seconds
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'This crap is abhorrent, but you might like it.']
 		'''
 }
 
@@ -272,7 +265,6 @@ Margarita: {
 		Reduces defense by 6% and life regen by 0.5 HP/s
 		Drinking more than 3 different alcohols might not end well with your liver
 		3 minute duration
-		[c/B00BA5:'One of the best drinks ever created, enjoy it while it lasts.']
 		'''
 }
 
@@ -283,7 +275,6 @@ Moonshine: {
 		Increases defense by 10 and damage reduction by 3%
 		Reduces life regen by 0.5 HP/s
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'This stuff is pretty strong, but I'm sure you can handle it.']
 		'''
 }
 
@@ -294,7 +285,6 @@ MoscowMule: {
 		Increases damage by 9%, knockback by 50% and critical strike chance by 3%
 		Reduces life regen by 2 HP/s
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'I once heard the copper mug can be toxic and I told 'em, 'listen, dummy, I'm already poisoning myself!'']
 		'''
 }
 
@@ -316,7 +306,6 @@ OldFashioned: {
 		Multiplies all accessory and set bonus damage by 1.5x
 		Decreases all damage by 25%
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'An old favorite of mine.']
 		'''
 }
 
@@ -326,7 +315,6 @@ RedWine: {
 		'''
 		Reduces life regen by 0.5 HP/s for 15 seconds
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'Too dry for my taste.']
 		'''
 }
 
@@ -337,7 +325,6 @@ Rum: {
 		Increases life regen by 1 HP/s and movement speed by 10%
 		Reduces defense by 5%
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'Sweet and potent, just how I like it.']
 		'''
 }
 
@@ -348,7 +335,6 @@ Screwdriver: {
 		Multiplies piercing projectile damage by 1.05x
 		Reduces life regen by 0.5 HP/s
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'Do you have a screw loose?']
 		'''
 }
 
@@ -360,7 +346,6 @@ StarBeamRye: {
 		and reduces mana usage by 10%
 		Reduces defense by 6% and life regen by 1 HP/s
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'Made from some stuff I found near the Astral Meteor crash site. Don't worry, it's safe, trust me...']
 		'''
 }
 
@@ -371,7 +356,6 @@ Tequila: {
 		Increases knockback by 10%, crit chance by 4% and defense by 5 during daytime
 		Reduces life regen by 0.5 HP/s
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'Great for mixing up daytime drinks.']
 		'''
 }
 
@@ -382,7 +366,6 @@ TequilaSunrise: {
 		Increases knockback by 20%, crit chance by 8% and defense by 10 during daytime
 		Reduces life regen by 1 HP/s
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'The greatest daytime drink I've ever had.']
 		'''
 }
 
@@ -393,7 +376,6 @@ Vodka: {
 		Increases damage by 6% and critical strike chance by 2%
 		Reduces life regen by 0.5 HP/s and defense by 5%
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'The number one alcohol for creating great mixed drinks.']
 		'''
 }
 
@@ -404,7 +386,6 @@ Whiskey: {
 		Increases damage by 4%, knockback by 20% and critical strike chance by 2%
 		Reduces defense by 5%
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'The burning sensation makes it tastier.']
 		'''
 }
 
@@ -415,6 +396,5 @@ WhiteWine: {
 		Increases magic damage by 8%
 		Reduces defense by 6% and life regen by 0.5 HP/s
 		Drinking more than 3 different alcohols might not end well with your liver
-		[c/B00BA5:'I drank a full barrel of this stuff once in one night, I couldn't remember who I was the next day.']
 		'''
 }
