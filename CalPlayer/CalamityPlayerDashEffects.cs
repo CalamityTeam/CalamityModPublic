@@ -489,22 +489,6 @@ namespace CalamityMod.CalPlayer
 
         public void ModHorizontalMovement()
         {
-            if (Player.mount.Active && Player.mount.Type == ModContent.MountType<AlicornMount>() && Math.Abs(Player.velocity.X) > Player.mount.DashSpeed - Player.mount.RunSpeed / 2f)
-            {
-                Rectangle damageHitbox = Player.getRect();
-
-                if (Player.direction == 1)
-                    damageHitbox.Offset(Player.width - 1, 0);
-
-                damageHitbox.Width = 2;
-                damageHitbox.Inflate(6, 12);
-                float damage = Player.GetTotalDamage<SummonDamageClass>().ApplyTo(800f);
-                float knockback = 10f;
-                int NPCImmuneTime = 30;
-                int playerImmuneTime = 6;
-                DoMountDashDamage(damageHitbox, damage, knockback, NPCImmuneTime, playerImmuneTime);
-            }
-
             if (Player.mount.Active && Player.mount.Type == ModContent.MountType<RimehoundMount>() && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
             {
                 Rectangle damageHitbox = Player.getRect();

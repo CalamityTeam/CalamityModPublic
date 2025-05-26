@@ -243,11 +243,6 @@ WeakBrimstoneFlames: {
 	Description: Using the Supreme Witch's power causes you to suffer, but makes your weapons strong
 }
 
-AlicornBuff: {
-	DisplayName: Alicorn
-	Description: You beat DoG while drunk, you are truly fabulous!
-}
-
 AndromedaBuff: {
 	DisplayName: Andromeda
 	Description: You're controlling a piece of history
