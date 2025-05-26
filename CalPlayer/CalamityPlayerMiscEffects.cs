@@ -1090,8 +1090,6 @@ namespace CalamityMod.CalPlayer
 
                 if (!Player.wet)
                 {
-                    if (cirrusDress)
-                        Player.maxFallSpeed = 12f;
                     if (aeroSet)
                         Player.maxFallSpeed = 15f;
                     if (Player.PortalPhysicsEnabled)
@@ -2727,9 +2725,6 @@ namespace CalamityMod.CalPlayer
             // The moveSpeed multiplier for Chilled in vanilla is 0.75, so we just multiply by 1.166667 here to make it 0.875, effectively cutting the reduction in half
             if (Player.chilled)
                 Player.moveSpeed *= 1f + (1f / 6f);
-
-            if (cirrusDress)
-                Player.moveSpeed -= 0.2f;
 
             if (fabsolVodka)
                 Player.GetDamage<GenericDamageClass>() += 0.08f;

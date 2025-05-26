@@ -283,7 +283,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Colliding(Projectile.Hitbox, player.Hitbox) == false)
                 return false;
 
-            // Applies Vulnerability Hex and/or the effects of Supreme Cirrus' HAGE faces.
+            // Applies Vulnerability Hex and/or the effects of Supreme Permafrost's HAGE faces.
             OnHitPlayer_Internal(player);
 
             // Check the player's speed. If they are moving fast enough, damage them more severely; this prevents trying to rush straight through the vortex.

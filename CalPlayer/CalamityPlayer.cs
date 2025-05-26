@@ -90,7 +90,6 @@ namespace CalamityMod.CalPlayer
         public int searedPanCounter = 0;
         public int searedPanTimer = 0;
         public int potionTimer = 0;
-        public bool cirrusDress = false;
         public bool blockAllDashes = false;
         public bool resetHeightandWidth = false;
         public bool noLifeRegen = false;
