@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,6 +40,23 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void OnConsumeItem(Player player)
         {
             player.AddBuff(ModContent.BuffType<RedWineBuff>(), 900);
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe(10).
+                AddIngredient(ItemID.Bottle, 10).
+                AddIngredient(ItemID.Grapes).
+                AddIngredient<StarblightSoot>(5).
+                AddTile(TileID.Kegs).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(5).
+                AddIngredient<StarblightSoot>().
+                AddTile(TileID.AlchemyTable).
+                Register()
+                .DisableDecraft();
         }
     }
 }
