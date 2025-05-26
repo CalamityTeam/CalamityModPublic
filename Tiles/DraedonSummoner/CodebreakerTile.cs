@@ -78,6 +78,19 @@ namespace CalamityMod.Tiles.DraedonSummoner
 
         public override bool CanExplode(int i, int j) => false;
 
+        public override bool CanPlace(int i, int j)
+        {
+            // Cannot be placed on Teleporters in order to prevent a critical bug.
+            int startOfTileCoordinateCheckX = i - 2;
+            for (int k = startOfTileCoordinateCheckX; k < startOfTileCoordinateCheckX + Width; k++)
+            {
+                if (Main.tile[k, j + 1].TileType == TileID.Teleporter)
+                    return false;
+            }
+
+            return true;
+        }
+
         // Prevent the tile from being destroyed while it's busy decrypting.
         // If it's destroyed the tile entity would be too and the resources used on decryption would be lost for nothing.
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)

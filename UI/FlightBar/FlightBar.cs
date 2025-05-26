@@ -31,7 +31,7 @@ namespace CalamityMod.UI
 
         private static Texture2D GetApplicableBorder(CalamityPlayer modPlayer)
         {
-            if (modPlayer.Player.equippedWings != null && modPlayer.Player.wingTimeMax == 0 && modPlayer.Player.mount._data.flightTimeMax == 0)
+            if (modPlayer.Player.equippedWings != null && modPlayer.Player.wingTimeMax == 0 && modPlayer.Player.mount.Active && modPlayer.Player.mount._data.flightTimeMax == 0)
                 return disabledBarTexture;
             if ((modPlayer.infiniteFlight || RidingInfiniteFlightMount(modPlayer.Player)) && completedAnimation)
                 return infiniteBarTexture;
@@ -106,7 +106,7 @@ namespace CalamityMod.UI
             CalamityPlayer modPlayer = player.Calamity();
 
             // If not drawing the flight bar, save its latest position to config and leave.
-            if (CalamityConfig.Instance.FlightBar && (player.wingsLogic > 0 || (player.mount.Active && player.mount._data.flightTimeMax > 0) || player.carpet && !player.canCarpet))
+            if (CalamityConfig.Instance.FlightBar && ((player.wingsLogic > 0 && player.wingTimeMax > 0) || (player.mount.Active && player.mount._data.flightTimeMax > 0) || player.carpet && !player.canCarpet))
             {
                 DrawFlightBar(spriteBatch, modPlayer, screenPos);
             }

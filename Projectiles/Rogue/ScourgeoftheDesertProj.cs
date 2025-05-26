@@ -1,16 +1,10 @@
 ﻿using System;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.NPCs.DesertScourge;
-using CalamityMod.NPCs.Ravager;
 using CalamityMod.Particles;
-using CalamityMod.Projectiles.Magic;
-using Microsoft.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Humanizer.In;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -32,6 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()

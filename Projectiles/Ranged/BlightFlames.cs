@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
         public bool postEnemyHit = false;
 
         public Color FogColor = new Color(30, 255, 30);
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 14;

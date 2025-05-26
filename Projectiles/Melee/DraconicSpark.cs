@@ -15,6 +15,7 @@ namespace CalamityMod.Projectiles.Melee
         public static float MaxHomingRange = 600f;
         public static float HomingVelocity = 20f;
 
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 6;

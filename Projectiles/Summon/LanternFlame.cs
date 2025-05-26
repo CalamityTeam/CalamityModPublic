@@ -15,6 +15,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.SentryShot[Projectile.type] = true;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()

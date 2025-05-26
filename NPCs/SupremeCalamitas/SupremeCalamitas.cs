@@ -2234,7 +2234,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                     GeneralParticleHandler.SpawnParticle(spark2);
                                 }
 
-                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                if (Main.netMode != NetmodeID.MultiplayerClient && attackPause == 0)
                                 {
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, randomShot, gigablastDamage, 0f, Main.myPlayer, 0f, 2f);
                                     NPC.netUpdate = true;
@@ -2253,7 +2253,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                     GeneralParticleHandler.SpawnParticle(spark2);
                                 }
 
-                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                if (Main.netMode != NetmodeID.MultiplayerClient && attackPause == 0)
                                 {
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, randomShot, fireblastDamage, 0f, Main.myPlayer, 0f, 2f);
                                     NPC.netUpdate = true;
@@ -2275,7 +2275,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                         GeneralParticleHandler.SpawnParticle(orb);
                                     }
 
-                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    if (Main.netMode != NetmodeID.MultiplayerClient && attackPause == 0)
                                     {
                                         float projectileVelocityToPass = projectileVelocity.Length() * 1.3f;
                                         Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, j / (float)(numProj - 1)));
@@ -3521,7 +3521,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             float _ = 0f;
             bool collidingWithShield = Collision.CheckAABBvLineCollision(target.TopLeft, target.Size, shieldTop, shieldBottom, 64f, ref _) && shieldOpacity > 0.55f;
-            return collidingWithShield || NPC.Hitbox.Intersects(target.Hitbox);
+            // CIT 16MAY2025: SCal must have contact damage set on the first frame to preserve difficulty mode stat scaling, sometimes leading to people getting hit if on top of her.
+            // Thus, also check if the arena has spawned, since that will not be true on the first frame.
+            return (collidingWithShield || NPC.Hitbox.Intersects(target.Hitbox)) && spawnArena;
         }
 
         public override void FindFrame(int frameHeight)

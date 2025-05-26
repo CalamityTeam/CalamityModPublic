@@ -236,8 +236,6 @@ namespace CalamityMod.Projectiles
 
             if (pointBlankShotDuration > 0)
                 pointBlankShotDuration--;
-            if (pointBlankShotDistanceTravelled < PointBlankShotDistanceLimit)
-                pointBlankShotDistanceTravelled += projectile.velocity.Length() * projectile.MaxUpdates;
 
             // Reduce secondary yoyo damage if the player has Yoyo Glove
             // Brief behavior documentation of yoyo AI: ai[0, 1] are the x, y co-ords and localAI[0] is the airtime in frames
@@ -4028,6 +4026,12 @@ namespace CalamityMod.Projectiles
                     flatDR = 0;
             }
 
+            // CIT 29JUN2024: Moved from PreAI to PostAI so that it is called every update instead of every frame.
+            // This makes the distance traveled increment more accurately for projectiles with extra updates, as previously projectiles with extra updates
+            // would add the distance traveled for the whole frame on the first update, making the distance checking much choppier.
+            if (pointBlankShotDistanceTravelled < PointBlankShotDistanceLimit)
+                pointBlankShotDistanceTravelled += projectile.velocity.Length();
+
             // optimization to remove conversion X/Y loop for irrelevant projectiles
             bool isConversionProjectile = projectile.type == ProjectileID.PurificationPowder
                 || projectile.type == ProjectileID.VilePowder
@@ -4190,13 +4194,13 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            // The vanilla damage Jousting Lance multiplier is as follows. Calamity overrides this with a new formula.
-            // damageScale = 0.1f + player.velocity.Length() / 7f * 0.9f
             if (projectile.type == ProjectileID.JoustingLance || projectile.type == ProjectileID.HallowJoustingLance || projectile.type == ProjectileID.ShadowJoustingLance)
             {
+                // The vanilla damage Jousting Lance multiplier is as follows. Calamity overrides this with a new formula.
+                float vanillaVelocityDamageMultiplier = 0.1f + player.velocity.Length() / 7f * 0.9f;
                 float baseVelocityDamageMultiplier = 0.01f + player.velocity.Length() * 0.002f;
                 float calamityVelocityDamageMultiplier = 100f * (1f - (1f / (1f + baseVelocityDamageMultiplier)));
-                modifiers.SourceDamage *= calamityVelocityDamageMultiplier;
+                modifiers.SourceDamage *= calamityVelocityDamageMultiplier / vanillaVelocityDamageMultiplier;
             }
 
             // If applicable, use ricoshot bonus damage.

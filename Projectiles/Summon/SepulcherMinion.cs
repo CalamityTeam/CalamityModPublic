@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Summon
         #region Syncing
         public override void SendExtraAI(BinaryWriter writer)
         {
-            if (Arms is null || Arms[0] is null)
+            if (Arms is null || Arms.Count == 0 || Arms[0] is null)
                 Initialize();
 
             writer.Write(IdleTimer);
@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            if (Arms is null || Arms[0] is null)
+            if (Arms is null || Arms.Count == 0 || Arms[0] is null)
                 Initialize();
 
             IdleTimer = reader.ReadInt32();

@@ -29,7 +29,10 @@ namespace CalamityMod
                     projectile.ai[1] = 1f;
                     projectile.ai[0] = 0f;
                     projectile.extraUpdates = initialUpdates;
-                    projectile.numUpdates = 0;
+                    // CIT 2OCT2024: This line was breaking how the game counted minions,
+                    // which resulted in minions being counted extra times and despawning other minions, most notoriously with Resurrection Butterfly.
+                    // As such, I have commented it out.
+                    // projectile.numUpdates = 0;
                     projectile.netUpdate = true;
                 }
                 else

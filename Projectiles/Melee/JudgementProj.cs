@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 
         int whiteLightTimer = 15;
 
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 12;

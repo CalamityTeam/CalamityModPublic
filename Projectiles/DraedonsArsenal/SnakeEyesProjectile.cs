@@ -36,6 +36,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             // While this projectile doesn't have afterimages, it keeps track of old positions for its primitive drawcode.
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 6;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()

@@ -14,6 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
         private bool initStealth = false;
         private Vector2 initialVelocity;
 
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 30;

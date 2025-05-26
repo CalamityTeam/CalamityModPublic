@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = Terratomere.SlashLifetime + 1;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()

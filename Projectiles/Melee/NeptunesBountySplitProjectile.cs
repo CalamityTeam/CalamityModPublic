@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Melee
         public int spreadDust = 0;
         public Color WaterColor = Main.rand.NextBool() ? Color.DodgerBlue : Color.DeepSkyBlue;
         public Player Owner => Main.player[Projectile.owner];
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 20;

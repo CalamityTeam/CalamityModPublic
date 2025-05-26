@@ -15,6 +15,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()

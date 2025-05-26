@@ -14,6 +14,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             get => Projectile.localAI[0];
             set => Projectile.localAI[0] = value;
         }
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 2;

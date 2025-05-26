@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Magic
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 3;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()

@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles.Melee
         public int randTimer;
         public int dustType1 = 104;
         public int dustType2 = 29;
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 10;

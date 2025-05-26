@@ -728,7 +728,7 @@ namespace CalamityMod.ILEditing
         private static void AdditiveDrawing(ILContext il)
         {
             ILCursor cursor = new(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<MoonlordDeathDrama>("DrawWhite")))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<ScreenObstruction>("Draw")))
                 return;
 
             cursor.EmitDelegate<Action>(() =>
@@ -1424,6 +1424,17 @@ namespace CalamityMod.ILEditing
                 orig(self);
             }
         }*/
+        #endregion
+
+        #region Make Celestial Onion give the Master Mode slot
+        public static bool MasterModeCelestialOnionCheck(Terraria.On_Player.orig_IsItemSlotUnlockedAndUsable orig, Player self, int slot)
+        {
+            if ((slot == 9 || slot == 19) && self.Calamity().extraAccessoryML && !Main.gameMenu)
+            {
+                return true;
+            }
+            return orig(self, slot);
+        }
         #endregion
     }
 }

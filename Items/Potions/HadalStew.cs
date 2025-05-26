@@ -52,12 +52,11 @@ namespace CalamityMod.Items.Potions
             return player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
         }
 
-        public override bool? UseItem(Player player)
+        public override void OnConsumeItem(Player player)
         {
             player.AddBuff(BuffType, BuffDuration);
             // fixes hardcoded potion sickness duration from quick heal (see CalamityPlayerMiscEffects.cs)
             player.Calamity().potionTimer = 2;
-            return true;
         }
 
         public override void AddRecipes()

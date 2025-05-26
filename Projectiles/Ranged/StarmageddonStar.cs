@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()
