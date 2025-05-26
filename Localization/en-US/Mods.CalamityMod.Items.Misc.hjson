@@ -281,7 +281,7 @@ BrimstoneLocus: {
 
 ColdheartIcicle: {
 	DisplayName: Coldheart Icicle
-	Tooltip: "'Congratulations, you're winner! Here's my head on a stick.'"
+	Tooltip: "'Critically aclaimed vendetta'"
 }
 
 MomentumCapacitor: {
