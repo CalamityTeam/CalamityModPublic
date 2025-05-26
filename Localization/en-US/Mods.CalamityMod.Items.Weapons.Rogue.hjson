@@ -64,7 +64,7 @@ BlastBarrel: {
 	Tooltip:
 		'''
 		Throws a rolling barrel that explodes on wall collision
-		Stealth strikes makes the barrel bounce twice before disappearing with varied effects after each bounce
+		Stealth strikes make the barrel bounce twice before disappearing with varied effects after each bounce
 		'Some people used to jump over these'
 		'''
 }

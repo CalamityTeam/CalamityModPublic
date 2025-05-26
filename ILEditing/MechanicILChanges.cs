@@ -728,7 +728,7 @@ namespace CalamityMod.ILEditing
         private static void AdditiveDrawing(ILContext il)
         {
             ILCursor cursor = new(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<MoonlordDeathDrama>("DrawWhite")))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<ScreenObstruction>("Draw")))
                 return;
 
             cursor.EmitDelegate<Action>(() =>

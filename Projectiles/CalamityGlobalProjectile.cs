@@ -4190,13 +4190,13 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            // The vanilla damage Jousting Lance multiplier is as follows. Calamity overrides this with a new formula.
-            // damageScale = 0.1f + player.velocity.Length() / 7f * 0.9f
             if (projectile.type == ProjectileID.JoustingLance || projectile.type == ProjectileID.HallowJoustingLance || projectile.type == ProjectileID.ShadowJoustingLance)
             {
+                // The vanilla damage Jousting Lance multiplier is as follows. Calamity overrides this with a new formula.
+                float vanillaVelocityDamageMultiplier = 0.1f + player.velocity.Length() / 7f * 0.9f;
                 float baseVelocityDamageMultiplier = 0.01f + player.velocity.Length() * 0.002f;
                 float calamityVelocityDamageMultiplier = 100f * (1f - (1f / (1f + baseVelocityDamageMultiplier)));
-                modifiers.SourceDamage *= calamityVelocityDamageMultiplier;
+                modifiers.SourceDamage *= calamityVelocityDamageMultiplier / vanillaVelocityDamageMultiplier;
             }
 
             // If applicable, use ricoshot bonus damage.
