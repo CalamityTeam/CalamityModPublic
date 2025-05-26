@@ -424,7 +424,7 @@ namespace CalamityMod.CalPlayer
             {
                 float missingLifeRatio = (Player.statLifeMax2 - Player.statLife) / (float)Player.statLifeMax2;
                 //Ambrosial Ampule and ooze give between 2 and 6 hp/s
-                int lifeRegenToGive = (int)Math.Round(MathHelper.Lerp((purity || aAmpoule ? 2f : 4f), (purity || aAmpoule ? 8f : 12f), missingLifeRatio)); // Rounding is needed for it to ever actually give +6 hp/s, as the integer conversion would otherwise floor it.
+                int lifeRegenToGive = (int)Math.Round(MathHelper.Lerp((purity || aAmpoule ? 2f : 4f), (purity || aAmpoule ? 10f : 12f), missingLifeRatio)); // Rounding is needed for it to ever actually give +6 hp/s, as the integer conversion would otherwise floor it.
                 Player.lifeRegen += (int)lifeRegenToGive;
             }
 
