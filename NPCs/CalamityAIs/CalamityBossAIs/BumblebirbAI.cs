@@ -57,7 +57,6 @@ namespace CalamityMod.NPCs.CalamityAIs.CalamityBossAIs
             bool immuneToSlowingDebuffs = npc.ai[0] == 3f || npc.ai[0] == 3.1f || npc.ai[0] == 3.2f;
             npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[ModContent.BuffType<KamiFlu>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<GalvanicCorrosion>()] = immuneToSlowingDebuffs;

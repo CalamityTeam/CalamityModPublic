@@ -986,7 +986,6 @@ namespace CalamityMod.CalPlayer
         public int bloodfinTimer = 30;
         public bool hallowedRegen = false;
         public bool hallowedPower = false;
-        public bool kamiBoost = false;
         public bool avertorBonus = false;
         public bool divineBless = false;
         public bool infiniteFlight = false;
@@ -1769,7 +1768,6 @@ namespace CalamityMod.CalPlayer
             phantomicArtifact = false;
             hallowedRegen = false;
             hallowedPower = false;
-            kamiBoost = false;
             tracersDust = false;
             elysianWingsDust = false;
             tracersCelestial = false;
@@ -2430,7 +2428,6 @@ namespace CalamityMod.CalPlayer
             rRage = false;
             xRage = false;
             xWrath = false;
-            kamiBoost = false;
             graxDefense = false;
             encased = false;
             brutalCarnage = false;
@@ -3719,7 +3716,6 @@ namespace CalamityMod.CalPlayer
                     (aquaticHeartWaterBuff ? 0.15f : 0f) +
                     ((frostFlare && Player.statLife <= (int)(Player.statLifeMax2 * 0.5)) ? 0.15f : 0f) +
                     (dragonScales ? 0.1f : 0f) +
-                    (kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
                     (CobaltSet ? CobaltArmorSetChange.SpeedBoostSetBonusPercentage * 0.01f : 0f) +
                     (silvaSet ? 0.05f : 0f) +
                     (blueCandle ? CirrusBlueCandleBuff.AccelerationBoost : 0f) +
@@ -3734,7 +3730,6 @@ namespace CalamityMod.CalPlayer
                     (aquaticHeartWaterBuff ? 0.15f : 0f) +
                     ((frostFlare && Player.statLife <= (int)(Player.statLifeMax2 * 0.5)) ? 0.15f : 0f) +
                     (dragonScales ? 0.1f : 0f) +
-                    (kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
                     (CobaltSet ? CobaltArmorSetChange.SpeedBoostSetBonusPercentage * 0.01f : 0f) +
                     (silvaSet ? 0.05f : 0f) +
                     (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +

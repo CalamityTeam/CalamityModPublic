@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Mounts
             Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item3;
             Item.noMelee = true;
-            Item.mountType = ModContent.MountType<PhuppersChair>();
+            Item.mountType = ModContent.MountType<BrimroseChair>();
 
             Item.value = Item.buyPrice(platinum: 1, gold: 50);
             Item.rare = ModContent.RarityType<Turquoise>();

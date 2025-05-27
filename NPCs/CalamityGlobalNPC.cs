@@ -278,7 +278,6 @@ namespace CalamityMod.NPCs
         public int clamDebuff = 0;
         public int sulphurPoison = 0;
         public int ladHearts = 0;
-        public int kamiFlu = 0;
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
         public int GaussFluxTimer = 0;
@@ -493,7 +492,6 @@ namespace CalamityMod.NPCs
             myClone.clamDebuff = clamDebuff;
             myClone.sulphurPoison = sulphurPoison;
             myClone.ladHearts = ladHearts;
-            myClone.kamiFlu = kamiFlu;
             myClone.relicOfResilienceCooldown = relicOfResilienceCooldown;
             myClone.relicOfResilienceWeakness = relicOfResilienceWeakness;
             myClone.GaussFluxTimer = GaussFluxTimer;
@@ -1050,13 +1048,6 @@ namespace CalamityMod.NPCs
                 // See SageNeedle.cs for details
                 int baseSagePoisonDoTValue = (int)(npc.Calamity().sagePoisonDamage * sicknessDamageMult);
                 ApplyDPSDebuff(baseSagePoisonDoTValue, baseSagePoisonDoTValue / 5, ref npc.lifeRegen, ref damage);
-            }
-
-            // Kami Debuff from Yanmei's Knife
-            if (kamiFlu > 0)
-            {
-                int baseKamiFluDoTValue = (int)(250 * sicknessDamageMult);
-                ApplyDPSDebuff(baseKamiFluDoTValue, baseKamiFluDoTValue / 10, ref npc.lifeRegen, ref damage);
             }
 
             //Absorber Affliction
@@ -3270,8 +3261,6 @@ namespace CalamityMod.NPCs
                 calcDR *= 0.8f;
             if (npc.betsysCurse)
                 calcDR *= 0.66f;
-            if (npc.Calamity().kamiFlu > 0)
-                calcDR *= KamiFlu.MultiplicativeDamageReduction;
             if (npc.Calamity().aCrunch > 0)
                 calcDR *= ArmorCrunch.MultiplicativeDamageReductionEnemy;
             if (npc.Calamity().crumble > 0)
@@ -5066,8 +5055,6 @@ namespace CalamityMod.NPCs
                 webbed--;
             if (slowed > 0)
                 slowed--;
-            if (kamiFlu > 0)
-                kamiFlu--;
             if (vaporfied > 0)
                 vaporfied--;
 
@@ -5124,8 +5111,6 @@ namespace CalamityMod.NPCs
                 sulphurPoison--;
             if (sagePoisonTime > 0)
                 sagePoisonTime--;
-            if (kamiFlu > 0)
-                kamiFlu--;
             if (relicOfResilienceCooldown > 0)
                 relicOfResilienceCooldown--;
             if (relicOfResilienceWeakness > 0)
@@ -5209,10 +5194,6 @@ namespace CalamityMod.NPCs
                     else if (vulnerabilityHex > 0)
                     {
                         npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-Calamity.MaxNPCSpeed), new Vector2(Calamity.MaxNPCSpeed, 10f));
-                    }
-                    else if (kamiFlu > 420)
-                    {
-                        npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiFlu.MaxNPCSpeed), new Vector2(KamiFlu.MaxNPCSpeed));
                     }
                 }
             }
@@ -6555,9 +6536,6 @@ namespace CalamityMod.NPCs
             if (npc.HasBuff<Enraged>())
                 return new Color(200, 50, 50, 255 - npc.alpha);
 
-            if (npc.Calamity().kamiFlu > 0 && !CalamityLists.kamiDebuffColorImmuneList.Contains(npc.type))
-                return new Color(51, 197, 108, 255 - npc.alpha);
-
             if (npc.type == NPCID.VileSpit || npc.type == NPCID.VileSpitEaterOfWorlds)
                 return new Color(150, 200, 0, npc.alpha);
 
@@ -6601,7 +6579,6 @@ namespace CalamityMod.NPCs
             ("CalamityMod/Buffs/StatDebuffs/GalvanicCorrosion", NPC => NPC.Calamity().tesla > 0),
             ("CalamityMod/Buffs/StatDebuffs/GlacialState", NPC => NPC.Calamity().gState > 0),
             ("CalamityMod/Buffs/StatDebuffs/Irradiated", NPC => NPC.Calamity().irradiated > 0),
-            ("CalamityMod/Buffs/StatDebuffs/KamiFlu", NPC => NPC.Calamity().kamiFlu > 0),
             ("CalamityMod/Buffs/StatDebuffs/MarkedforDeath", NPC => NPC.Calamity().marked > 0),
             ("CalamityMod/Buffs/StatDebuffs/PearlAura", NPC => NPC.Calamity().pearlAura > 0),
             ("CalamityMod/Buffs/StatDebuffs/ProfanedWeakness", NPC => NPC.Calamity().relicOfResilienceWeakness > 0),

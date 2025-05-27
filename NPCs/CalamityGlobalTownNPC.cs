@@ -231,7 +231,6 @@ namespace CalamityMod.NPCs
         };
         private static readonly string[] WizardNames =
         {
-            "Mage One-Trick", // <@!340996105460514816> (pixlgray)
             "Inorim, son of Ivukey",
             "Jensen",
             "Merasmus", // <@!288066987819663360> (spiderprovidence)

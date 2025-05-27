@@ -224,11 +224,6 @@ DeathValleyDuster: {
 	Tooltip: Casts a large blast of dust
 }
 
-DivineRetribution: {
-	DisplayName: Divine Retribution
-	Tooltip: Mage is superior to rogue; look, we got a donor weapon to prove it!
-}
-
 Downpour: {
 	DisplayName: Downpour
 	Tooltip:

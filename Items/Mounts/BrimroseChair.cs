@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class PhuppersChair : ModMount
+    public class BrimroseChair : ModMount
     {
         public override void SetStaticDefaults()
         {

@@ -1770,9 +1770,6 @@ namespace CalamityMod.CalPlayer
             if (raiderTalisman && !StealthStrikeAvailable())
                 Player.GetCritChance<ThrowingDamageClass>() += raiderCritBonus;
 
-            if (kamiBoost)
-                Player.GetDamage<GenericDamageClass>() += 0.15f;
-
             if (avertorBonus)
                 Player.GetDamage<GenericDamageClass>() += 0.1f;
 

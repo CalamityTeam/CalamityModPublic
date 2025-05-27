@@ -165,7 +165,6 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
             "Phantasmal Deathray",
             "Phupperbat",
             "Pinkie Poss",
-            "pixlgray",
             "Poly",
             "Popo",
             "President Waluigi",

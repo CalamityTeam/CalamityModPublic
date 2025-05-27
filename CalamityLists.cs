@@ -147,8 +147,6 @@ namespace CalamityMod
 
         public static List<int> legOverrideList;
 
-        public static List<int> kamiDebuffColorImmuneList;
-
         public static Dictionary<int, int> EncryptedSchematicIDRelationship;
 
         public static List<int> DisabledSummonerNerfItems;
@@ -179,7 +177,6 @@ namespace CalamityMod
                 "Hans Volter",
                 "Krankwagon",
                 "MishiroUsui",
-                "pixlgray",
                 "Arkhine",
                 "Lodude",
                 "DevAesthetic",
@@ -193,7 +190,6 @@ namespace CalamityMod
                 "Ein",
                 "2Larry2",
                 "Jenonen",
-                "Dodu",
                 "Arti",
                 "Tervastator",
                 "Luis",
@@ -246,7 +242,6 @@ namespace CalamityMod
                 "William",
                 "Arche",
                 "DevilSunrise",
-                "Yanmei",
                 "Chaos",
                 "Ryan",
                 "Fish Repairs",
@@ -2603,15 +2598,6 @@ namespace CalamityMod
                 EquipLoader.GetEquipSlot(CalamityMod.Instance, "Popo", EquipType.Legs)
             };
 
-            // Duke Fishron and Old Duke phase 3 becomes way too easy if you can make him stop being invisible with Yanmei's Knife.
-            // This is a list so that other NPCs can be added as necessary.
-            // IT DOES NOT make them immune to the debuff, just stops them from being recolored.
-            kamiDebuffColorImmuneList = new List<int>()
-            {
-                NPCID.DukeFishron,
-                NPCType<OldDuke>()
-            };
-
             EncryptedSchematicIDRelationship = new Dictionary<int, int>()
             {
                 [1] = ItemType<EncryptedSchematicPlanetoid>(),
@@ -2707,8 +2693,6 @@ namespace CalamityMod
             bossTypes = null;
 
             legOverrideList = null;
-
-            kamiDebuffColorImmuneList = null;
 
             EncryptedSchematicIDRelationship = null;
 

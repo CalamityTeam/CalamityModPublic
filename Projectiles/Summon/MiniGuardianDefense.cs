@@ -226,7 +226,7 @@ namespace CalamityMod.Projectiles.Summon
 
                     playerDist = returnSpeed / playerDist;
                     playerDestination *= playerDist;
-                    // Turning (wtf is this) (idk ask phup lmao)
+                    // Turning (wtf is this)
                     if (Projectile.velocity.X < playerDestination.X)
                     {
                         Projectile.velocity.X += acceleration;
