@@ -28,11 +28,6 @@ EvergreenGinBuff: {
 	Description: Sickness and water debuff damage increased, life regen reduced
 }
 
-FabsolVodkaBuff: {
-	DisplayName: Fab
-	Description: You feel fabulous
-}
-
 FireballBuff: {
 	DisplayName: Fireball
 	Description: Fire debuff damage increased, life regen reduced
@@ -61,6 +56,11 @@ MoscowMuleBuff: {
 OldFashionedBuff: {
 	DisplayName: Old Fashioned
 	Description: Accessory and set bonus damage multiplied, damage reduced
+}
+
+PurpleHazeBuff: {
+	DisplayName: Purple Haze
+	Description: Increases damage and gives extra immunity frames, defense reduced
 }
 
 RedWineBuff: {
