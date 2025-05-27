@@ -1521,7 +1521,7 @@ namespace CalamityMod
                 BuffType<CinnamonRollBuff>(),
                 BuffType<EverclearBuff>(),
                 BuffType<EvergreenGinBuff>(),
-                BuffType<FabsolVodkaBuff>(),
+                BuffType<PurpleHazeBuff>(),
                 BuffType<FireballBuff>(),
                 BuffType<GrapeBeerBuff>(),
                 BuffType<MargaritaBuff>(),

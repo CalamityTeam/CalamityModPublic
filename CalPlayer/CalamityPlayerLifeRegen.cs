@@ -183,7 +183,7 @@ namespace CalamityMod.CalPlayer
             {
                 alcoholPoisonLevel++;
             }
-            if (fabsolVodka)
+            if (purpleHaze)
             {
                 alcoholPoisonLevel++;
             }

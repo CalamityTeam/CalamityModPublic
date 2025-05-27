@@ -2726,7 +2726,7 @@ namespace CalamityMod.CalPlayer
             if (Player.chilled)
                 Player.moveSpeed *= 1f + (1f / 6f);
 
-            if (fabsolVodka)
+            if (purpleHaze)
                 Player.GetDamage<GenericDamageClass>() += 0.08f;
 
             if (vodka)
@@ -4022,7 +4022,7 @@ namespace CalamityMod.CalPlayer
 
             // Multiplicative defense reductions.
             // These are done last because they need to be after the defense lower cap at 0.
-            if (fabsolVodka)
+            if (purpleHaze)
             {
                 if (Player.statDefense > 0)
                     Player.statDefense -= (int)(Player.statDefense * 0.05);

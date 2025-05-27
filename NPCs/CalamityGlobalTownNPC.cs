@@ -1204,6 +1204,12 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Princess)
             {
+                Mod musicMod = CalamityMod.Instance.musicMod;
+                musicMod.TryFind("Interlude1MusicBox", out ModItem interlude1Box);
+                musicMod.TryFind("Interlude2MusicBox", out ModItem interlude2Box);
+                musicMod.TryFind("Interlude3MusicBox", out ModItem interlude3Box);
+                musicMod.TryFind("DevourerofGodsEulogyMusicBox", out ModItem eulogyBox);
+
                 shop.AddWithCustomValue(ItemID.PrincessWeapon, Item.buyPrice(gold: 50))
                 .Add(ItemType<LanternCenter>())
                 .Add(ItemID.AppleJuice)
@@ -1211,7 +1217,11 @@ namespace CalamityMod.NPCs
                 .Add(ItemID.Lemonade)
                 .Add(ItemID.PrismaticPunch)
                 .Add(ItemID.SmoothieofDarkness)
-                .Add(ItemID.TropicalSmoothie);
+                .Add(ItemID.TropicalSmoothie)
+                .AddWithCustomValue(interlude1Box.Type, Item.buyPrice(gold: 10), CalamityConditions.DownedCalamitasClone)
+                .AddWithCustomValue(interlude2Box.Type, Item.buyPrice(gold: 10), Condition.DownedMoonLord)
+                .AddWithCustomValue(interlude3Box.Type, Item.buyPrice(gold: 10), CalamityConditions.DownedYharon)
+                .AddWithCustomValue(eulogyBox.Type, Item.buyPrice(gold: 10), CalamityConditions.DownedDevourerOfGods);
             }
 
             if (type == NPCID.SkeletonMerchant)

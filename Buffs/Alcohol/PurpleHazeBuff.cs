@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Alcohol
 {
-    public class FabsolVodkaBuff : ModBuff
+    public class PurpleHazeBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs.Alcohol
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().fabsolVodka = true;
+            player.Calamity().purpleHaze = true;
         }
     }
 }

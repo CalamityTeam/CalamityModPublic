@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Buffs.Alcohol;
-using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
-    public class FabsolsVodka : ModItem, ILocalizedModType
+    [LegacyName("FabsolsVodka")]
+    public class PurpleHaze : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Potions";
 
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
-            Item.buffType = ModContent.BuffType<FabsolVodkaBuff>();
+            Item.buffType = ModContent.BuffType<PurpleHazeBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(900f);
             Item.value = Item.buyPrice(0, 2, 60, 0);
         }
