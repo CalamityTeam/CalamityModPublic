@@ -1,4 +1,4 @@
-author = Fabsol and the Dev Team
+author = The Calamity Dev Team
 version = 2.0.4.006
 displayName = Calamity Mod
 modReferences = CalamityModMusic
