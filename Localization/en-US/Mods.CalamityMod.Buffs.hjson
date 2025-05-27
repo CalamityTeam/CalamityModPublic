@@ -448,29 +448,14 @@ YharonSonBuff: {
 	Description: You better not eat his dinner
 }
 
-ChaosCandleBuff: {
-	DisplayName: Chaos Candle
-	Description: Spawn rates around the candle are boosted!
-}
-
-CirrusBlueCandleBuff: {
+BlueCandleBuff: {
 	DisplayName: Limber
 	Description: The floating flame seems to uplift your very spirit
 }
 
-CirrusPinkCandleBuff: {
-	DisplayName: Vigor
-	Description: The brilliant light suffuses you with hope
-}
-
-CirrusPurpleCandleBuff: {
-	DisplayName: Resilience
-	Description: Neither rain nor wind can snuff your undying flame
-}
-
-CirrusYellowCandleBuff: {
-	DisplayName: Spite
-	Description: The hateful, flickering glow fuels your ire
+ChaosCandleBuff: {
+	DisplayName: Chaos Candle
+	Description: Spawn rates around the candle are boosted!
 }
 
 CorruptionEffigyBuff: {
@@ -488,9 +473,24 @@ EffigyOfDecayBuff: {
 	Description: The sulphuric waters empower you
 }
 
+PinkCandleBuff: {
+	DisplayName: Vigor
+	Description: The brilliant light suffuses you with hope
+}
+
+PurpleCandleBuff: {
+	DisplayName: Resilience
+	Description: Neither rain nor wind can snuff your undying flame
+}
+
 TranquilityCandleBuff: {
 	DisplayName: Tranquility Candle
 	Description: Spawn rates around the candle are reduced!
+}
+
+YellowCandleBuff: {
+	DisplayName: Spite
+	Description: The hateful, flickering glow fuels your ire
 }
 
 PopoBuff: {
@@ -1514,24 +1514,4 @@ YoungDukeBuff: {
 LiliesOfFinalityBuff: {
 	DisplayName: Finality
 	Description: Remember our promise
-}
-
-BlueCandleBuff: {
-	DisplayName: Blue Candle Buff
-	Description: Mods.CalamityMod.Buffs.BlueCandleBuff.Description
-}
-
-PinkCandleBuff: {
-	DisplayName: Pink Candle Buff
-	Description: Mods.CalamityMod.Buffs.PinkCandleBuff.Description
-}
-
-PurpleCandleBuff: {
-	DisplayName: Purple Candle Buff
-	Description: Mods.CalamityMod.Buffs.PurpleCandleBuff.Description
-}
-
-YellowCandleBuff: {
-	DisplayName: Yellow Candle Buff
-	Description: Mods.CalamityMod.Buffs.YellowCandleBuff.Description
 }
