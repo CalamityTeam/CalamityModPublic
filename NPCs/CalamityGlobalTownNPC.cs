@@ -4,7 +4,6 @@ using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
-using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Dyes.HairDye;
@@ -12,6 +11,7 @@ using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -1177,7 +1177,11 @@ namespace CalamityMod.NPCs
                 .AddWithCustomValue(ItemID.SpectreStaff, Item.buyPrice(gold: 25), Condition.DownedGolem)
                 .AddWithCustomValue(ItemID.InfernoFork, Item.buyPrice(gold: 25), Condition.DownedGolem)
                 .AddWithCustomValue(ItemID.ShadowbeamStaff, Item.buyPrice(gold: 25), Condition.DownedGolem)
-                .AddWithCustomValue(ItemID.MagnetSphere, Item.buyPrice(gold: 25), Condition.DownedGolem);
+                .AddWithCustomValue(ItemID.MagnetSphere, Item.buyPrice(gold: 25), Condition.DownedGolem)
+                .Add(ItemType<ResilientCandle>())
+                .Add(ItemType<SpitefulCandle>())
+                .Add(ItemType<VigorousCandle>())
+                .Add(ItemType<WeightlessCandle>());
             }
 
             if (type == NPCID.WitchDoctor)
@@ -1227,6 +1231,11 @@ namespace CalamityMod.NPCs
             if (type == NPCID.BestiaryGirl)
             {
                 shop.AddWithCustomValue(ItemID.Steak, Item.buyPrice(gold: 5), Condition.HappyEnoughToSellPylons, Condition.Hardmode);
+            }
+
+            if (type == NPCID.Truffle)
+            {
+                shop.Add(ItemType<OddMushroom>());
             }
         }
         #endregion
