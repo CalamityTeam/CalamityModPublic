@@ -220,6 +220,36 @@ namespace CalamityMod
         /// <param name="x">The input value.</param>
         public static int DirectionalSign(this float x) => (x > 0f).ToDirectionInt();
 
+        /// <summary>
+        ///     Approximates the derivative of a function at a given point based on a 
+        /// </summary>
+        /// <param name="fx">The function to take the derivative of.</param>
+        /// <param name="x">The value to evaluate the derivative at.</param>
+        public static double ApproximateDerivative(this Func<double, double> fx, double x)
+        {
+            double left = fx(x + 1e-7);
+            double right = fx(x - 1e-7);
+            return (left - right) * 5e6;
+        }
+
+        /// <summary>
+        ///     Searches for an approximate for a root of a given function.
+        /// </summary>
+        /// <param name="fx">The function to find the root for.</param>
+        /// <param name="initialGuess">The initial guess for what the root could be.</param>
+        /// <param name="iterations">The amount of iterations to perform. The higher this is, the more generally accurate the result will be.</param>
+        public static double IterativelySearchForRoot(Func<double, double> fx, double initialGuess, int iterations)
+        {
+            double result = initialGuess;
+            for (int i = 0; i < iterations; i++)
+            {
+                double derivative = (float)fx.ApproximateDerivative(result);
+                result -= fx(result) / derivative;
+            }
+
+            return result;
+        }
+
         #region Easings
         /// <summary>
         /// Gets a value from 0 to 1 and returns an eased value.

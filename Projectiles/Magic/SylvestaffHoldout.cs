@@ -1,10 +1,12 @@
 ﻿using System;
 using CalamityMod.Graphics.Primitives;
 using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Physics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -13,7 +15,19 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SylvestaffHoldout : ModProjectile, IPixelatedPrimitiveRenderer
     {
+        public PixelationPrimitiveLayer LayerToRenderTo => PixelationPrimitiveLayer.AfterPlayers;
+
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<Sylvestaff>();
+
+        /// <summary>
+        ///     The left ribbon on this holdout.
+        /// </summary>
+        public RopeHandle? LeftRibbon;
+
+        /// <summary>
+        ///     The right ribbon on this holdout.
+        /// </summary>
+        public RopeHandle? RightRibbon;
 
         /// <summary>
         ///     The player owner of this holdout staff.
@@ -24,6 +38,16 @@ namespace CalamityMod.Projectiles.Magic
         ///     A general purpose, ever-increment timer used by this holdout staff.
         /// </summary>
         public ref float Time => ref Projectile.ai[0];
+
+        /// <summary>
+        ///     The point of attachment for ribbons on this staff.
+        /// </summary>
+        public Vector2 RibbonAttachPoint => Projectile.Center + Projectile.velocity * Projectile.scale * Projectile.width * 0.34f;
+
+        /// <summary>
+        ///     The length of ribbons attached to this staff.
+        /// </summary>
+        private static float RibbonLength => 100f;
 
         public override string Texture => "CalamityMod/Items/Weapons/Magic/Sylvestaff";
 
@@ -45,12 +69,35 @@ namespace CalamityMod.Projectiles.Magic
             if (!Owner.channel)
                 Projectile.Kill();
 
+            if (LeftRibbon is null && RightRibbon is null)
+                InitializeRibbons();
+
             AimTowardsMouse();
             HandleHoldoutLogic();
             OrientOwnerArms();
             FireAwesomeMagicRays();
+            UpdateRibbon(LeftRibbon, Projectile.velocity.RotatedBy(-MathHelper.PiOver2));
+            UpdateRibbon(RightRibbon, Projectile.velocity.RotatedBy(MathHelper.PiOver2));
 
             Time++;
+        }
+
+        /// <summary>
+        ///     Initializes the ribbons attached to this staff.
+        /// </summary>
+        private void InitializeRibbons()
+        {
+            int ribbonSegmentCount = 12;
+            float distancePerSegment = RibbonLength / ribbonSegmentCount;
+            RopeSettings ribbonSettings = new RopeSettings()
+            {
+                StartIsFixed = true,
+                Mass = 0.72f,
+                RespondToEntityMovement = true,
+                RespondToWind = true
+            };
+            LeftRibbon = ModContent.GetInstance<RopeManagerSystem>().RequestNew(RibbonAttachPoint, Projectile.Center, ribbonSegmentCount, distancePerSegment, Vector2.Zero, ribbonSettings, 25);
+            RightRibbon = ModContent.GetInstance<RopeManagerSystem>().RequestNew(RibbonAttachPoint, Projectile.Center, ribbonSegmentCount, distancePerSegment, Vector2.Zero, ribbonSettings, 25);
         }
 
         /// <summary>
@@ -104,6 +151,22 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         /// <summary>
+        ///     Updates a given ribbon.
+        /// </summary>
+        private void UpdateRibbon(RopeHandle? ribbon, Vector2 gravityDirection)
+        {
+            // Ensure that the handle is properly initialized before any proceeding further.
+            if (ribbon is not RopeHandle rope)
+                return;
+
+            float wave = MathF.Cos(MathHelper.TwoPi * Time / 120f) * 0.16f;
+
+            rope.Start = RibbonAttachPoint;
+            rope.End -= Projectile.velocity * wave;
+            rope.Gravity = gravityDirection * 0.15f - Projectile.velocity * 0.4f;
+        }
+
+        /// <summary>
         ///     Handles the firing of magic ray projectiles for this staff.
         /// </summary>
         private void FireAwesomeMagicRays()
@@ -122,24 +185,64 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<SylvRay>(), damage, heldItem.knockBack, Projectile.owner);
 
                     // Apply a minor amount of recoil.
-                    Projectile.velocity -= Projectile.velocity.RotatedBy(Projectile.spriteDirection * MathHelper.PiOver2) * 0.16f;
+                    Projectile.velocity -= Projectile.velocity.RotatedBy(Projectile.spriteDirection * MathHelper.PiOver2) * 0.05f;
                 }
             }
         }
 
         public void RenderPixelatedPrimitives(SpriteBatch spriteBatch)
         {
-            /*
-                feelerShader.Parameters["feelerColorStart"]?.SetValue(0.61f);
-                feelerShader.Parameters["colorSpacingFactor"]?.SetValue(1.9f);
-                feelerShader.Parameters["pixelationFactor"]?.SetValue(40f);
-                feelerShader.Parameters["outlineColor"]?.SetValue(new Color(109, 102, 112).ToVector4());
-             */
+            RenderRibbon(LeftRibbon, -1);
+            RenderRibbon(RightRibbon, 1);
+        }
+
+        private float RibbonWidthFunction(float completionRatio) => Projectile.scale * 4.5f;
+
+        private Color RibbonColorFunction(float completionRatio)
+        {
+            Color light = Lighting.GetColor(RibbonAttachPoint.ToTileCoordinates());
+            return Projectile.GetAlpha(new Color(232, 229, 245).MultiplyRGBA(light));
+        }
+
+        private Vector2 RibbonOffsetFunction(float completionRatio) => Vector2.Zero;
+
+        private void RenderRibbon(RopeHandle? ribbon, int direction)
+        {
+            // Ensure that the handle is properly initialized before any proceeding further.
+            if (ribbon is not RopeHandle rope)
+                return;
+
+            Vector2 forwardDirection = Projectile.velocity;
+            Vector2 sideDirection = forwardDirection.RotatedBy(MathHelper.PiOver2 * direction);
+            Vector2 attachmentPoint = RibbonAttachPoint;
+            Vector2[] ribbonPositions = [.. rope.Positions];
+            int positionCount = ribbonPositions.Length;
+            for (int i = 0; i < ribbonPositions.Length; i++)
+            {
+                float completionRatio = i / (float)positionCount;
+                float wave = MathF.Cos(MathHelper.Pi * completionRatio * 1.5f - MathHelper.TwoPi * Time / 97f) * completionRatio;
+
+                Vector2 backwardsOffset = forwardDirection * i * -RibbonLength / positionCount;
+                Vector2 sideWavyOffset = sideDirection * wave * RibbonLength * 0.5f;
+                Vector2 rigidPosition = attachmentPoint + backwardsOffset + sideWavyOffset;
+
+                ribbonPositions[i] = Vector2.Lerp(ribbonPositions[i], rigidPosition, 0.76f);
+            }
+
+            MiscShaderData ribbonShader = GameShaders.Misc["CalamityMod:SylvestaffRibbon"];
+            PrimitiveSettings primitiveSettings = new PrimitiveSettings(RibbonWidthFunction, RibbonColorFunction, RibbonOffsetFunction, pixelate: true, shader: ribbonShader);
+            PrimitiveRenderer.RenderTrail(ribbonPositions, primitiveSettings, 33);
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
             return true;
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            LeftRibbon?.Dispose();
+            RightRibbon?.Dispose();
         }
 
         public override bool? CanDamage() => false;

@@ -18,6 +18,8 @@ namespace CalamityMod.Graphics.Primitives
 
         private static ManagedRenderTarget PixelationTarget_AfterProjectiles;
 
+        private static ManagedRenderTarget PixelationTarget_AfterPlayers;
+
         private static RenderTarget2D CreatePixelTarget(int width, int height) => new(Main.instance.GraphicsDevice, width / 2, height / 2);
 
         /// <summary>
@@ -36,11 +38,13 @@ namespace CalamityMod.Graphics.Primitives
             On_Main.CheckMonoliths += DrawToTargets;
             On_Main.DoDraw_DrawNPCsOverTiles += DrawTarget_NPCs;
             On_Main.DrawProjectiles += DrawTarget_Projectiles;
+            On_Main.DrawPlayers_AfterProjectiles += DrawTarget_Players;
 
             PixelationTarget_BeforeNPCs = new(true, CreatePixelTarget);
             PixelationTarget_AfterNPCs = new(true, CreatePixelTarget);
             PixelationTarget_BeforeProjectiles = new(true, CreatePixelTarget);
             PixelationTarget_AfterProjectiles = new(true, CreatePixelTarget);
+            PixelationTarget_AfterPlayers = new(true, CreatePixelTarget);
         }
 
         public override void Unload()
@@ -63,6 +67,7 @@ namespace CalamityMod.Graphics.Primitives
             var afterNPCs = new List<IPixelatedPrimitiveRenderer>();
             var beforeProjectiles = new List<IPixelatedPrimitiveRenderer>();
             var afterProjectiles = new List<IPixelatedPrimitiveRenderer>();
+            var afterPlayers = new List<IPixelatedPrimitiveRenderer>();
 
             // Check every active projectile.
             foreach (Projectile projectile in Main.ActiveProjectiles)
@@ -71,10 +76,11 @@ namespace CalamityMod.Graphics.Primitives
                 if (projectile.ModProjectile != null && projectile.ModProjectile is IPixelatedPrimitiveRenderer pixelPrimitiveProjectile)
                 {
                     var listToUse = pixelPrimitiveProjectile.LayerToRenderTo switch
-                    { 
+                    {
                         PixelationPrimitiveLayer.BeforeNPCs => beforeNPCs,
                         PixelationPrimitiveLayer.AfterNPCs => afterNPCs,
                         PixelationPrimitiveLayer.BeforeProjectiles => beforeProjectiles,
+                        PixelationPrimitiveLayer.AfterPlayers => afterPlayers,
                         _ => afterProjectiles
                     };
                     listToUse.Add(pixelPrimitiveProjectile);
@@ -92,6 +98,7 @@ namespace CalamityMod.Graphics.Primitives
                         PixelationPrimitiveLayer.BeforeNPCs => beforeNPCs,
                         PixelationPrimitiveLayer.AfterNPCs => afterNPCs,
                         PixelationPrimitiveLayer.BeforeProjectiles => beforeProjectiles,
+                        PixelationPrimitiveLayer.AfterPlayers => afterPlayers,
                         _ => afterProjectiles
                     };
                     listToUse.Add(pixelPrimitiveNPC);
@@ -104,6 +111,7 @@ namespace CalamityMod.Graphics.Primitives
             DrawPrimsToRenderTarget(PixelationTarget_AfterNPCs, afterNPCs);
             DrawPrimsToRenderTarget(PixelationTarget_BeforeProjectiles, beforeProjectiles);
             DrawPrimsToRenderTarget(PixelationTarget_AfterProjectiles, afterProjectiles);
+            DrawPrimsToRenderTarget(PixelationTarget_AfterPlayers, afterPlayers);
 
             Main.instance.GraphicsDevice.SetRenderTarget(null);
 
@@ -141,6 +149,12 @@ namespace CalamityMod.Graphics.Primitives
             DrawTargetScaled(PixelationTarget_BeforeProjectiles);
             orig(self);
             DrawTargetScaled(PixelationTarget_AfterProjectiles);
+        }
+
+        private void DrawTarget_Players(On_Main.orig_DrawPlayers_AfterProjectiles orig, Main self)
+        {
+            orig(self);
+            DrawTargetScaled(PixelationTarget_AfterPlayers);
         }
 
         private static void DrawTargetScaled(ManagedRenderTarget target)

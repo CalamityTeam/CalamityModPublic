@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-
-namespace CalamityMod.Graphics.Primitives
+﻿namespace CalamityMod.Graphics.Primitives
 {
     /// <summary>
     /// Controls what layer the <see cref="IPixelatedPrimitiveRenderer.RenderPixelatedPrimitives"/> renders to.
@@ -10,6 +8,7 @@ namespace CalamityMod.Graphics.Primitives
         BeforeNPCs,
         AfterNPCs,
         BeforeProjectiles,
-        AfterProjectiles
+        AfterProjectiles,
+        AfterPlayers
     }
 }
