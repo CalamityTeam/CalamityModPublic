@@ -1565,7 +1565,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
                                         Vector2 rayVelocity = spinningPoint.RotatedBy(radians * k);
-                                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + (rayVelocity).SafeNormalize(Vector2.UnitY) * 16f, rayVelocity, ModContent.ProjectileType<Projectiles.Magic.FabRay>(), 250, 0f, Main.myPlayer);
+                                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + (rayVelocity).SafeNormalize(Vector2.UnitY) * 16f, rayVelocity, ModContent.ProjectileType<Projectiles.Magic.SylvRay>(), 250, 0f, Main.myPlayer);
                                         if (proj.WithinBounds(Main.maxProjectiles))
                                         {
                                             Main.projectile[proj].DamageType = DamageClass.Default;
@@ -2351,7 +2351,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 {
                                     SoundEngine.PlaySound(SoundID.Item60, NPC.Center);
                                     float velocity = 8;
-                                    int type = ModContent.ProjectileType<Projectiles.Magic.FabRay>();
+                                    int type = ModContent.ProjectileType<Projectiles.Magic.SylvRay>();
                                     int damage = (int)(NPC.damage / 3);
                                     Vector2 projectileVelocity = (player.Center - NPC.Center).SafeNormalize(Vector2.UnitY) * velocity;
                                     float rotation = MathHelper.ToRadians(22);

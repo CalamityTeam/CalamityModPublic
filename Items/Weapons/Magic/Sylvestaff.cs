@@ -2,16 +2,17 @@
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Fabstaff : ModItem, ILocalizedModType
+    [LegacyName("Fabstaff")]
+    public class Sylvestaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
+
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;
@@ -36,15 +37,15 @@ namespace CalamityMod.Items.Weapons.Magic
 
             Item.UseSound = SoundID.Item60;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<FabRay>();
+            Item.shoot = ModContent.ProjectileType<SylvRay>();
             Item.shootSpeed = 13.5f;
         }
-
 
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.RainbowRod).
+                AddIngredient(ItemID.GenderChangePotion).
                 AddIngredient<Necroplasm>(10).
                 AddIngredient<ShadowspecBar>(5).
                 AddTile<DraedonsForge>().

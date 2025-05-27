@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 int totalProjectiles = 3;
                 float radians = MathHelper.TwoPi / totalProjectiles;
-                int type = ModContent.ProjectileType<FabRay>();
+                int type = ModContent.ProjectileType<SylvRay>();
                 float velocity = 8f;
                 double angleA = radians * 0.5;
                 double angleB = MathHelper.ToRadians(90f) - angleA;

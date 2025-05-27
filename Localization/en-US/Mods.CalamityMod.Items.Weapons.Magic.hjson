@@ -299,11 +299,6 @@ EvergladeSpray: {
 	Tooltip: Fires a stream of burning green ichor
 }
 
-Fabstaff: {
-	DisplayName: Fabstaff
-	Tooltip: Casts a bouncing beam that splits when enemies are near it
-}
-
 FaceMelter: {
 	DisplayName: Face Melter
 	Tooltip:
@@ -763,6 +758,15 @@ SubsumingVortex: {
 		When enemies are near the vortex, it sends multiple fast-moving smaller vortices towards them
 		Releasing <right> fires the vortex towards the mouse if enough time has passed
 		Damage scales based on how long the vortex was held out
+		'''
+}
+
+Sylvestaff: {
+	DisplayName: Sylvestaff
+	Tooltip:
+		'''
+		Casts a bouncing beam that splits when enemies are near it
+		'Also known as the Karma Staff!'
 		'''
 }
 

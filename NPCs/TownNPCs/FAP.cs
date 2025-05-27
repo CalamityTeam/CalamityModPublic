@@ -951,7 +951,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = ModContent.ProjectileType<FabRay>();
+            projType = ModContent.ProjectileType<SylvRay>();
             attackDelay = 1;
         }
 

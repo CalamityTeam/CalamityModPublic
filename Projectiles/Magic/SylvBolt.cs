@@ -8,15 +8,28 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class FabBolt : ModProjectile, ILocalizedModType
+    public class SylvBolt : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Magic";
+
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
+        /// <summary>
+        ///     How many natural frames have elapsed so far throughout the duration of this bolt's life. Extra updates do not affect this timer.
+        /// </summary>
+        public int Time
+        {
+            get => (int)Projectile.ai[0];
+            set => Projectile.ai[0] = value;
+        }
+
+        /// <summary>
+        ///     Whether this bolt is fading out due to the a collision.
+        /// </summary>
         public bool FadingOut
         {
-            get => Projectile.ai[0] == 1f;
-            set => Projectile.ai[0] = value.ToInt();
+            get => Projectile.ai[1] == 1f;
+            set => Projectile.ai[1] = value.ToInt();
         }
 
         public override void SetStaticDefaults()
@@ -32,7 +45,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.friendly = true;
             Projectile.extraUpdates = 2;
             Projectile.penetrate = 12;
-            Projectile.timeLeft = 90 * Projectile.extraUpdates;
+            Projectile.timeLeft = Projectile.extraUpdates * 90;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.ignoreWater = true;
             Projectile.usesLocalNPCImmunity = true;
@@ -43,36 +56,55 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (FadingOut)
             {
-                Projectile.Opacity = MathHelper.Lerp(Projectile.Opacity, 0f, 0.27f);
-                if (Projectile.Opacity <= 0.05f)
+                Projectile.Opacity = MathHelper.Lerp(Projectile.Opacity, 0f, 0.24f);
+                Projectile.velocity *= 0.81f;
+                Projectile.tileCollide = false;
+                if (Projectile.Opacity <= 0.1f)
                     Projectile.Kill();
             }
             else
                 Projectile.velocity *= 1.004f;
-            Projectile.rotation = Projectile.velocity.ToRotation();
+
+            if (Projectile.FinalExtraUpdate())
+                Time++;
+
+            Projectile.scale = Utils.GetLerpValue(0f, 7f, Time, true);
+
+            CreateMagicDust();
 
             // Emit light.
             Lighting.AddLight(Projectile.Center, Vector3.One * Projectile.Opacity * 0.45f);
         }
 
+        private void CreateMagicDust()
+        {
+            if (Main.rand.NextBool(4))
+            {
+                Dust magic = Dust.NewDustPerfect(Projectile.Center, 264);
+                magic.color = Color.White;
+                magic.scale *= 0.56f;
+                magic.noGravity = true;
+            }
+        }
+
         internal Color ColorFunction(float completionRatio)
         {
-            float fadeToEnd = MathHelper.Lerp(0.25f, 0.5f, (float)Math.Cos(-Main.GlobalTimeWrappedHourly * 3f) * 0.5f + 0.5f);
-            fadeToEnd *= 1f - Utils.GetLerpValue(0.35f, 0f, completionRatio, true);
-            Color endColor = Color.Lerp(Color.Cyan, Color.HotPink, Projectile.identity % 2);
-            return Color.Lerp(Color.White, endColor, fadeToEnd) * Projectile.Opacity * 0.7f;
+            float opacity = (1f - completionRatio) * Projectile.Opacity;
+            return Color.White * opacity;
         }
 
         internal float WidthFunction(float completionRatio)
         {
-            float expansionCompletion = 1f - (float)Math.Pow(1f - Utils.GetLerpValue(0f, 0.2f, completionRatio, true), 2D);
-            return MathHelper.Lerp(0f, 22f, expansionCompletion) * Projectile.Opacity;
+            float tip = 1f - MathF.Pow(1f - Utils.GetLerpValue(0.05f, 0.2f, completionRatio, true), 2f);
+            return tip * Projectile.Opacity * Projectile.scale * 22f;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/FabstaffStreak"));
-            PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f, smoothen: false, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 80);
+            MiscShaderData boltShader = GameShaders.Misc["CalamityMod:SylvestaffProjectile"];
+
+            boltShader.SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/FabstaffStreak"));
+            PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f, smoothen: false, shader: boltShader), 80);
             return false;
         }
 
@@ -81,7 +113,7 @@ namespace CalamityMod.Projectiles.Magic
             if (!FadingOut && Projectile.penetrate < 2)
             {
                 FadingOut = true;
-                Projectile.velocity *= 0.1f;
+                Projectile.velocity *= 0.02f;
                 Projectile.extraUpdates = 0;
                 Projectile.netUpdate = true;
             }
@@ -92,7 +124,7 @@ namespace CalamityMod.Projectiles.Magic
             if (!FadingOut)
             {
                 FadingOut = true;
-                Projectile.velocity *= 0.1f;
+                Projectile.velocity = Vector2.Zero;
                 Projectile.extraUpdates = 0;
                 Projectile.netUpdate = true;
             }

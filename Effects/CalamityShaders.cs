@@ -17,9 +17,9 @@ namespace CalamityMod.Effects
         internal static Effect AstralFogShader;
 
         //
-        // All below shaders created by Dominic Karma
+        // All below shaders created by Lucille Karma
         //
-        #region Dominic's Shaders
+        #region Lucille's Shaders
 
         // The Dance of Light's Blinding Light
         internal static Effect DanceOfLightBlindingShader;
@@ -90,7 +90,7 @@ namespace CalamityMod.Effects
         // Used by Dom's Bladecrest Oathsword. Appears to govern the swing animation.
         internal static Effect LocalLinearTransformationShader;
 
-        // UNUSED -- Probably leftover from Dominic's experiments with applying shaders to primitives (arbitrary GPU-rendered triangles)
+        // UNUSED -- Probably leftover from Lucille's experiments with applying shaders to primitives (arbitrary GPU-rendered triangles)
         internal static Effect BasicPrimitiveShader;
 
         // Artemis Ohio Beam. Also used by get fixed boi Nuclear Terror's "G-FUEL BEAM"
@@ -137,6 +137,9 @@ namespace CalamityMod.Effects
 
         // Used to render the results of Navier-Stokes fluid simulations.
         internal static Effect FluidShaders;
+
+        // Used by projectiles fired by the Sylvestaff.
+        internal static Effect SylvestaffProjectileShader;
         #endregion
 
         //
@@ -243,7 +246,7 @@ namespace CalamityMod.Effects
             var astralPassReg = new AstralScreenShaderData(new Ref<Effect>(AstralFogShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f);
             RegisterSceneFilter(astralPassReg, "Astral", EffectPriority.VeryHigh);
 
-            #region Loading Dominic's Shaders
+            #region Loading Lucille's Shaders
 
             DanceOfLightBlindingShader = LoadShader("LightBurstShader");
             RegisterScreenShader(DanceOfLightBlindingShader, "BurstPass", "LightBurst");
@@ -360,6 +363,9 @@ namespace CalamityMod.Effects
 
             // This shader is not registered with the game but is invoked directly to render the results of fluid simulation.
             FluidShaders = LoadShader("FluidShaders");
+
+            SylvestaffProjectileShader = LoadShader("SylvestaffProjectileShader");
+            RegisterMiscShader(SylvestaffProjectileShader, "TrailPass", "SylvestaffProjectile");
             #endregion
 
             #region Loading Iban's Shaders
