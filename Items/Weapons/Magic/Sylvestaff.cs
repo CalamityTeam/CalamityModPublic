@@ -29,15 +29,16 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
+            Item.channel = true;
+            Item.noUseGraphic = true;
             Item.knockBack = 5f;
 
             Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
             Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
 
-            Item.UseSound = SoundID.Item60;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<SylvRay>();
+            Item.shoot = ModContent.ProjectileType<SylvestaffHoldout>();
             Item.shootSpeed = 13.5f;
         }
 

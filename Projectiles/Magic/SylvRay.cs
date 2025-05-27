@@ -64,12 +64,11 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.FinalExtraUpdate())
                 Time++;
 
-            Lighting.AddLight(Projectile.Center, 0.2f, 0.01f, 0.1f);
             Projectile.Opacity = Utils.GetLerpValue(0f, Projectile.MaxUpdates * 10f, Projectile.timeLeft, true);
             Projectile.scale = Utils.GetLerpValue(1f, 9.5f, Time, true) * Projectile.Opacity;
 
             if (GlowCenter == Vector2.Zero)
-                GlowCenter = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.Zero) * 132f;
+                GlowCenter = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.Zero) * 74f;
 
             CreateGlowyDust();
 

@@ -140,6 +140,9 @@ namespace CalamityMod.Effects
 
         // Used by projectiles fired by the Sylvestaff.
         internal static Effect SylvestaffProjectileShader;
+
+        // Used by the ribbons on the Sylvestaff.
+        internal static Effect SylvestaffRibbonShader;
         #endregion
 
         //
@@ -366,6 +369,9 @@ namespace CalamityMod.Effects
 
             SylvestaffProjectileShader = LoadShader("SylvestaffProjectileShader");
             RegisterMiscShader(SylvestaffProjectileShader, "TrailPass", "SylvestaffProjectile");
+
+            SylvestaffRibbonShader = LoadShader("SylvestaffRibbonShader");
+            RegisterMiscShader(SylvestaffRibbonShader, "AutoloadPass", "SylvestaffRibbon");
             #endregion
 
             #region Loading Iban's Shaders
