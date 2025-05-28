@@ -159,10 +159,7 @@ namespace CalamityMod.Projectiles.Magic
             if (ribbon is not RopeHandle rope)
                 return;
 
-            float wave = MathF.Cos(MathHelper.TwoPi * Time / 120f) * 0.16f;
-
             rope.Start = RibbonAttachPoint;
-            rope.End -= Projectile.velocity * wave;
             rope.Gravity = gravityDirection * 0.15f - Projectile.velocity * 0.4f;
         }
 
@@ -185,7 +182,7 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<SylvRay>(), damage, heldItem.knockBack, Projectile.owner);
 
                     // Apply a minor amount of recoil.
-                    Projectile.velocity -= Projectile.velocity.RotatedBy(Projectile.spriteDirection * MathHelper.PiOver2) * 0.12f;
+                    Projectile.velocity -= Projectile.velocity.RotatedBy(Projectile.spriteDirection * MathHelper.PiOver2) * Sylvestaff.StaffRecoilForce;
                 }
             }
         }

@@ -13,6 +13,21 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
 
+        /// <summary>
+        ///     The amount by which the staff recoils after firing.
+        /// </summary>
+        public static float StaffRecoilForce => 0.13f;
+
+        /// <summary>
+        ///     The rate at which rays from the staff can release bolts.
+        /// </summary>
+        public static int RayBoltShootRate => CalamityUtils.SecondsToFrames(0.065f);
+
+        /// <summary>
+        ///     The distance range that targets need to be within relative to a ray's evaluation points in order to shoot bolts.
+        /// </summary>
+        public static float RayBoltTargetingRange => 272f;
+
         public override void SetStaticDefaults()
         {
             Item.staff[Item.type] = true;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Graphics.Primitives;
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Magic
         /// </summary>
         private void HandleBoltFiring()
         {
-            int shootRate = 3;
+            int shootRate = Sylvestaff.RayBoltShootRate;
             if (Time % shootRate == 0 && Projectile.FinalExtraUpdate())
             {
                 int trailSearchPositions = 13;
@@ -95,11 +95,12 @@ namespace CalamityMod.Projectiles.Magic
         /// </summary>
         private void TryToFireBolt(Vector2 searchPosition, float hue)
         {
-            NPC potentialTarget = searchPosition.ClosestNPCAt(276f, false);
+            NPC potentialTarget = searchPosition.ClosestNPCAt(Sylvestaff.RayBoltTargetingRange, false);
             if (potentialTarget is null)
                 return;
 
-            Vector2 shootVelocity = (potentialTarget.Center - searchPosition).SafeNormalize(Vector2.UnitY) * 13f;
+            float shootSpeed = Projectile.velocity.Length();
+            Vector2 shootVelocity = (potentialTarget.Center - searchPosition).SafeNormalize(Vector2.UnitY) * shootSpeed;
             if (Projectile.owner == Main.myPlayer)
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), searchPosition, shootVelocity, ModContent.ProjectileType<SylvBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner, hue);
 
@@ -210,12 +211,6 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
             return false;
-        }
-
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
-            if (Projectile.hostile)
-                target.AddBuff(ModContent.BuffType<FabsolVodkaBuff>(), 54000);
         }
     }
 }
