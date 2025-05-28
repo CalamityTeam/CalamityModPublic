@@ -244,6 +244,9 @@ namespace CalamityMod.CalPlayer
             if (calamityPlayer.gsInferno && drawInfo.shadow == 0f)
                 GodSlayerInferno.DrawEffects(drawInfo);
 
+            if (calamityPlayer.heavybleeding && drawInfo.shadow == 0f)
+                HeavyBleeding.DrawEffects(drawInfo);
+
             // Holy Flames, Holy Inferno and Banishing Fire share the same visual effects
             if (drawInfo.shadow == 0f && (calamityPlayer.hFlames || calamityPlayer.hInferno || calamityPlayer.banishingFire))
             {

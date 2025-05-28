@@ -1505,3 +1505,8 @@ LiliesOfFinalityBuff: {
 	DisplayName: Finality
 	Description: Remember our promise
 }
+
+HeavyBleeding: {
+	Description: Mods.CalamityMod.Buffs.HeavyBleeding.Description
+	DisplayName: Heavy Bleeding
+}

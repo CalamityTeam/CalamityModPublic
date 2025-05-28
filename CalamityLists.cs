@@ -837,7 +837,7 @@ namespace CalamityMod
                 ProjectileType<DaemonsFlameBow>(),
                 ProjectileType<DrataliornusBow>(),
                 ProjectileType<FlakKrakenHoldout>(),
-                ProjectileType<ButcherGun>(),
+                ProjectileType<BuzzkillHoldout>(),
                 ProjectileType<StarfleetMK2Gun>(),
                 ProjectileType<NorfleetCannon>(),
                 ProjectileType<FlurrystormCannonShooting>(),

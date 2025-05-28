@@ -879,6 +879,7 @@ namespace CalamityMod.CalPlayer
         public bool gState = false;
         public bool bBlood = false;
         public bool brainRot = false;
+        public bool heavybleeding = false;
         public bool elementalMix = false;
         public bool icarusFolly = false;
         public bool weakPetrification = false;
@@ -1933,6 +1934,7 @@ namespace CalamityMod.CalPlayer
             gState = false;
             bBlood = false;
             brainRot = false;
+            heavybleeding = false;
             elementalMix = false;
             icarusFolly = false;
             vHex = false;
@@ -2355,6 +2357,7 @@ namespace CalamityMod.CalPlayer
             gState = false;
             bBlood = false;
             brainRot = false;
+            heavybleeding = false;
             elementalMix = false;
             icarusFolly = false;
             vHex = false;

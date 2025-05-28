@@ -211,12 +211,14 @@ BulletFilledShotgun: {
 		'''
 }
 
-Butcher: {
-	DisplayName: Butcher
+Buzzkill: {
+	DisplayName: Buzzkill
 	Tooltip:
 		'''
-		Fires bullets faster and more accurately the longer you hold the trigger
-		25% chance to save ammo
+		Hold <left> to rev up a buzzsaw that deals close-range damage
+		Release to fire the buzzsaw, which bounces off tiles and lacerates foes
+		Revving up the saws increases their damage and allows them to pierce more enemies
+		'Not to be confused with the Sawed-On Shotgun'
 		'''
 }
 
