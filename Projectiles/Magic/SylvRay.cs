@@ -70,51 +70,48 @@ namespace CalamityMod.Projectiles.Magic
             if (GlowCenter == Vector2.Zero)
                 GlowCenter = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.Zero) * 74f;
 
+            HandleBoltFiring();
             CreateGlowyDust();
 
-            int shootRate = 12 / Projectile.MaxUpdates;
-            if (Projectile.owner == Main.myPlayer && Time % shootRate == 0 && Projectile.FinalExtraUpdate())
+            Lighting.AddLight(Projectile.Center, Vector3.One * Projectile.Opacity * 0.7f);
+        }
+
+        /// <summary>
+        ///     Handles the firing of bolts across this ray.
+        /// </summary>
+        private void HandleBoltFiring()
+        {
+            int shootRate = 3;
+            if (Time % shootRate == 0 && Projectile.FinalExtraUpdate())
             {
-                NPC potentialTarget = Projectile.Center.ClosestNPCAt(180f, false);
-                if (potentialTarget != null)
-                {
-                    Vector2 shootVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 13f;
-                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<SylvBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    if (p.WithinBounds(Main.maxProjectiles))
-                    {
-                        if (Projectile.hostile)
-                        {
-                            Main.projectile[p].hostile = true;
-                            Main.projectile[p].friendly = false;
-                            Main.projectile[p].DamageType = DamageClass.Default;
-                        }
-                    }
-                }
-
-                for (int i = 0; i < Projectile.oldPos.Length / 4; i += 3)
-                {
-                    potentialTarget = Projectile.oldPos[i].ClosestNPCAt(280f, false);
-                    if (potentialTarget != null)
-                    {
-                        Vector2 shootVelocity = (potentialTarget.Center - Projectile.oldPos[i]).SafeNormalize(Vector2.UnitY) * 13f;
-                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPos[i], shootVelocity, ModContent.ProjectileType<SylvBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        if (p.WithinBounds(Main.maxProjectiles))
-                        {
-                            if (Projectile.hostile)
-                            {
-                                Main.projectile[p].hostile = true;
-                                Main.projectile[p].friendly = false;
-                                Main.projectile[p].DamageType = DamageClass.Default;
-                            }
-                        }
-                        break;
-                    }
-                }
+                int trailSearchPositions = 13;
+                for (int i = 0; i < trailSearchPositions; i += 3)
+                    TryToFireBolt(Projectile.oldPos[i] + Projectile.Size * 0.5f, i / (float)trailSearchPositions);
             }
+        }
 
-            // Emit light.
-            if (!Projectile.hostile)
-                Lighting.AddLight(Projectile.Center, Vector3.One * Projectile.Opacity * 0.7f);
+        /// <summary>
+        ///     Attempts to fire a given bolt projectile from a given position at the closest enemy to said position, assuming one exists.
+        /// </summary>
+        private void TryToFireBolt(Vector2 searchPosition, float hue)
+        {
+            NPC potentialTarget = searchPosition.ClosestNPCAt(276f, false);
+            if (potentialTarget is null)
+                return;
+
+            Vector2 shootVelocity = (potentialTarget.Center - searchPosition).SafeNormalize(Vector2.UnitY) * 13f;
+            if (Projectile.owner == Main.myPlayer)
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), searchPosition, shootVelocity, ModContent.ProjectileType<SylvBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner, hue);
+
+            float burstSpeed = Main.rand.NextFloat(1f, 3f);
+            for (int i = 0; i < 4; i++)
+            {
+                Dust magicBurst = Dust.NewDustPerfect(searchPosition, 264);
+                magicBurst.velocity = Projectile.velocity.RotatedBy(MathHelper.TwoPi * i / 4f + MathHelper.PiOver4).SafeNormalize(Vector2.Zero) * burstSpeed;
+                magicBurst.color = Color.White;
+                magicBurst.noLight = true;
+                magicBurst.noGravity = true;
+            }
         }
 
         /// <summary>
@@ -135,6 +132,9 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
+        /// <summary>
+        ///     The function responsible for dictating the color of this ray.
+        /// </summary>
         internal Color ColorFunction(float completionRatio)
         {
             float opacity = MathF.Pow(Utils.GetLerpValue(1f, 0.64f, completionRatio, true), 3f) * Projectile.Opacity;
@@ -147,6 +147,9 @@ namespace CalamityMod.Projectiles.Magic
             return baseColor * opacity;
         }
 
+        /// <summary>
+        ///     The function responsible for dictating the width of this ray.
+        /// </summary>
         internal float WidthFunction(float completionRatio)
         {
             float expansionCompletion = 1f - (float)Math.Pow(1f - Utils.GetLerpValue(0f, 0.3f, completionRatio, true), 2D);
@@ -156,9 +159,15 @@ namespace CalamityMod.Projectiles.Magic
             return MathHelper.Lerp(0f, Projectile.scale * maxWidth, expansionCompletion);
         }
 
+        /// <summary>
+        ///     The function responsible for dictating the render offset of this ray.
+        /// </summary>
         internal Vector2 OffsetFunction(float completionRatio) => Projectile.Size * 0.5f;
 
-        private void RenderGlow()
+        /// <summary>
+        ///     Renders the front-glow for this ray, to help make it look like it has a defined origin of concentrated magic.
+        /// </summary>
+        private void RenderFrontGlow()
         {
             float glowAnimationProgress = Utils.GetLerpValue(0f, 9.5f, Time, true);
             float glowBump = CalamityUtils.Convert01To010(glowAnimationProgress);
@@ -173,11 +182,11 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            RenderGlow();
+            RenderFrontGlow();
 
             MiscShaderData rayShader = GameShaders.Misc["CalamityMod:SylvestaffProjectile"];
-
             rayShader.SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
+
             PrimitiveRenderer.RenderTrail(Projectile.oldPos, new PrimitiveSettings(WidthFunction, ColorFunction, OffsetFunction, pixelate: false, shader: rayShader), 32);
             return false;
         }

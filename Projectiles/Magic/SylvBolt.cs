@@ -15,21 +15,26 @@ namespace CalamityMod.Projectiles.Magic
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         /// <summary>
+        ///     The color hue interpolant for this bolt.
+        /// </summary>
+        public ref float HueInterpolant => ref Projectile.ai[0];
+
+        /// <summary>
         ///     How many natural frames have elapsed so far throughout the duration of this bolt's life. Extra updates do not affect this timer.
         /// </summary>
         public int Time
         {
-            get => (int)Projectile.ai[0];
-            set => Projectile.ai[0] = value;
+            get => (int)Projectile.ai[1];
+            set => Projectile.ai[1] = value;
         }
 
         /// <summary>
-        ///     Whether this bolt is fading out due to the a collision.
+        ///     Whether this bolt is vanishing due to the a collision.
         /// </summary>
-        public bool FadingOut
+        public bool Vanishing
         {
-            get => Projectile.ai[1] == 1f;
-            set => Projectile.ai[1] = value.ToInt();
+            get => Projectile.ai[2] == 1f;
+            set => Projectile.ai[2] = value.ToInt();
         }
 
         public override void SetStaticDefaults()
@@ -54,16 +59,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            if (FadingOut)
-            {
-                Projectile.Opacity = MathHelper.Lerp(Projectile.Opacity, 0f, 0.24f);
-                Projectile.velocity *= 0.81f;
-                Projectile.tileCollide = false;
-                if (Projectile.Opacity <= 0.1f)
-                    Projectile.Kill();
-            }
-            else
-                Projectile.velocity *= 1.004f;
+            Projectile.velocity *= 1.004f;
+            if (Vanishing)
+                Vanish();
 
             if (Projectile.FinalExtraUpdate())
                 Time++;
@@ -76,26 +74,47 @@ namespace CalamityMod.Projectiles.Magic
             Lighting.AddLight(Projectile.Center, Vector3.One * Projectile.Opacity * 0.45f);
         }
 
+        /// <summary>
+        ///     Makes this bolt vanish.
+        /// </summary>
+        private void Vanish()
+        {
+            Projectile.Opacity = MathHelper.Lerp(Projectile.Opacity, 0f, 0.24f);
+            Projectile.velocity = Vector2.Zero;
+            Projectile.tileCollide = false;
+            if (Projectile.Opacity <= 0.1f)
+                Projectile.Kill();
+        }
+
+        /// <summary>
+        ///     Idly emits magic dust off this bolt.
+        /// </summary>
         private void CreateMagicDust()
         {
             if (Main.rand.NextBool(4))
             {
                 Dust magic = Dust.NewDustPerfect(Projectile.Center, 264);
-                magic.color = Color.White;
+                magic.color = ColorFunction(0f);
                 magic.scale *= 0.56f;
                 magic.noGravity = true;
             }
         }
 
+        /// <summary>
+        ///     The function responsible for dictating the color of this bolt.
+        /// </summary>
         internal Color ColorFunction(float completionRatio)
         {
             float opacity = (1f - completionRatio) * Projectile.Opacity;
-            return Color.White * opacity;
+            return CalamityUtils.MulticolorLerp(HueInterpolant, new Color(255, 193, 255), Color.White, new Color(127, 242, 255)) * opacity;
         }
 
+        /// <summary>
+        ///     The function responsible for dictating the width of this bolt.
+        /// </summary>
         internal float WidthFunction(float completionRatio)
         {
-            float tip = 1f - MathF.Pow(1f - Utils.GetLerpValue(0.05f, 0.2f, completionRatio, true), 2f);
+            float tip = 1f - MathF.Pow(1f - Utils.GetLerpValue(0.05f, 0.2f, completionRatio * Projectile.Opacity, true), 2f);
             return tip * Projectile.Opacity * Projectile.scale * 22f;
         }
 
@@ -110,9 +129,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (!FadingOut && Projectile.penetrate < 2)
+            if (!Vanishing && Projectile.penetrate < 2)
             {
-                FadingOut = true;
+                Vanishing = true;
                 Projectile.velocity *= 0.02f;
                 Projectile.extraUpdates = 0;
                 Projectile.netUpdate = true;
@@ -121,9 +140,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (!FadingOut)
+            if (!Vanishing)
             {
-                FadingOut = true;
+                Vanishing = true;
                 Projectile.velocity = Vector2.Zero;
                 Projectile.extraUpdates = 0;
                 Projectile.netUpdate = true;
@@ -133,7 +152,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool? CanDamage()
         {
-            if (FadingOut)
+            if (Vanishing)
                 return false;
             return null;
         }

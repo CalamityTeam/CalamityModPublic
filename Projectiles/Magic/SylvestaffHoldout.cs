@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         /// <summary>
-        ///     
+        ///     Handles all logic pertaining to making this staff act as a holdout projectile.
         /// </summary>
         private void HandleHoldoutLogic()
         {
@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Magic
                 return;
 
             Vector2 idealDirection = Projectile.SafeDirectionTo(Main.MouseWorld);
-            Vector2 newDirection = Vector2.Lerp(Projectile.velocity, idealDirection, 0.2f).SafeNormalize(Vector2.UnitX * Owner.direction);
+            Vector2 newDirection = Vector2.Lerp(Projectile.velocity, idealDirection, 0.3f).SafeNormalize(Vector2.UnitX * Owner.direction);
             if (Projectile.velocity != newDirection)
             {
                 Projectile.velocity = newDirection;
@@ -185,7 +185,7 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<SylvRay>(), damage, heldItem.knockBack, Projectile.owner);
 
                     // Apply a minor amount of recoil.
-                    Projectile.velocity -= Projectile.velocity.RotatedBy(Projectile.spriteDirection * MathHelper.PiOver2) * 0.05f;
+                    Projectile.velocity -= Projectile.velocity.RotatedBy(Projectile.spriteDirection * MathHelper.PiOver2) * 0.12f;
                 }
             }
         }
@@ -196,16 +196,23 @@ namespace CalamityMod.Projectiles.Magic
             RenderRibbon(RightRibbon, 1);
         }
 
-        private float RibbonWidthFunction(float completionRatio) => Projectile.scale * 4.5f;
+        /// <summary>
+        ///     The function responsible for dictating the width of this staff's ribbons.
+        /// </summary>
+        private float RibbonWidthFunction(float completionRatio) => Projectile.scale * 4.3f;
 
+        /// <summary>
+        ///     The function responsible for dictating the color of this staff's ribbons.
+        /// </summary>
         private Color RibbonColorFunction(float completionRatio)
         {
             Color light = Lighting.GetColor(RibbonAttachPoint.ToTileCoordinates());
-            return Projectile.GetAlpha(new Color(232, 229, 245).MultiplyRGBA(light));
+            return Projectile.GetAlpha(light);
         }
 
-        private Vector2 RibbonOffsetFunction(float completionRatio) => Vector2.Zero;
-
+        /// <summary>
+        ///     Renders one of this staff's ribbons.
+        /// </summary>
         private void RenderRibbon(RopeHandle? ribbon, int direction)
         {
             // Ensure that the handle is properly initialized before any proceeding further.
@@ -230,7 +237,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             MiscShaderData ribbonShader = GameShaders.Misc["CalamityMod:SylvestaffRibbon"];
-            PrimitiveSettings primitiveSettings = new PrimitiveSettings(RibbonWidthFunction, RibbonColorFunction, RibbonOffsetFunction, pixelate: true, shader: ribbonShader);
+            PrimitiveSettings primitiveSettings = new PrimitiveSettings(RibbonWidthFunction, RibbonColorFunction, pixelate: true, shader: ribbonShader);
             PrimitiveRenderer.RenderTrail(ribbonPositions, primitiveSettings, 33);
         }
 
