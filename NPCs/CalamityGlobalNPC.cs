@@ -1512,8 +1512,8 @@ namespace CalamityMod.NPCs
         #region Vulnerabilities and Resistances
         private void VulnerabilitiesAndResistances(NPC npc)
         {
-            // These enemies are categorized in such a way to make them easy to understand.
-            // Do not mess with these categories unless you ask me for permission - Fab.
+            // These enemies are categorized in such a way to make them easy to understand
+            // Regroup these if necessary, reminder to keep it comprehensive
             switch (npc.type)
             {
                 // Regular organic desert enemies.
@@ -5993,17 +5993,6 @@ namespace CalamityMod.NPCs
                 maxSpawns = (int)(maxSpawns * 5f);
             }
 
-            // This is horribly unoptimized, I'm leaving it commented out. - Fab
-            /*if (NPC.AnyNPCs(NPCType<WulfrumAmplifier>()))
-            {
-                int otherWulfrumEnemies = NPC.CountNPCS(NPCType<WulfrumDrone>()) + NPC.CountNPCS(NPCType<WulfrumGyrator>()) + NPC.CountNPCS(NPCType<WulfrumHovercraft>()) + NPC.CountNPCS(NPCType<WulfrumRover>());
-                if (otherWulfrumEnemies < 4)
-                {
-                    spawnRate = (int)(spawnRate * 0.8);
-                    maxSpawns = (int)(maxSpawns * 1.2f);
-                }
-            }*/
-
             // Reductions
             if (Main.SceneMetrics.PeaceCandleCount > 0)
             {
@@ -6171,8 +6160,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            // 12JUL2023: Ozzatron: what does this do
-            // 27SEP2023: Fabsol: disables vanilla spawns "a pool of [0] indicates vanilla spawning"
+            // Disable vanilla spawns while in the Brimstone Crag
             if (calamityBiomeZone)
             {
                 pool[0] = 0f;

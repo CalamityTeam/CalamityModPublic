@@ -4167,10 +4167,6 @@ namespace CalamityMod.CalPlayer
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus1");
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus2");
                     }
-
-                    // 31OCT2024: Fabsol: Plushie message always appears.
-                    // 11FEB2024: Fabsol: Currently commented out because the campaign has ended.
-                    // CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.GimmeSwagPlushieCampaign");
                 }
 
                 --startMessageDisplayDelay;

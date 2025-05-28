@@ -242,7 +242,6 @@ namespace CalamityMod.Events
                     if (inNaturalSeaPosition && player.Calamity().ZoneSulphur)
                     {
                         // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
-                        // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
                         HasStartedAcidicDownpour = true;
                         CalamityNetcode.SyncWorld();
                         break;

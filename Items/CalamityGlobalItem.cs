@@ -934,7 +934,6 @@ namespace CalamityMod.Items
         // 10%  charge = 83% damage
         // 0%   charge = 41.33% damage
         //
-        // Fabsol - I changed this formula because it was bad and confusing, and I had promised to do so a while ago.
         internal float ChargeDamageFormula()
         {
             float x = MathHelper.Clamp(ChargeRatio, 0f, 1f);
