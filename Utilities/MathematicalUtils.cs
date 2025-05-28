@@ -221,7 +221,7 @@ namespace CalamityMod
         public static int DirectionalSign(this float x) => (x > 0f).ToDirectionInt();
 
         /// <summary>
-        ///     Approximates the derivative of a function at a given point based on a 
+        ///     Approximates the derivative of a function at a given point based on a central-difference formula.
         /// </summary>
         /// <param name="fx">The function to take the derivative of.</param>
         /// <param name="x">The value to evaluate the derivative at.</param>
