@@ -5,6 +5,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,6 +30,16 @@ namespace CalamityMod.Items.Weapons.Magic
         ///     The distance range that targets need to be within relative to a ray's evaluation points in order to shoot bolts.
         /// </summary>
         public static float RayBoltTargetingRange => 272f;
+
+        /// <summary>
+        ///     The sound played when Sylvestaff rays are fired.
+        /// </summary>
+        public static readonly SoundStyle FireSound = new SoundStyle("CalamityMod/Sounds/Item/SylvestaffFire", 3) with { MaxInstances = 5 };
+
+        /// <summary>
+        ///     The sound played when Sylvestaff rays bounce off of tiles.
+        /// </summary>
+        public static readonly SoundStyle BounceSound = new SoundStyle("CalamityMod/Sounds/Item/SylvestaffProjectileBounce", 3) with { MaxInstances = 5 };
 
         public override string Texture
         {

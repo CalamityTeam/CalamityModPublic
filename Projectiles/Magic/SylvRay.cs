@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -98,6 +99,8 @@ namespace CalamityMod.Projectiles.Magic
             NPC potentialTarget = searchPosition.ClosestNPCAt(Sylvestaff.RayBoltTargetingRange, false);
             if (potentialTarget is null)
                 return;
+
+            SoundEngine.PlaySound(Sylvestaff.BounceSound with { MaxInstances = 12, Volume = 0.4f, Pitch = 0.4f }, Projectile.Center);
 
             float shootSpeed = Projectile.velocity.Length();
             Vector2 shootVelocity = (potentialTarget.Center - searchPosition).SafeNormalize(Vector2.UnitY) * shootSpeed;
@@ -201,14 +204,12 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
             {
+                SoundEngine.PlaySound(Sylvestaff.BounceSound, Projectile.Center);
+
                 if (Projectile.velocity.X != oldVelocity.X)
-                {
                     Projectile.velocity.X = -oldVelocity.X;
-                }
                 if (Projectile.velocity.Y != oldVelocity.Y)
-                {
                     Projectile.velocity.Y = -oldVelocity.Y;
-                }
             }
             return false;
         }

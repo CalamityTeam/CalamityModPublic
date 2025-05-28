@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -105,7 +104,7 @@ namespace CalamityMod.Projectiles.Magic
         /// </summary>
         private void HandleHoldoutLogic()
         {
-            Vector2 center = Owner.MountedCenter + Vector2.UnitY * 7f + Projectile.velocity * Projectile.width * 0.87f;
+            Vector2 center = Owner.MountedCenter + Vector2.UnitY * 7f + Projectile.velocity * Projectile.width * 0.37f;
 
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.Center = Owner.RotatedRelativePoint(center) - Vector2.UnitY * Owner.gfxOffY;
@@ -174,7 +173,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Time % heldItem.useAnimation == 0)
             {
-                SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
+                SoundEngine.PlaySound(Sylvestaff.FireSound, Projectile.Center);
                 if (Main.myPlayer == Projectile.owner)
                 {
                     int damage = Owner.GetWeaponDamage(heldItem);
