@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Magic
         /// </summary>
         internal float WidthFunction(float completionRatio)
         {
-            float expansionCompletion = 1f - (float)Math.Pow(1f - Utils.GetLerpValue(0f, 0.3f, completionRatio, true), 2D);
+            float expansionCompletion = 1f - MathF.Pow(1f - Utils.GetLerpValue(0f, 0.3f, completionRatio, true), 2f);
             float undulation = MathF.Cos(MathHelper.Pi * completionRatio * 5f - Main.GlobalTimeWrappedHourly * 23f) * 2.4f;
             float maxWidth = undulation + 32f;
 
