@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Magic
         /// </summary>
         private void UpdateRibbon(RopeHandle? ribbon, Vector2 gravityDirection)
         {
-            // Ensure that the handle is properly initialized before any proceeding further.
+            // Ensure that the handle is properly initialized before proceeding any further.
             if (ribbon is not RopeHandle rope)
                 return;
 
@@ -212,7 +212,7 @@ namespace CalamityMod.Projectiles.Magic
         /// </summary>
         private void RenderRibbon(RopeHandle? ribbon, int direction, bool backLayer)
         {
-            // Ensure that the handle is properly initialized before any proceeding further.
+            // Ensure that the handle is properly initialized before proceeding any further.
             if (ribbon is not RopeHandle rope)
                 return;
 

@@ -41,8 +41,6 @@ VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
     return output;
 }
 
-// The X coordinate is the trail completion, the Y coordinate is the same as any other.
-// This is simply how the primitive TextCoord is layed out in the C# code.
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
     float4 color = input.Color;
@@ -53,10 +51,16 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     
     float bump = sin(coords.y * 3.141);
     
+    // Calculate the amount of additive glow for this pixel, using a combination of a scrolling texture and an extreme
+    // exponential squash of the prior 0-1-0 bump, creating a "center" to the glow and ensuring that the
+    // ray doesn't look like just a scrolling gradient.
     float streakColor = tex2D(uImage1, coords + float2(uTime * -2.75, 0));
     float glow = streakColor.r + pow(bump, 20) * 0.4;
     
+    // Determine opacity based on a weaker exponential squash of the bump in order to create faded horizontal edges.
     float opacity = pow(bump, 5);
+    
+    // Apply glow.
     opacity += glow * opacity;
     
     return color * opacity;

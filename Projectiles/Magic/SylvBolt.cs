@@ -150,11 +150,6 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override bool? CanDamage()
-        {
-            if (Vanishing)
-                return false;
-            return null;
-        }
+        public override bool? CanDamage() => !Vanishing;
     }
 }
