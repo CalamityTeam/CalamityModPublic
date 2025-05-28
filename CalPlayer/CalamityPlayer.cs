@@ -1654,7 +1654,6 @@ namespace CalamityMod.CalPlayer
             shadowSpeed = false;
             dsSetBonus = false;
             wearingRogueArmor = false;
-            cirrusDress = false;
 
             blockAllDashes = false;
             blazingCursorDamage = false;

@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.noMelee = true;
 
-            Item.shoot = ModContent.ProjectileType<AzathothYoyo>();
+            Item.shoot = ModContent.ProjectileType<OzzathothYoyo>();
             Item.shootSpeed = 16f;
 
             Item.autoReuse = true;

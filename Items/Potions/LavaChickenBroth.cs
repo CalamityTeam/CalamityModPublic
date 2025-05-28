@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Potions
 {
     [LegacyName("Fabsoup")]
-    public class PotofPain : ModItem, ILocalizedModType
+    public class LavaChickenBroth : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Potions";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/SoupConsumption");
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Potions
 
         public override void UseItemFrame(Player player)
         {
-            int time = CalamityUtils.SecondsToFrames(1800); // 30 minutes
+            int time = CalamityUtils.SecondsToFrames(1525); // 25 minutes, 25 seconds
             if (player.itemAnimation == 180)
             {
                 player.AddBuff(BuffID.WellFed3, time);
