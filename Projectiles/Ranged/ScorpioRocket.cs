@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Time >= TimeToLaunch)
             {
                 // 29FEB2024: Ozzatron: hopefully ported this correctly to the new prim system by Toasty
-                GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/Trails/FabstaffStreak"));
+                GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/Trails/SylvestaffStreak"));
                 PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(TrailWidthFunction, TrailColorFunction, (_) => Projectile.Size * 0.5f, smoothen: false, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 25);
             }
 

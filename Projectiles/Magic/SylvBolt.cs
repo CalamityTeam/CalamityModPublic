@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             MiscShaderData boltShader = GameShaders.Misc["CalamityMod:SylvestaffProjectile"];
 
-            boltShader.SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/FabstaffStreak"));
+            boltShader.SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/SylvestaffStreak"));
             PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(WidthFunction, ColorFunction, (_) => Projectile.Size * 0.5f, smoothen: false, shader: boltShader), 80);
             return false;
         }
