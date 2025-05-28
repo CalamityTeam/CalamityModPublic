@@ -2,6 +2,8 @@
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,12 +23,23 @@ namespace CalamityMod.Items.Weapons.Magic
         /// <summary>
         ///     The rate at which rays from the staff can release bolts.
         /// </summary>
-        public static int RayBoltShootRate => CalamityUtils.SecondsToFrames(0.065f);
+        public static int RayBoltShootRate => CalamityUtils.SecondsToFrames(0.0667f);
 
         /// <summary>
         ///     The distance range that targets need to be within relative to a ray's evaluation points in order to shoot bolts.
         /// </summary>
         public static float RayBoltTargetingRange => 272f;
+
+        public override string Texture
+        {
+            get
+            {
+                if (WorldGen.SavedOreTiers.Gold == TileID.Gold || Main.gameMenu)
+                    return "CalamityMod/Items/Weapons/Magic/SylvestaffGold";
+
+                return "CalamityMod/Items/Weapons/Magic/SylvestaffPlatinum";
+            }
+        }
 
         public override void SetStaticDefaults()
         {
@@ -62,10 +75,25 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient(ItemID.RainbowRod).
                 AddIngredient(ItemID.GenderChangePotion).
+                AddRecipeGroup("AnyGoldBar", 5).
                 AddIngredient<Necroplasm>(10).
                 AddIngredient<ShadowspecBar>(5).
                 AddTile<DraedonsForge>().
                 Register();
+        }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            spriteBatch.Draw(texture, position, frame, drawColor, 0f, origin, scale, SpriteEffects.None, 0);
+            return false;
+        }
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            spriteBatch.Draw(texture, Item.position - Main.screenPosition, null, lightColor, 0f, Vector2.Zero, scale, SpriteEffects.None, 0);
+            return false;
         }
     }
 }

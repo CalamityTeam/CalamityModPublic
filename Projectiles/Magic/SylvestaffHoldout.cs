@@ -47,13 +47,13 @@ namespace CalamityMod.Projectiles.Magic
         /// <summary>
         ///     The length of ribbons attached to this staff.
         /// </summary>
-        private static float RibbonLength => 100f;
+        private static float RibbonLength => 70f;
 
-        public override string Texture => "CalamityMod/Items/Weapons/Magic/Sylvestaff";
+        public override string Texture => ModContent.GetInstance<Sylvestaff>().Texture;
 
         public override void SetDefaults()
         {
-            Projectile.width = Projectile.height = 84;
+            Projectile.width = Projectile.height = 94;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.DamageType = DamageClass.Magic;
@@ -196,7 +196,7 @@ namespace CalamityMod.Projectiles.Magic
         /// <summary>
         ///     The function responsible for dictating the width of this staff's ribbons.
         /// </summary>
-        private float RibbonWidthFunction(float completionRatio) => Projectile.scale * 4.3f;
+        private float RibbonWidthFunction(float completionRatio) => Projectile.scale * Utils.GetLerpValue(0f, 0.2f, completionRatio, true) * 3.6f;
 
         /// <summary>
         ///     The function responsible for dictating the color of this staff's ribbons.
@@ -240,7 +240,11 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            return true;
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            SpriteEffects direction = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Main.spriteBatch.Draw(texture, drawPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, direction, 0f);
+            return false;
         }
 
         public override void OnKill(int timeLeft)
