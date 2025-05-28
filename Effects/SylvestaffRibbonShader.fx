@@ -1,6 +1,8 @@
 sampler noiseTextureA : register(s1);
 
 float pixelationFactor;
+float uSaturation;
+float4 uShaderSpecificData;
 matrix uWorldViewProjection;
 
 struct VertexShaderInput
@@ -69,6 +71,10 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     float horizontalDistanceFromCenter = distance(coords.y, 0.5);
     color = lerp(color, outlineColor, horizontalDistanceFromCenter >= 0.3);
     color = lerp(color, outlineColor, erasePixelInterpolant >= -0.02);
+    
+    float permittedDirection = sign(uSaturation);
+    float direction = sign(dot(input.Position.xy - uShaderSpecificData.xy, uShaderSpecificData.zw));
+    erasePixelInterpolant *= direction == permittedDirection || coords.x < 0.5;
     
     return color * (erasePixelInterpolant < 0) * input.Color;
 }

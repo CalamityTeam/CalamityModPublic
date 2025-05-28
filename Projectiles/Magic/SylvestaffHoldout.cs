@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SylvestaffHoldout : ModProjectile, IPixelatedPrimitiveRenderer
     {
-        public PixelationPrimitiveLayer LayerToRenderTo => PixelationPrimitiveLayer.AfterPlayers;
+        public PixelationPrimitiveLayer LayerToRenderTo => PixelationPrimitiveLayer.BeforeProjectiles | PixelationPrimitiveLayer.AfterPlayers;
 
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<Sylvestaff>();
 
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Magic
         /// </summary>
         private void HandleHoldoutLogic()
         {
-            Vector2 center = Owner.MountedCenter + Vector2.UnitY * 7f + Projectile.velocity * Projectile.width * 0.37f;
+            Vector2 center = Owner.MountedCenter + Vector2.UnitY * 7f + Projectile.velocity * Projectile.width * 0.87f;
 
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.Center = Owner.RotatedRelativePoint(center) - Vector2.UnitY * Owner.gfxOffY;
@@ -187,10 +187,11 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public void RenderPixelatedPrimitives(SpriteBatch spriteBatch)
+        public void RenderPixelatedPrimitives(SpriteBatch spriteBatch, PixelationPrimitiveLayer layer)
         {
-            RenderRibbon(LeftRibbon, -1);
-            RenderRibbon(RightRibbon, 1);
+            bool backLayer = layer == PixelationPrimitiveLayer.BeforeProjectiles;
+            RenderRibbon(LeftRibbon, -1, backLayer);
+            RenderRibbon(RightRibbon, 1, backLayer);
         }
 
         /// <summary>
@@ -210,7 +211,7 @@ namespace CalamityMod.Projectiles.Magic
         /// <summary>
         ///     Renders one of this staff's ribbons.
         /// </summary>
-        private void RenderRibbon(RopeHandle? ribbon, int direction)
+        private void RenderRibbon(RopeHandle? ribbon, int direction, bool backLayer)
         {
             // Ensure that the handle is properly initialized before any proceeding further.
             if (ribbon is not RopeHandle rope)
@@ -233,7 +234,11 @@ namespace CalamityMod.Projectiles.Magic
                 ribbonPositions[i] = Vector2.Lerp(ribbonPositions[i], rigidPosition, 0.76f);
             }
 
+            Vector2 intersectionPosition = Vector2.Transform((Projectile.Center - Main.screenPosition) * 0.5f, Main.GameViewMatrix.TransformationMatrix);
             MiscShaderData ribbonShader = GameShaders.Misc["CalamityMod:SylvestaffRibbon"];
+            ribbonShader.UseShaderSpecificData(new Vector4(intersectionPosition.X, intersectionPosition.Y, sideDirection.X, sideDirection.Y));
+            ribbonShader.UseSaturation(backLayer ? -1f : 1f);
+
             PrimitiveSettings primitiveSettings = new PrimitiveSettings(RibbonWidthFunction, RibbonColorFunction, pixelate: true, shader: ribbonShader);
             PrimitiveRenderer.RenderTrail(ribbonPositions, primitiveSettings, 33);
         }

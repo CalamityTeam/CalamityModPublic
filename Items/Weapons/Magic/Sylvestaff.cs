@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
         /// <summary>
         ///     The amount by which the staff recoils after firing.
         /// </summary>
-        public static float StaffRecoilForce => 0.13f;
+        public static float StaffRecoilForce => 0.04f;
 
         /// <summary>
         ///     The rate at which rays from the staff can release bolts.
