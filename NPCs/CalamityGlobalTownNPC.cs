@@ -1134,8 +1134,7 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.GoblinTinkerer)
             {
-                shop.AddWithCustomValue(ItemID.StinkPotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnoughToSellPylons)
-                .Add(ItemType<StatMeter>())
+                shop.Add(ItemType<StatMeter>())
                 .AddWithCustomValue(ItemID.Spaghetti, Item.buyPrice(gold: 5), Condition.HappyEnoughToSellPylons, Condition.DownedSkeletron);
             }
 
