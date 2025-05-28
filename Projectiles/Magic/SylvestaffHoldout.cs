@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Magic
         /// </summary>
         private void HandleHoldoutLogic()
         {
-            Vector2 center = Owner.MountedCenter + Vector2.UnitY * 7f + Projectile.velocity * Projectile.width * 0.37f;
+            Vector2 center = Owner.MountedCenter + Vector2.UnitY * 7f + Projectile.velocity * Projectile.width * 0.31f;
 
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.Center = Owner.RotatedRelativePoint(center) - Vector2.UnitY * Owner.gfxOffY;
