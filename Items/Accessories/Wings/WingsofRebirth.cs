@@ -55,14 +55,21 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             if (player.controlJump && player.wingTime > 0 && player.velocity.Y != 0)
             {
-                int frameRate = 5;
-                int maxFrames = 8;
+                int frameRate = 5; // FPS
+                int maxFrames = 9; // Total frames
                 player.wingFrameCounter++;
-                if (player.wingFrameCounter >= frameRate * (maxFrames - 1))
+                // Start flight animation with frame 7
+                if (player.wingFrame == 0)
+                {
+                    player.wingFrame = 7;
+                }
+                // Reset frames
+                if (player.wingFrame >= maxFrames)
                 {
                     player.wingFrameCounter = 0;
-                    player.wingFrame = 0;
+                    player.wingFrame = 1;
                 }
+                // Animation
                 if (player.wingFrameCounter % frameRate == 0)
                 {
                     player.wingFrame++;
@@ -71,12 +78,12 @@ namespace CalamityMod.Items.Accessories.Wings
             else
             {
                 player.wingFrameCounter = 0;
-                player.wingFrame = 0;
+                player.wingFrame = 0; // On ground
                 if (player.velocity.Y != 0)
                 {
-                    player.wingFrame = 1;
+                    player.wingFrame = 2; // Falling
                     if (player.controlJump && player.velocity.Y > 0)
-                        player.wingFrame = 7;
+                        player.wingFrame = 1; // Gliding
                 }
             }
             return true;
