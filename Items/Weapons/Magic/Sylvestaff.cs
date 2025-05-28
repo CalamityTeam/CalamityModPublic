@@ -32,6 +32,11 @@ namespace CalamityMod.Items.Weapons.Magic
         public static float RayBoltTargetingRange => 272f;
 
         /// <summary>
+        ///     The turn speed interpolant that dictates how fast or slow the staff can move to aim towards the mouse.
+        /// </summary>
+        public static float TurnSpeedInterpolant => 0.276f;
+
+        /// <summary>
         ///     The sound played when Sylvestaff rays are fired.
         /// </summary>
         public static readonly SoundStyle FireSound = new SoundStyle("CalamityMod/Sounds/Item/SylvestaffFire", 3) with { MaxInstances = 5 };

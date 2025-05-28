@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Magic
                 return;
 
             Vector2 idealDirection = Projectile.SafeDirectionTo(Main.MouseWorld);
-            Vector2 newDirection = Vector2.Lerp(Projectile.velocity, idealDirection, 0.3f).SafeNormalize(Vector2.UnitX * Owner.direction);
+            Vector2 newDirection = Vector2.Lerp(Projectile.velocity, idealDirection, Sylvestaff.TurnSpeedInterpolant).SafeNormalize(Vector2.UnitX * Owner.direction);
             if (Projectile.velocity != newDirection)
             {
                 Projectile.velocity = newDirection;
