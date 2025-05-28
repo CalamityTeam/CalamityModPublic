@@ -15,6 +15,6 @@ namespace CalamityMod.Graphics.Primitives
         /// <summary>
         /// Render primitives that use pixelation here.
         /// </summary>
-        void RenderPixelatedPrimitives(SpriteBatch spriteBatch);
+        void RenderPixelatedPrimitives(SpriteBatch spriteBatch, PixelationPrimitiveLayer layer);
     }
 }
