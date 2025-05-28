@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class CirrusBlast : BaseLaserbeamProjectile, ILocalizedModType
+    public class PermafrostBlast : BaseLaserbeamProjectile, ILocalizedModType
     {
         // Modified clone of Seraphim's Laser
         public new string LocalizationCategory => "Projectiles.Boss";

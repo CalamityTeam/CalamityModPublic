@@ -1,5 +1,6 @@
 ﻿using System;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Graphics.Primitives;
 using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
@@ -12,15 +13,15 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class CirrusPhotonRipperPrismTooth : ModProjectile, ILocalizedModType
+    public class PermafrostColdheartIcicle : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
 
-        public override string Texture => "CalamityMod/Projectiles/Melee/PrismTooth";
+        public override string Texture => "CalamityMod/Items/ColdheartIcicle";
 
         public const int Lifetime = 80;
 
-        public NPC Cirrus => Main.npc.IndexInRange((int)Projectile.ai[2]) ? Main.npc[(int)Projectile.ai[2]] : null;
+        public NPC Permafrost => Main.npc.IndexInRange((int)Projectile.ai[2]) ? Main.npc[(int)Projectile.ai[2]] : null;
 
         public ref float ShootReach => ref Projectile.ai[0];
 
@@ -48,17 +49,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            // Die if Cirrus disappears.
-            if (Cirrus is null || !Cirrus.active)
+            // Die if Permafrost disappears.
+            if (Permafrost is null || !Permafrost.active)
             {
                 Projectile.Kill();
                 return;
             }
 
-            // Die if Cirrus shouldn't be using it.
-            int cirrusBulletHellCounter = Cirrus.ModNPC<SupremeCalamitas>().bulletHellCounter2;
-            if (!(cirrusBulletHellCounter > SupremeCalamitas.SecondBulletHellEndValue && cirrusBulletHellCounter < SupremeCalamitas.ThirdBulletHellEndValue) &&
-                !(cirrusBulletHellCounter > SupremeCalamitas.FourthBulletHellEndValue && cirrusBulletHellCounter < SupremeCalamitas.FifthBulletHellEndValue))
+            // Die if Permafrost shouldn't be using it.
+            int permafrostBulletHellCounter = Permafrost.ModNPC<SupremeCalamitas>().bulletHellCounter2;
+            if (!(permafrostBulletHellCounter > SupremeCalamitas.SecondBulletHellEndValue && permafrostBulletHellCounter < SupremeCalamitas.ThirdBulletHellEndValue) &&
+                !(permafrostBulletHellCounter > SupremeCalamitas.FourthBulletHellEndValue && permafrostBulletHellCounter < SupremeCalamitas.FifthBulletHellEndValue))
             {
                 Projectile.Kill();
                 return;
@@ -82,13 +83,13 @@ namespace CalamityMod.Projectiles.Boss
             // In this context, the velocity is simply the initial direction as a unit vector- it does not actually influence movement in any way.
             positionOffset = positionOffset.RotatedBy(Projectile.velocity.ToRotation() - MathHelper.PiOver2);
 
-            Vector2 cirrusRotatedPosition = Cirrus.Center;
-            float rotation = Cirrus.rotation;
-            Vector2 vector = Cirrus.Bottom + new Vector2(0f, Cirrus.gfxOffY);
+            Vector2 permafrostRotatedPosition = Permafrost.Center;
+            float rotation = Permafrost.rotation;
+            Vector2 vector = Permafrost.Bottom + new Vector2(0f, Permafrost.gfxOffY);
             Vector2 vector2 = new Vector2(0f, -4f) + new Vector2(0f, 4f).RotatedBy(rotation);
-            cirrusRotatedPosition.Y += Cirrus.gfxOffY;
-            cirrusRotatedPosition = vector + (cirrusRotatedPosition - vector).RotatedBy(rotation) + vector2;
-            Projectile.Center = cirrusRotatedPosition + Projectile.velocity * 42f + positionOffset;
+            permafrostRotatedPosition.Y += Permafrost.gfxOffY;
+            permafrostRotatedPosition = vector + (permafrostRotatedPosition - vector).RotatedBy(rotation) + vector2;
+            Projectile.Center = permafrostRotatedPosition + Projectile.velocity * 42f + positionOffset;
             Projectile.Opacity = Utils.GetLerpValue(0f, 12f, Time, true) * Utils.GetLerpValue(Lifetime, Lifetime - 12f, Lifetime - Projectile.timeLeft, true);
 
             // Destroy trees within the range of the past 20 oldPos positions.
@@ -127,11 +128,11 @@ namespace CalamityMod.Projectiles.Boss
             AchievementsHelper.CurrentlyMining = false;
         }
 
-        public override Color? GetAlpha(Color lightColor) => Color.HotPink;
+        public override Color? GetAlpha(Color lightColor) => Color.LightCyan;
 
         internal float WidthFunction(float completionRatio) => Projectile.scale * 24f * (1f - Utils.GetLerpValue(0.7f, 1f, completionRatio, true)) + 1f;
 
-        internal Color ColorFunction(float completionRatio) => Color.HotPink * Projectile.Opacity;
+        internal Color ColorFunction(float completionRatio) => Color.LightCyan * Projectile.Opacity;
 
         public override bool PreDraw(ref Color lightColor)
         {
@@ -163,6 +164,6 @@ namespace CalamityMod.Projectiles.Boss
         // Prevent the crystals from utilizing velocity. Their movement is entirely dependant on Center setting.
         public override bool ShouldUpdatePosition() => false;
 
-        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<MiracleBlight>(), 300);
+        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
     }
 }

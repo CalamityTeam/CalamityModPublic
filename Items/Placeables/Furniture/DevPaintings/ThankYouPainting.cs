@@ -59,7 +59,6 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 
         public static IList<string> devList = new List<string>()
         {
-            "Fabsol, the mod's founder and owner", // Fabsol gets a line to himself
 			"Altix",
             "Angel",
             "apotofkoolaid",

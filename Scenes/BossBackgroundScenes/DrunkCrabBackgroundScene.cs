@@ -17,27 +17,27 @@ namespace CalamityMod.Systems
             if (Main.zenithWorld && NPC.AnyNPCs(ModContent.NPCType<Crabulon>()))
                 return true;
 
-            // Case 2: Supreme Cirrus BH5.
-            bool cirrusSpecialAttack = false;
+            // Case 2: Supreme Permafrost BH5.
+            bool permafrostSpecialAttack = false;
 
-            // Try to find Supreme Cirrus, if she exists. She might not.
+            // Try to find Supreme Permafrost, if he exists. He might not.
             try
             {
-                // Is there an index reference to Supreme Calamitas/Cirrus available? Is it valid? I sure hope so. Thanks TML
+                // Is there an index reference to Supreme Calamitas/Permafrost available? Is it valid? I sure hope so. Thanks TML
                 if (CalamityGlobalNPC.SCal >= 0 && CalamityGlobalNPC.SCal < Main.maxNPCs && Main.npc[CalamityGlobalNPC.SCal].active)
                 {
                     NPC npc = Main.npc[CalamityGlobalNPC.SCal];
                     SupremeCalamitas supremeSomeone = npc.ModNPC<SupremeCalamitas>();
-                    cirrusSpecialAttack = supremeSomeone is not null && supremeSomeone.cirrus && supremeSomeone.gettingTired5;
+                    permafrostSpecialAttack = supremeSomeone is not null && supremeSomeone.permafrost && supremeSomeone.gettingTired5;
                 }
             }
             catch
             {
                 if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText("Supreme Cirrus code attempted to crash the game. Did you do something weird?");
+                    Main.NewText("Supreme Permafrost code attempted to crash the game. Did you do something weird?");
             }
 
-            return cirrusSpecialAttack;
+            return permafrostSpecialAttack;
         }
 
         public override void SpecialVisuals(Player player, bool isActive)

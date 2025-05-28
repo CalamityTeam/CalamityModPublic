@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
-    public class AlicornonaStick : ModItem, ILocalizedModType
+    [LegacyName("AlicornonaStick")]
+    public class ColdheartIcicle : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Misc";
         public override void SetDefaults()
@@ -20,6 +21,17 @@ namespace CalamityMod.Items
             Item.holdStyle = 6;
             Item.value = 0;
             Item.rare = ModContent.RarityType<CalamityRed>();
+        }
+
+        public override void HoldStyle(Player player, Rectangle heldItemFrame)
+        {
+            player.itemRotation = player.direction == -1 ? -MathHelper.PiOver4 : MathHelper.PiOver4;
+            player.itemLocation = player.GetBackHandPosition(Player.CompositeArmStretchAmount.Full, player.direction * MathHelper.PiOver4) + Vector2.UnitX * player.direction * 14;
+        }
+
+        public override void HoldItemFrame(Player player)
+        {
+            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, -player.direction * MathHelper.PiOver4);
         }
 
         public override void HoldItem(Player player)

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Particles;
 using CalamityMod.Skies;
@@ -98,12 +99,12 @@ namespace CalamityMod.Projectiles.Boss
                 NPC scal = CalamityUtils.SpawnBossBetter(spawnPosition, ModContent.NPCType<SupremeCalamitas>());
                 if (Projectile.ai[1] == 1)
                 {
-                    scal.ModNPC<SupremeCalamitas>().cirrus = true;
+                    scal.ModNPC<SupremeCalamitas>().permafrost = true;
                 }
             }
 
             // Make a laugh sound and create a burst of brimstone dust.
-            SoundStyle SpawnSound = Projectile.ai[1] == 1 ? SoundID.Item107 : SupremeCalamitas.SpawnSound;
+            SoundStyle SpawnSound = Projectile.ai[1] == 1 ? Cryogen.DeathSound : SupremeCalamitas.SpawnSound;
             SoundEngine.PlaySound(SpawnSound, Projectile.Center);
 
             // Make a sudden screen shake.
@@ -112,7 +113,7 @@ namespace CalamityMod.Projectiles.Boss
             // Generate a dust explosion at the ritual's position.
             for (int i = 0; i < 90; i++)
             {
-                Dust spawnDust = Dust.NewDustPerfect(Projectile.Center, Projectile.ai[1] == 1 ? (int)CalamityDusts.PurpleCosmilite : (int)CalamityDusts.Brimstone, new Vector2(30, 30).RotatedByRandom(100) * Main.rand.NextFloat(0.05f, 1.2f));
+                Dust spawnDust = Dust.NewDustPerfect(Projectile.Center, Projectile.ai[1] == 1 ? DustID.IceGolem : (int)CalamityDusts.Brimstone, new Vector2(30, 30).RotatedByRandom(100) * Main.rand.NextFloat(0.05f, 1.2f));
                 spawnDust.noGravity = true;
                 spawnDust.scale = Main.rand.NextFloat(1.2f, 2.3f);
             }
@@ -122,9 +123,9 @@ namespace CalamityMod.Projectiles.Boss
                 GlowOrbParticle orb = new GlowOrbParticle(Projectile.Center + sparkVel * 2, sparkVel, false, 120, Main.rand.NextFloat(1.55f, 2.75f), Projectile.ai[1] == 1 ? Color.Magenta : Color.Red, true, true);
                 GeneralParticleHandler.SpawnParticle(orb);
             }
-            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Projectile.ai[1] == 1 ? Color.Magenta : Color.Red, new Vector2(2f, 2f), 0, 0f, 2.7f, 60);
+            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Projectile.ai[1] == 1 ? Color.Cyan : Color.Red, new Vector2(2f, 2f), 0, 0f, 2.7f, 60);
             GeneralParticleHandler.SpawnParticle(pulse);
-            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Projectile.ai[1] == 1 ? Color.Magenta : new Color(121, 21, 77), new Vector2(2f, 2f), 0, 0f, 2.1f, 60);
+            Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, Projectile.ai[1] == 1 ? Color.LightCyan : new Color(121, 21, 77), new Vector2(2f, 2f), 0, 0f, 2.1f, 60);
             GeneralParticleHandler.SpawnParticle(pulse2);
         }
     }

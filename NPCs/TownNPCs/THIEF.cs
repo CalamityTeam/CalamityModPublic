@@ -159,11 +159,6 @@ namespace CalamityMod.NPCs.TownNPCs
             if (witch != -1)
                 dialogue.Add(this.GetLocalization("Chat.BrimstoneWitch").Format(Main.npc[witch].GivenName));
 
-            //please help me I'm stuck in a children's video game - Fabsol
-            int cirrusIndex = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
-            if (cirrusIndex != -1)
-                dialogue.Add(this.GetLocalization("Chat.DrunkPrincess").Format(Main.npc[cirrusIndex].GivenName));
-
             int merchantIndex = NPC.FindFirstNPC(NPCID.Merchant);
             if (merchantIndex != -1)
                 dialogue.Add(this.GetLocalization("Chat.Merchant").Format(Main.npc[merchantIndex].GivenName));

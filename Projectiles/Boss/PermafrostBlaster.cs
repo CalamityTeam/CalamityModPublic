@@ -7,11 +7,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class CirrusBlaster : ModProjectile, ILocalizedModType
+    public class PermafrostBlaster : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
 
-        public override string Texture => "CalamityMod/Items/Potions/Alcohol/OddMushroom";
+        public override string Texture => "CalamityMod/Items/Accessories/PermafrostsConcoction";
         public static readonly SoundStyle SANSCharge = new("CalamityMod/Sounds/Custom/Ravager/GasterBlasterCharge");
         public static readonly SoundStyle SANSFire = new("CalamityMod/Sounds/Custom/Ravager/GasterBlasterFire");
         public Vector2 storedVelocity;
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     Projectile.ai[0] = 90f;
                     if (Projectile.owner == Main.myPlayer)
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, storedVelocity, ModContent.ProjectileType<CirrusBlast>(), Projectile.damage, 0f, Projectile.owner, Projectile.ai[1], Projectile.whoAmI);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, storedVelocity, ModContent.ProjectileType<PermafrostBlast>(), Projectile.damage, 0f, Projectile.owner, Projectile.ai[1], Projectile.whoAmI);
 
                     SoundEngine.PlaySound(SANSFire, Projectile.Center); // Funny Gaster Blaster sounds #2
                 }

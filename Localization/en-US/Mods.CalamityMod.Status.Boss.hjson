@@ -102,20 +102,20 @@ SCalDesparationText1Rematch: A terrific display, I concede this match to you.
 SCalDesparationText2Rematch: No doubt you will face enemies stronger than I.
 SCalDesparationText3Rematch: I trust you will not make the same mistakes he did.
 SCalDesparationText4Rematch: I can't imagine what your future holds now.
-// Cirrus (GFB)
-CirrusSummonText: Are you prepared for a task most Sisyphean?
-CirrusBirbSwarmText: Those hearts are a bit too edgy. How about a swarm of birbs instead?
-CirrusBH2Text: Feelin' thirsty? I can fix that!
-CirrusBH3Text: Check out this cool toy I found!
-CirrusDoGText: I told you the talking worms were real! But you didn't believe me!
-CirrusPhase2Text: Time for a transformation!
-CirrusBH4Text: It's HAGE time!
-CirrusHallowBossSpamText: I have more friends than you could possibly imagine!
-CirrusBH5Text: Hah! You're good, but I'm better!
-CirrusSecondBirbSwarmText: Time for another swarm!
-CirrusNonchalantText: I'm getting tired...
-CirrusBruhText: Just kidding! Time for my special attack!
-CirrusGiveUpText: Meh, whatever, I'm a bit tired of this.
+// Permafrost (GFB)
+PermafrostSummonText: Are you prepared for a task most Sisyphean?
+PermafrostBirbSwarmText: Those hearts were a bit too brutal for my taste. How about some lovely birds instead?
+PermafrostBH2Text: Getting tired from the battle, adventurer? Hungry? How does some Delicious Meat sound?
+PermafrostBH3Text: Suprised at how I am holding my own again you? I did train Calamitas, after all!
+PermafrostDoGText: The serpent!? How!? What is HE doing here!? Is he here to torment me further!? Kill it, adventurer!
+PermafrostPhase2Text: Ha! I suppose I can no longer be "chill" about this duel! Get it?
+PermafrostBH4Text: Need a break? Can you not even keep up with an old man?
+PermafrostHallowBossSpamText: You truly have grown strong! Thankfully, I and Calamitas reconstructed this to assist me.
+PermafrostBH5Text: Why, it has been quite long since I have had an excuse to use these magics!
+PermafrostSecondBirbSwarmText: I must say, those birds earlier were rather cute! Do some more not sound nice?
+PermafrostNonchalantText: I must say, I am not the mage I used to be. This is starting to tire my old body...
+PermafrostBruhText: Ha! Just kidding! Watch what happens when I cast a spell I know!
+PermafrostGiveUpText: Gah, I think I pulled a muscle! Ah, well. I seems that I must concede. Well fought!
 // April Fools
 AprilFools: The LORDE is approaching...
 AprilFoolsGFB: La Ruga is approaching...

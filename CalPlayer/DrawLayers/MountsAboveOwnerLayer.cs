@@ -13,7 +13,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
         {
             Player drawPlayer = drawInfo.drawPlayer;
             CalamityPlayer modPlayer = drawPlayer.Calamity();
-            return drawPlayer.mount != null && (modPlayer.fab || modPlayer.crysthamyr || modPlayer.onyxExcavator);
+            return drawPlayer.mount != null && (modPlayer.crysthamyr || modPlayer.onyxExcavator);
         }
 
         protected override void Draw(ref PlayerDrawSet drawInfo)

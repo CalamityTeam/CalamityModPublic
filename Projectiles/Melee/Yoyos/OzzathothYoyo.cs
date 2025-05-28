@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class AzathothYoyo : ModProjectile
+    public class OzzathothYoyo : ModProjectile
     {
-        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Azathoth>();
+        public override LocalizedText DisplayName => CalamityUtils.GetItemName<Ozzathoth>();
         public const int MaxUpdates = 3;
 
         public override void SetStaticDefaults()

@@ -90,7 +90,6 @@ namespace CalamityMod.CalPlayer
         public int searedPanCounter = 0;
         public int searedPanTimer = 0;
         public int potionTimer = 0;
-        public bool cirrusDress = false;
         public bool blockAllDashes = false;
         public bool resetHeightandWidth = false;
         public bool noLifeRegen = false;
@@ -170,7 +169,6 @@ namespace CalamityMod.CalPlayer
         public bool newPrincessInventory = false;
         public bool newSkeletonMerchantInventory = false;
         public bool newPermafrostInventory = false;
-        public bool newCirrusInventory = false;
         public bool newAmidiasInventory = false;
         public bool newBanditInventory = false;
         public bool newCalamitasInventory = false;
@@ -300,7 +298,6 @@ namespace CalamityMod.CalPlayer
         #region Mount
         public bool onyxExcavator = false;
         public bool rimehound = false;
-        public bool fab = false;
         public bool crysthamyr = false;
         public bool ExoChair = false;
         public AndromedaPlayerState andromedaState;
@@ -929,7 +926,7 @@ namespace CalamityMod.CalPlayer
         public bool zen = false;
         public bool isNearbyBoss = false;
         public bool flaskBrimstone = false;
-        public bool fabsolVodka = false;
+        public bool purpleHaze = false;
         public bool mushy = false;
         public bool PinkJellyRegen = false;
         public bool GreenJellyRegen = false;
@@ -1289,7 +1286,6 @@ namespace CalamityMod.CalPlayer
             newPrincessInventory = false;
             newSkeletonMerchantInventory = false;
             newPermafrostInventory = false;
-            newCirrusInventory = false;
             newAmidiasInventory = false;
             newBanditInventory = false;
             newCalamitasInventory = false;
@@ -1341,7 +1337,6 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("newPrincessInventory", newPrincessInventory);
             boost.AddWithCondition("newSkeletonMerchantInventory", newSkeletonMerchantInventory);
             boost.AddWithCondition("newPermafrostInventory", newPermafrostInventory);
-            boost.AddWithCondition("newCirrusInventory", newCirrusInventory);
             boost.AddWithCondition("newAmidiasInventory", newAmidiasInventory);
             boost.AddWithCondition("newBanditInventory", newBanditInventory);
             boost.AddWithCondition("newCalamitasInventory", newCalamitasInventory);
@@ -1431,7 +1426,6 @@ namespace CalamityMod.CalPlayer
             newPrincessInventory = boost.Contains("newPrincessInventory");
             newSkeletonMerchantInventory = boost.Contains("newSkeletonMerchantInventory");
             newPermafrostInventory = boost.Contains("newPermafrostInventory");
-            newCirrusInventory = boost.Contains("newCirrusInventory");
             newAmidiasInventory = boost.Contains("newAmidiasInventory");
             newBanditInventory = boost.Contains("newBanditInventory");
             newCalamitasInventory = boost.Contains("newCalamitasInventory");
@@ -1599,7 +1593,6 @@ namespace CalamityMod.CalPlayer
 
             onyxExcavator = false;
             rimehound = false;
-            fab = false;
             crysthamyr = false;
             ExoChair = false;
             miniOldDuke = false;
@@ -1660,7 +1653,6 @@ namespace CalamityMod.CalPlayer
             shadowSpeed = false;
             dsSetBonus = false;
             wearingRogueArmor = false;
-            cirrusDress = false;
 
             blockAllDashes = false;
             blazingCursorDamage = false;
@@ -1995,7 +1987,7 @@ namespace CalamityMod.CalPlayer
             trippy = false;
             amidiasBlessing = false;
             flaskBrimstone = false;
-            fabsolVodka = false;
+            purpleHaze = false;
             shine = false;
             anechoicCoating = false;
             mushy = false;
@@ -2415,7 +2407,6 @@ namespace CalamityMod.CalPlayer
             hallowedPower = false;
             onyxExcavator = false;
             rimehound = false;
-            fab = false;
             crysthamyr = false;
             ExoChair = false;
             abyssalDivingSuitPlates = false;
@@ -2452,7 +2443,7 @@ namespace CalamityMod.CalPlayer
             sulphurskin = false;
             baguette = false;
             flaskBrimstone = false;
-            fabsolVodka = false;
+            purpleHaze = false;
             shine = false;
             anechoicCoating = false;
             mushy = false;
@@ -3718,7 +3709,7 @@ namespace CalamityMod.CalPlayer
                     (dragonScales ? 0.1f : 0f) +
                     (CobaltSet ? CobaltArmorSetChange.SpeedBoostSetBonusPercentage * 0.01f : 0f) +
                     (silvaSet ? 0.05f : 0f) +
-                    (blueCandle ? CirrusBlueCandleBuff.AccelerationBoost : 0f) +
+                    (blueCandle ? BlueCandleBuff.AccelerationBoost : 0f) +
                     (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
                     (hasteLevel * 0.05f);
 

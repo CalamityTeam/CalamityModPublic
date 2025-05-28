@@ -183,7 +183,7 @@ namespace CalamityMod.CalPlayer
             {
                 alcoholPoisonLevel++;
             }
-            if (fabsolVodka)
+            if (purpleHaze)
             {
                 alcoholPoisonLevel++;
             }
@@ -263,7 +263,7 @@ namespace CalamityMod.CalPlayer
                 alcoholPoisonLevel++;
             }
 
-            if (alcoholPoisonLevel > (cirrusDress ? 5 : 3))
+            if (alcoholPoisonLevel > 3)
             {
                 // Independently of Calamity's nerfs to Nebula life regen, it is disabled entirely by alcohol poisoning.
                 Player.nebulaLevelLife = 0;
@@ -736,7 +736,7 @@ namespace CalamityMod.CalPlayer
             if (pinkCandle && !noLifeRegen)
             {
                 // Every frame, add up 1/60th of the healing value (0.4% max HP per second)
-                pinkCandleHealFraction += Player.statLifeMax2 * CirrusPinkCandleBuff.PercentHealthPerSecond / 60;
+                pinkCandleHealFraction += Player.statLifeMax2 * PinkCandleBuff.PercentHealthPerSecond / 60;
 
                 if (pinkCandleHealFraction >= 1D)
                 {

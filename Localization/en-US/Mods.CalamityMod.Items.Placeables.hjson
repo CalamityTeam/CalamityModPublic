@@ -343,11 +343,6 @@ BabyGhostBellJar: {
 	Tooltip: ""
 }
 
-CirrusCouch: {
-	DisplayName: Cirrus Couch
-	Tooltip: This shouldn't exist...
-}
-
 AquaticScourgeRelic: {
 	DisplayName: Aquatic Scourge Relic
 	Tooltip: A glimpse into what could have been...
@@ -731,7 +726,7 @@ ResilientCandle: {
 		'''
 		<right> when placed to make defense block 10% more damage
 		(60% in Classic, 85% in Expert, and 110% in Master)
-		This cannot be stacked with other Cirrus Candle buffs
+		This cannot be stacked with other candle buffs
 		'Neither rain nor wind can snuff its undying flame'
 		'''
 }
@@ -752,7 +747,7 @@ SpitefulCandle: {
 		'''
 		<right> when placed to deal 1.07x damage to all enemies
 		The extra 0.07x damage bypasses enemy defense and damage reduction
-		This cannot be stacked with other Cirrus Candle buffs
+		This cannot be stacked with other candle buffs
 		'Its hateful glow flickers with ire'
 		'''
 }
@@ -978,7 +973,7 @@ VigorousCandle: {
 		'''
 		<right> when placed to regenerate 0.4% of your maximum health per second
 		This regeneration is at full power even while moving and bypasses Revengeance Mode caps
-		This cannot be stacked with other Cirrus Candle buffs
+		This cannot be stacked with other candle buffs
 		'Its brilliant light suffuses those nearby with hope'
 		'''
 }
@@ -988,7 +983,7 @@ WeightlessCandle: {
 	Tooltip:
 		'''
 		<right> when placed to gain 10% increased movement speed, wing time and acceleration
-		This cannot be stacked with other Cirrus Candle buffs
+		This cannot be stacked with other candle buffs
 		'The floating flame seems to uplift your very spirit'
 		'''
 }

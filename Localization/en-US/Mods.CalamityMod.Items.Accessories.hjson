@@ -2021,11 +2021,6 @@ AbandonedWulfrumHelmet: {
 		'''
 }
 
-CrystalHeartVodka: {
-	DisplayName: Crystal Heart Vodka
-	Tooltip: "'Tastes like strawberry cream liqueur (and estrogen)'"
-}
-
 HapuFruit: {
 	DisplayName: Ha-pu Fruit
 	Tooltip: "'A fruit that calms your nerves (may have unintended side effects)'"

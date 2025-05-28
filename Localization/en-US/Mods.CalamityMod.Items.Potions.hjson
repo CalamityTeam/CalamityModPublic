@@ -56,15 +56,6 @@ DeliciousMeat: {
 		'''
 }
 
-Fabsoup: {
-	DisplayName: Pot of Pain
-	Tooltip:
-		'''
-		{$CommonItemTooltip.MajorStats}
-		'hrngh, soup'
-		'''
-}
-
 FlaskOfBrimstone: {
 	DisplayName: Flask of Brimstone
 	Tooltip: Melee, Whip, and Rogue attacks inflict Brimstone Flames
@@ -92,6 +83,15 @@ HadalStew: {
 		Only gives [S] seconds of Potion Sickness
 		{$CommonItemTooltip.MediumStats}
 		{$CommonItemTooltip.MinuteDuration}
+		'''
+}
+
+LavaChickenBroth: {
+	DisplayName: Lava Chicken Broth
+	Tooltip:
+		'''
+		{$CommonItemTooltip.MajorStats}
+		'It's tasty as hell'
 		'''
 }
 
@@ -227,17 +227,6 @@ EvergreenGin: {
 		'''
 }
 
-FabsolsVodka: {
-	DisplayName: Fabsol's Vodka
-	Tooltip:
-		'''
-		8% increased damage, but lowers defense by 5%
-		Increases immune time after being struck
-		Drinking more than 3 different alcohols might not end well with your liver
-		This magical liquor is highly sought by those with a refined palate
-		'''
-}
-
 Fireball: {
 	DisplayName: Fireball
 	Tooltip:
@@ -305,6 +294,16 @@ OldFashioned: {
 		'''
 		Multiplies all accessory and set bonus damage by 1.5x
 		Decreases all damage by 25%
+		Drinking more than 3 different alcohols might not end well with your liver
+		'''
+}
+
+PurpleHaze: {
+	DisplayName: Purple Haze
+	Tooltip:
+		'''
+		8% increased damage, but lowers defense by 5%
+		Increases immune time after being struck
 		Drinking more than 3 different alcohols might not end well with your liver
 		'''
 }

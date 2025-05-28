@@ -1,14 +1,13 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.NPC;
 
 namespace CalamityMod.Buffs.Placeables
 {
-    public class CirrusYellowCandleBuff : ModBuff
+    public class PurpleCandleBuff : ModBuff
     {
-        public static float ExtraChipDamageRatio = 0.07f;
-        
+        public static float DefenseRatioBonus = 0.1f;
+
         public override void SetStaticDefaults()
         {
             // These settings are standard for a "opt-in eternal" buff, which has the following properties:
@@ -24,14 +23,15 @@ namespace CalamityMod.Buffs.Placeables
             BuffID.Sets.TimeLeftDoesNotDecrease[Type] = true;
         }
 
-        // Implementation is performed elsewhere using the yellowCandle bool.
-        public override void Update(Player player, ref int buffIndex) => player.Calamity().yellowCandle = true;
-
-        // Yellow Candle is implemented as a dirty modifier.
-        internal static void ModifyHitInfo_Spite(ref HitInfo info)
+        public override void Update(Player player, ref int buffIndex)
         {
-            int damageBoost = (int)(info.SourceDamage * ExtraChipDamageRatio);
-            info.Damage += damageBoost;
+            // MultipliableFloats cannot be added to or reduced.
+            // To work around this, we get its current value, add what we want to that,
+            // then multiply it by the ratio between the two.
+            // A + B = A * ((A+B/A)
+            float currentEffectiveness = player.DefenseEffectiveness.Value;
+            float desiredEffectiveness = currentEffectiveness + DefenseRatioBonus;
+            player.DefenseEffectiveness *= desiredEffectiveness / currentEffectiveness;
         }
     }
 }

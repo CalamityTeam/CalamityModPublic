@@ -1090,8 +1090,6 @@ namespace CalamityMod.CalPlayer
 
                 if (!Player.wet)
                 {
-                    if (cirrusDress)
-                        Player.maxFallSpeed = 12f;
                     if (aeroSet)
                         Player.maxFallSpeed = 15f;
                     if (Player.PortalPhysicsEnabled)
@@ -2725,10 +2723,7 @@ namespace CalamityMod.CalPlayer
             if (Player.chilled)
                 Player.moveSpeed *= 1f + (1f / 6f);
 
-            if (cirrusDress)
-                Player.moveSpeed -= 0.2f;
-
-            if (fabsolVodka)
+            if (purpleHaze)
                 Player.GetDamage<GenericDamageClass>() += 0.08f;
 
             if (vodka)
@@ -2865,7 +2860,7 @@ namespace CalamityMod.CalPlayer
                 (harpyRing ? 0.2 : 0D) +
                 (reaverSpeed ? 0.1 : 0D) +
                 (angelTreads ? 0.1 : 0D) +
-                (blueCandle ? CirrusBlueCandleBuff.WingTimeBoost : 0D) +
+                (blueCandle ? BlueCandleBuff.WingTimeBoost : 0D) +
                 (soaring ? 0.1 : 0D) +
                 (prismaticGreaves ? 0.1 : 0D) +
                 (plagueReaper ? 0.05 : 0D) +
@@ -4024,7 +4019,7 @@ namespace CalamityMod.CalPlayer
 
             // Multiplicative defense reductions.
             // These are done last because they need to be after the defense lower cap at 0.
-            if (fabsolVodka)
+            if (purpleHaze)
             {
                 if (Player.statDefense > 0)
                     Player.statDefense -= (int)(Player.statDefense * 0.05);

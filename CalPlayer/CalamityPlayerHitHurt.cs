@@ -531,7 +531,7 @@ namespace CalamityMod.CalPlayer
             // FinalDamage cannot be used for the intended effect because there is no way to access the actual damage of the hit
             CalamityGlobalNPC cgn = target.Calamity();
             if (yellowCandle && cgn.DR < 0.99f && target.takenDamageMultiplier > 0.05f)
-                modifiers.ModifyHitInfo += CirrusYellowCandleBuff.ModifyHitInfo_Spite;
+                modifiers.ModifyHitInfo += YellowCandleBuff.ModifyHitInfo_Spite;
 
             // Excalibur and True Excalibur deal +100% damage to targets above 75% HP.
             if (item.type == ItemID.Excalibur || item.type == ItemID.TrueExcalibur)
@@ -605,7 +605,7 @@ namespace CalamityMod.CalPlayer
             // FinalDamage cannot be used for the intended effect because there is no way to access the actual damage of the hit
             CalamityGlobalNPC cgn = target.Calamity();
             if (yellowCandle && cgn.DR < 0.99f && target.takenDamageMultiplier > 0.05f)
-                modifiers.ModifyHitInfo += CirrusYellowCandleBuff.ModifyHitInfo_Spite;
+                modifiers.ModifyHitInfo += YellowCandleBuff.ModifyHitInfo_Spite;
 
             // Stealth strike damage multipliers are applied here.
             // TODO -- stealth should be its own damage class and this should be applied as player StealthDamage *= XYZ
@@ -1675,7 +1675,7 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(SoundID.NPCHit4, Player.Center); //metal hit noise
                     hurtSoundTimer = 10;
                 }
-                else if (((aquaticHeartPower || aquaticHeartForce) && !aquaticHeartHide) || Player.GetModPlayer<CrystalHeartVodkaPlayer>().vanityEquipped)
+                else if (((aquaticHeartPower || aquaticHeartForce) && !aquaticHeartHide))
                 {
                     modifiers.DisableSound();
                     SoundEngine.PlaySound(SoundID.FemaleHit, Player.Center); //female hit noise

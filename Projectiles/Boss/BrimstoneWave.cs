@@ -87,8 +87,12 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (Main.npc[CalamityGlobalNPC.SCal].active)
                 {
-                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().permafrost)
+                    {
+                        lightColor.G = (byte)(255 * Projectile.Opacity);
                         lightColor.B = (byte)(255 * Projectile.Opacity);
+                        lightColor.R = 0;
+                    }
                 }
             }
 
