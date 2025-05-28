@@ -168,6 +168,11 @@ GodSlayerInferno: {
 	Description: Your flesh is burning off
 }
 
+HeavyBleeding: {
+	DisplayName: Heavy Bleeding
+	Description: That's gonna need stitches
+}
+
 HolyFlames: {
 	DisplayName: Holy Flames
 	Description: Dissolving from holy light
@@ -176,6 +181,11 @@ HolyFlames: {
 HolyInferno: {
 	DisplayName: Holy Inferno
 	Description: You've gone too far from the Profaned Goddess!
+}
+
+Laceration: {
+	DisplayName: Laceration
+	Description: You're a bloody mess
 }
 
 ManaBurn: {
@@ -1504,9 +1514,4 @@ YoungDukeBuff: {
 LiliesOfFinalityBuff: {
 	DisplayName: Finality
 	Description: Remember our promise
-}
-
-HeavyBleeding: {
-	Description: Mods.CalamityMod.Buffs.HeavyBleeding.Description
-	DisplayName: Heavy Bleeding
 }

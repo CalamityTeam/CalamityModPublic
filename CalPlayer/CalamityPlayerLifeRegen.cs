@@ -100,6 +100,7 @@ namespace CalamityMod.CalPlayer
             ApplyDoTDebuff(bBlood, 8, purity);
             ApplyDoTDebuff(brainRot, 8, purity);
             ApplyDoTDebuff(heavybleeding, 16, purity);
+            ApplyDoTDebuff(laceration, 24, purity);
             ApplyDoTDebuff(elementalMix, 50, purity);
             ApplyDoTDebuff(vaporfied, 8, purity);
             ApplyDoTDebuff(bFlames, abaddon ? 10 : 30, purity);

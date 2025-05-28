@@ -44,6 +44,10 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+            // dies from cringe (Deadshot Brooch moment)
+            if (Projectile.MaxUpdates > 1)
+                Projectile.MaxUpdates = 1;
+
             Time++;
             Projectile.rotation += MathHelper.ToRadians(6f + 18f * SawLevel);
 

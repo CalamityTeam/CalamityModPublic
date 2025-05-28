@@ -94,7 +94,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                     Color ColorUsed = SpeedBlasterShot.GetColor(ColorValue);
                     for (int i = 0; i <= 8; i++)
                     {
-                        CritSpark spark = new CritSpark(player.Center, player.velocity.RotatedByRandom(MathHelper.ToRadians(13f)) * Main.rand.NextFloat(-2.1f, -4.5f), Color.White, ColorUsed, 2f, 45, 2f, 2.5f);
+                        Vector2 sparkVel = player.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(MathHelper.ToRadians(45f)) * Main.rand.NextFloat(-28f, -36f);
+                        CritSpark spark = new CritSpark(player.Center, sparkVel, Color.White, ColorUsed, 1.5f, 45, 0.5f, 2f);
                         GeneralParticleHandler.SpawnParticle(spark);
                     }
                 }

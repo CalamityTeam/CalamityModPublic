@@ -13,8 +13,7 @@ namespace CalamityMod.CalPlayer
 {
     public partial class CalamityPlayer : ModPlayer
     {
-        public int VerticalGodslayerDashTimer;
-        public int VerticalSpeedBlasterDashTimer;
+        public int VerticalOmnidashTimer;
 
         private string dashID; //private backing variable
 
@@ -104,16 +103,9 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (Player.dashDelay > 0) //Speed Blaster
-            {
-                VerticalSpeedBlasterDashTimer = 0;
-                LastUsedDashID = string.Empty;
-                return;
-            }
-
             if (Player.dashDelay > 0)
             {
-                VerticalGodslayerDashTimer = 0;
+                VerticalOmnidashTimer = 0;
                 LastUsedDashID = string.Empty;
                 return;
             }
@@ -137,21 +129,10 @@ namespace CalamityMod.CalPlayer
 
                 // Handle mid-dash effects.
                 UsedDash.MidDashEffects(Player, ref dashSpeed, ref dashSpeedDecelerationFactor, ref runSpeedDecelerationFactor);
-                if (UsedDash.IsOmnidirectional && VerticalGodslayerDashTimer < 25)
+                if (UsedDash.IsOmnidirectional && VerticalOmnidashTimer < 25)
                 {
-                    VerticalGodslayerDashTimer++;
-                    if (VerticalGodslayerDashTimer >= 25)
-                    {
-                        Player.dashDelay = dashDelayToApply;
-                        // Stop the player from going flying
-                        Player.velocity *= 0.2f;
-                    }
-                }
-
-                if (UsedDash.IsOmnidirectional && VerticalSpeedBlasterDashTimer < 25)
-                {
-                    VerticalSpeedBlasterDashTimer++;
-                    if (VerticalSpeedBlasterDashTimer >= 25)
+                    VerticalOmnidashTimer++;
+                    if (VerticalOmnidashTimer >= 25)
                     {
                         Player.dashDelay = dashDelayToApply;
                         // Stop the player from going flying

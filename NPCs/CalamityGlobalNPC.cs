@@ -245,6 +245,7 @@ namespace CalamityMod.NPCs
         public int bBlood = 0;
         public int brainRot = 0;
         public int heavybleeding = 0;
+        public int laceration = 0;
         public int elementalMix = 0;
         public int marked = 0;
         public int absorberAffliction = 0;
@@ -464,6 +465,7 @@ namespace CalamityMod.NPCs
             myClone.bBlood = bBlood;
             myClone.brainRot = brainRot;
             myClone.heavybleeding = heavybleeding;
+            myClone.laceration = laceration;
             myClone.elementalMix = elementalMix;
             myClone.marked = marked;
             myClone.absorberAffliction = absorberAffliction;
@@ -1109,6 +1111,8 @@ namespace CalamityMod.NPCs
                 ApplyDPSDebuff(40, 10, ref npc.lifeRegen, ref damage);
             if (heavybleeding > 0)
                 ApplyDPSDebuff(80, 10, ref npc.lifeRegen, ref damage);
+            if (laceration > 0)
+                ApplyDPSDebuff(400, 100, ref npc.lifeRegen, ref damage);
             if (elementalMix > 0)
                 ApplyDPSDebuff(400, 80, ref npc.lifeRegen, ref damage);
             if (miracleBlight > 0)
@@ -5072,6 +5076,8 @@ namespace CalamityMod.NPCs
                 brainRot--;
             if (heavybleeding > 0)
                 heavybleeding--;
+            if (laceration > 0)
+                laceration--;
             if (elementalMix > 0)
                 elementalMix--;
             if (vulnerabilityHex > 0)
@@ -6361,6 +6367,9 @@ namespace CalamityMod.NPCs
             if (heavybleeding > 0)
                 HeavyBleeding.DrawEffects(npc, ref drawColor);
 
+            if (laceration > 0)
+                Laceration.DrawEffects(npc, ref drawColor);
+
             // These draw effects do not include Miracle Blight's shader
             if (miracleBlight > 0)
                 MiracleBlight.DrawEffects(npc, ref drawColor);
@@ -6556,6 +6565,7 @@ namespace CalamityMod.NPCs
             ("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno", NPC => NPC.Calamity().gsInferno > 0),
             ("CalamityMod/Buffs/DamageOverTime/HeavyBleeding", NPC => NPC.Calamity().heavybleeding > 0),
             ("CalamityMod/Buffs/DamageOverTime/HolyFlames", NPC => NPC.Calamity().hFlames > 0),
+            ("CalamityMod/Buffs/DamageOverTime/Laceration", NPC => NPC.Calamity().laceration > 0),
             ("CalamityMod/Buffs/DamageOverTime/MiracleBlight", NPC => NPC.Calamity().miracleBlight > 0),
             ("CalamityMod/Buffs/DamageOverTime/Nightwither", NPC => NPC.Calamity().nightwither > 0),
             ("CalamityMod/Buffs/DamageOverTime/Plague", NPC => NPC.Calamity().pFlames > 0),
