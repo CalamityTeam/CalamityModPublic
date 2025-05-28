@@ -1,4 +1,5 @@
-﻿using CalamityMod.Rarities;
+﻿using CalamityMod.Dusts;
+using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -8,14 +9,16 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
+    // The equip sprite is actually blank as a custom draw layer is used to draw the real sprites without any base sprites conflicting
+    [LegacyName("DrewsWings")]
     [AutoloadEquip(EquipType.Wings)]
-    public class DrewsWings : ModItem, ILocalizedModType
+    public class WingsofRebirth : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories.Wings";
 
         public override void SetStaticDefaults()
         {
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(361, 11.5f, 2.9f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(360, 11.5f, 2.9f);
         }
 
         public override void SetDefaults()
@@ -36,7 +39,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 {
                     dustXOffset = -40;
                 }
-                int flightDust = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)dustXOffset, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, DustID.GemDiamond, 0f, 0f, 100, default, 2.4f);
+                int flightDust = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)dustXOffset, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2.4f);
                 Main.dust[flightDust].noGravity = true;
                 Main.dust[flightDust].velocity *= 0.3f;
                 if (Main.rand.NextBool(10))
@@ -46,6 +49,37 @@ namespace CalamityMod.Items.Accessories.Wings
                 Main.dust[flightDust].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
             player.noFallDmg = true;
+        }
+
+        public override bool WingUpdate(Player player, bool inUse)
+        {
+            if (player.controlJump && player.wingTime > 0 && player.velocity.Y != 0)
+            {
+                int frameRate = 5;
+                int maxFrames = 8;
+                player.wingFrameCounter++;
+                if (player.wingFrameCounter >= frameRate * (maxFrames - 1))
+                {
+                    player.wingFrameCounter = 0;
+                    player.wingFrame = 0;
+                }
+                if (player.wingFrameCounter % frameRate == 0)
+                {
+                    player.wingFrame++;
+                }
+            }
+            else
+            {
+                player.wingFrameCounter = 0;
+                player.wingFrame = 0;
+                if (player.velocity.Y != 0)
+                {
+                    player.wingFrame = 1;
+                    if (player.controlJump && player.velocity.Y > 0)
+                        player.wingFrame = 7;
+                }
+            }
+            return true;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)

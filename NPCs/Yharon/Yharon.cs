@@ -3001,7 +3001,7 @@ namespace CalamityMod.NPCs.Yharon
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<YharimsGift>()));
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<DrewsWings>()));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<WingsofRebirth>()));
             }
 
             // Trophy (always directly from boss, never in bag)

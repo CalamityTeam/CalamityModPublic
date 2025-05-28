@@ -78,7 +78,7 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(ModContent.ItemType<YharimsCrystal>(), 10);
 
             // Equipment
-            itemLoot.Add(ModContent.ItemType<DrewsWings>());
+            itemLoot.Add(ModContent.ItemType<WingsofRebirth>());
             itemLoot.Add(ModContent.ItemType<YharimsGift>());
             itemLoot.AddRevBagAccessories();
 
