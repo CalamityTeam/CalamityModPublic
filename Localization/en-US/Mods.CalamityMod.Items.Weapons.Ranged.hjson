@@ -215,9 +215,9 @@ Buzzkill: {
 	DisplayName: Buzzkill
 	Tooltip:
 		'''
-		Hold <left> to rev up a buzzsaw that deals close-range damage
-		Release to fire the buzzsaw, which bounces off tiles and lacerates foes
-		Revving up the saws increases their damage and allows them to pierce more enemies
+		Hold <left> to rev up a close-range buzzsaw
+		When released, the saw bounces off tiles and lacerates foes
+		Revving the saw increases its damage and piercing capabilities
 		'Not to be confused with the Sawed-On Shotgun'
 		'''
 }
@@ -1224,18 +1224,17 @@ SuperradiantSlaughterer: {
 		'''
 	MainInfo:
 		'''
-		Hold <left> to rev up an elemental buzzsaw that deals close-range damage
-		Release <left> to fire the buzzsaw to pierce through and lacerate foes
-		Fired buzzsaws bounce off tiles and return to the player after winding down
-		When returning, the saws release extra homing bolts depending on the number of enemy and tile hits
-		Revving up the saws increases their damage and allows them to pierce more enemies
+		Hold <left> to rev up a close-range elemental buzzsaw
+		When released, the saw bounces off tiles and lacerates foes
+		Fired buzzsaws eventually return to the player and release homing bolts, scaling with enemy and tile hits
+		Revving up the saw increases its damage and piercing capabilities
 		'''
 	AltInfo:
 		'''
-		Press <right> to eject a lingering buzzsaw towards the cursor that fires homing bolts
-		Using this ability rapidly propels you in the direction you are moving
+		Press <right> to fire a lingering buzzsaw towards the cursor that constantly fires homing bolts
+		Using this ability rapidly propels you in the direction you are moving if movement keys are held
 		This ability has a {0} second cooldown
-		During this cooldown, buzzsaws home to the cursor and constantly release homing bolts while returning
+		During this cooldown, fired buzzsaws home in on the cursor and will release homing bolts while returning
 		'''
 }
 
