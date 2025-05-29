@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Magic
             if (heldItem is null)
                 return;
 
-            if (Time % heldItem.useAnimation == 0)
+            if (Time % heldItem.useAnimation == heldItem.useAnimation - 1 && Owner.CheckMana(heldItem.mana, true))
             {
                 SoundEngine.PlaySound(Sylvestaff.FireSound, Projectile.Center);
                 if (Main.myPlayer == Projectile.owner)
