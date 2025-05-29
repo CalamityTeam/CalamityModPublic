@@ -37,13 +37,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (mainTooltip != null)
             {
                 mainTooltip.Text = Lang.SupportGlyphs(this.GetLocalizedValue("MainInfo"));
-                mainTooltip.OverrideColor = Color.Chartreuse;
+                mainTooltip.OverrideColor = new Color(180, 255, 0);
             }
             var altTooltip = tooltips.FirstOrDefault(x => x.Text.Contains("[ALT]") && x.Mod == "Terraria");
             if (altTooltip != null)
             {
                 altTooltip.Text = Lang.SupportGlyphs(this.GetLocalization("AltInfo").Format(DashCooldown / 60));
-                altTooltip.OverrideColor = Color.SpringGreen;
+                altTooltip.OverrideColor = new Color(120, 255, 120);
             }
         }
 
