@@ -86,10 +86,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 13.5f;
         }
 
-        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+        // Hacky workaround to making the holdout not consume mana
+        public override void OnConsumeMana(Player player, int manaConsumed)
         {
             if (player.ownedProjectileCounts[Item.shoot] <= 0)
-                mult *= 0;
+                player.statMana += manaConsumed;
         }
         public override void AddRecipes()
         {
