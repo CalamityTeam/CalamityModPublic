@@ -259,6 +259,9 @@ namespace CalamityMod.CalPlayer
             else if (calamityPlayer.icarusFolly && drawInfo.shadow == 0f)
                 IcarusFolly.DrawEffects(drawInfo);
 
+            if (calamityPlayer.laceration && drawInfo.shadow == 0f)
+                Laceration.DrawEffects(drawInfo);
+
             if (calamityPlayer.miracleBlight && drawInfo.shadow == 0f)
                 MiracleBlight.DrawEffects(drawInfo);
 
