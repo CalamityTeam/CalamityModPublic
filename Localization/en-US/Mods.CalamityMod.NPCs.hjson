@@ -481,7 +481,7 @@ THIEF: {
 		LikeNPC: "{NPCName} doesn't only keep spiky balls in his pockets, he keeps a ton of cash! He's too absentminded to notice I'm stealing from him too! I like that a lot!"
 		DislikeNPC: What a goody two shoes, {NPCName} is! I dislike her out of principle! …And because she has almost no material goods.
 		LikeNPC_Princess: I couldn't bear to steal anything from {NPCName}, she's so cute!
-		Princess_LovesNPC: "{NPCName} gifts me with nice exact replicas of other's things, I wonder how she does it!"
+		Princess_LovesNPC: "{NPCName} gifts me with nice exact replicas of other's things, I wonder how they do it!"
 	}
 }
 
