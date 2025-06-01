@@ -115,16 +115,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (NPC.IsABestiaryIconDummy)
                 return true;
 
+            spriteBatch.ExitShaderRegion();
+
             for (int i = 0; i < ChainEndpoints.Count; i++)
             {
-                List<Vector2> points = new List<Vector2>()
-                {
-                    NPC.Center,
-                    ChainEndpoints[i] + NPC.DirectionTo(ChainEndpoints[i]) * 25f
-                };
+                float dist = NPC.Distance(ChainEndpoints[i]);
+                List<Vector2> points = new List<Vector2>();
+                for (int j = 0; j < 4; j++)
+                    points.Add(NPC.Center + NPC.DirectionTo(ChainEndpoints[i]) * dist * 0.25f * j);
+                points.Add(ChainEndpoints[i] + NPC.DirectionTo(ChainEndpoints[i]) * 18f);
+
                 PrimitiveRenderer.RenderTrail(points, new(PrimitiveWidthFunction, PrimitiveColorFunction), 40);
             }
-
             return true;
         }
 

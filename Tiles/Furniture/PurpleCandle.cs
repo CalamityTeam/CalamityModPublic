@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.Furniture
 {
     public class PurpleCandle : ModTile
     {
-        // TODO -- Unique sounds for each Cirrus Candle.
+        // TODO -- Unique sounds for each Candle.
         public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Item/LouderPhantomPhoenix2");
 
         public override void SetStaticDefaults()
@@ -36,13 +36,13 @@ namespace CalamityMod.Tiles.Furniture
             Player p = Main.LocalPlayer;
 
             // Forcibly remove all candle buffs.
-            p.ClearBuff(ModContent.BuffType<CirrusBlueCandleBuff>());
-            p.ClearBuff(ModContent.BuffType<CirrusPurpleCandleBuff>());
-            p.ClearBuff(ModContent.BuffType<CirrusPinkCandleBuff>());
-            p.ClearBuff(ModContent.BuffType<CirrusYellowCandleBuff>());
+            p.ClearBuff(ModContent.BuffType<BlueCandleBuff>());
+            p.ClearBuff(ModContent.BuffType<PurpleCandleBuff>());
+            p.ClearBuff(ModContent.BuffType<PinkCandleBuff>());
+            p.ClearBuff(ModContent.BuffType<YellowCandleBuff>());
 
             // 108000 is the duration used by Ammo Box.
-            p.AddBuff(ModContent.BuffType<CirrusPurpleCandleBuff>(), 108000);
+            p.AddBuff(ModContent.BuffType<PurpleCandleBuff>(), 108000);
 
             // Play a sound.
             SoundEngine.PlaySound(ActivationSound, new Vector2(i * 16, j * 16));

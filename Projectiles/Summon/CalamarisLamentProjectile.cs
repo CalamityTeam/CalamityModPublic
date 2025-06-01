@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.MinionShot[Type] = true;
             ProjectileID.Sets.TrailingMode[Type] = 2;
             ProjectileID.Sets.TrailCacheLength[Type] = 4;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = (int)CalamarisLament.EnemyDistanceDetection;
         }
 

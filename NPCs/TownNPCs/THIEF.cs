@@ -112,6 +112,7 @@ namespace CalamityMod.NPCs.TownNPCs
             "Jackson", // <@!525827730646892549> (chowchow360)
             "Altarca", // <@!1140673052108128337> (altarca_27226_49175)
             "Jackie", // <@!353241811717718016> (jackalchan)
+            "Ishmael", // <@!840416568000381046> (vanillaoyster)
 
             // Original names
             this.GetLocalizedValue("Name.Laura"),
@@ -158,11 +159,6 @@ namespace CalamityMod.NPCs.TownNPCs
             int witch = NPC.FindFirstNPC(ModContent.NPCType<WITCH>());
             if (witch != -1)
                 dialogue.Add(this.GetLocalization("Chat.BrimstoneWitch").Format(Main.npc[witch].GivenName));
-
-            //please help me I'm stuck in a children's video game - Fabsol
-            int cirrusIndex = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
-            if (cirrusIndex != -1)
-                dialogue.Add(this.GetLocalization("Chat.DrunkPrincess").Format(Main.npc[cirrusIndex].GivenName));
 
             int merchantIndex = NPC.FindFirstNPC(NPCID.Merchant);
             if (merchantIndex != -1)
@@ -308,8 +304,8 @@ namespace CalamityMod.NPCs.TownNPCs
                 .AddWithCustomValue(ModContent.ItemType<Kylie>(), Item.buyPrice(gold: 9))
                 .AddWithCustomValue(ModContent.ItemType<OldDie>(), Item.buyPrice(gold: 40))
                 .Add(ItemID.TigerClimbingGear)
-                .AddWithCustomValue(ItemID.InvisibilityPotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnough)
-                .AddWithCustomValue(ItemID.NightOwlPotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnough)
+                .AddWithCustomValue(ItemID.InvisibilityPotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnoughToSellPylons)
+                .AddWithCustomValue(ItemID.NightOwlPotion, Item.buyPrice(silver: 25), potionSells, Condition.HappyEnoughToSellPylons)
                 .AddWithCustomValue(ModContent.ItemType<SlickCane>(), Item.buyPrice(gold: 25))
                 .Add(ModContent.ItemType<ThiefsDime>(), Condition.DownedPirates)
                 .AddWithCustomValue(ModContent.ItemType<MomentumCapacitor>(), Item.buyPrice(gold: 60), Condition.DownedMechBossAll)

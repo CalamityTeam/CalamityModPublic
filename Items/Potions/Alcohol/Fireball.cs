@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,6 +29,22 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.buffType = ModContent.BuffType<FireballBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.Ale).
+                AddIngredient(ItemID.LivingFireBlock).
+                AddTile(TileID.Kegs).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(5).
+                AddIngredient(ItemID.LivingFireBlock).
+                AddTile(TileID.AlchemyTable).
+                Register()
+                .DisableDecraft();
         }
     }
 }

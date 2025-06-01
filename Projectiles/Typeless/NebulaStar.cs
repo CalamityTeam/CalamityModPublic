@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
@@ -10,6 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
     public class NebulaStar : BaseSporeSacProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Typeless";
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 34;

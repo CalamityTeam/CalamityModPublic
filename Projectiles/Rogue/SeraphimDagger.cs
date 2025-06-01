@@ -15,6 +15,7 @@ namespace CalamityMod.Projectiles.Rogue
         public const int AimTime = 25;
         public ref float Time => ref Projectile.ai[0];
 
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 50;

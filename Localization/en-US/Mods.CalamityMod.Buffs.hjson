@@ -28,11 +28,6 @@ EvergreenGinBuff: {
 	Description: Sickness and water debuff damage increased, life regen reduced
 }
 
-FabsolVodkaBuff: {
-	DisplayName: Fab
-	Description: You feel fabulous
-}
-
 FireballBuff: {
 	DisplayName: Fireball
 	Description: Fire debuff damage increased, life regen reduced
@@ -61,6 +56,11 @@ MoscowMuleBuff: {
 OldFashionedBuff: {
 	DisplayName: Old Fashioned
 	Description: Accessory and set bonus damage multiplied, damage reduced
+}
+
+PurpleHazeBuff: {
+	DisplayName: Purple Haze
+	Description: Increases damage and gives extra immunity frames, defense reduced
 }
 
 RedWineBuff: {
@@ -168,6 +168,11 @@ GodSlayerInferno: {
 	Description: Your flesh is burning off
 }
 
+HeavyBleeding: {
+	DisplayName: Heavy Bleeding
+	Description: That's gonna need stitches
+}
+
 HolyFlames: {
 	DisplayName: Holy Flames
 	Description: Dissolving from holy light
@@ -176,6 +181,11 @@ HolyFlames: {
 HolyInferno: {
 	DisplayName: Holy Inferno
 	Description: You've gone too far from the Profaned Goddess!
+}
+
+Laceration: {
+	DisplayName: Laceration
+	Description: You're a bloody mess
 }
 
 ManaBurn: {
@@ -241,11 +251,6 @@ VulnerabilityHex: {
 WeakBrimstoneFlames: {
 	DisplayName: Weak Brimstone Flames
 	Description: Using the Supreme Witch's power causes you to suffer, but makes your weapons strong
-}
-
-AlicornBuff: {
-	DisplayName: Alicorn
-	Description: You beat DoG while drunk, you are truly fabulous!
 }
 
 AndromedaBuff: {
@@ -453,29 +458,14 @@ YharonSonBuff: {
 	Description: You better not eat his dinner
 }
 
-ChaosCandleBuff: {
-	DisplayName: Chaos Candle
-	Description: Spawn rates around the candle are boosted!
-}
-
-CirrusBlueCandleBuff: {
+BlueCandleBuff: {
 	DisplayName: Limber
 	Description: The floating flame seems to uplift your very spirit
 }
 
-CirrusPinkCandleBuff: {
-	DisplayName: Vigor
-	Description: The brilliant light suffuses you with hope
-}
-
-CirrusPurpleCandleBuff: {
-	DisplayName: Resilience
-	Description: Neither rain nor wind can snuff your undying flame
-}
-
-CirrusYellowCandleBuff: {
-	DisplayName: Spite
-	Description: The hateful, flickering glow fuels your ire
+ChaosCandleBuff: {
+	DisplayName: Chaos Candle
+	Description: Spawn rates around the candle are boosted!
 }
 
 CorruptionEffigyBuff: {
@@ -493,9 +483,24 @@ EffigyOfDecayBuff: {
 	Description: The sulphuric waters empower you
 }
 
+PinkCandleBuff: {
+	DisplayName: Vigor
+	Description: The brilliant light suffuses you with hope
+}
+
+PurpleCandleBuff: {
+	DisplayName: Resilience
+	Description: Neither rain nor wind can snuff your undying flame
+}
+
 TranquilityCandleBuff: {
 	DisplayName: Tranquility Candle
 	Description: Spawn rates around the candle are reduced!
+}
+
+YellowCandleBuff: {
+	DisplayName: Spite
+	Description: The hateful, flickering glow fuels your ire
 }
 
 PopoBuff: {
@@ -520,7 +525,7 @@ AstralInjectionBuff: {
 
 BaguetteBuff: {
 	DisplayName: Baguette
-	Description: "[c/B00BA5:'If only I knew...' ~Cirrus]"
+	Description: Goes well with Red Wine
 }
 
 BloodfinBoost: {
@@ -763,11 +768,6 @@ IceShieldBuff: {
 	Description: Absorbs 20% damage from the next hit you take, then shatters
 }
 
-KamiBuff: {
-	DisplayName: Kami Injection
-	Description: 15% increased max movement speed, acceleration and damage
-}
-
 Mushy: {
 	DisplayName: Mushy
 	Description: Increased defense by 6 and life regen by 1HP/s
@@ -945,11 +945,6 @@ IcarusFolly: {
 Irradiated: {
 	DisplayName: Irradiated
 	Description: Your skin is burning off
-}
-
-KamiFlu: {
-	DisplayName: Kami Flu
-	Description: Defenseless and dying
 }
 
 MarkedforDeath: {

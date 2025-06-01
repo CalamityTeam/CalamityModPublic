@@ -116,10 +116,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 }
             }
 
-            int fab = NPC.FindFirstNPC(NPCType<FAP>());
-            if (fab != -1 && ChildSafety.Disabled)
-                dialogue.Add(this.GetLocalization("Chat.DrunkPrincess").Format(Main.npc[fab].GivenName), 1.45);
-
             if (NPC.AnyNPCs(NPCType<SEAHOE>()))
                 dialogue.Add(this.GetLocalizedValue("Chat.SeaKing"), 1.45);
 
@@ -129,7 +125,11 @@ namespace CalamityMod.NPCs.TownNPCs
             return dialogue;
         }
 
-        public override void SetChatButtons(ref string button, ref string button2) => button = this.GetLocalizedValue("EnchantButton");
+        public override void SetChatButtons(ref string button, ref string button2)
+        {
+            button = this.GetLocalizedValue("EnchantButton");
+            button2 = this.GetLocalizedValue("DonorButton");
+        }
 
         public override void OnChatButtonClicked(bool firstButton, ref string shopName)
         {
@@ -145,6 +145,28 @@ namespace CalamityMod.NPCs.TownNPCs
                     Main.LocalPlayer.Calamity().GivenBrimstoneLocus = true;
                 }
             }
+            else
+            {
+                Main.npcChatText = GetRandomDonors(25);
+            }
+        }
+        /// <summary>
+        /// Returns an arbitrary number of random donator usernames.
+        /// </summary>
+        public string GetRandomDonors(int numDonors)
+        {
+            IList<string> pickingList = [.. CalamityLists.donatorList];
+
+            string[] pickedDonors = new string[numDonors];
+            for (int i = 0; i < numDonors; ++i)
+            {
+                int idxSelected = Main.rand.Next(pickingList.Count);
+                pickedDonors[i] = pickingList[idxSelected];
+                pickingList.RemoveAt(idxSelected);
+            }
+
+            string text = this.GetLocalization("DonorShoutout").Format(pickedDonors);
+            return text;
         }
 
         // Make this Town NPC teleport to the Queen statue when triggered.

@@ -1,7 +1,9 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
@@ -9,11 +11,12 @@ namespace CalamityMod.Projectiles.Summon
     public class CorruptionSlimeGodMinion : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+        public override string Texture => "CalamityMod/Projectiles/Summon/CorroslimeMinion";
         public float dust = 0f;
 
         public override void SetStaticDefaults()
         {
-            Main.projFrames[Projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
@@ -84,5 +87,13 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D slom = TextureAssets.Projectile[Type].Value;
+            Rectangle frame = slom.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
+            Main.EntitySpriteDraw(slom, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, frame.Size() / 2f, Projectile.scale, SpriteEffects.None);
+            return false;
+        }
     }
 }

@@ -244,6 +244,9 @@ namespace CalamityMod.CalPlayer
             if (calamityPlayer.gsInferno && drawInfo.shadow == 0f)
                 GodSlayerInferno.DrawEffects(drawInfo);
 
+            if (calamityPlayer.heavybleeding && drawInfo.shadow == 0f)
+                HeavyBleeding.DrawEffects(drawInfo);
+
             // Holy Flames, Holy Inferno and Banishing Fire share the same visual effects
             if (drawInfo.shadow == 0f && (calamityPlayer.hFlames || calamityPlayer.hInferno || calamityPlayer.banishingFire))
             {
@@ -255,6 +258,9 @@ namespace CalamityMod.CalPlayer
             // Icarus' Folly has visual effects but they are mutually exclusive with all Holy Flames variations to prevent visual clutter
             else if (calamityPlayer.icarusFolly && drawInfo.shadow == 0f)
                 IcarusFolly.DrawEffects(drawInfo);
+
+            if (calamityPlayer.laceration && drawInfo.shadow == 0f)
+                Laceration.DrawEffects(drawInfo);
 
             if (calamityPlayer.miracleBlight && drawInfo.shadow == 0f)
                 MiracleBlight.DrawEffects(drawInfo);

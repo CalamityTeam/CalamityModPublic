@@ -14,7 +14,7 @@ namespace CalamityMod.Buffs.Mounts
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.mount.SetMount(ModContent.MountType<PhuppersChair>(), player);
+            player.mount.SetMount(ModContent.MountType<BrimroseChair>(), player);
             player.buffTime[buffIndex] = 10;
         }
     }

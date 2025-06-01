@@ -52,7 +52,6 @@ namespace CalamityMod.World
 
         // Town NPC spawn/home bools
         public static bool spawnedBandit = false;
-        public static bool spawnedCirrus = false;
         public static bool foundHomePermafrost = false;
 
         // Town Pet name chosen bools

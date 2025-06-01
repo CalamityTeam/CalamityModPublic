@@ -4,7 +4,7 @@
 - [Steam Workshop](https://calamitymod.com/download/)
 - [Discord](https://discord.gg/calamity)
 - [Official Wiki](https://calamitymod.wiki.gg/)
-- [Patreon](https://patreon.com/fabsol)
+- [Patreon](https://patreon.com/CalamityMod)
 
 The Calamity Mod is a vast content mod for Terraria which adds dozens of bosses and thousands of items to create an intense and varied experience. The mod must be installed using [tModLoader](https://github.com/tModLoader/tModLoader).
 

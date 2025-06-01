@@ -467,7 +467,7 @@ namespace CalamityMod
             if (modPlayer.rampartOfDeities && hurtInfo.Damage > 200)
                 extraIFrames += 30;
 
-            if (modPlayer.fabsolVodka)
+            if (modPlayer.purpleHaze)
             {
                 if (hurtInfo.Damage == 1)
                     extraIFrames += 5;

@@ -9,6 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
     public class FishronRPG : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Ranged";
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 14;

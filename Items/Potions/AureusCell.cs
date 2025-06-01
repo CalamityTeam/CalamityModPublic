@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Potions
             Item.buffTime = CalamityUtils.SecondsToFrames(360f);
         }
 
-        public override bool? UseItem(Player player)
+        public override void OnConsumeItem(Player player)
         {
             if (PlayerInput.Triggers.JustPressed.QuickBuff)
             {
@@ -49,7 +49,6 @@ namespace CalamityMod.Items.Potions
             }
             player.AddBuff(BuffID.MagicPower, Item.buffTime);
             player.AddBuff(BuffID.ManaRegeneration, Item.buffTime);
-            return true;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace CalamityMod.Projectiles.Typeless
     public class PendantProjectile3 : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Typeless";
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 14;

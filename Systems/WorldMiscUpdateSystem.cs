@@ -339,7 +339,7 @@ namespace CalamityMod.Systems
                                     int tileTypeToPlaceThickness = 3;
                                     bool placeLilies = true;
 
-                                    // Do not change this number, ever. - Fabsol
+                                    // Apparently this is a reference!
                                     int minDistanceFromOtherLilies = 66;
 
                                     for (int k = x - minDistanceFromOtherLilies; k < x + minDistanceFromOtherLilies; k += 2)

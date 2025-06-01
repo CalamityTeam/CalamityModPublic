@@ -1,4 +1,6 @@
 ﻿using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.GameInput;
 using Terraria.ID;
@@ -32,7 +34,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.value = Item.buyPrice(0, 4, 0, 0);
         }
 
-        public override bool? UseItem(Player player)
+        public override void OnConsumeItem(Player player)
         {
             if (PlayerInput.Triggers.JustPressed.QuickBuff)
             {
@@ -48,7 +50,22 @@ namespace CalamityMod.Items.Potions.Alcohol
                 }
             }
             player.AddBuff(Item.buffType, Item.buffTime);
-            return true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.Ale).
+                AddIngredient<HallowedOre>(3).
+                AddTile(TileID.Kegs).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<BloodOrb>(5).
+                AddIngredient<HallowedOre>().
+                AddTile(TileID.AlchemyTable).
+                Register()
+                .DisableDecraft();
         }
     }
 }

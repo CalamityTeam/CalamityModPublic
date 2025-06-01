@@ -4,17 +4,8 @@ using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Reflection.Metadata;
-using Microsoft.Xna.Framework.Graphics;
-using System.Diagnostics.Contracts;
-using Terraria.GameContent;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -40,6 +31,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 15;
             ProjectileID.Sets.TrailingMode[Type] = 2;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()

@@ -222,7 +222,6 @@ namespace CalamityMod.NPCs.Leviathan
             bool immuneToSlowingDebuffs = NPC.ai[0] == 2f;
             NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<KamiFlu>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<GalvanicCorrosion>()] = immuneToSlowingDebuffs;

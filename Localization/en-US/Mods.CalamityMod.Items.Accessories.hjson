@@ -138,7 +138,7 @@ AmbrosialAmpoule: {
 	Tooltip:
 		'''
 		+50 max life
-		Grants +2 to +6 HP/s life regen based on missing health
+		Grants +1 to +5 HP/s life regen based on missing health
 		Grants +1 HP/s life regen and an additional 1 HP/s life regen when inflicted with a damage debuff
 		Standing still grants +1.5 HP/s life regen
 		Halves how long you are afflicted with fire and sickness debuffs
@@ -1322,7 +1322,7 @@ Radiance: {
 	Tooltip:
 		'''
 		+70 max life
-		Grants +2 to +6 HP/s life regen based on missing health
+		Grants +1 to +5 HP/s life regen based on missing health
 		Grants +1 HP/s life regen and an additional 1 HP/s life regen when inflicted with a damage debuff
 		Standing still grants +2 HP/s life regen
 		Grants 20 defense and continuous healing while afflicted with any debuff
@@ -1809,7 +1809,7 @@ TheCommunity: {
 		'''
 		[STATS]
 		'The heart of (most of) the Terraria community'
-		[c/B00BA5:Thank you to all of my supporters who made this mod a reality!]
+		Thank you to all of our supporters who made this mod a reality!
 		'''
 	StatsList:
 		'''
@@ -2019,11 +2019,6 @@ AbandonedWulfrumHelmet: {
 		[c/83B87E:'This rather flimsy armor was commonly worn by scavengers and looters.]
 		[c/83B87E:Its versatility and common nature led it to be used as currency in trades.']
 		'''
-}
-
-CrystalHeartVodka: {
-	DisplayName: Crystal Heart Vodka
-	Tooltip: "'Tastes like strawberry cream liqueur (and estrogen)'"
 }
 
 HapuFruit: {

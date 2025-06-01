@@ -153,14 +153,18 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (Main.npc[CalamityGlobalNPC.SCal].active)
                 {
-                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().permafrost)
+                    {
+                        lightColor.G = (byte)(255 * Projectile.Opacity);
                         lightColor.B = (byte)(255 * Projectile.Opacity);
+                        lightColor.R = 0;
+                    }
                 }
             }
 
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1);
             return false;
         }
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 18 * Projectile.scale, targetHitbox);
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 10 * Projectile.scale, targetHitbox);
     }
 }

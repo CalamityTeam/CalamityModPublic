@@ -244,6 +244,8 @@ namespace CalamityMod.NPCs
         public int pearlAura = 0;
         public int bBlood = 0;
         public int brainRot = 0;
+        public int heavybleeding = 0;
+        public int laceration = 0;
         public int elementalMix = 0;
         public int marked = 0;
         public int absorberAffliction = 0;
@@ -278,7 +280,6 @@ namespace CalamityMod.NPCs
         public int clamDebuff = 0;
         public int sulphurPoison = 0;
         public int ladHearts = 0;
-        public int kamiFlu = 0;
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
         public int GaussFluxTimer = 0;
@@ -463,6 +464,8 @@ namespace CalamityMod.NPCs
             myClone.pearlAura = pearlAura;
             myClone.bBlood = bBlood;
             myClone.brainRot = brainRot;
+            myClone.heavybleeding = heavybleeding;
+            myClone.laceration = laceration;
             myClone.elementalMix = elementalMix;
             myClone.marked = marked;
             myClone.absorberAffliction = absorberAffliction;
@@ -493,7 +496,6 @@ namespace CalamityMod.NPCs
             myClone.clamDebuff = clamDebuff;
             myClone.sulphurPoison = sulphurPoison;
             myClone.ladHearts = ladHearts;
-            myClone.kamiFlu = kamiFlu;
             myClone.relicOfResilienceCooldown = relicOfResilienceCooldown;
             myClone.relicOfResilienceWeakness = relicOfResilienceWeakness;
             myClone.GaussFluxTimer = GaussFluxTimer;
@@ -1052,13 +1054,6 @@ namespace CalamityMod.NPCs
                 ApplyDPSDebuff(baseSagePoisonDoTValue, baseSagePoisonDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
-            // Kami Debuff from Yanmei's Knife
-            if (kamiFlu > 0)
-            {
-                int baseKamiFluDoTValue = (int)(250 * sicknessDamageMult);
-                ApplyDPSDebuff(baseKamiFluDoTValue, baseKamiFluDoTValue / 10, ref npc.lifeRegen, ref damage);
-            }
-
             //Absorber Affliction
             if (absorberAffliction > 0)
             {
@@ -1114,6 +1109,10 @@ namespace CalamityMod.NPCs
                 ApplyDPSDebuff(40, 10, ref npc.lifeRegen, ref damage);
             if (brainRot > 0)
                 ApplyDPSDebuff(40, 10, ref npc.lifeRegen, ref damage);
+            if (heavybleeding > 0)
+                ApplyDPSDebuff(80, 10, ref npc.lifeRegen, ref damage);
+            if (laceration > 0)
+                ApplyDPSDebuff(400, 100, ref npc.lifeRegen, ref damage);
             if (elementalMix > 0)
                 ApplyDPSDebuff(400, 80, ref npc.lifeRegen, ref damage);
             if (miracleBlight > 0)
@@ -1521,8 +1520,8 @@ namespace CalamityMod.NPCs
         #region Vulnerabilities and Resistances
         private void VulnerabilitiesAndResistances(NPC npc)
         {
-            // These enemies are categorized in such a way to make them easy to understand.
-            // Do not mess with these categories unless you ask me for permission - Fab.
+            // These enemies are categorized in such a way to make them easy to understand
+            // Regroup these if necessary, reminder to keep it comprehensive
             switch (npc.type)
             {
                 // Regular organic desert enemies.
@@ -3222,17 +3221,17 @@ namespace CalamityMod.NPCs
                 effectiveDR = 0f;
 
             // Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
-            // Cirrus being active makes the extra DR cease to function
-            bool cirrusBossActive = false;
+            // Permafrost being active makes the extra DR cease to function
+            bool permafrostBossActive = false;
             if (CalamityGlobalNPC.SCal != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.SCal].active)
-                    cirrusBossActive = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas.SupremeCalamitas>().cirrus;
+                    permafrostBossActive = Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas.SupremeCalamitas>().permafrost;
             }
 
             bool nightProvi = npc.type == NPCType<Providence.Providence>() && !Main.IsItDay();
             bool dayEmpress = npc.type == NPCID.HallowBoss && NPC.ShouldEmpressBeEnraged();
-            if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && !cirrusBossActive && (nightProvi || dayEmpress))
+            if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && !permafrostBossActive && (nightProvi || dayEmpress))
             {
                 // Set the DR scaling factor
                 float DRScalar = 10f;
@@ -3270,8 +3269,6 @@ namespace CalamityMod.NPCs
                 calcDR *= 0.8f;
             if (npc.betsysCurse)
                 calcDR *= 0.66f;
-            if (npc.Calamity().kamiFlu > 0)
-                calcDR *= KamiFlu.MultiplicativeDamageReduction;
             if (npc.Calamity().aCrunch > 0)
                 calcDR *= ArmorCrunch.MultiplicativeDamageReductionEnemy;
             if (npc.Calamity().crumble > 0)
@@ -5066,8 +5063,6 @@ namespace CalamityMod.NPCs
                 webbed--;
             if (slowed > 0)
                 slowed--;
-            if (kamiFlu > 0)
-                kamiFlu--;
             if (vaporfied > 0)
                 vaporfied--;
 
@@ -5079,6 +5074,10 @@ namespace CalamityMod.NPCs
                 bBlood--;
             if (brainRot > 0)
                 brainRot--;
+            if (heavybleeding > 0)
+                heavybleeding--;
+            if (laceration > 0)
+                laceration--;
             if (elementalMix > 0)
                 elementalMix--;
             if (vulnerabilityHex > 0)
@@ -5124,8 +5123,6 @@ namespace CalamityMod.NPCs
                 sulphurPoison--;
             if (sagePoisonTime > 0)
                 sagePoisonTime--;
-            if (kamiFlu > 0)
-                kamiFlu--;
             if (relicOfResilienceCooldown > 0)
                 relicOfResilienceCooldown--;
             if (relicOfResilienceWeakness > 0)
@@ -5209,10 +5206,6 @@ namespace CalamityMod.NPCs
                     else if (vulnerabilityHex > 0)
                     {
                         npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-Calamity.MaxNPCSpeed), new Vector2(Calamity.MaxNPCSpeed, 10f));
-                    }
-                    else if (kamiFlu > 420)
-                    {
-                        npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiFlu.MaxNPCSpeed), new Vector2(KamiFlu.MaxNPCSpeed));
                     }
                 }
             }
@@ -6012,17 +6005,6 @@ namespace CalamityMod.NPCs
                 maxSpawns = (int)(maxSpawns * 5f);
             }
 
-            // This is horribly unoptimized, I'm leaving it commented out. - Fab
-            /*if (NPC.AnyNPCs(NPCType<WulfrumAmplifier>()))
-            {
-                int otherWulfrumEnemies = NPC.CountNPCS(NPCType<WulfrumDrone>()) + NPC.CountNPCS(NPCType<WulfrumGyrator>()) + NPC.CountNPCS(NPCType<WulfrumHovercraft>()) + NPC.CountNPCS(NPCType<WulfrumRover>());
-                if (otherWulfrumEnemies < 4)
-                {
-                    spawnRate = (int)(spawnRate * 0.8);
-                    maxSpawns = (int)(maxSpawns * 1.2f);
-                }
-            }*/
-
             // Reductions
             if (Main.SceneMetrics.PeaceCandleCount > 0)
             {
@@ -6190,8 +6172,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            // 12JUL2023: Ozzatron: what does this do
-            // 27SEP2023: Fabsol: disables vanilla spawns "a pool of [0] indicates vanilla spawning"
+            // Disable vanilla spawns while in the Brimstone Crag
             if (calamityBiomeZone)
             {
                 pool[0] = 0f;
@@ -6383,6 +6364,12 @@ namespace CalamityMod.NPCs
             if (hFlames > 0 || banishingFire > 0)
                 HolyFlames.DrawEffects(npc, ref drawColor);
 
+            if (heavybleeding > 0)
+                HeavyBleeding.DrawEffects(npc, ref drawColor);
+
+            if (laceration > 0)
+                Laceration.DrawEffects(npc, ref drawColor);
+
             // These draw effects do not include Miracle Blight's shader
             if (miracleBlight > 0)
                 MiracleBlight.DrawEffects(npc, ref drawColor);
@@ -6555,9 +6542,6 @@ namespace CalamityMod.NPCs
             if (npc.HasBuff<Enraged>())
                 return new Color(200, 50, 50, 255 - npc.alpha);
 
-            if (npc.Calamity().kamiFlu > 0 && !CalamityLists.kamiDebuffColorImmuneList.Contains(npc.type))
-                return new Color(51, 197, 108, 255 - npc.alpha);
-
             if (npc.type == NPCID.VileSpit || npc.type == NPCID.VileSpitEaterOfWorlds)
                 return new Color(150, 200, 0, npc.alpha);
 
@@ -6579,7 +6563,9 @@ namespace CalamityMod.NPCs
             ("CalamityMod/Buffs/DamageOverTime/Dragonfire", NPC => NPC.Calamity().dragonFire > 0),
             ("CalamityMod/Buffs/DamageOverTime/ElementalMix", NPC => NPC.Calamity().elementalMix > 0),
             ("CalamityMod/Buffs/DamageOverTime/GodSlayerInferno", NPC => NPC.Calamity().gsInferno > 0),
+            ("CalamityMod/Buffs/DamageOverTime/HeavyBleeding", NPC => NPC.Calamity().heavybleeding > 0),
             ("CalamityMod/Buffs/DamageOverTime/HolyFlames", NPC => NPC.Calamity().hFlames > 0),
+            ("CalamityMod/Buffs/DamageOverTime/Laceration", NPC => NPC.Calamity().laceration > 0),
             ("CalamityMod/Buffs/DamageOverTime/MiracleBlight", NPC => NPC.Calamity().miracleBlight > 0),
             ("CalamityMod/Buffs/DamageOverTime/Nightwither", NPC => NPC.Calamity().nightwither > 0),
             ("CalamityMod/Buffs/DamageOverTime/Plague", NPC => NPC.Calamity().pFlames > 0),
@@ -6601,7 +6587,6 @@ namespace CalamityMod.NPCs
             ("CalamityMod/Buffs/StatDebuffs/GalvanicCorrosion", NPC => NPC.Calamity().tesla > 0),
             ("CalamityMod/Buffs/StatDebuffs/GlacialState", NPC => NPC.Calamity().gState > 0),
             ("CalamityMod/Buffs/StatDebuffs/Irradiated", NPC => NPC.Calamity().irradiated > 0),
-            ("CalamityMod/Buffs/StatDebuffs/KamiFlu", NPC => NPC.Calamity().kamiFlu > 0),
             ("CalamityMod/Buffs/StatDebuffs/MarkedforDeath", NPC => NPC.Calamity().marked > 0),
             ("CalamityMod/Buffs/StatDebuffs/PearlAura", NPC => NPC.Calamity().pearlAura > 0),
             ("CalamityMod/Buffs/StatDebuffs/ProfanedWeakness", NPC => NPC.Calamity().relicOfResilienceWeakness > 0),

@@ -27,15 +27,15 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.minionSlots = 0.5f;
+            Projectile.minionSlots = 1f;
             Projectile.timeLeft = 18000;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.timeLeft *= 5;
             Projectile.minion = true;
             Projectile.DamageType = DamageClass.Summon;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 8;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()
@@ -55,6 +55,19 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 dust--;
             }
+            bool isMinion = Projectile.type == ModContent.ProjectileType<PurpleButterfly>();
+            player.AddBuff(ModContent.BuffType<ResurrectionButterflyBuff>(), 3600);
+            if (isMinion)
+            {
+                if (player.dead)
+                {
+                    modPlayer.resButterfly = false;
+                }
+                if (modPlayer.resButterfly)
+                {
+                    Projectile.timeLeft = 2;
+                }
+            }
             if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
                 Projectile.spriteDirection = -Projectile.direction;
@@ -72,19 +85,6 @@ namespace CalamityMod.Projectiles.Summon
             }
             Lighting.AddLight(Projectile.Center, 0.3f, 0f, 0.5f);
             Projectile.ChargingMinionAI(1200f, 1500f, 2400f, 150f, 0, 25f, 20f, 9f, new Vector2(0f, -60f), 30f, 15f, true, true);
-            bool isMinion = Projectile.type == ModContent.ProjectileType<PurpleButterfly>();
-            player.AddBuff(ModContent.BuffType<ResurrectionButterflyBuff>(), 3600);
-            if (isMinion)
-            {
-                if (player.dead)
-                {
-                    modPlayer.resButterfly = false;
-                }
-                if (modPlayer.resButterfly)
-                {
-                    Projectile.timeLeft = 2;
-                }
-            }
         }
 
         public override bool PreDraw(ref Color lightColor)

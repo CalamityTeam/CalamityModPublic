@@ -183,7 +183,7 @@ BloodBoiler: {
 		'''
 		Fires twin streams of life stealing bloodfire that returns to you
 		Uses your health as ammo
-		40% chance to save health
+		60% chance to save health
 		'''
 }
 
@@ -211,12 +211,14 @@ BulletFilledShotgun: {
 		'''
 }
 
-Butcher: {
-	DisplayName: Butcher
+Buzzkill: {
+	DisplayName: Buzzkill
 	Tooltip:
 		'''
-		Fires bullets faster and more accurately the longer you hold the trigger
-		25% chance to save ammo
+		Hold <left> to rev up a close-range buzzsaw
+		When released, the saw bounces off tiles and lacerates foes
+		Revving the saw increases its damage and piercing capabilities
+		'Not to be confused with the Sawed-On Shotgun'
 		'''
 }
 
@@ -400,15 +402,6 @@ Disseminator: {
 		'''
 }
 
-DodusHandcannon: {
-	DisplayName: Dodu's Handcannon
-	Tooltip:
-		'''
-		Fires high explosive peanut shells, literally
-		'The power of the nut rests in your hands'
-		'''
-}
-
 DragonsBreath: {
 	DisplayName: Dragon's Breath
 	Tooltip:
@@ -430,15 +423,6 @@ Drataliornus: {
 		Taking damage while firing the stream will interrupt it and reduce your wing flight time
 		Press <right> to fire two devastating barrages of five empowered fireballs
 		'Just don't get hit'
-		'''
-}
-
-ElementalBlaster: {
-	DisplayName: Elemental Blaster
-	Tooltip:
-		'''
-		Fires a storm of rainbow blasts
-		Does not consume ammo
 		'''
 }
 
@@ -1160,9 +1144,10 @@ SpeedBlaster: {
 	Tooltip:
 		'''
 		Rapidly fires phosphorescent paintball shots
-		Press <right> to eject a powerful glob which propels you while moving
-		This ability has a cooldown of {0} seconds
-		While under cooldown, you fire more rapidly with greater accuracy
+		Press <right> to eject a powerful paint stream of a different color
+		Using this ability rapidly propels you in the direction you are moving
+		This ability has a {0} second cooldown
+		During this cooldown, you fire more rapidly with greater accuracy
 		'''
 }
 
@@ -1227,6 +1212,30 @@ StormSurge: {
 SulphuricAcidCannon: {
 	DisplayName: Sulphuric Acid Cannon
 	Tooltip: Fires an acidic shot that sticks to enemies and dissolves them
+}
+
+SuperradiantSlaughterer: {
+	DisplayName: Superradiant Slaughterer
+	Tooltip:
+		'''
+		[MAIN]
+		[ALT]
+		[c/c91a1a:'No one knows how it turns blood into rainbows...']
+		'''
+	MainInfo:
+		'''
+		Hold <left> to rev up a close-range elemental buzzsaw
+		When released, the saw bounces off tiles and lacerates foes
+		Fired buzzsaws eventually return to the player and release homing bolts, scaling with enemy and tile hits
+		Revving up the saw increases its damage and piercing capabilities
+		'''
+	AltInfo:
+		'''
+		Press <right> to fire a lingering buzzsaw towards the cursor that constantly fires homing bolts
+		Using this ability rapidly propels you in the direction you are moving if movement keys are held
+		This ability has a {0} second cooldown
+		During this cooldown, fired buzzsaws home in on the cursor and will release homing bolts while returning
+		'''
 }
 
 SurgeDriver: {

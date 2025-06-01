@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 32;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()

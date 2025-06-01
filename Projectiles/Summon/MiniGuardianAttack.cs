@@ -155,7 +155,6 @@ namespace CalamityMod.Projectiles.Summon
                 }
 
                 // Turning (wtf is this)
-                // idk ask phup lmao
                 if (Projectile.velocity.X < playerDestination.X)
                 {
                     Projectile.velocity.X += acceleration;

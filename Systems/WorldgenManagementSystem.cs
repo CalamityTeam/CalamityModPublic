@@ -408,6 +408,20 @@ namespace CalamityMod.Systems
                         }
                     }
 
+                    // Fix vanilla's stupidity with Gold Chests being able to have Meteorite Bars in them near the Underworld
+                    if (isGoldChest)
+                    {
+                        for (int inventoryIndex = 0; inventoryIndex < 40; inventoryIndex++)
+                        {
+                            if (chest.item[inventoryIndex].type == ItemID.MeteoriteBar)
+                            {
+                                int oldStack = chest.item[inventoryIndex].stack;
+                                chest.item[inventoryIndex].SetDefaults(WorldGen.genRand.NextBool() ? ItemID.PlatinumBar : ItemID.GoldBar);
+                                chest.item[inventoryIndex].stack = oldStack;
+                            }
+                        }
+                    }
+
                     // Give Dead Man's Chests better loot.
                     if (isDeadManChest)
                     {

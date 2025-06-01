@@ -182,7 +182,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             bool immuneToSlowingDebuffs = NPC.ai[0] == 0f || NPC.ai[0] == 4f;
             NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<KamiFlu>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
             NPC.buffImmune[ModContent.BuffType<GalvanicCorrosion>()] = immuneToSlowingDebuffs;

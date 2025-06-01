@@ -35,6 +35,7 @@ BouncingShotgunPellet.DisplayName: Shotgun Pellet
 BrimstoneBolt.DisplayName: Brimstone Bolt
 BrimstoneFireFriendly.DisplayName: Brimstone Fire
 BubonicRoundProj.DisplayName: Bubonic Round
+BuzzkillSaw.DisplayName: Buzzsaw
 CardClub.DisplayName: Club
 CardClubSplit.DisplayName: Club
 CardDiamond.DisplayName: Diamond
@@ -103,7 +104,6 @@ GoliathRocket.DisplayName: Goliath Rocket
 HalleysComet.DisplayName: Halley's Comet
 HandheldTankShell.DisplayName: Tank Shell
 HeavenlyGaleProj.DisplayName: Heavenly Gale
-HighExplosivePeanutShell.DisplayName: High Explosive Peanut Shell
 HiveBomb.DisplayName: Hive Bomb
 HiveMissile.DisplayName: Hive Missile
 HiveNuke.DisplayName: Hive Nuke
@@ -220,6 +220,9 @@ StarmageddonStar2.DisplayName: Starmageddon Star
 StormSurgeTornado.DisplayName: Surge
 SulphuricBlast.DisplayName: Sulphuric Blast
 SuperballBulletProj.DisplayName: Superball Bullet
+SuperradiantBolt.DisplayName: Superradiant Bolt
+SuperradiantSawLingering.DisplayName: Ultraradiant Saw
+SuperradiantSaw.DisplayName: Superradiant Saw
 TelluricGlareArrow.DisplayName: Radiant Arrow
 TheMaelstromExplosion.DisplayName: Reaper Explosion
 TheMaelstromShark.DisplayName: Reaper Shark

@@ -142,7 +142,6 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
             bool immuneToSlowingDebuffs = npc.ai[0] == 0f;
             npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[ModContent.BuffType<KamiFlu>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<GalvanicCorrosion>()] = immuneToSlowingDebuffs;

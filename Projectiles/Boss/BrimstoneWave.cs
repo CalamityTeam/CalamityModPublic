@@ -62,10 +62,10 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.frame > 3)
                 Projectile.frame = 0;
 
-            if (Projectile.timeLeft < 30)
-                Projectile.Opacity = MathHelper.Clamp(Projectile.timeLeft / 30f, 0f, 1f);
+            if (Projectile.timeLeft < 60)
+                Projectile.Opacity = MathHelper.Clamp(Projectile.timeLeft / 60f, 0f, 1f);
             else
-                Projectile.Opacity = MathHelper.Clamp(1f - ((Projectile.timeLeft - 1170) / 30f), 0f, 1f);
+                Projectile.Opacity = MathHelper.Clamp(1f - ((Projectile.timeLeft - 1140) / 60f), 0f, 1f);
 
             Lighting.AddLight(Projectile.Center, 0.5f * Projectile.Opacity, 0f, 0f);
 
@@ -87,8 +87,12 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (Main.npc[CalamityGlobalNPC.SCal].active)
                 {
-                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().cirrus)
+                    if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().permafrost)
+                    {
+                        lightColor.G = (byte)(255 * Projectile.Opacity);
                         lightColor.B = (byte)(255 * Projectile.Opacity);
+                        lightColor.R = 0;
+                    }
                 }
             }
 

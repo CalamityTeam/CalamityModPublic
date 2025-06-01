@@ -42,6 +42,9 @@ namespace CalamityMod.Tiles.Ores
         }
         public override void NearbyEffects(int i, int j, bool closer)
         {
+            if (j < 2)
+                return;
+
             Tile tile = Main.tile[i, j];
             Tile up = Main.tile[i, j - 1];
             Tile up2 = Main.tile[i, j - 2];

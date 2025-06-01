@@ -13,15 +13,6 @@ ExoThrone: {
 		'''
 }
 
-Fabsol: {
-	DisplayName: Princess Spirit in a Bottle
-	Tooltip:
-		'''
-		Summons the spirit of Cirrus, the Drunk Princess, in her alicorn form
-		Mounting will transform Cirrus, dismounting transforms her back
-		'''
-}
-
 FollyFeed: {
 	DisplayName: Folly Feed
 	Tooltip: Summons a monstrosity

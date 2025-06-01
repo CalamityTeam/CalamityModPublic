@@ -17,6 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
         private int targetNPC = -1;
         private List<int> previousNPCs = new List<int>() { -1 };
 
+        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
             Projectile.width = 10;

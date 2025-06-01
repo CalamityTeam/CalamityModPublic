@@ -109,6 +109,10 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
+            var ThankYouTooltip = list.FirstOrDefault(x => x.Name == "Tooltip2" && x.Mod == "Terraria");
+            if (ThankYouTooltip != null)
+                ThankYouTooltip.OverrideColor = Main.DiscoColor;
+
             float power = CalculatePower();
             string statList = this.GetLocalization("StatsList").Format(
                 (DamageMultiplier * power * 100).ToString("N1"),

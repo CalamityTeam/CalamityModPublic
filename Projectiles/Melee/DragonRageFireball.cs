@@ -17,6 +17,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 5;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()

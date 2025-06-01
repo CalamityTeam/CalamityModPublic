@@ -86,14 +86,12 @@ namespace CalamityMod.Items
         private void ApplyRarityColor(Item item, TooltipLine nameLine)
         {
             #region Uniquely Colored Items
-            if (item.type == ModContent.ItemType<LiliesOfFinality>())
-                nameLine.OverrideColor = Color.Lerp(Color.Red, Color.White, (float)Math.Sin(Main.GlobalTimeWrappedHourly) / 2f + 0.5f);
             if (item.type == ModContent.ItemType<HeartoftheElements>() || item.type == ModContent.ItemType<TheCommunity>() || item.type == ModContent.ItemType<IridescentExcalibur>())
                 nameLine.OverrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 
             // Developer items
-            if (item.type == ModContent.ItemType<Fabstaff>())
-                nameLine.OverrideColor = new Color(Main.DiscoR, 100, 255);
+            if (item.type == ModContent.ItemType<Sylvestaff>())
+                nameLine.OverrideColor = new Color(249, 197, 255);
             if (item.type == ModContent.ItemType<StaffofBlushie>())
                 nameLine.OverrideColor = new Color(0, 0, 255);
             if (item.type == ModContent.ItemType<TheDanceofLight>())
@@ -101,6 +99,8 @@ namespace CalamityMod.Items
             if (item.type == ModContent.ItemType<NanoblackReaper>())
                 nameLine.OverrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
             if (item.type == ModContent.ItemType<ShatteredCommunity>())
+                nameLine.OverrideColor = ShatteredCommunity.GetRarityColor();
+            if (item.type == ModContent.ItemType<Ozzathoth>())
                 nameLine.OverrideColor = ShatteredCommunity.GetRarityColor();
             if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
                 nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 6f); //alternates between emerald green and amber (BanditHueh)
@@ -257,10 +257,6 @@ namespace CalamityMod.Items
 
             // Numerous random tooltip edits which don't fit into another category
             #region Various Tooltip Edits
-
-            // Lilies of Finality 512 edit
-            if (item.type == ModContent.ItemType<LiliesOfFinality>())
-                EditTooltipByName("Damage", (line) => line.Text = LiliesOfFinality.TheNumber + " summon damage");
 
             // Apparently 612 is a homestuck reference
             if (item.type == ModContent.ItemType<Respiteblock>())
@@ -447,7 +443,7 @@ namespace CalamityMod.Items
             #region Guaranteed Dodge Tooltips
             string beltDodgeLine = "Grants the ability to dodge attacks\n" +
                 "Attacks that deal less than 5% of your max life in damage will not be dodged\n" +
-                $"The dodge has a cooldown that ranges between {BalancingConstants.BeltDodgeCooldownMin / 60 } and {BalancingConstants.BeltDodgeCooldownMax / 60} seconds depending on the dodged attack's damage\n" +
+                $"The dodge has a cooldown that ranges between {BalancingConstants.BeltDodgeCooldownMin / 60} and {BalancingConstants.BeltDodgeCooldownMax / 60} seconds depending on the dodged attack's damage\n" +
                 "The cooldown is shared with all other dodges and reflects";
             if (item.type == ItemID.BlackBelt)
                 EditTooltipByNum(0, (line) => line.Text = beltDodgeLine);
@@ -622,7 +618,7 @@ namespace CalamityMod.Items
             // Ale and Sake rebalance and Alcohol Poisoning.
             if (item.type == ItemID.Ale || item.type == ItemID.Sake)
             {
-                EditTooltipByNum(0, (line) => line.Text = "Increases melee damage by 10% and reduces defense by 5%\n" + 
+                EditTooltipByNum(0, (line) => line.Text = "Increases melee damage by 10% and reduces defense by 5%\n" +
                 "Counts as an alcohol for Alcohol Poisoning\n" +
                 "Drinking more than 3 different alcohols might not end well with your liver");
             }

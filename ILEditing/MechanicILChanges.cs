@@ -728,7 +728,7 @@ namespace CalamityMod.ILEditing
         private static void AdditiveDrawing(ILContext il)
         {
             ILCursor cursor = new(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<MoonlordDeathDrama>("DrawWhite")))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<ScreenObstruction>("Draw")))
                 return;
 
             cursor.EmitDelegate<Action>(() =>
@@ -1398,12 +1398,12 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region Shimmer effect edits
-        public static void ShimmerEffectEdits(Terraria.On_Item.orig_GetShimmered orig, Item self)
+        /*public static void ShimmerEffectEdits(Terraria.On_Item.orig_GetShimmered orig, Item self)
         {
-            // Don't keep the original stack amount when shimmering Fabsol's Vodka into Crystal Heart Vodka
-            if (self.type == ModContent.ItemType<FabsolsVodka>())
+            // Currently unused. Code kept as it'll likely be needed in the future
+            if (self.type == 0)
             {
-                self.SetDefaults(ModContent.ItemType<CrystalHeartVodka>());
+                self.SetDefaults(0);
                 self.shimmered = true;
                 self.shimmerWet = true;
                 self.wet = true;
@@ -1423,6 +1423,17 @@ namespace CalamityMod.ILEditing
             {
                 orig(self);
             }
+        }*/
+        #endregion
+
+        #region Make Celestial Onion give the Master Mode slot
+        public static bool MasterModeCelestialOnionCheck(Terraria.On_Player.orig_IsItemSlotUnlockedAndUsable orig, Player self, int slot)
+        {
+            if ((slot == 9 || slot == 19) && self.Calamity().extraAccessoryML && !Main.gameMenu)
+            {
+                return true;
+            }
+            return orig(self, slot);
         }
         #endregion
     }

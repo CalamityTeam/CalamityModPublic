@@ -147,8 +147,6 @@ namespace CalamityMod
 
         public static List<int> legOverrideList;
 
-        public static List<int> kamiDebuffColorImmuneList;
-
         public static Dictionary<int, int> EncryptedSchematicIDRelationship;
 
         public static List<int> DisabledSummonerNerfItems;
@@ -158,7 +156,40 @@ namespace CalamityMod
 
         public static void LoadLists()
         {
-            donatorList = new List<string>()
+            var newDonatorList = new List<string>()
+            {
+                "Aerosyn",
+                "Arcxus",
+                "awesomechapro",
+                "azazel",
+                "BlueRay_256",
+                "botbot94",
+                "Chin",
+                "Cinder",
+                "drake093104",
+                "Grant Curtiss",
+                "Jace Ufret",
+                "JFL",
+                "MizzUltraViolet",
+                "Nature",
+                "Nick H",
+                "Nightinglade",
+                "Patch357",
+                "Phil Broome",
+                "roryoftheabyss",
+                "Sable",
+                "SakuraWinterz",
+                "Salted Warlock",
+                "Shayy", // Current dev. Listed as "Shay" on Patreon.
+                "SirChaos189",
+                "SkeletonHunter96",
+                "Taylor Olligoci", // also an ex-dev. Listed as "Lilac Olligoci" on Patreon. There were two "Taylor"s on the old list
+                "Xtra Trinity 3678",
+                "Zachtoplasm",
+                "ZoeyPlague",
+            };
+
+            var oldDonatorList = new List<string>
             {
                 "Vorbis",
                 "SoloMael",
@@ -179,7 +210,6 @@ namespace CalamityMod
                 "Hans Volter",
                 "Krankwagon",
                 "MishiroUsui",
-                "pixlgray",
                 "Arkhine",
                 "Lodude",
                 "DevAesthetic",
@@ -193,7 +223,6 @@ namespace CalamityMod
                 "Ein",
                 "2Larry2",
                 "Jenonen",
-                "Dodu",
                 "Arti",
                 "Tervastator",
                 "Luis",
@@ -211,7 +240,6 @@ namespace CalamityMod
                 "MovingTarget_086",
                 "Shiro",
                 "Chip",
-                "Taylor",
                 "ShotgunAngel",
                 "Sandblast",
                 "ThomasThePencil",
@@ -236,7 +264,6 @@ namespace CalamityMod
                 "Aleksanders",
                 "TheSilverGhost",
                 "Lucazii",
-                "Shay",
                 "Prism",
                 "BobIsNotMyRealName",
                 "Guwahavel",
@@ -246,7 +273,6 @@ namespace CalamityMod
                 "William",
                 "Arche",
                 "DevilSunrise",
-                "Yanmei",
                 "Chaos",
                 "Ryan",
                 "Fish Repairs",
@@ -351,7 +377,6 @@ namespace CalamityMod
                 "Olkothan",
                 "Vmar98",
                 "Dasdruid",
-                "Cinder",
                 "Brutzli",
                 "Yhashtur",
                 "Zekai",
@@ -691,7 +716,6 @@ namespace CalamityMod
                 "Kaledoulas",
                 "Mohammad",
                 "Skeli_G",
-                "Arcxus",
                 "Sigil",
                 "Dull",
                 "DjackV",
@@ -791,6 +815,8 @@ namespace CalamityMod
                 "Patrera"
             };
 
+            donatorList = [.. oldDonatorList, .. newDonatorList];
+
             projectileDestroyExceptionList = new List<int>()
             {
                 //holdout projectiles
@@ -842,7 +868,7 @@ namespace CalamityMod
                 ProjectileType<DaemonsFlameBow>(),
                 ProjectileType<DrataliornusBow>(),
                 ProjectileType<FlakKrakenHoldout>(),
-                ProjectileType<ButcherGun>(),
+                ProjectileType<BuzzkillHoldout>(),
                 ProjectileType<StarfleetMK2Gun>(),
                 ProjectileType<NorfleetCannon>(),
                 ProjectileType<FlurrystormCannonShooting>(),
@@ -1521,7 +1547,7 @@ namespace CalamityMod
                 BuffType<CinnamonRollBuff>(),
                 BuffType<EverclearBuff>(),
                 BuffType<EvergreenGinBuff>(),
-                BuffType<FabsolVodkaBuff>(),
+                BuffType<PurpleHazeBuff>(),
                 BuffType<FireballBuff>(),
                 BuffType<GrapeBeerBuff>(),
                 BuffType<MargaritaBuff>(),
@@ -2603,15 +2629,6 @@ namespace CalamityMod
                 EquipLoader.GetEquipSlot(CalamityMod.Instance, "Popo", EquipType.Legs)
             };
 
-            // Duke Fishron and Old Duke phase 3 becomes way too easy if you can make him stop being invisible with Yanmei's Knife.
-            // This is a list so that other NPCs can be added as necessary.
-            // IT DOES NOT make them immune to the debuff, just stops them from being recolored.
-            kamiDebuffColorImmuneList = new List<int>()
-            {
-                NPCID.DukeFishron,
-                NPCType<OldDuke>()
-            };
-
             EncryptedSchematicIDRelationship = new Dictionary<int, int>()
             {
                 [1] = ItemType<EncryptedSchematicPlanetoid>(),
@@ -2707,8 +2724,6 @@ namespace CalamityMod
             bossTypes = null;
 
             legOverrideList = null;
-
-            kamiDebuffColorImmuneList = null;
 
             EncryptedSchematicIDRelationship = null;
 

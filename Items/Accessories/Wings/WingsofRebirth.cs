@@ -1,0 +1,101 @@
+﻿using CalamityMod.Dusts;
+using CalamityMod.Rarities;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.Accessories.Wings
+{
+    // The equip sprite is actually blank as a custom draw layer is used to draw the real sprites without any base sprites conflicting
+    [LegacyName("DrewsWings")]
+    [AutoloadEquip(EquipType.Wings)]
+    public class WingsofRebirth : ModItem, ILocalizedModType
+    {
+        public new string LocalizationCategory => "Items.Accessories.Wings";
+
+        public override void SetStaticDefaults()
+        {
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(360, 11.5f, 2.9f);
+        }
+
+        public override void SetDefaults()
+        {
+            Item.width = 22;
+            Item.height = 20;
+            Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+            Item.rare = ModContent.RarityType<Violet>();
+            Item.accessory = true;
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            if (player.controlJump && player.wingTime > 0f && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            {
+                int dustXOffset = 4;
+                if (player.direction == 1)
+                {
+                    dustXOffset = -40;
+                }
+                int flightDust = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)dustXOffset, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2.4f);
+                Main.dust[flightDust].noGravity = true;
+                Main.dust[flightDust].velocity *= 0.3f;
+                if (Main.rand.NextBool(10))
+                {
+                    Main.dust[flightDust].fadeIn = 2f;
+                }
+                Main.dust[flightDust].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
+            }
+            player.noFallDmg = true;
+        }
+
+        public override bool WingUpdate(Player player, bool inUse)
+        {
+            if (player.controlJump && player.wingTime > 0 && player.velocity.Y != 0)
+            {
+                int frameRate = 5; // FPS
+                int maxFrames = 9; // Total frames
+                player.wingFrameCounter++;
+                // Start flight animation with frame 7
+                if (player.wingFrame == 0)
+                {
+                    player.wingFrame = 7;
+                }
+                // Reset frames
+                if (player.wingFrame >= maxFrames)
+                {
+                    player.wingFrameCounter = 0;
+                    player.wingFrame = 1;
+                }
+                // Animation
+                if (player.wingFrameCounter % frameRate == 0)
+                {
+                    player.wingFrame++;
+                }
+            }
+            else
+            {
+                player.wingFrameCounter = 0;
+                player.wingFrame = 0; // On ground
+                if (player.velocity.Y != 0)
+                {
+                    player.wingFrame = 2; // Falling
+                    if (player.controlJump && player.velocity.Y > 0)
+                        player.wingFrame = 1; // Gliding
+                }
+            }
+            return true;
+        }
+
+        public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
+        {
+            ascentWhenFalling = 1f;
+            ascentWhenRising = 0.17f;
+            maxCanAscendMultiplier = 1.2f;
+            maxAscentMultiplier = 3.25f;
+            constantAscend = 0.15f;
+        }
+    }
+}

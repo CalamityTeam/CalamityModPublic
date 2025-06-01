@@ -8,7 +8,6 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Graphics.Primitives;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -28,6 +27,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 35;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         }
 
         public override void SetDefaults()

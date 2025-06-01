@@ -99,6 +99,8 @@ namespace CalamityMod.CalPlayer
             ApplyDoTDebuff(weakBrimstoneFlames, 7);
             ApplyDoTDebuff(bBlood, 8, purity);
             ApplyDoTDebuff(brainRot, 8, purity);
+            ApplyDoTDebuff(heavybleeding, 16, purity);
+            ApplyDoTDebuff(laceration, 24, purity);
             ApplyDoTDebuff(elementalMix, 50, purity);
             ApplyDoTDebuff(vaporfied, 8, purity);
             ApplyDoTDebuff(bFlames, abaddon ? 10 : 30, purity);
@@ -183,7 +185,7 @@ namespace CalamityMod.CalPlayer
             {
                 alcoholPoisonLevel++;
             }
-            if (fabsolVodka)
+            if (purpleHaze)
             {
                 alcoholPoisonLevel++;
             }
@@ -263,7 +265,7 @@ namespace CalamityMod.CalPlayer
                 alcoholPoisonLevel++;
             }
 
-            if (alcoholPoisonLevel > (cirrusDress ? 5 : 3))
+            if (alcoholPoisonLevel > 3)
             {
                 // Independently of Calamity's nerfs to Nebula life regen, it is disabled entirely by alcohol poisoning.
                 Player.nebulaLevelLife = 0;
@@ -422,9 +424,9 @@ namespace CalamityMod.CalPlayer
             // Grant life regen based on missing health for Radiant Ooze, Ambrosial Ampule, and purity
             if (rOoze || aAmpoule || purity)
             {
-                float missingLifeRatio = (Player.statLifeMax2 - Player.statLife) / Player.statLifeMax2;
+                float missingLifeRatio = (Player.statLifeMax2 - Player.statLife) / (float)Player.statLifeMax2;
                 //Ambrosial Ampule and ooze give between 2 and 6 hp/s
-                float lifeRegenToGive = MathHelper.Lerp(4f, 12f, missingLifeRatio);
+                int lifeRegenToGive = (int)Math.Round(MathHelper.Lerp((purity || aAmpoule ? 2f : 4f), (purity || aAmpoule ? 10f : 12f), missingLifeRatio)); // Rounding is needed for it to ever actually give +6 hp/s, as the integer conversion would otherwise floor it.
                 Player.lifeRegen += (int)lifeRegenToGive;
             }
 
@@ -736,7 +738,7 @@ namespace CalamityMod.CalPlayer
             if (pinkCandle && !noLifeRegen)
             {
                 // Every frame, add up 1/60th of the healing value (0.4% max HP per second)
-                pinkCandleHealFraction += Player.statLifeMax2 * CirrusPinkCandleBuff.PercentHealthPerSecond / 60;
+                pinkCandleHealFraction += Player.statLifeMax2 * PinkCandleBuff.PercentHealthPerSecond / 60;
 
                 if (pinkCandleHealFraction >= 1D)
                 {

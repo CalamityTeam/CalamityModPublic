@@ -16,7 +16,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public const int TimeForHitbox = 15;
 
-        public override void SetStaticDefaults() => ProjectileID.Sets.MinionShot[Type] = true;
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.MinionShot[Type] = true;
+            ProjectileID.Sets.CultistIsResistantTo[Type] = true;
+        }
 
         public override void SetDefaults()
         {

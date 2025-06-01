@@ -45,7 +45,6 @@ DemolitionistChat.DoGDefeated: God Slayer Dynamite? Boy do I like the sound of t
 DryadChat: {
 	DarksunEclipse: There's a dark solar energy emanating from the moths that appear during this time. What's up with moths getting stronger as you do too?
 	Hardmode: That starborne illness sits upon this land like a blister. Do even more vile forces of corruption exist in worlds beyond?
-	DrunkPrincessShroom: "{0} put me up to this."
 	Mushroom: I'm not here for any reason! Just picking up mushrooms for uh, later use.
 	SulphurSea: My Goddess is resting deep below this sea. If you may excuse me, I wish to pay my respects to her alone.
 }
@@ -82,7 +81,6 @@ MechanicChat: {
 	MoonLordDefeated: What do you mean your traps aren't making the cut? Don't look at me!
 	Eclipse: Um... should my nightlight be on?
 	AcidRain: Maybe I should've waterproofed my gadgets... They're starting to corrode.
-	DrunkPrincess: Well, I like {0}, but I, ah... I have my eyes on someone else.
 }
 
 MerchantChat: {
@@ -112,7 +110,6 @@ PainterChat: {
 }
 
 PartyGirlChat: {
-	DrunkPrincess: I have a feeling we're going to have absolutely fantastic parties with {0} around!
 	Eclipse1: I think my light display is turning into an accidental bug zapper. At least the monsters are enjoying it.
 	Eclipse2: Ooh! I love parties where everyone wears a scary costume!
 }
@@ -120,7 +117,6 @@ PartyGirlChat: {
 PirateChat: {
 	PreLeviathan: Aye, I've heard of a mythical creature in the oceans, singing with an alluring voice. Careful when yer fishin out there.
 	WetScourgeDefeated: I have to thank ye again for takin' care of that sea serpent. Or was that another one...
-	DrunkPrincess: Twenty-nine bottles of beer on the wall...
 	SeaKing: I remember legends about that {0}. He ain't quite how the stories make him out to be though.
 	Ocean: Now this is a scene that I can admire any time! I feel like something is watching me though.
 	SulphurSea1: It ain't much of a sight, but there's still life living in these waters.
@@ -148,17 +144,12 @@ SteampunkerChat: {
 
 StylistChat: {
 	Hardmode: Please don't catch space lice. Or {0} lice. Or just lice in general.
-	DrunkPrincess1: "{0} is always trying to brighten my mood... even if, deep down, I know she's sad..."
-	DrunkPrincess2: Sometimes I catch {0} sneaking up from behind me.
 	ProfanedSoulCrystal1: They look so cute and yet, I can feel their immense power just by being near them. What are you?
 	ProfanedSoulCrystal2: I hate to break it to you, but you don't have hair to cut or style, hun.
 	ProfanedDonuts: Aww, they're so cute, do they have names?
 }
 
-TavernkeepChat: {
-	FullMoon: Care for a little Moonshine?
-	DrunkPrincess: Sheesh, {0} is a little cruel, isn't she? I never claimed to be an expert on anything but ale!
-}
+TavernkeepChat.FullMoon: Care for a little Moonshine?
 
 TaxCollectorChat: {
 	DoGDefeated: Devourer of what, you said? Devourer of Funds, if its payroll is anything to go by!
@@ -168,12 +159,7 @@ TaxCollectorChat: {
 	Has100Plat: BAH! Doesn't seem like I'll ever be able to quarrel with the debts of the town again!
 }
 
-TravellingMerchantChat.DrunkPrincessMerchant: Tell {0} I'll take up her offer and meet with her at the back of {1}'s house.
-
-TruffleChat: {
-	Normal: I don't feel very safe; I think there's pigs following me around and it frightens me.
-	DrunkPrincess: Sometimes, {0} just looks at me funny and I'm not sure how I feel about that.
-}
+TruffleChat.Normal: I don't feel very safe; I think there's pigs following me around and it frightens me.
 
 WitchDoctorChat: {
 	BloodMoon: This is as good a time as any to pick up the best ingredients for potions.
