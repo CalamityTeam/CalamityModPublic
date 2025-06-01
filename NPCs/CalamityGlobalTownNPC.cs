@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs
         private static readonly string[] CyborgNames =
         {
             "Sylux", // <@!331812782183809025> (gonkachino)
-            "XL-39 Nemesis", // <@!1104036024063107082> (yashimayamanata)
+            "Nemesis", // <@!1104036024063107082> (yashimayamanata)
         };
         private static readonly string[] DemolitionistNames =
         {
