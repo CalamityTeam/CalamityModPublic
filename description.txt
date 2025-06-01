@@ -3,7 +3,7 @@ It adds two new difficulty modes, multiple entire biomes, thousands of items, hu
 The mod also makes hundreds of adjustments to vanilla items, features and mechanics to improve balance, quality of life and overall gameplay consistency.
 
 A more detailed breakdown of the content available in Calamity:
-- 27 bosses and 12 minibosses
+- 27 bosses and 5 minibosses
 - 100+ enemies
 - 5 town NPCs
 - 5 biomes and many new structures
