@@ -156,7 +156,40 @@ namespace CalamityMod
 
         public static void LoadLists()
         {
-            donatorList = new List<string>()
+            var newDonatorList = new List<string>()
+            {
+                "Aerosyn",
+                "Arcxus",
+                "awesomechapro",
+                "azazel",
+                "BlueRay_256",
+                "botbot94",
+                "Chin",
+                "Cinder",
+                "drake093104",
+                "Grant Curtiss",
+                "Jace Ufret",
+                "JFL",
+                "MizzUltraViolet",
+                "Nature",
+                "Nick H",
+                "Nightinglade",
+                "Patch357",
+                "Phil Broome",
+                "roryoftheabyss",
+                "Sable",
+                "SakuraWinterz",
+                "Salted Warlock",
+                "Shayy", // Current dev. Listed as "Shay" on Patreon.
+                "SirChaos189",
+                "SkeletonHunter96",
+                "Taylor Olligoci", // also an ex-dev. Listed as "Lilac Olligoci" on Patreon. There were two "Taylor"s on the old list
+                "Xtra Trinity 3678",
+                "Zachtoplasm",
+                "ZoeyPlague",
+            };
+
+            var oldDonatorList = new List<string>
             {
                 "Vorbis",
                 "SoloMael",
@@ -207,7 +240,6 @@ namespace CalamityMod
                 "MovingTarget_086",
                 "Shiro",
                 "Chip",
-                "Taylor",
                 "ShotgunAngel",
                 "Sandblast",
                 "ThomasThePencil",
@@ -232,7 +264,6 @@ namespace CalamityMod
                 "Aleksanders",
                 "TheSilverGhost",
                 "Lucazii",
-                "Shay",
                 "Prism",
                 "BobIsNotMyRealName",
                 "Guwahavel",
@@ -346,7 +377,6 @@ namespace CalamityMod
                 "Olkothan",
                 "Vmar98",
                 "Dasdruid",
-                "Cinder",
                 "Brutzli",
                 "Yhashtur",
                 "Zekai",
@@ -686,7 +716,6 @@ namespace CalamityMod
                 "Kaledoulas",
                 "Mohammad",
                 "Skeli_G",
-                "Arcxus",
                 "Sigil",
                 "Dull",
                 "DjackV",
@@ -785,6 +814,8 @@ namespace CalamityMod
                 "Pusheen_",
                 "Patrera"
             };
+
+            donatorList = [.. oldDonatorList, .. newDonatorList];
 
             projectileDestroyExceptionList = new List<int>()
             {
