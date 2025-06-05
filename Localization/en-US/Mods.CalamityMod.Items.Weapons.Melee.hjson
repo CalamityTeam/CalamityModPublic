@@ -224,7 +224,7 @@ BrokenBiomeBlade: {
 		Hold down <right> while standing still on flat ground to attune the weapon to the powers of the surrounding biome
 		Pressing <right> otherwise switches between the current attunement and an extra stored one
 		Main Attunement : [ATT1]
-		Secondary Attunement: [ATT2]
+		Secondary Attunement : [ATT2]
 		'''
 	DefaultFunction: Does nothing... yet
 }
@@ -835,7 +835,7 @@ OmegaBiomeBlade: {
 		Holding down <right> for 2 seconds attunes the weapon to the powers of the surrounding biome
 		Pressing <right> for a shorter period of time switches your active and passive attunements around
 		Active Attunement : [ATT1]
-		Passive Attunement: [ATT2]
+		Passive Attunement : [ATT2]
 		'''
 	DefaultFunction:
 		'''
@@ -1322,7 +1322,7 @@ TrueBiomeBlade: {
 		Hold down <right> while standing still on flat ground to attune the weapon to the powers of the surrounding biome
 		Pressing <right> otherwise switches between the current attunement and an extra stored one
 		Main Attunement : [ATT1]
-		Secondary Attunement: [ATT2]
+		Secondary Attunement : [ATT2]
 		'''
 	DefaultFunction:
 		'''
