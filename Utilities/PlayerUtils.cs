@@ -322,6 +322,16 @@ namespace CalamityMod
             }
             return ConditionMet;
         }
+
+        /// <summary>
+        /// Disables the default wing flap sound from vanilla; this is specifically to address issues with (currently) <see cref="CalamityMod.Items.Accessories.Wings.AureateBooster"/> and <see cref="CalamityMod.Items.Accessories.Wings.MOAB"/>.
+        /// </summary>
+        /// <param name="player">The Player to disable the sound on</param>
+        public static void DisableDefaultWingFlapSound(this Player player)
+        {
+            player.flapSound = true;
+        }
+
         #endregion
 
         #region Location and Biomes
