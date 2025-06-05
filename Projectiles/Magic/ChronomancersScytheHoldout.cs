@@ -44,6 +44,10 @@ namespace CalamityMod.Projectiles.Magic
         {
             Owner.ChangeDir((int)Projectile.ai[2]);
 
+            Player player = Main.player[Projectile.owner];
+            if (player is null || player.dead)
+                Projectile.Kill();
+
             Projectile.velocity = Vector2.Zero;
 
             Projectile.rotation += (2 * MathHelper.Pi / 60) * Projectile.ai[2];

@@ -30,6 +30,10 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            Player player = Main.player[Projectile.owner];
+            if (player is null || player.dead)
+                Projectile.Kill();
+                
             Projectile.ai[1]++;
             switch (Projectile.ai[0])
             {
