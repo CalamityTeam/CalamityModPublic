@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -11,7 +10,7 @@ namespace CalamityMod.Graphics
     /// </summary>
     public class RenderTargetManager : ModSystem
     {
-        internal static List<ManagedRenderTarget> ManagedTargets = new();
+        internal static List<ManagedRenderTarget> ManagedTargets = [];
 
         public delegate void RenderTargetUpdateDelegate();
 
@@ -55,7 +54,6 @@ namespace CalamityMod.Graphics
 
         public override void OnModLoad()
         {
-            ManagedTargets = new();
             Main.OnPreDraw += HandleTargetUpdateLoop;
             Main.OnResolutionChanged += ResetTargetSizes;
         }
