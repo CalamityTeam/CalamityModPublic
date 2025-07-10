@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using CalamityMod.CalPlayer;
-using CalamityMod.World;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
