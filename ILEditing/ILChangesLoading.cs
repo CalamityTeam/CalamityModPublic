@@ -84,7 +84,6 @@ namespace CalamityMod.ILEditing
             On_Player.UpdateItemDye += FindCalamityItemDyeShader;
             On_AWorldListItem.GetDifficulty += GetDifficultyOverride;
             //On_Item.GetShimmered += ShimmerEffectEdits;
-            On_Player.IsItemSlotUnlockedAndUsable += MasterModeCelestialOnionCheck;
 
             // Mana Burn (Chaos Stone) and Chalice of the Blood God
             IL_Player.ApplyLifeAndOrMana += ManaSicknessAndChaliceBufferHeal;
