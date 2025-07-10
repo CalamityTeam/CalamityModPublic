@@ -2051,6 +2051,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region FirstStage
             if (NPC.ai[0] == 0f)
             {
+
+                // Previously the 0.4% health threshold transition
+                if (lifeRatio <= 0.45f && hasSummonedBrothers && (permafrost ? NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) : (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()))) == false)
+                {
+                    NPC.ai[0] = 1f;
+                    NPC.ai[1] = 0f;
+                    NPC.ai[2] = 0f;
+                    NPC.ai[3] = 0f;
+                    NPC.TargetClosest();
+                    NPC.netUpdate = true;
+                }
+
                 if (wormAlive)
                 {
                     NPC.dontTakeDamage = true;
@@ -2539,16 +2551,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                 }
 
-                // Previously the 0.4% health threshold transition
-                if (lifeRatio <= 0.45f && hasSummonedBrothers && (permafrost ? NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) : (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()))) == false)
-                {
-                    NPC.ai[0] = 1f;
-                    NPC.ai[1] = 0f;
-                    NPC.ai[2] = 0f;
-                    NPC.ai[3] = 0f;
-                    NPC.TargetClosest();
-                    NPC.netUpdate = true;
-                }
             }
             #endregion
             #region Transition
