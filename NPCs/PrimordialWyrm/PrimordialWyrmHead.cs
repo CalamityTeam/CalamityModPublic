@@ -1452,6 +1452,15 @@ namespace CalamityMod.NPCs.PrimordialWyrm
             potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
 
+        public override void OnKill()
+        {
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
+
+            // Mark Primordial Wyrm as dead
+            DownedBossSystem.downedPrimordialWyrm = true;
+            CalamityNetcode.SyncWorld();
+        }
+        
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<EidolicWail>());
