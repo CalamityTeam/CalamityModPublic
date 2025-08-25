@@ -237,7 +237,7 @@ namespace CalamityMod
             {
                 for (int j = y; j != y + height; j += Math.Sign(height))
                 {
-                    if (WorldGen.InWorld(i, j))
+                    if (!WorldGen.InWorld(i, j))
                         continue;
 
                     if (WorldGen.SolidTile(Framing.GetTileSafely(i, j)))
