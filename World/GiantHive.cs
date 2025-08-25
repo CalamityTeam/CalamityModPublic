@@ -603,7 +603,7 @@ namespace CalamityMod.World
             if (random.Next(3) <= 1)
             {
                 chest.item[index].SetDefaults(random.Next(BarLootHoney));
-                chest.item[index].SetDefaults(random.Next(7, 15));
+                chest.item[index++].stack = random.Next(7, 15);
             }
             else
             {
