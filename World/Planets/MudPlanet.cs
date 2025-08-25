@@ -228,7 +228,7 @@ namespace CalamityMod.World.Planets
             if (_random.Next(3) <= 1)
             {
                 chest.item[index].SetDefaults(_random.Next(BarLoot));
-                chest.item[index].SetDefaults(_random.Next(7, 15));
+                chest.item[index++].stack = _random.Next(7, 15);
             }
             else
             {
