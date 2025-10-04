@@ -7126,7 +7126,7 @@ namespace CalamityMod.NPCs
                         }
                     }
 
-                    Texture2D glowTexture = CalamityConfig.Instance.NewVanillaTextures ? CalamityMod.DestroyerGlowmasks[0].Value : TextureAssets.Dest[0].Value;
+                    Texture2D glowTexture = CalamityConfig.Instance.NewVanillaTextures ? TextureLoadingSystem.DestroyerGlowmasks[0].Value : TextureAssets.Dest[0].Value;
                     switch (npc.type)
                     {
                         default:
@@ -7134,11 +7134,11 @@ namespace CalamityMod.NPCs
                             break;
 
                         case NPCID.TheDestroyerBody:
-                            glowTexture = CalamityConfig.Instance.NewVanillaTextures ? CalamityMod.DestroyerGlowmasks[1].Value : TextureAssets.Dest[1].Value;
+                            glowTexture = CalamityConfig.Instance.NewVanillaTextures ? TextureLoadingSystem.DestroyerGlowmasks[1].Value : TextureAssets.Dest[1].Value;
                             break;
 
                         case NPCID.TheDestroyerTail:
-                            glowTexture = CalamityConfig.Instance.NewVanillaTextures ? CalamityMod.DestroyerGlowmasks[2].Value : TextureAssets.Dest[2].Value;
+                            glowTexture = CalamityConfig.Instance.NewVanillaTextures ? TextureLoadingSystem.DestroyerGlowmasks[2].Value : TextureAssets.Dest[2].Value;
                             break;
                     }
 
@@ -7440,7 +7440,7 @@ namespace CalamityMod.NPCs
                     float eyeTelegraphGateValue = WallOfFleshAI.LaserShootGateValue - WallOfFleshAI.LaserShootTelegraphTime;
                     if (npc.localAI[1] > eyeTelegraphGateValue || npc.localAI[2] > 0f || enraged)
                     {
-                        Texture2D glowTexture = CalamityConfig.Instance.NewVanillaTextures ? CalamityMod.WallOfFleshEyeGlowmask.Value : TextureAssets.Npc[npc.type].Value;
+                        Texture2D glowTexture = CalamityConfig.Instance.NewVanillaTextures ? TextureLoadingSystem.WallOfFleshEyeGlowmask.Value : TextureAssets.Npc[npc.type].Value;
                         Vector2 halfSize = npc.frame.Size() / 2;
                         SpriteEffects spriteEffects = SpriteEffects.None;
                         if (npc.spriteDirection == 1)
@@ -7462,7 +7462,7 @@ namespace CalamityMod.NPCs
                 // His afterimages I can't get to work, so fuck it
                 else if (npc.type == NPCID.SkeletronPrime || npc.type == ModContent.NPCType<SkeletronPrime2>())
                 {
-                    Texture2D npcTexture = (masterMode && revenge && npc.type == NPCID.SkeletronPrime) ? CalamityMod.ChadPrime.Value : TextureAssets.Npc[npc.type].Value;
+                    Texture2D npcTexture = (masterMode && revenge && npc.type == NPCID.SkeletronPrime) ? TextureLoadingSystem.ChadPrime.Value : TextureAssets.Npc[npc.type].Value;
                     int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
 
                     npc.frame.Y = (int)newAI[3];
@@ -7529,7 +7529,7 @@ namespace CalamityMod.NPCs
                     {
                         int alpha = 192;
                         eyesColor = npc.type == NPCType<SkeletronPrime2>() ? new Color(150, 100, 255, alpha) : new Color(255, 255, 0, alpha);
-                        Texture2D glowTexture = npc.type == NPCID.SkeletronPrime ? CalamityMod.ChadPrimeEyeGlowmask.Value : SkeletronPrime2.EyeTexture.Value;
+                        Texture2D glowTexture = npc.type == NPCID.SkeletronPrime ? TextureLoadingSystem.ChadPrimeEyeGlowmask.Value : SkeletronPrime2.EyeTexture.Value;
                         spriteBatch.Draw(glowTexture, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame, eyesColor, npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0f);
                     }
                     else

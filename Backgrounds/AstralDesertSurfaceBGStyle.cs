@@ -5,6 +5,7 @@ using Terraria.Graphics.Effects;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using CalamityMod.Systems;
 
 namespace CalamityMod.Backgrounds
 {
@@ -80,28 +81,26 @@ namespace CalamityMod.Backgrounds
                 var bgParallax = 0.4;
                 var bgTopY = (int)(backgroundTopMagicNumber * 1800.0 + 1500.0) + (int)scAdj + pushBGTopHack;
                 bgScale *= bgGlobalScaleMultiplier;
-                var bgWidthScaled = (int)((float)CalamityMod.AstralDesertSurfaceMiddle.Width * bgScale);
+                var bgWidthScaled = (int)(TextureLoadingSystem.AstralDesertSurfaceMiddle.Width * bgScale);
                 SkyManager.Instance.DrawToDepth(Main.spriteBatch, 1.2f / (float)bgParallax);
-                var bgStartX = (int)(0.0 - Math.IEEERemainder((double)Main.screenPosition.X * bgParallax, bgWidthScaled) - (double)(bgWidthScaled / 2));
+                var bgStartX = (int)(0.0 - Math.IEEERemainder(Main.screenPosition.X * bgParallax, bgWidthScaled) - bgWidthScaled / 2);
                 if (Main.gameMenu)
                     bgTopY = 320 + pushBGTopHack;
 
                 var bgLoops = Main.screenWidth / bgWidthScaled + 2;
-                if ((double)Main.screenPosition.Y < Main.worldSurface * 16.0 + 16.0)
+                if (Main.screenPosition.Y < Main.worldSurface * 16.0 + 16.0)
                 {
                     for (int i = 0; i < bgLoops; i++)
-                    {
-                        Main.spriteBatch.Draw(CalamityMod.AstralDesertSurfaceMiddle, new Vector2(bgStartX + bgWidthScaled * i, bgTopY + MiddleBGYOffset), new Rectangle(0, 0, CalamityMod.AstralDesertSurfaceMiddle.Width, CalamityMod.AstralDesertSurfaceMiddle.Height), ColorOfSurfaceBackgroundsModified, 0f, default(Vector2), bgScale, SpriteEffects.None, 0f);
-                    }
+                        Main.spriteBatch.Draw(TextureLoadingSystem.AstralDesertSurfaceMiddle, new Vector2(bgStartX + bgWidthScaled * i, bgTopY + MiddleBGYOffset), new Rectangle(0, 0, TextureLoadingSystem.AstralDesertSurfaceMiddle.Width, TextureLoadingSystem.AstralDesertSurfaceMiddle.Height), ColorOfSurfaceBackgroundsModified, 0f, default, bgScale, SpriteEffects.None, 0f);
                 }
 
                 bgScale = 1.31f;
                 bgParallax = 0.43;
                 bgTopY = (int)(backgroundTopMagicNumber * 1950.0 + 1750.0) + (int)scAdj + pushBGTopHack;
                 bgScale *= bgGlobalScaleMultiplier;
-                bgWidthScaled = (int)((float)CalamityMod.AstralDesertSurfaceClose.Width * bgScale);
+                bgWidthScaled = (int)(TextureLoadingSystem.AstralDesertSurfaceClose.Width * bgScale);
                 SkyManager.Instance.DrawToDepth(Main.spriteBatch, 1f / (float)bgParallax);
-                bgStartX = (int)(0.0 - Math.IEEERemainder((double)Main.screenPosition.X * bgParallax, bgWidthScaled) - (double)(bgWidthScaled / 2));
+                bgStartX = (int)(0.0 - Math.IEEERemainder(Main.screenPosition.X * bgParallax, bgWidthScaled) - bgWidthScaled / 2);
                 if (Main.gameMenu)
                 {
                     bgTopY = 400 + pushBGTopHack;
@@ -109,12 +108,10 @@ namespace CalamityMod.Backgrounds
                 }
 
                 bgLoops = Main.screenWidth / bgWidthScaled + 2;
-                if ((double)Main.screenPosition.Y < Main.worldSurface * 16.0 + 16.0)
+                if (Main.screenPosition.Y < Main.worldSurface * 16.0 + 16.0)
                 {
                     for (int i = 0; i < bgLoops; i++)
-                    {
-                        Main.spriteBatch.Draw(CalamityMod.AstralDesertSurfaceClose, new Vector2(bgStartX + bgWidthScaled * i, bgTopY + CloseBGYOffset), new Rectangle(0, 0, CalamityMod.AstralDesertSurfaceClose.Width, CalamityMod.AstralDesertSurfaceClose.Height), ColorOfSurfaceBackgroundsModified, 0f, default(Vector2), bgScale, SpriteEffects.None, 0f);
-                    }
+                        Main.spriteBatch.Draw(TextureLoadingSystem.AstralDesertSurfaceClose, new Vector2(bgStartX + bgWidthScaled * i, bgTopY + CloseBGYOffset), new Rectangle(0, 0, TextureLoadingSystem.AstralDesertSurfaceClose.Width, TextureLoadingSystem.AstralDesertSurfaceClose.Height), ColorOfSurfaceBackgroundsModified, 0f, default, bgScale, SpriteEffects.None, 0f);
                 }
             }
             return false;

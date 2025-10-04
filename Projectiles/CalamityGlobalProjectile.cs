@@ -20,6 +20,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Projectiles.VanillaProjectileOverrides;
+using CalamityMod.Systems;
 using CalamityMod.Tiles.FurnitureAuric;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
@@ -4488,7 +4489,7 @@ namespace CalamityMod.Projectiles
                 if (Main.wofNPCIndex < 0 || !Main.npc[Main.wofNPCIndex].active || Main.npc[Main.wofNPCIndex].life <= 0 || projectile.tileCollide)
                     return true;
 
-                Texture2D texture = CalamityMod.WallOfFleshDemonSickleTexture.Value;
+                Texture2D texture = TextureLoadingSystem.WallOfFleshDemonSickleTexture.Value;
                 int frameHeight = texture.Height / Main.projFrames[projectile.type];
                 int frameY = frameHeight * projectile.frame;
                 Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);

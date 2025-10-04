@@ -60,7 +60,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.GameContent.Dyes;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -81,40 +80,6 @@ namespace CalamityMod
         // Boss Spawners
         public static int ghostKillCount = 0;
         public static int sharkKillCount = 0;
-
-        public static Asset<Texture2D> carpetOriginal;
-
-        // Astral Sky/BG
-        public static Texture2D AstralSky;
-        public static Texture2D AstralSurfaceFront;
-        public static Texture2D AstralSurfaceFrontGlow;
-        public static Texture2D AstralSurfaceClose;
-        public static Texture2D AstralSurfaceCloseGlow;
-        public static Texture2D AstralSurfaceMiddle;
-        public static Texture2D AstralSurfaceMiddleGlow;
-
-        // Astral Desert Sky/BG
-        public static Texture2D AstralDesertSurfaceClose;
-        public static Texture2D AstralDesertSurfaceMiddle;
-
-        // Astral Snow Sky/BG
-        public static Texture2D AstralSnowSurfaceMiddle;
-
-        // Sulpher Sea Sky/BG
-        public static Texture2D SulphurSeaSky;
-        public static Texture2D SulphurSeaSkyFront;
-        public static Texture2D SulphurSeaSurface;
-
-        // Destroyer glowmasks
-        public static Asset<Texture2D>[] DestroyerGlowmasks = new Asset<Texture2D>[3];
-
-        // Wall of Flesh glowmasks
-        public static Asset<Texture2D> WallOfFleshEyeGlowmask;
-        public static Asset<Texture2D> WallOfFleshDemonSickleTexture;
-
-        // Master Rev+ Skeletron Prime
-        public static Asset<Texture2D> ChadPrime;
-        public static Asset<Texture2D> ChadPrimeEyeGlowmask;
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
@@ -162,8 +127,6 @@ namespace CalamityMod
         public override void Load()
         {
             Instance = this;
-
-            carpetOriginal = TextureAssets.FlyingCarpet;
 
             // If any of these mods aren't loaded, it will simply keep them as null.
             musicMod = null;
@@ -275,40 +238,6 @@ namespace CalamityMod
 
         private void LoadClient()
         {
-            // Astral Sky/BG
-            AstralSky = ModContent.Request<Texture2D>("CalamityMod/Skies/AstralSky", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceFront = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceFront", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceFrontGlow = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceFrontGlow", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceClose = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceClose", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceCloseGlow = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceCloseGlow", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceMiddle = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceMiddle", AssetRequestMode.ImmediateLoad).Value;
-            AstralSurfaceMiddleGlow = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSurfaceMiddleGlow", AssetRequestMode.ImmediateLoad).Value;
-
-            //Astral Desert Sky/BG
-            AstralDesertSurfaceClose = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralDesertSurfaceClose", AssetRequestMode.ImmediateLoad).Value;
-            AstralDesertSurfaceMiddle = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralDesertSurfaceMiddle", AssetRequestMode.ImmediateLoad).Value;
-
-            //Astral Snow Sky/BG
-            AstralSnowSurfaceMiddle = ModContent.Request<Texture2D>("CalamityMod/Backgrounds/AstralSnowSurfaceMiddle", AssetRequestMode.ImmediateLoad).Value;
-
-            // Sulpher Sea Sky/BG
-            SulphurSeaSky = ModContent.Request<Texture2D>("CalamityMod/Skies/SulphurSeaSky", AssetRequestMode.ImmediateLoad).Value;
-            SulphurSeaSkyFront = ModContent.Request<Texture2D>("CalamityMod/Skies/SulphurSeaSkyFront", AssetRequestMode.ImmediateLoad).Value;
-            SulphurSeaSurface = ModContent.Request<Texture2D>("CalamityMod/Skies/SulphurSeaSurface", AssetRequestMode.ImmediateLoad).Value;
-
-            // Destroyer glowmasks
-            DestroyerGlowmasks[0] = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaBossGlowmasks/DestroyerHeadGlow", AssetRequestMode.AsyncLoad);
-            DestroyerGlowmasks[1] = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaBossGlowmasks/DestroyerBodyGlow", AssetRequestMode.AsyncLoad);
-            DestroyerGlowmasks[2] = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaBossGlowmasks/DestroyerTailGlow", AssetRequestMode.AsyncLoad);
-
-            // Wall of Flesh glowmasks
-            WallOfFleshEyeGlowmask = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/VanillaBossGlowmasks/WallOfFleshEyeTelegraphGlow", AssetRequestMode.AsyncLoad);
-            WallOfFleshDemonSickleTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/ForbiddenOathbladeProjectile", AssetRequestMode.AsyncLoad);
-
-            // Master Rev+ Skeletron Prime textures
-            ChadPrime = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ChadPrime", AssetRequestMode.AsyncLoad);
-            ChadPrimeEyeGlowmask = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ChadPrimeHeadGlow", AssetRequestMode.AsyncLoad);
-
             // TODO -- Sky shaders should probably be loaded in a ModSystem
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
@@ -432,8 +361,6 @@ namespace CalamityMod
             varia = null;
             wikithis = null;
 
-            AstralSky = null;
-
             DRValues?.Clear();
             DRValues = null;
             bossKillTimes?.Clear();
@@ -470,10 +397,7 @@ namespace CalamityMod
             FlightBar.Unload();
 
             if (!Main.dedServ)
-            {
-                TextureAssets.FlyingCarpet = carpetOriginal;
                 GeneralParticleHandler.Unload();
-            }
 
             Mount.mounts[MountID.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
@@ -483,8 +407,6 @@ namespace CalamityMod
             SceneMetrics.GraveyardTileMax = 36;
             SceneMetrics.GraveyardTileMin = 16;
             SceneMetrics.GraveyardTileThreshold = 28;
-
-            carpetOriginal = null;
 
             /*
             //unload hell background stuff

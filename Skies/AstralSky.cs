@@ -56,7 +56,7 @@ namespace CalamityMod.Skies
             float whateverTheFuckThisVariableIsSupposedToBe = 3.40282347E+38f;
             if (maxDepth >= whateverTheFuckThisVariableIsSupposedToBe && minDepth < whateverTheFuckThisVariableIsSupposedToBe)
             {
-                spriteBatch.Draw(CalamityMod.AstralSky, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * opacity);
+                spriteBatch.Draw(TextureLoadingSystem.AstralSky, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * opacity);
 
                 // Terraria's conditions.
                 if (Main.netMode != NetmodeID.Server)

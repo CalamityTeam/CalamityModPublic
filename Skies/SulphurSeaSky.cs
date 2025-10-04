@@ -1,10 +1,9 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Systems;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.Graphics.Effects;
-using Terraria.ID;
 
 namespace CalamityMod.Skies
 {
@@ -41,24 +40,24 @@ namespace CalamityMod.Skies
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
             if (maxDepth >= 4f && minDepth < 4f)
-                spriteBatch.Draw(CalamityMod.SulphurSeaSky, new Rectangle(0, (int)(-Main.screenPosition.Y / 6f) + 1300, Main.screenWidth, Main.screenHeight), Color.Lerp(Main.ColorOfTheSkies, Color.LightSeaGreen, 0.33f) * 0.2f * opacity);
+                spriteBatch.Draw(TextureLoadingSystem.SulphurSeaSky, new Rectangle(0, (int)(-Main.screenPosition.Y / 6f) + 1300, Main.screenWidth, Main.screenHeight), Color.Lerp(Main.ColorOfTheSkies, Color.LightSeaGreen, 0.33f) * 0.2f * opacity);
 
             // Small worlds, default draw height
-            int sulphurSeaHeight = (World.SulphurousSea.YStart + (int)Main.worldSurface) / 2;
+            int sulphurSeaHeight = (SulphurousSea.YStart + (int)Main.worldSurface) / 2;
 
             // Medium worlds
             if (Main.maxTilesX >= 6400 && Main.maxTilesX < 8400)
-                sulphurSeaHeight = (World.SulphurousSea.YStart + (int)Main.worldSurface) / 5;
+                sulphurSeaHeight = (SulphurousSea.YStart + (int)Main.worldSurface) / 5;
 
             // Large worlds (and anything bigger)
             if (Main.maxTilesX >= 8400)
-                sulphurSeaHeight = (World.SulphurousSea.YStart + (int)Main.worldSurface) / 140;
+                sulphurSeaHeight = (SulphurousSea.YStart + (int)Main.worldSurface) / 140;
 
             // Explantion on how to use this BG code for skies.
             // This changes the speed of the parralax, the closer the layer to the player the faster it should be.
             if (maxDepth >= 1f && minDepth < 1f)
             {
-                Texture2D texture = CalamityMod.SulphurSeaSkyFront;
+                Texture2D texture = TextureLoadingSystem.SulphurSeaSkyFront;
 
                 // Keep in mind that y paralex should always be half of x's or it will feel odd compared to how terraria does it.
                 // Keep in mind when you change screen parralax it affects the y offset for the bg in the world.
@@ -84,7 +83,7 @@ namespace CalamityMod.Skies
 
             if (maxDepth >= 3f && minDepth < 3f)
             {
-                Texture2D texture = CalamityMod.SulphurSeaSurface;
+                Texture2D texture = TextureLoadingSystem.SulphurSeaSurface;
 
                 int x = (int)(Main.screenPosition.X * ScreenParralaxMultiplier);
                 x %= (int)(texture.Width * Scale);

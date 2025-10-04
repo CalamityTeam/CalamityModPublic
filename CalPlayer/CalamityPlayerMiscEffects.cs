@@ -760,7 +760,7 @@ namespace CalamityMod.CalPlayer
             if (Main.netMode != NetmodeID.Server && Player.whoAmI == Main.myPlayer)
             {
                 Asset<Texture2D> carpetAuric = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuricCarpet");
-                Asset<Texture2D> carpetOriginal = CalamityMod.carpetOriginal;
+                Asset<Texture2D> carpetOriginal = TextureLoadingSystem.CarpetOriginal;
                 TextureAssets.FlyingCarpet = (auricSet ? carpetAuric : carpetOriginal);
             }
 
