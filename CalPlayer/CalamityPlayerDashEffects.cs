@@ -462,6 +462,7 @@ namespace CalamityMod.CalPlayer
                 if (WorldGen.SolidOrSlopedTile(upwardTilePoint.X, upwardTilePoint.Y) || WorldGen.SolidOrSlopedTile(aheadTilePoint.X, aheadTilePoint.Y))
                     Player.velocity.X /= 2f;
 
+                Player.timeSinceLastDashStarted = 0;
                 Player.dashDelay = -1;
             }
 

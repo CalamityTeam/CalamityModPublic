@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Die immediately if the owner of this projectile is clipping into tiles because of its movement.
-            if (Collision.SolidCollision(Owner.position, Owner.width, Owner.height) && Projectile.velocity != Vector2.Zero)
+            if (Collision.SolidCollision(Owner.position + Projectile.velocity, Owner.width, Owner.height) && Projectile.velocity != Vector2.Zero)
             {
                 Owner.velocity.Y = 0f;
                 Explode();

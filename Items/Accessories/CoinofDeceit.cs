@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.Calamity().stealthStrike85Cost = true;
+            player.Calamity().stealthStrike90Cost = true;
             player.GetCritChance<ThrowingDamageClass>() += 6;
         }
 

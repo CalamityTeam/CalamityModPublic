@@ -391,7 +391,7 @@ CoinofDeceit: {
 	DisplayName: Coin of Deceit
 	Tooltip:
 		'''
-		Stealth strikes only expend 85% of your max stealth
+		Stealth strikes only expend 90% of your max stealth
 		6% increased rogue crit chance
 		'''
 }
