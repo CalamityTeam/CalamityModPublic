@@ -82,13 +82,16 @@ namespace CalamityMod.Projectiles.Ranged
                     SoundStyle ShootSound = new("CalamityMod/Sounds/Item/SawShot", 2) { PitchVariance = 0.1f, Volume = 0.4f + SawPower * 0.5f };
                     SoundEngine.PlaySound(ShootSound, GunTipPosition);
 
-                    float sawDamageMult = MathHelper.Lerp(1f, 5f, SawPower) / 1.5f; // The damage must be divided by 1.5 to offset the holdout having 1.5x base damage.
-                    int sawPierce = (int)MathHelper.Lerp(2f, 6f, SawPower);
                     int sawLevel = (SawPower >= 1f).ToInt() + (SawPower >= 0.25f).ToInt();
+                    if (Main.myPlayer == Projectile.owner)
+                    {
+                        float sawDamageMult = MathHelper.Lerp(1f, 5f, SawPower) / 1.5f; // The damage must be divided by 1.5 to offset the holdout having 1.5x base damage.
+                        int sawPierce = (int)MathHelper.Lerp(2f, 6f, SawPower);
 
-                    Projectile buzzsaw = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), GunTipPosition, Projectile.velocity.SafeNormalize(Vector2.UnitY) * Owner.ActiveItem().shootSpeed, ModContent.ProjectileType<BuzzkillSaw>(), (int)(Projectile.damage * sawDamageMult), (int)(Projectile.knockBack * (sawDamageMult / 2)), Main.myPlayer, sawLevel);
-                    buzzsaw.penetrate = sawPierce;
-                    buzzsaw.rotation = Main.rand.NextFloat(0f, MathHelper.TwoPi);
+                        Projectile buzzsaw = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), GunTipPosition, Projectile.velocity.SafeNormalize(Vector2.UnitY) * Owner.ActiveItem().shootSpeed, ModContent.ProjectileType<BuzzkillSaw>(), (int)(Projectile.damage * sawDamageMult), (int)(Projectile.knockBack * (sawDamageMult / 2)), Main.myPlayer, sawLevel);
+                        buzzsaw.penetrate = sawPierce;
+                        buzzsaw.rotation = Main.rand.NextFloat(0f, MathHelper.TwoPi);
+                    }
 
                     NoSawOnHoldout = true;
                     OffsetLengthFromArm -= 4f + 12f * SawPower;
