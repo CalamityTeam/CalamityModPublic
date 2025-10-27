@@ -121,6 +121,25 @@ namespace CalamityMod.ILEditing
         }
         #endregion Prevention of Slime Rain Spawns When Near Bosses
 
+        #region Prevent Lava Slime Dropping Lava
+        private static void PreventLavaSlimeLavaDrop(ILContext il)
+        {
+            // Disable Lava Slimes dropping lava if its respective config is enabled.
+            var cursor = new ILCursor(il);
+
+            // Go to the check for Remix world.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld<Main>("remixWorld")))
+            {
+                LogFailure("Prevent Lava Slime Dropping Lava", "Could not find the check for Remix World.");
+                return;
+            }
+
+            // Add an additional check for the config.
+            cursor.Remove();
+            cursor.EmitDelegate<Func<bool>>(() => CalamityConfig.Instance.RemoveLavaDropsFromLavaSlimes || Main.remixWorld);
+        }
+        #endregion
+
         #region Remove Feral Bite Random Debuffs
         private static void RemoveFeralBiteRandomDebuffs(ILContext il)
         {

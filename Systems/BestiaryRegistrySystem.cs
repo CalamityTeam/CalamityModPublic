@@ -14,7 +14,6 @@ namespace CalamityMod.Systems
             // Manually register variants post-initiailization
             ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[NPCType<AstralachneaGround>()] = ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[NPCType<AstralachneaWall>()];
             ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[NPCType<DevilFishAlt>()] = ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[NPCType<DevilFish>()];
-            ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[NPCType<LavaSlimeNoLavaDrop>()] = ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[NPCID.LavaSlime];
         }
     }
 }

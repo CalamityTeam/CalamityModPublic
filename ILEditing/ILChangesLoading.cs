@@ -139,6 +139,7 @@ namespace CalamityMod.ILEditing
             IL_WorldGen.MakeDungeon += ChangeDungeonSpikeQuantities;
 
             // Removal of vanilla stupidity
+            IL_NPC.VanillaHitEffect += PreventLavaSlimeLavaDrop;
             IL_Player.UpdateBuffs += RemoveFeralBiteRandomDebuffs;
             IL_Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
             IL_Item.TryGetPrefixStatMultipliersForItem += RelaxPrefixRequirements;
