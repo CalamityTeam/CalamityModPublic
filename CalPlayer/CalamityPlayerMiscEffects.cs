@@ -1322,7 +1322,7 @@ namespace CalamityMod.CalPlayer
                 {
                     handler.OnCompleted();
                     if (handler.EndSound != null && handler.ShouldPlayEndSound)
-                        SoundEngine.PlaySound(handler.EndSound.GetValueOrDefault());
+                        SoundEngine.PlaySound(handler.EndSound.GetValueOrDefault(), Player.Center);
                     expiredCooldowns.Add(id);
                 }
             }
