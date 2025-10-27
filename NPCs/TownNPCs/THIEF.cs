@@ -113,6 +113,8 @@ namespace CalamityMod.NPCs.TownNPCs
             "Altarca", // <@!1140673052108128337> (altarca_27226_49175)
             "Jackie", // <@!353241811717718016> (jackalchan)
             "Ishmael", // <@!840416568000381046> (vanillaoyster)
+            "Ariallis", // <@!518231218806980609> (ariallis)
+            "Shade", // <@!613133259563466755> (shade__storm)
 
             // Original names
             this.GetLocalizedValue("Name.Laura"),
