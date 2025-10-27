@@ -707,7 +707,6 @@ namespace CalamityMod
                 "Saladify",
                 "26-4-1",
                 "VeryMasterNinja",
-                "Vorbis",
                 "Nyapano",
                 "Shadoku",
                 "allosar",
