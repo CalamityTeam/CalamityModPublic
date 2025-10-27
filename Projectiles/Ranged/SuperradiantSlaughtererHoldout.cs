@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void KillHoldoutLogic()
         {
-            if (HeldItem.type != Owner.ActiveItem().type)
+            if (HeldItem.type != Owner.ActiveItem().type || Owner.dead || !Owner.active)
             {
                 Projectile.Kill();
                 Projectile.netUpdate = true;
