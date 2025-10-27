@@ -63,16 +63,16 @@ namespace CalamityMod.Items.Accessories.Wings
                 {
                     player.wingFrame = 7;
                 }
+                // Animation
+                if (player.wingFrameCounter % frameRate == 0)
+                {
+                    player.wingFrame++;
+                }
                 // Reset frames
                 if (player.wingFrame >= maxFrames)
                 {
                     player.wingFrameCounter = 0;
                     player.wingFrame = 1;
-                }
-                // Animation
-                if (player.wingFrameCounter % frameRate == 0)
-                {
-                    player.wingFrame++;
                 }
             }
             else
