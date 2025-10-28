@@ -17,7 +17,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
                 return false;
 
             Player drawPlayer = drawInfo.drawPlayer;
-            return !(drawPlayer.Calamity().auralisAuroraCooldown < 300 || drawPlayer.Calamity().auralisAuroraCooldown > 0);
+            return !(drawPlayer.Calamity().auralisAuroraCounter < 300 || drawPlayer.Calamity().auralisAuroraCounter > 1500);
         }
 
         protected override void Draw(ref PlayerDrawSet drawInfo)

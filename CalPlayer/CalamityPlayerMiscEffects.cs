@@ -1485,8 +1485,16 @@ namespace CalamityMod.CalPlayer
                 reaverRegenCooldown++;
             else
                 reaverRegenCooldown = 0;
-            if (auralisAurora > 0)
-                auralisAurora--;
+            if (auralisAuroraCounter > 300)
+            {
+                auralisAuroraCounter++;
+            }
+
+            if (auralisAuroraCounter > 1500)
+            {
+                auralisAuroraCounter = 0;
+                auralisAuroraCooldown = CalamityUtils.SecondsToFrames(30f);
+            }
             if (auralisAuroraCooldown > 0)
                 auralisAuroraCooldown--;
 
@@ -2454,25 +2462,18 @@ namespace CalamityMod.CalPlayer
                 int chargeDuration = CalamityUtils.SecondsToFrames(5f);
                 int auroraDuration = CalamityUtils.SecondsToFrames(20f);
 
-                if (usingScope && auralisAuroraCounter < chargeDuration + auroraDuration)
+                if (usingScope && auralisAuroraCounter < chargeDuration && auralisAuroraCooldown == 0)
                     auralisAuroraCounter++;
 
-                if (auralisAuroraCounter > chargeDuration + auroraDuration)
-                {
-                    auralisAuroraCounter = 0;
-                    auralisAuroraCooldown = CalamityUtils.SecondsToFrames(30f);
-                }
 
                 if (auralisAuroraCounter > 0 && auralisAuroraCounter < chargeDuration && !usingScope)
                     auralisAuroraCounter--;
-
-                if (auralisAuroraCounter > chargeDuration && auralisAuroraCounter < chargeDuration + auroraDuration && !usingScope)
-                    auralisAuroraCounter = 0;
             }
             else
             {
                 auralisStealthCounter = 0f;
-                auralisAuroraCounter = 0;
+                if (auralisAuroraCounter > 0 && auralisAuroraCounter < 300)
+                    auralisAuroraCounter--;
             }
             if (auralisAuroraCooldown > 0)
             {
@@ -4010,7 +4011,7 @@ namespace CalamityMod.CalPlayer
 
                 // Apply defense damage
                 Player.statDefense -= currentDefenseDamage;
-                
+
             }
 
             // Defense can never be reduced below zero, no matter what
