@@ -184,8 +184,8 @@ namespace CalamityMod.UI.ModeIndicator
                 if (!Main.mouseItem.IsAir)
                     textboxStart.X += 34;
 
-                if (textboxStart.X + boxSize.X + 4f > (float)Main.screenWidth)
-                    textboxStart.X = Main.screenWidth - boxSize.X - 4f;
+                if (textboxStart.X + regexedBoxSize.X + 4f > (float)Main.screenWidth)
+                    textboxStart.X = Main.screenWidth - regexedBoxSize.X - 4f;
 
                 if (textboxStart.Y + regexedBoxSize.Y + 4f > (float)Main.screenHeight)
                     textboxStart.Y = Main.screenHeight - regexedBoxSize.Y - 4f;
