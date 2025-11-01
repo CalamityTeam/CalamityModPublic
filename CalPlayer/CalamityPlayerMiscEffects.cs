@@ -186,11 +186,12 @@ namespace CalamityMod.CalPlayer
                 Player.GetCritChance<RangedDamageClass>() = -spiritOriginConvertedCrit;
             }
 
-            if (Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
-                heldGaelsLastFrame = true;
-
             if (Player.ActiveItem().type != ModContent.ItemType<SaharaSlicers>())
                 saharaSlicersBolts = 0;
+
+
+            if (Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
+                heldGaelsLastFrame = true;
 
             // De-equipping Gael's Greatsword deletes all rage.
             else if (heldGaelsLastFrame)
