@@ -55,7 +55,6 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.Utilities.Terraria.Utilities;
 
 namespace CalamityMod.CalPlayer
 {
@@ -2209,6 +2208,13 @@ namespace CalamityMod.CalPlayer
             AbleToSelectExoMech = false;
 
             infiniteFlight = false;
+
+            noStupidNaturalARSpawns = false;
+            disableAnahitaSpawns = false;
+            disableHiveCystSpawns = false;
+            disableNaturalScourgeSpawns = false;
+            disablePerfCystSpawns = false;
+            disableVoodooSpawns = false;
 
             EnchantHeldItemEffects(Player, Player.Calamity(), Player.ActiveItem());
         }

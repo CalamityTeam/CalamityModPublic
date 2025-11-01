@@ -1,17 +1,16 @@
-﻿using CalamityMod.Items.Materials;
+﻿using System.Collections.Generic;
+using System.IO;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+using Terraria.ModLoader.IO;
 using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Items
 {
     public class BrokenWaterFilter : ModItem, ILocalizedModType
     {
-        public static bool state = false;
         public new string LocalizationCategory => "Items.Misc";
         public override void SetDefaults()
         {
@@ -26,21 +25,40 @@ namespace CalamityMod.Items
             itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.SpawnPrevention;
         }
 
+        #region Toggle Feature
+
+        public bool Enabled = true;
+
+        public override ModItem Clone(Item item)
+        {
+            var clone = (BrokenWaterFilter)base.Clone(item);
+            clone.Enabled = Enabled;
+            return clone;
+        }
+
+        public override void SaveData(TagCompound tag) => tag.Add("blockerEnabled", Enabled);
+
+        public override void LoadData(TagCompound tag) => Enabled = tag.GetBool("blockerEnabled");
+
+        public override void NetSend(BinaryWriter writer) => writer.Write(Enabled);
+
+        public override void NetReceive(BinaryReader reader) => Enabled = reader.ReadBoolean();
+
         public override bool CanRightClick() => true;
+
+        public override bool ConsumeItem(Player player) => false;
 
         public override void RightClick(Player player)
         {
-            if (player.Calamity().noStupidNaturalARSpawns == true)
-                player.Calamity().noStupidNaturalARSpawns = false;
-            else
-                player.Calamity().noStupidNaturalARSpawns = true;
+            Enabled = !Enabled;
             Item.NetStateChanged();
-            state = player.Calamity().noStupidNaturalARSpawns;
+        }
 
-            bool favorited = Item.favorited;
-            Item.SetDefaults(ModContent.ItemType<BrokenWaterFilter>());
-            Item.stack++;
-            Item.favorited = favorited;
+        #endregion
+
+        public override void UpdateInventory(Player player)
+        {
+            player.Calamity().noStupidNaturalARSpawns |= Enabled;
         }
 
         /*
@@ -85,7 +103,7 @@ namespace CalamityMod.Items
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             string text;
-            if (state == true)
+            if (Enabled)
                 text = GetTextValue("Items.Misc.SpawnBlockersOn");
             else
                 text = GetTextValue("Items.Misc.SpawnBlockersOff");
