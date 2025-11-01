@@ -45,6 +45,7 @@ using Terraria.Chat;
 using Terraria.DataStructures;
 using Terraria.GameContent.Events;
 using Terraria.Graphics.Shaders;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -932,8 +933,29 @@ namespace CalamityMod.CalPlayer
                 double dodgeDamageGateValuePercent = 0.05;
                 int dodgeDamageGateValue = (int)Math.Round(Player.statLifeMax2 * dodgeDamageGateValuePercent);
 
+                // This hook is applied before tML applies the vanilla difficulty multipliers. This means the "proj.damage" value here 
+                // is usually significantly lower than the damage the projectile "actually" deals.
+                // To obtain the correct damage value for a cancelled hit, the corresponding multipliers are copied from tML 
+                // to simulate the "actual" damage of the projectile.
+                // Note: Banner buffs, cold resistance, and modded modifiers are not included in this "actual" damage calculation,
+                // even though in real tML hooks they might be applied earlier than or together with difficulty multipliers.
+                int actualProjDamage = proj.damage;
+                if (!proj.reflected && !ProjectileID.Sets.PlayerHurtDamageIgnoresDifficultyScaling[proj.type])
+                {
+                    float damageMult = Main.GameModeInfo.EnemyDamageMultiplier;
+                    if (Main.GameModeInfo.IsJourneyMode)
+                    {
+                        var power = CreativePowerManager.Instance.GetPower<CreativePowers.DifficultySliderPower>();
+                        if (power.GetIsUnlocked())
+                            damageMult = power.StrengthMultiplierToGiveNPCs;
+                    }
+
+                    // in real tML, the factor 2 is applied in Projectile.Damage()
+                    actualProjDamage = (int)Math.Floor(2 * damageMult * (float)actualProjDamage);
+                }
+
                 // Reflects count as dodges. They share the timer and can be disabled by Armageddon right click.
-                if (!disableAllDodges && !Player.HasCooldown(GlobalDodge.ID) && proj.damage >= dodgeDamageGateValue)
+                if (!disableAllDodges && !Player.HasCooldown(GlobalDodge.ID) && actualProjDamage >= dodgeDamageGateValue)
                 {
                     double maxCooldownDurationDamagePercent = 0.5;
                     int maxCooldownDurationDamageValue = (int)Math.Round(Player.statLifeMax2 * (maxCooldownDurationDamagePercent - dodgeDamageGateValuePercent));
@@ -942,13 +964,14 @@ namespace CalamityMod.CalPlayer
                     if (maxCooldownDurationDamageValue <= 0)
                         maxCooldownDurationDamageValue = 1;
 
-                    float cooldownDurationScalar = MathHelper.Clamp((proj.damage - dodgeDamageGateValue) / (float)maxCooldownDurationDamageValue, 0f, 1f);
+                    float cooldownDurationScalar = MathHelper.Clamp((actualProjDamage - dodgeDamageGateValue) / (float)maxCooldownDurationDamageValue, 0f, 1f);
 
                     // The Evolution
                     if (evolution)
                     {
                         proj.hostile = false;
                         proj.friendly = true;
+                        proj.damage = 10 * actualProjDamage;
                         proj.velocity *= -2f;
                         proj.extraUpdates += 1;
                         proj.penetrate = 1;
@@ -1471,7 +1494,7 @@ namespace CalamityMod.CalPlayer
                 int dodgeDamageGateValue = (int)Math.Round(Player.statLifeMax2 * dodgeDamageGateValuePercent);
 
                 // Reflects count as dodges. They share the timer and can be disabled by global dodge disabling effects.
-                if (!disableAllDodges && !Player.HasCooldown(GlobalDodge.ID) && proj.damage >= dodgeDamageGateValue)
+                if (!disableAllDodges && !Player.HasCooldown(GlobalDodge.ID) && hurtInfo.SourceDamage >= dodgeDamageGateValue)
                 {
                     double maxCooldownDurationDamagePercent = 0.5;
                     int maxCooldownDurationDamageValue = (int)Math.Round(Player.statLifeMax2 * (maxCooldownDurationDamagePercent - dodgeDamageGateValuePercent));
@@ -1480,12 +1503,13 @@ namespace CalamityMod.CalPlayer
                     if (maxCooldownDurationDamageValue <= 0)
                         maxCooldownDurationDamageValue = 1;
 
-                    float cooldownDurationScalar = MathHelper.Clamp((proj.damage - dodgeDamageGateValue) / (float)maxCooldownDurationDamageValue, 0f, 1f);
+                    float cooldownDurationScalar = MathHelper.Clamp((hurtInfo.SourceDamage - dodgeDamageGateValue) / (float)maxCooldownDurationDamageValue, 0f, 1f);
 
                     if (daedalusReflect && !evolution)
                     {
                         proj.hostile = false;
                         proj.friendly = true;
+                        proj.damage = hurtInfo.SourceDamage;
                         proj.velocity *= -1f;
                         proj.penetrate = 1;
 
