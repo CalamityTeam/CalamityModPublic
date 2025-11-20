@@ -205,7 +205,6 @@ namespace CalamityMod.NPCs
         };
         private static readonly string[] SkeletonMerchantNames =
         {
-            "Sans Undertale", // <@!145379091648872450> (shayy)
             "Papyrus Undertale", // <@!262663471189983242> (nycro)
             "Gaster Undertale", // <@!924706306093379614> (enamoured)
             "Mr. Bones", // <@!359215912856977408> (jaybones.)

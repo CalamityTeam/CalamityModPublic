@@ -6,7 +6,7 @@ Names:
 5 - moonburn
 6 - Ozzatron
 7 - Rebecca
-8 - Shayy
+8 - Unused
 9 - StipulatedVenus
 10 - Xyk
 11 - Shade
