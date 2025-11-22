@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor.Brimflame
     public class BrimflameScowl : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Armor.Hardmode";
-        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/AngelicAllianceActivation");
+        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/BrimflameAbility");
 
         // TODO -- what the fuck is this? this is not how you implement a set bonus
         private bool frenzy = false;
