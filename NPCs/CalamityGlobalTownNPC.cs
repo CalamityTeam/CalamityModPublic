@@ -273,6 +273,7 @@ namespace CalamityMod.NPCs
             "Syethas", // <@!325413275066171393> (cosmicstariight)
             "Nextdoor Psycho", // <@!173261518572486656> (nextdoorpsycho)
             "Mike Cyclops", // <@!702327497475227741> (seichoseicho)
+            "Derin", // <@!466703979695308820> (god_15)
         };
         private static readonly string[] ZoologistNames =
         {
@@ -352,6 +353,7 @@ namespace CalamityMod.NPCs
         {
             "Bear", // <@!183424826407518208> (lilac_vrt_olligoci)
             "Storm", // <@!620383533516718085> (airwaveslr)
+            "Hognar the Wicked", // <@!766511001356468237> (xzier_tengal)
         };
         private static readonly string[] TownCatOrangeTabbyNames =
         {
@@ -364,6 +366,7 @@ namespace CalamityMod.NPCs
         private static readonly string[] TownCatSilverNames =
         {
             "Archie", // <@!303022375191183360> (jackshiz)
+            "Hognar the Wicked", // <@!766511001356468237> (xzier_tengal)
         };
         private static readonly string[] TownCatWhiteNames = null;
 
