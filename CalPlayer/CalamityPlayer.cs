@@ -87,8 +87,6 @@ namespace CalamityMod.CalPlayer
         public bool brimlashBusterBoost = false;
         public int evilSmasherBoost = 0;
         public int hellbornBoost = 0;
-        public int searedPanCounter = 0;
-        public int searedPanTimer = 0;
         public int potionTimer = 0;
         public bool blockAllDashes = false;
         public bool resetHeightandWidth = false;
@@ -2647,8 +2645,6 @@ namespace CalamityMod.CalPlayer
             ascendantTrail = false;
             evilSmasherBoost = 0;
             hellbornBoost = 0;
-            searedPanCounter = 0;
-            searedPanTimer = 0;
             potionTimer = 0;
             persecutedEnchantSummonTimer = 0;
             momentumCapacitorTime = 0;

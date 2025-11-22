@@ -1003,20 +1003,6 @@ SealedSingularity: {
 		'''
 }
 
-SearedPan: {
-	DisplayName: Seared Pan
-	Tooltip:
-		'''
-		Fires a frying pan at high velocity
-		Enemy hits summon fireballs that linger around the target
-		Landing three consecutive hits will launch a golden pan on the next throw
-		Golden pans cause all fireballs to aggressively home in on their target on hit
-		Stealth strikes act similar to golden pans but also explode into golden sparks
-		Stealth strikes also summon additional fireballs on hit
-		[c/842593:'dAMaGe iS rAthEr cOnSisTeNT']
-		'''
-}
-
 Seraphim: {
 	DisplayName: Seraphim
 	Tooltip:

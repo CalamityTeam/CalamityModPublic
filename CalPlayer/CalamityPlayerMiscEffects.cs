@@ -2843,18 +2843,6 @@ namespace CalamityMod.CalPlayer
                 if (Player.ActiveItem().type != ModContent.ItemType<EvilSmasher>())
                     evilSmasherBoost = 0;
             }
-            if (searedPanCounter > 0)
-            {
-                if (Player.ActiveItem().type != ModContent.ItemType<SearedPan>())
-                {
-                    searedPanCounter = 0;
-                    searedPanTimer = 0;
-                }
-                else if (searedPanTimer < SearedPan.ConsecutiveHitOpening)
-                    searedPanTimer++;
-                else
-                    searedPanCounter = 0;
-            }
 
             // Flight time boosts
             double flightTimeMult = 1D +
