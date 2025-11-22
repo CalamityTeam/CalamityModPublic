@@ -158,6 +158,28 @@ namespace CalamityMod.ILEditing
         }
         #endregion
 
+        #region Make PunchCameraModifier Affected by Screenshake Config
+        private static void PunchCameraUsesScreenshakeConfig(ILContext il)
+        {
+            // Allow the screenshake from PunchCameraModifier to scale based on our screenshake power config.
+            var cursor = new ILCursor(il);
+
+            // There are 3 local variables that control the strength of the screenshake in separate ways, but they all get multiplied together at the end.
+            // Thus it doesn't matter at all which one is multiplied to. Here I chose num2.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc2()))
+            {
+                LogFailure("Make PunchCameraModifier Affected by Screenshake Config", "Could not move to the location to inject code.");
+                return;
+            }
+
+            // Emit a delegate which grabs the value of the screenshake config. Then multiply the local variable by it.
+            cursor.Emit(OpCodes.Ldloc_1);
+            cursor.EmitDelegate<Func<float>>(() => CalamityConfig.Instance.ScreenshakePower);
+            cursor.Emit(OpCodes.Mul);
+            cursor.Emit(OpCodes.Stloc_1);
+        }
+        #endregion
+
         #region Make Meteorite Explodable
         private static void MakeMeteoriteExplodable(ILContext il)
         {

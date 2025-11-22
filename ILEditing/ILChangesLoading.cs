@@ -12,6 +12,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Liquid;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
+using Terraria.Graphics.CameraModifiers;
 using Terraria.Graphics.Light;
 using Terraria.Map;
 using Terraria.ModLoader;
@@ -139,6 +140,7 @@ namespace CalamityMod.ILEditing
 
             // Removal of vanilla stupidity
             IL_NPC.VanillaHitEffect += PreventLavaSlimeLavaDrop;
+            IL_PunchCameraModifier.Update += PunchCameraUsesScreenshakeConfig;
             IL_Player.UpdateBuffs += RemoveFeralBiteRandomDebuffs;
             IL_Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
             IL_Item.TryGetPrefixStatMultipliersForItem += RelaxPrefixRequirements;
