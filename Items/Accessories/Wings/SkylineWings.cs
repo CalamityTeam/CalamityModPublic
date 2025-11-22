@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public new string LocalizationCategory => "Items.Accessories.Wings";
         public override void SetStaticDefaults()
         {
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(80, 6.5f, 1f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(80, 6.25f, 1f);
         }
 
         public override void SetDefaults()
@@ -36,11 +36,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 0.5f;
             maxAscentMultiplier = 1.5f;
             constantAscend = 0.1f;
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 6.25f;
         }
 
         public override void AddRecipes()
