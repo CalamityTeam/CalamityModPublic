@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
 
         public static IList<string> devList = new List<string>()
         {
-			"Altix",
+            "Altixal",
             "apotofkoolaid",
             "AquaSG",
             "Atalya",
@@ -81,7 +81,6 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
             "Fluffy",
             "fryzahh",
             "HaguriHat",
-            "Heart Plus Up!",
             "LordMetarex",
             "Memes",
             "Mercutio 'Merkalto' Takle",
@@ -95,11 +94,11 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
             "Raesh",
             "Sagittariod",
             "Shade",
-            "Shayy",
             "Spider Prov",
             "StipulateVenus",
             "Sunny",
             "Tobias",
+            "_tofu",
             "Tomat",
             "Triangle",
             "TYESKI (Universe)",
@@ -144,6 +143,7 @@ namespace CalamityMod.Items.Placeables.Furniture.DevPaintings
             "GramOfSalt",
             "Graydee",
             "Grox the Great",
+            "Heart Plus Up!",
             "Hectique",
             "Hugekraken",
             "Huggles",
