@@ -148,7 +148,7 @@ namespace CalamityMod.Systems
         {
             if (ResizeArrayMethodInfo != null)
             {
-                MonoModHooks.Add(ResizeArrayMethodInfo, ResizeArrays);
+                MonoModHooks.Add(ResizeArrayMethodInfo, Delegate.CreateDelegate(typeof(Action<ResizeArray_orig, bool>), typeof(LavaStylesLoader).GetMethod(nameof(ResizeArrays), BindingFlags.NonPublic | BindingFlags.Static)));
             }
         }
 
