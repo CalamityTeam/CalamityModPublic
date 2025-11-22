@@ -3603,7 +3603,7 @@ namespace CalamityMod.CalPlayer
         #region PostUpdateBuffs
         public override void PostUpdateBuffs()
         {
-            if (Player.whoAmI == Main.myPlayer && CalamityConfig.Instance.VanillaCooldownDisplay)
+            if (Player.whoAmI == Main.myPlayer)
             {
                 if (Player.whoAmI == Main.myPlayer && Player.potionDelay != 0)
                     potionSick = true;

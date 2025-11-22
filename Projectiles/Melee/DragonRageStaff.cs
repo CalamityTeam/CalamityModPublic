@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 CalamityPlayer modPlayer = Main.player[Projectile.owner].Calamity();
                 modPlayer.dragonRageHits++;
-                if (modPlayer.dragonRageHits > 10 && modPlayer.dragonRageCooldown <= 0)
+                if (modPlayer.dragonRageHits >= 10 && modPlayer.dragonRageCooldown <= 0)
                 {
                     SpawnFireballs();
                     modPlayer.dragonRageHits = 0;

@@ -413,7 +413,7 @@ PlagueReaperMask: {
 		Enemies receive 10% more damage from ranged projectiles when afflicted by the Plague
 		Getting hit causes plague cinders to rain from above
 		Press {0} to blind yourself for 5 seconds but massively boost your ranged damage
-		This has a 25 second cooldown.
+		This has a 25 second cooldown
 		'''
 }
 

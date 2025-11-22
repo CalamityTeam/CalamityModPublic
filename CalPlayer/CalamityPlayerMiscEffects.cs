@@ -2846,7 +2846,6 @@ namespace CalamityMod.CalPlayer
 
             // Flight time boosts
             double flightTimeMult = 1D +
-                (ZoneAstral ? 0.05 : 0D) +
                 (harpyRing ? 0.2 : 0D) +
                 (reaverSpeed ? 0.1 : 0D) +
                 (angelTreads ? 0.1 : 0D) +

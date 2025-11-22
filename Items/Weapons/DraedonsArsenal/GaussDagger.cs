@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
@@ -58,6 +60,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                 AddIngredient<DubiousPlating>(7).
                 AddIngredient<AerialiteBar>(4).
                 AddIngredient<SeaPrism>(7).
+                AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(1, out Func<bool> condition), condition).
                 AddTile(TileID.Anvils).
                 Register();
         }
