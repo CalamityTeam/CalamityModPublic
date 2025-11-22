@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.Ravager
             NPC.DR_NERD(0.2f);
             NPC.chaseable = false;
             NPC.lifeMax = DownedBossSystem.downedProvidence ? 14000 : 3500;
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.alpha = 255;
             NPC.aiStyle = -1;

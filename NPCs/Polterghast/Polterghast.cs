@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.Polterghast
             NPC.defense = 90;
             NPC.DR_NERD(0.2f);
             NPC.LifeMaxNERB(350000, 420000, 325000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
@@ -306,7 +306,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
             // Stop rain
-            if (CalamityConfig.Instance.BossesStopWeather)
+            if (CalamityServerConfig.Instance.BossesStopWeather)
                 CalamityMod.StopRain();
 
             // Set time left
@@ -1164,7 +1164,7 @@ namespace CalamityMod.NPCs.Polterghast
             Vector2 halfSizeTexture = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
             int afterimageAmt = 7;
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int i = 1; i < afterimageAmt; i += 2)
                 {
@@ -1208,7 +1208,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             Color veinColor = Color.Lerp(Color.White, (NPC.ai[2] >= changeColorGateValue || NPC.Calamity().newAI[0] > changeColorGateValue) ? Color.Red : Color.Black, 0.5f);
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int j = 1; j < afterimageAmt; j++)
                 {

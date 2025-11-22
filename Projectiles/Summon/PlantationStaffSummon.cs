@@ -341,7 +341,7 @@ namespace CalamityMod.Projectiles.Summon
             Rectangle frame = texture.Frame(1, Main.projFrames[Type], 0, Projectile.frame);
             Vector2 origin = frame.Size() * 0.5f;
 
-            if (State == AIState.Ramming && CalamityConfig.Instance.Afterimages)
+            if (State == AIState.Ramming && CalamityClientConfig.Instance.Afterimages)
                 CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], lightColor);
 
             Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);

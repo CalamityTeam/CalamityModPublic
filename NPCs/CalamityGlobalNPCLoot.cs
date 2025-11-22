@@ -1856,7 +1856,7 @@ DukeEditFailed:
                     if (!Main.hardMode)
                     {
                         // Increase altar count to allow natural mech boss spawning.
-                        if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+                        if (CalamityServerConfig.Instance.EarlyHardmodeProgressionRework)
                             WorldGen.altarCount++;
 
                         string key2 = "Mods.CalamityMod.Status.Progression.UglyBossText";
@@ -1880,7 +1880,7 @@ DukeEditFailed:
                     SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<THIEF>() }, NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3);
                     SetNewBossJustDowned(npc);
 
-                    if (!NPC.downedMechBoss1 && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+                    if (!NPC.downedMechBoss1 && CalamityServerConfig.Instance.EarlyHardmodeProgressionRework)
                         SpawnMechBossHardmodeOres();
                     break;
 
@@ -1892,7 +1892,7 @@ DukeEditFailed:
                         SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || NPC.downedMechBoss2 || !NPC.downedMechBoss3);
                         SetNewBossJustDowned(npc);
 
-                        if (!NPC.downedMechBoss2 && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+                        if (!NPC.downedMechBoss2 && CalamityServerConfig.Instance.EarlyHardmodeProgressionRework)
                             SpawnMechBossHardmodeOres();
                     }
                     break;
@@ -1902,7 +1902,7 @@ DukeEditFailed:
                     SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || !NPC.downedMechBoss2 || NPC.downedMechBoss3);
                     SetNewBossJustDowned(npc);
 
-                    if (!NPC.downedMechBoss3 && CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+                    if (!NPC.downedMechBoss3 && CalamityServerConfig.Instance.EarlyHardmodeProgressionRework)
                         SpawnMechBossHardmodeOres();
                     break;
 

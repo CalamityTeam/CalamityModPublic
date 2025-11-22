@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.defense = 90;
             NPC.DR_NERD(0.5f, null, null, null, true);
             NPC.LifeMaxNERB(500000, 600000, 400000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.noTileCollide = true;
@@ -258,7 +258,7 @@ namespace CalamityMod.NPCs.OldDuke
                 color = drawColor;
             }
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int i = 1; i < afterimageAmt; i += afterimageIncrement)
                 {
@@ -309,7 +309,7 @@ namespace CalamityMod.NPCs.OldDuke
                 afterimageScale = 20f;
             }
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int j = 0; j < secondAfterimageAmt; j++)
                 {
@@ -365,7 +365,7 @@ namespace CalamityMod.NPCs.OldDuke
                     yellowLerpColor *= ai2Opacity;
                 }
 
-                if (CalamityConfig.Instance.Afterimages)
+                if (CalamityClientConfig.Instance.Afterimages)
                 {
                     for (int k = 1; k < afterimageAmt; k += afterimageIncrement)
                     {

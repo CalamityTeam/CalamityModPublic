@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.Signus
             NPC.defense = 60;
             NPC.LifeMaxNERB(300000, 360000, 320000);
             NPC.value = Item.buyPrice(2, 0, 0, 0);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
@@ -851,7 +851,7 @@ namespace CalamityMod.NPCs.Signus
                 transparency = (100 - (stealthTimer - 300)) * 0.01f;
             }
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int i = 1; i < afterimageAmt; i += 2)
                 {
@@ -877,7 +877,7 @@ namespace CalamityMod.NPCs.Signus
                 eyeGlowColor = Color.MediumBlue;
             }
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int j = 1; j < afterimageAmt; j++)
                 {

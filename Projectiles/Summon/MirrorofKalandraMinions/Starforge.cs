@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
             DrawSpin -= MathHelper.ToRadians(MirrorofKalandra.Purple_SpinSpeed);
             float rotation = (Target is not null) ? DrawSpin : Projectile.rotation + MathHelper.Pi - MathHelper.PiOver4;
 
-            if (CalamityConfig.Instance.Afterimages && Target is not null)
+            if (CalamityClientConfig.Instance.Afterimages && Target is not null)
             {
                 for (int i = 0; i < Projectile.oldPos.Length; i++)
                 {

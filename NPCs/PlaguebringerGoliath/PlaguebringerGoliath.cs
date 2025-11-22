@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             NPC.defense = 50;
             NPC.DR_NERD(0.3f);
             NPC.LifeMaxNERB(87500, 105000, 370000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
@@ -1264,7 +1264,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             if (NPC.ai[0] != 0f && NPC.ai[0] != 4f)
                 afterimageAmt = 7;
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int j = 1; j < afterimageAmt; j += 2)
                 {
@@ -1286,7 +1286,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
             Color redLerpColor = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int k = 1; k < afterimageAmt; k++)
                 {

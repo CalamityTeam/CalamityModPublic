@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.height = 50;
             NPC.defense = 14;
             NPC.lifeMax = BossRushEvent.BossRushActive ? 10000 : 600;
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0.2f;
             NPC.noGravity = true;

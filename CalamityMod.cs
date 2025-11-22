@@ -547,7 +547,7 @@ namespace CalamityMod
         #endregion Render Target Management
 
         #region Force ModConfig save (Reflection)
-        internal static void SaveConfig(CalamityConfig cfg)
+        internal static void SaveConfig(CalamityClientConfig cfg)
         {
             // There is no current way to manually save a mod configuration file in tModLoader.
             // The method which saves mod config files is private in ConfigManager, so reflection is used to invoke it.

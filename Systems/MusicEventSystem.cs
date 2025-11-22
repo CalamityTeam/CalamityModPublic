@@ -52,20 +52,20 @@ namespace CalamityMod.Systems
             }
 
             AddEntry("CloneDefeated", "Interlude1", TimeSpan.FromSeconds(214.577d),
-                () => DownedBossSystem.downedCalamitasClone, () => CalamityConfig.Instance.Interlude1);
+                () => DownedBossSystem.downedCalamitasClone, () => CalamityClientConfig.Instance.Interlude1);
 
             AddEntry("MLDefeated", "Interlude2", TimeSpan.FromSeconds(191.912d), () => NPC.downedMoonlord,
-                () => CalamityConfig.Instance.Interlude2, outroSilence: TimeSpan.FromSeconds(1f));
+                () => CalamityClientConfig.Instance.Interlude2, outroSilence: TimeSpan.FromSeconds(1f));
 
             // Alternative Interlude 2 -> AddEntry("MLDefeated", "Interlude2_CutIntro", TimeSpan.FromSeconds(160.989d),
             //    () => NPC.downedMoonlord, () => CalamityConfig.Instance.Interlude2,
             //    outroSilence: TimeSpan.FromSeconds(1f));
 
             AddEntry("YharonDefeated", "Interlude3", TimeSpan.FromSeconds(295.932d),
-                () => DownedBossSystem.downedYharon, () => CalamityConfig.Instance.Interlude3);
+                () => DownedBossSystem.downedYharon, () => CalamityClientConfig.Instance.Interlude3);
 
             AddEntry("DoGDefeated", "DevourerofGodsEulogy", TimeSpan.FromSeconds(203.620d),
-                () => DownedBossSystem.downedDoG, () => CalamityConfig.Instance.DevourerofGodsEulogy,
+                () => DownedBossSystem.downedDoG, () => CalamityClientConfig.Instance.DevourerofGodsEulogy,
                 introSilence: TimeSpan.FromSeconds(7.5f));
 
             // Acceptance is NOT toggleable in the config

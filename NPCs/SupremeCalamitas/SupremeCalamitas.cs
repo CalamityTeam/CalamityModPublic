@@ -264,7 +264,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.DR_NERD(normalDR);
             NPC.value = Item.buyPrice(30, 0, 0, 0);
             NPC.LifeMaxNERB(960000, 1150000, 900000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
             AIType = -1;
@@ -441,7 +441,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 CalamityNetcode.SyncWorld();
             }
 
-            if (CalamityConfig.Instance.BossesStopWeather)
+            if (CalamityServerConfig.Instance.BossesStopWeather)
                 CalamityMod.StopRain();
 
             bool bossRush = BossRushEvent.BossRushActive;
@@ -3590,7 +3590,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Vector2 halfSizeTexture = new Vector2(texture2D15.Width / 2f, texture2D15.Height / Main.npcFrameCount[NPC.type] / 2f);
             int afterimageAmt = 7;
 
-            if (CalamityConfig.Instance.Afterimages && !(permafrost && NPC.ai[1] == 2f))
+            if (CalamityClientConfig.Instance.Afterimages && !(permafrost && NPC.ai[1] == 2f))
             {
                 for (int i = 1; i < afterimageAmt; i += 2)
                 {

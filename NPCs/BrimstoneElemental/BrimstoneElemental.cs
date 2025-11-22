@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             NPC.value = Item.buyPrice(0, 40, 0, 0);
             NPC.LifeMaxNERB(41000, 49200, 780000);
             NPC.DR_NERD(0.15f);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;

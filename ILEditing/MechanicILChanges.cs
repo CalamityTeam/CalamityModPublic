@@ -326,7 +326,7 @@ namespace CalamityMod.ILEditing
             {
                 // A cached delegate is used here instead of direct reflection for performance reasons
                 // since UpdateTime is called every frame.
-                if (Main.dayTime || CalamityConfig.Instance.TownNPCsSpawnAtNight)
+                if (Main.dayTime || CalamityServerConfig.Instance.TownNPCsSpawnAtNight)
                     VanillaSpawnTownNPCs();
             });
 
@@ -342,7 +342,7 @@ namespace CalamityMod.ILEditing
         private static void AlterTownNPCSpawnRate(Terraria.On_Main.orig_UpdateTime_SpawnTownNPCs orig)
         {
             double oldWorldRate = Main.desiredWorldTilesUpdateRate;
-            Main.desiredWorldTilesUpdateRate *= CalamityConfig.Instance.TownNPCSpawnRateMultiplier;
+            Main.desiredWorldTilesUpdateRate *= CalamityServerConfig.Instance.TownNPCSpawnRateMultiplier;
             orig();
             Main.desiredWorldTilesUpdateRate = oldWorldRate;
         }

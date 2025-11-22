@@ -10,7 +10,7 @@ namespace CalamityMod.Systems
         public override void PostUpdateTime()
         {
             // Reduce the expert+ debuff time multiplier to the normal mode multiplier
-            if (CalamityConfig.Instance.NerfExpertDebuffs)
+            if (CalamityServerConfig.Instance.NerfExpertDebuffs)
             {
                 var copy = Main.RegisteredGameModes[GameModeID.Expert];
                 copy.DebuffTimeMultiplier = 1f;

@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            if (!CalamityConfig.Instance.Afterimages)
+            if (!CalamityClientConfig.Instance.Afterimages)
                 return true;
 
             // Special afterimage drawing to include the slashes

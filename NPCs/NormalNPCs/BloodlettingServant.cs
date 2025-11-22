@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 5;
 
             NPC.lifeMax = 96;
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
 
             NPC.knockBackResist = 0f;
@@ -259,7 +259,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 float telegraphScalar = MathHelper.Clamp((NPC.ai[0] - ChargeTelegraphGateValue) / ChargeTelegraphGateValue, 0f, 1f);
                 Color telegraphColor = Color.Lerp(originalColor, newColor, telegraphScalar);
 
-                if (CalamityConfig.Instance.Afterimages && NPC.ai[1] > 0f)
+                if (CalamityClientConfig.Instance.Afterimages && NPC.ai[1] > 0f)
                 {
                     int afterimageAmount = 10;
                     int afterImageIncrement = 2;

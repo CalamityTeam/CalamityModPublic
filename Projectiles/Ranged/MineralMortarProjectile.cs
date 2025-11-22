@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/SwordSlashTexture"));
             PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(TrailWidthFunction, ColorTrailFunction, (_) => Projectile.Size * 0.5f, shader: GameShaders.Misc["CalamityMod:TrailStreak"]), 50);
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int i = 0; i < 3; i++)
                 {

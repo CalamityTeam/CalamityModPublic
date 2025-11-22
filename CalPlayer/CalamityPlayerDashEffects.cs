@@ -21,7 +21,7 @@ namespace CalamityMod.CalPlayer
         {
             get
             {
-                return (String.IsNullOrEmpty(dashID) && Player.dashType == 0 && CalamityConfig.Instance.DefaultDashEnabled) ? DefaultDash.ID : dashID; //gives default dash ONLY if no custom or vanilla dash.
+                return (String.IsNullOrEmpty(dashID) && Player.dashType == 0 && CalamityServerConfig.Instance.DefaultDashEnabled) ? DefaultDash.ID : dashID; //gives default dash ONLY if no custom or vanilla dash.
             }
             set => dashID = value;
         }

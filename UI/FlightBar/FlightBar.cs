@@ -90,7 +90,7 @@ namespace CalamityMod.UI
         public static void Draw(SpriteBatch spriteBatch, Player player)
         {
             // Sanity check the planned position before drawing
-            Vector2 screenRatioPosition = new Vector2(CalamityConfig.Instance.FlightBarPosX, CalamityConfig.Instance.FlightBarPosY);
+            Vector2 screenRatioPosition = new Vector2(CalamityClientConfig.Instance.FlightBarPosX, CalamityClientConfig.Instance.FlightBarPosY);
             if (screenRatioPosition.X < 0f || screenRatioPosition.X > 100f)
                 screenRatioPosition.X = DefaultFlightPosX;
             if (screenRatioPosition.Y < 0f || screenRatioPosition.Y > 100f)
@@ -106,26 +106,26 @@ namespace CalamityMod.UI
             CalamityPlayer modPlayer = player.Calamity();
 
             // If not drawing the flight bar, save its latest position to config and leave.
-            if (CalamityConfig.Instance.FlightBar && ((player.wingsLogic > 0 && player.wingTimeMax > 0) || (player.mount.Active && player.mount._data.flightTimeMax > 0) || player.carpet && !player.canCarpet))
+            if (CalamityClientConfig.Instance.FlightBar && ((player.wingsLogic > 0 && player.wingTimeMax > 0) || (player.mount.Active && player.mount._data.flightTimeMax > 0) || player.carpet && !player.canCarpet))
             {
                 DrawFlightBar(spriteBatch, modPlayer, screenPos);
             }
             else
             {
                 bool changed = false;
-                if (CalamityConfig.Instance.FlightBarPosX != screenRatioPosition.X)
+                if (CalamityClientConfig.Instance.FlightBarPosX != screenRatioPosition.X)
                 {
-                    CalamityConfig.Instance.FlightBarPosX = screenRatioPosition.X;
+                    CalamityClientConfig.Instance.FlightBarPosX = screenRatioPosition.X;
                     changed = true;
                 }
-                if (CalamityConfig.Instance.FlightBarPosY != screenRatioPosition.Y)
+                if (CalamityClientConfig.Instance.FlightBarPosY != screenRatioPosition.Y)
                 {
-                    CalamityConfig.Instance.FlightBarPosY = screenRatioPosition.Y;
+                    CalamityClientConfig.Instance.FlightBarPosY = screenRatioPosition.Y;
                     changed = true;
                 }
 
                 if (changed)
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    CalamityMod.SaveConfig(CalamityClientConfig.Instance);
                 return;
             }
 
@@ -138,7 +138,7 @@ namespace CalamityMod.UI
             // Handle mouse dragging
             if (flightBar.Intersects(mouseHitbox))
             {
-                if (!CalamityConfig.Instance.MeterPosLock)
+                if (!CalamityClientConfig.Instance.MeterPosLock)
                     Main.LocalPlayer.mouseInterface = true;
 
                 if (modPlayer.Player.equippedWings != null && modPlayer.Player.wingTimeMax > 0 || (player.mount.Active && modPlayer.Player.mount._data.flightTimeMax > 0) || player.carpet && !player.canCarpet) //equipped wings or riding a flying mount and max wingtime/flighttime above 0 (so not disabled bar)
@@ -149,7 +149,7 @@ namespace CalamityMod.UI
 
                 Vector2 newScreenRatioPosition = screenRatioPosition;
                 // As long as the mouse button is held down, drag the meter along with an offset.
-                if (!CalamityConfig.Instance.MeterPosLock && ms.LeftButton == ButtonState.Pressed)
+                if (!CalamityClientConfig.Instance.MeterPosLock && ms.LeftButton == ButtonState.Pressed)
                 {
                     // If the drag offset doesn't exist yet, create it.
                     if (!dragOffset.HasValue)
@@ -167,15 +167,15 @@ namespace CalamityMod.UI
                 Vector2 delta = newScreenRatioPosition - screenRatioPosition;
                 if (Math.Abs(delta.X) >= MouseDragEpsilon || Math.Abs(delta.Y) >= MouseDragEpsilon)
                 {
-                    CalamityConfig.Instance.FlightBarPosX = newScreenRatioPosition.X;
-                    CalamityConfig.Instance.FlightBarPosY = newScreenRatioPosition.Y;
+                    CalamityClientConfig.Instance.FlightBarPosX = newScreenRatioPosition.X;
+                    CalamityClientConfig.Instance.FlightBarPosY = newScreenRatioPosition.Y;
                 }
 
                 // When the mouse is released, save the config and destroy the drag offset.
                 if (ms.LeftButton == ButtonState.Released)
                 {
                     dragOffset = null;
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    CalamityMod.SaveConfig(CalamityClientConfig.Instance);
                 }
             }
         }

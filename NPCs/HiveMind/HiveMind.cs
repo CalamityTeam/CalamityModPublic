@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.height = 122;
             NPC.defense = 8;
             NPC.LifeMaxNERB(7700, 9200, 350000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
             AIType = -1;
@@ -315,7 +315,7 @@ namespace CalamityMod.NPCs.HiveMind
                 Color afterimageBaseColor = Color.White;
                 int numAfterimages = 5;
 
-                if (CalamityConfig.Instance.Afterimages && state != 0)
+                if (CalamityClientConfig.Instance.Afterimages && state != 0)
                 {
                     for (int i = 1; i < numAfterimages; i += 2)
                     {

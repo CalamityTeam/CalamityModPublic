@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.defense = 10;
             NPC.DR_NERD(0.5f);
             NPC.lifeMax = BossRushEvent.BossRushActive ? 1000 : 650;
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.alpha = 255;
             NPC.HitSound = SoundID.NPCHit5;

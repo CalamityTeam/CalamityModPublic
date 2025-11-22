@@ -310,7 +310,7 @@ namespace CalamityMod.Projectiles.Melee
             drawOrigin = new Vector2(0f, blade.Height);
 
             //Afterimages
-            if (CalamityConfig.Instance.Afterimages && CurrentState == 0f && Empowerment / maxEmpowerment > 0.4f)
+            if (CalamityClientConfig.Instance.Afterimages && CurrentState == 0f && Empowerment / maxEmpowerment > 0.4f)
             {
                 for (int i = 0; i < Projectile.oldRot.Length; ++i)
                 {

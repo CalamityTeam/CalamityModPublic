@@ -83,7 +83,7 @@ namespace CalamityMod.CalPlayer
             // Give the player a 24% jump speed boost while wings are equipped, otherwise grant 4% more jump speed so that players can jump 7 tiles high
             if (Player.wingsLogic > 0)
                 Player.jumpSpeedBoost += 1.2f;
-            else if (CalamityConfig.Instance.FasterJumpSpeed)
+            else if (CalamityServerConfig.Instance.FasterJumpSpeed)
                 Player.jumpSpeedBoost += 0.2f;
 
             // Decrease the counter on Fearmonger set turbo regeneration
@@ -983,7 +983,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.buffImmune[ModContent.BuffType<FrozenLungs>()] = true;
             }
-            if (CalamityConfig.Instance.ChilledWaterRework)
+            if (CalamityServerConfig.Instance.ChilledWaterRework)
             {
                 if (Main.expertMode && Player.ZoneSnow && Player.wet && !Player.lavaWet && !Player.honeyWet)
                 {
@@ -1098,7 +1098,7 @@ namespace CalamityMod.CalPlayer
                     Player.noFallDmg = true;
                 }
 
-                if (CalamityConfig.Instance.FasterFallHotkey)
+                if (CalamityClientConfig.Instance.FasterFallHotkey)
                 {
                     // Allow the player to double their gravity (but NOT max fall speed!) by holding the down button while in midair.
                     bool holdingDown = Player.controlDown && !Player.controlJump;
@@ -2712,7 +2712,7 @@ namespace CalamityMod.CalPlayer
 
             // 50% movement speed bonus so that you don't feel like a snail in the early game
             // Disabled while Overhaul is enabled, because Overhaul does very similar things to make movement more snappy
-            if (CalamityMod.Instance.overhaul is null && CalamityConfig.Instance.FasterBaseSpeed)
+            if (CalamityMod.Instance.overhaul is null && CalamityServerConfig.Instance.FasterBaseSpeed)
                 Player.moveSpeed += BalancingConstants.DefaultMoveSpeedBoost;
 
             // Reduce how slow Chilled makes the player, because it's cancerous right now
@@ -4146,7 +4146,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (startMessageDisplayDelay == 0)
                 {
-                    if (CalamityConfig.Instance.WikiStatusMessage)
+                    if (CalamityClientConfig.Instance.WikiStatusMessage)
                     {
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus1");
                         CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.WikiStatus2");

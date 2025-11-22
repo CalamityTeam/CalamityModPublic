@@ -609,7 +609,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             int eightConst = 8;
             int afterimageInc = 2;
             int afterimageCounter = 1;
-            while (((afterimageInc > 0 && afterimageCounter < eightConst) || (afterimageInc < 0 && afterimageCounter > eightConst)) && CalamityConfig.Instance.Afterimages)
+            while (((afterimageInc > 0 && afterimageCounter < eightConst) || (afterimageInc < 0 && afterimageCounter > eightConst)) && CalamityClientConfig.Instance.Afterimages)
             {
                 Color alphaAfterimageColor = NPC.GetAlpha(extraAfterimageColor);
                 {

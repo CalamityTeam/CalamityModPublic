@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             NPC.defense = 40;
             NPC.DR_NERD(0.1f);
             NPC.LifeMaxNERB(187500, 225000, 300000); // Old HP - 227500, 252500
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.boss = true;
@@ -278,7 +278,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 color = altColor;
             }
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int i = 1; i < afterimageAmt; i += afterimageIncrement)
                 {
@@ -331,7 +331,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 }
             }
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int j = 0; j < extraAfterimageAmt; j++)
                 {
@@ -373,7 +373,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                     glowmaskColor *= glowmaskDampener;
                 }
 
-                if (CalamityConfig.Instance.Afterimages)
+                if (CalamityClientConfig.Instance.Afterimages)
                 {
                     for (int k = 1; k < afterimageAmt; k += afterimageIncrement)
                     {

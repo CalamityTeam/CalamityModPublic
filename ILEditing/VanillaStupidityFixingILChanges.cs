@@ -116,7 +116,7 @@ namespace CalamityMod.ILEditing
         #region Prevention of Slime Rain Spawns When Near Bosses
         private static void PreventBossSlimeRainSpawns(Terraria.On_NPC.orig_SlimeRainSpawns orig, int plr)
         {
-            if (!Main.player[plr].Calamity().isNearbyBoss && CalamityConfig.Instance.BossZen)
+            if (!Main.player[plr].Calamity().isNearbyBoss && CalamityServerConfig.Instance.BossZen)
                 orig(plr);
         }
         #endregion Prevention of Slime Rain Spawns When Near Bosses
@@ -136,7 +136,7 @@ namespace CalamityMod.ILEditing
 
             // Add an additional check for the config.
             cursor.Remove();
-            cursor.EmitDelegate<Func<bool>>(() => CalamityConfig.Instance.RemoveLavaDropsFromLavaSlimes || Main.remixWorld);
+            cursor.EmitDelegate<Func<bool>>(() => CalamityServerConfig.Instance.RemoveLavaDropsFromLavaSlimes || Main.remixWorld);
         }
         #endregion
 
@@ -174,7 +174,7 @@ namespace CalamityMod.ILEditing
 
             // Emit a delegate which grabs the value of the screenshake config. Then multiply the local variable by it.
             cursor.Emit(OpCodes.Ldloc_1);
-            cursor.EmitDelegate<Func<float>>(() => CalamityConfig.Instance.ScreenshakePower);
+            cursor.EmitDelegate<Func<float>>(() => CalamityClientConfig.Instance.ScreenshakePower);
             cursor.Emit(OpCodes.Mul);
             cursor.Emit(OpCodes.Stloc_1);
         }

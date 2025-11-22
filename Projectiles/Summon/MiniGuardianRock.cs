@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Summon
                 lerpVal = Utils.GetLerpValue(psc ? 87 : 57, psc ? 150 : 120, ownerDist, true);
                 mult = MathHelper.Lerp(0.42f, 1f, lerpVal);
             }
-            if (CalamityConfig.Instance.Afterimages && Projectile.ai[0] >= 1f)  //handle afterimages manually since the utility broke it and didn't render correctly
+            if (CalamityClientConfig.Instance.Afterimages && Projectile.ai[0] >= 1f)  //handle afterimages manually since the utility broke it and didn't render correctly
             {
                 for (int i = 0; i < Projectile.oldPos.Length; ++i)
                 {

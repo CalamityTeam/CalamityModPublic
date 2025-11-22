@@ -1785,7 +1785,7 @@ namespace CalamityMod.Items
                 return keepPrefix ? prefix : 0;
             }
 
-            if (!CalamityConfig.Instance.RemoveReforgeRNG || Main.gameMenu || storedPrefix == -1)
+            if (!CalamityServerConfig.Instance.RemoveReforgeRNG || Main.gameMenu || storedPrefix == -1)
                 return -1;
 
             // Pick a prefix using the new system.

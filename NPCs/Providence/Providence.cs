@@ -229,7 +229,7 @@ namespace CalamityMod.NPCs.Providence
             NPC.defense = 50;
             NPC.DR_NERD(normalDR);
             NPC.LifeMaxNERB(312500, 375000, 1250000); // Old HP - 440000, 500000
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
@@ -613,7 +613,7 @@ namespace CalamityMod.NPCs.Providence
             NPC.chaseable = normalAttackRate;
 
             // Prevent lag by stopping rain
-            if (CalamityConfig.Instance.BossesStopWeather)
+            if (CalamityServerConfig.Instance.BossesStopWeather)
                 CalamityMod.StopRain();
 
             // Set target biome type
@@ -2206,7 +2206,7 @@ namespace CalamityMod.NPCs.Providence
                 float Brightness = 0.5f; // Ranges from 0 (full vibrance) to 1 (pure white)
                 int maxAfterimages = 5;
 
-                if (CalamityConfig.Instance.Afterimages)
+                if (CalamityClientConfig.Instance.Afterimages)
                 {
                     for (int i = 1; i < maxAfterimages; i += 2)
                     {
@@ -2270,7 +2270,7 @@ namespace CalamityMod.NPCs.Providence
                     BaseCrystalColor = colorOverride.Value;
                 }
 
-                if (CalamityConfig.Instance.Afterimages)
+                if (CalamityClientConfig.Instance.Afterimages)
                 {
                     for (int j = 1; j < maxAfterimages; j++)
                     {

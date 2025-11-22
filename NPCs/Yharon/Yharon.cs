@@ -108,7 +108,7 @@ namespace CalamityMod.NPCs.Yharon
             NPC.height = 200;
             NPC.defense = 90;
             NPC.LifeMaxNERB(1300000, 1560000, 740000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.Yharon
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             // Stop rain
-            if (CalamityConfig.Instance.BossesStopWeather)
+            if (CalamityServerConfig.Instance.BossesStopWeather)
                 CalamityMod.StopRain();
 
             // Variables
@@ -2767,7 +2767,7 @@ namespace CalamityMod.NPCs.Yharon
             else
                 color = drawColor;
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int i = 1; i < afterimageAmt; i += afterimageIncrement)
                 {
@@ -2816,7 +2816,7 @@ namespace CalamityMod.NPCs.Yharon
                 afterimageScale = 20f;
             }
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int k = 0; k < additionalAfterimageAmt; k++)
                 {
@@ -2893,7 +2893,7 @@ namespace CalamityMod.NPCs.Yharon
                     blueGlowColor *= teleportGlowColorScaler;
                 }
 
-                if (CalamityConfig.Instance.Afterimages)
+                if (CalamityClientConfig.Instance.Afterimages)
                 {
                     for (int l = 1; l < afterimageAmt; l += afterimageIncrement)
                     {

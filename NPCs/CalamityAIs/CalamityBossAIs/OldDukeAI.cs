@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.CalamityAIs.CalamityBossAIs
             float greenLight = (phase3AI ? 1.2f : phase2AI ? 0.8f : 0.4f) * alphaScale;
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), redLight, greenLight, 0f);
 
-            if (CalamityConfig.Instance.BossesStopWeather)
+            if (CalamityServerConfig.Instance.BossesStopWeather)
                 CalamityMod.StopRain();
             else if (!Main.raining && !BossRushEvent.BossRushActive)
                 CalamityUtils.StartRain();

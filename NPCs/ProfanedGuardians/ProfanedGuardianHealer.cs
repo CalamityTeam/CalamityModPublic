@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             NPC.defense = 30;
             NPC.DR_NERD(0.2f);
             NPC.LifeMaxNERB(60000, 72000, 50000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
@@ -443,7 +443,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Vector2 halfSizeTexture = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
                 int afterimageAmt = 5;
 
-                if (CalamityConfig.Instance.Afterimages)
+                if (CalamityClientConfig.Instance.Afterimages)
                 {
                     for (int i = 1; i < afterimageAmt; i += 2)
                     {
@@ -485,7 +485,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     overrideColor = colorOverride.Value;
                 }
 
-                if (CalamityConfig.Instance.Afterimages)
+                if (CalamityClientConfig.Instance.Afterimages)
                 {
                     for (int j = 1; j < afterimageAmt; j++)
                     {

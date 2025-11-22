@@ -1658,7 +1658,7 @@ namespace CalamityMod.Projectiles.Summon
             drawPos -= new Vector2(texture.Width, texture.Height) * Projectile.scale / 2f;
             drawPos += drawOrigin * Projectile.scale + new Vector2(0f, Projectile.gfxOffY);
             Rectangle frame = new Rectangle(0, 0, texture.Width, texture.Height);
-            if (CalamityConfig.Instance.Afterimages)  //handle afterimages manually since the utility broke it and didn't render correctly
+            if (CalamityClientConfig.Instance.Afterimages)  //handle afterimages manually since the utility broke it and didn't render correctly
             {
                 for (int i = 0; i < Projectile.oldPos.Length; ++i)
                 {

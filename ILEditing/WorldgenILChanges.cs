@@ -46,7 +46,7 @@ namespace CalamityMod.ILEditing
         #region Removal of Hardmode Ore Generation from Evil Altars
         private static void PreventSmashAltarCode(Terraria.On_WorldGen.orig_SmashAltar orig, int i, int j)
         {
-            if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+            if (CalamityServerConfig.Instance.EarlyHardmodeProgressionRework)
                 return;
 
             orig(i, j);

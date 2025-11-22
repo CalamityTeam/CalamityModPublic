@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.CalClone
             {
                 NPC.lifeMax = 15000;
             }
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.CalClone
             float colorLerpAmt = 0.5f;
             int afterImageAmt = 5;
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int a = 1; a < afterImageAmt; a += 2)
                 {
@@ -220,7 +220,7 @@ namespace CalamityMod.NPCs.CalClone
             texture = GlowTexture.Value;
             Color glow = Color.Lerp(Color.White, Color.Red, colorLerpAmt);
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int a = 1; a < afterImageAmt; a++)
                 {

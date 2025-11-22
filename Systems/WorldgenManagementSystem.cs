@@ -336,7 +336,7 @@ namespace CalamityMod.Systems
                 // Disable gen pass if Early Hardmode Rework is disabled.
                 // Could just not add/remove gen pass, but that could lead to mod conflicts
                 // in case whatever mod targets this specific gen pass.
-                if (!CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+                if (!CalamityServerConfig.Instance.EarlyHardmodeProgressionRework)
                 {
                     hardmodeOreT1Pass.Disable();
                 }

@@ -190,7 +190,7 @@ namespace CalamityMod.Projectiles.Summon.MirrorofKalandraMinions
             Vector2 origin = frame.Size() * 0.5f;
             float rotation = (Target is not null) ? Projectile.rotation : Projectile.rotation + MathHelper.PiOver4;
 
-            if (CalamityConfig.Instance.Afterimages && Target is not null)
+            if (CalamityClientConfig.Instance.Afterimages && Target is not null)
             {
                 for (int i = 0; i < Projectile.oldPos.Length; i++)
                 {

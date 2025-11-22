@@ -2241,13 +2241,13 @@ namespace CalamityMod.CalPlayer
         #region Screen Position Movements
         public override void ModifyScreenPosition()
         {
-            if (CalamityConfig.Instance.ScreenshakePower == 0)
+            if (CalamityClientConfig.Instance.ScreenshakePower == 0)
                 return;
 
             if (GeneralScreenShakePower > 0f)
             {
-                Main.screenPosition += Main.rand.NextVector2Circular(GeneralScreenShakePower * CalamityConfig.Instance.ScreenshakePower, GeneralScreenShakePower * CalamityConfig.Instance.ScreenshakePower);
-                GeneralScreenShakePower = MathHelper.Clamp(GeneralScreenShakePower - 0.185f, 0f, 20f * CalamityConfig.Instance.ScreenshakePower);
+                Main.screenPosition += Main.rand.NextVector2Circular(GeneralScreenShakePower * CalamityClientConfig.Instance.ScreenshakePower, GeneralScreenShakePower * CalamityClientConfig.Instance.ScreenshakePower);
+                GeneralScreenShakePower = MathHelper.Clamp(GeneralScreenShakePower - 0.185f, 0f, 20f * CalamityClientConfig.Instance.ScreenshakePower);
             }
         }
         #endregion
@@ -2670,7 +2670,7 @@ namespace CalamityMod.CalPlayer
 
             // Respawn the player faster
             // 3 seconds normally and configurable while a boss is alive between 15 and 60 seconds
-            int respawnTimerSet = areThereAnyDamnBosses ? (CalamityConfig.Instance.PlayerRespawnTime_BossAlive * 60) : 180;
+            int respawnTimerSet = areThereAnyDamnBosses ? (CalamityServerConfig.Instance.PlayerRespawnTime_BossAlive * 60) : 180;
             if (Player.respawnTimer > respawnTimerSet)
                 Player.respawnTimer = respawnTimerSet;
         }
@@ -3342,14 +3342,14 @@ namespace CalamityMod.CalPlayer
         public override void UpdateEquips()
         {
             // TODO -- why is boss health bar code in Player.UpdateEquips and not a ModSystem
-            CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
+            CalamityClientConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
             // Putting this in GlobalItem will run multiple times for each slot, which this system already does, creating a slew of problems.
             VanillaArmorChangeManager.ApplyPotentialEffectsTo(Player);
 
             // If the config is enabled, vastly increase the player's base tile and wall placement speeds
             // This stacks with the Brick Layer and Portable Cement Mixer
-            if (CalamityConfig.Instance.FasterTilePlacement)
+            if (CalamityServerConfig.Instance.FasterTilePlacement)
             {
                 Player.tileSpeed += 0.5f;
                 Player.wallSpeed += 0.5f;
@@ -4863,11 +4863,11 @@ namespace CalamityMod.CalPlayer
 
             // Enabling the config while a player is loaded will show the timer immediately.
             // But it won't start running until you save and quit and re-enter a world.
-            if (CalamityConfig.Instance.SpeedrunTimer)
+            if (CalamityClientConfig.Instance.SpeedrunTimer)
                 CalamityMod.SpeedrunTimer.Restart();
 
             // Set a random delay between 12 and 20 seconds. When this delay hits zero, startup messages display
-            if (CalamityConfig.Instance.WikiStatusMessage)
+            if (CalamityClientConfig.Instance.WikiStatusMessage)
             {
                 startMessageDisplayDelay = Main.rand.Next(CalamityUtils.SecondsToFrames(12), CalamityUtils.SecondsToFrames(20) + 1);
             }

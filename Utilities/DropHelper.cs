@@ -487,7 +487,7 @@ namespace CalamityMod
         public static IItemDropRuleCondition HallowedBarsCondition = If((info) =>
         {
             // If the Early Hardmode Progression Rework is not enabled, then Hallowed Bars can always drop from Mechanical Bosses.
-            if (!CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+            if (!CalamityServerConfig.Instance.EarlyHardmodeProgressionRework)
                 return true;
 
             // If the Early Hardmode Progression Rework is enabled, then all 3 Mechanical Bosses must be defeated for Hallowed Bars to drop.

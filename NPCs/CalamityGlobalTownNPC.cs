@@ -764,7 +764,7 @@ namespace CalamityMod.NPCs
 
         public void TownNPCAlertSystem(NPC npc, Mod mod, SpriteBatch spriteBatch)
         {
-            if (CalamityConfig.Instance.ShopNewAlert && npc.townNPC)
+            if (CalamityClientConfig.Instance.ShopNewAlert && npc.townNPC)
             {
                 for (int i = 0; i < npcAlertList.Count; i++)
                 {

@@ -1,13 +1,11 @@
-CalamityConfig: {
-	DisplayName: Main Config
+CalamityClientConfig: {
+	DisplayName: Client Config
 
 	Headers: {
-		ExpertMaster: Expert and Master Mode Changes
 		Gameplay: General Gameplay Changes
 		Graphics: Graphics Changes
-		Revengeance: Revengeance Mode Changes
+		MeterPositions: Meter Positions
 		UI: UI Changes
-		BaseBoosts: Base Stat Boosts
 		MusicEvents: Music Events
 	}
 
@@ -38,50 +36,12 @@ CalamityConfig: {
 			'''
 	}
 
-	BossesStopWeather: {
-		Label: "[i:CalamityMod/TorrentialTear] Bosses Stop Weather"
-		Tooltip:
-			'''
-			When enabled, many late game bosses will stop all rain and related weather when spawned.
-			Enable if you have performance issues during late game boss fights.
-			'''
-	}
-
 	BossHealthBarExtraInfo: {
 		Label: "[i:CalamityMod/EncryptedSchematicPlanetoid] Boss Health Bar Extra Info"
 		Tooltip:
 			'''
 			Adds extra info to Calamity's boss health bar.
 			This displays either the boss's exact health or number of remaining parts or segments.
-			'''
-	}
-
-	BossHealthBoost: {
-		Label: "[i:LifeCrystal] Boss Health Boost Percentage"
-		Tooltip:
-			'''
-			Globally boosts the health of all bosses by the specified percentage.
-			This stacks with multiplayer boss health boosts.
-			Does not affect bosses that are already spawned.
-			'''
-	}
-
-	DefaultDashEnabled: {
-		Label: "[i:Tabi] Default Dash"
-		Tooltip:
-			'''
-			Gives the player a very weak dash by default that requires no equipment or items to use.
-			This dash will be replaced by any other available dash, including those from other mods.
-			'''
-	}
-
-	BossZen: {
-		Label: "[i:CalamityMod/ZenPotion] Bosses Drastically Reduce Spawn Rates"
-		Tooltip:
-			'''
-			All living bosses will drastically reduce the spawn rates of regular enemies.
-			This also prevents Slime Rain from occurring while a boss is alive.
-			Calamity is balanced around this setting being enabled.
 			'''
 	}
 
@@ -112,11 +72,6 @@ CalamityConfig: {
 			'''
 	}
 
-	ChilledWaterRework: {
-		Label: "[i:ArcticDivingGear] Chilled Water Rework"
-		Tooltip: When enabled, water in the Snow and Ice biomes will rapidly drain the player's breath instead of inflicting Chilled.
-	}
-
 	CooldownDisplay: {
 		Label: "[i:CalamityMod/NebulousCore] Cooldown Rack Display Mode"
 		Tooltip:
@@ -136,28 +91,6 @@ CalamityConfig: {
 		Tooltip: Plays Calamity Mod OST - "Scourge of The Universe (Eulogy for The Ego)", after The Devourer of Gods has been defeated.
 	}
 
-	EarlyHardmodeProgressionRework: {
-		Label: "[i:Pwnhammer] Early Hardmode Progression Rework"
-		Tooltip:
-			'''
-			Demon Altars no longer spawn ores and crimson/corruption blocks when broken.
-			Wall of Flesh spawns Cobalt and Palladium ore on first kill.
-			The first mech boss you fight has 20% (10% in Expert and Master) less HP and damage and spawns Mythril and Orichalcum ore on first kill.
-			The second mech boss you fight has 10% (5% in Expert and Master) less HP and damage and spawns Adamantite and Titanium ore on first kill.
-			The third mech boss spawns Hallowed Ore on first kill.
-			'''
-	}
-
-	FasterBaseSpeed: {
-		Label: "[i:HermesBoots] Increase Base Movement Speed"
-		Tooltip:
-			'''
-			Increases the player's base movement speed substantially by always giving them +50% movement speed.
-			This setting does nothing if the mod Terraria Overhaul is loaded.
-			Calamity is balanced around this setting being enabled.
-			'''
-	}
-
 	FasterFallHotkey: {
 		Label: "[i:CalamityMod/BallAndChain] Enable Fast Falling"
 		Tooltip:
@@ -165,24 +98,6 @@ CalamityConfig: {
 			When enabled, you can hold the DOWN key while in the air to accelerate downwards faster.
 			This config does not increase your maximum falling speed, just how quickly you accelerate to it.
 			Calamity is balanced around this setting being enabled.
-			'''
-	}
-
-	FasterJumpSpeed: {
-		Label: "[i:FrogLeg] Increase Base Jump Speed"
-		Tooltip:
-			'''
-			Slightly increases the player's base jump speed.
-			Calamity is balanced around this setting being enabled.
-			'''
-	}
-
-	FasterTilePlacement: {
-		Label: "[i:ArchitectGizmoPack] Increase Base Building Speed"
-		Tooltip:
-			'''
-			Substantially increases how rapidly the player can place tiles and walls.
-			This config stacks with the Brick Layer, Portable Cement Mixer and other accessories.
 			'''
 	}
 
@@ -211,24 +126,6 @@ CalamityConfig: {
 			'''
 			The Y position of the Flight Bar, measured as a % of your screen height.
 			The meter can be dragged with the mouse if Lock Meter Positions is disabled.
-			'''
-	}
-
-	ForceTownSafety: {
-		Label: "[i:Sunflower] Force Town Safety"
-		Tooltip:
-			'''
-			Counteracts Expert and Master Mode allowing enemies to spawn near towns by vastly decreasing spawn rates.
-			This can have unintended side effects such as making critters difficult to find.
-			'''
-	}
-
-	HigherJumpHeight: {
-		Label: "[i:ShinyRedBalloon] Increase Base Jump Height"
-		Tooltip:
-			'''
-			Increases the player's base jump height by 10% so that they can jump 7 tiles.
-			Calamity is balanced around this setting being enabled.
 			'''
 	}
 
@@ -262,15 +159,6 @@ CalamityConfig: {
 			'''
 			Enable or disable the status message which reminds users to install the Calamity Music Mod.
 			This message plays on world entry.
-			'''
-	}
-
-	NerfExpertDebuffs: {
-		Label: "[i:AnkhCharm] Remove Increased Debuff Duration"
-		Tooltip:
-			'''
-			Disables Expert Mode doubling (and Master Mode tripling) the duration of debuffs on the player.
-			Calamity is balanced around this setting being enabled.
 			'''
 	}
 
@@ -309,20 +197,6 @@ CalamityConfig: {
 			'''
 			The Y position of the Rage Meter, measured as a % of your screen height.
 			The meter can be dragged with the mouse if Lock Meter Positions is disabled.
-			'''
-	}
-
-	RemoveLavaDropsFromLavaSlimes: {
-		Label: "[i:LavaWaders] Remove Lava Drops From Lava Slimes"
-		Tooltip: When enabled, Lava Slimes will be prevented from dropping lava in Expert Mode.
-	}
-
-	RemoveReforgeRNG: {
-		Label: "[i:TinHammer] Remove Reforge RNG"
-		Tooltip:
-			'''
-			Removes randomness from the Goblin Tinkerer's reforges for both weapons and accessories.
-			Disable this if using mods that change reforging on their own to prevent conflicts.
 			'''
 	}
 
@@ -433,12 +307,138 @@ CalamityConfig: {
 			'''
 	}
 
-	PotionSelling: {
-		Label: "[i:SpelunkerPotion] Town NPC Potion Selling"
+	VanillaCooldownDisplay: {
+		Label: "[i:HealingPotion] Display Vanilla Cooldowns"
 		Tooltip:
 			'''
-			Allows town NPCs to sell various potions.
-			Certain potions are sold after specific bosses have been defeated.
+			Adds the vanilla debuffs Potion Sickness and Chaos State to the Cooldown Rack.
+			The debuffs will still appear in the buffs array, but this may help make them more visible.
+			'''
+	}
+
+	WikiStatusMessage: {
+		Label: "[i:Book] Wiki Status Message"
+		Tooltip: Enable or disable the status message promoting the Official Calamity Wiki that plays on world entry.
+	}
+}
+
+CalamityServerConfig: {
+	DisplayName: Server Config
+	Denied: You have no permission to change this config
+
+	Headers: {
+		ExpertMaster: Expert and Master Mode Changes
+		Gameplay: General Gameplay Changes
+		BaseBoosts: Base Stat Boosts
+	}
+
+	BossesStopWeather: {
+		Label: "[i:CalamityMod/TorrentialTear] Bosses Stop Weather"
+		Tooltip:
+			'''
+			When enabled, many late game bosses will stop all rain and related weather when spawned.
+			Enable if you have performance issues during late game boss fights.
+			'''
+	}
+
+	BossHealthBoost: {
+		Label: "[i:LifeCrystal] Boss Health Boost Percentage"
+		Tooltip:
+			'''
+			Globally boosts the health of all bosses by the specified percentage.
+			This stacks with multiplayer boss health boosts.
+			Does not affect bosses that are already spawned.
+			'''
+	}
+
+	BossZen: {
+		Label: "[i:CalamityMod/ZenPotion] Bosses Drastically Reduce Spawn Rates"
+		Tooltip:
+			'''
+			All living bosses will drastically reduce the spawn rates of regular enemies.
+			This also prevents Slime Rain from occurring while a boss is alive.
+			Calamity is balanced around this setting being enabled.
+			'''
+	}
+
+	ChilledWaterRework: {
+		Label: "[i:ArcticDivingGear] Chilled Water Rework"
+		Tooltip: When enabled, water in the Snow and Ice biomes will rapidly drain the player's breath instead of inflicting Chilled.
+	}
+
+	DefaultDashEnabled: {
+		Label: "[i:Tabi] Default Dash"
+		Tooltip:
+			'''
+			Gives the player a very weak dash by default that requires no equipment or items to use.
+			This dash will be replaced by any other available dash, including those from other mods.
+			'''
+	}
+
+	EarlyHardmodeProgressionRework: {
+		Label: "[i:Pwnhammer] Early Hardmode Progression Rework"
+		Tooltip:
+			'''
+			Demon Altars no longer spawn ores and crimson/corruption blocks when broken.
+			Wall of Flesh spawns Cobalt and Palladium ore on first kill.
+			The first mech boss you fight has 20% (10% in Expert and Master) less HP and damage and spawns Mythril and Orichalcum ore on first kill.
+			The second mech boss you fight has 10% (5% in Expert and Master) less HP and damage and spawns Adamantite and Titanium ore on first kill.
+			The third mech boss spawns Hallowed Ore on first kill.
+			'''
+	}
+
+	FasterBaseSpeed: {
+		Label: "[i:HermesBoots] Increase Base Movement Speed"
+		Tooltip:
+			'''
+			Increases the player's base movement speed substantially by always giving them +50% movement speed.
+			This setting does nothing if the mod Terraria Overhaul is loaded.
+			Calamity is balanced around this setting being enabled.
+			'''
+	}
+
+	FasterJumpSpeed: {
+		Label: "[i:FrogLeg] Increase Base Jump Speed"
+		Tooltip:
+			'''
+			Slightly increases the player's base jump speed.
+			Calamity is balanced around this setting being enabled.
+			'''
+	}
+
+	FasterTilePlacement: {
+		Label: "[i:ArchitectGizmoPack] Increase Base Building Speed"
+		Tooltip:
+			'''
+			Substantially increases how rapidly the player can place tiles and walls.
+			This config stacks with the Brick Layer, Portable Cement Mixer and other accessories.
+			'''
+	}
+
+	ForceTownSafety: {
+		Label: "[i:Sunflower] Force Town Safety"
+		Tooltip:
+			'''
+			Counteracts Expert and Master Mode allowing enemies to spawn near towns by vastly decreasing spawn rates.
+			This can have unintended side effects such as making critters difficult to find.
+			'''
+	}
+
+	HigherJumpHeight: {
+		Label: "[i:ShinyRedBalloon] Increase Base Jump Height"
+		Tooltip:
+			'''
+			Increases the player's base jump height by 10% so that they can jump 7 tiles.
+			Calamity is balanced around this setting being enabled.
+			'''
+	}
+
+	NerfExpertDebuffs: {
+		Label: "[i:AnkhCharm] Remove Increased Debuff Duration"
+		Tooltip:
+			'''
+			Disables Expert Mode doubling (and Master Mode tripling) the duration of debuffs on the player.
+			Calamity is balanced around this setting being enabled.
 			'''
 	}
 
@@ -448,6 +448,29 @@ CalamityConfig: {
 			'''
 			Sets the respawn time for players when a boss is alive, in seconds. This applies equally in single player and multiplayer.
 			When no boss is alive, players will respawn in 3 seconds in both single player and multiplayer.
+			'''
+	}
+
+	PotionSelling: {
+		Label: "[i:SpelunkerPotion] Town NPC Potion Selling"
+		Tooltip:
+			'''
+			Allows town NPCs to sell various potions.
+			Certain potions are sold after specific bosses have been defeated.
+			'''
+	}
+
+	RemoveLavaDropsFromLavaSlimes: {
+		Label: "[i:LavaWaders] Remove Lava Drops From Lava Slimes"
+		Tooltip: When enabled, Lava Slimes will be prevented from dropping lava in Expert Mode.
+	}
+
+	RemoveReforgeRNG: {
+		Label: "[i:TinHammer] Remove Reforge RNG"
+		Tooltip:
+			'''
+			Removes randomness from the Goblin Tinkerer's reforges for both weapons and accessories.
+			Disable this if using mods that change reforging on their own to prevent conflicts.
 			'''
 	}
 
@@ -467,19 +490,5 @@ CalamityConfig: {
 			When enabled, town NPCs can spawn and respawn at night.
 			This includes the Old Man.
 			'''
-	}
-
-	VanillaCooldownDisplay: {
-		Label: "[i:HealingPotion] Display Vanilla Cooldowns"
-		Tooltip:
-			'''
-			Adds the vanilla debuffs Potion Sickness and Chaos State to the Cooldown Rack.
-			The debuffs will still appear in the buffs array, but this may help make them more visible.
-			'''
-	}
-
-	WikiStatusMessage: {
-		Label: "[i:Book] Wiki Status Message"
-		Tooltip: Enable or disable the status message promoting the Official Calamity Wiki that plays on world entry.
 	}
 }

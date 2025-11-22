@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                 NPC.lifeMax = 4000;
 
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
             AIType = -1;

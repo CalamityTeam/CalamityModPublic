@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.Perforator
             if (Main.zenithWorld)
                 NPC.lifeMax *= 4;
 
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
             AIType = -1;

@@ -178,7 +178,7 @@ namespace CalamityMod.Projectiles.Ranged
             Texture2D outline = SawOutline.Value;
             Main.EntitySpriteDraw(outline, Projectile.Center - Main.screenPosition, null, Main.DiscoColor, Projectile.rotation, outline.Size() * 0.5f, 1f, SpriteEffects.None);
 
-            if (!CalamityConfig.Instance.Afterimages)
+            if (!CalamityClientConfig.Instance.Afterimages)
                 return false;
 
             // Special afterimage drawing to include the slashes

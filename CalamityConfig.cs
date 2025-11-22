@@ -5,25 +5,21 @@ using CalamityMod.UI.DraedonsArsenal;
 using CalamityMod.UI.Rippers;
 using CalamityMod.UI.SulphurousWaterMeter;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader.Config;
 
 namespace CalamityMod
 {
     [BackgroundColor(49, 32, 36, 216)]
-    public class CalamityConfig : ModConfig
+    public class CalamityClientConfig : ModConfig
     {
-        public static CalamityConfig Instance;
-
-        // TODO -- Not all Calamity config settings should be considered client side.
-        // There are many configs which are server side and should stay that way.
+        public static CalamityClientConfig Instance;
         public override ConfigScope Mode => ConfigScope.ClientSide;
-        public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message) => true;
 
         // Clamps values that would cause ugly problems if loaded directly without sanitization.
         [OnDeserialized]
         internal void ClampValues(StreamingContext context)
         {
-            BossHealthBoost = Utils.Clamp(BossHealthBoost, MinBossHealthBoost, MaxBossHealthBoost);
             RipperMeterShake = Utils.Clamp(RipperMeterShake, MinMeterShake, MaxMeterShake);
             ParticleLimit = (int)Utils.Clamp(ParticleLimit, MinParticleLimit, MaxParticleLimit);
         }
@@ -47,10 +43,6 @@ namespace CalamityMod
         [Range(MinParticleLimit, MaxParticleLimit)]
         [DefaultValue(5000)]
         public int ParticleLimit { get; set; }
-
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(false)]
-        public bool BossesStopWeather { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
@@ -103,6 +95,33 @@ namespace CalamityMod
         public bool StealthMeter { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        public bool ChargeMeter { get; set; }
+
+        private const float MinMeterShake = 0f;
+        private const float MaxMeterShake = 4f;
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(MinMeterShake, MaxMeterShake)]
+        [Increment(1f)]
+        [DrawTicks]
+        [DefaultValue(2f)]
+        public float RipperMeterShake { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(false)]
+        public bool SpeedrunTimer { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        public bool FlightBar { get; set; }
+        #endregion
+
+        #region Meter Positions
+        [Header("MeterPositions")]
+
+        [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 100f)]
         [DefaultValue(StealthUI.DefaultStealthPosX)]
@@ -127,10 +146,6 @@ namespace CalamityMod
         public float SulphuricWaterMeterPosY { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(true)]
-        public bool ChargeMeter { get; set; }
-
-        [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 100f)]
         [DefaultValue(ChargeMeterUI.DefaultChargePosX)]
@@ -143,8 +158,28 @@ namespace CalamityMod
         public float ChargeMeterPosY { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(false)]
-        public bool SpeedrunTimer { get; set; }
+        [SliderColor(224, 165, 56, 128)]
+        [Range(0f, 100f)]
+        [DefaultValue(RipperUI.DefaultRagePosX)]
+        public float RageMeterPosX { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(0f, 100f)]
+        [DefaultValue(RipperUI.DefaultRagePosY)]
+        public float RageMeterPosY { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(0f, 100f)]
+        [DefaultValue(RipperUI.DefaultAdrenPosX)]
+        public float AdrenalineMeterPosX { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [SliderColor(224, 165, 56, 128)]
+        [Range(0f, 100f)]
+        [DefaultValue(RipperUI.DefaultAdrenPosY)]
+        public float AdrenalineMeterPosY { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
@@ -157,10 +192,6 @@ namespace CalamityMod
         [Range(0f, 100f)]
         [DefaultValue(SpeedrunTimerUI.DefaultTimerPosY)]
         public float SpeedrunTimerPosY { get; set; }
-
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(true)]
-        public bool FlightBar { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
@@ -202,6 +233,35 @@ namespace CalamityMod
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         public bool FasterFallHotkey { get; set; }
+        #endregion
+    }
+
+    [BackgroundColor(49, 32, 36, 216)]
+    public class CalamityServerConfig : ModConfig
+    {
+        public static CalamityServerConfig Instance;
+        public override ConfigScope Mode => ConfigScope.ServerSide;
+        public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref NetworkText message)
+        {
+            if (whoAmI == 0)
+                return true;
+            if (whoAmI != 0)
+            {
+                message = CalamityUtils.GetText("Configs.CalamityServerConfig.Denied").ToNetworkText();
+                return false;
+            }
+            return false;
+        }
+
+        // Clamp values that would cause ugly problems if loaded directly without sanitization.
+        [OnDeserialized]
+        internal void ClampValues(StreamingContext context)
+        {
+            BossHealthBoost = Utils.Clamp(BossHealthBoost, MinBossHealthBoost, MaxBossHealthBoost);
+        }
+
+        #region General Gameplay Changes
+        [Header("Gameplay")]
 
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
@@ -253,11 +313,14 @@ namespace CalamityMod
         [DrawTicks]
         [DefaultValue(MinBossHealthBoost)]
         public float BossHealthBoost { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(false)]
+        public bool BossesStopWeather { get; set; }
         #endregion
 
-        #region Default Player Stat Boosts
         [Header("BaseBoosts")]
-
+        #region Default Player Stat Boosts
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         public bool DefaultDashEnabled { get; set; }
@@ -279,9 +342,8 @@ namespace CalamityMod
         public bool FasterTilePlacement { get; set; }
         #endregion
 
-        #region Expert and Master Mode Changes
         [Header("ExpertMaster")]
-
+        #region Expert and Master Mode Changes
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         public bool NerfExpertDebuffs { get; set; }
@@ -297,45 +359,6 @@ namespace CalamityMod
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
         public bool ForceTownSafety { get; set; }
-        #endregion
-
-        #region Revengeance Mode Changes
-        [Header("Revengeance")]
-
-        private const float MinMeterShake = 0f;
-        private const float MaxMeterShake = 4f;
-
-        [BackgroundColor(192, 54, 64, 192)]
-        [SliderColor(224, 165, 56, 128)]
-        [Range(MinMeterShake, MaxMeterShake)]
-        [Increment(1f)]
-        [DrawTicks]
-        [DefaultValue(2f)]
-        public float RipperMeterShake { get; set; }
-
-        [BackgroundColor(192, 54, 64, 192)]
-        [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 100f)]
-        [DefaultValue(RipperUI.DefaultRagePosX)]
-        public float RageMeterPosX { get; set; }
-
-        [BackgroundColor(192, 54, 64, 192)]
-        [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 100f)]
-        [DefaultValue(RipperUI.DefaultRagePosY)]
-        public float RageMeterPosY { get; set; }
-
-        [BackgroundColor(192, 54, 64, 192)]
-        [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 100f)]
-        [DefaultValue(RipperUI.DefaultAdrenPosX)]
-        public float AdrenalineMeterPosX { get; set; }
-
-        [BackgroundColor(192, 54, 64, 192)]
-        [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 100f)]
-        [DefaultValue(RipperUI.DefaultAdrenPosY)]
-        public float AdrenalineMeterPosY { get; set; }
         #endregion
     }
 }

@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Polterghast
             if (CalamityWorld.LegendaryMode && CalamityWorld.revenge)
                 NPC.lifeMax *= 4;
 
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
@@ -454,7 +454,7 @@ namespace CalamityMod.NPCs.Polterghast
             Color lightRed = new Color(255, 100, 100, 255) * NPC.Opacity;
             int afterimageAmt = 7;
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int i = 1; i < afterimageAmt; i += 2)
                 {
@@ -489,7 +489,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             Color blackWhiteLerp = Color.Lerp(Color.White, c, 0.5f);
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int j = 1; j < afterimageAmt; j++)
                 {

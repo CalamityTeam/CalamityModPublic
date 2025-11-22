@@ -15,7 +15,7 @@ namespace CalamityMod.Buffs.Potions
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().shadow = true;
-            if (player.yoraiz0rEye < 2 && CalamityConfig.Instance.StealthInvisibility)
+            if (player.yoraiz0rEye < 2 && CalamityClientConfig.Instance.StealthInvisibility)
                 player.yoraiz0rEye = 2;
         }
     }

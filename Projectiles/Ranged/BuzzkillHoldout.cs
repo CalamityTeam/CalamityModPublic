@@ -242,7 +242,7 @@ namespace CalamityMod.Projectiles.Ranged
                 if (Time / ChargeupTime >= 0.25f)
                     Main.EntitySpriteDraw(smallSlashTexture, GunTipPosition - Main.screenPosition, null, slashColor, Time * MathHelper.ToRadians(42f), smallSlashTexture.Size() * 0.5f, 1f, SpriteEffects.None);
 
-                if (!CalamityConfig.Instance.Afterimages)
+                if (!CalamityClientConfig.Instance.Afterimages)
                     return false;
 
                 // Special afterimage drawing for the slashes only

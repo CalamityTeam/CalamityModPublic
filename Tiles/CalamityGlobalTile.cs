@@ -403,7 +403,7 @@ namespace CalamityMod.Tiles
             {
                 Vector2 spreadMinMax = new Vector2(-32.0f, 32.0f);
                 // Drop 4 Soul of Night
-                if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+                if (CalamityServerConfig.Instance.EarlyHardmodeProgressionRework)
                 {
                     DropItem(i, j, ItemID.SoulofNight, quantity: 4, asStack: false, spreadMinMax);
                     WorldGen.altarCount++; // altarCount does not update automatically if ProgressionRework is enabled!

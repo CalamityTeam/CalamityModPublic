@@ -105,14 +105,14 @@ namespace CalamityMod.UI.Rippers
         public static void Draw(SpriteBatch spriteBatch, Player player)
         {
             // Sanity check the planned Rage Meter position
-            Vector2 rageScreenRatioPos = new Vector2(CalamityConfig.Instance.RageMeterPosX, CalamityConfig.Instance.RageMeterPosY);
+            Vector2 rageScreenRatioPos = new Vector2(CalamityClientConfig.Instance.RageMeterPosX, CalamityClientConfig.Instance.RageMeterPosY);
             if (rageScreenRatioPos.X < 0f || rageScreenRatioPos.X > 100f)
                 rageScreenRatioPos.X = DefaultRagePosX;
             if (rageScreenRatioPos.Y < 0f || rageScreenRatioPos.Y > 100f)
                 rageScreenRatioPos.Y = DefaultRagePosY;
 
             // Sanity check the planned Adrenaline Meter position
-            Vector2 adrenScreenRatioPos = new Vector2(CalamityConfig.Instance.AdrenalineMeterPosX, CalamityConfig.Instance.AdrenalineMeterPosY);
+            Vector2 adrenScreenRatioPos = new Vector2(CalamityClientConfig.Instance.AdrenalineMeterPosX, CalamityClientConfig.Instance.AdrenalineMeterPosY);
             if (adrenScreenRatioPos.X < 0f || adrenScreenRatioPos.X > 100f)
                 adrenScreenRatioPos.X = DefaultAdrenPosX;
             if (adrenScreenRatioPos.Y < 0f || adrenScreenRatioPos.Y > 100f)
@@ -135,18 +135,18 @@ namespace CalamityMod.UI.Rippers
             else
             {
                 bool changed = false;
-                if (CalamityConfig.Instance.RageMeterPosX != rageScreenRatioPos.X)
+                if (CalamityClientConfig.Instance.RageMeterPosX != rageScreenRatioPos.X)
                 {
-                    CalamityConfig.Instance.RageMeterPosX = rageScreenRatioPos.X;
+                    CalamityClientConfig.Instance.RageMeterPosX = rageScreenRatioPos.X;
                     changed = true;
                 }
-                if (CalamityConfig.Instance.RageMeterPosY != rageScreenRatioPos.Y)
+                if (CalamityClientConfig.Instance.RageMeterPosY != rageScreenRatioPos.Y)
                 {
-                    CalamityConfig.Instance.RageMeterPosY = rageScreenRatioPos.Y;
+                    CalamityClientConfig.Instance.RageMeterPosY = rageScreenRatioPos.Y;
                     changed = true;
                 }
                 if (changed)
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    CalamityMod.SaveConfig(CalamityClientConfig.Instance);
             }
 
             if (modPlayer.AdrenalineEnabled)
@@ -154,18 +154,18 @@ namespace CalamityMod.UI.Rippers
             else
             {
                 bool changed = false;
-                if (CalamityConfig.Instance.AdrenalineMeterPosX != adrenScreenRatioPos.X)
+                if (CalamityClientConfig.Instance.AdrenalineMeterPosX != adrenScreenRatioPos.X)
                 {
-                    CalamityConfig.Instance.AdrenalineMeterPosX = adrenScreenRatioPos.X;
+                    CalamityClientConfig.Instance.AdrenalineMeterPosX = adrenScreenRatioPos.X;
                     changed = true;
                 }
-                if (CalamityConfig.Instance.AdrenalineMeterPosY != adrenScreenRatioPos.Y)
+                if (CalamityClientConfig.Instance.AdrenalineMeterPosY != adrenScreenRatioPos.Y)
                 {
-                    CalamityConfig.Instance.AdrenalineMeterPosY = adrenScreenRatioPos.Y;
+                    CalamityClientConfig.Instance.AdrenalineMeterPosY = adrenScreenRatioPos.Y;
                     changed = true;
                 }
                 if (changed)
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    CalamityMod.SaveConfig(CalamityClientConfig.Instance);
             }
 
             #region Mouse Interaction
@@ -190,7 +190,7 @@ namespace CalamityMod.UI.Rippers
             if (rageHover && !adrenHover)
             {
                 // If the meter isn't locked, then the player's mouse counts as being over interface
-                if (!CalamityConfig.Instance.MeterPosLock)
+                if (!CalamityClientConfig.Instance.MeterPosLock)
                     Main.LocalPlayer.mouseInterface = true;
 
                 // Add hover text if the mouse is over Rage bar
@@ -199,7 +199,7 @@ namespace CalamityMod.UI.Rippers
 
                 // The bar is draggable if enabled in config.
                 Vector2 newScreenRatioPosition = rageScreenRatioPos;
-                if (!CalamityConfig.Instance.MeterPosLock && ms.LeftButton == ButtonState.Pressed)
+                if (!CalamityClientConfig.Instance.MeterPosLock && ms.LeftButton == ButtonState.Pressed)
                 {
                     // If the drag offset doesn't exist yet, create it.
                     if (!rageDragOffset.HasValue)
@@ -217,21 +217,21 @@ namespace CalamityMod.UI.Rippers
                 Vector2 delta = newScreenRatioPosition - rageScreenRatioPos;
                 if (Math.Abs(delta.X) >= MouseDragEpsilon || Math.Abs(delta.Y) >= MouseDragEpsilon)
                 {
-                    CalamityConfig.Instance.RageMeterPosX = newScreenRatioPosition.X;
-                    CalamityConfig.Instance.RageMeterPosY = newScreenRatioPosition.Y;
+                    CalamityClientConfig.Instance.RageMeterPosX = newScreenRatioPosition.X;
+                    CalamityClientConfig.Instance.RageMeterPosY = newScreenRatioPosition.Y;
                 }
 
                 // When the mouse is released, save the config and destroy the drag offset.
                 if (ms.LeftButton == ButtonState.Released)
                 {
                     rageDragOffset = null;
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    CalamityMod.SaveConfig(CalamityClientConfig.Instance);
                 }
             }
             else if (adrenHover)
             {
                 // If the meter isn't locked, then the player's mouse counts as being over interface
-                if (!CalamityConfig.Instance.MeterPosLock)
+                if (!CalamityClientConfig.Instance.MeterPosLock)
                     Main.LocalPlayer.mouseInterface = true;
 
                 // Add hover text if the mouse is over the bar
@@ -241,7 +241,7 @@ namespace CalamityMod.UI.Rippers
 
                 // The bar is draggable if enabled in config.
                 Vector2 newScreenRatioPosition = adrenScreenRatioPos;
-                if (!CalamityConfig.Instance.MeterPosLock && ms.LeftButton == ButtonState.Pressed)
+                if (!CalamityClientConfig.Instance.MeterPosLock && ms.LeftButton == ButtonState.Pressed)
                 {
                     // If the drag offset doesn't exist yet, create it.
                     if (!adrenDragOffset.HasValue)
@@ -259,15 +259,15 @@ namespace CalamityMod.UI.Rippers
                 Vector2 delta = newScreenRatioPosition - adrenScreenRatioPos;
                 if (Math.Abs(delta.X) >= MouseDragEpsilon || Math.Abs(delta.Y) >= MouseDragEpsilon)
                 {
-                    CalamityConfig.Instance.AdrenalineMeterPosX = newScreenRatioPosition.X;
-                    CalamityConfig.Instance.AdrenalineMeterPosY = newScreenRatioPosition.Y;
+                    CalamityClientConfig.Instance.AdrenalineMeterPosX = newScreenRatioPosition.X;
+                    CalamityClientConfig.Instance.AdrenalineMeterPosY = newScreenRatioPosition.Y;
                 }
 
                 // When the mouse is released, save the config and destroy the drag offset.
                 if (ms.LeftButton == ButtonState.Released)
                 {
                     adrenDragOffset = null;
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    CalamityMod.SaveConfig(CalamityClientConfig.Instance);
                 }
             }
             #endregion
@@ -446,7 +446,7 @@ namespace CalamityMod.UI.Rippers
         #endregion
         private static Vector2 GetShakeOffset()
         {
-            float shake = CalamityConfig.Instance.RipperMeterShake;
+            float shake = CalamityClientConfig.Instance.RipperMeterShake;
             float shakeX = Main.rand.NextFloat(-shake, shake);
             float shakeY = Main.rand.NextFloat(-shake, shake);
             return new Vector2(shakeX, shakeY);

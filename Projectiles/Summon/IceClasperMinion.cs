@@ -199,7 +199,7 @@ namespace CalamityMod.Projectiles.Summon
             AfterimageInterpolant = MathHelper.Clamp(AfterimageInterpolant, 0f, 1f);
             float AfterimageFade = MathHelper.Lerp(0f, 1f, AfterimageInterpolant);
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int i = 0; i < Projectile.oldPos.Length; i++)
                 {

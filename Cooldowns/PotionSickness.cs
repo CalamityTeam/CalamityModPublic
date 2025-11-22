@@ -7,7 +7,7 @@ namespace CalamityMod.Cooldowns
     public class PotionSickness : CooldownHandler
     {
         public static new string ID => "PotionSickness";
-        public override bool ShouldDisplay => CalamityConfig.Instance.VanillaCooldownDisplay && instance.player.potionDelay > 0;
+        public override bool ShouldDisplay => CalamityClientConfig.Instance.VanillaCooldownDisplay && instance.player.potionDelay > 0;
         public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/PotionSickness";
         public override Color OutlineColor => new Color(255, 142, 165);

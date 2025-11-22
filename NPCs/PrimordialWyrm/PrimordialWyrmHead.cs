@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.PrimordialWyrm
             NPC.width = 254;
             NPC.height = 138;
             NPC.LifeMaxNERB(2500000, 3000000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
             AIType = -1;

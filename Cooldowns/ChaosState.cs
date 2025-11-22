@@ -8,7 +8,7 @@ namespace CalamityMod.Cooldowns
     {
         public static new string ID => "ChaosState";
 
-        public override bool ShouldDisplay => CalamityConfig.Instance.VanillaCooldownDisplay && instance.player.chaosState;
+        public override bool ShouldDisplay => CalamityClientConfig.Instance.VanillaCooldownDisplay && instance.player.chaosState;
         public override LocalizedText DisplayName => CalamityUtils.GetText($"UI.Cooldowns.{ID}");
         public override string Texture => "CalamityMod/Cooldowns/ChaosState" + skinTexture;
         public override Color OutlineColor => outlineColor;

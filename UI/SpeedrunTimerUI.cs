@@ -44,11 +44,11 @@ namespace CalamityMod.UI
 
         public static void Draw(Player player)
         {
-            if (Main.gameMenu || !CalamityConfig.Instance.SpeedrunTimer)
+            if (Main.gameMenu || !CalamityClientConfig.Instance.SpeedrunTimer)
                 return;
 
             // Sanity check the planned position before drawing
-            Vector2 screenRatioPosition = new Vector2(CalamityConfig.Instance.SpeedrunTimerPosX, CalamityConfig.Instance.SpeedrunTimerPosY);
+            Vector2 screenRatioPosition = new Vector2(CalamityClientConfig.Instance.SpeedrunTimerPosX, CalamityClientConfig.Instance.SpeedrunTimerPosY);
             if (screenRatioPosition.X < 0f || screenRatioPosition.X > 100f)
                 screenRatioPosition.X = DefaultTimerPosX;
             if (screenRatioPosition.Y < 0f || screenRatioPosition.Y > 100f)

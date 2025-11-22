@@ -38,7 +38,7 @@ namespace CalamityMod.UI.DraedonsArsenal
         public static void Draw(SpriteBatch spriteBatch, Player player)
         {
             // Sanity check the planned position before drawing
-            Vector2 screenRatioPosition = new Vector2(CalamityConfig.Instance.ChargeMeterPosX, CalamityConfig.Instance.ChargeMeterPosY);
+            Vector2 screenRatioPosition = new Vector2(CalamityClientConfig.Instance.ChargeMeterPosX, CalamityClientConfig.Instance.ChargeMeterPosY);
             if (screenRatioPosition.X < 0f || screenRatioPosition.X > 100f)
                 screenRatioPosition.X = DefaultChargePosX;
             if (screenRatioPosition.Y < 0f || screenRatioPosition.Y > 100f)
@@ -54,23 +54,23 @@ namespace CalamityMod.UI.DraedonsArsenal
             void SavePosition()
             {
                 bool changed = false;
-                if (CalamityConfig.Instance.ChargeMeterPosX != screenRatioPosition.X)
+                if (CalamityClientConfig.Instance.ChargeMeterPosX != screenRatioPosition.X)
                 {
-                    CalamityConfig.Instance.ChargeMeterPosX = screenRatioPosition.X;
+                    CalamityClientConfig.Instance.ChargeMeterPosX = screenRatioPosition.X;
                     changed = true;
                 }
-                if (CalamityConfig.Instance.ChargeMeterPosY != screenRatioPosition.Y)
+                if (CalamityClientConfig.Instance.ChargeMeterPosY != screenRatioPosition.Y)
                 {
-                    CalamityConfig.Instance.ChargeMeterPosY = screenRatioPosition.Y;
+                    CalamityClientConfig.Instance.ChargeMeterPosY = screenRatioPosition.Y;
                     changed = true;
                 }
                 if (changed)
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    CalamityMod.SaveConfig(CalamityClientConfig.Instance);
             }
 
             // If the Charge Meter is turned off or the player is not holding an item, stop.
             Item heldItem = player.ActiveItem();
-            if (!CalamityConfig.Instance.ChargeMeter || heldItem is null || heldItem.IsAir)
+            if (!CalamityClientConfig.Instance.ChargeMeter || heldItem is null || heldItem.IsAir)
             {
                 Reset();
                 SavePosition();
@@ -96,7 +96,7 @@ namespace CalamityMod.UI.DraedonsArsenal
 
             if (chargeBar.Intersects(mouseHitbox))
             {
-                if (!CalamityConfig.Instance.MeterPosLock)
+                if (!CalamityClientConfig.Instance.MeterPosLock)
                     Main.LocalPlayer.mouseInterface = true;
 
                 // If the mouse is on top of the meter, show the exact numeric charge.
@@ -106,7 +106,7 @@ namespace CalamityMod.UI.DraedonsArsenal
 
                 Vector2 newScreenRatioPosition = screenRatioPosition;
                 // Handle mouse dragging
-                if (!CalamityConfig.Instance.MeterPosLock && ms.LeftButton == ButtonState.Pressed)
+                if (!CalamityClientConfig.Instance.MeterPosLock && ms.LeftButton == ButtonState.Pressed)
                 {
                     // If the drag offset doesn't exist yet, create it.
                     if (!dragOffset.HasValue)
@@ -124,15 +124,15 @@ namespace CalamityMod.UI.DraedonsArsenal
                 Vector2 delta = newScreenRatioPosition - screenRatioPosition;
                 if (Math.Abs(delta.X) >= MouseDragEpsilon || Math.Abs(delta.Y) >= MouseDragEpsilon)
                 {
-                    CalamityConfig.Instance.ChargeMeterPosX = newScreenRatioPosition.X;
-                    CalamityConfig.Instance.ChargeMeterPosY = newScreenRatioPosition.Y;
+                    CalamityClientConfig.Instance.ChargeMeterPosX = newScreenRatioPosition.X;
+                    CalamityClientConfig.Instance.ChargeMeterPosY = newScreenRatioPosition.Y;
                 }
 
                 // When the mouse is released, save the config and destroy the drag offset.
                 if (ms.LeftButton == ButtonState.Released)
                 {
                     dragOffset = null;
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    CalamityMod.SaveConfig(CalamityClientConfig.Instance);
                 }
             }
         }

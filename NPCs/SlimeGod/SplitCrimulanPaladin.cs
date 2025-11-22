@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.SlimeGod
         {
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.LifeMaxNERB(1875, 2250, 80000);
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.GetNPCDamage();

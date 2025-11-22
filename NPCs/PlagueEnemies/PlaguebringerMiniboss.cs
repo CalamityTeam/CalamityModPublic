@@ -337,7 +337,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             if (NPC.ai[0] != 0f)
                 afterimageAmt = 5;
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int i = 1; i < afterimageAmt; i += 2)
                 {

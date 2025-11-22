@@ -340,7 +340,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 origin = rectangle.Size() / 2f;
             Color alphaColor = Projectile.GetAlpha(lightColor);
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 Vector2 centerOffset = Projectile.Size / 2f;
                 int totalAfterimages = TotalAfterimages;

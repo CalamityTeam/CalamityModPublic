@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.defense = 80;
             NPC.DR_NERD(NormalBrothersDR);
             NPC.lifeMax = 138000;
-            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityServerConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
             AIType = -1;
@@ -476,7 +476,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Vector2 origin = NPC.frame.Size() * 0.5f;
             int afterimageCount = 4;
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int i = 1; i < afterimageCount; i += 2)
                 {
@@ -493,7 +493,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Color primarycolor = Main.zenithWorld ? Color.Blue : Color.Red; // why? because blue fire is awesome!!
             Color baseGlowmaskColor = NPC.IsABestiaryIconDummy ? Color.White : Color.Lerp(Color.White, primarycolor, 0.5f);
 
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityClientConfig.Instance.Afterimages)
             {
                 for (int i = 1; i < afterimageCount; i++)
                 {

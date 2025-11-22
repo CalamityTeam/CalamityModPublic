@@ -286,7 +286,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 drawOffset = Projectile.Center - Main.screenPosition;
 
             //Afterimages
-            if (CalamityConfig.Instance.Afterimages && CurrentState == 0f && Empowerment / maxEmpowerment > 0.4f)
+            if (CalamityClientConfig.Instance.Afterimages && CurrentState == 0f && Empowerment / maxEmpowerment > 0.4f)
             {
                 for (int i = 0; i < Projectile.oldRot.Length; ++i)
                 {
