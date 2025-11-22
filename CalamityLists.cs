@@ -255,7 +255,7 @@ namespace CalamityMod
                 "Sable",
                 "Salted Warlock",
                 "Sharktank6",
-                "Shayy", // Current dev. Listed as "Shay" on Patreon.
+                //"Shayy", // Removed from circulation as the user in question committed acts undeserving of recognition
                 "shredalert",
                 "SirChaos189",
                 "SomeRandomPerson",
