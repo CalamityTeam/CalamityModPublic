@@ -89,7 +89,6 @@ namespace CalamityMod
         public static List<int> fireDebuffList;
         public static List<int> sicknessDebuffList;
         public static List<int> alcoholList;
-        public static List<int> spearAutoreuseList;
         public static List<int> pumpkinMoonBuffList;
         public static List<int> frostMoonBuffList;
         public static List<int> eclipseBuffList;
@@ -1374,28 +1373,6 @@ namespace CalamityMod
                 BuffType<VodkaBuff>(),
                 BuffType<WhiskeyBuff>(),
                 BuffType<WhiteWineBuff>()
-            };
-
-            spearAutoreuseList = new List<int>()
-            {
-                ItemID.AdamantiteGlaive,
-                ItemID.ChlorophytePartisan,
-                ItemID.CobaltNaginata,
-                ItemID.DarkLance,
-                ItemID.MonkStaffT2,
-                ItemID.Gungnir,
-                ItemID.MushroomSpear,
-                ItemID.MythrilHalberd,
-                ItemID.NorthPole,
-                ItemID.ObsidianSwordfish,
-                ItemID.OrichalcumHalberd,
-                ItemID.PalladiumPike,
-                ItemID.Spear,
-                ItemID.Swordfish,
-                ItemID.TheRottedFork,
-                ItemID.TitaniumTrident,
-                ItemID.Trident,
-                ItemID.ThunderSpear
             };
 
             pumpkinMoonBuffList = new List<int>()
@@ -2750,7 +2727,6 @@ namespace CalamityMod
             fireDebuffList = null;
             sicknessDebuffList = null;
             alcoholList = null;
-            spearAutoreuseList = null;
             pumpkinMoonBuffList = null;
             frostMoonBuffList = null;
             eclipseBuffList = null;
