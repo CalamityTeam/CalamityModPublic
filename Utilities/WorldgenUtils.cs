@@ -155,6 +155,10 @@ namespace CalamityMod
 
             // If Fargo's Mutant Mod is loaded, add to their Indestructible Rectangle list, which prevents structures from being trashed by Fargo's terrain tools.
             Mod fargos = CalamityMod.Instance.fargos;
+            paddedArea.X *= 16;
+            paddedArea.Y *= 16;
+            paddedArea.Width *= 16;
+            paddedArea.Height *= 16;
             fargos?.Call("AddIndestructibleRectangle", paddedArea);
         }
     }
