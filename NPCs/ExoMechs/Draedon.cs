@@ -802,7 +802,7 @@ namespace CalamityMod.NPCs.ExoMechs
             if (NPC.life > 0)
                 return;
 
-            if (Main.netMode != NetmodeID.Server && !HasBeenKilled)
+            if (Main.netMode != NetmodeID.Server && !HasBeenKilled && HologramEffectTimer > 0f)
             {
                 for (int i = 1; i <= 4; i++)
                 {
