@@ -9,19 +9,6 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
     public class DraedonsForge : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Placeables";
-        public override void SetStaticDefaults()
-        {
-            Terraria.On_Recipe.ConsumeForCraft += DraeforgeUnlockDetour;
-        }
-
-        private static bool DraeforgeUnlockDetour(On_Recipe.orig_ConsumeForCraft orig, Recipe self, Item item, Item requiredItem, ref int stackRequired)
-        {
-            if (self.HasTile(ModContent.TileType<Tiles.Furniture.CraftingStations.DraedonsForge>()))
-            {
-                Main.LocalPlayer.Calamity().HasCraftedDraedonsForge = true;
-            }
-            return orig(self, item, requiredItem, ref stackRequired);
-        }
 
         public override void SetDefaults()
         {
