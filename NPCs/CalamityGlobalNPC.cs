@@ -5131,8 +5131,6 @@ namespace CalamityMod.NPCs
                 GaussFluxTimer--;
             if (ladHearts > 0)
                 ladHearts--;
-            if (vulnerabilityHex > 0)
-                vulnerabilityHex--;
             if (banishingFire > 0)
                 banishingFire--;
             if (wither > 0)
