@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent.Drawing;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Light;
 using Terraria.ID;
@@ -83,6 +84,8 @@ namespace CalamityMod.Systems
             pingedTiles = new Dictionary<IPingedTileEffect, List<Point>>();
             pingedNonSolidTiles = new Dictionary<IPingedTileEffect, List<Point>>();
             tileEffects = new Dictionary<string, IPingedTileEffect>();
+
+            On_TileDrawing.DrawTiles_GetLightOverride += ForceSufficientLight;
         }
 
         public override void Unload()
@@ -91,6 +94,42 @@ namespace CalamityMod.Systems
             pingedTiles = null;
             pingedNonSolidTiles = null;
             tileEffects = null;
+        }
+
+        private static Color ForceSufficientLight(On_TileDrawing.orig_DrawTiles_GetLightOverride orig, TileDrawing self, int j, int i, Tile tileCache, ushort typeCache, short tileFrameX, short tileFrameY, Color tileLight)
+        {
+            Color returnColor = orig(self, j, i, tileCache, typeCache, tileFrameX, tileFrameY, tileLight);
+            foreach (IPingedTileEffect effect in tileEffects.Values)
+            {
+                // Nothing else uses this so like should be okay
+                if (effect is WulfrumPingTileEffect w && effect.Active && effect.ShouldRegisterTile(i, j))
+                {
+                    float distanceFromCenter = (new Point(i, j).ToWorldCoordinates() - WulfrumPingTileEffect.PingCenter).Length();
+                    float currentExpansion = MathHelper.Clamp(WulfrumPingTileEffect.PingProgress * WulfrumPingTileEffect.MaxPingLife / (float)WulfrumPingTileEffect.MaxPingTravelTime, 0f, 1f) * WulfrumPingTileEffect.MaxPingRadius;
+
+                    if (distanceFromCenter - 8 > currentExpansion)
+                        return returnColor;
+
+                    float brightness = 1f;
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    //Counteracts slopes and half tiles being too bright
+                    if (tile.Slope != SlopeType.Solid || tile.IsHalfBlock)
+                        brightness = 0.64f;
+
+                    //Fade on the edges
+                    if (distanceFromCenter + 8 > currentExpansion)
+                        brightness *= 1 - (distanceFromCenter - currentExpansion + 8f) / 16f;
+
+                    //Fade away with the effect
+                    brightness *= 1 - Math.Max(WulfrumPingTileEffect.PingProgress - 0.9f, 0) / (0.1f);
+
+                    if (tileLight.R < 200 * brightness) tileLight.R = (byte)(200 * brightness);
+                    if (tileLight.G < 200 * brightness) tileLight.G = (byte)(200 * brightness);
+                    if (tileLight.B < 200 * brightness) tileLight.B = (byte)(200 * brightness);
+                    returnColor = tileLight;
+                }
+            }
+            return returnColor;
         }
 
         public static bool AddPing(string effectName, Vector2 position, Player pinger)
@@ -231,11 +270,11 @@ namespace CalamityMod.Systems
     public class WulfrumPingTileEffect : IPingedTileEffect, ILoadable
     {
         internal static Texture2D emptyFrame;
-        const int MaxPingLife = 350;
-        const int MaxPingTravelTime = 60;
+        public const int MaxPingLife = 350;
+        public const int MaxPingTravelTime = 60;
         const float PingWaveThickness = 50f;
 
-        const float MaxPingRadius = 1700f;
+        public const float MaxPingRadius = 1700f;
         public static Vector2 PingCenter = Vector2.Zero;
         public static int PingTimer = 0;
         public static float PingProgress => (MaxPingLife - PingTimer) / (float)MaxPingLife;
@@ -316,7 +355,8 @@ namespace CalamityMod.Systems
             Main.spriteBatch.Draw(emptyFrame, pos.ToWorldCoordinates() - Main.screenPosition, null, Color.White, 0, new Vector2(emptyFrame.Width / 2f, emptyFrame.Height / 2f), 16f, 0, 0);
         }
 
-        public void EditDrawData(int i, int j, ref TileDrawInfo drawData)
+        // CIT 16JUL2025: Tile lighting override is now applied via an On edit; this code is duplicated there, and thus is no longer needed here.
+        /*public void EditDrawData(int i, int j, ref TileDrawInfo drawData)
         {
             float distanceFromCenter = (new Point(i, j).ToWorldCoordinates() - PingCenter).Length();
             float currentExpansion = MathHelper.Clamp(PingProgress * MaxPingLife / (float)MaxPingTravelTime, 0f, 1f) * MaxPingRadius;
@@ -340,7 +380,7 @@ namespace CalamityMod.Systems
             if (drawData.tileLight.R < 200 * brightness) drawData.tileLight.R = (byte)(200 * brightness);
             if (drawData.tileLight.G < 200 * brightness) drawData.tileLight.G = (byte)(200 * brightness);
             if (drawData.tileLight.B < 200 * brightness) drawData.tileLight.B = (byte)(200 * brightness);
-        }
+        }*/
 
         public void UpdateEffect()
         {
