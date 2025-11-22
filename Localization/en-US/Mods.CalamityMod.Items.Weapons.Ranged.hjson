@@ -639,6 +639,7 @@ Infinity: {
 		'''
 		Fires a twin stream of energy bolts that split
 		Press <right> to fire a barrage of normal bullets
+		80% chance to save ammo
 		'They say infinity is neverending, yet you hold it in your hands'
 		'''
 }
@@ -1253,6 +1254,7 @@ Svantechnical: {
 		'''
 		Fires a trinity of energy bolts that split into beams that track your cursor
 		Press <right> to fire a barrage of normal bullets
+		90% chance to save ammo
 		'The age old balance of trading damage for frames'
 		'''
 }
