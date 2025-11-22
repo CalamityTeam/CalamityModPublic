@@ -154,6 +154,11 @@ namespace CalamityMod
         internal Mod musicMod = null;
         internal bool MusicAvailable => musicMod is not null;
 
+        // This is Vanilla Calamity Mod Music, internally named UnCalamityModMusic.
+        // VCMM is an official music add-on. Unlike the main music mod, it is not a dependency.
+        internal Mod vcmm = null;
+        internal bool VCMMAvailable => vcmm is not null;
+
         // Please keep this in alphabetical order so it's easy to read
         internal Mod ancientsAwakened = null;
         internal Mod biomeLava = null;
@@ -186,6 +191,8 @@ namespace CalamityMod
             // If any of these mods aren't loaded, it will simply keep them as null.
             musicMod = null;
             ModLoader.TryGetMod("CalamityModMusic", out musicMod);
+            vcmm = null;
+            ModLoader.TryGetMod("UnCalamityModMusic", out vcmm);
             ancientsAwakened = null;
             ModLoader.TryGetMod("AAMod", out ancientsAwakened);
             biomeLava = null;
@@ -445,6 +452,7 @@ namespace CalamityMod
         public override void Unload()
         {
             musicMod = null;
+            vcmm = null;
 
             ancientsAwakened = null;
             biomeLava = null;
@@ -788,6 +796,10 @@ namespace CalamityMod
 
         // This function returns an available Calamity Music Mod track, or null if the Calamity Music Mod is not available.
         public int? GetMusicFromMusicMod(string songFilename) => MusicAvailable ? MusicLoader.GetMusicSlot(musicMod, "Sounds/Music/" + songFilename) : null;
+
+        // This function returns an available VCMM track, or null if VCMM is not available.
+        // Unlike the main Music Mod, VCMM is hierarchical.
+        public int? GetMusicFromVCMM(string songPath) => VCMMAvailable ? MusicLoader.GetMusicSlot(vcmm, "Assets/" + songPath) : null;
 
         #endregion
 

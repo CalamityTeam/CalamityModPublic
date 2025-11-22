@@ -4153,6 +4153,11 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 
+                if (CalamityClientConfig.Instance.VCMMStatusMessage && !CalamityMod.Instance.VCMMAvailable)
+                {
+                    CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.Misc.VCMMStatus");
+                }
+
                 --startMessageDisplayDelay;
             }
         }
