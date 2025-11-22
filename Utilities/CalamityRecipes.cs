@@ -1747,19 +1747,6 @@ namespace CalamityMod
             r.AddTile(TileID.Loom);
             r.Register();
             r.DisableDecraft();
-
-            // Pharaoh set
-            r = Recipe.Create(ItemID.PharaohsMask);
-            r.AddIngredient(ItemID.AncientCloth, 3);
-            r.AddTile(TileID.Loom);
-            r.Register();
-            r.DisableDecraft();
-
-            r = Recipe.Create(ItemID.PharaohsRobe);
-            r.AddIngredient(ItemID.AncientCloth, 4);
-            r.AddTile(TileID.Loom);
-            r.Register();
-            r.DisableDecraft();
         }
         #endregion
 
@@ -2004,14 +1991,6 @@ namespace CalamityMod
             int[] convert = ItemID.Sets.ShimmerTransformToItem;
 
             InsertShimmerResult(ModContent.ItemType<RogueEmblem>(), ItemID.SummonerEmblem);
-
-            // Pyramid loot edits. There's no good way to have this not be hardcoded.
-            convert[ItemID.PharaohsMask] = ItemID.PharaohsRobe;
-            convert[ItemID.PharaohsRobe] = ItemID.PharaohsMask;
-
-            convert[ItemID.AmberHook] = ItemID.SandstorminaBottle;
-            convert[ItemID.SandstorminaBottle] = ItemID.FlyingCarpet;
-            convert[ItemID.FlyingCarpet] = ItemID.AmberHook;
         }
         #endregion
 
