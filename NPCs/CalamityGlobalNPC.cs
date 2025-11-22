@@ -3267,8 +3267,6 @@ namespace CalamityMod.NPCs
                 calcDR *= 0.5f;
             if (absorberAffliction > 0)
                 calcDR *= 0.8f;
-            if (npc.betsysCurse)
-                calcDR *= 0.66f;
             if (npc.Calamity().aCrunch > 0)
                 calcDR *= ArmorCrunch.MultiplicativeDamageReductionEnemy;
             if (npc.Calamity().crumble > 0)
