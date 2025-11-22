@@ -3,7 +3,7 @@ using System.Linq;
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Placeables;
-using CalamityMod.Cooldowns;
+using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Ranged;
@@ -523,7 +523,7 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             // During Silva revive or God Slayer dash, all negative life regen is canceled
-            if ((silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (DashID == GodSlayerDash.ID && Player.dashDelay < 0))
+            if ((silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (DashID == GodslayerArmorDash.ID && Player.dashDelay < 0))
             {
                 if (Player.lifeRegen < 0)
                     Player.lifeRegen = 0;

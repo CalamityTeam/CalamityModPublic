@@ -8,6 +8,7 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
+using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Cooldowns;
 using CalamityMod.CustomRecipes;
 using CalamityMod.DataStructures;
@@ -1569,7 +1570,7 @@ namespace CalamityMod.CalPlayer
                 MiniSwamerCooldown--;
 
             // God Slayer Armor dash debuff immunity
-            if (DashID == GodSlayerDash.ID && Player.dashDelay < 0)
+            if (DashID == GodslayerArmorDash.ID && Player.dashDelay < 0)
             {
                 foreach (int debuff in CalamityLists.debuffList)
                     Player.buffImmune[debuff] = true;
