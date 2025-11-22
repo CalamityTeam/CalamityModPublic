@@ -24,7 +24,8 @@ AquasScepter: {
 	DisplayName: Aqua's Scepter
 	Tooltip:
 		'''
-		Summons a giant storm cloud sentry to rain down on your foes, and strike nearby enemies with overloading tesla energy
+		{$CommonItemTooltip.Sentry}
+		Summons a giant storm cloud to rain down on your foes, and strike nearby enemies with overloading tesla energy
 		'Captain! I think- we've got a risk of rain!'
 		'''
 }
@@ -44,6 +45,7 @@ AtlasMunitionsBeacon: {
 	DisplayName: Atlas Munitions Beacon
 	Tooltip:
 		'''
+		{$CommonItemTooltip.Sentry}
 		[c/F2B629:Brings forth an exo-powered, stationary cannon]
 		[c/F2B629:The cannon will fire at enemies within its range]
 		[c/F27049:If an enemy is in close proximity, it will enter Overdrive]
@@ -96,7 +98,11 @@ BrittleStarStaff: {
 
 CadaverousCarrion: {
 	DisplayName: Cadaverous Carrion
-	Tooltip: Summons a gross, shark-puking Old Duke head on the ground
+	Tooltip:
+		'''
+		{$CommonItemTooltip.Sentry}
+		Summons a gross, shark-puking Old Duke head on the ground
+		'''
 }
 
 CalamarisLament: {
@@ -115,7 +121,11 @@ CalamarisLament: {
 
 CausticCroakerStaff: {
 	DisplayName: Caustic Croaker Staff
-	Tooltip: Summons a toad that explodes if enemies are nearby
+	Tooltip:
+		'''
+		{$CommonItemTooltip.Sentry}
+		Summons a toad that explodes if enemies are nearby
+		'''
 }
 
 CausticStaff: {
@@ -214,7 +224,8 @@ CryogenicStaff: {
 	DisplayName: Cryogenic Staff
 	Tooltip:
 		'''
-		Summons an animated ice construct to protect you
+		{$CommonItemTooltip.Sentry}
+		Summons an ice construct to unleash the cold upon your enemies
 		Fire rate and range increase the longer it targets an enemy
 		'''
 }
@@ -277,7 +288,11 @@ DragonbloodDisgorger: {
 
 DreadmineStaff: {
 	DisplayName: Dreadmine Staff
-	Tooltip: Summons a dreadmine turret to fight for you
+	Tooltip:
+		'''
+		{$CommonItemTooltip.Sentry}
+		Summons a turret that swarms your enemies with sea mines
+		'''
 }
 
 ElementalAxe: {
@@ -420,7 +435,8 @@ GuidelightofOblivion: {
 	DisplayName: Guidelight of Oblivion
 	Tooltip:
 		'''
-		Summons a lantern turret to fight for you
+		{$CommonItemTooltip.Sentry}
+		Summons a lantern that swarms your enemies with flames
 		'Shadows dream of endless fire, flames devour and embers swoop'
 		'''
 }
@@ -437,7 +453,11 @@ HerringStaff: {
 
 HivePod: {
 	DisplayName: Hive Pod
-	Tooltip: Summons an astral hive to protect you
+	Tooltip:
+		'''
+		{$CommonItemTooltip.Sentry}
+		Summons an astral hive to spawn hivelings at your enemies
+		'''
 }
 
 IgneousExaltation: {
@@ -508,7 +528,11 @@ MirrorofKalandra: {
 
 OrthoceraShell: {
 	DisplayName: Orthocera Shell
-	Tooltip: Summons a flying orthocera sentry at the mouse position
+	Tooltip:
+		'''
+		{$CommonItemTooltip.Sentry}
+		Summons a flying orthocera to spit acid streams at your enemies
+		'''
 }
 
 Perdition: {
@@ -532,7 +556,11 @@ PlantationStaff: {
 
 PolypLauncher: {
 	DisplayName: Polyp Launcher
-	Tooltip: Summons a polyp bunch that launches coral chunks at nearby enemies
+	Tooltip:
+		'''
+		{$CommonItemTooltip.Sentry}
+		Summons a polyp bunch that launches coral chunks at nearby enemies
+		'''
 }
 
 PuffShroom: {
@@ -554,14 +582,18 @@ RustyBeaconPrototype: {
 	DisplayName: Rusty Beacon Prototype
 	Tooltip:
 		'''
-		Summons a long-abandoned drone to support you
-		The drone hovers in place and releases toxic waves that irradiate hit enemies
+		{$CommonItemTooltip.Sentry}
+		Summons a long-abandoned drone that passively emits irradiated waves
 		'''
 }
 
 SanctifiedSpark: {
 	DisplayName: Sanctified Spark
-	Tooltip: Summons a profaned energy turret to fight for you
+	Tooltip:
+		'''
+		{$CommonItemTooltip.Sentry}
+		Summons a friendly immolator to fire holy sparks at your enemies
+		'''
 }
 
 SandSharknadoStaff: {
@@ -617,17 +649,26 @@ SlimePuppetStaff: {
 SpikecragStaff: {
 	DisplayName: Spikecrag Staff
 	Tooltip: "[GFB]"
-	TooltipNormal: Summons a spikecrag to protect you
+	TooltipNormal:
+		'''
+		{$CommonItemTooltip.Sentry}
+		Summons a bed of stalagmites to spray spikes at your enemies
+		'''
 	TooltipGFB:
 		'''
-		Summons a spikecrag to protect you"
+		{$CommonItemTooltip.Sentry}
+		Summons a bed of stalagmites to spray spikes at your enemies
 		Defeating the Profaned Goddess unlocks its true power
 		'''
 }
 
 SquirrelSquireStaff: {
 	DisplayName: Squirrel Squire Staff
-	Tooltip: Summons a squirrel squire to fight for you
+	Tooltip:
+		'''
+		{$CommonItemTooltip.Sentry}
+		Summons a squirrel to throw acorns at your enemies
+		'''
 }
 
 StaffOfNecrosteocytes: {
@@ -818,6 +859,7 @@ HarvestStaff: {
 	DisplayName: Harvest Staff
 	Tooltip:
 		'''
+		{$CommonItemTooltip.Sentry}
 		Grows a pumpkin patch that sprouts pumpkins nearby
 		Pumpkins will hop out when approached by nearby creatures or players
 		Once out, they will aggressively tackle enemies, exploding on hit

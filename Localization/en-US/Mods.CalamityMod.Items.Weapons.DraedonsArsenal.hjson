@@ -158,7 +158,8 @@ PulseTurretRemote: {
 	DisplayName: Pulse Turret Remote
 	Tooltip:
 		'''
-		Summons a pulse turret which eradicates nearby foes with focused energy blasts
+		{$CommonItemTooltip.Sentry}
+		Summons a turret to fire explosive pulse blasts at your enemies
 		Only one pulse turret may exist at a time
 		'''
 }
