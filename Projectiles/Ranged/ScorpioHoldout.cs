@@ -142,17 +142,20 @@ namespace CalamityMod.Projectiles.Ranged
                     break;
             }
 
-            // Spawns the projectile.
-            Projectile.NewProjectileDirect(
-                Projectile.GetSource_FromThis(),
-                GunTipPosition,
-                projectileVelocity.RotatedByRandom(isRMB ? 0f : MathHelper.PiOver4) * projSpeed * (isRMB ? 1f : Main.rand.NextFloat(0.8f, 1f)),
-                isRMB ? ProjectileType<ScorpioLargeRocket>() : ProjectileType<ScorpioRocket>(),
-                damage,
-                knockback,
-                Projectile.owner,
-                rocketType,
-                projSpeed);
+            if (Main.myPlayer == Projectile.owner)
+            {
+                // Spawns the projectile.
+                Projectile.NewProjectileDirect(
+                    Projectile.GetSource_FromThis(),
+                    GunTipPosition,
+                    projectileVelocity.RotatedByRandom(isRMB ? 0f : MathHelper.PiOver4) * projSpeed * (isRMB ? 1f : Main.rand.NextFloat(0.8f, 1f)),
+                    isRMB ? ProjectileType<ScorpioLargeRocket>() : ProjectileType<ScorpioRocket>(),
+                    damage,
+                    knockback,
+                    Projectile.owner,
+                    rocketType,
+                    projSpeed);
+            }
 
             // Inside here go all the things that dedicated servers shouldn't spend resources on.
             // Like visuals and sounds.

@@ -140,15 +140,9 @@ namespace CalamityMod.Projectiles.Ranged
                 SoundStyle fire = new("CalamityMod/Sounds/Custom/PlagueSounds/PBGBarrageLaunch");
                 SoundEngine.PlaySound(fire with { Volume = 0.5f, Pitch = 0.1f }, Projectile.Center);
 
-                Projectile.NewProjectileDirect(
-                Projectile.GetSource_FromThis(),
-                GunTipPosition,
-                shootDirection * projSpeed * 0.3f,
-                ProjectileType<HiveNuke>(),
-                damage * 10,
-                knockback,
-                Projectile.owner,
-                rocketType);
+                if (Main.myPlayer == Projectile.owner)
+                    Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), GunTipPosition, shootDirection * projSpeed * 0.3f, ProjectileType<HiveNuke>(), damage * 10, knockback, Projectile.owner, rocketType);
+
                 PostFireCooldown = 75;
             }
             else
@@ -156,20 +150,23 @@ namespace CalamityMod.Projectiles.Ranged
                 SoundStyle fire = new("CalamityMod/Sounds/Custom/PlagueSounds/PBGBarrageLaunch");
                 SoundEngine.PlaySound(fire with { Volume = 0.4f, Pitch = 0.7f }, Projectile.Center);
 
-                int numProj = 4;
-                float rotation = MathHelper.ToRadians(MathHelper.Clamp(35 - VelocityMultiplier * 26, 2, 25));
-                for (int i = 0; i < numProj; i++)
+                if (Main.myPlayer == Projectile.owner)
                 {
-                    Vector2 perturbedSpeed = (shootDirection).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                    Projectile.NewProjectileDirect(
-                    Projectile.GetSource_FromThis(),
-                    GunTipPosition,
-                    perturbedSpeed * projSpeed * VelocityMultiplier,
-                    ProjectileType<HiveMissile>(),
-                    damage,
-                    knockback,
-                    Projectile.owner,
-                    rocketType);
+                    int numProj = 4;
+                    float rotation = MathHelper.ToRadians(MathHelper.Clamp(35 - VelocityMultiplier * 26, 2, 25));
+                    for (int i = 0; i < numProj; i++)
+                    {
+                        Vector2 perturbedSpeed = (shootDirection).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                        Projectile.NewProjectileDirect(
+                        Projectile.GetSource_FromThis(),
+                        GunTipPosition,
+                        perturbedSpeed * projSpeed * VelocityMultiplier,
+                        ProjectileType<HiveMissile>(),
+                        damage,
+                        knockback,
+                        Projectile.owner,
+                        rocketType);
+                    }
                 }
                 PostFireCooldown = 30;
             }

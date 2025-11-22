@@ -69,17 +69,20 @@ namespace CalamityMod.Projectiles.Ranged
                         break;
                 }
 
-                // Spawns the projectile.
-                Projectile.NewProjectileDirect(
-                    Projectile.GetSource_FromThis(),
-                    GunTipPosition,
-                    direction * itemShootSpeed,
-                    ProjectileType<FlakToxicannonProjectile>(),
-                    itemDamage,
-                    itemKnockback,
-                    Projectile.owner,
-                    rocketTypeShot,
-                    ownerToMouse.Length());
+                if (Main.myPlayer == Projectile.owner)
+                {
+                    // Spawns the projectile.
+                    Projectile.NewProjectileDirect(
+                        Projectile.GetSource_FromThis(),
+                        GunTipPosition,
+                        direction * itemShootSpeed,
+                        ProjectileType<FlakToxicannonProjectile>(),
+                        itemDamage,
+                        itemKnockback,
+                        Projectile.owner,
+                        rocketTypeShot,
+                        ownerToMouse.Length());
+                }
 
                 // Applies the knockback to the player.
                 Owner.velocity += ownerToMouse.SafeNormalize(Vector2.UnitY) * -OwnerKnockbackStrength;
