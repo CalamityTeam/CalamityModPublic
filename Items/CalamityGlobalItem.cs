@@ -625,15 +625,6 @@ namespace CalamityMod.Items
                     player.Calamity().evilSmasherBoost = 0;
             }
 
-            if (player.HasBuff(BuffID.ParryDamageBuff))
-            {
-                if (item.type != ItemID.DD2SquireDemonSword && item.type != ItemID.BouncingShield)
-                {
-                    player.parryDamageBuff = false;
-                    player.ClearBuff(BuffID.ParryDamageBuff);
-                }
-            }
-
             // Give 1 minute of Mushy buff when consuming Mushrooms with Fungal Symbiote equipped.
             if (item.type == ItemID.Mushroom && player.Calamity().fungalSymbiote)
                 player.AddBuff(ModContent.BuffType<Mushy>(), 3600);
