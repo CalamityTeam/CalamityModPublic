@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityMod.Items.Weapons.Summon.HarvestStaff;
 
@@ -16,7 +17,11 @@ namespace CalamityMod.Projectiles.Summon
         public static float Gravity = 0.8f;
         public static float MaxGravity = 20f;
 
-        public override void SetStaticDefaults() => Main.projFrames[Type] = 4;
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Type] = 4;
+            ProjectileID.Sets.MinionTargettingFeature[Type] = true;
+        }
 
         public override void SetDefaults()
         {
