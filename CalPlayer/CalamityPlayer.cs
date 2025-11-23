@@ -1843,7 +1843,6 @@ namespace CalamityMod.CalPlayer
             goldArmorGoldDrops = false;
 
             miningSet = false;
-            miningSetCooldown = 0;
 
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
