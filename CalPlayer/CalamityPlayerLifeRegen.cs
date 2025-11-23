@@ -131,9 +131,13 @@ namespace CalamityMod.CalPlayer
             if (CalamityGlobalNPC.aquaticScourge >= 0 && Main.zenithWorld)
             {
                 NPC AS = Main.npc[CalamityGlobalNPC.aquaticScourge];
-                //if the player is 50 blocks or more away from the head
-                if (AS.life < AS.lifeMax) //Only poison when damaged
-                    ASPoisonLevel = Utils.GetLerpValue(800f, 1600f, Vector2.Distance(Player.Center, AS.Center), true);
+                float scoogDistance = Vector2.Distance(Player.Center, AS.Center);
+                // GFB Aquatic Scourge poisons you if:
+                // 1. You are over 50 blocks away from the head
+                // 2. You are under 250 blocks away from the head (so that people halfway across the world aren't getting killed for no reason)
+                // 3. Aquatic Scourge has been damaged
+                if (AS.life < AS.lifeMax && scoogDistance < 4000f)
+                    ASPoisonLevel = Utils.GetLerpValue(800f, 1600f, scoogDistance, true);
             }
 
             bool ASPoisoning = ASPoisonLevel > 0f;
@@ -142,7 +146,7 @@ namespace CalamityMod.CalPlayer
                 float increment = 1f / SulphSeaWaterSafetyTime;
                 //No way to mitigate AS Poisoning
                 if (ASPoisoning)
-                    increment *= 4f + (8f * ASPoisonLevel);
+                    increment *= 3f + (6f * ASPoisonLevel);
                 if (sulphurskin && !ASPoisoning)
                     increment *= 0.5f;
                 if (sulphurSet && !ASPoisoning)
