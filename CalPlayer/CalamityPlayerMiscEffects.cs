@@ -523,7 +523,8 @@ namespace CalamityMod.CalPlayer
 
             // Apply the rage change and cap rage in both directions.
             // Changes are only applied if the Rage mechanic is available.
-            if (RageEnabled)
+            // CIT 24NOV2025: Fixed an exploit which allowed Rage to persist forever if Revengeance is toggled off while active.
+            if (RageEnabled || rageDiff < 0f)
             {
                 rage += rageDiff;
                 if (rage < 0f)
@@ -605,7 +606,10 @@ namespace CalamityMod.CalPlayer
 
             // Apply the adrenaline change and cap adrenaline in both directions.
             // Changes are only applied if the Adrenaline mechanic is available.
-            if (AdrenalineEnabled && adrenalinePauseTimer == 0)
+            //
+            // CIT 24NOV2025: Adrenaline cannot be exploited the same way as Rage, since difficulty cannot be changed while a boss is alive.
+            // Nevertheless, I will still give it the same exploit fix as Rage just in case there is some method to do it.
+            if ((AdrenalineEnabled || adrenalineDiff < 0f) && adrenalinePauseTimer == 0)
             {
                 adrenaline += adrenalineDiff;
                 if (adrenaline < 0f)
