@@ -1414,10 +1414,9 @@ namespace CalamityMod.NPCs
 
                 npc.scale *= Main.zenithWorld ? 2f : CalamityWorld.death ? 1.4f : 1.2f;
             }
-            else if (npc.type == NPCID.SkeletronPrime || npc.type == ModContent.NPCType<SkeletronPrime2>())
+            else if (npc.type == NPCID.SkeletronPrime)
             {
-                // HP boosted in Master Mode due to having two heads (piercing can make them die faster than normal here since they share an HP bar)
-                npc.lifeMax = (int)Math.Round(npc.lifeMax * (Main.masterMode ? 1.7 : 1.2));
+                npc.lifeMax = (int)Math.Round(npc.lifeMax * 1.2);
                 npc.npcSlots = 12f;
             }
             else if (npc.type <= NPCID.PrimeLaser && npc.type >= NPCID.PrimeCannon)
@@ -5728,26 +5727,6 @@ namespace CalamityMod.NPCs
         #region Check Dead
         public override bool CheckDead(NPC npc)
         {
-            if (npc.type == NPCID.SkeletronPrime)
-            {
-                if ((Main.masterMode || BossRushEvent.BossRushActive) && CalamityWorld.revenge)
-                {
-                    // Kill the other head if he's still alive when this head dies
-                    for (int i = 0; i < Main.maxNPCs; i++)
-                    {
-                        NPC nPC = Main.npc[i];
-                        if (nPC.active && nPC.type == ModContent.NPCType<SkeletronPrime2>() && nPC.life > 0)
-                        {
-                            nPC.life = 0;
-                            nPC.HitEffect();
-                            nPC.checkDead();
-                            nPC.active = false;
-                            nPC.netUpdate = true;
-                        }
-                    }
-                }
-            }
-
             if (npc.lifeMax > 1000 && npc.type != NPCID.DungeonSpirit &&
                 npc.type != NPCType<PhantomSpirit>() &&
                 npc.type != NPCType<PhantomSpiritS>() &&
@@ -6306,11 +6285,11 @@ namespace CalamityMod.NPCs
         #region Drawing
         public override void FindFrame(NPC npc, int frameHeight)
         {
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            /*if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                if (npc.type == NPCID.SkeletronPrime || npc.type == ModContent.NPCType<SkeletronPrime2>())
+                if (npc.type == NPCID.SkeletronPrime)
                     npc.frameCounter = 0D;
-            }
+            }*/
         }
 
         // Debuff visuals. Alphabetical order as per usual, please
@@ -6710,8 +6689,43 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                if (npc.type == NPCID.SkeletronPrime || npc.type == ModContent.NPCType<SkeletronPrime2>() || CalamityLists.DestroyerIDs.Contains(npc.type))
+                if (CalamityLists.DestroyerIDs.Contains(npc.type))
                     return false;
+
+                // Allows correct frames to draw in Rev+ phases
+                // GFB can rot for all I care
+                if (npc.type == NPCID.SkeletronPrime && !NPC.IsMechQueenUp)
+                {
+                    int frameHeight = TextureAssets.Npc[npc.type].Value.Height / Main.npcFrameCount[npc.type];
+                    if (npc.ai[1] == 0f || npc.ai[1] == 4f)
+                    {
+                        newAI[2] += 1f;
+                        if (newAI[2] >= 12f)
+                        {
+                            newAI[2] = 0f;
+                            newAI[3] += frameHeight;
+
+                            if (newAI[3] / frameHeight >= 2f)
+                                newAI[3] = 0f;
+                        }
+                    }
+
+                    // Spinning probe spawn or fly over phase
+                    else if (npc.ai[1] == 5f || npc.ai[1] == 6f)
+                    {
+                        newAI[2] = 0f;
+                        newAI[3] = frameHeight;
+                    }
+
+                    // Spinning phase
+                    else
+                    {
+                        newAI[2] = 0f;
+                        newAI[3] = frameHeight * 2;
+                    }
+
+                    npc.frame.Y = (int)newAI[3];
+                }
             }
 
             if (npc.type == NPCID.GolemHeadFree)
@@ -7446,83 +7460,6 @@ namespace CalamityMod.NPCs
                                 drawColor2, npc.rotation, halfSize, npc.scale, spriteEffects, 0f);
                         }
                     }
-                }
-
-                // His afterimages I can't get to work, so fuck it
-                else if (npc.type == NPCID.SkeletronPrime || npc.type == ModContent.NPCType<SkeletronPrime2>())
-                {
-                    Texture2D npcTexture = (masterMode && revenge && npc.type == NPCID.SkeletronPrime) ? CalamityMod.ChadPrime.Value : TextureAssets.Npc[npc.type].Value;
-                    int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
-
-                    npc.frame.Y = (int)newAI[3];
-
-                    // Mechdusa drawing
-                    if (NPC.IsMechQueenUp)
-                    {
-                        if (npc.ai[1] == 0f || npc.ai[1] == 4f)
-                        {
-                            newAI[2] += 1f;
-                            if (newAI[2] >= 12f)
-                            {
-                                newAI[2] = 0f;
-                                newAI[3] += frameHeight;
-                                if (newAI[3] / frameHeight >= 5)
-                                    newAI[3] = frameHeight * 3;
-                            }
-                        }
-                        else
-                        {
-                            newAI[2] = 0f;
-                            newAI[3] = frameHeight * 5;
-                        }
-                    }
-
-                    // Floating phase
-                    else if (npc.ai[1] == 0f || npc.ai[1] == 4f)
-                    {
-                        newAI[2] += 1f;
-                        if (newAI[2] >= 12f)
-                        {
-                            newAI[2] = 0f;
-                            newAI[3] += frameHeight;
-
-                            if (newAI[3] / frameHeight >= 2f)
-                                newAI[3] = 0f;
-                        }
-                    }
-
-                    // Spinning probe spawn or fly over phase
-                    else if (npc.ai[1] == 5f || npc.ai[1] == 6f)
-                    {
-                        newAI[2] = 0f;
-                        newAI[3] = frameHeight;
-                    }
-
-                    // Spinning phase
-                    else
-                    {
-                        newAI[2] = 0f;
-                        newAI[3] = frameHeight * 2;
-                    }
-
-                    npc.frame.Y = (int)newAI[3];
-
-                    SpriteEffects spriteEffects = SpriteEffects.None;
-                    if (npc.spriteDirection == 1)
-                        spriteEffects = SpriteEffects.FlipHorizontally;
-
-                    spriteBatch.Draw(npcTexture, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0f);
-
-                    Color eyesColor = new Color(200, 200, 200, 0);
-                    if (masterMode && revenge)
-                    {
-                        int alpha = 192;
-                        eyesColor = npc.type == NPCType<SkeletronPrime2>() ? new Color(150, 100, 255, alpha) : new Color(255, 255, 0, alpha);
-                        Texture2D glowTexture = npc.type == NPCID.SkeletronPrime ? CalamityMod.ChadPrimeEyeGlowmask.Value : SkeletronPrime2.EyeTexture.Value;
-                        spriteBatch.Draw(glowTexture, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame, eyesColor, npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0f);
-                    }
-                    else
-                        spriteBatch.Draw(TextureAssets.BoneEyes.Value, npc.Center - screenPos + new Vector2(0, npc.gfxOffY), npc.frame, eyesColor, npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0f);
                 }
 
                 else if (npc.type == NPCID.Plantera)

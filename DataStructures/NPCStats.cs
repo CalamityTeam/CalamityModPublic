@@ -213,7 +213,6 @@ namespace CalamityMod
                 { ModContent.NPCType<BrimstoneElemental>(), 0.8 },
 
                 { NPCID.SkeletronPrime, 0.85 },
-                { ModContent.NPCType<SkeletronPrime2>(), 0.85 },
                 { NPCID.PrimeCannon, 0.85 },
                 { NPCID.PrimeLaser, 0.85 },
                 { NPCID.PrimeSaw, 0.85 },
@@ -411,12 +410,6 @@ namespace CalamityMod
                 { ModContent.NPCType<BrimstoneElemental>(), new int[] { 75, 112, 136, 160, 240 } },
 
                 { NPCID.SkeletronPrime, new int[] {
-                    50, // 100 while spinning
-                    85, // 170 while spinning
-                    102, // 204 while spinning
-                    119, // 238 while spinning
-                    153 } }, // 306 while spinning
-                { ModContent.NPCType<SkeletronPrime2>(), new int[] {
                     50, // 100 while spinning
                     85, // 170 while spinning
                     102, // 204 while spinning
@@ -663,9 +656,6 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.SkeletronPrime, ProjectileID.Skull), new int[] { 50, 108, 124, 140, 210 } },
                 { new Tuple<int, int>(NPCID.SkeletronPrime, ProjectileID.DeathLaser), new int[] { 50, 108, 124, 140, 210 } },
                 { new Tuple<int, int>(NPCID.SkeletronPrime, ProjectileID.RocketSkeleton), new int[] { 60, 120, 148, 176, 264 } },
-                { new Tuple<int, int>(ModContent.NPCType<SkeletronPrime2>(), ProjectileID.Skull), new int[] { 50, 108, 124, 140, 210 } },
-                { new Tuple<int, int>(ModContent.NPCType<SkeletronPrime2>(), ProjectileID.BombSkeletronPrime), new int[] { 80, 160, 180, 200, 300 } },
-                { new Tuple<int, int>(ModContent.NPCType<SkeletronPrime2>(), ProjectileID.FrostBeam), new int[] { 50, 108, 124, 140, 210 } },
                 { new Tuple<int, int>(NPCID.PrimeCannon, ProjectileID.RocketSkeleton), new int[] { 60, 120, 148, 176, 264 } },
                 { new Tuple<int, int>(NPCID.PrimeCannon, ProjectileID.BombSkeletronPrime), new int[] { 80, 160, 0, 0, 300 } },
                 { new Tuple<int, int>(NPCID.PrimeLaser, ProjectileID.DeathLaser), new int[] { 50, 108, 124, 140, 210 } },

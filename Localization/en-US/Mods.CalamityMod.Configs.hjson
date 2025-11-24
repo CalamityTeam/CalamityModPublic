@@ -316,10 +316,10 @@ CalamityClientConfig: {
 			'''
 	}
 
-    VCMMStatusMessage: {
-        Label: "[i:MusicBoxMartians] VCMM Status Message"
-        Tooltip: Enable or disable the status message promoting the Vanilla Calamity Music Mod that plays on world entry.
-    }
+	VCMMStatusMessage: {
+		Label: "[i:MusicBoxMartians] VCMM Status Message"
+		Tooltip: Enable or disable the status message promoting the Vanilla Calamity Music Mod that plays on world entry.
+	}
 
 	WikiStatusMessage: {
 		Label: "[i:Book] Wiki Status Message"

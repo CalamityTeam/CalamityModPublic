@@ -1031,7 +1031,6 @@ namespace CalamityMod
                 NPCID.Retinazer,
                 NPCID.Spazmatism,
                 NPCID.SkeletronPrime,
-                NPCType<SkeletronPrime2>(),
                 NPCID.PrimeCannon,
                 NPCID.PrimeSaw,
                 NPCID.PrimeLaser,
@@ -2160,7 +2159,6 @@ namespace CalamityMod
             SkeletronPrimeIDs = new List<int>
             {
                 NPCID.SkeletronPrime,
-                NPCType<SkeletronPrime2>(),
                 NPCID.PrimeCannon,
                 NPCID.PrimeLaser,
                 NPCID.PrimeSaw,
@@ -2565,7 +2563,6 @@ namespace CalamityMod
                 { NPCID.Probe, 5000 },
 
                 { NPCID.SkeletronPrime, 160000 }, // 30 seconds
-                { NPCType<SkeletronPrime2>(), 160000 },
                 { NPCID.PrimeVice, 54000 },
                 { NPCID.PrimeCannon, 45000 },
                 { NPCID.PrimeSaw, 45000 },
