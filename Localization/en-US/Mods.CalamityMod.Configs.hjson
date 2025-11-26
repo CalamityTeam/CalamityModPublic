@@ -129,19 +129,15 @@ CalamityClientConfig: {
 			'''
 	}
 
-	Interlude1: {
-		Label: "[i:CalamityModMusic/Interlude1MusicBox] Interlude 1"
-		Tooltip: Plays Calamity Mod OST - Interlude 1, "Silence before the storms", after Calamitas Clone has been defeated.
-	}
-
-	Interlude2: {
-		Label: "[i:CalamityModMusic/Interlude2MusicBox] Interlude 2"
-		Tooltip: Plays Calamity Mod OST - Interlude 2, "Storms before the catastrophes", after Moon Lord has been defeated.
-	}
-
-	Interlude3: {
-		Label: "[i:CalamityModMusic/Interlude3MusicBox] Interlude 3"
-		Tooltip: Plays Calamity Mod OST - Interlude 3, "Catastrophes before the calamity", after Yharon has been defeated.
+	Interludes: {
+		Label: "[i:CalamityModMusic/Interlude1MusicBox] Interludes"
+		Tooltip:
+			'''
+			Enables the playing of three interlude tracks in-game:
+			Plays Calamity Mod OST - Interlude 1, "Silence before the storms", after Calamitas Clone has been defeated.
+			Plays Calamity Mod OST - "Storms before the catastrophes", after the Moon Lord has been defeated.
+			Plays Calamity Mod OST - "Catastrophes before the calamity", after Yharon has been defeated.
+			'''
 	}
 
 	MeterPosLock: {
