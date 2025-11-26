@@ -1,4 +1,5 @@
-﻿using CalamityMod.Rarities;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Rarities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,6 +29,14 @@ namespace CalamityMod.Items.Placeables.Ores
             Item.maxStack = 9999;
             Item.value = Item.sellPrice(gold: 4);
             Item.rare = ModContent.RarityType<Violet>();
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe(10).
+                AddIngredient<YharonSoulFragment>().
+                AddCondition(Condition.NearShimmer).
+                Register();
         }
     }
 }

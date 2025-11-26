@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
@@ -25,12 +26,6 @@ namespace CalamityMod.Items
         public override void ModifyItemLoot(Item item, ItemLoot loot)
         {
             Fraction fifteenPercent = new Fraction(15, 100);
-            static bool CryonicAvailable()
-            {
-                if (!DownedBossSystem.downedCryogen)
-                    return false;
-                return (NPC.downedMechBoss1.ToInt() + NPC.downedMechBoss2.ToInt() + NPC.downedMechBoss3.ToInt()) >= 2;
-            }
 
             switch (item.type)
             {
@@ -270,91 +265,47 @@ namespace CalamityMod.Items
                 #endregion
 
                 #region Fishing Crates
-                // TODO -- What is all this shit?
                 case ItemID.WoodenCrate:
                 case ItemID.WoodenCrateHard:
-                    loot.Add(ModContent.ItemType<WulfrumMetalScrap>(), 4, 3, 5); // 25% 3-5 Wulfrum Scrap
+                    // We do not need to pop Hardmode ores out of Pearlwood Crates. They do not drop higher tier ores.
                     break;
 
-                case ItemID.IronCrate:
                 case ItemID.IronCrateHard:
-                    loot.Add(ModContent.ItemType<WulfrumMetalScrap>(), 4, 5, 8); // 25% 5-8 Wulfrum Scrap
-                    loot.Add(ModContent.ItemType<AncientBoneDust>(), 4, 5, 8); // 25% 5-8 Ancient Bone Dust
+                    RemoveHardmodeOresFromStandardCrates(loot);
+                    loot.AddHardmodeOresToCrates(HardmodeCrateType.Mythril);
                     break;
 
-                // these drops are not available in hardmode because this crate will stop dropping
+                // Non-crafted underground Gold Chest loot @ 20%; Individually 5%
                 case ItemID.GoldenCrate:
-                    loot.Add(ItemID.FlareGun, 10); // 10% Flare Gun
-                    loot.Add(ItemID.ShoeSpikes, 10); // 10% Shoe Spikes (BUT NOT CLIMBING CLAWS?)
-                    loot.Add(ItemID.BandofRegeneration, 10); // 10% Band of Regeneration
+                    loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(5, 1,
+                    ItemID.FlareGun,
+                    ItemID.Mace,
+                    ItemID.BandofRegeneration,
+                    ItemID.ShoeSpikes)); // Climbing Claws is in Wooden/Pearlwood (vanilla) in case you're curious
                     break;
 
                 case ItemID.GoldenCrateHard:
-                    // Post-Yharon: 15% 30-40 Auric Ore
-                    loot.AddIf(() => DownedBossSystem.downedYharon, ModContent.ItemType<AuricOre>(), fifteenPercent, 30, 40);
+                    RemoveHardmodeOresFromStandardCrates(loot);
+                    loot.AddHardmodeOresToCrates(HardmodeCrateType.Titanium);
+                    loot.Add(new OneFromOptionsNotScaledWithLuckDropRule(5, 1,
+                    ItemID.FlareGun,
+                    ItemID.Mace,
+                    ItemID.BandofRegeneration,
+                    ItemID.ShoeSpikes));
                     break;
 
-                case ItemID.CorruptFishingCrate:
-                case ItemID.CrimsonFishingCrate:
                 case ItemID.CorruptFishingCrateHard:
                 case ItemID.CrimsonFishingCrateHard:
-                    loot.Add(ModContent.ItemType<BlightedGel>(), fifteenPercent, 5, 8); // 15% 5-8 Blighted Gel
-                    break;
-
-                case ItemID.HallowedFishingCrate: // WHY
                 case ItemID.HallowedFishingCrateHard:
-                    var postProv = loot.DefineConditionalDropSet(() => DownedBossSystem.downedProvidence);
-                    postProv.Add(ModContent.ItemType<UnholyEssence>(), fifteenPercent, 5, 10); // 15% 5-10 Unholy Essence
-                    break;
-
-                case ItemID.DungeonFishingCrate:
                 case ItemID.DungeonFishingCrateHard:
-                    loot.AddIf(() => NPC.downedPlantBoss, ItemID.Ectoplasm, 10, 1, 5); // 10% 1-5 Ectoplasm
-                    loot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<Necroplasm>(), 10, 1, 5); // 10% 1-5 Necroplasm
-                    break;
-
-                case ItemID.JungleFishingCrate:
                 case ItemID.JungleFishingCrateHard:
-                    loot.Add(ModContent.ItemType<MurkyPaste>(), new Fraction(1, 5), 1, 3); // 20% 1-3 Murky Paste
-                    var postPlant = loot.DefineConditionalDropSet(() => NPC.downedPlantBoss);
-                    postPlant.Add(ModContent.ItemType<PerennialOre>(), 5, 16, 28); // 20% 16-28 Perennial Ore
-                    postPlant.Add(ModContent.ItemType<PerennialBar>(), fifteenPercent, 4, 7); // 15% 4-7 Perennial Bar
-                    loot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<PlagueCellCanister>(), 5, 3, 6); // 20% 3-6 Plague Cell Canister
-                    var uelibloom = loot.DefineConditionalDropSet(() => DownedBossSystem.downedProvidence);
-                    uelibloom.Add(ModContent.ItemType<UelibloomOre>(), 5, 16, 28); // 20% 16-28 Uelibloom Ore
-                    uelibloom.Add(ModContent.ItemType<UelibloomBar>(), fifteenPercent, 4, 7); // 15% 4-7 Uelibloom Bar
-                    break;
-
-                case ItemID.FloatingIslandFishingCrate:
                 case ItemID.FloatingIslandFishingCrateHard:
-                    var evilBossTwo = loot.DefineConditionalDropSet(() => DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator);
-                    evilBossTwo.Add(ModContent.ItemType<AerialiteOre>(), 5, 16, 28); // 20% 16-28 Aerialite Ore
-                    evilBossTwo.Add(ModContent.ItemType<AerialiteBar>(), fifteenPercent, 4, 7); // 15% 4-7 Aerialite Bar
-                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofSunlight>(), 5, 2, 4); // 20% 2-4 Essence of Sunlight
-                    loot.AddIf(() => NPC.downedMoonlord, ModContent.ItemType<ExodiumCluster>(), 5, 16, 28); // 20% 16-28 Exodium Clusters
-                    break;
-
-                case ItemID.FrozenCrate:
                 case ItemID.FrozenCrateHard:
-                    var cryonic = loot.DefineConditionalDropSet(CryonicAvailable);
-                    cryonic.Add(ModContent.ItemType<CryonicOre>(), 5, 16, 28); // 20% 16-28 Cryonic Ore
-                    cryonic.Add(ModContent.ItemType<CryonicBar>(), fifteenPercent, 4, 7); // 15% 4-7 Cryonic Bar
-                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofEleum>(), 5, 2, 4); // 20% 2-4 Essence of Eleum
-                    break;
-
-                case ItemID.LavaCrate:
                 case ItemID.LavaCrateHard:
-                    loot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofHavoc>(), 5, 2, 4); // 20% 2-4 Essence of Havoc
-                    break;
-
-                // Calamity does not touch Oasis Crates yet
-                case ItemID.OasisCrate:
                 case ItemID.OasisCrateHard:
-                    break;
-
-                // Calamity does not touch Ocean Crates yet
-                case ItemID.OceanCrate:
                 case ItemID.OceanCrateHard:
+                    RemoveHardmodeOresFromBiomeCrates(loot);
+                    loot.AddHardmodeOresToCrates(HardmodeCrateType.Biome);
                     break;
                 #endregion
 
@@ -522,6 +473,70 @@ namespace CalamityMod.Items
                         if (itemID == ItemID.Terrarian)
                             return o;
             return null;
+        }
+        #endregion
+
+        #region Fishing Crate Loot Rule Manipulation
+        private static void RemoveHardmodeOresFromStandardCrates(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+
+            // This is the primary rule which contains every drop
+            AlwaysAtleastOneSuccessDropRule mainRule = null;
+            foreach (IItemDropRule rule in rules)
+                if (rule is AlwaysAtleastOneSuccessDropRule a)
+                    mainRule = a;
+            if (mainRule is null)
+                return;
+
+            // Find ones that are supposed to be for the ore and not the other loot
+            foreach (IItemDropRule rule in mainRule.rules)
+            {
+                // Hardmode ores/bars are both nested within *another* nested rule
+                if (rule is SequentialRulesNotScalingWithLuckRule oreRule)
+                {
+                    // Confirm that this is for the ore/bar then pop the numerator for the big rule
+                    foreach (IItemDropRule nestedRule in oreRule.rules)
+                    {
+                        if (nestedRule is SequentialRulesNotScalingWithLuckRule s)
+                        {
+                            oreRule.chanceNumerator = 0;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void RemoveHardmodeOresFromBiomeCrates(ItemLoot loot)
+        {
+            List<IItemDropRule> rules = loot.Get(false);
+
+            // This is the primary rule which contains every drop
+            AlwaysAtleastOneSuccessDropRule mainRule = null;
+            foreach (IItemDropRule rule in rules)
+                if (rule is AlwaysAtleastOneSuccessDropRule a)
+                    mainRule = a;
+            if (mainRule is null)
+                return;
+
+            // Find ones that are supposed to be for the ore and not the other loot
+            foreach (IItemDropRule rule in mainRule.rules)
+            {
+                // Hardmode ores/bars are both nested within *another* nested rule
+                if (rule is SequentialRulesNotScalingWithLuckRule oreRule)
+                {
+                    // Confirm that this is for the ore/bar then pop the numerator for the big rule
+                    foreach (IItemDropRule nestedRule in oreRule.rules)
+                    {
+                        if (nestedRule is OneFromRulesRule o)
+                        {
+                            oreRule.chanceNumerator = 0;
+                            return;
+                        }
+                    }
+                }
+            }
         }
         #endregion
 

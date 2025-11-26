@@ -1,10 +1,4 @@
-﻿using CalamityMod.Items.Critters;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Summon;
+﻿using CalamityMod.Tiles.SunkenSea;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -24,18 +18,11 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 
         public override void SetDefaults()
         {
+            Item.DefaultToPlaceableTile(ModContent.TileType<EutrophicCrateTile>());
             Item.width = 32;
             Item.height = 32;
-            Item.maxStack = 9999;
-            Item.consumable = true;
-            Item.rare = ItemRarityID.Green;
             Item.value = Item.sellPrice(gold: 1);
-            Item.createTile = ModContent.TileType<Tiles.SunkenSea.EutrophicCrateTile>();
-            Item.useTurn = true;
-            Item.autoReuse = true;
-            Item.useAnimation = 15;
-            Item.useTime = 10;
-            Item.useStyle = ItemUseStyleID.Swing;
+            Item.rare = ItemRarityID.Green;
         }
 
         public override void ModifyResearchSorting(ref ContentSamples.CreativeHelper.ItemGroup itemGroup)
@@ -46,26 +33,14 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         public override bool CanRightClick() => true;
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            var postDesertScourge = itemLoot.DefineConditionalDropSet(() => DownedBossSystem.downedDesertScourge);
+            // 20-50 Blocks @ 100%; Individually 50%
+            itemLoot.Add(new OneFromRulesRule(1, new IItemDropRule[2]
+            {
+                ItemDropRule.NotScalingWithLuck(ModContent.ItemType<Placeables.Navystone>(), 1, 20, 50),
+                ItemDropRule.NotScalingWithLuck(ModContent.ItemType<Placeables.EutrophicSand>(), 1, 20, 50)
+            }));
 
-            // Materials
-            itemLoot.Add(ModContent.ItemType<Navystone>(), 1, 10, 30);
-            itemLoot.Add(ModContent.ItemType<EutrophicSand>(), 1, 10, 30);
-            postDesertScourge.Add(ModContent.ItemType<PrismShard>(), 1, 5, 10);
-            postDesertScourge.Add(ModContent.ItemType<SeaPrism>(), 5, 2, 5);
-
-            // Bait
-            itemLoot.Add(ItemID.MasterBait, 10, 1, 2);
-            itemLoot.Add(ItemID.JourneymanBait, 5, 1, 3);
-            itemLoot.Add(ModContent.ItemType<SeaMinnowItem>(), 5, 1, 3);
-            itemLoot.Add(ItemID.ApprenticeBait, 3, 2, 3);
-
-            // Potions
-            itemLoot.AddCratePotionRules(false);
-
-            // Money
-            itemLoot.Add(ItemID.SilverCoin, 1, 10, 90);
-            itemLoot.Add(ItemID.GoldCoin, 2, 1, 5);
+            itemLoot.AddBiomeCrateLootRules(false);
         }
     }
 }
