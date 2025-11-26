@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
             TileID.Sets.HasOutlines[Type] = true;
-            TileID.Sets.InteractibleByNPCs[mt.Type] = true;
+            TileID.Sets.InteractibleByNPCs[Type] = true;
             TileID.Sets.DisableSmartCursor[Type] = true;
             TileID.Sets.IsValidSpawnPoint[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4); //This bed has different dimensions to conventional beds, using bookcase dimentions instead
