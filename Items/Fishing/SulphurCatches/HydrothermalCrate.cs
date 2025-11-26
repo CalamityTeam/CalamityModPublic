@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             ));
 
             // Pre-HM Abyss Weapons
-            itemLoot.Add(new OneFromOptionsNotScaledWithLuckDropRule(10, 1,
+            itemLoot.Add(new OneFromOptionsNotScaledWithLuckDropRule(1, 1,
                 ModContent.ItemType<BallOFugu>(),
                 ModContent.ItemType<Archerfish>(),
                 ModContent.ItemType<BlackAnurian>(),
