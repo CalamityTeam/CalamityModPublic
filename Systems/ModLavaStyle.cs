@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
-using Terraria.GameContent.Liquid;
-using Terraria.GameContent;
 using Terraria.Graphics;
-using Terraria.ModLoader;
-using System.Linq;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using CalamityMod.Items.Potions.Alcohol;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Systems
 {
@@ -116,24 +110,6 @@ namespace CalamityMod.Systems
 
     public class LavaStylesLoader : ModSystem
     {
-        private static readonly MethodInfo ResizeArrayMethodInfo;
-
-        static LavaStylesLoader()
-        {
-            ResizeArrayMethodInfo = typeof(ModContent).GetMethod("ResizeArrays", BindingFlags.NonPublic | BindingFlags.Static);
-        }
-
-        private static void ResizeArrays(ResizeArray_orig orig, bool unloading)
-        {
-            orig.Invoke(unloading);
-            int totalCount = TotalCount;
-            Array.Resize(ref CalamityMod.LavaTextures.liquid, totalCount);
-            Array.Resize(ref CalamityMod.LavaTextures.block, totalCount);
-            Array.Resize(ref CalamityMod.LavaTextures.slope, totalCount);
-            Array.Resize(ref CalamityMod.LavaTextures.fall, totalCount);
-            Array.Resize(ref CalamityMod.lavaAlpha, totalCount);
-        }
-
         private static readonly List<ModLavaStyle> _content = [];
 
         public static IReadOnlyList<ModLavaStyle> Content => _content;
@@ -144,12 +120,14 @@ namespace CalamityMod.Systems
 
         public static int TotalCount => VanillaCount + ModCount;
 
-        public override void Load()
+        public override void ResizeArrays()
         {
-            if (ResizeArrayMethodInfo != null)
-            {
-                MonoModHooks.Add(ResizeArrayMethodInfo, Delegate.CreateDelegate(typeof(Action<ResizeArray_orig, bool>), typeof(LavaStylesLoader).GetMethod(nameof(ResizeArrays), BindingFlags.NonPublic | BindingFlags.Static)));
-            }
+            int totalCount = TotalCount;
+            Array.Resize(ref CalamityMod.LavaTextures.liquid, totalCount);
+            Array.Resize(ref CalamityMod.LavaTextures.block, totalCount);
+            Array.Resize(ref CalamityMod.LavaTextures.slope, totalCount);
+            Array.Resize(ref CalamityMod.LavaTextures.fall, totalCount);
+            Array.Resize(ref CalamityMod.lavaAlpha, totalCount);
         }
 
         public override void PostSetupContent()

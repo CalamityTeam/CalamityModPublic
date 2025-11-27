@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -30,6 +27,11 @@ namespace CalamityMod.Systems
         internal static readonly FieldInfo Waterfalls = typeof(WaterfallManager).GetField("waterfalls", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance);
         internal static readonly FieldInfo CurrentMax = typeof(WaterfallManager).GetField("currentMax", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance);
         internal static readonly FieldInfo SlowFrame = typeof(WaterfallManager).GetField("slowFrame", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance);
+
+        public override void Load()
+        {
+            instance = this;
+        }
 
         public void DrawLavas(bool isBackground = false)
         {
