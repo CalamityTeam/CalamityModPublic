@@ -63,7 +63,6 @@ namespace CalamityMod.Systems
             DrawLiquid(isBackground, CalamityMod.LavaStyle, flag ? CalamityMod.lavaAlpha[CalamityMod.LavaStyle] : 1f);
         }
 
-
         protected internal void DrawLiquid(bool bg = false, int lavaStyle = 0, float Alpha = 1f, bool drawSinglePassLiquids = true)
         {
             if (!Lighting.NotRetro)
@@ -122,6 +121,7 @@ namespace CalamityMod.Systems
                             topLeftColor *= num;
                             ref Color topRightColor = ref vertices.TopRightColor;
                             topRightColor *= num;
+                            LavaStylesLoader.DrawColorSetup(i, j, CalamityMod.LavaStyle, ref vertices);
                             Main.DrawTileInWater(drawOffset, i, j);
                             Main.tileBatch.Draw(CalamityMod.LavaTextures.liquid[num2].Value, new Vector2((float)(i << 4), (float)(j << 4)) + drawOffset + liquidOffset, sourceRectangle, vertices, Vector2.Zero, 1f, (SpriteEffects)0);
                         }
@@ -698,16 +698,14 @@ namespace CalamityMod.Systems
             ref Color topRightColor = ref vertices.TopRightColor;
             topRightColor *= num6;
             bool flag7 = false;
-            if (flag6)
+            LavaStylesLoader.DrawColorSetup(tileX, tileY, CalamityMod.LavaStyle, ref vertices);
+            for (int i = 0; i < LavaStylesLoader.TotalCount; i++)
             {
-                for (int i = 0; i < LavaStylesLoader.TotalCount; i++)
+                if (CalamityMod.lavaAlpha[i] > 0f && i != num2)
                 {
-                    if (CalamityMod.lavaAlpha[i] > 0f && i != num2)
-                    {
-                        DrawPartialLiquid(!solidLayer, tileCache, ref position, ref liquidSize, i, ref vertices);
-                        flag7 = true;
-                        break;
-                    }
+                    DrawPartialLiquid(!solidLayer, tileCache, ref position, ref liquidSize, i, ref vertices);
+                    flag7 = true;
+                    break;
                 }
             }
             VertexColors colors = vertices;
@@ -720,6 +718,7 @@ namespace CalamityMod.Systems
             topLeftColor2 *= num7;
             ref Color topRightColor2 = ref colors.TopRightColor;
             topRightColor2 *= num7;
+            LavaStylesLoader.DrawColorSetup(tileX, tileY, CalamityMod.LavaStyle, ref colors);
             DrawPartialLiquid(!solidLayer, tileCache, ref position, ref liquidSize, num2, ref colors);
         }
 

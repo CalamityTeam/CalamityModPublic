@@ -1226,15 +1226,20 @@ namespace CalamityMod.ILEditing
             });
         }
 
-        //same as above
+        //Somewhat broken and I have no idea
+        //Something during the liquid slope rewrite messed up with slope colors and now slopes for the Sulphuric Water Style is now invisible when the slope fix is toggled off
+        //I've been staring at this and it's orig method for about 2 hours and I geniuenly have 0 clue how or why it broke the way it did
+        //Attempted to fix but imo its not terribly worth it (mainly since on normal colored lighting the slopes look fine (retro aparently runs worse than colored anyways))
+        //Fairly sure either HPU or Iban wrote the ILChanges.SelectSulphuricWaterColor code which im not knowledgable enough with vertex colors to mess with
+        //"Sprunolia is bald"
         private static void LiquidSlopeDrawColors(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
             int vertexColorsVar = -1;
+            int colorColorsVar = -1;
             int isWaterVar = -1;
-            int waterStyleVar = -1;
 
-            if (!cursor.TryGotoNext(c => c.MatchLdsfld<Main>("waterStyle"), c => c.MatchStloc(out waterStyleVar), c => c.MatchLdarg(6), c => c.MatchLdarg(7), c => c.MatchLdloca(out vertexColorsVar), c => c.MatchLdcR4(1), c => c.MatchCall<Lighting>("GetCornerColors")))
+            if (!cursor.TryGotoNext(c => c.MatchLdsfld<Main>("waterStyle"), c => c.MatchStloc(out _), c => c.MatchLdarg(6), c => c.MatchLdarg(7), c => c.MatchLdloca(out vertexColorsVar), c => c.MatchLdcR4(1), c => c.MatchCall<Lighting>("GetCornerColors")))
             {
                 LogFailure("Liquid Slope Draw Colors", "Could not locate the liquid slope vertex colors for drawing");
                 return;
@@ -1250,9 +1255,8 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldarg, 7);
             cursor.Emit(OpCodes.Ldloca, vertexColorsVar);
             cursor.Emit(OpCodes.Ldloc, isWaterVar);
-            cursor.Emit(OpCodes.Ldloc, waterStyleVar);
 
-            cursor.EmitDelegate((int x, int y, ref VertexColors initialColor, bool flag6, int num2) =>
+            cursor.EmitDelegate((int x, int y, ref VertexColors initialColor, bool flag6) =>
             {
                 if (flag6)
                 {
@@ -1266,8 +1270,32 @@ namespace CalamityMod.ILEditing
                         }
                         else if ((tile.LiquidType == LiquidID.Lava || i == 1) && CalamityMod.Instance.biomeLava == null)
                         {
+                            //if flag6 means that the id is water, would that mean this code never executes?
                             LavaStylesLoader.DrawColorSetup(x, y, CalamityMod.LavaStyle, ref initialColor);
                         }
+                    }
+                }
+            });
+
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloca(out colorColorsVar), c => c.MatchLdflda<VertexColors>("TopRightColor"), c => c.MatchDup(), c => c.MatchLdobj<Color>(), c => c.MatchLdloc(out _), c => c.MatchCall<Color>("op_Multiply"), c => c.MatchStobj<Color>()))
+            {
+                LogFailure("Liquid Slope Draw Colors", "Could not locate the liquid slope color colors for drawing");
+                return;
+            }
+
+            cursor.Emit(OpCodes.Ldarg, 6);
+            cursor.Emit(OpCodes.Ldarg, 7);
+            cursor.Emit(OpCodes.Ldloca, colorColorsVar);
+
+            cursor.EmitDelegate((int x, int y, ref VertexColors initialColor) =>
+            {
+                int totalCount = (int)typeof(Loader).GetProperty("TotalCount", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static).GetValue(LoaderManager.Get<WaterStylesLoader>());
+                for (int i = 0; i < totalCount; i++)
+                {
+                    Tile tile = Main.tile[x, y];
+                    if (i == Main.waterStyle && tile.LiquidType == LiquidID.Water)
+                    {
+                        CalamityWaterLoader.DrawColorSetup(x, y, Main.waterStyle, ref initialColor, true);
                     }
                 }
             });
