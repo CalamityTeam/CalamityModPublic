@@ -1171,19 +1171,13 @@ namespace CalamityMod.ILEditing
                 float g = 0.33f;
                 float b = 0.11f;
                 LavaStylesLoader.ModifyLightSetup(x, y, CalamityMod.LavaStyle, ref r, ref g, ref b);
-                if (!(r == 0 && g == 0 && b == 0))
-                {
-                    float r8;
-                    float num3 = (r8 = (r + (float)(270 - Main.mouseTextColor) / 900f) * 0.4f);
-                    float g8 = num3 * g;
-                    float b8 = num3 * b;
-                    Lighting.AddLight(x, y, r8, g8, b8);
-                }
+                Lighting.AddLight(x, y, r, g, b);
                 return;
             }
             orig.Invoke(waterfallType, x, y);
         }
 
+        //update ldlocs to be dynamic
         private static void LiquidDrawColors(ILContext il)
         {
             const string TypeFieldName = nameof(LiquidRenderer.LiquidDrawCache.Type);
@@ -1214,6 +1208,7 @@ namespace CalamityMod.ILEditing
             });
         }
 
+        //same as above
         private static void LiquidSlopeDrawColors(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);

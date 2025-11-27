@@ -1162,7 +1162,7 @@ namespace CalamityMod.Systems
         private void DrawLavafall(int waterfallType, int x, int y, float opacity, Vector2 position, Rectangle sourceRect, Color color, SpriteEffects effects)
         {
             Texture2D value = CalamityMod.LavaTextures.fall[waterfallType].Value;
-            Main.spriteBatch.Draw(value, position, (Rectangle?)sourceRect, color, 0f, default(Vector2), 1f, effects, 0f);
+            Main.spriteBatch.Draw(value, position, (Rectangle?)sourceRect, Lighting.GetColor(x, y) * opacity, 0f, default(Vector2), 1f, effects, 0f);
         }
 
         private static float GetLavafallAlpha(float Alpha, int maxSteps, int y, int s, Tile tileCache)
