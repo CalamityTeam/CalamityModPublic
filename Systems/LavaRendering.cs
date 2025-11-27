@@ -26,6 +26,11 @@ namespace CalamityMod.Systems
         internal static readonly FieldInfo _drawCache = typeof(LiquidRenderer).GetField("_drawCache", BindingFlags.NonPublic | BindingFlags.Instance);
         internal static readonly FieldInfo _animationFrame = typeof(LiquidRenderer).GetField("_animationFrame", BindingFlags.NonPublic | BindingFlags.Instance);
 
+        internal static readonly FieldInfo WaterfallDist = typeof(WaterfallManager).GetField("waterfallDist", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance);
+        internal static readonly FieldInfo Waterfalls = typeof(WaterfallManager).GetField("waterfalls", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance);
+        internal static readonly FieldInfo CurrentMax = typeof(WaterfallManager).GetField("currentMax", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance);
+        internal static readonly FieldInfo SlowFrame = typeof(WaterfallManager).GetField("slowFrame", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance);
+
         public void DrawLavas(bool isBackground = false)
         {
             Main.drewLava = false;
@@ -762,13 +767,10 @@ namespace CalamityMod.Systems
 
         internal void DrawLavafall(WaterfallManager waterfallManager, int Style = 0, float Alpha = 1f)
         {
-            int waterfallDist = (int)typeof(WaterfallManager).GetField("waterfallDist", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance).GetValue(waterfallManager);
-            int rainFrameForeground = (int)typeof(WaterfallManager).GetField("rainFrameForeground", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance).GetValue(waterfallManager);
-            int rainFrameBackground = (int)typeof(WaterfallManager).GetField("rainFrameBackground", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance).GetValue(waterfallManager);
-            int snowFrameForeground = (int)typeof(WaterfallManager).GetField("snowFrameForeground", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance).GetValue(waterfallManager);
-            WaterfallData[] waterfalls = (WaterfallData[])typeof(WaterfallManager).GetField("waterfalls", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance).GetValue(waterfallManager);
-            int currentMax = (int)typeof(WaterfallManager).GetField("currentMax", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance).GetValue(waterfallManager);
-            int slowFrame = (int)typeof(WaterfallManager).GetField("slowFrame", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.Instance).GetValue(waterfallManager);
+            int waterfallDist = (int)WaterfallDist.GetValue(waterfallManager);
+            WaterfallData[] waterfalls = (WaterfallData[])Waterfalls.GetValue(waterfallManager);
+            int currentMax = (int)CurrentMax.GetValue(waterfallManager);
+            int slowFrame = (int)SlowFrame.GetValue(waterfallManager);
             Main.tileSolid[546] = false;
             float num = 0f;
             float num12 = 99999f;
@@ -776,13 +778,8 @@ namespace CalamityMod.Systems
             int num34 = -1;
             int num45 = -1;
             float num47 = 0f;
-            float num48 = 99999f;
-            float num49 = 99999f;
             int num50 = -1;
             int num2 = -1;
-            Rectangle value = default(Rectangle);
-            Rectangle value2 = default(Rectangle);
-            Vector2 origin = default(Vector2);
             for (int i = 0; i < currentMax; i++)
             {
                 if (waterfalls[i].type != 1)
