@@ -776,7 +776,7 @@ namespace CalamityMod.ILEditing
         private void DoDrawLavas(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdsfld<Main>("drawToScreen"), i => i.MatchBrfalse(out _), i => i.MatchLdarg0(), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawWaters")))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdsfld<Main>("drawToScreen"), c => c.MatchBrfalse(out _), c => c.MatchLdarg0(), c => c.MatchLdcI4(1), c => c.MatchCall<Main>("DrawWaters")))
             {
                 LogFailure("DoDraw Lava", "Could not locate the drawing of Background Waters");
                 return;
@@ -785,7 +785,7 @@ namespace CalamityMod.ILEditing
             {
                 LavaRendering.instance.DrawLavas(isBackground: true);
             });
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdsfld<Main>("drawToScreen"), i => i.MatchBrfalse(out _), i => i.MatchLdarg0(), i => i.MatchLdcI4(0), i => i.MatchCall<Main>("DrawWaters")))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdsfld<Main>("drawToScreen"), c => c.MatchBrfalse(out _), c => c.MatchLdarg0(), c => c.MatchLdcI4(0), c => c.MatchCall<Main>("DrawWaters")))
             {
                 LogFailure("DoDraw Lava", "Could not locate the drawing of Waters");
                 return;
@@ -799,7 +799,7 @@ namespace CalamityMod.ILEditing
         private void RenderLavas(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg0(), i => i.MatchLdcI4(0), i => i.MatchCall<Main>("DrawWaters")))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdarg0(), c => c.MatchLdcI4(0), c => c.MatchCall<Main>("DrawWaters")))
             {
                 LogFailure("Render Lava", "Could not locate the drawing of Waters");
                 return;
@@ -813,7 +813,7 @@ namespace CalamityMod.ILEditing
         private void RenderLavaBackgrounds(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg0(), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawWaters")))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdarg0(), c => c.MatchLdcI4(1), c => c.MatchCall<Main>("DrawWaters")))
             {
                 LogFailure("Render Lava Backgroumds", "Could not locate the drawing of Background Waters");
                 return;
@@ -828,21 +828,21 @@ namespace CalamityMod.ILEditing
         {
             ILCursor cursor = new ILCursor(il);
             //Added a new local variable to keep track of the lava alpha so we don't lose which liquid is visually active
-            VariableDefinition alphaSave_varDef = new(il.Import(typeof(float[])));
-            il.Body.Variables.Add(alphaSave_varDef);
+            VariableDefinition alphaSaveVar = new(il.Import(typeof(float[])));
+            il.Body.Variables.Add(alphaSaveVar);
 
             //First the capture saves the initial alpha state of the lavas
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdsfld<Main>("liquidAlpha"), i => i.MatchCall(out _), i => i.MatchStloc(out _)))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdsfld<Main>("liquidAlpha"), c => c.MatchCall(out _), c => c.MatchStloc(out _)))
             {
                 LogFailure("Draw lavas to captures", "Could not locate the saving of water alphas");
                 return;
             }
-            cursor.Emit(OpCodes.Ldloca, alphaSave_varDef);
+            cursor.Emit(OpCodes.Ldloca, alphaSaveVar);
             cursor.EmitDelegate((ref float[] alphaSave) => {
                 alphaSave = CalamityMod.lavaAlpha.ToArray();
             });
             //Then it resets the alpha to be fully visible
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcR4(0.0f), i => i.MatchStsfld<Main>(nameof(Main.cloudAlpha))))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdcR4(0.0f), c => c.MatchStsfld<Main>(nameof(Main.cloudAlpha))))
             {
                 LogFailure("Draw lavas to captures", "Could not locate the setting lava alphas");
                 return;
@@ -857,7 +857,7 @@ namespace CalamityMod.ILEditing
             });
 
             //Then lavas are draw twice for backgrounds, and twice again for both the capture biome and the current lava style
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdsfld<Main>("waterStyle"), i => i.MatchLdcR4(1), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawLiquid")))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdsfld<Main>("waterStyle"), c => c.MatchLdcR4(1), c => c.MatchLdcI4(1), c => c.MatchCall<Main>("DrawLiquid")))
             {
                 LogFailure("Draw lavas to captures", "Could not locate the background of liquid capture drawing");
                 return;
@@ -865,7 +865,7 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate(() => {
                 LavaRendering.instance.DrawLiquid(bg: true, CalamityMod.LavaStyle);
             });
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcI4(9), i => i.MatchLdcR4(1), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawLiquid")))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdcI4(9), c => c.MatchLdcR4(1), c => c.MatchLdcI4(1), c => c.MatchCall<Main>("DrawLiquid")))
             {
                 LogFailure("Draw lavas to captures", "Could not locate the capture biome background of liquid capture drawing");
                 return;
@@ -874,7 +874,7 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate((CaptureSettings settings) => {
                 LavaRendering.instance.DrawLiquid(bg: true, CalamityMod.LavaStyle);
             });
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcI4(0), i => i.MatchLdsfld<Main>("waterStyle"), i => i.MatchLdcR4(1), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawLiquid")))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdcI4(0), c => c.MatchLdsfld<Main>("waterStyle"), c => c.MatchLdcR4(1), c => c.MatchLdcI4(1), c => c.MatchCall<Main>("DrawLiquid")))
             {
                 LogFailure("Draw lavas to captures", "Could not locate the liquid capture drawing");
                 return;
@@ -882,7 +882,7 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate(() => {
                 LavaRendering.instance.DrawLiquid(bg: false, CalamityMod.LavaStyle);
             });
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcI4(0), i => i.MatchLdloc(out _), i => i.MatchLdfld<CaptureBiome>("WaterStyle"), i => i.MatchLdcR4(1), i => i.MatchLdcI4(1), i => i.MatchCall<Main>("DrawLiquid")))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdcI4(0), c => c.MatchLdloc(out _), c => c.MatchLdfld<CaptureBiome>("WaterStyle"), c => c.MatchLdcR4(1), c => c.MatchLdcI4(1), c => c.MatchCall<Main>("DrawLiquid")))
             {
                 LogFailure("Draw lavas to captures", "Could not locate the capture biome liquid capture drawing");
                 return;
@@ -892,36 +892,39 @@ namespace CalamityMod.ILEditing
                 LavaRendering.instance.DrawLiquid(bg: false, CalamityMod.LavaStyle);
             });
             //Finally, the original alpha is returned to the lava alpha
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdloc(out _), i => i.MatchStsfld<Main>("liquidAlpha")))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(out _), c => c.MatchStsfld<Main>("liquidAlpha")))
             {
                 LogFailure("Draw lavas to captures", "Could not locate water style resetter");
                 return;
             }
-            cursor.Emit(OpCodes.Ldloc, alphaSave_varDef);
+            cursor.Emit(OpCodes.Ldloc, alphaSaveVar);
             cursor.EmitDelegate((float[] alphaSave) => {
                 CalamityMod.lavaAlpha = alphaSave;
             });
         }
 
-
-
-        //Rewrite to prevent ldloc hardcoding
         private void AddTileLiquidDrawing(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg0(), i => i.MatchLdarg1(), i => i.MatchLdcI4(0), i => i.MatchLdarg(out _), i => i.MatchLdloc1(), i => i.MatchLdloc2(), i => i.MatchLdloc(13), i => i.MatchLdloc(14), i => i.MatchLdloc(15), i => i.MatchCall<TileDrawing>("DrawTile_LiquidBehindTile")))
+            int unscaledPosVar = -1;
+            int zeroVar = -1;
+            int tileXVar = -1;
+            int tileYVar = -1;
+            int tileVar = -1;
+
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdarg0(), c => c.MatchLdarg1(), c => c.MatchLdcI4(0), c => c.MatchLdarg(4), c => c.MatchLdloc(out unscaledPosVar), c => c.MatchLdloc(out zeroVar), c => c.MatchLdloc(out tileXVar), c => c.MatchLdloc(out tileYVar), c => c.MatchLdloc(out tileVar), c => c.MatchCall<TileDrawing>("DrawTile_LiquidBehindTile")))
             {
                 LogFailure("Tile Lava Drawing", "Could not locate the drawing of Liquid Behind Tile drawing");
                 return;
             }
-            cursor.EmitLdloc1();
-            cursor.EmitLdloc2();
-            cursor.EmitLdloc(13);
-            cursor.EmitLdloc(14);
-            cursor.EmitLdloc(15);
-            cursor.EmitDelegate((Microsoft.Xna.Framework.Vector2 unscaledPosition, Microsoft.Xna.Framework.Vector2 vector, int j, int i, Terraria.Tile tile) =>
+            cursor.EmitLdloc(unscaledPosVar);
+            cursor.EmitLdloc(zeroVar);
+            cursor.EmitLdloc(tileXVar);
+            cursor.EmitLdloc(tileYVar);
+            cursor.EmitLdloc(tileVar);
+            cursor.EmitDelegate((Vector2 unscaledPosition, Vector2 vector, int i, int j, Tile tile) =>
             {
-                LavaRendering.instance.DrawTile_LiquidBehindTile(solidLayer: false, inFrontOfPlayers: false, -1, unscaledPosition, vector, j, i, tile);
+                LavaRendering.instance.DrawTile_LiquidBehindTile(solidLayer: false, inFrontOfPlayers: false, -1, unscaledPosition, vector, i, j, tile);
             });
         }
         #endregion
@@ -932,7 +935,7 @@ namespace CalamityMod.ILEditing
             //Currently just prevents lava rendering, to see the new lava renderer, please see LavaRendering.DrawLava
             ILCursor cursor = new ILCursor(il);
             int pointer2_varNum = -1;
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdloc(out pointer2_varNum), i => i.MatchLdfld<LiquidDrawCache>("IsVisible")))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(out pointer2_varNum), c => c.MatchLdfld<LiquidDrawCache>("IsVisible")))
             {
                 LogFailure("Block Lava Drawing", "Could not locate the visibility check for liquid drawing");
                 return;
@@ -984,7 +987,7 @@ namespace CalamityMod.ILEditing
             int tileYVar = -1;
             //Gets the Brfalse of the ending of "if (tile[j, i].liquid <= 0 || (tile[j, i].nactive() && tileSolid[tile[j, i].type] && !tileSolidTop[tile[j, i].type]) || !(Lighting.Brightness(j, i) > 0f || bg))", the BR false is used to prevent liquid rendering 
             //The X and Y from GetColor are also stored to be used in the delegate without hardcoding Ldloc numbers
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchBrfalse(out target), i => i.MatchLdloc(out tileXVar), i => i.MatchLdloc(out tileYVar), i => i.MatchCall<Lighting>("GetColor"), i => i.MatchStloc(out _)))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchBrfalse(out target), c => c.MatchLdloc(out tileXVar), c => c.MatchLdloc(out tileYVar), c => c.MatchCall<Lighting>("GetColor"), c => c.MatchStloc(out _)))
             {
                 LogFailure("old Drawing Waters", "Could not locate the initlisation of the initial color variable and the ending of the if statement preventing liquid rendering");
                 return;
@@ -1008,13 +1011,13 @@ namespace CalamityMod.ILEditing
         private void LavaBubbleReplacer(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcI4(16), i => i.MatchLdcI4(16), i => i.MatchLdcI4(35)))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdcI4(16), c => c.MatchLdcI4(16), c => c.MatchLdcI4(35)))
             {
                 LogFailure("Ambient lava bubble replacer", "Could not locate the bubble newdust parameters");
                 return;
             }
             cursor.EmitDelegate<Func<int, int>>(type => LavaRendering.dustLava());
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcI4(16), i => i.MatchLdcI4(8), i => i.MatchLdcI4(35)))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdcI4(16), c => c.MatchLdcI4(8), c => c.MatchLdcI4(35)))
             {
                 LogFailure("Ambient lava bubble replacer", "Could not locate the surface bubble newdust parameters");
                 return;
@@ -1025,7 +1028,7 @@ namespace CalamityMod.ILEditing
         private void LavaDropletReplacer(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg(out _), i => i.MatchLdcI4(374), i => i.MatchBneUn(out _), i => i.MatchLdcI4(716)))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdarg(out _), c => c.MatchLdcI4(374), c => c.MatchBneUn(out _), c => c.MatchLdcI4(716)))
             {
                 LogFailure("Ambient lava droplet replacer", "Could not locate the lava droplet newgore parameters");
                 return;
@@ -1036,13 +1039,13 @@ namespace CalamityMod.ILEditing
         private void SplashEntityLava(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdfld<Entity>("width"), i => i.MatchLdcI4(12), i => i.MatchAdd(), i => i.MatchLdcI4(24), i => i.MatchLdcI4(35)))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdfld<Entity>("width"), c => c.MatchLdcI4(12), c => c.MatchAdd(), c => c.MatchLdcI4(24), c => c.MatchLdcI4(35)))
             {
                 LogFailure("Entity Lava Splashing (Item, Projectile, NPC, Player)", "Could not locate the first lava bubble splashing");
                 return;
             }
             cursor.EmitDelegate<Func<int, int>>(type => LavaRendering.dustLava());
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdfld<Entity>("width"), i => i.MatchLdcI4(12), i => i.MatchAdd(), i => i.MatchLdcI4(24), i => i.MatchLdcI4(35)))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdfld<Entity>("width"), c => c.MatchLdcI4(12), c => c.MatchAdd(), c => c.MatchLdcI4(24), c => c.MatchLdcI4(35)))
             {
                 LogFailure("Entity Lava Splashing (Item, Projectile, NPC, Player)", "Could not locate the second lava bubble splashing");
                 return;
@@ -1054,7 +1057,7 @@ namespace CalamityMod.ILEditing
         {
             //Injects code directly at the position where the OnFire debuff is handled
             ILCursor cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdarg0(), i => i.MatchLdcI4(24), i => i.MatchLdloc(161), i => i.MatchLdcI4(1), i => i.MatchLdcI4(0), i => i.MatchCall<Player>("AddBuff")))
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdarg0(), c => c.MatchLdcI4(24), c => c.MatchLdloc(161), c => c.MatchLdcI4(1), c => c.MatchLdcI4(0), c => c.MatchCall<Player>("AddBuff")))
             {
                 LogFailure("Player Update Lava Debuff", "Could not locate the infliction of the On Fire! debuff inside the Player Update code");
                 return;
@@ -1177,23 +1180,38 @@ namespace CalamityMod.ILEditing
             orig.Invoke(waterfallType, x, y);
         }
 
-        //update ldlocs to be dynamic
         private static void LiquidDrawColors(ILContext il)
         {
             const string TypeFieldName = nameof(LiquidRenderer.LiquidDrawCache.Type);
 
             ILCursor cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdarg2(), c => c.MatchLdloc(3), c => c.MatchLdloc(4), c => c.MatchCall<Main>("DrawTileInWater")))
+            int tileXVar = -1;
+            int tileYVar = -1;
+            int pointerVar = -1;
+            int verticesVar = -1;
+
+            if (!cursor.TryGotoNext(c => c.MatchLdloc(out _), c => c.MatchConvU(), c => c.MatchStloc(out pointerVar)))
+            {
+                LogFailure("Liquid Draw Colors", "Could not locate the liquid pointer local variable");
+                return;
+            }
+            if (!cursor.TryGotoNext(c => c.MatchLdloca(out verticesVar), c => c.MatchLdcR4(1), c => c.MatchCall<Lighting>("GetCornerColors")))
+            {
+                LogFailure("Liquid Draw Colors", "Could not locate the vertices local variable");
+                return;
+            }
+
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdarg2(), c => c.MatchLdloc(out tileXVar), c => c.MatchLdloc(out tileYVar), c => c.MatchCall<Main>("DrawTileInWater")))
             {
                 LogFailure("Liquid Draw Colors", "Could not locate the liquid vertex colors for drawing");
                 return;
             }
 
-            cursor.Emit(OpCodes.Ldloc, 3);
-            cursor.Emit(OpCodes.Ldloc, 4);
-            cursor.Emit(OpCodes.Ldloc_2);
+            cursor.Emit(OpCodes.Ldloc, tileXVar);
+            cursor.Emit(OpCodes.Ldloc, tileYVar);
+            cursor.Emit(OpCodes.Ldloc, pointerVar);
             cursor.EmitLdfld(typeof(LiquidRenderer.LiquidDrawCache).GetField(TypeFieldName));
-            cursor.Emit(OpCodes.Ldloca, 9);
+            cursor.Emit(OpCodes.Ldloca, verticesVar);
 
             cursor.EmitDelegate((int x, int y, byte liquidType, ref VertexColors initialColor) =>
             {
@@ -1212,8 +1230,17 @@ namespace CalamityMod.ILEditing
         private static void LiquidSlopeDrawColors(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
+            int vertexColorsVar = -1;
+            int isWaterVar = -1;
+            int waterStyleVar = -1;
 
-            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdcI4(0), c => c.MatchStloc(19), c => c.MatchLdloc(11), c => c.MatchBrfalse(out _)))
+            if (!cursor.TryGotoNext(c => c.MatchLdsfld<Main>("waterStyle"), c => c.MatchStloc(out waterStyleVar), c => c.MatchLdarg(6), c => c.MatchLdarg(7), c => c.MatchLdloca(out vertexColorsVar), c => c.MatchLdcR4(1), c => c.MatchCall<Lighting>("GetCornerColors")))
+            {
+                LogFailure("Liquid Slope Draw Colors", "Could not locate the liquid slope vertex colors for drawing");
+                return;
+            }
+
+            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdcI4(0), c => c.MatchStloc(out _), c => c.MatchLdloc(out isWaterVar), c => c.MatchBrfalse(out _), c => c.MatchCall(out _), c => c.MatchCallvirt<Loader>("get_TotalCount")))
             {
                 LogFailure("Liquid Slope Draw Colors", "Could not locate the liquid slope vertex colors for drawing");
                 return;
@@ -1221,9 +1248,9 @@ namespace CalamityMod.ILEditing
 
             cursor.Emit(OpCodes.Ldarg, 6);
             cursor.Emit(OpCodes.Ldarg, 7);
-            cursor.Emit(OpCodes.Ldloca, 14);
-            cursor.Emit(OpCodes.Ldloc, 11);
-            cursor.Emit(OpCodes.Ldloc, 10);
+            cursor.Emit(OpCodes.Ldloca, vertexColorsVar);
+            cursor.Emit(OpCodes.Ldloc, isWaterVar);
+            cursor.Emit(OpCodes.Ldloc, waterStyleVar);
 
             cursor.EmitDelegate((int x, int y, ref VertexColors initialColor, bool flag6, int num2) =>
             {
