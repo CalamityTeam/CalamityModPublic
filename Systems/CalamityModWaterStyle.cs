@@ -38,19 +38,27 @@ namespace CalamityMod.Systems
     {
         internal static void ModifyLightSetup(int i, int j, int type, ref float r, ref float g, ref float b)
         {
-            CalamityModWaterStyle styles = (CalamityModWaterStyle)LoaderManager.Get<WaterStylesLoader>().Get(type);
-            if (styles != null)
+            ModWaterStyle waterStyle = LoaderManager.Get<WaterStylesLoader>().Get(type);
+            if(waterStyle is CalamityModWaterStyle)
             {
-                styles?.ModifyLight(i, j, ref r, ref g, ref b);
+                CalamityModWaterStyle styles = (CalamityModWaterStyle)waterStyle;
+                if (styles != null)
+                {
+                    styles?.ModifyLight(i, j, ref r, ref g, ref b);
+                }
             }
         }
 
         internal static void DrawColorSetup(int x, int y, int type, ref VertexColors liquidColor, bool isSlope = false)
         {
-            CalamityModWaterStyle styles = (CalamityModWaterStyle)LoaderManager.Get<WaterStylesLoader>().Get(type);
-            if (styles != null)
+            ModWaterStyle waterStyle = LoaderManager.Get<WaterStylesLoader>().Get(type);
+            if(waterStyle is CalamityModWaterStyle)
             {
-                styles?.DrawColor(x, y, ref liquidColor, isSlope);
+                CalamityModWaterStyle styles = (CalamityModWaterStyle)waterStyle;
+                if (styles != null)
+                {
+                    styles?.DrawColor(x, y, ref liquidColor, isSlope);
+                }
             }
         }
     }
