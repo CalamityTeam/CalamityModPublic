@@ -12,6 +12,7 @@ using Terraria.GameContent.Liquid;
 using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.GameContent.Liquid.LiquidRenderer;
 using static Terraria.WaterfallManager;
 
 namespace CalamityMod.Systems
@@ -21,14 +22,9 @@ namespace CalamityMod.Systems
         //Welcome to Calamity's lava rendering. Prepare your eyes
         public static LavaRendering instance;
 
-        public int WaterStyleMaxCount = ModContent.GetContent<ModWaterStyle>().Count() + LoaderManager.Get<WaterStylesLoader>().VanillaCount;
-
-        internal static float[] alphaSave;
-
-        public override void Load()
-        {
-            LavaRendering.alphaSave = new float[CalamityMod.lavaAlpha.Length];
-        }
+        internal static readonly FieldInfo _drawArea = typeof(LiquidRenderer).GetField("_drawArea", BindingFlags.NonPublic | BindingFlags.Instance);
+        internal static readonly FieldInfo _drawCache = typeof(LiquidRenderer).GetField("_drawCache", BindingFlags.NonPublic | BindingFlags.Instance);
+        internal static readonly FieldInfo _animationFrame = typeof(LiquidRenderer).GetField("_animationFrame", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public void DrawLavas(bool isBackground = false)
         {
@@ -62,6 +58,7 @@ namespace CalamityMod.Systems
             DrawLiquid(isBackground, CalamityMod.LavaStyle, flag ? CalamityMod.lavaAlpha[CalamityMod.LavaStyle] : 1f);
         }
 
+
         protected internal void DrawLiquid(bool bg = false, int lavaStyle = 0, float Alpha = 1f, bool drawSinglePassLiquids = true)
         {
             if (!Lighting.NotRetro)
@@ -72,15 +69,62 @@ namespace CalamityMod.Systems
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             Vector2 drawOffset = (Vector2)(Main.drawToScreen ? Vector2.Zero : new Vector2((float)Main.offScreenRange, (float)Main.offScreenRange)) - Main.screenPosition;
-            if (bg)
+            if (bg && !LiquidEdgeRenderer.Active)
             {
                 DrawLiquidBehindTiles(lavaStyle);
             }
-            LiquidRenderer.Instance.DrawNormalLiquids(Main.spriteBatch, drawOffset, lavaStyle + ModContent.GetContent<ModWaterStyle>().Count() + LoaderManager.Get<WaterStylesLoader>().VanillaCount + 1, Alpha, bg);
+            DrawLava(Main.spriteBatch, drawOffset, lavaStyle, Alpha, bg);
             if (!bg)
             {
                 TimeLogger.DrawTime(4, stopwatch.Elapsed.TotalMilliseconds);
             }
+        }
+
+        public unsafe void DrawLava(SpriteBatch spriteBatch, Vector2 drawOffset, int LavaStyle, float globalAlpha, bool isBackgroundDraw)
+        {
+            Rectangle drawArea = (Rectangle)_drawArea.GetValue(Instance);
+            Main.tileBatch.Begin();
+            fixed (LiquidDrawCache* ptr3 = &((LiquidDrawCache[])_drawCache.GetValue(Instance))[0])
+            {
+                LiquidDrawCache* ptr2 = ptr3;
+                int cacheLength = ((LiquidDrawCache[])_drawCache.GetValue(Instance)).Length;
+                for (int i = drawArea.X; i < drawArea.X + drawArea.Width; i++)
+                {
+                    for (int j = drawArea.Y; j < drawArea.Y + drawArea.Height; j++)
+                    {
+                        if (ptr2->IsVisible && ptr2->Type == LiquidID.Lava)
+                        {
+                            Rectangle sourceRectangle = ptr2->SourceRectangle;
+                            if (ptr2->IsSurfaceLiquid)
+                            {
+                                sourceRectangle.Y = 1280;
+                            }
+                            else
+                            {
+                                sourceRectangle.Y += ((int)_animationFrame.GetValue(Instance)) * 80;
+                            }
+                            Vector2 liquidOffset = ptr2->LiquidOffset;
+                            float num = ptr2->Opacity * (isBackgroundDraw ? 1f : DEFAULT_OPACITY[ptr2->Type]);
+                            int num2 = LavaStyle;
+                            num *= globalAlpha;
+                            num = Math.Min(1f, num);
+                            Lighting.GetCornerColors(i, j, out var vertices);
+                            ref Color bottomLeftColor = ref vertices.BottomLeftColor;
+                            bottomLeftColor *= num;
+                            ref Color bottomRightColor = ref vertices.BottomRightColor;
+                            bottomRightColor *= num;
+                            ref Color topLeftColor = ref vertices.TopLeftColor;
+                            topLeftColor *= num;
+                            ref Color topRightColor = ref vertices.TopRightColor;
+                            topRightColor *= num;
+                            Main.DrawTileInWater(drawOffset, i, j);
+                            Main.tileBatch.Draw(CalamityMod.LavaTextures.liquid[num2].Value, new Vector2((float)(i << 4), (float)(j << 4)) + drawOffset + liquidOffset, sourceRectangle, vertices, Vector2.Zero, 1f, (SpriteEffects)0);
+                        }
+                        ptr2++;
+                    }
+                }
+            }
+            Main.tileBatch.End();
         }
 
         public void oldDrawLava(bool bg = false, int Style = 0, float Alpha = 1f)

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Terraria;
-using Terraria.Graphics;
+﻿using Terraria.Graphics;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Systems
