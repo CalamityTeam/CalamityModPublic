@@ -193,7 +193,7 @@ namespace CalamityMod.Gores.WaterDroplet
         {
             if (lavaDroplet)
             {
-                return new Color(255, 255, 255, 200);
+                return Lighting.GetColor((int)(gore.position.X / 16), (int)(gore.position.Y / 16)) * 1f;
             }
             return null;
         }
