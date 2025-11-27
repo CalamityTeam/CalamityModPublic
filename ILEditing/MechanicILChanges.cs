@@ -823,10 +823,11 @@ namespace CalamityMod.ILEditing
             });
         }
 
+        //Rewrite, reuse biome lava's newer capture code
         private void DrawLavatoCapture(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdsfld<Main>("liquidAlpha"), i => i.MatchCall(out _), i => i.MatchStloc2()))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdsfld<Main>("liquidAlpha"), i => i.MatchCall(out _), i => i.MatchStloc(out _)))
             {
                 LogFailure("Draw lavas to captures", "Could not locate the saving of water alphas");
                 return;
@@ -895,6 +896,7 @@ namespace CalamityMod.ILEditing
             });
         }
 
+        //Rewrite to prevent ldloc hardcoding
         private void AddTileLiquidDrawing(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
@@ -999,26 +1001,25 @@ namespace CalamityMod.ILEditing
         {
             ILCursor cursor = new ILCursor(il);
             ILLabel target = cursor.DefineLabel();
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCgt(), i => i.MatchLdarg1(), i => i.MatchOr(), i => i.MatchBrfalse(out target)))
+            int tileXVar = -1;
+            int tileYVar = -1;
+            //Gets the Brfalse of the ending of "if (tile[j, i].liquid <= 0 || (tile[j, i].nactive() && tileSolid[tile[j, i].type] && !tileSolidTop[tile[j, i].type]) || !(Lighting.Brightness(j, i) > 0f || bg))", the BR false is used to prevent liquid rendering 
+            //The X and Y from GetColor are also stored to be used in the delegate without hardcoding Ldloc numbers
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchBrfalse(out target), i => i.MatchLdloc(out tileXVar), i => i.MatchLdloc(out tileYVar), i => i.MatchCall<Lighting>("GetColor"), i => i.MatchStloc(out _)))
             {
-                LogFailure("old Drawing Waters", "Could not locate the if statement that contains the check for liquid types, amounts and wether the liquid has a bg (arg1) or not");
+                LogFailure("old Drawing Waters", "Could not locate the initlisation of the initial color variable and the ending of the if statement preventing liquid rendering");
                 return;
             }
             if (target == null)
             {
-                LogFailure("old Drawing Waters", "The BrFalse returned null, the boolean check getting was unsuccessful");
+                LogFailure("old Drawing Waters", "The BrFalse returned null, cannot correctly jump to skip the lava rendering");
                 return;
             }
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdindU1(), i => i.MatchSub(), i => i.MatchConvR4(), i => i.MatchStloc(14)))
+            cursor.EmitLdloc(tileXVar);
+            cursor.EmitLdloc(tileYVar);
+            cursor.EmitDelegate((int j, int i) =>
             {
-                LogFailure("old Drawing Waters", "Could not locate the num3 local variable creation to put the if check after");
-                return;
-            }
-            cursor.EmitLdloc(12);
-            cursor.EmitLdloc(11);
-            cursor.EmitDelegate((int i, int j) =>
-            {
-                return Main.tile[i, j].LiquidType == LiquidID.Lava;
+                return Main.tile[j, i].LiquidType == LiquidID.Lava;
             });
             cursor.EmitBrtrue(target);
         }
