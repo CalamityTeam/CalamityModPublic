@@ -19,11 +19,11 @@ using CalamityMod.Particles;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Systems;
+using CalamityMod.Waters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -838,7 +838,8 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Emit(OpCodes.Ldloca, alphaSaveVar);
-            cursor.EmitDelegate((ref float[] alphaSave) => {
+            cursor.EmitDelegate((ref float[] alphaSave) =>
+            {
                 alphaSave = CalamityMod.lavaAlpha.ToArray();
             });
             //Then it resets the alpha to be fully visible
@@ -848,7 +849,8 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.EmitLdarg(2);
-            cursor.EmitDelegate((CaptureSettings settings) => {
+            cursor.EmitDelegate((CaptureSettings settings) =>
+            {
 
                 for (int i = 0; i < 1; i++) //1 is the amount of vanilla lava styles, can be increased to include additional lava styles
                 {
@@ -862,7 +864,8 @@ namespace CalamityMod.ILEditing
                 LogFailure("Draw lavas to captures", "Could not locate the background of liquid capture drawing");
                 return;
             }
-            cursor.EmitDelegate(() => {
+            cursor.EmitDelegate(() =>
+            {
                 LavaRendering.instance.DrawLiquid(bg: true, CalamityMod.LavaStyle);
             });
             if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdcI4(9), c => c.MatchLdcR4(1), c => c.MatchLdcI4(1), c => c.MatchCall<Main>("DrawLiquid")))
@@ -871,7 +874,8 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.EmitLdarg(2);
-            cursor.EmitDelegate((CaptureSettings settings) => {
+            cursor.EmitDelegate((CaptureSettings settings) =>
+            {
                 LavaRendering.instance.DrawLiquid(bg: true, CalamityMod.LavaStyle);
             });
             if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdcI4(0), c => c.MatchLdsfld<Main>("waterStyle"), c => c.MatchLdcR4(1), c => c.MatchLdcI4(1), c => c.MatchCall<Main>("DrawLiquid")))
@@ -879,7 +883,8 @@ namespace CalamityMod.ILEditing
                 LogFailure("Draw lavas to captures", "Could not locate the liquid capture drawing");
                 return;
             }
-            cursor.EmitDelegate(() => {
+            cursor.EmitDelegate(() =>
+            {
                 LavaRendering.instance.DrawLiquid(bg: false, CalamityMod.LavaStyle);
             });
             if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdcI4(0), c => c.MatchLdloc(out _), c => c.MatchLdfld<CaptureBiome>("WaterStyle"), c => c.MatchLdcR4(1), c => c.MatchLdcI4(1), c => c.MatchCall<Main>("DrawLiquid")))
@@ -888,7 +893,8 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.EmitLdarg(2);
-            cursor.EmitDelegate((CaptureSettings settings) => {
+            cursor.EmitDelegate((CaptureSettings settings) =>
+            {
                 LavaRendering.instance.DrawLiquid(bg: false, CalamityMod.LavaStyle);
             });
             //Finally, the original alpha is returned to the lava alpha
@@ -898,7 +904,8 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Emit(OpCodes.Ldloc, alphaSaveVar);
-            cursor.EmitDelegate((float[] alphaSave) => {
+            cursor.EmitDelegate((float[] alphaSave) =>
+            {
                 CalamityMod.lavaAlpha = alphaSave;
             });
         }
@@ -1077,6 +1084,11 @@ namespace CalamityMod.ILEditing
             if (CalamityMod.LavaStyle != 0 && !LavaStylesLoader.Get(CalamityMod.LavaStyle).LavafallGlowmask())
             {
                 return aColor;
+            }
+            else if (LoaderManager.Get<WaterFallStylesLoader>().Get(waterfallType) is IWaterfallWithAlphaChange waterfallWithAlpha)
+            {
+                waterfallWithAlpha.ModifyAlpha(ref alpha);
+                return orig.Invoke(alpha, maxSteps, waterfallType, y, s, tileCache, aColor);
             }
             else
             {
