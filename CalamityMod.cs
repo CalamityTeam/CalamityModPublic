@@ -51,12 +51,10 @@ using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Schematics;
 using CalamityMod.Skies;
-using CalamityMod.Systems;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.UI.DraedonsArsenal;
 using CalamityMod.UI.Rippers;
-using CalamityMod.Waters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -268,7 +266,6 @@ namespace CalamityMod
             SchematicManager.Load();
 
             //lava
-            LavaRendering.instance = new LavaRendering();
             WeakReferenceSupport.LavaStytleToBiomeLava();
 
             Attunement.Load();

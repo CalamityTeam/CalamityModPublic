@@ -1,20 +1,25 @@
-﻿using CalamityMod.Particles;
-using System;
+﻿using System;
+using CalamityMod.Dusts.WaterSplash;
+using CalamityMod.Gores.WaterDroplet;
+using CalamityMod.Particles;
 using CalamityMod.Systems;
 using CalamityMod.Tiles.Abyss;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.Graphics;
-using Terraria.ID;
-using CalamityMod.Dusts.WaterSplash;
-using CalamityMod.Gores.WaterDroplet;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Waters
 {
-    public class SulphuricWaterflow : ModWaterfallStyle { }
+    public class SulphuricWaterflow : ModWaterfallStyle, IWaterfallWithAlphaChange
+    {
+        public void ModifyAlpha(ref float a)
+        {
+            a *= 0.333f;
+        }
+    }
 
     public class SulphuricWater : CalamityModWaterStyle
     {

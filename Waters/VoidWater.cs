@@ -7,7 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Waters
 {
-    public class VoidWaterflow : ModWaterfallStyle { }
+    public class VoidWaterflow : ModWaterfallStyle, IWaterfallWithAlphaChange
+    {
+        public void ModifyAlpha(ref float a)
+        {
+            a *= 0.333f;
+        }
+    }
 
     public class VoidWater : CalamityModWaterStyle
     {

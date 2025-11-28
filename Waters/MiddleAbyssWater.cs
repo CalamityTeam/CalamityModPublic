@@ -7,7 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Waters
 {
-    public class MiddleAbyssWaterflow : ModWaterfallStyle { }
+    public class MiddleAbyssWaterflow : ModWaterfallStyle, IWaterfallWithAlphaChange
+    {
+        public void ModifyAlpha(ref float a)
+        {
+            a *= 0.333f;
+        }
+    }
 
     public class MiddleAbyssWater : CalamityModWaterStyle
     {

@@ -56,13 +56,7 @@ namespace CalamityMod.Systems
 
         internal static CalamityModWaterStyle GetCalamityWaterStyle(int type)
         {
-            var modWaterStyle = LoaderManager.Get<WaterStylesLoader>().Get(type);
-            if (modWaterStyle is CalamityModWaterStyle calWaterStyle)
-            {
-                return calWaterStyle;
-            }
-
-            return null;
+            return LoaderManager.Get<WaterStylesLoader>().Get(type) as CalamityModWaterStyle;
         }
     }
 }
