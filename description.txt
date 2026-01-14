@@ -1,3 +1,6 @@
+THIS VERSION OF CALAMITY IS INTENDED FOR USE WITH THE ARCHIPELAGO RANDOMIZER.
+It will function normally, but is a fixed, out-of-date version of the mod.
+
 The Calamity Mod is a vast content mod for Terraria.
 It adds two new difficulty modes, multiple entire biomes, thousands of items, hundreds of weapons, and dozens of bosses.
 The mod also makes hundreds of adjustments to vanilla items, features and mechanics to improve balance, quality of life and overall gameplay consistency.

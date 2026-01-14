@@ -1,6 +1,6 @@
 author = The Calamity Dev Team
 version = 2.0.7.2
-displayName = Calamity Mod
+displayName = Calamity Mod for Archipelago Randomizer
 modReferences = CalamityModMusic
 homepage = https://discord.gg/calamity
 buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, .git\*, .github\*, LICENSE, README.md, .editorconfig, .gitignore, .gitattributes, Effects\Compiler\*
