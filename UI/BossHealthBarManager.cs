@@ -103,11 +103,7 @@ namespace CalamityMod.UI
                 BossComboHPBar = Request<Texture2D>("CalamityMod/UI/MiscTextures/BossHPComboBar", AssetRequestMode.ImmediateLoad).Value;
                 BossSeperatorBar = Request<Texture2D>("CalamityMod/UI/MiscTextures/BossHPSeperatorBar", AssetRequestMode.ImmediateLoad).Value;
 
-                PlatformID id = Environment.OSVersion.Platform;
-                if (id == PlatformID.Win32NT)
-                    HPBarFont = Request<DynamicSpriteFont>("CalamityMod/Fonts/HPBarFont", AssetRequestMode.ImmediateLoad).Value;
-                else
-                    HPBarFont = FontAssets.MouseText.Value;
+                HPBarFont = Request<DynamicSpriteFont>("CalamityMod/Fonts/HPBarFont", AssetRequestMode.ImmediateLoad).Value;
             }
 
             OneToMany = new Dictionary<int, int[]>();

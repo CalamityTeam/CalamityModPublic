@@ -260,11 +260,8 @@ namespace CalamityMod.UI.DraedonSummoning
         {
             if (Main.dedServ)
                 return;
-
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                DialogFont = CalamityMod.Instance.Assets.Request<DynamicSpriteFont>("Fonts/CodebreakerDialog", AssetRequestMode.ImmediateLoad).Value;
-            else
-                DialogFont = FontAssets.MouseText.Value;
+            
+            DialogFont = CalamityMod.Instance.Assets.Request<DynamicSpriteFont>("Fonts/CodebreakerDialog", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public static void DisplayCommunicationPanel()
