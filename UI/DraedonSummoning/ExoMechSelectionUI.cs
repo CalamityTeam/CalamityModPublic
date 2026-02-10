@@ -53,6 +53,7 @@ namespace CalamityMod.UI.DraedonSummoning
         public static bool HandleInteractionWithButton(Vector2 drawPosition, ExoMech exoMech)
         {
             float iconScale;
+            float uiScale = Main.UIScale;
             string description;
             Texture2D iconMechTexture;
             SoundStyle hoverSound;
@@ -81,7 +82,7 @@ namespace CalamityMod.UI.DraedonSummoning
             }
 
             // Check for mouse collision/clicks.
-            Rectangle clickArea = Utils.CenteredRectangle(drawPosition, iconMechTexture.Size() * iconScale * 0.9f);
+            Rectangle clickArea = Utils.CenteredRectangle(drawPosition, iconMechTexture.Size() * iconScale * uiScale * 0.9f);
 
             // Check if the mouse is hovering over the contact button area.
             bool hoveringOverIcon = MouseScreenArea.Intersects(clickArea);
@@ -115,14 +116,14 @@ namespace CalamityMod.UI.DraedonSummoning
                 iconScale = MathHelper.Clamp(iconScale - 0.05f, 1f, 1.2f);
 
             // Draw the icon with the new scale.
-            Main.spriteBatch.Draw(iconMechTexture, drawPosition, null, Color.White, 0f, iconMechTexture.Size() * 0.5f, iconScale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(iconMechTexture, drawPosition, null, Color.White, 0f, iconMechTexture.Size() * 0.5f, iconScale * uiScale, SpriteEffects.None, 0f);
 
             // Draw the descrption if hovering over the icon.
             if (hoveringOverIcon)
             {
-                drawPosition.X -= FontAssets.MouseText.Value.MeasureString(description).X * 0.5f;
-                drawPosition.Y += 36f;
-                Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, description, drawPosition.X, drawPosition.Y, HoverTextColor, Color.Black, Vector2.Zero, 1f);
+                drawPosition.X -= FontAssets.MouseText.Value.MeasureString(description).X * 0.5f * uiScale;
+                drawPosition.Y += 36f * uiScale;
+                Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, description, drawPosition.X, drawPosition.Y, HoverTextColor, Color.Black, Vector2.Zero, uiScale);
             }
 
             // And update to reflect the new scale.
