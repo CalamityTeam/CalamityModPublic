@@ -1,7 +1,7 @@
 # Calamity Mod
 [![Discord](https://img.shields.io/discord/225030931008847874)](https://discord.gg/calamity)
 - [Official site](https://calamitymod.com/)
-- [Steam Workshop](https://calamitymod.com/download/)
+- [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2824688072)
 - [Discord](https://discord.gg/calamity)
 - [Official Wiki](https://calamitymod.wiki.gg/)
 - [Patreon](https://patreon.com/CalamityMod)
@@ -11,6 +11,8 @@ The Calamity Mod is a vast content mod for Terraria which adds dozens of bosses 
 **Note:** This repository contains only the latest public release of the Calamity Mod and any public contributions made since then.
 
 Active development by Calamity developers occurs on a separate, private repository. Contributions made here will be cherry picked into that repository. When an update is released to the Steam Workshop, the `1.4.4-release` branch is replaced with the matching branch from the private repository.
+
+Issues are disabled on this repository. To report a bug, please join the [Calamity Discord](https://discord.gg/calamity) and use the `#bug-reports-read-pins` forum therein.
 
 Please do not submit resprites via pull requests. Instead, go to the [Calamity Art Discord](https://discord.gg/CKByxd5) and use the Asset Submission system if you want to propose a resprite for Calamity.
 
