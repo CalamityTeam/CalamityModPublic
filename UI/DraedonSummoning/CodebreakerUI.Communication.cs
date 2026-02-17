@@ -358,7 +358,8 @@ namespace CalamityMod.UI.DraedonSummoning
 
             // Draw and update the text scroller if there is some cut off text.
             Vector2 textTopLeft = selectionArea.TopLeft() + new Vector2(20f, 12f) * panelScale + Vector2.UnitY * OptionsTextVerticalOffset;
-            float cutoffDistance = OptionsTextHeight / GeneralScale - selectionOutline.Height;
+            float bottomPadding = panelScale.Y * 24f; 
+            float cutoffDistance = OptionsTextHeight - selectionOutline.Height * panelScale.Y + bottomPadding;
             if (cutoffDistance > 0f && OptionsTextOpacity > 0f)
             {
                 if (MouseScreenArea.Intersects(selectionArea))
@@ -476,7 +477,9 @@ namespace CalamityMod.UI.DraedonSummoning
                         // Ensure that the player starts at the bottom of the scoller, now that new text is generating there.
                         Texture2D dialogOutline = ModContent.Request<Texture2D>("CalamityMod/UI/DraedonSummoning/DraedonDialogOutline").Value;
                         Rectangle dialogArea = Utils.CenteredRectangle(selectionCenter, dialogOutline.Size() * panelScale);
-                        DialogVerticalOffset = -DialogHeight * GeneralScale;
+                        float scaledLineSpacing = FontAssetSystem.CodebreakerDialog.Value.LineSpacing * panelScale.Y;
+                        bottomPadding = scaledLineSpacing * 3f; 
+                        DialogVerticalOffset = -(DialogHeight - dialogOutline.Height * panelScale.Y + bottomPadding);
                         DialogScroller.PositionYInterpolant = 1f;
                         if (DialogVerticalOffset > 0f)
                             DialogVerticalOffset = 0f;
@@ -579,7 +582,9 @@ namespace CalamityMod.UI.DraedonSummoning
 
             // Draw and update the text scroller if there is some cut off text.
             Vector2 textTopLeft = dialogArea.TopLeft() + new Vector2(20f, 14f) * panelScale;
-            float cutoffDistance = DialogHeight - dialogOutline.Height;
+            float scaledLineSpacing = FontAssetSystem.CodebreakerDialog.Value.LineSpacing * panelScale.Y;
+            float bottomPadding = scaledLineSpacing * 3f; 
+            float cutoffDistance = DialogHeight - (dialogOutline.Height * panelScale.Y - bottomPadding);
             if (cutoffDistance > 0f && OptionsTextOpacity > 0f)
             {
                 if (MouseScreenArea.Intersects(dialogArea))
