@@ -147,7 +147,6 @@ namespace CalamityMod.Projectiles.Summon
         public static Asset<Texture2D> circle;
         public override bool PreDraw(ref Color lightColor)
         {
-            AllWhiteVersion = null;
             var spTex = TextureAssets.Projectile[Type].Value;
             var whiteTex = GetWhiteTex();
             var ciTex = CalamityUtils.GetTextureEfficient(ref circle, "CalamityMod/ExtraTextures/GreyscaleOpenCircleButBigger").Value;
