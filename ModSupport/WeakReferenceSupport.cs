@@ -180,9 +180,13 @@ namespace CalamityMod
             // { "Xeroc", 26f },
         };
 
-        public override void PostSetupContent()
+        public override void Load()
         {
             LavaStyleToBiomeLava();
+        }
+
+        public override void PostSetupContent()
+        {
             BossChecklistSupport();
             FargosSupport();
             DialogueTweakSupport();
@@ -214,7 +218,7 @@ namespace CalamityMod
                     Func<int, int, float, float, float, Vector3> ModifyLightFunc = ModifyLight;
                     Func<bool> IsLavaActive = lavaStyle.IsLavaActive;
                     Func<bool> lavafallGlowmask = lavaStyle.LavafallGlowmask;
-                    Func<Player, NPC, int, Action> InflictDebuffFunc = InflictDebuff;
+                    Action<Player, NPC, int> InflictDebuffFunc = InflictDebuff;
                     Func<bool> yes = InflictsOnFire;
 
                     Vector3 ModifyLight(int x, int y, float r, float g, float b)
@@ -223,13 +227,12 @@ namespace CalamityMod
                         return new Vector3(r, g, b);
                     }
 
-                    Action InflictDebuff(Player player, NPC npc, int onfireDuration)
+                    void InflictDebuff(Player player, NPC npc, int onfireDuration)
                     {
                         if (player != null && npc == null)
                         {
                             lavaStyle.InflictDebuff(player, onfireDuration);
                         }
-                        return null;
                     }
 
                     bool InflictsOnFire()
