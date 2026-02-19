@@ -174,7 +174,7 @@ namespace CalamityMod.Systems
                 {
                     InvasionProgressUIManager.UpdateAndDraw(Main.spriteBatch);
                     return true;
-                }, InterfaceScaleType.None));
+                }, InterfaceScaleType.UI));
             }
         }
     }
