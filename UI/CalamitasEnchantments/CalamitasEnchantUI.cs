@@ -24,7 +24,7 @@ namespace CalamityMod.UI.CalamitasEnchants
 
         public static bool CurrentlyViewing = false;
 
-        public static readonly Vector2 ReforgeUITopLeft = new Vector2(68f, 320f);
+        public static Vector2 ReforgeUITopLeft => new Vector2(68f, 320f) * Main.UIScale;
         public static readonly float ResolutionRatio = Main.screenHeight / 1440f;
 
         public static readonly SoundStyle EnchSound = new("CalamityMod/Sounds/Custom/WeaponEnchant");
