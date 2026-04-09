@@ -256,34 +256,6 @@ CalamityClientConfig: {
 		Tooltip: Adds an icon that appears over Town NPCs when they have new items in their shops.
 	}
 
-	SpeedrunTimer: {
-		Label: "[i:Stopwatch] Display Speedrun Timer"
-		Tooltip:
-			'''
-			Enables an in-game speedrun timer which shows in-game time down to the millisecond.
-			A second line displays the time of your most recent boss kill.
-			The time is tracked per player and only counts time while loaded into a world.
-			'''
-	}
-
-	SpeedrunTimerPosX: {
-		Label: "[i:LaserRuler] Speedrun Timer X Position"
-		Tooltip:
-			'''
-			The X position of the Speedrun Timer, measured as a % of your screen width.
-			The meter can be dragged with the mouse if Lock Meter Positions is disabled.
-			'''
-	}
-
-	SpeedrunTimerPosY: {
-		Label: "[i:LaserRuler] Speedrun Timer Y Position"
-		Tooltip:
-			'''
-			The Y position of the Speedrun Timer, measured as a % of your screen height.
-			The meter can be dragged with the mouse if Lock Meter Positions is disabled.
-			'''
-	}
-
 	StealthInvisibility: {
 		Label: "[i:CalamityMod/StealthHairDye] Stealth Invisibility"
 		Tooltip:

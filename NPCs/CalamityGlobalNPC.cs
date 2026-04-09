@@ -5353,26 +5353,6 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        #region Speedrun Display
-        public static void SetNewBossJustDowned(NPC npc)
-        {
-            if (!GetDownedBossVariable(npc.type))
-            {
-                CalamityNPCSets.BossSpeedrunTimerID.TryGetValue(npc.type, out int newBossTypeJustDowned);
-                for (int i = 0; i < Main.maxPlayers; i++)
-                {
-                    Player player = Main.player[i];
-                    if (!player.active)
-                        continue;
-
-                    CalamityPlayer mp = player.Calamity();
-                    mp.lastSplitType = newBossTypeJustDowned;
-                    mp.lastSplit = mp.previousSessionTotal.Add(SpeedrunTimerSystem.Elapsed);
-                }
-            }
-        }
-        #endregion
-
         #region Player Counts
         public static bool AnyLivingPlayers()
         {
