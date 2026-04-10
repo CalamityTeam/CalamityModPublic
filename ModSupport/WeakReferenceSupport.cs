@@ -1159,7 +1159,8 @@ namespace CalamityMod
             var completionCheckProperty = allBosses.GetType().GetProperty("CompletionCheck", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
             Func<bool> allBossesCheck = (Func<bool>)completionCheckProperty.GetValue(allBosses);
 
-            AddSplit("Cynosure", Request<Texture2D>("CalamityMod/Items/LoreItems/LoreCynosure"), () => DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs);
+            // Cynosure is only available in the "Calamity: Any%" category
+            AddSplit("Cynosure", Request<Texture2D>("CalamityMod/Items/LoreItems/LoreCynosure"), () => (string)speedrunDisplay.Call("runcategory") == "CalamityAny%" && DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs);
             AddSplit("CalamityAllBosses", Request<Texture2D>("CalamityMod/icon_small"), () =>
                 // Descending order is used because it is microseconds faster (important performance difference)
                 DownedBossSystem.downedExoMechs &&
