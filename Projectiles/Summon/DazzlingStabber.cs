@@ -130,6 +130,7 @@ namespace CalamityMod.Projectiles.Summon
                         GeneralParticleHandler.SpawnParticle(spark);
                     }
                 }
+                justHit = false;
             }
 
             if (potentialTarget != null)
