@@ -27,6 +27,7 @@ namespace CalamityMod
         internal static Mod redemption = null;
         internal static Mod remnants = null;
         internal static Mod soa = null;
+        internal static Mod speedrunDisplay = null;
         internal static Mod subworldLibrary = null;
         internal static Mod summonersAssociation = null;
         internal static Mod thorium = null;
@@ -66,6 +67,8 @@ namespace CalamityMod
             ModLoader.TryGetMod("Remnants", out remnants);
             soa = null;
             ModLoader.TryGetMod("SacredTools", out soa);
+            speedrunDisplay = null;
+            ModLoader.TryGetMod("SpeedrunDisplay", out speedrunDisplay);
             subworldLibrary = null;
             ModLoader.TryGetMod("SubworldLibrary", out subworldLibrary);
             summonersAssociation = null;
@@ -96,6 +99,7 @@ namespace CalamityMod
             redemption = null;
             remnants = null;
             soa = null;
+            speedrunDisplay = null;
             subworldLibrary = null;
             summonersAssociation = null;
             thorium = null;

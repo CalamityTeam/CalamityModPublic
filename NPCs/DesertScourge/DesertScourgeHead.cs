@@ -929,8 +929,6 @@ namespace CalamityMod.NPCs.DesertScourge
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open and Sandstorms can happen.
             if (!DownedBossSystem.downedDesertScourge)
             {

@@ -933,8 +933,6 @@ namespace CalamityMod.NPCs.AstrumDeus
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // Notify players that Astral Ore can be mined if Deus has never been killed yet
             if (!DownedBossSystem.downedAstrumDeus)
             {

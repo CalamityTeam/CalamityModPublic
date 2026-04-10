@@ -2067,8 +2067,6 @@ namespace CalamityMod.NPCs.OldDuke
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SeaKing>() }, DownedBossSystem.downedBoomerDuke);
 
             // Mark Old Duke as dead

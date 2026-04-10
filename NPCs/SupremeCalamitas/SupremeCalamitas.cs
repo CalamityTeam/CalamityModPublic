@@ -3521,8 +3521,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // Increase the player's SCal kill count
             if (Main.player[NPC.target].Calamity().sCalKillCount < 5)
                 Main.player[NPC.target].Calamity().sCalKillCount++;

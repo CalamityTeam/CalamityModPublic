@@ -1086,8 +1086,6 @@ namespace CalamityMod.NPCs.CalClone
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<Bandit>() }, DownedBossSystem.downedCalamitasClone);
 
             // Mark the Calamitas Clone as dead

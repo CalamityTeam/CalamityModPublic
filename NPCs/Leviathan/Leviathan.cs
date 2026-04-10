@@ -808,8 +808,6 @@ namespace CalamityMod.NPCs.Leviathan
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(npc);
-
             // Abyss awakens after killing Anahita & Leviathan
             string key = "Mods.CalamityMod.Status.Progression.AbyssDropsText";
             Color messageColor = Color.RoyalBlue;

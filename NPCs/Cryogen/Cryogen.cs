@@ -1400,8 +1400,6 @@ namespace CalamityMod.NPCs.Cryogen
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // Spawn Permafrost if he isn't in the world
             int permafrostNPC = NPC.FindFirstNPC(ModContent.NPCType<Archmage>());
             if (permafrostNPC == -1 && !BossRushEvent.BossRushActive)

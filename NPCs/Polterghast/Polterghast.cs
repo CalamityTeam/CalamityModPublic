@@ -941,8 +941,6 @@ namespace CalamityMod.NPCs.Polterghast
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, DownedBossSystem.downedPolterghast);
 
             // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items

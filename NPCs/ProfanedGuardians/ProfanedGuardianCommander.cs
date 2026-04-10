@@ -1237,8 +1237,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // Mark the Profaned Guardians as dead
             DownedBossSystem.downedGuardians = true;
             CalamityNetcode.SyncWorld();

@@ -997,8 +997,6 @@ namespace CalamityMod.NPCs.Ravager
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // Mark Ravager as dead
             DownedBossSystem.downedRavager = true;
             CalamityNetcode.SyncWorld();

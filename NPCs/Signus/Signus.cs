@@ -899,7 +899,6 @@ namespace CalamityMod.NPCs.Signus
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
             DownedBossSystem.downedSignus = true;
             CalamityNetcode.SyncWorld();
         }
