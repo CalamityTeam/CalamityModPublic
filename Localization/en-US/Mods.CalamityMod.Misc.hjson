@@ -157,7 +157,12 @@ SpeedrunDisplay: {
 	ExoMechs: Exos
 	PrimordialWyrm: Wyrm
 	Cynosure: Cynosure
-	CalamityAllBosses: All Bosses
-	CalamityAnyPercent: Calamity: Any%
-	CalamityAllBossesPercent: Calamity: AllBosses%
+	AllCalamityBosses: All Bosses
+
+    DoGPumpkinMoon: PumpMoon2
+    DoGFrostMoon: FrostMoon2
+    DoGEclipse: Eclipse2
+
+	CalamityCynosure: Calamity: Cynosure
+	CalamityAllBosses: Calamity: All Bosses
 }

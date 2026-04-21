@@ -1110,6 +1110,10 @@ namespace CalamityMod
         #endregion
 
         #region Speedrun Display
+        private static bool cachedPumpkinMoon = false;
+        private static bool cachedFrostMoon = false;
+        private static bool cachedEclipse = false;
+
         private static void SpeedrunDisplaySupport()
         {
             if (Main.dedServ)
@@ -1124,7 +1128,7 @@ namespace CalamityMod
 
             object GetSplit(string splitKey) => speedrunDisplay.Call("GetSplit", splitKey);
             object AddSplit(string splitKey, Asset<Texture2D> splitIcon, Func<bool> completionCheck) => speedrunDisplay.Call("AddSplit", splitKey, Localize(splitKey), splitIcon, completionCheck);
-            object AddCategory(string categoryKey, object completionSplit) => speedrunDisplay.Call("AddCategory", categoryKey, Localize(categoryKey.Replace("%", "Percent")), completionSplit);
+            object AddCategory(string categoryKey, object completionSplit) => speedrunDisplay.Call("AddCategory", categoryKey, Localize(categoryKey), completionSplit);
 
             AddSplit("DesertScourge", BossHead<DesertScourgeHead>(), DownedDesertScourge);
             AddSplit("Crabulon", BossHead<Crabulon>(), DownedCrabulon);
@@ -1154,6 +1158,27 @@ namespace CalamityMod
             AddSplit("ExoMechs", Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Ares/AresBody_Head_Boss"), DownedExoMechs);
             AddSplit("PrimordialWyrm", BossHead<PrimordialWyrmHead>(), DownedPrimordialWyrm);
 
+            AddSplit("DoGPumpkinMoon", Request<Texture2D>("Terraria/Images/Extra_12"), () =>
+            {
+                bool moonEnded = cachedPumpkinMoon && !Main.pumpkinMoon;
+                cachedPumpkinMoon = Main.pumpkinMoon;
+                return moonEnded && DownedBossSystem.downedDoG;
+            });
+
+            AddSplit("DoGFrostMoon", Request<Texture2D>("Terraria/Images/Extra_8"), () =>
+            {
+                bool moonEnded = cachedFrostMoon && !Main.snowMoon;
+                cachedFrostMoon = Main.snowMoon;
+                return moonEnded && DownedBossSystem.downedDoG;
+            });
+
+            AddSplit("DoGEclipse", Request<Texture2D>("SpeedrunDisplay/Assets/Textures/SolarEclipse"), () =>
+            {
+                bool eclipseEnded = cachedEclipse && !Main.eclipse;
+                cachedEclipse = Main.eclipse;
+                return eclipseEnded && DownedBossSystem.downedDoG;
+            });
+
             // Re-use the vanilla "AllBosses%" completion check
             object allBosses = GetSplit("AllBosses");
             var completionCheckProperty = allBosses.GetType().GetProperty("CompletionCheck", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
@@ -1161,7 +1186,7 @@ namespace CalamityMod
 
             // Cynosure is only available in the "Calamity: Any%" category
             AddSplit("Cynosure", Request<Texture2D>("CalamityMod/Items/LoreItems/LoreCynosure"), () => (string)speedrunDisplay.Call("runcategory") == "CalamityAny%" && DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs);
-            AddSplit("CalamityAllBosses", Request<Texture2D>("CalamityMod/icon_small"), () =>
+            AddSplit("AllCalamityBosses", Request<Texture2D>("CalamityMod/icon_small"), () =>
                 // Descending order is used because it is microseconds faster (important performance difference)
                 DownedBossSystem.downedExoMechs &&
                 DownedBossSystem.downedCalamitas &&
@@ -1190,8 +1215,8 @@ namespace CalamityMod
                 DownedBossSystem.downedCrabulon &&
                 DownedBossSystem.downedDesertScourge);
 
-            AddCategory("CalamityAny%", GetSplit("Cynosure"));
-            AddCategory("CalamityAllBosses%", GetSplit("CalamityAllBosses"));
+            AddCategory("CalamityCynosure", GetSplit("Cynosure"));
+            AddCategory("CalamityAllBosses", GetSplit("CalamityAllBosses"));
         }
         #endregion
 
