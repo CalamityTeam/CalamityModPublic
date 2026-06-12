@@ -65,11 +65,12 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            Player Owner = Main.player[Projectile.owner];
             target.AddBuff(BuffID.Wet, 300);
             target.AddBuff(ModContent.BuffType<RiptideDebuff>(), 300);
 
             Vector2 launchVel = Utils.DirectionTo(Projectile.Center, target.Center);
-            target.MoveNPC(launchVel, 9, true);
+            target.MoveNPC(launchVel, 9, true, Owner);
         }
         public override bool PreDraw(ref Color lightColor)
         {

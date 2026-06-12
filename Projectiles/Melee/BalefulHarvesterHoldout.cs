@@ -19,10 +19,11 @@ namespace CalamityMod.Projectiles.Melee
         public override int AssignedItemID => ModContent.ItemType<BalefulHarvester>();
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<BalefulHarvester>();
         public override string Texture => "CalamityMod/Items/Weapons/Melee/BalefulHarvester";
-        public override float HitboxOutset => 90;
-        public override Vector2 HitboxSize => new Vector2(140, 140);
+        public int size = 106;
+        public override float HitboxOutset => size * 0.85f;
+        public override Vector2 HitboxSize => new Vector2(size, size);
+        public override Vector2 SpriteOrigin => new(0, size);
         public override float HitboxRotationOffset => MathHelper.ToRadians(-45);
-        public override Vector2 SpriteOrigin => new(0, 96);
 
         public Vector2 mousePos;
         public Vector2 aimVel;
@@ -44,7 +45,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void WhenSpawned()
         {
             Projectile.knockBack = 0;
-            Projectile.scale = 1;
 
             mousePos = Owner.Calamity().mouseWorld;
             aimVel = (Owner.Center - Owner.Calamity().mouseWorld).SafeNormalize(Vector2.UnitX) * 65;
@@ -161,8 +161,8 @@ namespace CalamityMod.Projectiles.Melee
                 if (CanHit)
                 {
                     Vector2 sparkVel = Vector2.UnitY.RotatedBy(FinalRotation + MathHelper.ToRadians(-45)) * (3.5f * Owner.direction);
-                    Vector2 sparkPos = Owner.Center + Vector2.UnitX.RotatedBy(FinalRotation + MathHelper.ToRadians(-45)) * Main.rand.Next(80, 140);
-                    CustomSprite critSpark = new(sparkPos, sparkVel, 15, "CalamityMod/Particles/CritSpark", 1f, Color.Orange, frameCount: 4, frame: Main.rand.Next(4));
+                    Vector2 sparkPos = Owner.Center + Vector2.UnitX.RotatedBy(FinalRotation + MathHelper.ToRadians(-45)) * Main.rand.Next(80, 140) * Projectile.scale;
+                    CustomSprite critSpark = new(sparkPos, sparkVel, 15, "CalamityMod/Particles/CritSpark", 1f * Projectile.scale, Color.Orange, frameCount: 4, frame: Main.rand.Next(4));
                     GeneralParticleHandler.SpawnParticle(critSpark);
                 }
             }
@@ -220,16 +220,16 @@ namespace CalamityMod.Projectiles.Melee
                 Rectangle vanillaSmearFrame = vanillaSmear.Frame(1, 4, 0, 0);
                 Asset<Texture2D> smear = ModContent.Request<Texture2D>("CalamityMod/Particles/SemiCircularSmearSwipe");
                 float smearOpacity = CalamityUtils.Convert01To010(time / timeMax);
-                Main.EntitySpriteDraw(vanillaSmear.Value, Projectile.Center - Main.screenPosition, vanillaSmearFrame, new Color(193, 83, 43) * smearOpacity * 0.75f, FinalRotation - MathHelper.PiOver2, vanillaSmearFrame.Size() / 2f, 1.25f, SpriteEffects.None);
-                Main.EntitySpriteDraw(smear.Value, Projectile.Center - Main.screenPosition, null, new Color(247, 115, 0) * smearOpacity, FinalRotation, smear.Size() / 2f, 1.8f, SpriteEffects.None);
+                Main.EntitySpriteDraw(vanillaSmear.Value, Projectile.Center - Main.screenPosition, vanillaSmearFrame, new Color(193, 83, 43) * smearOpacity * 0.75f, FinalRotation - MathHelper.PiOver2, vanillaSmearFrame.Size() / 2f, 1.25f * Projectile.scale, SpriteEffects.None);
+                Main.EntitySpriteDraw(smear.Value, Projectile.Center - Main.screenPosition, null, new Color(247, 115, 0) * smearOpacity, FinalRotation, smear.Size() / 2f, 1.8f * Projectile.scale, SpriteEffects.None);
 
                 if (smearOpacity > 0.65f)
                 {
                     Vector2 sparklePos = Projectile.Center - Main.screenPosition - (Vector2.UnitY.RotatedBy(FinalRotation + MathHelper.PiOver4 * Owner.direction) * 120f);
                     Asset<Texture2D> bloom = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
-                    Main.EntitySpriteDraw(bloom.Value, sparklePos, null, Color.White * 0.75f, 0f, bloom.Size() / 2f, 0.2f, SpriteEffects.None);
+                    Main.EntitySpriteDraw(bloom.Value, sparklePos, null, Color.White * 0.75f, 0f, bloom.Size() / 2f, 0.2f * Projectile.scale, SpriteEffects.None);
                     Asset<Texture2D> sparkle = ModContent.Request<Texture2D>("CalamityMod/Particles/FullStar");
-                    Main.EntitySpriteDraw(sparkle.Value, sparklePos, null, Color.Orange, 0f, sparkle.Size() / 2f, 2f, SpriteEffects.None);
+                    Main.EntitySpriteDraw(sparkle.Value, sparklePos, null, Color.Orange, 0f, sparkle.Size() / 2f, 2f * Projectile.scale, SpriteEffects.None);
                 }
             }
             Main.spriteBatch.SetBlendState(BlendState.AlphaBlend);

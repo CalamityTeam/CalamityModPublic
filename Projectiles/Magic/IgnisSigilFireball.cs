@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center + (new Vector2(-26, 0).RotatedBy(Projectile.rotation - MathHelper.PiOver2)), Vector2.Zero, ModContent.ProjectileType<IgnisSigilFireballExplosion>(), (int) (Projectile.damage * 3.35f), Projectile.knockBack, Projectile.owner);
+                Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center + (new Vector2(-26, 0).RotatedBy(Projectile.rotation - MathHelper.PiOver2)), Vector2.Zero, ModContent.ProjectileType<IgnisSigilFireballExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 explosion.ai[1] = 145f;
                 explosion.localAI[1] = Main.rand.NextFloat(0.1f, 0.2f); // Interpolate
                 explosion.netUpdate = true;

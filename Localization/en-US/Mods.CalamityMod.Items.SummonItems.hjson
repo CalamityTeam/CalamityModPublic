@@ -71,7 +71,7 @@ CosmicWorm: {
 		'''
 		Summons the Devourer of Gods
 		{$Common.NotConsumable}
-		'The Nameless Serpent has set out for you.'
+		[ceffect/dog:'The Nameless Serpent has set out for you.']
 		'''
 }
 
@@ -177,7 +177,7 @@ MarkofProvidence: {
 		Summons the Ceaseless Void
 		Despawns on the surface
 		'''
-	SpawnSignus: Summons Signus, Envoy of the Devourer
+	SpawnSignus: Summons Signus
 	SpawnWeaver: Summons the Storm Weaver
 }
 
@@ -287,6 +287,16 @@ Terminus: {
 	DisplayName: Terminus
 	GFBName: Ogscule
 	Tooltip: Hold <left> to start or end the Boss Rush
+}
+
+TheHousingContract: {
+	DisplayName: The Housing Contract
+	Tooltip: Use to adopt a piggy for your town
+	SalesPitch:
+		'''
+		'Have you ever wanted to take care of a piggy? As part of our campaign to stop piggy abuse, you can get one here and now!'
+		'Just sign here and we'll deliver you one posthaste!'
+		'''
 }
 
 YharonEgg: {

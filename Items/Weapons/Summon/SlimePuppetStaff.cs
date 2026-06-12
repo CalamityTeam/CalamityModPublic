@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using CalamityMod.Systems.Collections;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
@@ -12,6 +13,10 @@ namespace CalamityMod.Items.Weapons.Summon
     public class SlimePuppetStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Slimed];
+        }
         public override void SetDefaults()
         {
             Item.width = 32;

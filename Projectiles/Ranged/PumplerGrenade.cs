@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 
-            int size = NPCHit ? 60 : 90; //Bigger explosion if no npc is hit
+            int size = NPCHit ? 128 : 160; //Bigger explosion if no npc is hit
             Projectile.scale = (size / (float)Projectile.height) * Projectile.scale;
 
             Projectile.position -= Vector2.One * (size - Projectile.width) * 0.5f;
@@ -84,9 +84,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         private void SmokeBoom()
         {
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 25; i++)
             {
-                Particle smoke = new SmallSmokeParticle(Projectile.Center + Main.rand.NextVector2Circular(15f, 15f), Vector2.Zero, Color.Orange, new Color(40, 40, 40), Main.rand.NextFloat(0.8f, 1.6f), 145 - Main.rand.Next(30));
+                Particle smoke = new SmallSmokeParticle(Projectile.Center + Main.rand.NextVector2Circular(25f, 25f), Vector2.Zero, Color.Orange, new Color(40, 40, 40), Main.rand.NextFloat(0.2f, 0.5f) * Projectile.scale, 145 - Main.rand.Next(30));
                 smoke.Velocity = (smoke.Position - Projectile.Center) * 0.2f + Projectile.velocity;
                 GeneralParticleHandler.SpawnParticle(smoke);
             }

@@ -48,5 +48,7 @@ namespace CalamityMod.Items.Fishing
             }
             return true;
         }
+
+        public override bool ConsumeItem(Player player) => player.ConsumedManaCrystals < Player.ManaCrystalMax;
     }
 }

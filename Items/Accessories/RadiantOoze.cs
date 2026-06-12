@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
@@ -13,8 +14,8 @@ namespace CalamityMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
 
-        public static int MinRegenBoost = 4;
-        public static int MaxRegenBoost = 10;
+        public static int MinRegenBoost => 1;
+        public static int MaxRegenBoost => 5;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MinRegenBoost.ToRegenPerSecond(), MaxRegenBoost.ToRegenPerSecond());
 
         public override void SetDefaults()
@@ -29,11 +30,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-
-            // bool left in for abyss light purposes and life regen effects
             modPlayer.rOoze = true;
 
-            // Add light if the other accessories aren't equipped and visibility is turned on
             if (!(modPlayer.aAmpoule || modPlayer.purity) && !hideVisual)
                 Lighting.AddLight(player.Center, new Vector3(1f, 1f, 0.6f));
         }
@@ -43,7 +41,7 @@ namespace CalamityMod.Items.Accessories
             var player = Main.LocalPlayer;
             if (player != null)
             {
-                list.FindAndReplace("[REGEN]", (player.Calamity().radiantOozeRegen).ToString("0.##"));
+                list.FindAndReplace("[REGEN]", ((int)MathF.Round(MathHelper.Lerp(MaxRegenBoost, MinRegenBoost, (player.statLife / (float)player.statLifeMax2)))).ToRegenPerSecond());
             }
         }
 

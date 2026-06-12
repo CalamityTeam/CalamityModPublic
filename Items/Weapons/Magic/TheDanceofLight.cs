@@ -33,9 +33,10 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.width = 40;
             Item.height = 42;
             Item.damage = 515;
-            Item.knockBack = 4f;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 6;
+            Item.crit = 20;
+            Item.mana = 26;
+            Item.knockBack = 4f;
 
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useTime = 2;
@@ -53,9 +54,6 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
-
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 20;
 
         public override Vector2? HoldoutOffset() => Vector2.Zero;
 

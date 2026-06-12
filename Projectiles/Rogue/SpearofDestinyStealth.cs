@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public static readonly SoundStyle Hitsound = new("CalamityMod/Sounds/Item/BlazingCoreParry") { Volume = 0.7f, PitchVariance = 0.3f };
         public new string LocalizationCategory => "Projectiles.Rogue";
-        public override string Texture => "CalamityMod/Projectiles/Rogue/LanceofDestiny";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SpearofDestiny";
         public bool posthit = false;
         public int Time = 0;
         public ref float Timer => ref Projectile.ai[0];

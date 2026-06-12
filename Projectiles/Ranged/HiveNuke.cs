@@ -241,7 +241,7 @@ namespace CalamityMod.Projectiles.Ranged
 
                 var projAmount = isClusterRocket ? 30f : 20f;
                 if (Main.player[Projectile.owner].strongBees)
-                    projAmount *= 1.15f;
+                    projAmount *= 1.25f;
                 for (int k = 0; k < projAmount; k++)
                 {
                     int BEES = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(10, 10).RotatedByRandom(100) * Main.rand.NextFloat(0.2f, 0.8f), ModContent.ProjectileType<BasicPlagueBee>(), (int)(Projectile.damage * (isClusterRocket ? 0.03f : 0.04f)), 0f, Projectile.owner, 0f, 0f, isClusterRocket ? 2f : 1f);

@@ -14,6 +14,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
+    [HeavyKnockbackWhitelisted]
     public class PlagueHomingMissile : ModNPC
     {
         public static Asset<Texture2D> GlowTexture;
@@ -30,7 +31,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void SetDefaults()
         {
-            NPC.damage = 70; // 140
+            NPC.damage = 60; // 120
             NPC.width = 22;
             NPC.height = 22;
             NPC.defense = 20;

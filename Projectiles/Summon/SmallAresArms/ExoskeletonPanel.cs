@@ -251,7 +251,7 @@ namespace CalamityMod.Projectiles.Summon.SmallAresArms
 
             bool hoveringOverAnySlot = false;
             bool clickedAnIconOnPanel = false;
-            bool sufficientSlots = Main.LocalPlayer.maxMinions > AresExoskeleton.MinionSlotsPerCannon;
+            bool sufficientSlots = Main.LocalPlayer.maxMinions >= AresExoskeleton.MinionSlotsPerCannon;
 
             // Draw icon and handle hover behaviors.
             // If an arm needs to be destroyed or spawned, it will happen on the next frame in the AI update loop.

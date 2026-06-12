@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.height = 110;
             Item.damage = 39;
             Item.DamageType = DamageClass.Ranged;
+            Item.crit = 10;
             Item.useTime = 5;
             Item.useAnimation = 15;
             Item.useLimitPerAnimation = 3;
@@ -33,9 +34,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().donorItem = true;
         }
 
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 10;
-
         public override Vector2? HoldoutOffset() => new Vector2(-4, 0);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -46,14 +44,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             float SpeedX = velocity.X + Main.rand.NextFloat(-0.5f, 0.5f);
             float SpeedY = velocity.Y + Main.rand.NextFloat(-0.5f, 0.5f);
-            int arrow = Projectile.NewProjectile(source, position, new Vector2(SpeedX, SpeedY), type, damage, knockback, player.whoAmI);
-            Main.projectile[arrow].noDropItem = true;
+            Projectile arrow = Projectile.NewProjectileDirect(source, position, new Vector2(SpeedX, SpeedY), type, damage, knockback, player.whoAmI);
+
             if (type == ProjectileID.JestersArrow)
             {
-                Main.projectile[arrow].localNPCHitCooldown = 12 * Main.projectile[arrow].MaxUpdates;
-                Main.projectile[arrow].usesLocalNPCImmunity = true;
-                Main.projectile[arrow].usesIDStaticNPCImmunity = false;
-                Main.projectile[arrow].tileCollide = false;
+                arrow.localNPCHitCooldown = 12 * arrow.MaxUpdates;
+                arrow.usesLocalNPCImmunity = true;
+                arrow.usesIDStaticNPCImmunity = false;
+                arrow.tileCollide = false;
             }
             return false;
         }

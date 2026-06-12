@@ -18,6 +18,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AstrumAureus
 {
+    [HeavyKnockbackWhitelisted]
     public class AureusSpawn : ModNPC
     {
         public static Asset<Texture2D> GlowTexture;
@@ -136,7 +137,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             // Phase 2 check
-            bool phase2 = lifeRatio <= 0.5f || Main.IsItDay();
+            bool phase2 = lifeRatio <= 0.5f;
 
             // Charge towards the target and explode after some time
             int inertia = 30;

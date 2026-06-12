@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
@@ -60,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             else if (SoundEngine.TryGetActiveSound(ChargeupSoundSlot, out var soundOut) && soundOut.IsPlaying)
             {
-                soundOut.Sound.Pitch = ChargeTimer * 2f;
+                soundOut.Sound.Pitch = MathF.Min(ChargeTimer * 2f, 1);
                 soundOut.Position = Projectile.Center;
             }
 
@@ -112,8 +113,10 @@ namespace CalamityMod.Projectiles.Ranged
 
         private void FiringEffects(Color color)
         {
-            SoundEngine.PlaySound(SoundID.Item92, GunTipPosition);
-            SoundEngine.PlaySound(SoundID.Item60, GunTipPosition);
+            bool redBeam = (color == new Color(235, 40, 121));
+            SoundEngine.PlaySound(SoundID.Item92 with { pitch = 0.7f, volume = 0.7f }, GunTipPosition);
+            SoundStyle fire = new("CalamityMod/Sounds/Item/APAShoot");
+            SoundEngine.PlaySound(fire with { pitch = (redBeam ? 0.3f : -0.2f)}, GunTipPosition);
 
             Particle pulse = new DirectionalPulseRing(GunTipPosition + Projectile.rotation.ToRotationVector2() * 5f, Vector2.Zero, color, new Vector2(0.5f, 1f), Projectile.rotation, 0.05f, 0.34f + Main.rand.NextFloat(0.3f), 30);
             GeneralParticleHandler.SpawnParticle(pulse);

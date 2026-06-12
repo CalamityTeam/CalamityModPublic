@@ -307,7 +307,7 @@ namespace CalamityMod.World
 
         #region Sunken Sea Lab
 
-        public static void FillSunkenSeaLaboratoryChest(Chest chest, int type, bool hasPlacedLogAndSchematic)
+        public static void FillSunkenSeaLaboratoryChest(Chest chest, int type, bool notFirstChest)
         {
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
             List<ChestItem> contents = new List<ChestItem>()
@@ -324,7 +324,7 @@ namespace CalamityMod.World
             //Adds the Planetoid Seeking Mechanism
             contents.Insert(0, new ChestItem(ModContent.ItemType<YellowSeekingMechanism>(), 1));
 
-            if (!hasPlacedLogAndSchematic)
+            if (notFirstChest)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogSunkenSea>(), 1));
                 contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicSunkenSea>(), 1));
@@ -338,40 +338,65 @@ namespace CalamityMod.World
 
         public static void PlaceSunkenSeaLab(out Point placementPoint, List<Point> workshopPoints, StructureMap structures)
         {
+            int tries = 0;
             string mapKey = SunkenSeaLabKey;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
             int labWidth = schematic.GetLength(0);
             int labHeight = schematic.GetLength(1);
 
-            int sunkenSeaX = (GenVars.UndergroundDesertLocation.Left + GenVars.UndergroundDesertLocation.Right) / 2;
-            int sunkenSeaY = Main.maxTilesY / 2;
+            do
+            {
+                // Pick a location based on the Underground Desert, because the Sunken Sea is based on the Underground Desert
+                Rectangle ugDesert = GenVars.UndergroundDesertLocation;
+                int placementPositionX = -1;
 
-            int placementPositionX = sunkenSeaX < Main.maxTilesX / 2 ? sunkenSeaX - 120 : sunkenSeaX + 120;
-            int placementPositionY = (sunkenSeaY + (Main.maxTilesY / 4) - 25) - labHeight;
+                // Desperation generation: if 75% of attempts failed, start generating literally anywhere in the Sunken Sea
+                if (tries >= 1500)
+                    placementPositionX = WorldGen.genRand.Next(ugDesert.Left, ugDesert.Right - labWidth);
+                // 50% chance to be on either the left or the right.
+                // If it's on the right then shove it left because all schematics are placed based on their top left corner.
+                else if (WorldGen.genRand.NextBool())
+                    placementPositionX = WorldGen.genRand.Next(ugDesert.Left - 20, ugDesert.Left + 10);
+                else
+                    placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;
 
-            placementPoint = new Point(placementPositionX, placementPositionY);
-            Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
+                int sunkenSeaY = 0;
 
-            /*
-            I do not think that this check needs to exist for now, no other structures exist in the sunken sea at the moment
-            Once other sunken sea structures are added, i will likely re-enable this and modify the generation so that it avoids protected areas again
-            This is just so i can have it generating in time for the patreon beta
-            */
+                //copied the desert position code from the sunken sea's generation so the lab always generates within the sunken sea properly
+                for (int y = Main.maxTilesY - 200; y >= Main.worldSurface; y--)
+                {
+                    if (Main.tile[placementPositionX, y].WallType == ModContent.WallType<NavystoneWall>())
+                    {
+                        sunkenSeaY = y - 80; //offset so it generates nicely
+                        break;
+                    }
+                }
 
-            //if (structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
-            //{
-                bool hasPlacedLogAndSchematic = false;
-                PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
-                CalamityUtils.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 20);
-                //Reverted changes to center point placement; the change caused it to not center like it should, offsetting the range at which the bio lab theme plays
-                CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
-            //}
+                int placementPositionY = sunkenSeaY - labHeight;
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));
+
+                if (structures.CanPlace(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y)))
+                {
+                    bool hasPlacedLogAndSchematic = false;
+                    PlaceSchematic(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(FillSunkenSeaLaboratoryChest));
+                    CalamityUtils.AddProtectedStructure(new Rectangle(placementPoint.X, placementPoint.Y, (int)schematicSize.X, (int)schematicSize.Y), 20);
+                    //Reverted changes to center point placement; the change caused it to not center like it should, offsetting the range at which the bio lab theme plays
+                    CalamityWorld.SunkenSeaLabCenter = placementPoint.ToWorldCoordinates() + new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1)) * 8f;
+                    break;
+                }
+                //try again if the structure is colliding with a structure from another mod
+                else
+                    tries++;
+            }
+            while (tries <= 2000);
         }
         #endregion
 
         #region Ice Lab
-        public static void FillIceLaboratoryChest(Chest chest, int type, bool hasPlacedLogAndSchematic)
+        public static void FillIceLaboratoryChest(Chest chest, int type, bool notFirstChest)
         {
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
             List<ChestItem> contents = new List<ChestItem>()
@@ -388,7 +413,7 @@ namespace CalamityMod.World
             //Adds the Base Seeking Mechanism
             contents.Insert(0, new ChestItem(ModContent.ItemType<LabSeekingMechanism>(), 1));
 
-            if (!hasPlacedLogAndSchematic)
+            if (notFirstChest)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogSnowBiome>(), 1));
                 contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematicIce>(), 1));

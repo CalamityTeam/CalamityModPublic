@@ -48,7 +48,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddIngredient<VernalSoil>(20).
-                AddIngredient(ItemID.JungleSpores, 15).
+                AddIngredient<LivingShard>(3).
                 AddIngredient<EssenceofSunlight>(5).
                 AddTile(TileID.Anvils).
                 Register();

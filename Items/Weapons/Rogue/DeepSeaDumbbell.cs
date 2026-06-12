@@ -1,5 +1,7 @@
-﻿using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -12,7 +14,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         private const float FlexMultMax = 5f;
         private float flexMult = 1f;
-
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<HadopelagicPressure>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 38;

@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC target = Main.npc[i];
-                if (target != null && target.CanBeMoved(true))
+                if (target != null && target.CanBeMoved())
                 {
                     if (Vector2.Distance(target.Center, Projectile.Center) > 15 && Vector2.Distance(target.Center, Projectile.Center) < 500)
                     {

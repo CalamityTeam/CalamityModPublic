@@ -29,7 +29,7 @@ Shoreskipper.DisplayName: Shoreskipper
 SlabCrab.DisplayName: Slab Crab
 ToxicMinnow.DisplayName: Toxic Minnow
 Viperfish.DisplayName: Viperfish
-WildBumblebirb.DisplayName: Wild Bumblebirb
+WildBumblebirb.DisplayName: Draconic Swarmer
 AcidEel.DisplayName: Acid Eel
 BabyFlakCrab.DisplayName: Baby Flak Crab
 BloodwormNormal.DisplayName: Bloodworm
@@ -172,6 +172,7 @@ CrawlerTopaz.DisplayName: Topaz Crawler
 CrimulanBlightSlime.DisplayName: Crimulan Blight Slime
 Cryon.DisplayName: Cryon
 CryoSlime.DisplayName: Cryo Slime
+DivineSwine.DisplayName: Divine Swine
 EbonianBlightSlime.DisplayName: Ebonian Blight Slime
 Eidolist.DisplayName: Eidolist
 FearlessGoldfishWarrior.DisplayName: Fearless Goldfish Warrior
@@ -186,6 +187,7 @@ OverloadedSoldier.DisplayName: Overloaded Soldier
 PerennialSlime.DisplayName: Perennial Slime
 PhantomSpirit.DisplayName: Phantom Spirit
 Piggy.DisplayName: Piggy
+PiggyGold.DisplayName: Gold Piggy
 PlanterasFreeTentacle.DisplayName: Plantera's Tentacle
 ProfanedEnergyBody.DisplayName: Profaned Energy
 Rimehound.DisplayName: Rimehound
@@ -196,7 +198,6 @@ Shroomble.DisplayName: Shroomble
 Stormlion.DisplayName: Stormlion
 Sunskater.DisplayName: Sunskater
 SuperDummyNPC.DisplayName: Super Dummy
-WildBumblefuck.DisplayName: Draconic Swarmer
 WulfrumAmplifier.DisplayName: Wulfrum Amplifier
 WulfrumDrone.DisplayName: Wulfrum Drone
 WulfrumGyrator.DisplayName: Wulfrum Gyrator
@@ -247,7 +248,7 @@ RavagerBody.DisplayName: Ravager
 RockPillar.DisplayName: Rock Pillar
 CosmicLantern.DisplayName: Cosmic Lantern
 CosmicMine.DisplayName: Cosmic Mine
-Signus.DisplayName: Signus, Envoy of the Devourer
+Signus.DisplayName: Signus
 CorruptSlimeSpawn.DisplayName: Corrupt Slime Spawn
 CrimsonSlimeSpawn.DisplayName: Crimson Slime Spawn
 CrimulanPaladin.DisplayName: Crimulan Paladin
@@ -285,9 +286,9 @@ SupremeCataclysm.DisplayName: Cataclysm
 SupremeCatastrophe.DisplayName: Catastrophe
 Yharon.DisplayName: Yharon, Dragon of Rebirth
 YharonPhase2: Yharon, Resplendent Phoenix
-// Town NPCs, Pets, etc
 AndroombaFriendly.DisplayName: Androomba Pal
 
+// Town NPCs, Pets, etc
 Archmage: {
 	DisplayName: Archmage
 	Census.SpawnCondition: Defeat Cryogen
@@ -324,6 +325,9 @@ Archmage: {
 		DislikeNPC: I dislike {NPCName}'s blatant disregard of magic. I cannot blame his functions, but he is quite ignorant.
 		LikeNPC_Princess: "{NPCName} has some very quaint spells. I'm quite impressed, for someone of her age."
 		Princess_LovesNPC: "{NPCName} makes the best ice cream I've ever tasted, it's so good!"
+		Monument: What a hideous statue! I always advocated for artistic community projects, but this... you really should have better quality control over what gets into your town!
+		GiftPositive: '''"How culture shaped magic" by Medomaion of Stratia?! I thought this book was lost centuries ago! How did you find it, and how did you...?! Well, no matter! This is the perfect gift, thank you!'''
+		GiftNegative: Could you please explain what your last gift was? You made an attempt on my life by trying to freeze me!? You better have a good explanation about how a snowstorm made its way inside that box!
 	}
 }
 
@@ -404,6 +408,9 @@ Bandit: {
 		DislikeNPC: What a goody two shoes, {NPCName} is! I dislike her out of principle! …And because she has almost no material goods.
 		LikeNPC_Princess: I couldn't bear to steal anything from {NPCName}, she's so cute!
 		Princess_LovesNPC: "{NPCName} gifts me with nice exact replicas of other's things, I wonder how they do it!"
+		Monument: Yo, if your pockets ever feel lighter, that's not me, alright? You brought this on yourself buddy.
+		GiftPositive: Heeeey, my man! How's it goin'? I really 'preciate your gift, I have no idea how you got your hands on that kind of lockpicker's kit, but you'd catch me dead before I asked any questions!
+		GiftNegative: Hey man, what the hell is up with that gift?! I'm the most wanted in seven different city-states, do you got any idea how much a warrant on my name messes up my work?! You better do something to clean that mess before they have me walking to the gallows!
 	}
 }
 
@@ -447,6 +454,9 @@ BrimstoneWitch: {
 		DislikeNPC: Such a racket! All {NPCName} does is make noise, day in and day out! I can't stand her!
 		LikeNPC_Princess: What a strangely pleasant kid {NPCName} is to be around.
 		Princess_LovesNPC: "{NPCName} is always lonely, it's why I want to hang out with her, no one should be left alone like that!"
+		Monument: That monument is ugly as sin.
+		GiftPositive: Hey, uh... thanks for the gift, really. I never thought you'd ever give me anything, for obvious reasons. But... thanks, really. It's lovely.
+		GiftNegative: What the hell was that gift? You know what, I don't even want to think about it. Screw you.
 	}
 }
 
@@ -486,7 +496,7 @@ SeaKing: {
 		DoGDefeated3: The Devourer of Gods is truly an enigma. Some say it's not even from this world at all. What is known is that he is a being that can devour the essence of gods entirely, leaving absolutely nothing left. It's no wonder Yharim recruited that monster.
 		PolterghastDefeated1: The Abyss holds many secrets revealed with time. Checking it out again may not be a bad idea.
 		PolterghastDefeated2: Ah... I can sense a powerful change in the weather. You may want to venture to the Sulphurous Seas once more during the rain to experience it.
-		ProvidenceDefeated1: The Rune of Kos holds a significant portion of Providence's brand of magic, easily distinguishable from all others. Activating it in certain places would have some... risky consequences.
+		ProvidenceDefeated1: The Mark of Providence holds a significant portion of her brand of magic, easily distinguishable from all others. Activating it in certain places would have some... risky consequences.
 		ProvidenceDefeated2: I do wonder what has happened to Braelor and Statis. I have heard or seen very little of either. In my days, both were great heroes to those who worshiped the gods. Have they been killed, captured, or are they simply in hiding?
 		MoonLordDefeated1: Your adventure focuses to the jungle it seems. The Dragonfolly and its swarming offspring should be eliminated before their numbers spiral out of control.
 		MoonLordDefeated2: Profaned creatures now lurk in the Hallow and in Hell. If you destroy enough and gather their essence together you shall be able to capture the attention of the Profaned Guardians.
@@ -530,5 +540,71 @@ SeaKing: {
 		HateNPC: "{NPCName} is just a child, but his attitude towards marine life is unacceptable! Absolutely unacceptable!"
 		LikeNPC_Princess: That child, {NPCName}. She is an innocent soul. Let us hope the horrors of war never reach her.
 		Princess_LovesNPC: "{NPCName} always smiles when I'm nearby, I like being around him just for that!"
+		Monument: Take that horrible statue out of my sight! It is a disgrace to art, and to so unabashedly extort your people...! I expected much more of you.
+		GiftPositive: It was quite the delight to see that you gifted me custom-made shoes. Few people seem to realize that "walking" tends to leave my tail quite sore. Thank you, sincerely!
+		GiftNegative: A dead fish?! You gifted me a dead fish?! You managed to cross every line with that "gift"! Leave, I don't want to see you any longer.
 	}
 }
+
+ShadySalesman: {
+	DisplayName: Shady Salesman
+	Census.SpawnCondition: Defeat a Horrible Hog
+
+	Chat: {
+		Normal1: Have you ever wondered why coins are shiny? Simple! It's to match my partner's dazzling products!
+		Normal2: Have you ever had a dream? If you have the cash, I can sell you several!
+		Normal3: Whatever you are thinking, I have the perfect thing for you, at a genuinely excessive discount!
+		Normal4: Is your life rapidly shrinking? Want to know this world's marvels before your time comes? Are the local merchants only showing you worthless hogwash?! Worry not, Hoggart and I have just the solution! Hogwash sold separately.
+		Normal5: There's a saying that goes "the grass is greener on the other side." It's absolute balderdash!! For 5 platinum coins, you can buy our Greener Paint and make your life the greenest!
+		Normal6: They say keeping an Angel Statue nearby is more dangerous than a loaded gun. That's why I own multiple guns - in case some hooligan tries to sell me an Angel Statue!
+		TownPigPresent1: You're searching for the lil' Piggy? Don't worry, chum! Hoggart and I gave it a Camo-Projector 2000 so it could disappear into the night. This way, not a single rotbrain will lay their nasty half-fingers on it, huehe!
+		TownPigPresent2: Rumors are runnin' around that I'm inexplicably two Pigg'ins stacked on top of each other. What shameless slander! Don't they know that, if that were true, I'd charge twice the price? Hahaha!
+		TownPigPresent3: You better take real good care of that piglet. Your sight gotta be good for something other than eyeballing my discounts! Otherwise, who knows what will happen to the swine stock market...
+		TownPigPresent4: Where the Piggy went? Could've sworn I saw it chasing down a four-legged carrot. Now's your chance to chase Fortune and Glory, pal, by buying these MARVELOUS wares!
+		Rain: People always say "rain, rain, go away! Come back another day!", but everyone knows it would be better if it came back never! To solve this, I intend to invest in Hoggart's Dome Program, we just need 500 platinum coins to get it off the ground!
+		WindyDay: Aren't you tired of your house being blown away by any shoddy gust of wind? Well, I have the solution to your problem! With my state-of-the-art industrial super glue (for only 5 gold coins a pack), you too may survive the attack of invaders with outstanding lung capacity!
+		Desert: Exhausted from this oven-like heat? Yearning for something to help you cool down? Check out our revolutionary new product: water! It comes in all flavors of flavorless! Any bottle shape is available, from round to triangular! Feel the chill of molten ice as it enters your guts! It even has healing properties! Sip our free sample for the low price of 50 gold!
+		Tundra: Did you ever hear the tragedy of Kevin Bacon the Wise? I thought not, It's not a story the Elumphants would tell you. Kevin Bacon was a Ham Lord of the Hogs, so powerful and so wise he could use his Hogtusk to influence metal to create gold... Unfortunately, he taught his apprentice everything he knew, then his apprentice out-cashed and deposed him. Ironic. He could save others from debt, but not himself.
+		Graveyard: Does that zombie look like a happy customer? No!! It's full of maggots!! It has no life savings!! While you still do, hurry up and spend yours on a funky edition, happiness-smelling Maggot Repellent!
+		BloodMoon1: These shambling deadheads are the worst! How am I supposed to rip people off when they're all either dead, broke or fighting for their lives?!
+		BloodMoon2: Like my partner always says, price makes the prize! Hire our Moon Doom Cannon, and enjoy a whole year without the meatsack invasion! Fund the construction of the Eclipse variant and get a deluxe model with a neat robotic decal! All for 5000 platinum coins!
+		BloodMoon3: Violence is at every corner tonight, huh? Remember these words, buddy: make deals, not war!
+		Hardmode: Those pesky merchants still want to sell you full-price, low quality copper tools?! Bird droppings!! Barter with me, and you'll receive Palladium at HOG-WILD prizes!
+		MoonLordDefeated: I've been told this land is ruled by three gnomes in a suit of armor. That's impossible! Gnomes are the most deplorable customers I've dealt with. They can't handle a spoon without snapping it in half!! It's always the halflings...
+	}
+}
+
+TownPiggy: {
+	DisplayName: Town Piggy
+	Census.SpawnCondition: Use The Housing Contract
+
+	Name: {
+		Oolong: Oolong
+		Napoleon: Napoleon
+		Waddles: Waddles
+		Crenando: Crenando
+		Olivia: Olivia
+		Wilbur: Wilbur
+		Pumbaa: Pumbaa
+		Peppa: Peppa
+		Conan: Conan
+		Reuben: Reuben
+		Porky: Porky
+		Hamm: Hamm
+		Runt: Runt
+		Roko: Roko
+		RichardHam: Richard Ham
+		Curly: Curly
+		Techno: Techno
+		JohnPork: John Pork
+		Piglet: Piglet
+	}
+
+	Chat: {
+		0: Oink!
+		1: Squeal...
+		2: Snort!
+	}
+}
+
+HorribleHog.DisplayName: Horrible Hog

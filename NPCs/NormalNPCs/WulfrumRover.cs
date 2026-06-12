@@ -135,6 +135,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             NPC.spriteDirection = -NPC.direction;
             NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, MaxMovementSpeedX * NPC.direction, 0.0125f);
+            NPC.StepUpBlocks();
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

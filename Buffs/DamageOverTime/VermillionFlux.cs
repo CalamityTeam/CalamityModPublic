@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Systems.Collections;
 
 namespace CalamityMod.Buffs.DamageOverTime
 {
@@ -12,7 +13,7 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public static DebuffData debuffData = new DebuffData(DebuffData.DebuffBehavior.Electric)
         {
-            EnemyLostRegen = 100,
+            EnemyLostRegen = 75, //150 dps when moving, 37.5 dps when stationary
             ElectricDebuffScaling = 1
         };
         public override void SetStaticDefaults()
@@ -21,7 +22,7 @@ namespace CalamityMod.Buffs.DamageOverTime
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
             BuffID.Sets.LongerExpertDebuff[Type] = true;
-            BuffDatasets.DebuffDataset[Type] = debuffData;
+            CalamityBuffSets.DebuffDataset[Type] = debuffData;
         }
 
         public override void Update(Player player, ref int buffIndex)

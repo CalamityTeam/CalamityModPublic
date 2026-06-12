@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Materials
             Item.height = 56;
             Item.maxStack = Item.CommonMaxStack;
             Item.value = Item.sellPrice(gold: 6, silver: 66, copper: 66);
-            Item.rare = ModContent.RarityType<BurnishedAuric>();
+            Item.rare = ModContent.RarityType<CalamityRed>();
         }
         public void DrawPulsingAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)
         {

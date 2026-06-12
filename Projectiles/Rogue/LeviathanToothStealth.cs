@@ -116,11 +116,11 @@ namespace CalamityMod.Projectiles.Rogue
             if (hitTimer != 0)
                 damageMult = 0.2f;
             bool jawsJustSlammed = (time >= jawSlamTime && time <= jawSlamTime + 8);
-            modifiers.SourceDamage *= (jawsJustSlammed ? 12 : 1) * damageMult;
+            modifiers.SourceDamage *= (jawsJustSlammed ? 4 : 1) * damageMult;
             if (hitTimer == 0)
                 hitTimer = Projectile.localNPCHitCooldown;
 
-            if (target.CanBeMoved(true))
+            if (target.CanBeMoved())
                 target.velocity *= 0.05f;
         }
         public override bool? CanDamage() => canDamage ? null : false;

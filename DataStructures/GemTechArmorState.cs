@@ -202,7 +202,7 @@ namespace CalamityMod.DataStructures
                 PreviouslyUsedGem = usedGemType;
         }
 
-        public void PlayerOnHitEffects(int hitDamage)
+        public void PlayerOnHitEffects(Player.HurtInfo hurtInfo)
         {
             // Don't do anything if the player is not wearing the Gem Tech set.
             var cgp = Owner.Calamity();
@@ -211,6 +211,7 @@ namespace CalamityMod.DataStructures
 
             bool gemWasLost = false;
             int gemDamage = 0;
+            int hitDamage = (int)hurtInfo.Damage;
             bool largeEnoughRegularHit = hitDamage >= GemTechHeadgear.GemBreakDamageLowerBound;
             // 09FEB2024: Ozzatron: chalice of the blood god no longer protects you when using gem tech armor.
             // It is now slightly anti-synergetic, in that taking tiny hits when you're already bleeding will make you keep losing gems.
@@ -275,7 +276,7 @@ namespace CalamityMod.DataStructures
                 gemDamage = CalamityUtils.DamageSoftCap(gemDamage, GemTechHeadgear.GemDamageSoftcapThreshold);
 
                 if (Main.myPlayer == OwnerIndex)
-                    Projectile.NewProjectile(Owner.GetSource_ItemUse(Owner.HeldItem), gemPosition, Vector2.Zero, ModContent.ProjectileType<GemTechArmorGem>(), gemDamage, 0f, OwnerIndex, 0f, (int)GemThatShouldBeLost);
+                    Projectile.NewProjectile(Owner.GetSource_OnHurt(hurtInfo.DamageSource), gemPosition, Vector2.Zero, ModContent.ProjectileType<GemTechArmorGem>(), gemDamage, 0f, OwnerIndex, 0f, (int)GemThatShouldBeLost);
             }
         }
 

@@ -2,115 +2,136 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
-using Terraria.GameContent;
 using Terraria;
+using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
-using Terraria.ID;
 
 namespace CalamityMod.Rarities
 {
     public class CalamityRed : ModRarity
     {
         // Calamity Red is Rarity 17
-        // This rarity should never be assigned to any items.
-        // It is the equivalent of vanilla's Purple rarity (11): only used for positive reforges on top-rarity items.
-        //public override Color RarityColor => new Color(163, 25, 26); // #A3191A
-        //                                                             // (139, 0, 0) is the classic donator item color
-
         public override Color RarityColor => TextClr * 2f;
 
         public static float MaxY = 4.5f;
         public static Color BloomClr = new Color(180, 20, 75, 0);
         public static Color TextClr = new Color(242, 27, 27, 255);
 
+        public sealed class CustomTextSnippet(string text) : TextSnippet
+        {
+            public override bool UniqueDraw(bool justCheckingString, out Vector2 size, SpriteBatch spriteBatch, Vector2 position = new Vector2(), Color color = new Color(), float scale = 1)
+            {
+                size = new Vector2(GetStringLength(FontAssets.MouseText.Value), FontAssets.MouseText.Value.MeasureString(" ").Y * scale);
+
+                if (color == default || color == Main.MouseTextColorReal)
+                {
+                    color = Colors.AlphaDarken(TextClr);
+                }
+
+                if (!justCheckingString && (color.R != 0 || color.G != 0 || color.B != 0))
+                {
+                    var font = FontAssets.MouseText.Value;
+                    var time = Main.GlobalTimeWrappedHourly;
+
+                    var crystalTextGlow = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CrystalTextGlow").Value;
+                    var sparkle = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CrystalTextSparkle").Value;
+                    var fontSize = ChatManager.GetStringSize(font, text, new Vector2(1));
+                    var center = fontSize / 2f;
+
+                    var glowPosition = position + new Vector2(size.X * 0.5f, size.Y * 0.5f);// new Vector2(X + center.X, Y + center.Y / 1.5f);
+                    color.A = 0;
+                    float pulsing = 10f + (float)Math.Sin(time * 20f);
+                    float baseScalePulse = 1.03f;
+                    float flameHeight = 5f;
+                    float distortionAmount = 2f;
+
+
+                    for (float f = 0f; f < MathHelper.TwoPi; f += 0.79f)
+                    {
+                        float angle = f + (time * 2f % MathHelper.TwoPi);
+
+                        float distortion = (float)Math.Sin((position.Y + f * 100f + time * 20f) * 0.05f) * distortionAmount;
+
+                        Vector2 offset = new Vector2(
+                            (float)Math.Cos(angle) * pulsing * 0.4f + distortion,
+                            -(float)Math.Abs((float)Math.Sin(angle)) * flameHeight
+                        );
+
+                        float scaleVariation = 0.95f + 0.05f * (float)Math.Sin(time * 15f + f * 2f);
+                        Vector2 vscale = new Vector2(baseScalePulse * scaleVariation) * scale;
+
+                        Color flameLayerColor = new Color(
+                            (int)(color.R * 0.5f),
+                            (int)(color.G * 0.5f),
+                            (int)(color.B * 0.5f),
+                            (int)(color.A * 0.5f)
+                        );
+
+                        ChatManager.DrawColorCodedString(
+                            spriteBatch,
+                            font,
+                            text,
+                            position + offset,
+                            flameLayerColor,
+                            0,
+                            Vector2.Zero,
+                            vscale
+                        );
+                    }
+
+                    // Draw crisp center text
+                    ChatManager.DrawColorCodedString(
+                        spriteBatch,
+                        font,
+                        text,
+                        position,
+                        color,
+                        0,
+                        Vector2.Zero,
+                        new Vector2(baseScalePulse)
+                    );
+
+                    color.A = 255;
+
+
+                    var bloomColor = ColorTool.Rainbowing(time * 4 - 0.9f);
+
+                    spriteBatch.Draw(crystalTextGlow, glowPosition, null, BloomClr, MathHelper.PiOver2, new Vector2(6f, 33f),
+                       new Vector2(1.6f, fontSize.X / crystalTextGlow.Height * 1.2f), SpriteEffects.None, 0f);
+
+                    ChatManager.DrawColorCodedStringShadow(spriteBatch, font, text, position, Color.Lerp(color,Color.White,0.67f), 0, Vector2.Zero, new(scale));
+                    ChatManager.DrawColorCodedString(spriteBatch, font, text, position, Color.Black, 0, Vector2.Zero, new(scale));
+
+                }
+                return true;
+            }
+            public override float GetStringLength(DynamicSpriteFont font)
+            {
+                float size = font.MeasureString(text).X;
+                return size * Scale;
+            }
+        }
+
         public static void Draw(Item Item, SpriteBatch spriteBatch, string text, int X, int Y, Color textColor, Color lightColor, float rotation,
             Vector2 origin, Vector2 baseScale, float time, bool renderTextSparkles, DynamicSpriteFont font)
         {
-            var crystalTextGlow = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CrystalTextGlow").Value;
-            var sparkle = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CrystalTextSparkle").Value;
-            var fontSize = font.MeasureString(text);
-            var center = fontSize / 2f;
+            // Get all snippets and convert all plain text snippets to the custom rarity snippet
+            TextSnippet[] snippets = ChatManager.ParseMessage(text, textColor).ToArray();
+            for (int i = 0; i < snippets.Length; i++)
+            {
+                TextSnippet textSnippet = snippets[i];
+                if (snippets[i].GetType() == typeof(TextSnippet))
+                {
+                    snippets[i] = new CustomTextSnippet(textSnippet.Text);
+                }
+            }
 
             if (Item.expert)
                 textColor = Main.DiscoColor;
 
-            var glowPosition = new Vector2(X + center.X, Y + center.Y / 1.5f);
-            textColor.A = 0;
-            float pulsing = 10f + (float)Math.Sin(time * 20f);
-            float baseScalePulse = 1.03f;
-            float flameHeight = 5f;
-            float distortionAmount = 2f;
-
-            if (renderTextSparkles)
-
-            for (float f = 0f; f < MathHelper.TwoPi; f += 0.79f)
-            {
-                float angle = f + (time * 2f % MathHelper.TwoPi);
-
-                float distortion = (float)Math.Sin((Y + f * 100f + time * 20f) * 0.05f) * distortionAmount;
-
-                Vector2 offset = new Vector2(
-                    (float)Math.Cos(angle) * pulsing * 0.4f + distortion,
-                    -(float)Math.Abs((float)Math.Sin(angle)) * flameHeight
-                );
-
-                float scaleVariation = 0.95f + 0.05f * (float)Math.Sin(time * 15f + f * 2f);
-                Vector2 scale = new Vector2(baseScalePulse * scaleVariation);
-
-                Color flameLayerColor = new Color(
-                    (int)(textColor.R * 0.5f),
-                    (int)(textColor.G * 0.5f),
-                    (int)(textColor.B * 0.5f),
-                    (int)(textColor.A * 0.5f)
-                );
-
-                ChatManager.DrawColorCodedString(
-                    spriteBatch,
-                    font,
-                    text,
-                    new Vector2(X, Y) + offset,
-                    flameLayerColor,
-                    rotation,
-                    origin,
-                    scale
-                );
-            }
-
-            // Draw crisp center text
-            ChatManager.DrawColorCodedString(
-                spriteBatch,
-                font,
-                text,
-                new Vector2(X, Y),
-                textColor,
-                rotation,
-                origin,
-                new Vector2(baseScalePulse)
-            );
-
-            textColor.A = 255;
-
-            ChatManager.DrawColorCodedStringShadow(spriteBatch, font, text, new Vector2(X, Y), textColor * 2f, rotation, origin, baseScale);
-
-            var bloomColor = ColorTool.Rainbowing(time * 4 - 0.9f);
-
-            spriteBatch.Draw(crystalTextGlow, glowPosition, null, lightColor, rotation + MathHelper.PiOver2, new Vector2(6f, 33f),
-               new Vector2(1.6f, fontSize.X / crystalTextGlow.Height * 1.2f), SpriteEffects.None, 0f);
-
-            ChatManager.DrawColorCodedString(spriteBatch, font, text, new Vector2(X, Y), Color.Black, rotation, origin, baseScale);
-
-            // Is this a scrapped visual feature of the rarity?
-            /*int sparkleCount = Main.rand.Next((int)fontSize.X / 7, (int)fontSize.X / 5) + 1;
-            var color2 = lightColor * 1.00f;
-            color2.A = 0;
-            var sparkleOrigin = new Vector2(15f, 15f);
-            for (int i = 0; i < sparkleCount; i++)
-            {
-                var v = new Vector2(Main.rand.NextFloat(fontSize.X), Main.rand.NextFloat(fontSize.Y * 0.6f) + 1f);
-                float lifeTime = Main.GlobalTimeWrappedHourly * 4f + Main.rand.NextFloat(MathHelper.TwoPi * 7f);
-                lifeTime %= MathHelper.TwoPi * 1f;
-            }*/
+            ChatManager.DrawColorCodedString(spriteBatch, font, snippets, new(X, Y), textColor, 0, Vector2.Zero, baseScale, out _, -1, true);
 
             return;
         }

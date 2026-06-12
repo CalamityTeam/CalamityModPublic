@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Food;
+using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.FurnitureAuric;
@@ -537,7 +538,7 @@ namespace CalamityMod.World
         public static void GenerateAuricLandMines()
         {
             int landMineID = ModContent.TileType<AuricLandMineTile>();
-            int landMineChance = Main.zenithWorld ? 150 : 300;
+            int landMineChance = Main.zenithWorld ? 125 : 300;
             float maxDepth = Main.maxTilesY * (Main.zenithWorld ? 0.75f : 0.5f); // depth increased in gfb due to the evil columns that extend further downward
             for (int x = 0; x < Main.maxTilesX; x++)
             {
@@ -561,6 +562,37 @@ namespace CalamityMod.World
                         }
                     }                    
                 }
+            }
+        }
+        #endregion
+
+        #region Iron Ball
+        public static void GenerateIronBall()
+        {
+            int ballID = ModContent.TileType<IronBallPlaced>();
+            int attempts = 0;
+            int ballsPlaced = 0;
+            int worldSize = WorldGen.GetWorldSize();
+            // Same amount as Chillet
+            int maxBalls = worldSize switch
+            {
+                1 => 9,
+                2 => 12,
+                _ => 6,
+            };
+            while (attempts < 10000)
+            {
+                Point location = new Point(WorldGen.genRand.Next(100, Main.maxTilesX - 100), WorldGen.genRand.Next((int)Main.rockLayer, Main.UnderworldLayer));
+                Tile t = CalamityUtils.ParanoidTileRetrieval(location.X, location.Y);
+                Tile above = CalamityUtils.ParanoidTileRetrieval(location.X, location.Y - 1);
+                if (t.TileType == TileID.Stone && t.HasTile && !above.HasTile)
+                {
+                    WorldGen.SlopeTile(location.X, location.Y);
+                    WorldGen.PlaceTile(location.X, location.Y - 1, ballID);
+                    ballsPlaced++;
+                }
+                if (ballsPlaced >= maxBalls)
+                    break;
             }
         }
         #endregion

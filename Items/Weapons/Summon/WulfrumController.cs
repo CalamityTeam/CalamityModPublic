@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
@@ -13,11 +14,14 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
 
+        public static float PartialRegenBoostPerBuffDroid = 0.5f;
+        public static int DefenseBoostPerBuffDroid = 2;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(PartialRegenBoostPerBuffDroid.ToRegenPerSecond(), DefenseBoostPerBuffDroid);
         public override void SetDefaults()
         {
             Item.width = 28;
             Item.height = 20;
-            Item.damage = 16;
+            Item.damage = 19;
             Item.mana = 10;
             Item.useAnimation = Item.useTime = 36;
             Item.useStyle = ItemUseStyleID.HoldUp;
@@ -68,15 +72,13 @@ namespace CalamityMod.Items.Weapons.Summon
             buffingDrones = 0;
         }
 
-        public override void UpdateLifeRegen()
+        // This needs to be a fair bit earlier for partial life regen to work
+        public override void PostUpdateBuffs()
         {
             if (buffingDrones > 0)
             {
-                // 1 life regen per drone.
-                Player.lifeRegen += (int)(buffingDrones);
-
-                // 3 defense per drone.
-                Player.statDefense += buffingDrones * 3;
+                Player.Calamity().partialLifeRegen += buffingDrones * WulfrumController.PartialRegenBoostPerBuffDroid;
+                Player.statDefense += buffingDrones * WulfrumController.DefenseBoostPerBuffDroid;
 
                 buffingDrones = 0;
             }

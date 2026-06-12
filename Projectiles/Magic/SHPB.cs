@@ -266,11 +266,11 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Might launches enemies
-            if (GetSoulEffects((int)Projectile.ai[0]) == SoulType.Might && target.CanBeMoved(false))
+            if (GetSoulEffects((int)Projectile.ai[0]) == SoulType.Might && target.CanBeMoved())
             {
                 // 14NOV2024: Ozzatron: clamped mouse position unnecessary, only used for direction
                 Vector2 launchVel = Utils.DirectionTo(owner.Center, owner.Calamity().mouseWorld) - Vector2.UnitY * 5f;
-                target.MoveNPC(launchVel, SHPC.MightKnockbackStrength, false);
+                target.MoveNPC(launchVel, SHPC.MightKnockbackStrength, false, owner);
             }
         }
 

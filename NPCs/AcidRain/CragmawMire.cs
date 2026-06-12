@@ -14,7 +14,6 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -23,6 +22,7 @@ using Terraria.WorldBuilding;
 namespace CalamityMod.NPCs.AcidRain
 {
     [AutoloadBossHead]
+    [HeavyKnockbackWhitelisted]
     public class CragmawMire : ModNPC
     {
         public enum CragmawAttackState
@@ -519,13 +519,8 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            // If post-Polter, the drop rates are 10%. Otherwise they're 100%.
-            // This is accomplished by adding rules if the CONDITION "Post-Polter" fails.
-            LeadingConditionRule postPolter = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedPolterghast);
-            postPolter.Add(ModContent.ItemType<NuclearFuelRod>(), 10, hideLootReport: !DownedBossSystem.downedPolterghast);
-            postPolter.Add(ModContent.ItemType<SpentFuelContainer>(), 10, hideLootReport: !DownedBossSystem.downedPolterghast);
-            postPolter.AddFail(ModContent.ItemType<NuclearFuelRod>(), hideLootReport: DownedBossSystem.downedPolterghast);
-            postPolter.AddFail(ModContent.ItemType<SpentFuelContainer>(), hideLootReport: DownedBossSystem.downedPolterghast);
+            npcLoot.Add(ModContent.ItemType<NuclearFuelRod>());
+            npcLoot.Add(ModContent.ItemType<SpentFuelContainer>());
 
             npcLoot.Add(ModContent.ItemType<CragmawMireTrophy>(), 10);
             npcLoot.DefineConditionalDropSet(DropHelper.RevAndMaster).Add(ModContent.ItemType<CragmawMireRelic>());

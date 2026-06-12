@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -12,11 +13,16 @@ namespace CalamityMod.Items.Weapons.Rogue
     [LegacyName("DeificThunderbolt")]
     public class TwistingThunder : RogueWeapon
     {
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Electrified];
+        }
         public override void SetDefaults()
         {
             Item.width = 56;
             Item.height = 56;
             Item.damage = 466;
+            Item.crit = 12;
             Item.knockBack = 10f;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
@@ -33,8 +39,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<TwistingThunderProj>();
         }
 
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 12;
         public override float StealthVelocityMultiplier => 1.5f;
 
         public override void ModifyStatsExtra(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)

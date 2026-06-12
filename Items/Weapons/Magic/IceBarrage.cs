@@ -1,7 +1,9 @@
-﻿using CalamityMod.Items.Ammo;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -16,6 +18,10 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
         public static readonly SoundStyle CastSound = new("CalamityMod/Sounds/Item/IceBarrageCast");
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Frozen, BuffID.Frostburn2];
+        }
 
         public override void SetDefaults()
         {
@@ -23,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 60;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 180;
+            Item.mana = 300;
             Item.noMelee = true;
             Item.UseSound = CastSound;
 

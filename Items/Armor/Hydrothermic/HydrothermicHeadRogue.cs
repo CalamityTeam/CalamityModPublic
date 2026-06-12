@@ -62,7 +62,6 @@ namespace CalamityMod.Items.Armor.Hydrothermic
         {
             CreateRecipe().
                 AddIngredient<ScoriaBar>(7).
-                AddIngredient<EssenceofHavoc>().
                 AddTile(TileID.MythrilAnvil).
                 SortBeforeFirstRecipesOf(ModContent.ItemType<HydrothermicArmor>()).
                 Register();

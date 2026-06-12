@@ -327,7 +327,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemType<AerialiteBar>(), 10).
                 AddIngredient(ItemID.HellstoneBar, 10).
                 AddIngredient(ItemID.DirtBlock, 50).
-                AddIngredient(ItemID.StoneBlock, 50).
+                AddRecipeGroup("AnyStoneBlock", 50).
                 AddTile(TileID.Anvils).
                 Register();
         }

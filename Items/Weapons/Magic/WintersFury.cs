@@ -1,6 +1,7 @@
 ﻿using System;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -13,7 +14,10 @@ namespace CalamityMod.Items.Weapons.Magic
     public class WintersFury : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
-
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Frostburn2];
+        }
         public override void SetDefaults()
         {
             Item.width = 36;

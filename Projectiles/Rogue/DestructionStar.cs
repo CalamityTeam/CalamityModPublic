@@ -157,11 +157,9 @@ namespace CalamityMod.Projectiles.Rogue
             float bigExplosionDamage = 3f;
             Player Owner = Main.player[Projectile.owner];
             Particle orb = new CustomPulse(Projectile.Center, Vector2.Zero, Color.LightGreen with { A = 0 }, "CalamityMod/Particles/LargeBloom", new Vector2(1, 1), Main.rand.NextFloat(-10, 10), 0f, 0.82f * sizeBonus, 11);
-            GeneralParticleHandler.SpawnParticle(orb);
-            orb.DrawLayer = GeneralDrawLayer.AfterEverything;
+            GeneralParticleHandler.SpawnParticle(orb, false, GeneralDrawLayer.AfterEverything);
             Particle orb2 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.White, "CalamityMod/Particles/LargeBloom", new Vector2(1, 1), Main.rand.NextFloat(-10, 10), 0f, 0.74f * sizeBonus, 11);
-            GeneralParticleHandler.SpawnParticle(orb2);
-            orb2.DrawLayer = GeneralDrawLayer.AfterEverything;
+            GeneralParticleHandler.SpawnParticle(orb2, false, GeneralDrawLayer.AfterEverything);
 
 
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DestructionExplosion>(), (int)(Projectile.damage * (big ? bigExplosionDamage : Projectile.Calamity().stealthStrike ? 0.25f : 1f)), Projectile.knockBack * 1.5f, Projectile.owner);
@@ -187,16 +185,13 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             Particle bolt2 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.LightGreen, "CalamityMod/Particles/BloomRing", Vector2.One, Main.rand.NextFloat(-10f, 10f), 0f, 2.56f * 1.3f * sizeBonus, 18);
-            GeneralParticleHandler.SpawnParticle(bolt2);
-            bolt2.DrawLayer = GeneralDrawLayer.AfterEverything;
+            GeneralParticleHandler.SpawnParticle(bolt2, false, GeneralDrawLayer.AfterEverything);
 
             Particle bolt3 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.LightGreen, "CalamityMod/Particles/SoftRoundExplosion", Vector2.One, Main.rand.NextFloat(-10f, 10f), 0f, 0.3f * sizeBonus, 30);
-            GeneralParticleHandler.SpawnParticle(bolt3);
-            bolt3.DrawLayer = GeneralDrawLayer.AfterEverything;
+            GeneralParticleHandler.SpawnParticle(bolt3, false, GeneralDrawLayer.AfterEverything);
 
             Particle bolt4 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.LightGreen * 0.55f, "CalamityMod/Particles/SoftRoundExplosion", Vector2.One, Main.rand.NextFloat(-10f, 10f), 0f, 0.3f * 1.35f * sizeBonus, 30);
-            GeneralParticleHandler.SpawnParticle(bolt4);
-            bolt4.DrawLayer = GeneralDrawLayer.AfterEverything;
+            GeneralParticleHandler.SpawnParticle(bolt4, false, GeneralDrawLayer.AfterEverything);
 
             for (int i = 0; i < 2; i++)
             {

@@ -87,7 +87,26 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public const int ThirdBulletHellEndValue = BulletHellDuration * 3;
         public const int FourthBulletHellEndValue = BulletHellDuration * 4;
         public const int FifthBulletHellEndValue = BulletHellDuration * 5;
-        public const int PermafrostAbsoluteZeroDamage = 3725;
+
+        public bool FinishedBH1 => bulletHellCounter2 >= BulletHellDuration;
+        public bool FinishedBH2 => bulletHellCounter2 >= SecondBulletHellEndValue;
+        public bool FinishedBH3 => bulletHellCounter2 >= ThirdBulletHellEndValue;
+        public bool FinishedBH4 => bulletHellCounter2 >= FourthBulletHellEndValue;
+        public bool FinishedBH5 => bulletHellCounter2 >= FifthBulletHellEndValue;
+
+        public float lifeRatio = 1;
+
+        public bool IsAtHp_BH2 => lifeRatio <= 0.75f;
+        public bool IsAtHp_BH3 => lifeRatio <= 0.5f;
+        public bool IsAtHp_BH4 => lifeRatio <= 0.3f;
+        public bool IsAtHp_BH5 => lifeRatio <= 0.1f;
+        public bool IsAtHp_Acceptance => NPC.life < 2;
+
+        public bool IsAtBrothers => IsAtHp_BH3 && FinishedBH3;
+        public bool IsAtSeekers => lifeRatio <= 0.2f;
+        public bool IsAtSep2 => IsAtHp_BH5 && FinishedBH5;
+
+        public const int PermafrostAbsoluteZeroDamage = 1400;
         private const float PermafrostPhotonRipperDashVelocity = 6f;
         private const float PermafrostPhotonRipperMinDistanceFromTarget = 64f;
         private const float PermafrostPhotonRipperDashAcceleration = 0.3f;
@@ -100,20 +119,20 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public bool canDespawn = false;
         public bool despawnProj = false;
         public bool startText = false;
-        public bool startBattle = false; //100%
-        public bool hasSummonedSepulcher1 = false; //100%
-        public bool startSecondAttack = false; //80%
-        public bool startThirdAttack = false; //60%
-        public bool halfLife = false; //40%
-        public bool startFourthAttack = false; //30%
-        public bool secondStage = false; //20%
-        public bool startFifthAttack = false; //10%
-        public bool gettingTired = false; //8%
-        public bool hasSummonedSepulcher2 = false; //8%
-        public bool gettingTired2 = false; //6%
-        public bool gettingTired3 = false; //4%
-        public bool gettingTired4 = false; //2%
-        public bool gettingTired5 = false; //1%
+        public bool startBattle = false;
+        public bool hasSummonedSepulcher1 = false;
+        public bool startSecondAttack = false;
+        public bool startThirdAttack = false;
+        public bool halfLife = false;
+        public bool startFourthAttack = false;
+        public bool hasSummonedSeekers = false;
+        public bool startFifthAttack = false;
+        public bool gettingTired = false;
+        public bool hasSummonedSepulcher2 = false;
+        public bool gettingTired2 = false;
+        public bool gettingTired3 = false;
+        public bool gettingTired4 = false;
+        public bool gettingTired5 = false;
         public bool willCharge = false;
         public bool canFireSplitingFireball = true;
         public bool fireFireblastFirst = true;
@@ -145,6 +164,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public int preventionPause = 15; // Helps prevent telefragging
         public int attackPause = 0;
         public bool respawnBro = true; // Master Mode change
+        public bool teleport = false; //Used to teleport SCal to the center of the arena at the start of each bullet hell
 
         public float shieldOpacity = 1f;
         public float shieldRotation = 0f;
@@ -345,7 +365,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             writer.Write(startFourthAttack);
             writer.Write(startFifthAttack);
             writer.Write(halfLife);
-            writer.Write(secondStage);
+            writer.Write(hasSummonedSeekers);
             writer.Write(hasSummonedSepulcher2);
             writer.Write(gettingTired);
             writer.Write(gettingTired2);
@@ -397,7 +417,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             startFourthAttack = reader.ReadBoolean();
             startFifthAttack = reader.ReadBoolean();
             halfLife = reader.ReadBoolean();
-            secondStage = reader.ReadBoolean();
+            hasSummonedSeekers = reader.ReadBoolean();
             hasSummonedSepulcher2 = reader.ReadBoolean();
             gettingTired = reader.ReadBoolean();
             gettingTired2 = reader.ReadBoolean();
@@ -471,14 +491,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-            // Used for Scal's teleport at the start of brothers phase
-            bool teleport = false;
-
             // permafrost and zenith scal are mutually exclusive
             bool zenithAI = Main.zenithWorld && !permafrost;
 
             // Percent life remaining
-            float lifeRatio = NPC.life / (float)NPC.lifeMax;
+            lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             int bulletHellblast = zenithAI ? ModContent.ProjectileType<BrimstoneWave>() : ModContent.ProjectileType<BrimstoneHellblast2>();
             int barrage = ModContent.ProjectileType<BrimstoneBarrage>();
@@ -554,7 +571,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.ai[0] == 1f || NPC.ai[0] == 2f;
 
             // Make the shield and forcefield fade away in SCal's acceptance phase.
-            if (lifeRatio <= 0.01f && hasDoneDeathAnim)
+            if (IsAtHp_Acceptance && hasDoneDeathAnim)
             {
                 shieldOpacity = MathHelper.Lerp(shieldOpacity, 0f, 0.08f);
                 forcefieldScale = MathHelper.Lerp(forcefieldScale, 0f, 0.08f);
@@ -665,9 +682,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 if (cataclysmAlive || catastropheAlive)
                     baseSize *= new Vector4(0.85f, 1.33f, 0.85f, 1.33f);
-                if (lifeRatio <= 0.01f)
+                if (IsAtHp_Acceptance)
                     baseSize = (Main.zenithWorld && !permafrost) ? new Vector4(22f, 22f, 22f, 22f) : new Vector4(400f, 500f, 73f, 500f);
-                else if (Main.zenithWorld && lifeRatio <= 0.08f && !wormAlive && !permafrost) // gfb
+                else if (Main.zenithWorld && IsAtHp_BH5 && !wormAlive && !permafrost && FinishedBH5) // gfb, only after Bh5 and sep both end
                     baseSize *= MathHelper.Lerp(0.22f, 1f, lifeRatio * 12.5f); // Scale down the lower health scal has
                 return baseSize;
             }
@@ -686,12 +703,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     c = AcceptanceColor;
                     oldColor = EpiphanyColor;
                 }
-                else if (lifeRatio <= 0.3f)
+                else if (IsAtHp_BH4)
                 {
                     c = EpiphanyColor;
                     oldColor = LamentColor;
                 }
-                else if (lifeRatio <= 0.5f)
+                else if (IsAtHp_BH3)
                     c = LamentColor;
                 return c;
             }
@@ -782,7 +799,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 };
                 ArenaWallSystem.ActiveBoxes.Add(ArenaBox);
             }
-            ArenaBox.NewDimensions = Vector4.Lerp(ArenaBox.boxDimensions, GetArenaSize(), lifeRatio <= 0.01f ? 0.02f : startFourthAttack ? 0.05f : 0.1f);
+            ArenaBox.NewDimensions = Vector4.Lerp(ArenaBox.boxDimensions, GetArenaSize(), IsAtHp_Acceptance ? 0.02f : startFourthAttack ? 0.05f : 0.1f);
             var color = GetArenaColor(out Color oldColor);
             if (colorCompletion > 1.1f && color != ArenaBox.borderColor)
                 colorCompletion = 0;
@@ -939,7 +956,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region FirstAttack
-            if (bulletHellCounter2 < BulletHellDuration)
+            if (!FinishedBH1)
             {
                 despawnProj = true;
                 bulletHellCounter2++;
@@ -1020,14 +1037,24 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region SecondAttack
-            if (bulletHellCounter2 < SecondBulletHellEndValue && startSecondAttack) // Bullet hell lasts 1800
+            if (!FinishedBH2 && startSecondAttack) // Bullet hell lasts 1800
             {
                 despawnProj = true;
                 bulletHellCounter2++;
                 NPC.damage = 0;
                 NPC.chaseable = false;
                 NPC.dontTakeDamage = true;
-
+                //At the start of the bullet hell, teleport Scal to the center of the arena
+                if (!teleport)
+                {
+                    Vector2 goalPos = new Vector2(spawnX + (death ? 1000 : 1250), spawnY + (death ? 1000 : 1250)); // player.Center + new Vector2(0, -175)
+                    Dust.QuickDustLine(NPC.Center, goalPos + new Vector2(0, -20), 500f, permafrost ? Color.Cyan : Color.Red);
+                    NPC.velocity = Vector2.Zero;
+                    NPC.Center = goalPos;
+                    Particle pulse = new DirectionalPulseRing(NPC.Center, Vector2.Zero, Color.Red, new Vector2(1f, 1f), 0, 0.1f, 5f, 15);
+                    GeneralParticleHandler.SpawnParticle(pulse);
+                    teleport = true;
+                }
                 #region BulletHellEndTelegraphBH2
                 if (bulletHellCounter2 == (SecondBulletHellEndValue - 360))
                     BulletHellRumbleSlot = SoundEngine.PlaySound(BulletHellSound, player.Center);
@@ -1054,6 +1081,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     GeneralParticleHandler.SpawnParticle(pulse2);
 
                     SoundEngine.PlaySound(BulletHellEndSound, NPC.Center);
+                    //Reset the teleport bool for the next bullet hell
+                    teleport = false;
                 }
                 #endregion
 
@@ -1120,7 +1149,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return;
             }
 
-            if (!startSecondAttack && lifeRatio <= 0.75f)
+            if (!startSecondAttack && IsAtHp_BH2)
             {
                 // Bouncy Boulders
                 if (permafrost)
@@ -1151,14 +1180,24 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region ThirdAttack
-            if (bulletHellCounter2 < ThirdBulletHellEndValue && startThirdAttack)
+            if (!FinishedBH3 && startThirdAttack)
             {
                 despawnProj = true;
                 bulletHellCounter2++;
                 NPC.damage = 0;
                 NPC.chaseable = false;
                 NPC.dontTakeDamage = true;
-
+                //At the start of the bullet hell, teleport Scal to the center of the arena
+                if (!teleport)
+                {
+                    Vector2 goalPos = new Vector2(spawnX + (death ? 1000 : 1250), spawnY + (death ? 1000 : 1250)); // player.Center + new Vector2(0, -175)
+                    Dust.QuickDustLine(NPC.Center, goalPos + new Vector2(0, -20), 500f, permafrost ? Color.Cyan : Color.Red);
+                    NPC.velocity = Vector2.Zero;
+                    NPC.Center = goalPos;
+                    Particle pulse = new DirectionalPulseRing(NPC.Center, Vector2.Zero, Color.Red, new Vector2(1f, 1f), 0, 0.1f, 5f, 15);
+                    GeneralParticleHandler.SpawnParticle(pulse);
+                    teleport = true;
+                }
                 #region BulletHellEndTelegraphBH3
                 if (bulletHellCounter2 == (ThirdBulletHellEndValue - 360))
                     BulletHellRumbleSlot = SoundEngine.PlaySound(BulletHellSound, player.Center);
@@ -1185,6 +1224,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     GeneralParticleHandler.SpawnParticle(pulse2);
 
                     SoundEngine.PlaySound(BulletHellEndSound, NPC.Center);
+                    //Reset the teleport bool for the next bullet hell
+                    teleport = false;
                 }
                 #endregion
 
@@ -1245,7 +1286,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return;
             }
 
-            if (!startThirdAttack && lifeRatio <= 0.5f)
+            if (!startThirdAttack && IsAtHp_BH3)
             {
                 // Bouncy Boulders
                 if (permafrost)
@@ -1276,7 +1317,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region FourthAttack
-            if (lifeRatio <= 0.3f && musicSyncCounter > -120)
+            if (IsAtHp_BH4 && musicSyncCounter > -120)
                 musicSyncCounter--;
             if (musicSyncCounter <= 126 && musicSyncCounter > 0)
             {
@@ -1305,7 +1346,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 forcefieldPureVisualScale = 1.5f;
                 postMusicHit = true;
             }
-            if (postMusicHit && lifeRatio > 0.01f && !canDespawn && NPC.ai[1] != 2f)
+            if (postMusicHit && !IsAtHp_Acceptance && !canDespawn && NPC.ai[1] != 2f)
             {
                 forcefieldPureVisualScale = MathHelper.Lerp(forcefieldPureVisualScale, 1f, 0.095f);
                 Vector2 velOffset = new Vector2(56, 56).RotatedByRandom(100) * forcefieldPureVisualScale;
@@ -1327,13 +1368,24 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             }
 
-            if (bulletHellCounter2 < FourthBulletHellEndValue && startFourthAttack)
+            if (!FinishedBH4 && startFourthAttack)
             {
                 despawnProj = true;
                 bulletHellCounter2++;
                 NPC.damage = 0;
                 NPC.chaseable = false;
                 NPC.dontTakeDamage = true;
+                //At the start of the bullet hell, teleport Scal to the center of the arena
+                if (!teleport)
+                {
+                    Vector2 goalPos = new Vector2(spawnX + (death ? 1000 : 1250), spawnY + (death ? 1000 : 1250)); // player.Center + new Vector2(0, -175)
+                    Dust.QuickDustLine(NPC.Center, goalPos + new Vector2(0, -20), 500f, permafrost ? Color.Cyan : Color.Red);
+                    NPC.velocity = Vector2.Zero;
+                    NPC.Center = goalPos;
+                    Particle pulse = new DirectionalPulseRing(NPC.Center, Vector2.Zero, Color.Red, new Vector2(1f, 1f), 0, 0.1f, 5f, 15);
+                    GeneralParticleHandler.SpawnParticle(pulse);
+                    teleport = true;
+                }
 
                 #region BulletHellEndTelegraphBH4
                 if (bulletHellCounter2 == (FourthBulletHellEndValue - 360))
@@ -1361,6 +1413,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     GeneralParticleHandler.SpawnParticle(pulse2);
 
                     SoundEngine.PlaySound(BulletHellEndSound, NPC.Center);
+                    //Reset the teleport bool for the next bullet hell
+                    teleport = false;
                 }
                 #endregion
 
@@ -1451,7 +1505,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return;
             }
 
-            if (!startFourthAttack && lifeRatio <= 0.3f)
+            if (!startFourthAttack && IsAtHp_BH4)
             {
                 // Bouncy Boulders
                 if (permafrost)
@@ -1482,14 +1536,24 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region FifthAttack
-            if (bulletHellCounter2 < FifthBulletHellEndValue && startFifthAttack)
+            if (!FinishedBH5 && startFifthAttack)
             {
                 despawnProj = true;
                 bulletHellCounter2++;
                 NPC.damage = 0;
                 NPC.chaseable = false;
                 NPC.dontTakeDamage = true;
-
+                //At the start of the bullet hell, teleport Scal to the center of the arena
+                if (!teleport)
+                {
+                    Vector2 goalPos = new Vector2(spawnX + (death ? 1000 : 1250), spawnY + (death ? 1000 : 1250)); // player.Center + new Vector2(0, -175)
+                    Dust.QuickDustLine(NPC.Center, goalPos + new Vector2(0, -20), 500f, permafrost ? Color.Cyan : Color.Red);
+                    NPC.velocity = Vector2.Zero;
+                    NPC.Center = goalPos;
+                    Particle pulse = new DirectionalPulseRing(NPC.Center, Vector2.Zero, Color.Red, new Vector2(1f, 1f), 0, 0.1f, 5f, 15);
+                    GeneralParticleHandler.SpawnParticle(pulse);
+                    teleport = true;
+                }
                 #region BulletHellEndTelegraphBH5
                 if (bulletHellCounter2 == (FifthBulletHellEndValue - 360))
                     BulletHellRumbleSlot = SoundEngine.PlaySound(BulletHellSound, player.Center);
@@ -1516,6 +1580,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     GeneralParticleHandler.SpawnParticle(pulse2);
 
                     SoundEngine.PlaySound(BulletHellEndSound, NPC.Center);
+                    //Reset the teleport bool for the next bullet hell
+                    //Technically not needed but I wanted to be safe
+                    teleport = false;
                 }
                 #endregion
 
@@ -1598,7 +1665,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return;
             }
 
-            if (!startFifthAttack && lifeRatio <= 0.1f)
+            if (!startFifthAttack && IsAtHp_BH5)
             {
                 // Bouncy Boulders
                 if (permafrost)
@@ -1891,7 +1958,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     return;
                 }
 
-                if (!gettingTired5 && lifeRatio <= 0.01f)
+                if (!gettingTired5 && IsAtHp_Acceptance)
                 {
                     for (int x = 0; x < Main.maxProjectiles; x++)
                     {
@@ -1978,7 +2045,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     gettingTired2 = true;
                     return;
                 }
-                else if (!gettingTired && lifeRatio <= 0.08f)
+                else if (!gettingTired && IsAtSep2)
                 {
                     attackCastDelay = sepulcherSpawnCastTime;
                     for (int i = 0; i < 40; i++)
@@ -2033,7 +2100,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region TransformSeekerandBrotherTriggers
-            if (!halfLife && lifeRatio <= 0.45f && hasSummonedBrothers && (permafrost ? NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) : (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()))) == false)
+            if (!halfLife && IsAtBrothers && hasSummonedBrothers && (permafrost ? NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) : (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()))) == false)
             {
                 if (!BossRushEvent.BossRushActive)
                 {
@@ -2049,9 +2116,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 halfLife = true;
             }
 
-            if (lifeRatio <= 0.2f)
+            if (IsAtSeekers)
             {
-                if (!secondStage)
+                if (!hasSummonedSeekers)
                 {
                     if (!BossRushEvent.BossRushActive)
                     {
@@ -2094,7 +2161,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
 
                     SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, player.Center);
-                    secondStage = true;
+                    hasSummonedSeekers = true;
                 }
             }
 
@@ -2107,7 +2174,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (attackPause > 0)
                     attackPause--;
 
-                if (lifeRatio < 0.45f && !enteredBrothersPhase)
+                if (IsAtBrothers && !enteredBrothersPhase)
                 {
                     attackPause = 5;
                     if (preventionPause == 0)
@@ -2115,37 +2182,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         enteredBrothersPhase = true;
                         attackCastDelay = brothersSpawnCastTime;
                         NPC.netUpdate = true;
-                        if (!teleport)
-                        {
-                            Vector2 goalPos = new Vector2(spawnX + (death ? 1000 : 1250), spawnY + (death ? 1000 : 1250)); // player.Center + new Vector2(0, -175)
-                            Dust.QuickDustLine(NPC.Center, goalPos + new Vector2(0, -20), 500f, permafrost ? Color.Cyan : Color.Red);
-                            NPC.velocity = Vector2.Zero;
-                            NPC.Center = goalPos;
-                            Particle pulse = new DirectionalPulseRing(NPC.Center, Vector2.Zero, Color.Red, new Vector2(1f, 1f), 0, 0.1f, 5f, 15);
-                            GeneralParticleHandler.SpawnParticle(pulse);
-                            for (int x = 0; x < Main.maxProjectiles; x++)
-                            {
-                                Projectile projectile = Main.projectile[x];
-                                if (projectile.active)
-                                {
-                                    if (projectile.type == bulletHellblast ||
-                                        projectile.type == barrage ||
-                                        projectile.type == wave)
-                                    {
-                                        if (projectile.timeLeft > 60)
-                                            projectile.timeLeft = 60;
-                                    }
-                                    else if (projectile.type == fireblast || projectile.type == gigablast)
-                                    {
-                                        projectile.ai[2] = 1f;
-
-                                        if (projectile.timeLeft > 15)
-                                            projectile.timeLeft = 15;
-                                    }
-                                }
-                            }
-                            teleport = true;
-                        }
                     }
                     else
                     {
@@ -2652,8 +2688,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                 }
 
-                // Previously the 40% health threshold transition
-                if (lifeRatio <= 0.45f && hasSummonedBrothers && (permafrost ? NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) : (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()))) == false)
+                // Phase 2
+                if (IsAtBrothers && hasSummonedBrothers && (permafrost ? NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) : (NPC.AnyNPCs(ModContent.NPCType<SupremeCataclysm>()) || NPC.AnyNPCs(ModContent.NPCType<SupremeCatastrophe>()))) == false)
                 {
                     NPC.ai[0] = 1f;
                     NPC.ai[1] = 0f;
@@ -2724,13 +2760,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                 if (!canDespawn)
                 {
-                    NPC.velocity *= 0.98f;
+                    NPC.velocity *= 0f;
 
                     if (NPC.velocity.X > -0.1 && NPC.velocity.X < 0.1)
                         NPC.velocity.X = 0f;
                     if (NPC.velocity.Y > -0.1 && NPC.velocity.Y < 0.1)
                         NPC.velocity.Y = 0f;
                 }
+                FrameType = FrameAnimationType.Casting;
             }
             #endregion
             #region LastStage
@@ -3439,6 +3476,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/NPCKilled/RavagerDeath2") with { Pitch = -0.2f }, catastropheSpawnPosition);
                 hasSummonedBrothers = true;
             }
+
+            NPC.velocity *= 0f;
+            if (NPC.velocity.X > -0.1 && NPC.velocity.X < 0.1)
+                NPC.velocity.X = 0f;
+            if (NPC.velocity.Y > -0.1 && NPC.velocity.Y < 0.1)
+                NPC.velocity.Y = 0f;
+
+            FrameType = FrameAnimationType.Casting;
         }
 
         public void ConnectAllBrimstoneHearts(List<int> heartIndices)
@@ -3492,8 +3537,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public void HandleMusicVariables()
         {
-            float lifeRatio = NPC.life / (float)NPC.lifeMax;
-
             CalamityGlobalNPC.SCalGrief = -1;
             CalamityGlobalNPC.SCalLament = -1;
             CalamityGlobalNPC.SCalEpiphany = -1;
@@ -3501,9 +3544,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             if (startFifthAttack && gettingTired5 && (giveUpCounter < 1160 || hasDoneDeathAnim))
                 CalamityGlobalNPC.SCalAcceptance = NPC.whoAmI;
-            else if (lifeRatio <= 0.3f)
+            else if (IsAtHp_BH4)
                 CalamityGlobalNPC.SCalEpiphany = NPC.whoAmI;
-            else if (lifeRatio <= 0.5f)
+            else if (IsAtHp_BH3)
                 CalamityGlobalNPC.SCalLament = NPC.whoAmI;
             else
                 CalamityGlobalNPC.SCalGrief = NPC.whoAmI;
@@ -3757,7 +3800,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             //if (NPC.ai[0] >= 3f)
             //intensity *= 0.6f;
 
-            float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             if (lifeRatio < 0.05f)
                 forcefieldOpacity = 0.75f;

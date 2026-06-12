@@ -46,9 +46,5 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(ModContent.BuffType<Voidfrost>(), 180);
-        }
     }
 }

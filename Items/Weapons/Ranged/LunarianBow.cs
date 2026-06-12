@@ -48,12 +48,9 @@ namespace CalamityMod.Items.Weapons.Ranged
                     offset -= velocity;
 
                 if (CalamityUtils.CheckWoodenAmmo(type, player))
-                    Projectile.NewProjectile(spawnSource, source + offset, velocity, ModContent.ProjectileType<LunarBolt>(), damage, knockback, player.whoAmI);
-                else
-                {
-                    int proj = Projectile.NewProjectile(spawnSource, source + offset, velocity, type, damage, knockback, player.whoAmI);
-                    Main.projectile[proj].noDropItem = true;
-                }
+                    type = ModContent.ProjectileType<LunarBolt>();
+
+                Projectile.NewProjectile(spawnSource, source + offset, velocity, type, damage, knockback, player.whoAmI);
             }
             return false;
         }

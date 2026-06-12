@@ -42,7 +42,9 @@ namespace CalamityMod.Projectiles.Environment
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            if (info.Damage <= 0)
+            // CIT 23MAY2026: Vanilla's logic for granting "Burning immunity" is incredibly stupid because Player.fireWalk actually just prevents running hot tile touch code.
+            // Thus we must add a manual check for Player.fireWalk here too.
+            if (info.Damage <= 0 || target.fireWalk)
                 return;
 
             target.AddBuff(BuffID.Burning, 180);

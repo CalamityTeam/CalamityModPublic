@@ -1,6 +1,8 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -13,6 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class Penumbra : RogueWeapon
     {
         public static float ShootSpeed = 9f;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Daybroken>(), ModContent.BuffType<Nightwither>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 46;

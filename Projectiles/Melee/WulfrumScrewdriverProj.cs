@@ -62,6 +62,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
+
             if (EndLag == 0) //Initialization
             {
                 EndLag = (float)Math.Max(Owner.HeldItem.useTime - MaxTime, 1);
@@ -73,7 +74,7 @@ namespace CalamityMod.Projectiles.Melee
 
             //Manage position and rotation
             Projectile.Center = Owner.MountedCenter + OffsetFromPlayer;
-            Projectile.scale = 1f + (float)Math.Sin(LifetimeCompletion * MathHelper.Pi) * 0.2f; //SWAGGER
+            Projectile.scale = Owner.GetMeleeScale() * 1f + (float)Math.Sin(LifetimeCompletion * MathHelper.Pi) * 0.2f; //SWAGGER
 
             //Make the owner look like theyre holding the sword bla bla
             Owner.heldProj = Projectile.whoAmI;
@@ -222,7 +223,7 @@ namespace CalamityMod.Projectiles.Melee
                 Rectangle frame = new Rectangle(0, (smearTex.Height / 3) * frameCount, smearTex.Width, smearTex.Height / 3);
                 float opacity = 1 - (float)Math.Pow(LifetimeCompletion / 0.6f, 0.5f);
 
-                Main.spriteBatch.Draw(smearTex, Projectile.Center + Projectile.velocity * 67f - Main.screenPosition, frame, Color.White * opacity, Projectile.rotation, frame.Size() / 2f, 0.9f, 0, 0);
+                Main.spriteBatch.Draw(smearTex, Projectile.Center + Projectile.velocity * 67f * Projectile.scale - Main.screenPosition, frame, Color.White * opacity, Projectile.rotation, frame.Size() / 2f, 0.9f * Projectile.scale, 0, 0);
             }
             return false;
         }

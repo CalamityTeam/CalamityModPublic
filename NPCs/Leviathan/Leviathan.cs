@@ -218,16 +218,6 @@ namespace CalamityMod.NPCs.Leviathan
 
             NPC.dontTakeDamage = spawnAnimation;
 
-            // Adjust slowing debuff immunity
-            bool immuneToSlowingDebuffs = NPC.ai[0] == 2f;
-            NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<GalvanicCorrosion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
-
             // Despawn
             if (!player.active || player.dead || Vector2.Distance(player.Center, npcCenter) > 5600f)
             {

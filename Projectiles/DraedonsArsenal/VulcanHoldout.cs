@@ -40,6 +40,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public int spearFakeCooldown = 0;
 
 
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            Projectile.DamageType = DamageClass.Magic;
+        }
+
         public override void KillHoldoutLogic()
         {
 

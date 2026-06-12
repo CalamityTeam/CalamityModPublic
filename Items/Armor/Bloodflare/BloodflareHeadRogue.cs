@@ -16,7 +16,8 @@ namespace CalamityMod.Items.Armor.Bloodflare
         public static float RogueDamageBoost = 0.15f;
         public static int RogueCritBoost = 10;
         public static float MoveSpeedBoost = 0.05f;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(RogueDamageBoost.ToPercent(), RogueCritBoost, MoveSpeedBoost.ToPercent());
+        public static int RegenBonus = 4;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(RogueDamageBoost.ToPercent(), RogueCritBoost, MoveSpeedBoost.ToPercent(),RegenBonus.ToRegenPerSecond());
 
         // Set Bonus
         public static float SetBonusRogueStealth = 1.2f;
@@ -44,7 +45,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
             modPlayer.rogueStealthMax += SetBonusRogueStealth;
             modPlayer.wearingRogueArmor = true;
             player.setBonus = this.GetLocalization("SetBonus").Format(SetBonusRogueStealth.ToStealth(), DefenseBoostAboveHealthThreshold, DefenseBoostHealthThreshold.ToPercent());
-            player.crimsonRegen = true;
         }
 
         public override void UpdateEquip(Player player)
@@ -52,6 +52,7 @@ namespace CalamityMod.Items.Armor.Bloodflare
             player.GetDamage<ThrowingDamageClass>() += RogueDamageBoost;
             player.GetCritChance<ThrowingDamageClass>() += RogueCritBoost;
             player.moveSpeed += MoveSpeedBoost;
+            player.lifeRegen += RegenBonus;
         }
 
         public override void AddRecipes()

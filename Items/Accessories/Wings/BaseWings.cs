@@ -2,10 +2,13 @@
 using System.Linq;
 using System.Text;
 using CalamityMod.Balancing;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -86,26 +89,173 @@ namespace CalamityMod.Items.Accessories.Wings
             float baseJumpSpeed = (CalamityServerConfig.Instance.FasterJumpSpeed ? BalancingConstants.ConfigBoostedBaseJumpSpeed : 5.01f) + 1f;
             StringBuilder sb = new StringBuilder(512);
             sb.Append('\n');
-            sb.Append(CalamityUtils.GetText($"Common.WingStats").Format(time.FramesToSeconds(), run.ToMph(), (MaxAscentSpeed * baseJumpSpeed).ToMph()));
-            sb.Append('\n');
             if (Main.keyState.PressingShift())
             {
-                sb.Append(CalamityUtils.GetText($"Common.WingStatsAcceleration").Format(rAcc.ToMphps(), BaseAscent.ToMphps(),
+                sb.Append(GetText($"Common.WingStatsFull").Format(time.FramesToSeconds(),
+                HorizontalSpeedText(run), run.ToMph(),
+                VerticalSpeedText(MaxAscentSpeed), (MaxAscentSpeed * baseJumpSpeed).ToMph(),
+                HorizontalAccelerationText(stats.AccRunAccelerationMult), rAcc.ToMphps(),
+                VerticalAccelerationText(BaseAscent), BaseAscent.ToMphps(),
                 (BaseAscent + BonusAscentWhileRising).ToMphps(), (RisingSpeedThreshold * baseJumpSpeed).ToMph(),
                 (BaseAscent + BonusAscentWhileFalling).ToMphps()));
                 if (hover)
                 {
                     sb.Append('\n');
-                    sb.Append(CalamityUtils.GetText($"Common.WingStatsHover").Format(hSpeed.ToMph(), hAcc.ToMphps()));
+                    sb.Append(GetText($"Common.WingStatsHover").Format(hSpeed.ToMph(), hAcc.ToMphps()));
                 }
             }
             else
-                sb.Append($"[c/B8B8B8:{CalamityUtils.GetTextValue("UI.HoldShiftTooltipExtensionIndicator")}]");
+            {
+                sb.Append(GetText($"Common.WingStats").Format(time.FramesToSeconds(), HorizontalSpeedText(run), VerticalSpeedText(MaxAscentSpeed),
+                HorizontalAccelerationText(stats.AccRunAccelerationMult), VerticalAccelerationText(BaseAscent)));
+                sb.Append('\n');
+                sb.Append($"[c/B8B8B8:{GetTextValue("UI.HoldShiftTooltipExtensionIndicator")}]");                
+            }
 
             // Add stats below the common "Allows flight" line
-            var wingTooltip = list.FirstOrDefault(x => x.Name == "Tooltip0" && x.Mod == "Terraria");
+            TooltipLine wingTooltip = list.FirstOrDefault(x => x.Text == Language.GetTextValue("CommonItemTooltip.FlightAndSlowfall") && x.Mod == "Terraria");
             if (wingTooltip != null)
                 wingTooltip.Text += sb.ToString();
+        }
+
+        public static string HorizontalSpeedText(float speed)
+        {
+            string key = "Average";
+            Vector3 hsl = new Vector3(0.167f, 0.65f, 0.61f);
+            if (speed > 9f)
+            {
+                key = "Excellent";
+                hsl.X = 0.334f;
+                hsl.Y = 1f;
+            }
+            else if (speed >= 8f)
+            {
+                key = "Great";
+                hsl.X = 0.334f;
+            }
+            else if (speed >= 7f)
+            {
+                key = "Good";
+                hsl.X = 0.334f;
+                hsl.Y = 0.35f;
+            }
+            else if (speed <= 3f)
+            {
+                key = "Awful";
+                hsl.X = 0f;
+            }
+            else if (speed <= 6f)
+            {
+                key = "Poor";
+                hsl.X = 0f;
+                hsl.Y = 0.35f;
+            }
+            return $"[c/{Main.hslToRgb(hsl).Hex3()}:{GetTextValue($"Common.Stats{key}")}]";
+        }
+
+        public static string VerticalSpeedText(float speed)
+        {
+            string key = "Average";
+            Vector3 hsl = new Vector3(0.167f, 0.65f, 0.61f);
+            if (speed > 2.5f)
+            {
+                key = "Excellent";
+                hsl.X = 0.334f;
+                hsl.Y = 1f;
+            }
+            else if (speed >= 2f)
+            {
+                key = "Great";
+                hsl.X = 0.334f;
+            }
+            else if (speed >= 1.65f)
+            {
+                key = "Good";
+                hsl.X = 0.334f;
+                hsl.Y = 0.35f;
+            }
+            else if (speed <= 1f)
+            {
+                key = "Awful";
+                hsl.X = 0f;
+            }
+            else if (speed <= 1.35f)
+            {
+                key = "Poor";
+                hsl.X = 0f;
+                hsl.Y = 0.35f;
+            }
+            return $"[c/{Main.hslToRgb(hsl).Hex3()}:{GetTextValue($"Common.Stats{key}")}]";
+        }
+
+        public static string HorizontalAccelerationText(float acc)
+        {
+            string key = "Average";
+            Vector3 hsl = new Vector3(0.167f, 0.65f, 0.61f);
+            if (acc > 2.5f)
+            {
+                key = "Excellent";
+                hsl.X = 0.334f;
+                hsl.Y = 1f;
+            }
+            else if (acc >= 2f)
+            {
+                key = "Great";
+                hsl.X = 0.334f;
+            }
+            else if (acc >= 1.25f)
+            {
+                key = "Good";
+                hsl.X = 0.334f;
+                hsl.Y = 0.35f;
+            }
+            else if (acc <= 0.5f)
+            {
+                key = "Awful";
+                hsl.X = 0f;
+            }
+            else if (acc <= 0.75f)
+            {
+                key = "Poor";
+                hsl.X = 0f;
+                hsl.Y = 0.35f;
+            }
+            return $"[c/{Main.hslToRgb(hsl).Hex3()}:{GetTextValue($"Common.Stats{key}")}]";
+        }
+
+        public static string VerticalAccelerationText(float acc)
+        {
+            string key = "Average";
+            Vector3 hsl = new Vector3(0.167f, 0.65f, 0.61f);
+            if (acc > 0.2f)
+            {
+                key = "Excellent";
+                hsl.X = 0.334f;
+                hsl.Y = 1f;
+            }
+            else if (acc >= 0.135f)
+            {
+                key = "Great";
+                hsl.X = 0.334f;
+            }
+            else if (acc >= 0.11f)
+            {
+                key = "Good";
+                hsl.X = 0.334f;
+                hsl.Y = 0.35f;
+            }
+            else if (acc <= 0.05f)
+            {
+                key = "Awful";
+                hsl.X = 0f;
+            }
+            else if (acc <= 0.09f)
+            {
+                key = "Poor";
+                hsl.X = 0f;
+                hsl.Y = 0.35f;
+            }
+            return $"[c/{Main.hslToRgb(hsl).Hex3()}:{GetTextValue($"Common.Stats{key}")}]";
         }
     }
 }

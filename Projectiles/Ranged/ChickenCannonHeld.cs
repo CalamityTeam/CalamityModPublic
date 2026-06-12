@@ -30,6 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.ignoreWater = true;
         }
 

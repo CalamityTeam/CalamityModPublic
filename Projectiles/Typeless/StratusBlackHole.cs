@@ -34,6 +34,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.Opacity = 0;
+            Projectile.ContinuouslyUpdateDamageStats = true;
         }
 
         public override void AI()

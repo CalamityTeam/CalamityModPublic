@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             Item.width = 44;
             Item.height = 108;
-            Item.rare = ModContent.RarityType<BurnishedAuric>();
+            Item.rare = ModContent.RarityType<CalamityRed>();
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             Item.accessory = true;
             Item.expert = true;

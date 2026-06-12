@@ -54,7 +54,6 @@ CosmicPlushie: {
 	Tooltip:
 		'''
 		Summons the devourer of the cosmos...?
-		Suppresses friendly red devils
 		'Sharp objects possibly included'
 		'''
 }
@@ -104,6 +103,16 @@ HermitsBoxofOneHundredMedicines: {
 		'As the ice melts in the springs
 		And waves wash the old moss' hair...
 		Thank you, Goodbye'
+		'''
+}
+
+IronBall: {
+	DisplayName: Iron Ball
+	Tooltip:
+		'''
+		Summons a living iron ball
+		<left> the pet to pet it
+		<right> the pet to have it sit on your shoulder
 		'''
 }
 
@@ -164,6 +173,11 @@ RomajedaOrchid: {
 RottingEyeball: {
 	DisplayName: Rotting Eyeball
 	Tooltip: Summons a corrupted conglomeration
+}
+
+StarSwallowerUnit: {
+	DisplayName: Star Swallower Unit
+	Tooltip: Summons a biomechanical frog
 }
 
 StrangeOrb: {

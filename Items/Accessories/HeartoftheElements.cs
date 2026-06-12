@@ -1,6 +1,8 @@
-﻿using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -20,6 +22,7 @@ namespace CalamityMod.Items.Accessories
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 8));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<BrimstoneFlames>(), ModContent.BuffType<WindChilled>(), BuffID.Confused];
         }
 
         public override void SetDefaults()
@@ -34,7 +37,7 @@ namespace CalamityMod.Items.Accessories
         public override bool CanEquipAccessory(Player player, int slot, bool modded)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.brimElemental || modPlayer.sandElemental || modPlayer.rareSandElemental || modPlayer.cloudElemental || modPlayer.waterElemental)
+            if (modPlayer.brimElemental || modPlayer.sandElemental || modPlayer.oasisElemental || modPlayer.cloudElemental || modPlayer.waterElemental)
             {
                 return false;
             }
@@ -177,7 +180,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<ElementalinaBottle>().
-                AddIngredient<RareElementalinaBottle>().
+                AddIngredient<OasisElementalinaBottle>().
                 AddIngredient<PearlofEnthrallment>().
                 AddIngredient<EyeoftheStorm>().
                 AddIngredient<RoseStone>().

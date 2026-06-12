@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -11,7 +12,10 @@ namespace CalamityMod.Items.Accessories
         public new string LocalizationCategory => "Items.Accessories";
         public static int ShitBaseDamage = 57;
         public static int TornadoBaseDamage = 210;
-
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Dragonfire>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 32;

@@ -430,29 +430,27 @@ namespace CalamityMod.World
         #region Ice Shrine
         public static void FillIceShrineChest(Chest chest)
         {
-            int foodType = Utils.SelectRandom(WorldGen.genRand, ItemID.ChristmasPudding, ItemID.SugarCookie, ItemID.GingerbreadCookie);
             List<ChestItem> contents = new List<ChestItem>()
             {
-                new ChestItem(ItemType<TundraLeash>(), 1),
+                new ChestItem(ItemType<FrozenCube>(), 1),
                 new ChestItem(ItemID.FlinxFur, WorldGen.genRand.Next(6, 8 + 1)),
                 new ChestItem(ItemID.FrozenKey, 1),
                 new ChestItem(ItemID.IceTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(8, 10 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(10, 12 + 1)),
-                new ChestItem(foodType, WorldGen.genRand.Next(10, 12 + 1)),
+                new ChestItem(ItemID.IceCream, WorldGen.genRand.Next(10, 12 + 1)),
             };
 
             if (Main.zenithWorld)
             {
                 contents = new List<ChestItem>()
             {
-                new ChestItem(ItemType<TundraLeash>(), 1),
+                new ChestItem(ItemType<FrozenCube>(), 1),
                 new ChestItem(ItemID.FlinxFur, WorldGen.genRand.Next(6, 8 + 1)),
                 new ChestItem(ItemID.FrozenKey, 1),
                 new ChestItem(ItemID.IceTorch, WorldGen.genRand.Next(100, 110 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(8, 10 + 1)),
                 new ChestItem(ItemID.Eggnog, WorldGen.genRand.Next(10, 12 + 1)),
-                new ChestItem(ItemType<DeliciousMeat>(), WorldGen.genRand.Next(200, 349 + 1)),
                 new ChestItem(Main.rand.NextBool() ? ItemID.GasTrap : ItemID.Marshmallow, 1)
             };
             }

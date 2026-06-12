@@ -10,12 +10,16 @@ AstralBreastplate: {
 
 AstralHelm: {
 	DisplayName: Astral Helm
-	Tooltip: "{$CommonItemTooltip.PercentIncreasedDamage} and {$CommonItemTooltip.PercentIncreasedCritChance@1}"
+	Tooltip:
+		'''
+		{$CommonItemTooltip.PercentIncreasedDamage} and {$CommonItemTooltip.PercentIncreasedCritChance@1}
+		Detects nearby creatures, enemy projectiles, danger sources, and treasure
+		[c/aaaaaa:Shift-<right> in your inventory to toggle the] [cbuffplr:CalamityMod/Omniscience] [c/aaaaaa:effect]
+		'''
 	SetBonus:
 		'''
 		{$CommonItemTooltip.IncreasesMaxMinionsBy}
 		{$CommonItemTooltip.PercentIncreasedDamageCritChance@1}
-		Detects nearby creatures, enemy projectiles, danger sources, and treasure
 		Whenever you crit an enemy, a barrage of stars will rain down
 		This effect has a {2} {^2:second;seconds} cooldown before it can trigger again
 		'''
@@ -45,7 +49,7 @@ BrimflameCowl: {
 		'''
 		{$CommonItemTooltip.IncreasesMaxManaBy} and {$CommonItemTooltip.PercentReducedManaCost@1}
 		{$CommonItemTooltip.PercentIncreasedMagicDamageCritChance@2}
-		Immunity to [cbuff:OnFire], [cbuff:CalamityMod/BrimstoneFlames] and [cbuff:Frostburn]
+		Immunity to [cbuffplr:OnFire], [cbuffplr:CalamityMod/BrimstoneFlames] and [cbuffplr:Frostburn]
 		'''
 	SetBonus:
 		'''
@@ -197,7 +201,7 @@ HydrothermicArmor: {
 	Tooltip:
 		'''
 		{$CommonItemTooltip.PercentIncreasedDamage}
-		Grants immunity to lava and [cbuff:OnFire]
+		Grants immunity to lava and [cbuffplr:OnFire]
 		'''
 	CommonSetBonus:
 		'''
@@ -346,7 +350,7 @@ MolluskShellmet: {
 	SetBonus:
 		'''
 		{0}% increased damage reduction
-		Two shellfishes aid you in combat
+		Two shellfishes aid you in combat, inflicting [cbuff:CalamityMod/ShellfishClaps]
 		'''
 }
 
@@ -365,7 +369,7 @@ PlaguebringerCarapace: {
 		'''
 		{$CommonItemTooltip.IncreasesMaxMinionsBy}
 		{$CommonItemTooltip.PercentIncreasedSummonDamage@1}
-		Grants immunity to [cbuff:CalamityMod/Plague]
+		Grants immunity to [cbuffplr:CalamityMod/Plague]
 		'''
 }
 
@@ -425,7 +429,7 @@ PlagueReaperVest: {
 	Tooltip:
 		'''
 		{$CommonItemTooltip.PercentIncreasedRangedDamage}
-		Grants immunity to the Plague
+		Grants immunity to [cbuffplr:CalamityMod/Plague]
 		'''
 }
 
@@ -472,7 +476,7 @@ ReaverHeadTank: {
 		{$Common.AggroBoost}
 		Reduces the life regen lost from damage over time debuffs by {0}%
 		{1}% decreased movement speed and flight time
-		Grants [cbuff:CalamityMod/ReaverRage] for {2} {^2:second;seconds} after taking damage
+		Grants [cbuffplr:CalamityMod/ReaverRage] for {2} {^2:second;seconds} after taking damage
 		'''
 }
 

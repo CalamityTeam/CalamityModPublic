@@ -43,6 +43,12 @@ namespace CalamityMod.Systems
                 // For these layers, InterfaceScaleType.Game tells the game that this UI should take zoom into account.
                 // These must be separate layers or they will malfunction when hovering one at non-100% zoom.
 
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Fish Stocks", () =>
+                {
+                    FishStocksUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Charging Station UI", () =>
                 {
                     ChargingStationUI.Draw(Main.spriteBatch);

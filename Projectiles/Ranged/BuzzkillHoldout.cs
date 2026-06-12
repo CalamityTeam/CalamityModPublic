@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Ranged
                     int sawLevel = (SawPower >= 1f).ToInt() + (SawPower >= 0.25f).ToInt();
                     if (Main.myPlayer == Projectile.owner)
                     {
-                        float sawDamageMult = MathHelper.Lerp(1f, 5f, SawPower) / 1.5f; // The damage must be divided by 1.5 to offset the holdout having 1.5x base damage.
+                        float sawDamageMult = MathHelper.Lerp(1f, 5f, SawPower);
                         int sawPierce = (int)MathHelper.Lerp(2f, 6f, SawPower);
 
                         Projectile buzzsaw = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), GunTipPosition, Projectile.velocity.SafeNormalize(Vector2.UnitY) * Owner.HeldItem.shootSpeed, ModContent.ProjectileType<BuzzkillSaw>(), (int)(Projectile.damage * sawDamageMult), (int)(Projectile.knockBack * (sawDamageMult / 2)), Main.myPlayer, sawLevel);
@@ -179,12 +179,15 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         // The holdout can deal damage; you're literally spinning up a buzzsaw at the end, after all.
-        public override bool? CanDamage() => !NoSawOnHoldout;
+        public override bool? CanDamage() => !NoSawOnHoldout && Time % Projectile.localNPCHitCooldown == 0;
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<HeavyBleeding>(), 240);
             SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/SwiftSlice") { Volume = 0.7f }, GunTipPosition);
+
+            if (damageDone > 2 && !target.Calamity().IsArmored())
+                Projectile.damage = (int)(Projectile.damage * 0.8f);
 
             int SawLevel = (Time / ChargeupTime >= 1f).ToInt() + (Time / ChargeupTime >= 0.25f).ToInt();
             int bloodCount = 4 + 3 * SawLevel;

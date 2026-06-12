@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     public class ChaosStone : ModItem, ILocalizedModType
     {
         public static float LostRegenPer100Mana => 8;
-        public static float DamageMultPer100Mana => 0.04f;
+        public static float DamageMultPer100Mana => 0.05f;
         public new string LocalizationCategory => "Items.Accessories";
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {

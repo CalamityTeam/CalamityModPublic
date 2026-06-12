@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             // Launch
             Vector2 launchVel = Utils.DirectionTo(Projectile.Center, target.Center);
-            target.MoveNPC(launchVel, 6, true);
+            target.MoveNPC(launchVel, 6, true, Owner);
 
             MakeBlast(target.whoAmI, true);
         }

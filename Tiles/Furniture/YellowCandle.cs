@@ -62,7 +62,7 @@ namespace CalamityMod.Tiles.Furniture
             frameCounter++;
             if (frameCounter >= 6)
             {
-                frame = (frame + 1) % 5;
+                frame = (frame + 1) % 10;
                 frameCounter = 0;
             }
         }

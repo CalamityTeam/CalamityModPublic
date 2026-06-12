@@ -126,8 +126,7 @@ namespace CalamityMod.Projectiles.Ranged
                             randNormalize = -Vector2.UnitY;
                         }
                         Vector2 projRandomPos = playerRotate + Utils.RandomVector2(Main.rand, -15f, 15f);
-                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), projRandomPos.X, projRandomPos.Y, randNormalize.X, randNormalize.Y, ammoType, weaponDamage2, weaponKnockback2, Projectile.owner, 0f, 0f);
-                        Main.projectile[proj].noDropItem = true;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), projRandomPos.X, projRandomPos.Y, randNormalize.X, randNormalize.Y, ammoType, weaponDamage2, weaponKnockback2, Projectile.owner);
                     }
                     Vector2 daemonNormalize = Vector2.Normalize(Projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
                     if (float.IsNaN(daemonNormalize.X) || float.IsNaN(daemonNormalize.Y))
@@ -136,7 +135,7 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     float speedY = daemonNormalize.Y;
                     Vector2 daemonRandomPos = playerRotate + Utils.RandomVector2(Main.rand, -15f, 15f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), daemonRandomPos.X, daemonRandomPos.Y, daemonNormalize.X, daemonNormalize.Y, ModContent.ProjectileType<DaemonsFlameArrow>(), weaponDamage2, weaponKnockback2, Projectile.owner, 0.0f, speedY);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), daemonRandomPos.X, daemonRandomPos.Y, daemonNormalize.X, daemonNormalize.Y, ModContent.ProjectileType<DaemonsFlameArrow>(), weaponDamage2, weaponKnockback2, Projectile.owner, 0f, speedY);
                 }
                 else
                 {

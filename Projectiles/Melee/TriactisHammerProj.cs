@@ -124,8 +124,6 @@ namespace CalamityMod.Projectiles.Melee
                                 Particle sparkle = new CritSpark(Projectile.Center, velocity, Color.White, currentColor, 1f * scale, 24, 0.1f, 2.5f * scale);
                                 GeneralParticleHandler.SpawnParticle(sparkle);
                             }
-                            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, currentColor, Vector2.One, 0f, 0.1f, 0.8f, 10);
-                            GeneralParticleHandler.SpawnParticle(pulse);                            
                         }
 
                         if (OrbitRadius > 792f)

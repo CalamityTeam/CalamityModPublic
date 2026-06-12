@@ -26,7 +26,14 @@ namespace CalamityMod.Cooldowns
         {
             switch (skin)
             {
-                case "Bloodfeast":
+                case "Nanotech":
+                    skinTexture = "NanotechBoost";
+                    outlineColor = new Color(14, 103, 129);
+                    cooldownColorStart = new Color(85, 252, 229);
+                    cooldownColorEnd = new Color(52,255,171);
+                    break;
+
+                case "Vampiric":
                     skinTexture = "VampiricTalismanBoost";
                     outlineColor = new Color(143, 27, 27);
                     cooldownColorStart = new Color(133, 5, 5);

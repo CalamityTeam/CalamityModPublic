@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs;
@@ -22,11 +23,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<Earth>();
         public override string Texture => "CalamityMod/Items/Weapons/Melee/Earth";
-        public override float HitboxOutset => 135;
-        public override Vector2 HitboxSize => new Vector2(288, 288) * (1 + bladeFade * 1.2f);
+        public int size = 186 + 30;
+        public override float HitboxOutset => size * 0.85f;
+        public override Vector2 HitboxSize => new Vector2(size, size) * (1 + bladeFade * 1.25f);
+        public override Vector2 SpriteOrigin => new(0, size - 30);
         public override float HitboxRotationOffset => MathHelper.ToRadians(-45);
 
-        public override Vector2 SpriteOrigin => new(0, 186f);
         public Vector2 mousePos;
         public Vector2 aimVel;
         public bool doSwing = true;
@@ -52,7 +54,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void WhenSpawned()
         {
             Projectile.knockBack = 0;
-            Projectile.scale = 1;
             Projectile.ai[1] = 1;
 
             // 14NOV2024: Ozzatron: clamped mouse position unnecessary, it does not influence Earth's projectile spawning
@@ -195,22 +196,21 @@ namespace CalamityMod.Projectiles.Melee
                         for (int i = 0; i < 2; i++)
                         {
                             Vector2 particleVel = new Vector2(0, 10 * -Projectile.ai[1] * Owner.direction).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
-                            Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(30, (int)(170 * (1 + bladeFade * 0.6f))), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)));
-                            GeneralParticleHandler.SpawnParticle(new GlowSparkParticle(particlePos, -particleVel.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.75f, 0.9f), false, 14, Main.rand.NextFloat(0.06f, 0.03f), mainColor, new Vector2(1.3f, 0.2f), true, false, 0.55f));
+                            Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(30, (int)(170 * (1 + bladeFade * 0.6f))), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45))) * Projectile.scale;
+                            GeneralParticleHandler.SpawnParticle(new GlowSparkParticle(particlePos, -particleVel.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.75f, 0.9f), false, 14, Main.rand.NextFloat(0.06f, 0.03f) * Projectile.scale, mainColor, new Vector2(1.3f, 0.2f), true, false, 0.55f));
                         }
                         for (int i = 0; i < 6; i++)
                         {
                             Vector2 particleVel = new Vector2(0, 10 * -Projectile.ai[1] * Owner.direction).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
-                            Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(30, (int)(270 * (1 + bladeFade * 0.6f))), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)));
+                            Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(30, (int)(270 * (1 + bladeFade * 0.6f))), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45))) * Projectile.scale;
                             if (Main.rand.NextBool(3))
                             {
-                                Particle sparker = new CustomSpark(particlePos + Main.rand.NextVector2Circular(15, 15), -particleVel * Main.rand.NextFloat(0.4f, 0.8f), "CalamityMod/Particles/Sparkle", false, 30, Main.rand.NextFloat(1.2f, 2.2f), mainColor, new Vector2(0.4f, Main.rand.NextFloat(0.9f, 1.4f)), true, true);
+                                Particle sparker = new CustomSpark(particlePos + Main.rand.NextVector2Circular(15, 15), -particleVel * Main.rand.NextFloat(0.4f, 0.8f), "CalamityMod/Particles/Sparkle", false, 30, Main.rand.NextFloat(1.2f, 2.2f) * Projectile.scale, mainColor, new Vector2(0.4f, Main.rand.NextFloat(0.9f, 1.4f)), true, true);
                                 GeneralParticleHandler.SpawnParticle(sparker);
                             }
                             else
                             {
-                                GeneralParticleHandler.SpawnParticle(new CustomSpark(particlePos, -particleVel.RotatedByRandom(0.2f) * 2, "CalamityMod/Particles/LargeBloom", false, Main.rand.Next(7, 9 + 1), Main.rand.NextFloat(0.3f, 0.35f), mainColor * 0.65f, new Vector2(1f, 1.2f), true, false, 0, false, false, 0.45f));
-                                //GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(particlePos, -particleVel.RotatedByRandom(0.2f) * 2, mainColor, 23, Main.rand.NextFloat(0.5f, 1f), 0.65f, Main.rand.NextFloat(-0.1f, 0.1f), true));
+                                GeneralParticleHandler.SpawnParticle(new CustomSpark(particlePos, -particleVel.RotatedByRandom(0.2f) * 2, "CalamityMod/Particles/LargeBloom", false, Main.rand.Next(7, 9 + 1), Main.rand.NextFloat(0.3f, 0.35f) * Projectile.scale, mainColor * 0.65f, new Vector2(1f, 1.2f), true, false, 0, false, false, 0.45f));
                             }
                         }
                     }
@@ -237,10 +237,10 @@ namespace CalamityMod.Projectiles.Melee
                             float randRot = Main.rand.NextFloat(-30, -60);
                             Vector2 dustVel = (new Vector2(0, 10 * -Projectile.ai[1] * Owner.direction)).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot));
 
-                            GenericSparkle sparker = new GenericSparkle(Owner.Center + (new Vector2(270 * (1 + bladeFade * 0.6f), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), Vector2.Zero, Color.White, mainColor, Main.rand.NextFloat(0.5f, 0.7f), 11, Main.rand.NextFloat(-0.1f, 0.1f), 2.68f);
+                            GenericSparkle sparker = new GenericSparkle(Owner.Center + (new Vector2(270 * (1 + bladeFade * 0.6f), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)) * Projectile.scale, Vector2.Zero, Color.White, mainColor, Main.rand.NextFloat(0.5f, 0.7f) * Projectile.scale, 11, Main.rand.NextFloat(-0.1f, 0.1f), 2.68f);
                             GeneralParticleHandler.SpawnParticle(sparker);
 
-                            Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(270 * (1 + bladeFade * 0.6f), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), DustID.FireworksRGB, dustVel);
+                            Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(270 * (1 + bladeFade * 0.6f), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)) * Projectile.scale, DustID.FireworksRGB, dustVel);
                             dust2.scale = Main.rand.NextFloat(0.65f, 1.05f);
                             dust2.noGravity = true;
                             dust2.color = Color.Lerp(Color.White, mainColor, 0.5f);
@@ -261,7 +261,7 @@ namespace CalamityMod.Projectiles.Melee
                 armoredHits++;
 
             Vector2 launchVel = (Projectile.ai[1] != 1 ? Utils.DirectionTo(Owner.Center, Owner.Calamity().mouseWorld) : Utils.DirectionTo(Owner.Center, target.Center));
-            target.MoveNPC(launchVel, 37, true);
+            target.MoveNPC(launchVel, 37, true, Owner);
 
             if (spawnBoom)
             {
@@ -294,7 +294,8 @@ namespace CalamityMod.Projectiles.Melee
                     else
                         spawnSpot = chosenTarget.Center + new Vector2(Main.rand.NextFloat(-450, 450), Main.rand.NextFloat(-450, -650));
 
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<EarthMeteor>(), (int)(Projectile.damage * 1.2f), Projectile.knockBack, Projectile.owner, 0, chosenTarget == null ? 0 : chosenTarget.whoAmI, 2);
+                    Projectile meteor = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<EarthMeteor>(), (int)(Projectile.damage * 1.2f), Projectile.knockBack, Projectile.owner, 0, chosenTarget == null ? 0 : chosenTarget.whoAmI, 2);
+                    meteor.scale = Projectile.scale;
                 }
 
                 spawnBoom = false;
@@ -349,7 +350,6 @@ namespace CalamityMod.Projectiles.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             // Only draw the projectile if the projectile's owner is currently using the item this projectile is attached to.
-            float spriteMult = 1.13f;
             if ((useAnim > 0 || DrawUnconditionally) && Owner.ItemAnimationActive)
             {
                 Asset<Texture2D> tex = ModContent.Request<Texture2D>(Texture);
@@ -370,26 +370,27 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     if (swingCount % 2 != 0)
                     {
-                        Main.EntitySpriteDraw(swoosh.Value, Projectile.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY), null, mainColor with { A = 0 } * fadeIn * 0.9f, (FinalRotation + MathHelper.ToRadians(45)) + MathHelper.ToRadians(swingCount % 2 != 0 ? -80 : 80) * -Owner.direction, swoosh.Size() * 0.5f, spriteMult * Projectile.scale * 3.15f / 4, SpriteEffects.None);
-                        Main.EntitySpriteDraw(swoosh.Value, Projectile.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY), null, mainColor with { A = 0 } * fadeIn * 0.9f, (FinalRotation + MathHelper.ToRadians(45)) + MathHelper.ToRadians(swingCount % 2 != 0 ? -80 : 80) * -Owner.direction, swoosh.Size() * 0.5f, spriteMult * Projectile.scale * 3.15f / 4, SpriteEffects.FlipVertically);
+                        Main.EntitySpriteDraw(swoosh.Value, Projectile.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY), null, mainColor with { A = 0 } * fadeIn * 0.9f, (FinalRotation + MathHelper.ToRadians(45)) + MathHelper.ToRadians(swingCount % 2 != 0 ? -80 : 80) * -Owner.direction, swoosh.Size() * 0.5f, Projectile.scale * 0.89f, SpriteEffects.None);
+                        Main.EntitySpriteDraw(swoosh.Value, Projectile.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY), null, mainColor with { A = 0 } * fadeIn * 0.9f, (FinalRotation + MathHelper.ToRadians(45)) + MathHelper.ToRadians(swingCount % 2 != 0 ? -80 : 80) * -Owner.direction, swoosh.Size() * 0.5f, Projectile.scale * 0.89f, SpriteEffects.FlipVertically);
                     }
                     else
-                        Main.EntitySpriteDraw(swoosh.Value, Projectile.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY), null, mainColor with { A = 0 } * fadeIn * 0.9f, (FinalRotation + MathHelper.ToRadians(45)) + MathHelper.ToRadians(swingCount % 2 != 0 ? -85 : 85) * -Owner.direction, swoosh.Size() * 0.5f, spriteMult * Projectile.scale * 3.15f * 1.6f / 4, SpriteEffects.None);
+                        Main.EntitySpriteDraw(swoosh.Value, Projectile.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY), null, mainColor with { A = 0 } * fadeIn * 0.9f, (FinalRotation + MathHelper.ToRadians(45)) + MathHelper.ToRadians(swingCount % 2 != 0 ? -85 : 85) * -Owner.direction, swoosh.Size() * 0.5f, Projectile.scale * 1.423f, SpriteEffects.None);
                 }
 
                 Asset<Texture2D> tex2 = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
-                int draws = 24;
+                int draws = 45;
 
                 for (int i = 0; i < draws; i++)
                 {
                     bool swordTip = i > draws * 0.73f;
-                    float swordTipScale = swordTip ? Utils.Remap(i, (int)(draws * 0.73f), draws, 0.9f, 0.35f) : 1;
+                    float swordTipScale = (swordTip ? Utils.Remap(i, (int)(draws * 0.73f), draws, 0.9f, 0.35f) : 1);
                     Vector2 offsetDir = Vector2.One.RotatedBy(Projectile.rotation + RotationOffset + MathHelper.ToRadians(90));
 
                     Color bladeColor = Color.Lerp(Color.MediumTurquoise, Color.Lerp(Color.LimeGreen, Color.OrangeRed, (i * 0.8f) / draws), i / (draws * 0.6f));
-                    Color auraColor = Color.Lerp(bladeColor, Color.White, 0.2f) with { A = 0 } * 0.4f * bladeFade;
-                    Vector2 drawOffset = -offsetDir * 9 * i * bladeFade;
-                    Main.EntitySpriteDraw(tex2.Value, Projectile.Center - offsetDir * 70 - Main.screenPosition + drawOffset + new Vector2(0, Owner.gfxOffY) + Main.rand.NextVector2Circular(2, 2), tex2.Frame(1, FrameCount, 0, Frame), auraColor, RotationOffset + Projectile.rotation + MathHelper.ToRadians(45), tex2.Size() * 0.5f, new Vector2(0.7f * swordTipScale, 1f) * (0.75f * swordTipScale) * 0.7f * bladeFade * spriteMult, spriteEffects != SpriteEffects.None ? spriteEffects : (FlipAsSword ? SpriteEffects.FlipHorizontally : SpriteEffects.None));
+                    Color auraColor = Color.Lerp(bladeColor, Color.White, 0.2f) with { A = 0 } * 0.3f * bladeFade;
+                    Vector2 drawOffset = -offsetDir * 5 * i * bladeFade * Projectile.scale;
+                    float bladeHiltMult = (MathHelper.Lerp(1.55f, 1, 1 - MathF.Pow(Utils.GetLerpValue(i > draws * 0.08f ? draws * 0.55f : 0, draws * 0.04f, i, true), 5)));
+                    Main.EntitySpriteDraw(tex2.Value, Projectile.Center - offsetDir * 70 * Projectile.scale - Main.screenPosition + drawOffset + new Vector2(0, Owner.gfxOffY) + Main.rand.NextVector2Circular(2, 2), tex2.Frame(1, FrameCount, 0, Frame), auraColor, RotationOffset + Projectile.rotation + MathHelper.ToRadians(45), tex2.Size() * 0.5f, new Vector2(0.7f * swordTipScale * MathF.Pow(bladeHiltMult, 0.6f), 0.5f / bladeHiltMult) * (0.75f * swordTipScale) * 0.9f * bladeFade * bladeHiltMult * Projectile.scale, spriteEffects != SpriteEffects.None ? spriteEffects : (FlipAsSword ? SpriteEffects.FlipHorizontally : SpriteEffects.None));
                 }
 
                 Main.EntitySpriteDraw(tex.Value, Projectile.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY), tex.Frame(1, FrameCount, 0, Frame), lightColor, Projectile.rotation + RotationOffset + r, FlipAsSword ? new Vector2(tex.Width() - SpriteOrigin.X, SpriteOrigin.Y) : SpriteOrigin, Projectile.scale, spriteEffects != SpriteEffects.None ? spriteEffects : (FlipAsSword ? SpriteEffects.FlipHorizontally : SpriteEffects.None));

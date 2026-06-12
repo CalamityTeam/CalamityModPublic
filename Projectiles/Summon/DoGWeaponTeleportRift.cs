@@ -34,7 +34,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Projectile.scale = Projectile.ai[1];
+            if (Projectile.ai[1] != 0)
+                Projectile.scale = Projectile.ai[1];
             if (Projectile.ai[0] == 0f)
                 Projectile.ai[0] = 45f;
 

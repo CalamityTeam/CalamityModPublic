@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
         public const int TotalSinePeriods = 6;
         public const int PulseTime = 45;
         public const int TotalRitualTime = 420;
-        public const float MaxUpwardRise = 540f;
+        public const float MaxUpwardRise = 900f;
         public static readonly Point PulseSize = new(300, 300);
         public override void SetDefaults()
         {
@@ -42,11 +42,17 @@ namespace CalamityMod.Projectiles.Boss
             Time++;
             if (Time == TotalRitualTime - PulseTime)
             {
+                SoundEngine.PlaySound(AstrumDeusHead.SpawnSound, Projectile.Center);
+
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int idx = NPC.NewNPC(Projectile.GetSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHead>(), 1);
+                    int idx = NPC.NewNPC(Projectile.GetSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y - (int)(MaxUpwardRise * 3f), ModContent.NPCType<AstrumDeusHead>(), 1);
                     if (idx != -1)
+                    {
                         CalamityUtils.BossAwakenMessage(idx);
+                        Main.npc[idx].velocity = Vector2.UnitY * 20f;
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, idx);
+                    }
                 }
             }
         }

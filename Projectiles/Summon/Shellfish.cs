@@ -428,7 +428,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.buffImmune[ModContent.BuffType<ShellfishClaps>()] = target.Calamity().DR >= 0.99f;
             target.AddBuff(ModContent.BuffType<ShellfishClaps>(), 600000);
         }
 

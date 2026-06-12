@@ -13,12 +13,12 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class Seraphim : RogueWeapon
     {
         public const int SplitDaggerCount = 6;
-        public const int StealthStrikeLightCount = 7;
+        public const int StealthStrikeLightCount = 8;
         public override void SetDefaults()
         {
             Item.width = 82;
             Item.height = 82;
-            Item.damage = 320;
+            Item.damage = 280;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 13;

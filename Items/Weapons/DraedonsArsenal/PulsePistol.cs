@@ -24,10 +24,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.DamageType = DamageClass.Magic;
             Item.damage = 42;
             Item.knockBack = 3f;
-            Item.useTime = 64;
-            Item.useAnimation = 64;
+            Item.useAnimation = Item.useTime = 64;
             Item.autoReuse = true;
-            Item.mana = 15;
+            Item.mana = 25;
 
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = PulseRifle.FireSound with { Pitch = 0.3f, Volume = 0.7f };

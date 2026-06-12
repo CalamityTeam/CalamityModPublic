@@ -563,6 +563,8 @@ namespace CalamityMod.ILEditing
         {
             if (self.Calamity().oldFashioned)
                 damage = (int)(damage * OldFashioned.DamageBoostMultiplier);
+            if (self.GetModPlayer<IVDripPlayer>().HasAlcohol(AlcoholType.OldFashioned))
+                damage = (int)(damage * OldFashioned.DamageBoostMultiplier);
             orig(self, npc, damage, knockback, direction, crit, damageType, damageVariation);
         }
         #endregion

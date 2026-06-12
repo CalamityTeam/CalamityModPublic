@@ -1,12 +1,14 @@
 ﻿using System;
+using CalamityMod.Utilities.Daybreak;
+using CalamityMod.Utilities.Daybreak.Buffers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
-using Terraria.GameContent;
 using Terraria;
+using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
-using Terraria.ID;
 
 namespace CalamityMod.Rarities
 {
@@ -17,9 +19,83 @@ namespace CalamityMod.Rarities
 
         public static float MaxY = 4.5f;
         public static Color BloomClr = new Color(48, 33, 4, 0);
-        public static Color TextClr = new Color(157, 110, 11, 50);
+        public static Color TextClr = new Color(157, 110, 11, 255);
         static float lastFlashTime = 0f;
         static bool isFlashing = false;
+
+        public sealed class CustomTextSnippet(string text) : TextSnippet
+        {
+            public override bool UniqueDraw(bool justCheckingString, out Vector2 size, SpriteBatch spriteBatch, Vector2 position = new Vector2(), Color color = new Color(), float scale = 1)
+            {
+                size = new Vector2(GetStringLength(FontAssets.MouseText.Value), FontAssets.MouseText.Value.MeasureString(" ").Y * scale);
+
+                if (color == default || color == Main.MouseTextColorReal)
+                {
+                    color = Colors.AlphaDarken(TextClr);
+                }
+                if (!justCheckingString && (color.R != 0 || color.G != 0 || color.B != 0))
+                {
+                    var borderColor = color * 2f;
+                    var coreColor = new Color(77, 0, 33);
+                    var shineColor = new Color(254, 231, 117);
+                    if (isFlashing)
+                    {
+                        shineColor = new Color(90, 207, 255);
+                        position += Main.rand.NextVector2Circular(8f, 4.8f);
+                    }
+
+                    var pos = position;
+                    using var lease = ScreenspaceTargetPool.Shared.Rent(Main.instance.GraphicsDevice);
+                    var matrix = spriteBatch.transformMatrix;
+                    using (spriteBatch.Scope())
+                    {
+                        using (lease.Scope(clearColor: Color.Transparent))
+                        {
+                            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
+                            ChatManager.DrawColorCodedString(spriteBatch, FontAssets.MouseText.Value, text, pos, Color.White, 0, Vector2.Zero, new Vector2(scale));
+                            spriteBatch.End();
+                        }
+
+                        //Draw the base text
+                        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, Main.Rasterizer, null, matrix);
+                        for (float f = 0f; f < MathHelper.TwoPi; f += MathHelper.TwoPi * 0.125f)
+                        {
+                            spriteBatch.Draw(lease.Target, Vector2.Zero + new Vector2(2, 0).RotatedBy(f), null, borderColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                        }
+                        spriteBatch.Draw(lease.Target, Vector2.Zero, null, coreColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                        spriteBatch.End();
+
+                        //Draw the shine character-by-character
+                        using (lease.Scope(clearColor: Color.Transparent))
+                        {
+                            string txt = "";
+                            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
+                            foreach (var item in text)
+                            {
+                                pos = position;
+                                pos.X += FontAssets.MouseText.Value.MeasureString(txt).X;
+                                float sin = (MathF.Sin(pos.X * 0.02f + Main.GlobalTimeWrappedHourly * -1.5f) + 1) * 0.5f;
+                                var c = shineColor * MathF.Pow(sin, 120);
+                                ChatManager.DrawColorCodedString(spriteBatch, FontAssets.MouseText.Value, item.ToString(), pos, c, 0, Vector2.Zero, new Vector2(scale));
+                                txt += item;
+                            }
+                            spriteBatch.End();
+                        }
+
+                        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, Main.Rasterizer, null, matrix);
+                        spriteBatch.Draw(lease.Target, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                        spriteBatch.End();
+                    }
+                }
+                return true;
+            }
+            public override float GetStringLength(DynamicSpriteFont font)
+            {
+                float size = font.MeasureString(text).X;
+                return size * Scale;
+            }
+        }
+
         public static void Draw(Item Item, SpriteBatch spriteBatch, string text, int X, int Y, Color textColor, Color lightColor, float rotation,
         Vector2 origin, Vector2 baseScale, float time, bool renderTextSparkles, DynamicSpriteFont font)
         {
@@ -38,25 +114,19 @@ namespace CalamityMod.Rarities
                     isFlashing = false;
                 }
             }
-            var fontSize = font.MeasureString(text);
-            var center = fontSize / 2.0f;
+            // Get all snippets and convert all plain text snippets to the custom rarity snippet
+            TextSnippet[] snippets = ChatManager.ParseMessage(text, textColor).ToArray();
+            for (int i = 0; i < snippets.Length; i++)
+            {
+                TextSnippet textSnippet = snippets[i];
+                if (snippets[i].GetType() == typeof(TextSnippet))
+                {
+                    snippets[i] = new CustomTextSnippet(textSnippet.Text);
+                }
+            }
 
             if (Item.expert)
                 textColor = Main.DiscoColor;
-
-            var glowPosition = new Vector2(X + center.X, Y + center.Y / 1.5f);
-            textColor.A = 0;
-
-            float pulsing = 1.5f + (float)Math.Sin(time * 5f);
-            for (float f = 0f; f < MathHelper.TwoPi; f += 0.79f)
-            {
-                ChatManager.DrawColorCodedString(
-                    spriteBatch, font, text,
-                    new Vector2(X, Y) + new Vector2(pulsing, 0f).RotatedBy(f + time * 2f % MathHelper.TwoPi),
-                    textColor * 0.5f, rotation, origin, baseScale);
-                if (isFlashing && CalamityClientConfig.Instance.TextEffects)
-                    origin += Main.rand.NextVector2Circular(2f, 1.2f); // Small shake
-            }
 
             if (isFlashing)
             {
@@ -65,47 +135,8 @@ namespace CalamityMod.Rarities
             }
 
             textColor.A = 255;
+            ChatManager.DrawColorCodedString(spriteBatch, font, snippets, new(X, Y), textColor, 0, Vector2.Zero, baseScale, out _, -1, true);
 
-            // Shadow
-            ChatManager.DrawColorCodedStringShadow(spriteBatch, font, text, new Vector2(X, Y), textColor * 2f, rotation, origin, baseScale);
-
-            // Outline base
-            ChatManager.DrawColorCodedString(spriteBatch, font, text, new Vector2(X, Y), new Color(77, 0, 33), rotation, origin, baseScale);
-
-            float shineWidth = 40f; //set to charSize
-            float shineSpeed = 80f;
-
-            float shineDisp = time * shineSpeed; //predicted current location of the shine based on the time and speed
-            float shinePos = (shineDisp % (fontSize.X + shineWidth));
-
-            Vector2 basePos = new Vector2(X, Y);
-            if (isFlashing && CalamityClientConfig.Instance.TextEffects)
-                basePos += Main.rand.NextVector2Circular(3f, 10f); // Small shake
-
-            float charOffsetX = 0f;
-            if (!renderTextSparkles)
-                return;
-            for (int i = 0; i < text.Length; i++)
-            {
-                string c = text[i].ToString();
-                Vector2 charSize = font.MeasureString(c);
-                Vector2 charOrigin = charSize * 0.5f;
-
-                Vector2 charPos = basePos + new Vector2(charOffsetX, 0f);
-
-                float centerX = charPos.X + (charSize.X * baseScale.X) / 2f + 10.5f;
-                float dist = Math.Abs(centerX - (X + shinePos - shineWidth * 0.15f));
-                float intensity = 1f - MathHelper.Clamp(dist / shineWidth, 0f, 1f);
-
-                if (intensity > 0f)
-                {
-                    Color shineColor = isFlashing ? new Color(90, 207, 255) * intensity * 2f : new Color(254, 231, 117) * intensity * 1f;
-                    ChatManager.DrawColorCodedString(
-                        spriteBatch, font, c, charPos, shineColor, rotation, origin, baseScale);
-                }
-
-                charOffsetX += charSize.X - text.Length * 0.0085f;
-            }
         }
 
         public static void Draw(Item Item, string text, int X, int Y, float rotation, Vector2 origin, Vector2 baseScale, Color? textColor = null, Color? lightColor = null, bool? renderTextSparkles = null)

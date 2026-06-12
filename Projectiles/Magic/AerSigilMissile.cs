@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.penetrate = 1;
             Projectile.alpha = 255;
             Projectile.timeLeft = 420;
-            Projectile.usesLocalNPCImmunity = true;
+            Projectile.MaxUpdates = 2;
 
             // Makes trail draw right away
             for (int i = 0; i < Projectile.oldPos.Length; i++)
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AerSigilBlast>(), (int)(Projectile.damage * 4.25f), Projectile.knockBack * 6, Projectile.owner);
+                Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AerSigilBlast>(), Projectile.damage * 2, Projectile.knockBack * 6, Projectile.owner);
                 explosion.ai[1] = 600f;
                 explosion.localAI[1] = Main.rand.NextFloat(0.1f, 0.2f); // Interpolate
                 explosion.netUpdate = true;

@@ -12,8 +12,6 @@ namespace CalamityMod.Tiles.SunkenSea
     {
         public override void SetStaticDefaults()
         {
-            TileID.Sets.GeneralPlacementTiles[Type] = false;
-
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             TileID.Sets.HasSlopeFrames[Type] = true;
@@ -34,7 +32,6 @@ namespace CalamityMod.Tiles.SunkenSea
             TileMaterials.SetForTileId(Type, TileMaterials._materialsByName["Sand"]);
             TileID.Sets.Suffocate[Type] = true;
             TileID.Sets.CanBeDugByShovel[Type] = true;
-            TileID.Sets.Conversion.Sand[Type] = true;
             TileID.Sets.ForAdvancedCollision.ForSandshark[Type] = true;
 
             this.RegisterBlendMergeWith(ModContent.TileType<EutrophicSand>());

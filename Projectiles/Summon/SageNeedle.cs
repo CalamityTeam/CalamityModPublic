@@ -35,9 +35,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            int sagePoisonDamage = (int)(SagePoison.debuffData.EnemyLostRegen * Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<SageSpirit>()]);
             target.AddBuff(ModContent.BuffType<SagePoison>(), 300);
-            target.Calamity().sagePoisonDamage = sagePoisonDamage;
         }
 
         public override void OnKill(int timeLeft)

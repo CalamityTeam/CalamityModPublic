@@ -36,12 +36,13 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.alpha = 255;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 60000;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 12;
+            Projectile.localNPCHitCooldown = 10;
             Projectile.hide = true;
         }
 
@@ -151,13 +152,16 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         // Can only deal damage while not fizzling out.
-        public override bool? CanDamage() => !Released;
+        public override bool? CanDamage() => !Released && Timer % Projectile.localNPCHitCooldown == 0;
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             SoundStyle Burn = new SoundStyle("CalamityMod/Sounds/Item/WeldingBurn") with { Volume = 0.25f };
             SoundEngine.PlaySound(Burn, target.Center);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
+
+            if (damageDone > 2 && !target.Calamity().IsArmored())
+                Projectile.damage = (int)(Projectile.damage * 0.7f);
 
             // Whoa buddy no smoking allowed
             for (int i = 0; i < 4; i++)

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -11,14 +12,17 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class ContinentalGreatbow : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Ichor, BuffID.OnFire];
+        }
         public override void SetDefaults()
         {
             Item.width = 18;
             Item.height = 36;
-            Item.damage = 38;
+            Item.damage = 45;
             Item.DamageType = DamageClass.Ranged;
-            Item.useTime = 24;
-            Item.useAnimation = 24;
+            Item.useAnimation = Item.useTime = 24;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 4f;
@@ -45,15 +49,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float offsetAmt = projIndex - (arrowAmt - 1f) / 2f;
                 Vector2 offset = velocity.RotatedBy((double)(piOverTen * offsetAmt), default);
                 if (!canHit)
-                {
                     offset -= velocity;
-                }
+
                 if (CalamityUtils.CheckWoodenAmmo(type, player))
-                {
                     type = ProjectileID.FireArrow;
-                }
-                int baseArrow = Projectile.NewProjectile(spawnSource, source + offset, velocity, type, damage, knockback, player.whoAmI);
-                Main.projectile[baseArrow].noDropItem = true;
+
+                Projectile.NewProjectile(spawnSource, source + offset, velocity, type, damage, knockback, player.whoAmI);
             }
             for (int i = 0; i < 2; i++)
             {
@@ -64,10 +65,9 @@ namespace CalamityMod.Items.Weapons.Ranged
                     ProjectileID.HellfireArrow,
                     ProjectileID.IchorArrow
                 });
-                int index = Projectile.NewProjectile(spawnSource, position, new Vector2(SpeedX, SpeedY), type, (int)(damage * 0.5f), knockback, player.whoAmI);
-                Main.projectile[index].noDropItem = true;
-                Main.projectile[index].usesLocalNPCImmunity = true;
-                Main.projectile[index].localNPCHitCooldown = 10;
+                Projectile arrow = Projectile.NewProjectileDirect(spawnSource, position, new Vector2(SpeedX, SpeedY), type, (int)(damage * 0.5f), knockback, player.whoAmI);
+                arrow.usesLocalNPCImmunity = true;
+                arrow.localNPCHitCooldown = 10;
             }
             return false;
         }

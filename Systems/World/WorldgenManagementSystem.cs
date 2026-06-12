@@ -12,6 +12,7 @@ using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using Terraria.WorldBuilding;
 using static CalamityMod.World.CalamityWorld;
 
@@ -19,10 +20,28 @@ namespace CalamityMod.Systems
 {
     public class WorldgenManagementSystem : ModSystem
     {
+        #region StructurePosStoring
+        public static Point DungeonArchivePos = Point.Zero;
+
+        public override void SaveWorldData(TagCompound tag)
+        {
+            tag["DungeonArchivePos"] = DungeonArchivePos;
+        }
+
+        public override void LoadWorldData(TagCompound tag)
+        {
+            if (tag.ContainsKey("DungeonArchivePos"))
+                DungeonArchivePos = tag.Get<Point>("DungeonArchivePos");
+            else
+                DungeonArchivePos = Point.Zero;
+        }
+        #endregion
+
         #region PreWorldGen
         public override void PreWorldGen()
         {
             Abyss.TotalPlacedIslandsSoFar = 0;
+            DungeonArchivePos = Point.Zero;
             //roxShrinePlaced = false;
 
             // This will only be applied at world-gen time to new worlds.
@@ -352,6 +371,12 @@ namespace CalamityMod.Systems
                 {
                     progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.SulphurSea2").Value;
                     SulphurousSea.SulphurSeaGenerationAfterAbyss();
+                }));
+
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Iron Ball", (progress, config) =>
+                {
+                    progress.Message = Language.GetOrRegister("Mods.CalamityMod.UI.IronBall").Value;
+                    MiscWorldgenRoutines.GenerateIronBall();
                 }));
 
                 // No Traps/GFB Auric Land Mines

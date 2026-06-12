@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Armor.Auric
             //Alternatively, their ModifyTooltips could simply return early if the item ID doesn't match the helmet type.
             if (Main.LocalPlayer.Calamity().auricSet)
             {
-                Main.LocalPlayer.armor[0].ModItem.ModifyTooltips(tooltips);
+                Main.LocalPlayer.armor[0].ModItem?.ModifyTooltips(tooltips);
             }
             
             if (!toggleEnabled)

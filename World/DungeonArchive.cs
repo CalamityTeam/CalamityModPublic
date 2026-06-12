@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CalamityMod.Schematics;
+using CalamityMod.Systems;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -72,6 +73,8 @@ namespace CalamityMod.World
 
                 if (placedArchive)
                 {
+                    WorldgenManagementSystem.DungeonArchivePos = new Point(i, j);
+
                     bool firstItem = false;
 
                     if (dungeonArchiveColor == 0)

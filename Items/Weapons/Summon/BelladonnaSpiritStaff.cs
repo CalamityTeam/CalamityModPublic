@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -24,7 +25,10 @@ namespace CalamityMod.Items.Weapons.Summon
         public const float PetalGravityStrenght = 0.2f;
 
         #endregion
-
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Poisoned];
+        }
         public override void SetDefaults()
         {
             Item.width = 40;

@@ -91,7 +91,7 @@ DesertProwlerPants: {
 	Tooltip:
 		'''
 		{$Common.RogueCrit}
-		Grants immunity to {$BuffName.WindPushed}
+		Grants immunity to [cbuffplr:WindPushed]
 		'''
 }
 

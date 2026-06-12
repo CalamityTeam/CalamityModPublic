@@ -126,11 +126,11 @@
         internal static readonly float LifeStealRecoveryRate_Classic = 0.6f;
         internal static readonly float LifeStealRecoveryRate_Expert = 0.5f;
 
-        // Nerfs the life steal recovery rate in Classic from 0.6 to 0.2 (36 HP/s to 12 HP/s)
-        internal static readonly float LifeStealRecoveryRateReduction_Classic = 0.4f;
+        // Nerfs the life steal recovery rate in Classic from 0.6 to 0.15 (36 HP/s to 9 HP/s)
+        internal static readonly float LifeStealRecoveryRateReduction_Classic = 0.45f;
 
-        // Nerfs the life steal recovery rate in Expert from 0.5 to 0.15 (30 HP/s to 9 HP/s)
-        internal static readonly float LifeStealRecoveryRateReduction_Expert = 0.35f;
+        // Nerfs the life steal recovery rate in Expert from 0.5 to 0.1 (30 HP/s to 6 HP/s)
+        internal static readonly float LifeStealRecoveryRateReduction_Expert = 0.4f;
         #endregion
 
         #region Rogue Base Stats

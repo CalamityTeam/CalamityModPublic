@@ -137,12 +137,17 @@ namespace CalamityMod.Projectiles.Rogue
                     float speedMult = (float)Math.Pow(Utils.GetLerpValue(1, 4, charge, true), 2) + 0.05f;
                     float arcValue = hasReachedFullCharge ? 0 : (float)Math.Pow(Utils.Remap(speedMult, 0, 1f, 1f, 0.8f), 4);
                     Projectile.ai[1] = arcValue;
-                    Projectile.velocity = velocity * 9 * speedMult;
+                    Projectile.velocity = velocity * 9 * speedMult * Owner.Calamity().rogueVelocity;
 
                     SoundStyle w = new("CalamityMod/Sounds/Item/SwooshMid");
                     SoundEngine.PlaySound(w with { Volume = 1f, Pitch = 0.2f, MaxInstances = 6 }, Projectile.Center);
                     if (hasReachedFullCharge)
                     {
+                        if (Owner.Calamity().StealthStrikeAvailable())
+                        {
+                            Projectile.Calamity().stealthStrike = true;
+                            Owner.Calamity().ConsumeStealthByAttacking();
+                        }
                         rotSpeed *= 2;
                         SoundStyle w2 = new("CalamityMod/Sounds/Item/SwooshMid");
                         SoundEngine.PlaySound(w2 with { Volume = 1f, Pitch = -0.4f, MaxInstances = 6 }, Projectile.Center);
@@ -150,11 +155,7 @@ namespace CalamityMod.Projectiles.Rogue
                     else
                         Owner.Calamity().ConsumeStealthByAttacking();
 
-                    if (Owner.Calamity().StealthStrikeAvailable() && hasReachedFullCharge)
-                    {
-                        Projectile.Calamity().stealthStrike = true;
-                        Owner.Calamity().ConsumeStealthByAttacking();
-                    }
+                    
 
                     Projectile.tileCollide = true;
                     flung = true;
@@ -343,7 +344,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 launchDir = Utils.DirectionTo(Projectile.Center, target.Center);
                 float launchPower = ((hasReachedFullCharge ? 9 : 0) + charge * 1.5f) * finalHitMult;
 
-                target.MoveNPC(launchDir, launchPower, true);
+                target.MoveNPC(launchDir, launchPower, true, Owner);
 
                 float extraPitch = (Owner.Calamity().rogueStealthMax > 0 ? (0.25f * (Owner.Calamity().rogueStealth / Owner.Calamity().rogueStealthMax)) : 0);
                 
@@ -427,15 +428,16 @@ namespace CalamityMod.Projectiles.Rogue
             Color glowColor = Color.Lerp(mainColor, Color.Red, Utils.GetLerpValue(60, 18, (stealthPenaltyTimer >= 18 ? stealthPenaltyTimer : 60)));
             float fade = Utils.GetLerpValue(0, 300, Projectile.timeLeft, true);
             Texture2D tex = Terraria.GameContent.TextureAssets.Projectile[Type].Value;
+            Vector2 baseDrawPos = Projectile.Center - Main.screenPosition + (!flung ? new Vector2(0, Owner.gfxOffY) : Vector2.Zero);
             for (int i = 0; i < 25; i++)
             {
                 Color auraColor = glowColor with { A = 0 } * 0.35f * fade;
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 25f).ToRotationVector2() * (hasReachedFullCharge ? 7 : 3f) * Projectile.Opacity;
-                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + drawOffset + Main.rand.NextVector2Circular(4, 4), null, auraColor * Projectile.Opacity, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None);
+                Main.EntitySpriteDraw(tex, baseDrawPos + drawOffset + Main.rand.NextVector2Circular(4, 4), null, auraColor * Projectile.Opacity, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None);
             }
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, lightColor * fade, Projectile.rotation, tex.Size() / 2f, Projectile.scale, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(tex, baseDrawPos, null, lightColor * fade, Projectile.rotation, tex.Size() / 2f, Projectile.scale, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/DoomsdayDeviceGlow2").Value, Projectile.Center - Main.screenPosition, null, glowColor * Projectile.Opacity * fade, Projectile.rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/DoomsdayDeviceGlow2").Value.Size() * 0.5f, 1f, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/DoomsdayDeviceGlow2").Value, baseDrawPos, null, glowColor * Projectile.Opacity * fade, Projectile.rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/DoomsdayDeviceGlow2").Value.Size() * 0.5f, 1f, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
             return false;
         }
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)

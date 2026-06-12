@@ -60,8 +60,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Particle spark = new CustomSpark(Projectile.Center, -Projectile.velocity * 0.05f, "CalamityMod/Particles/GlowSpark2", false, 17, 0.052f, Color.Black, new Vector2(0.6f, 1.3f), false);
                 GeneralParticleHandler.SpawnParticle(spark);
                 Particle spark2 = new CustomSpark(Projectile.Center, -Projectile.velocity * 0.05f, "CalamityMod/Particles/GlowSpark", false, 17, 0.027f, Color.LightGreen, new Vector2(0.6f, 1.3f), true, false);
-                GeneralParticleHandler.SpawnParticle(spark2);
-                spark2.DrawLayer = GeneralDrawLayer.AfterEverything;
+                GeneralParticleHandler.SpawnParticle(spark2, false, GeneralDrawLayer.AfterEverything);
             }
 
             if (Time == 9f)
@@ -111,8 +110,7 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < 3; i++)
             {
                 Particle blastRing = new CustomPulse(Projectile.Center, Vector2.Zero, InnerColor, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 0.48f, 0.52f, 38);
-                GeneralParticleHandler.SpawnParticle(blastRing);
-                blastRing.DrawLayer = GeneralDrawLayer.AfterEverything;
+                GeneralParticleHandler.SpawnParticle(blastRing, false, GeneralDrawLayer.AfterEverything);
             }
 
             float numberOfDusts = 10;
@@ -124,8 +122,6 @@ namespace CalamityMod.Projectiles.Ranged
                 dust.scale = Main.rand.NextFloat(1.6f, 2.2f);
                 dust.color = InnerColor;
             }
-            //Particle pulse = new CustomPulse(Projectile.Center, Vector2.Zero, InnerColor, "CalamityMod/Particles/SoftRoundExplosion", new Vector2(1f, 1f), Main.rand.NextFloat(5, -5), 0f, 0.1f, 15);
-            //GeneralParticleHandler.SpawnParticle(pulse);
 
             if (BounceHits == 0f)
                 SoundEngine.PlaySound(DeadSunsWind.Ricochet, Projectile.Center);

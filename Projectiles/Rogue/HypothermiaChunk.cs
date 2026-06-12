@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<Voidfrost>(), 300);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 150);
+            target.AddBuff(BuffID.Frozen, 150);
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)

@@ -322,7 +322,7 @@ namespace CalamityMod.Graphics.Primitives
             }
 
             // Legacy behaviour: sample based on requested point count using Catmull-Rom style interpolation.
-            PositionsIndex = 1;
+            PositionsIndex = 0;
             float controlCountMinusOne = controlCount - 1f;
             PrimitiveSmoothingType legacyType = settings.SmoothingType;
 
@@ -344,8 +344,6 @@ namespace CalamityMod.Graphics.Primitives
                 MainPositions[PositionsIndex] = EvaluateCurve(legacyType, p0, p1, p2, p3, localSplineInterpolant, settings);
                 PositionsIndex++;
             }
-
-            MainPositions[0] = controlPoints[0];
             MainPositions[PositionsIndex] = controlPoints[controlCount - 1];
             PositionsIndex++;
             controlPoints.Clear();

@@ -1,6 +1,8 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -11,11 +13,16 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ShatteredDawn : RogueWeapon
     {
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<HolyFlames>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 66;
             Item.height = 66;
             Item.damage = 80;
+            Item.crit = 10;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 12;
@@ -30,9 +37,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 25f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 10;
 
         public override float StealthDamageMultiplier => 1.2f;
 

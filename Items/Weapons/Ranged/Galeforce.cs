@@ -44,8 +44,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<AerialiteBar>(8).
-                AddIngredient(ItemID.SunplateBlock, 3).
+                AddIngredient<AerialiteBar>(7).
                 AddTile(TileID.Anvils).
                 Register();
         }

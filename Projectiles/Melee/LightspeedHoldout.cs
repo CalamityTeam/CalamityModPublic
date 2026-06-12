@@ -30,6 +30,7 @@ namespace CalamityMod.Projectiles.Melee
         public Vector2 innateOffset = new(23f, -0.1f);
         public Vector2 handPos;
         public float bladeRot = 0;
+        public float baseScale = 1;
 
         // Primary
         public int primaryStabfireRate => 2;
@@ -74,6 +75,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 94;
             Projectile.friendly = true;
             Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
@@ -147,7 +149,7 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile.rotation -= MathHelper.TwoPi * 0.75f;
                 }
 
-                Projectile.Center = handPos;
+                Projectile.Center = handPos + toMouse * Projectile.scale;
 
                 Owner.heldProj = Projectile.whoAmI;
                 Owner.itemTime = Owner.itemAnimation = 2;
@@ -170,7 +172,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            Projectile.scale = 0.6f;
+            var player = Main.player[Projectile.owner];
+            var modPlayer = player.GetModPlayer<LightspeedPlayer>();
+            baseScale = MathHelper.Lerp(baseScale, player.GetMeleeScale(), 0.3f / Projectile.MaxUpdates);
+            Projectile.scale = baseScale;
 
             if (!Owner.channel && DashState == 0)
             {
@@ -186,7 +191,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (Owner.altFunctionUse == 2 && Owner.Calamity().mouseRight)
                 {
                     // Check if the player has enough EM
-                    if (Owner.Calamity().elementalMastery < 100)
+                    if (modPlayer.elementalMastery < 100)
                     {
                         Projectile.Kill();
                         return;
@@ -195,7 +200,7 @@ namespace CalamityMod.Projectiles.Melee
                     DashState = 1;
                     DashTimer = DashPrepTime;
                     Projectile.localAI[0] = Owner.direction;
-                    Owner.Calamity().elementalMastery = 0; // Reset EM to zero
+                    modPlayer.elementalMastery = 0; // Reset EM to zero
                 }
             }
 
@@ -221,18 +226,18 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 stabDir = toMouse.RotatedBy(offset);
 
             Vector2 stabOrigin = Projectile.Center;
-            Vector2 stabTip = stabOrigin + stabDir * 62f;
+            Vector2 stabTip = stabOrigin + stabDir * 62f * Projectile.scale;
 
             for (int i = 0; i < 4; i++)
             {
-                Vector2 spawnPos = stabTip + Main.rand.NextVector2Circular(18f, 12f);
+                Vector2 spawnPos = stabTip + Main.rand.NextVector2Circular(18f, 12f) * Projectile.scale;
                 Vector2 vel = stabDir * Main.rand.NextFloat(5f, 19f);
 
-                Particle spark = new GlowSparkParticle(spawnPos, vel, false, Main.rand.Next(5, 8), Main.rand.NextFloat(0.02f, 0.07f), Color.Lerp(Color.Aqua, Color.OrangeRed, Main.rand.NextFloat(1f)) * 0.55f, new Vector2(Main.rand.NextFloat(0.475f, 0.535f), Main.rand.NextFloat(1.2f, 1.3f)), true, false);
+                Particle spark = new GlowSparkParticle(spawnPos, vel, false, Main.rand.Next(5, 8), Projectile.scale * Main.rand.NextFloat(0.02f, 0.07f), Color.Lerp(Color.Aqua, Color.OrangeRed, Main.rand.NextFloat(1f)) * 0.55f, new Vector2(Main.rand.NextFloat(0.475f, 0.535f), Main.rand.NextFloat(1.2f, 1.3f)), true, false);
                 GeneralParticleHandler.SpawnParticle(spark);
             }
 
-            Particle afterImage = new CustomSpark(Projectile.Center + (stabDir * 10f) + Main.rand.NextVector2Circular(4f, 11f), (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2(), new("CalamityMod/Items/Weapons/Melee/Lightspeed"), false, Main.rand.Next(5,9), Projectile.scale * Main.rand.NextFloat(0.9f, 1.02f), Color.White * Main.rand.NextFloat(0.66f, 0.825f), new Vector2(1, 1), true, false, flipHorizontal: Owner.direction == -1 ? true : false);
+            Particle afterImage = new CustomSpark(Projectile.Center + (stabDir * 10f) + Main.rand.NextVector2Circular(4f, 11f), (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2(), new("CalamityMod/Items/Weapons/Melee/Lightspeed"), false, Main.rand.Next(5,9), 0.6f * Main.rand.NextFloat(0.9f, 1.02f), Color.White * Main.rand.NextFloat(0.66f, 0.825f), new Vector2(1, 1), true, false, flipHorizontal: Owner.direction == -1 ? true : false);
             GeneralParticleHandler.SpawnParticle(afterImage);
 
             // Make blade randomly vibrate
@@ -256,7 +261,8 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             // Spawn the hitbox
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.MountedCenter + toMouse * 20 * (float)Math.Pow(Projectile.scale, 4), toMouse * 25, ModContent.ProjectileType<LightspeedM1Hitbox>(), Projectile.damage, 0, Projectile.owner);
+            Projectile attack = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.MountedCenter + toMouse * 20 * Projectile.scale, toMouse, ModContent.ProjectileType<LightspeedM1Hitbox>(), Projectile.damage, 0, Projectile.owner);
+            attack.scale = Projectile.scale;
         }
 
         private void UseSecondary()
@@ -272,7 +278,7 @@ namespace CalamityMod.Projectiles.Melee
                 Owner.heldProj = Projectile.whoAmI;
                 Owner.itemTime = Owner.itemAnimation = 2;
 
-                Projectile.scale = 0.6f;
+                Projectile.scale = baseScale * 0.6f;
 
                 if (!firstSecondaryIteration)
                 {
@@ -350,7 +356,8 @@ namespace CalamityMod.Projectiles.Melee
                     for (int k = 0; k < Owner.hurtCooldowns.Length; k++)
                         Owner.hurtCooldowns[k] = Owner.immuneTime;
 
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.MountedCenter, Projectile.velocity, ModContent.ProjectileType<LightspeedDashHitbox>(), Projectile.damage * 24, Projectile.knockBack * 4, Projectile.owner);
+                    Projectile dash = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.MountedCenter, Projectile.velocity, ModContent.ProjectileType<LightspeedDashHitbox>(), Projectile.damage * 24, Projectile.knockBack * 4, Projectile.owner);
+                    dash.scale = Projectile.scale;
                 }
             }
 
@@ -365,7 +372,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 Projectile.velocity *= DashAcceleration;
 
-                Projectile.scale = MathHelper.Lerp(1f, 0.4f, MathF.Pow(1f - DashTimer / DashDuration, 5));
+                Projectile.scale = baseScale * MathHelper.Lerp(1f, 0.4f, MathF.Pow(1f - DashTimer / DashDuration, 5));
 
                 Owner.heldProj = Projectile.whoAmI;
                 Owner.itemTime = Owner.itemAnimation = 2;
@@ -399,7 +406,7 @@ namespace CalamityMod.Projectiles.Melee
 
             SpriteEffects spriteEffects = Owner.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             lightColor = Color.White; // Fullbright
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, lightColor * Projectile.Opacity, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, lightColor * Projectile.Opacity, Projectile.rotation, origin, 0.6f, spriteEffects, 0);
 
             DrawPierceTrail();
 
@@ -439,7 +446,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             DashState = 0;
             DashTimer = 0;
-            Projectile.scale = 0.6f;
+            Projectile.scale = baseScale * 0.6f;
         }
     }
 }

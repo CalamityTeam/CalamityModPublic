@@ -11,6 +11,9 @@ namespace CalamityMod.Items.Weapons.Magic
     public class IonBlaster : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
+
+        public static int ArmorPenetration = 40;
+
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
@@ -20,6 +23,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.width = 68;
             Item.height = 38;
             Item.damage = 24;
+            Item.ArmorPenetration = ArmorPenetration;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 12;
             Item.useAnimation = 7;

@@ -17,8 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;
-            Item.useAnimation = 26;
-            Item.useTime = 26;
+            Item.useTime = Item.useAnimation = 16;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 6f;
             Item.UseSound = SoundID.DD2_GhastlyGlaivePierce;

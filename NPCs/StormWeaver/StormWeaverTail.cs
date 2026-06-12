@@ -62,11 +62,11 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.dontCountMe = true;
 
             if (CalamityWorld.death || BossRushEvent.BossRushActive)
-                NPC.scale *= 1.2f;
-            else if (CalamityWorld.revenge)
                 NPC.scale *= 1.15f;
-            else if (Main.expertMode)
+            else if (CalamityWorld.revenge)
                 NPC.scale *= 1.1f;
+            else if (Main.expertMode)
+                NPC.scale *= 1.05f;
 
             if (Main.getGoodWorld)
                 NPC.scale *= 0.7f;

@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
                         explosionCount++;
                     }
 
-                    int buffType = ModContent.BuffType<GlacialState>();
+                    int buffType = BuffID.Frozen;
                     float radius = 112f; // 7 blocks
 
                     foreach (NPC nPC in Main.ActiveNPCs)

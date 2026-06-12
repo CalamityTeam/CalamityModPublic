@@ -1,5 +1,6 @@
 ﻿using System;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -67,28 +68,25 @@ namespace CalamityMod.Projectiles.Melee
 
             if (targetDist < 1400f)
             {
-                if (time % 11 == 0)
-                {
-                    GlowSparkParticle orb = new(Projectile.Center + Main.rand.NextVector2Circular(20, 20), -Projectile.velocity * 2, false, 11, 0.03f, mainColor * Main.rand.NextFloat(0.7f, 1), new Vector2(1f, 1f), true, false, 0.6f);
-                    GeneralParticleHandler.SpawnParticle(orb);
-                }
                 if (time % 4 == 0)
                 {
-                    GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(Projectile.Center, -Projectile.velocity * Main.rand.NextFloat(0.2f, 1.5f), Main.rand.NextBool(4) ? Color.PaleTurquoise : Color.Turquoise, 6, Main.rand.NextFloat(0.3f, 0.7f), 0.65f, 0, true));
+                    GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(Projectile.Center, -Projectile.velocity * Main.rand.NextFloat(0.2f, 1.5f), Main.rand.NextBool(4) ? Color.PaleTurquoise : Color.Turquoise, 6, Main.rand.NextFloat(0.3f, 0.7f) * Projectile.scale, 0.65f, 0, true));
                 } 
             }
-            if (time % 2 == 0)
-            {
-                // Spawn in a helix-style pattern
-                float sine = (float)Math.Sin(Projectile.timeLeft * 0.575f / MathHelper.Pi);
+            
+            // Spawn in a helix-style pattern
+            float sine = (float)Math.Sin(Projectile.timeLeft * 0.575f / MathHelper.Pi);
 
-                Vector2 offset = Projectile.velocity.SafeNormalize(Vector2.UnitX).RotatedBy(MathHelper.PiOver2) * sine * wavePower;
+            Vector2 offset = Projectile.velocity.SafeNormalize(Vector2.UnitX).RotatedBy(MathHelper.PiOver2) * sine * wavePower;
 
-                Dust dust = Dust.NewDustPerfect(Projectile.Center + offset * direction, DustID.RainbowMk2, -Projectile.velocity * Main.rand.NextFloat(0.2f, 0.3f));
-                dust.scale = Main.rand.NextFloat(0.85f, 0.95f);
-                dust.noGravity = true;
-                dust.color = Main.rand.NextBool(3) ? Color.PaleTurquoise : Color.Turquoise;
-            }
+            Dust dust = Dust.NewDustPerfect(Projectile.Center - Projectile.velocity * 2, ModContent.DustType<SquashDust>(), (Projectile.timeLeft % 2 == 0 ? -Projectile.velocity * 2 : offset * direction * 0.5f));
+            dust.scale = Main.rand.NextFloat(1.15f, 1.25f) * Projectile.scale;
+            dust.noGravity = true;
+            dust.color = Main.rand.NextBool(3) ? Color.PaleTurquoise : Color.Turquoise;
+            dust.fadeIn = Projectile.scale * 1.25f;
+            dust.noLight = true;
+            dust.noLightEmittence = true;
+            
             
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             time++;
@@ -97,7 +95,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 spawnMet = false;
                 Vector2 spawnSpot = Owner.Center + new Vector2(Main.rand.NextFloat(-550, 550), Main.rand.NextFloat(-750, -950));
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<StellarStrikerMeteor>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, 0, Projectile.ai[2] - 1);
+                Projectile meteor = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<StellarStrikerMeteor>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, 0, Projectile.ai[2] - 1);
+                meteor.scale = Projectile.scale;
             }
         }
 
@@ -106,6 +105,7 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D tex = Terraria.GameContent.TextureAssets.Projectile[Type].Value;
 
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Type], Color.White, 1, tex);
+            CalamityUtils.DrawProjectileWithBackglow(Projectile, Color.Turquoise with { A = 0 }, lightColor, 4 * Projectile.scale);
             return false;
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             for (int i = 0; i < 6; i++)
             {
-                Particle spark3 = new SparkParticle(Projectile.Center, Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(3.5f, 14), false, 20, Main.rand.NextFloat(0.3f, 0.8f), Main.rand.NextBool(5) ? Color.PaleTurquoise : Color.Turquoise);
+                Particle spark3 = new SparkParticle(Projectile.Center, Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(3.5f, 14), false, 20, Main.rand.NextFloat(0.3f, 0.8f) * Projectile.scale, Main.rand.NextBool(5) ? Color.PaleTurquoise : Color.Turquoise);
                 GeneralParticleHandler.SpawnParticle(spark3);
             }
             for (int i = 0; i < 18; i++)
@@ -149,10 +149,13 @@ namespace CalamityMod.Projectiles.Melee
                 c.noGravity = true;
                 c.color = Main.rand.NextBool(3) ? Color.PaleTurquoise : Color.Turquoise;
             }
-            Particle blastRing = new CustomPulse(Projectile.Center, Vector2.Zero, mainColor * 0.7f, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 2f, 1f, 25, true);
-            GeneralParticleHandler.SpawnParticle(blastRing);
-            Particle blastRing2 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.White * 0.7f, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 1f, 0.3f, 25, true);
-            GeneralParticleHandler.SpawnParticle(blastRing2);
+            if (!CalamityClientConfig.Instance.Photosensitivity)
+            {
+                Particle blastRing = new CustomPulse(Projectile.Center, Vector2.Zero, mainColor * 0.7f, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 2f * Projectile.scale, 1f * Projectile.scale, 25, true);
+                GeneralParticleHandler.SpawnParticle(blastRing);
+                Particle blastRing2 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.White * 0.7f, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 1f * Projectile.scale, 0.3f * Projectile.scale, 25, true);
+                GeneralParticleHandler.SpawnParticle(blastRing2);
+            }
         }
         public override bool? CanCutTiles() => false;
     }

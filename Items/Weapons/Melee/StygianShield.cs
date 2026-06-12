@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static readonly SoundStyle ShieldCatchSound = new("CalamityMod/Sounds/Item/StygianCatch");
 
         // Held stats
-        public const int HeldDefense = 16;
+        public const int HeldDefense = 8;
         public const int DisableDashDuration = 90;
 
         public int ThrownShieldID = ModContent.ProjectileType<StygianShieldThrown>();

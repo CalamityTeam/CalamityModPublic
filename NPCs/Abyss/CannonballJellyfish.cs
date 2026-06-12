@@ -17,6 +17,7 @@ using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.Abyss
 {
+    [HeavyKnockbackWhitelisted]
     public class CannonballJellyfish : ModNPC
     {
         public bool hasBeenHit = false;

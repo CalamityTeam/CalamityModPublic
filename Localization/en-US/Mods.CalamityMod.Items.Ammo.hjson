@@ -38,7 +38,7 @@ BloodRune: {
 
 BubonicRound: {
 	DisplayName: Bubonic Round
-	Tooltip: Spreads the plague on hit and ignores 10% of enemy defense
+	Tooltip: Spreads the [cbuff:CalamityMod/Plague] on hit and ignores 10% of enemy defense
 }
 
 CinderArrow: {
@@ -48,7 +48,13 @@ CinderArrow: {
 
 DryadsTear: {
 	DisplayName: Dryad's Tear
-	Tooltip: Splits into homing shards on impact which ignore 10 points of enemy defense
+	Tooltip:
+		'''
+		An extremely powerful magic bullet blessed with nature's essence that becomes unstable when multiple are nearby
+		Carries a teardrop along with it which on impact will detach and crash down upon the hit enemy and burst
+		All bullet and teardrop hits have 18 armor penetration
+		[c/40E091:'Focus. Breathe. Just one more shot, and the violence will fade away...']
+		'''
 }
 
 ElysianArrow: {
@@ -110,7 +116,7 @@ HyperiusBullet: {
 		Damage that would be dealt from the bullets is instead stored on the target
 		As more damage is stored, it will begin to overflow, slowly releasing and damaging the enemy
 		Attacks from sources other than Hyperius Bullets will release some of the charge
-		Releasing charge in this way deals 20% more damage
+		Releasing charge in this way is 20% more efficient
 		'''
 }
 

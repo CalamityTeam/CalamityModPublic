@@ -54,7 +54,6 @@ namespace CalamityMod.Items.Armor.Auric
             modPlayer.silvaSummon = true;
             modPlayer.auricSet = true;
             modPlayer.WearingPostMLSummonerSet = true;
-            player.crimsonRegen = true; // Inherited from Bloodflare
             player.maxMinions += SetBonusMinionSlotBoost;
             player.GetDamage<SummonDamageClass>() += SetBonusSummonDamageBoost;
         }

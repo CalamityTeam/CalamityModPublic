@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 
             if (!Main.dedServ)
             {
-                if (Main.rand.NextBool(6000))
+                if (Main.rand.NextBool(16000))
                     SoundEngine.PlaySound(CrowNoises, proj.Center);
             }
 

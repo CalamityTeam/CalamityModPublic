@@ -17,19 +17,19 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.width = 74;
             Item.height = 68;
 
-            Item.damage = 166;
+            Item.damage = 204;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.useTime = 6;
-            Item.useAnimation = 24;
-            Item.reuseDelay = 11;
+            Item.useTime = 5;
+            Item.useAnimation = 20;
+            Item.reuseDelay = 15;
             Item.useLimitPerAnimation = 4;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 7.5f;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<GhoulishGougerBoomerang>();
-            Item.shootSpeed = 16f;
+            Item.shootSpeed = 17f;
             Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.RarityPureGreenBuyPrice;

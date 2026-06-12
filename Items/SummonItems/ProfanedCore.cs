@@ -38,7 +38,7 @@ namespace CalamityMod.Items.SummonItems
         {
             var Prov = CalamityGlobalNPC.holyBoss;
             bool canPissOffProvi = Prov != -1 && Main.npc[Prov].life >= (Main.npc[Prov].lifeMax * 0.95f) && Main.npc[Prov].Calamity().newAI[3] >= 180f && !Main.npc[Prov].Calamity().CurrentlyEnraged;
-            return (!NPC.AnyNPCs(ModContent.NPCType<Providence>()) || canPissOffProvi) && (player.ZoneHallow || player.ZoneUnderworldHeight) && !BossRushEvent.BossRushActive;
+            return ((!NPC.AnyNPCs(ModContent.NPCType<Providence>()) && (player.ZoneHallow || player.ZoneUnderworldHeight)) || canPissOffProvi) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)

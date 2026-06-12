@@ -11,11 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
 
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
-        }
-
         public override void SetDefaults()
         {
             Item.width = 56;
@@ -41,22 +36,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 
-        public override bool AltFunctionUse(Player player) => true;
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int shotType = (player.altFunctionUse == 2 ? type : ModContent.ProjectileType<ChargedBlast>());
             int bulletAmt = 3;
             Vector2 newPosition = position + velocity.SafeNormalize(Vector2.UnitY) * 50f;
             for (int index = 0; index < bulletAmt; index++)
             {
-                Projectile.NewProjectile(source, newPosition, (velocity * Main.rand.NextFloat(0.9f, 1.1f)).RotatedByRandom(0.2f), shotType, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, newPosition, (velocity * Main.rand.NextFloat(0.9f, 1.1f)).RotatedByRandom(0.2f), ModContent.ProjectileType<ChargedBlast>(), damage, knockback, player.whoAmI);
             }
-
-            // Reset altFunctionUse to zero to prevent blank frame appear between shots on Alt-fire
-            if (player.itemAnimation <= 1)
-                player.altFunctionUse = 0;
-
             return false;
         }
 

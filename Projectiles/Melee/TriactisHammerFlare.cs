@@ -1,4 +1,5 @@
-﻿using CalamityMod.Particles;
+﻿using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -50,8 +51,10 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.Kill();
                 return;
             }
+            // You may swap weapons and keep the flares, but only for a short time
+            if (Owner.HeldItem.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>())
+                Projectile.timeLeft = 180;
 
-            Projectile.timeLeft = 2;
             float rotation = Main.GlobalTimeWrappedHourly * 2f + MathHelper.ToRadians(120f) * FlareType;
 
             // Transform into smashy hammers
@@ -93,6 +96,12 @@ namespace CalamityMod.Projectiles.Melee
                 Dust trail = Dust.QuickDust(Projectile.Center, GetColor(FlareType));
                 trail.position += Main.rand.NextVector2Unit() * Main.rand.NextFloat(0f, 8f);
             }
+        }
+
+        public override void OnKill(int timeLeft)
+        {
+            Particle pulse = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, GetColor(FlareType), Vector2.One, 0f, 0.1f, 0.8f, 10);
+            GeneralParticleHandler.SpawnParticle(pulse);
         }
 
         // Hue-shifted version of the base colours

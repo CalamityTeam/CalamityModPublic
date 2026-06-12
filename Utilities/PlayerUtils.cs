@@ -134,7 +134,26 @@ namespace CalamityMod
             ret += best - 1f;
             return ret;
         }
+        /// <summary>
+        /// Calculates and returns the player's total melee scale boosts. This is used mostly for melee holdouts.
+        /// </summary>
+        /// <param name="addHeldItemScale">If the item scale of the players held item should be added to the calculation.<br/>
+        /// Should be disabled for anything that doesn't lock you into holding one item.
+        /// </param>
+        public static float GetMeleeScale(this Player player, bool addHeldItemScale = true)
+        {
+            float baseScale = 1;
+            player.ApplyMeleeScale(ref baseScale); // Gets vanilla's glove scale boosts
+            // Xyk 3MARCH2026: Will be implemented better by Doze eventually
+            if (addHeldItemScale)
+                baseScale += (player.HeldItem.scale - 1);
+            if (player.HasBuff(BuffID.Tipsy))
+                baseScale += 0.25f;
+            if (player.GetModPlayer<IVDripPlayer>().HasAlcohol(AlcoholType.Ale) || player.GetModPlayer<IVDripPlayer>().HasAlcohol(AlcoholType.Sake))
+                baseScale += 0.25f;
 
+            return baseScale;
+        }
         public static float GetAmmoCostReduction(this Player player)
         {
             // Tally up all possible vanilla effects.

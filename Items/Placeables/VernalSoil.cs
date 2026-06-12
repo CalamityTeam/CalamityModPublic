@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
@@ -11,5 +12,14 @@ namespace CalamityMod.Items.Placeables
         }
 
         public override void SetDefaults() => Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.VernalSoil>());
+
+        public override void AddRecipes()
+        {
+            CreateRecipe(25).
+                AddIngredient(ItemID.MudBlock, 25).
+                AddIngredient(ItemID.JungleSpores).
+                AddTile(TileID.Anvils).
+                Register();
+        }
     }
 }

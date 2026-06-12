@@ -22,12 +22,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<SkytideDragoon>();
         public override string Texture => "CalamityMod/Items/Weapons/Melee/SkytideDragoon";
-        public override float HitboxOutset => 245;
-
-        public override Vector2 HitboxSize => new Vector2(40, 40); // long thin hitbox for a spear is done in collision, the X here determines hitbox width
+        public int size = 140;
+        public override float HitboxOutset => size * 1.45f;
+        public override Vector2 HitboxSize => new Vector2(30, 30); // Has custom collision
+        public override Vector2 SpriteOrigin => new(0, size);
         public override float HitboxRotationOffset => MathHelper.ToRadians(-45);
 
-        public override Vector2 SpriteOrigin => new(0, 135);
         public Vector2 mousePos;
         public Vector2 aimVel;
         public bool doSwing = true;
@@ -56,7 +56,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void WhenSpawned()
         {
             Projectile.knockBack = 0;
-            Projectile.scale = 1;
             Projectile.ai[1] = 1;
 
             mousePos = Owner.Calamity().mouseWorld;
@@ -151,18 +150,19 @@ namespace CalamityMod.Projectiles.Melee
                         for (int i = 0; i < 2; i++)
                         {
                             Color color = Color.Lerp(Color.White, Main.rand.NextBool() ? color1 : color2, 0.65f);
-                            Vector2 pos = Owner.Center + (new Vector2(160, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f));
-                            Vector2 vel = Projectile.rotation.ToRotationVector2().RotatedByRandom(0.4f) * Main.rand.NextFloat(2f, 8f);
-                            Dust dust = Dust.NewDustPerfect(pos, ModContent.DustType<LightDust>(), vel, 0, default, Main.rand.NextFloat(1.85f, 2.2f));
+                            Vector2 pos = Owner.Center + (new Vector2(160 * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f));
+                            Vector2 vel = Projectile.rotation.ToRotationVector2().RotatedByRandom(0.2f) * Main.rand.NextFloat(1f, 4f);
+                            Dust dust = Dust.NewDustPerfect(pos, ModContent.DustType<SquashDust>(), vel, 0, default, Main.rand.NextFloat(1.85f, 2.2f) * Projectile.scale);
                             dust.noGravity = true;
                             dust.color = color;
+                            dust.fadeIn = Projectile.scale - 1;
                             
-                            Particle spark2 = new BoltParticle(pos, -vel.RotatedBy(Owner.direction == 1 ? MathHelper.ToRadians(45) : MathHelper.ToRadians(-135)) * Main.rand.NextFloat(1.5f, 1.8f), false, 13, Main.rand.NextFloat(0.2f, 0.35f), color * 0.8f, new Vector2(1.2f, 1f), true, true, false, 0.25f);
+                            Particle spark2 = new BoltParticle(pos, -vel.RotatedBy(Owner.direction == 1 ? MathHelper.ToRadians(45) : MathHelper.ToRadians(-135)) * Main.rand.NextFloat(1.5f, 1.8f), false, 13, Main.rand.NextFloat(0.2f, 0.35f) * Projectile.scale, color * 0.8f, new Vector2(1.2f, 1f), true, true, false, 0.25f);
                             GeneralParticleHandler.SpawnParticle(spark2);
 
                             if (i % 2 == 0)
                             {
-                                Particle orb = new CustomSpark(pos, Vector2.Zero, "CalamityMod/Particles/BloomCircle", false, 35, 0.75f, color * 0.75f, new Vector2(1f, 1));
+                                Particle orb = new CustomSpark(pos, Vector2.Zero, "CalamityMod/Particles/BloomCircle", false, 35, 0.75f * Projectile.scale, color * 0.75f, new Vector2(1f, 1));
                                 GeneralParticleHandler.SpawnParticle(orb);
                             }
                         }
@@ -222,7 +222,8 @@ namespace CalamityMod.Projectiles.Melee
                                 SoundStyle sound = new("CalamityMod/Sounds/Item/SkytideBolt");
                                 SoundEngine.PlaySound(sound with { Volume = 0.8f }, Projectile.Center);
                                 Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center + new Vector2(0, -600), new Vector2(0, 10), ModContent.ProjectileType<DragoonBigBolt>(), (int)(Projectile.damage * 10), Projectile.knockBack, Projectile.owner, 0, 0.5f);
-                                proj.timeLeft = 45;
+                                proj.timeLeft = (int)(45 / Projectile.scale);
+                                proj.scale = Projectile.scale;
                                 swingCount = 0;
                                 attackPower = 6;
                             }
@@ -233,7 +234,8 @@ namespace CalamityMod.Projectiles.Melee
                                 SoundEngine.PlaySound(fire with { Volume = 1f, Pitch = -0.2f }, Projectile.Center);
                                 SoundStyle fire2 = new("CalamityMod/Sounds/Item/AuricBulletHit");
                                 SoundEngine.PlaySound(fire2 with { Volume = 0.5f, Pitch = 0.2f }, Projectile.Center);
-                                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center - aimVel * 2, aimVel.SafeNormalize(Vector2.UnitX) * -10, ModContent.ProjectileType<DragoonBigBolt>(), (int)(Projectile.damage * 10), Projectile.knockBack, Projectile.owner, 0, 1f);
+                                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center - aimVel * 2 * Projectile.scale, aimVel.SafeNormalize(Vector2.UnitX) * -10, ModContent.ProjectileType<DragoonBigBolt>(), (int)(Projectile.damage * 10), Projectile.knockBack, Projectile.owner, 0, 1f);
+                                proj.scale = Projectile.scale;
                                 swingCount = -1;
                                 attackPower = 0;
                             }
@@ -243,7 +245,8 @@ namespace CalamityMod.Projectiles.Melee
                                 {
                                     float rot = (0.1f * attackPower * i / 6f);
                                     Vector2 vel = rot.ToRotationVector2().RotatedBy(aimVel.ToRotation()) * -7;
-                                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center - aimVel * 2, vel, ModContent.ProjectileType<DragoonSmallBolt>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0, rot);
+                                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center - aimVel * 2 * Projectile.scale, vel, ModContent.ProjectileType<DragoonSmallBolt>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0, rot);
+                                    proj.scale = Projectile.scale;
                                 }
                                 attackPower--;
                             }
@@ -267,12 +270,17 @@ namespace CalamityMod.Projectiles.Melee
                         {
                             Color color = Color.Lerp(Color.White, Main.rand.NextBool() ? color1 : color2, 0.65f);
                             float bonus = (1 - (7 / (attackPower + 1))) * 0.3f;
-                            Vector2 pos = Owner.Center + (new Vector2(160, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.05f));
+                            Vector2 pos = Owner.Center + (new Vector2(160 * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.05f));
                             Vector2 vel = Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-45)).RotatedByRandom(0.5f) * Main.rand.NextFloat(6f, 10f);
-                            Dust dust = Dust.NewDustPerfect(pos, Main.rand.NextBool(3) ? 278 : ModContent.DustType<LightDust>(), vel * (1 + bonus), 0, default, Main.rand.NextFloat(1.05f, 1.4f));
-                            dust.noGravity = !(dust.type == 278);
+                            Dust dust = Dust.NewDustPerfect(pos, Main.rand.NextBool(3) ? DustID.FireworksRGB : ModContent.DustType<SquashDust>(), vel * (1 + bonus), 0, default, Main.rand.NextFloat(1.05f, 1.4f));
+                            dust.noGravity = dust.type != DustID.FireworksRGB;
                             dust.color = color;
                             dust.scale += bonus;
+                            if (dust.type != DustID.FireworksRGB)
+                            {
+                                dust.scale *= Projectile.scale;
+                                dust.fadeIn = Projectile.scale - 1;
+                            }
                         }
                     }
                 }
@@ -285,7 +293,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             // Perform an AABB line collision check to check the whole spear.
             float _ = float.NaN;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + (Projectile.rotation - MathHelper.ToRadians(45)).ToRotationVector2() * HitboxOutset + tipOutset, HitboxSize.X * Projectile.scale, ref _);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center, Owner.Center + ((Projectile.rotation - MathHelper.ToRadians(45)).ToRotationVector2() * HitboxOutset + tipOutset) * Projectile.scale, HitboxSize.X * Projectile.scale, ref _);
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -298,7 +306,7 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(fire2 with { Volume = 0.65f, Pitch = 0.4f }, Projectile.Center);
 
             Vector2 launchVel = Utils.DirectionTo(Owner.Center, Owner.Calamity().mouseWorld);
-            target.MoveNPC(launchVel, 23, true);
+            target.MoveNPC(launchVel, 23, true, Owner);
 
             target.AddBuff(BuffID.Electrified, 230);
         }
@@ -342,15 +350,15 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     // While not super visible here, this hitbox extention effect looks great and I'll use it on stuff like Terra Lance later
                     Color tipColor = Color.Lerp(color2, color1, (i + 4) / 6) with { A = 0 } * 0.3f * fadeIn;
-                    Vector2 scale = new Vector2(0.25f - i * 0.04f, (1.5f + i * 0.15f) * colorFadeIn) * (0.75f * colorFadeIn * Main.rand.NextFloat(0.9f, 1.1f) + 0.25f);
-                    Main.EntitySpriteDraw(tex2.Value, Owner.Center - Main.screenPosition + fxPosRot.ToRotationVector2() * 130, null, tipColor, fxRot, tex2.Size() * 0.5f, scale, SpriteEffects.None);
+                    Vector2 scale = new Vector2(0.25f - i * 0.04f, (1.5f + i * 0.15f) * colorFadeIn) * (0.75f * colorFadeIn * Main.rand.NextFloat(0.9f, 1.1f) + 0.25f) * Projectile.scale;
+                    Main.EntitySpriteDraw(tex2.Value, Owner.Center - Main.screenPosition + fxPosRot.ToRotationVector2() * 130 * Projectile.scale, null, tipColor, fxRot, tex2.Size() * 0.5f, scale, SpriteEffects.None);
                 }
                 for (int i = 0; i < 6; i++)
                 {
                     // the electric orb at the tip
                     Color orbColor = Color.Lerp(Color.Lerp(color2, color1, (i + 2) / 6), Color.White,  i / 6) with { A = 0 } * 0.5f;
-                    Vector2 scale = new Vector2(Math.Abs(sine * 0.5f) + 0.1f, 1) * (0.05f + i * 0.01f) * attackMult * Main.rand.NextFloat(0.9f, 1.1f) * 2;
-                    Main.EntitySpriteDraw(orb.Value, Owner.Center - Main.screenPosition + fxPosRot.ToRotationVector2() * 180 + tipOutset, null, orbColor, Main.rand.NextFloat(-5, 5), orb.Size() * 0.5f, scale, SpriteEffects.None);
+                    Vector2 scale = new Vector2(Math.Abs(sine * 0.5f) + 0.1f, 1) * (0.05f + i * 0.01f) * attackMult * Main.rand.NextFloat(0.9f, 1.1f) * 2 * Projectile.scale;
+                    Main.EntitySpriteDraw(orb.Value, Owner.Center - Main.screenPosition + fxPosRot.ToRotationVector2() * 188 * Projectile.scale + tipOutset * Projectile.scale, null, orbColor, Main.rand.NextFloat(-5, 5), orb.Size() * 0.5f, scale, SpriteEffects.None);
                 }
             }
             return false;

@@ -55,7 +55,6 @@ namespace CalamityMod.Items.Armor.Auric
             modPlayer.godSlayerDamage = true;
             modPlayer.auricSet = true;
             modPlayer.auricSetMelee = true;
-            player.crimsonRegen = true; // Inherited from Bloodflare
             player.aggro += SetBonusAggroBoost;
 
             if (modPlayer.godSlayerDashHotKeyPressed || (player.dashDelay != 0 && modPlayer.LastUsedDashID == GodslayerArmorDash.ID))

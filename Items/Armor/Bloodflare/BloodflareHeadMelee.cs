@@ -47,7 +47,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
             modPlayer.bloodflareMelee = true;
             player.aggro += SetBonusAggroBoost;
             player.setBonus = this.GetLocalization("SetBonus").Format(HitsToActivateFrenzy, FrenzyDuration.FramesToSeconds(), FrenzyMeleeDamageBoost.ToPercent(), FrenzyContactDamageReduction.ToPercent(), FrenzyCooldown.FramesToSeconds());
-            player.crimsonRegen = true;
         }
 
         public override void UpdateEquip(Player player)

@@ -14,9 +14,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 30;
             Item.damage = 23;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 5;
-            Item.useTime = 15;
-            Item.useAnimation = 15;
+            Item.mana = 6;
+            Item.useAnimation = Item.useTime = 15;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 5;
@@ -31,8 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<AerialiteBar>(6).
-                AddIngredient(ItemID.SunplateBlock, 5).
+                AddIngredient<AerialiteBar>(7).
                 AddTile(TileID.Bookcases).
                 Register();
         }

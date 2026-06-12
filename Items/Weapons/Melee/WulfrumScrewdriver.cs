@@ -39,6 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float ScrewBazingaModeDamageMult = 6.5f;
         public static float ScrewBazingaAimAssistAngle = 0.52f; //This may look high but remember this is the FULL angle, so it actually checks for half that angle deviation
         public static float ScrewBazingaAimAssistReach = 600f;
+        public float scaler = 1;
 
         public override ModItem Clone(Item item)
         {
@@ -99,6 +100,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void HoldItem(Player player)
         {
+            scaler = player.GetMeleeScale();
             player.Calamity().mouseWorldListener = true;
 
             if (Main.myPlayer == player.whoAmI)
@@ -143,8 +145,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 //Prevent it from being thrown at any less than -1f
                 chuckSpeed.Y = Math.Clamp(chuckSpeed.Y, -1f, 3f);
 
-                int p = Projectile.NewProjectile(source, position, chuckSpeed, ModContent.ProjectileType<WulfrumScrew>(), damage, knockback, player.whoAmI);
-
+                Projectile p = Projectile.NewProjectileDirect(source, position, chuckSpeed, ModContent.ProjectileType<WulfrumScrew>(), damage, knockback, player.whoAmI);
+                p.scale = scaler + 0.2f;
                 ScrewStored = false;
                 return false;
             }
@@ -188,7 +190,7 @@ namespace CalamityMod.Items.Weapons.Melee
             position = Vector2.Lerp(new Vector2(ScrewPosition.X, ScrewPosition.Y), new Vector2(ScrewStart.X, ScrewStart.Y), ProgressionOfScrew);
             float rotation = ScrewPosition.Z.AngleLerp(ScrewStart.Z, ProgressionOfScrew);
             float outlineOpacity = (float)Math.Pow(1 - ScrewTimer / ScrewTime, 2);
-            scale = 1.05f + 0.05f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f);
+            scale = 1.05f * scale + 0.05f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 0.5f);
 
             Main.spriteBatch.Draw(screwOutlineTex, position, null, Color.Lerp(Color.GreenYellow, Color.White, (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.5f + 0.5f) * outlineOpacity, rotation, screwOutlineTex.Size() / 2f, scale, 0, 0);
             Main.spriteBatch.Draw(screwTex, position, null, Color.White, rotation, screwTex.Size() / 2f, scale, 0, 0);

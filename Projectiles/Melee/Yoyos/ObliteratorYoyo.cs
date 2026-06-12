@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
@@ -20,12 +21,15 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     public class ObliteratorYoyo : ModProjectile
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<TheObliterator>();
-        private static int DashStartup => 60;
-        private static int DashCooldown => 15;
+        private static int DashStartup => 90;
+        private static int DashCooldown => 30;
         public SlotId GFB;
         public int GFBCounter = 0;
         public int time = 0;
 
+        public int DashQueue = 0;
+        int dashTimer = 0;
+        int timerToStartDash = 0;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Type] = -1f;
@@ -48,20 +52,30 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Projectile.localNPCHitCooldown = 7 * Projectile.MaxUpdates;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(DashQueue);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            DashQueue = reader.ReadInt32();
+        }
+
         public override bool PreAI()
         {
             if (Projectile.FinalExtraUpdate())
             {
-                if (Projectile.localAI[1] != DashStartup)
-                    Projectile.localAI[1]++;
-                if (Projectile.localAI[1] > DashStartup + DashCooldown)
-                    Projectile.localAI[1] = 0;
+                timerToStartDash++;
+                if (timerToStartDash % DashStartup == DashStartup - 1)
+                    DashQueue++;
             }
 
-            if (Projectile.localAI[1] <= DashStartup)
+            if (dashTimer <= 0)
                 return true;
             Projectile.aiStyle = -1;
             Projectile.timeLeft++;
+            dashTimer--;
             return true;
         }
 
@@ -94,8 +108,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
             if (Projectile.FinalExtraUpdate())
             {
-                if (Projectile.localAI[1] == DashStartup)
+                if (DashQueue > 0 && dashTimer <= 0)
                 {
+                    DashQueue--;
+
                     List<NPC> targets = new List<NPC>();
                     float laserRange = 600f;
                     foreach (NPC n in Main.ActiveNPCs)
@@ -139,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                         SparkParticle spark = new SparkParticle(Projectile.Center, sparkVelocity, false, sparkLifetime, sparkScale, sparkColor);
                         GeneralParticleHandler.SpawnParticle(spark);
                     }
-                    Projectile.localAI[1]++;
+                    dashTimer = DashCooldown;
                     Projectile.ResetLocalNPCHitImmunity();
                 }
             }
@@ -158,7 +174,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Vector2 origin = new Vector2(10f, 10f);
             Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/Yoyos/ObliteratorYoyoGlow").Value, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, origin, 2f, SpriteEffects.None, 0);
 
-            if (Projectile.localAI[1] <= DashStartup)
+            if (dashTimer <= 0)
                 return;
             var tex = ModContent.Request<Texture2D>("CalamityMod/Particles/Jaws").Value;
             Main.spriteBatch.SetBlendState(BlendState.Additive);
@@ -176,7 +192,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (Projectile.localAI[1] > DashStartup)
+            if (dashTimer > 0)
             {
                 modifiers.SourceDamage *= 6;
             }
@@ -186,7 +202,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
             if (Projectile.localAI[1] > DashStartup)
             {
-                Projectile.localAI[1] = 0;
+                dashTimer = 0;
                 target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180);
                 for (int i = 0; i < 10; i++)
                 {
@@ -200,8 +216,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 }
                 SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/NPCHit/OtherworldlyHit") with { Pitch = -0.45f, Volume = 0.33f }, Projectile.Center);
             }
-            else
-                target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 180);
             GFBCounter = 15;
         }
     }

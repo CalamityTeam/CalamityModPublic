@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -9,6 +10,9 @@ namespace CalamityMod.Items.Accessories
     public class UnholyTonic : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+
+        public static int DefenseBoostInCorruption = 3;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DefenseBoostInCorruption);
         public override void SetDefaults()
         {
             Item.width = 20;
@@ -22,10 +26,7 @@ namespace CalamityMod.Items.Accessories
         {
             player.buffImmune[ModContent.BuffType<BrainRot>()] = true;
             if (player.ZoneCorrupt)
-            {
-                player.statDefense += 6;
-                player.endurance += 0.04f;
-            }
+                player.statDefense += DefenseBoostInCorruption;
         }
 
         public override void AddRecipes()

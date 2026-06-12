@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -16,10 +17,11 @@ namespace CalamityMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
 
-        public static int RegenBoost = 2;
-        public static int DefenseBoost = 10;
-        public static float SummonDamageBoost = 0.1f;
-
+        public static int RegenBoost => 2;
+        public static int DefenseBoost => 8;
+        public static float SummonDamageBoost => 0.1f;
+        public static float DaggerDamage => 300;
+        public LocalizedText TooltipExtensionText => this.GetLocalization("HoldShiftTooltip").WithFormatArgs(SummonDamageBoost.ToPercent(), DefenseBoost, RegenBoost.ToRegenPerSecond());
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));

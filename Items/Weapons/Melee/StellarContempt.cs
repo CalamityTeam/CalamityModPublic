@@ -1,5 +1,7 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Systems.Collections;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,16 +12,18 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public static float Speed = 30f;
-
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Nightwither>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 74;
             Item.height = 74;
             Item.DamageType = DamageClass.MeleeNoSpeed;
-            Item.damage = 650;
+            Item.damage = 525;
             Item.knockBack = 28f;
-            Item.useTime = 45;
-            Item.useAnimation = 45;
+            Item.useTime = Item.useAnimation = 48;
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;
@@ -39,7 +43,8 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<FallenPaladinsHammer>().
                 AddIngredient(ItemID.LunarBar, 5).
-                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.FragmentSolar, 5).
+                AddIngredient<CoreofCalamity>(2).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

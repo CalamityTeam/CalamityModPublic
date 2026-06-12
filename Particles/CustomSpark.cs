@@ -1,4 +1,5 @@
 ﻿using System;
+using CalamityMod.Systems.Graphic.PixelationSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -22,13 +23,14 @@ namespace CalamityMod.Particles
         public bool FlipHorizontal = false;
         public bool NoShrink = false;
         public float Spin = 0;
+        public float ColorFadeSpeed = 0;
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public bool AltVisual = true;
         public override bool UseAdditiveBlend => AltVisual;
         public override bool SetLifetime => true;
         public override bool UseCustomDraw => true;
 
-        public CustomSpark(Vector2 relativePosition, Vector2 velocity, string texture, bool affectedByGravity, int lifetime, float scale, Color color, Vector2 stretch, bool useAddativeBlend = true, bool glowCenter = false, float extraRotation = 0, bool fadeIn = false, bool affectedByLight = false, float shrinkSpeed = 0, float glowCenterScale = 1, float glowOpacity = 1, bool flipHorizontal = false, bool noShrink = false, float spin = 0)
+        public CustomSpark(Vector2 relativePosition, Vector2 velocity, string texture, bool affectedByGravity, int lifetime, float scale, Color color, Vector2 stretch, bool useAddativeBlend = true, bool glowCenter = false, float extraRotation = 0, bool fadeIn = false, bool affectedByLight = false, float shrinkSpeed = 0, float glowCenterScale = 1, float glowOpacity = 1, bool flipHorizontal = false, bool noShrink = false, float spin = 0, float colorFadeSpeed = 3)
         {
             Position = relativePosition;
             Velocity = velocity;
@@ -55,6 +57,7 @@ namespace CalamityMod.Particles
             if (FadeIn)
                 Scale = 0f;
             Spin = spin;
+            ColorFadeSpeed = colorFadeSpeed;
         }
 
         public override void Update()
@@ -63,7 +66,7 @@ namespace CalamityMod.Particles
             {
                 if (!NoShrink)
                     Scale *= 0.95f;
-                Color = Color.Lerp(InitialColor, Color.Transparent, (float)Math.Pow(LifetimeCompletion, 3D));
+                Color = Color.Lerp(InitialColor, Color.Transparent, (float)Math.Pow(LifetimeCompletion, ColorFadeSpeed));
             }
             else
             {
@@ -114,9 +117,21 @@ namespace CalamityMod.Particles
                 col = Lighting.GetColor((Position / 16).ToPoint()).MultiplyRGB(Color);
             }
 
-            spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color.Lerp(col, Color.Transparent, (float)Math.Pow(LifetimeCompletion, 3D)), Rotation, texture.Size() * 0.5f, scale * scaleMult, FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
-            if (GlowCenter)
-                spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color.Lerp(Color.Lerp(col, Color.White, 0.8f), Color.Transparent, (float)Math.Pow(LifetimeCompletion, 3D)) * GlowOpacity, Rotation, texture.Size() * 0.5f, scale * 0.8f * GlowCenterScale * scaleMult, FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            if (Pixelate)
+            {
+                PixelationManager.AddPixelatedDrawer((_) =>
+                {
+                    spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color.Lerp(col, Color.Transparent, (float)Math.Pow(LifetimeCompletion, 3D)), Rotation, texture.Size() * 0.5f, scale * scaleMult, FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+                    if (GlowCenter)
+                        spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color.Lerp(Color.Lerp(col, Color.White, 0.8f), Color.Transparent, (float)Math.Pow(LifetimeCompletion, 3D)) * GlowOpacity, Rotation, texture.Size() * 0.5f, scale * 0.8f * GlowCenterScale * scaleMult, FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                }, Enums.GeneralDrawLayer.AfterProjectiles, UseAdditiveBlend ? BlendState.Additive : null);
+            }
+            else
+            {
+                spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color.Lerp(col, Color.Transparent, (float)Math.Pow(LifetimeCompletion, 3D)), Rotation, texture.Size() * 0.5f, scale * scaleMult, FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
+                if (GlowCenter)
+                    spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color.Lerp(Color.Lerp(col, Color.White, 0.8f), Color.Transparent, (float)Math.Pow(LifetimeCompletion, 3D)) * GlowOpacity, Rotation, texture.Size() * 0.5f, scale * 0.8f * GlowCenterScale * scaleMult, FlipHorizontal ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            }
         }
     }
 }

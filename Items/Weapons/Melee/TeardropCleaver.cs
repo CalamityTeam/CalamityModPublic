@@ -1,4 +1,6 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Systems.Collections;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,10 +10,14 @@ namespace CalamityMod.Items.Weapons.Melee
     public class TeardropCleaver : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<TemporalSadness>()];
+        }
         public override void SetDefaults()
         {
-            Item.width = 56;
-            Item.height = 66;
+            Item.width = 54;
+            Item.height = 76;
             Item.damage = 38;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 24;

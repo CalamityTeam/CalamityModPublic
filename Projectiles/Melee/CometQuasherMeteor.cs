@@ -64,11 +64,11 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (time % 11 == 0)
                 {
-                    GlowSparkParticle orb = new(Projectile.Center + Main.rand.NextVector2Circular(20, 20), -Projectile.velocity * 2, false, 11, 0.03f, mainColor * Main.rand.NextFloat(0.7f, 1), new Vector2(1f, 1f), true, false, 0.6f);
+                    GlowSparkParticle orb = new(Projectile.Center + Main.rand.NextVector2Circular(20, 20) * Projectile.scale - Projectile.velocity * 2, -Projectile.velocity * 2, false, 11, 0.025f * Projectile.scale, mainColor * Main.rand.NextFloat(0.7f, 1), new Vector2(1f, 1f), true, false, 0.6f);
                     GeneralParticleHandler.SpawnParticle(orb);
                 }
                 if (time % 4 == 0)
-                    GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(Projectile.Center, -Projectile.velocity * Main.rand.NextFloat(0.2f, 1.5f), Main.rand.NextBool(4) ? Color.AliceBlue : Color.DodgerBlue, 6, Main.rand.NextFloat(0.4f, 0.9f), 0.65f, 0, true));
+                    GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(Projectile.Center, -Projectile.velocity * Main.rand.NextFloat(0.2f, 1.5f), Main.rand.NextBool(4) ? Color.AliceBlue : Color.DodgerBlue, 6, Main.rand.NextFloat(0.4f, 0.9f) * Projectile.scale, 0.65f, 0, true));
             }
             if (Main.rand.NextBool(13))
             {
@@ -120,7 +120,8 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.ai[2] > 0)
             {
                 Vector2 spawnSpot = Owner.Center + new Vector2(Main.rand.NextFloat(-550, 550), Main.rand.NextFloat(-750, -950));
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<CometQuasherMeteor>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, 0, Projectile.ai[2] - 1);
+                Projectile meteor = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<CometQuasherMeteor>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, 0, Projectile.ai[2] - 1);
+                meteor.scale = Projectile.scale;
             }
 
             if (Projectile.owner == Main.myPlayer)
@@ -132,13 +133,16 @@ namespace CalamityMod.Projectiles.Melee
             }
             for (int i = 0; i < 13; i++)
             {
-                Particle spark3 = new GlowOrbParticle(Projectile.Center, Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(3.5f, 9), false, 20, Main.rand.NextFloat(0.5f, 1f), Main.rand.NextBool(5) ? Color.AliceBlue : Color.DodgerBlue, true, false, false);
+                Particle spark3 = new GlowOrbParticle(Projectile.Center, Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(3.5f, 9), false, 20, Main.rand.NextFloat(0.5f, 1f) * Projectile.scale, Main.rand.NextBool(5) ? Color.AliceBlue : Color.DodgerBlue, true, false, false);
                 GeneralParticleHandler.SpawnParticle(spark3);
             }
-            Particle blastRing = new CustomPulse(Projectile.Center, Vector2.Zero, mainColor * 0.7f, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 2f, 1f, 25, true);
-            GeneralParticleHandler.SpawnParticle(blastRing);
-            Particle blastRing2 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.White * 0.7f, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 1f, 0.3f, 25, true);
-            GeneralParticleHandler.SpawnParticle(blastRing2);
+            if (!CalamityClientConfig.Instance.Photosensitivity)
+            {
+                Particle blastRing = new CustomPulse(Projectile.Center, Vector2.Zero, mainColor * 0.7f, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 2f * Projectile.scale, 1f * Projectile.scale, 25, true);
+                GeneralParticleHandler.SpawnParticle(blastRing);
+                Particle blastRing2 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.White * 0.7f, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 1f * Projectile.scale, 0.3f * Projectile.scale, 25, true);
+                GeneralParticleHandler.SpawnParticle(blastRing2);
+            }
         }
         public override bool? CanCutTiles() => false;
     }

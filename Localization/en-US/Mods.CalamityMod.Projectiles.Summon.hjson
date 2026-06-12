@@ -246,7 +246,7 @@ SandnadoMinion.DisplayName: Sandnado
 SandTornado.DisplayName: Tornado
 SarosAura.DisplayName: Saros Aura
 SarosSunfire.DisplayName: Saros Sunfire
-SarosEclipseBeam.DisplayName: Eclipse Beam
+SarosEclipseBeam.DisplayName: Totality Ray
 SeashineSwordProj.DisplayName: Seashine Sword
 SeekerSummonProj.DisplayName: Soul Seeker
 SepulcherMinion.DisplayName: Sepulcher
@@ -317,9 +317,11 @@ VictideSeaSnail.DisplayName: Sea Snail
 VileFeederProjectile.DisplayName: Eater of Souls Mini
 VileFeederSummon.DisplayName: Baby Eater
 ViridVanguardBlade.DisplayName: Vanguard Blade
-VoidConcentrationAura.DisplayName: Concentrated Void Aura
-VoidConcentrationBlackhole.DisplayName: Black Hole
-VoidConcentrationOrb.DisplayName: Void Orb
+VoidConcentrationSummonTagProj.DisplayName: Dark Energy Vortex
+VoidConcentrationBeam.DisplayName: Concentrated Beam
+VoidConcentrationDarkEnergy.DisplayName: Orbiting Dark Energy
+VoidConcentrationMinion.DisplayName: Void Concentration Minion
+VoidConcentrationMark.DisplayName: Void Concentration Mark
 VoidEaterMarionetteProjectile.DisplayName: Void Eater Marionette
 VolcanicFireballSummon.DisplayName: Volcanic Fireball
 WaterElementalMinion.DisplayName: Anahita

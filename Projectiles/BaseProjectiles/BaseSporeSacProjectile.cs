@@ -9,6 +9,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public Player Owner => Main.player[Projectile.owner];
         public bool FadingOut => GeneralTimer > 5400f;
         public bool HomesInStronglyOnEnemies => Projectile.ai[1] == 1f;
+        public bool AvoidFadingOutIfHoming => Projectile.ai[2] == 1f;
         public ref float GeneralTimer => ref Projectile.ai[0];
         public ref float PulseIncrement => ref Projectile.localAI[0];
         public ref float MoveTimer => ref Projectile.localAI[1];
@@ -106,18 +107,21 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
                 // Fade in.
                 Projectile.alpha = Utils.Clamp(Projectile.alpha - 10, 50, 255);
-            }
-            if (HomesInStronglyOnEnemies || Projectile.timeLeft < (3300 + PulseIncrement))
-            {
-                NPC potentialTarget = Projectile.Center.ClosestNPCAt(HomeDistance);
 
-                if (potentialTarget != null)
+                if (HomesInStronglyOnEnemies || Projectile.timeLeft < (3300 + PulseIncrement))
                 {
-                    if (HomesInStronglyOnEnemies)
-                        Projectile.extraUpdates = 5;
+                    NPC potentialTarget = Projectile.Center.ClosestNPCAt(HomeDistance);
 
-                    Projectile.velocity = (Projectile.velocity * 10f + Projectile.SafeDirectionTo(potentialTarget.Center) * HomeSpeed) / 11f;
-                    return;
+                    if (potentialTarget != null)
+                    {
+                        if (HomesInStronglyOnEnemies)
+                            Projectile.extraUpdates = 5;
+                        if (AvoidFadingOutIfHoming)
+                            GeneralTimer = 0f;
+
+                        Projectile.velocity = (Projectile.velocity * 10f + Projectile.SafeDirectionTo(potentialTarget.Center) * HomeSpeed) / 11f;
+                        return;
+                    }
                 }
             }
             if (Projectile.velocity.Length() > 0.2f)

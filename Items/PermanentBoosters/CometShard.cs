@@ -14,7 +14,7 @@ namespace CalamityMod.Items.PermanentBoosters
     {
         public new string LocalizationCategory => "Items.Misc";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/CometShardUse");
-        public const int ManaBoost = 50;
+        public const int ManaBoost = 60;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaBoost);
 
         public override void SetStaticDefaults()

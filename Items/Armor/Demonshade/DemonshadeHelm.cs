@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Armor.Demonshade
         // Set Bonus
         public static int SetBonusMinionSlotBoost = 8;
         public static float SetBonusSummonDamageBoost = 1f;
-        public static int DevilDamage = 1000;
         public static int BeamDamage => CalamityUtils.ScaleWithDifficulty(300);
         public static int ScytheDamage => CalamityUtils.ScaleWithDifficulty(500);
         public static int EnrageDuration = CalamityUtils.SecondsToFrames(10);
@@ -59,22 +58,6 @@ namespace CalamityMod.Items.Armor.Demonshade
             modPlayer.dsSetBonus = true;
             modPlayer.wearingRogueArmor = true;
             modPlayer.WearingPostMLSummonerSet = true;
-            if (player.whoAmI == Main.myPlayer && !modPlayer.chibii)
-            {
-                modPlayer.redDevil = true;
-                var source = player.GetSource_ItemUse(Item);
-                if (player.FindBuffIndex(ModContent.BuffType<DemonshadeSetDevilBuff>()) == -1)
-                {
-                    player.AddBuff(ModContent.BuffType<DemonshadeSetDevilBuff>(), 3600, true);
-                }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<DemonshadeRedDevil>()] < 1)
-                {
-                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(DevilDamage);
-
-                    var devil = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<DemonshadeRedDevil>(), damage, 0f, Main.myPlayer, 2f, 0f);
-                    devil.originalDamage = DevilDamage;
-                }
-            }
             player.maxMinions += SetBonusMinionSlotBoost;
             player.GetDamage<SummonDamageClass>() += SetBonusSummonDamageBoost;
         }

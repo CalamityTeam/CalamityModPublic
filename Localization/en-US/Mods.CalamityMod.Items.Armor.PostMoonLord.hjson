@@ -168,7 +168,6 @@ BloodflareBodyArmor: {
 	Tooltip: "{$CommonItemTooltip.PercentIncreasedDamage} and {$CommonItemTooltip.PercentIncreasedCritChance@1}"
 	CommonSetBonus:
 		'''
-		Greatly increased life regen, equivalent to Crimson armor
 		Enemies below 50% life drop a heart when struck
 		This effect has a 5 second cooldown
 		'''
@@ -221,7 +220,7 @@ BloodflareHeadMelee: {
 }
 
 BloodflareHeadRanged: {
-	DisplayName: Bloodflare Horned Helm
+	DisplayName: Bloodflare Demon Helm
 	Tooltip:
 		'''
 		{$CommonItemTooltip.PercentIncreasedRangedDamageCritChance}
@@ -243,6 +242,7 @@ BloodflareHeadRogue: {
 		'''
 		{$Common.RogueDamage} and {$Common.RogueCrit@1}
 		{$CommonItemTooltip.PercentIncreasedMovementSpeed@2}
+		Increases regeneration by {3} HP/s
 		'''
 	SetBonus:
 		'''
@@ -252,7 +252,6 @@ BloodflareHeadRogue: {
 	SetBonusEffect:
 		'''
 		Grants {0} defense when above {1}% life
-		Rogue critical strikes have lifesteal
 		{$BloodflareBodyArmor.CommonSetBonus}
 		'''
 }
@@ -307,7 +306,6 @@ DemonshadeHelm: {
 		{$CommonItemTooltip.IncreasesMaxMinionsBy}
 		{$CommonItemTooltip.PercentIncreasedSummonDamage@1}
 		Shadowbeams and demon scythes will fire down when you are hit
-		A friendly red devil follows you around
 		{2} to enrage nearby enemies with a dark magic spell for {3} seconds
 		This makes them take {4}x total damage, but they will deal {5}x damage to you
 		'''
@@ -338,7 +336,7 @@ EmpyreanMask: {
 		'''
 		{$Common.RogueStealth}
 		Rogue projectiles have special effects on enemy hits
-		Imbued with cosmic wrath when you are damaged
+		Imbued with [cbuffplr:CalamityMod/EmpyreanWrath] when you are damaged or while below {1}% life
 		'''
 }
 
@@ -424,10 +422,10 @@ GodSlayerChestplate: {
 	Tooltip: "{$CommonItemTooltip.PercentIncreasedDamage} and {$CommonItemTooltip.PercentIncreasedCritChance@1}"
 	CommonSetBonus:
 		'''
-		Press {0} to [c/ff00ff:Dimensional Drive] towards your cursor for 2 seconds
+		Press {0} to [ceffect/dog:Dimensional Drive] towards your cursor for 1.25 seconds
 		Enemies you dash through take massive damage
-		During [c/ff00ff:Dimensional Drive] you are immune to damage and most debuffs
-		[c/ff00ff:Dimensional Drive] has a {1} second cooldown
+		During [ceffect/dog:Dimensional Drive] you are immune to damage and most debuffs
+		[ceffect/dog:Dimensional Drive] has a {1} second cooldown
 		'''
 }
 
@@ -500,7 +498,7 @@ OmegaBlueChestplate: {
 		'''
 		{$CommonItemTooltip.PercentIncreasedDamage} and {$CommonItemTooltip.PercentIncreasedCritChance@1}
 		{$CommonItemTooltip.PercentChanceToSaveAmmo@2}
-		Your attacks inflict Hadopelagic Pressure
+		Your attacks inflict [cbuff:CalamityMod/HadopelagicPressure]
 		No positive life regen
 		'''
 }
@@ -669,7 +667,7 @@ TarragonHeadMelee: {
 		'''
 	SetBonusEffect:
 		'''
-		Taking damage gives [cbuff:CalamityMod/TarraLifeRegen], which grants +{0} HP/s life regen
+		Taking damage gives [cbuffplr:CalamityMod/TarraLifeRegen], which grants +{0} HP/s life regen
 		{1} to cloak yourself in life energy that heavily reduces enemy contact damage for {2} seconds
 		This has a {3} second cooldown
 		{$TarragonBreastplate.CommonSetBonus}

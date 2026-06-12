@@ -53,7 +53,7 @@ CalamitasClone: {
 
 CeaselessVoid: {
 	EntryName: Ceaseless Void
-	SpawnInfo: Use a [i:CalamityMod/RuneofKos] in the dungeon.
+	SpawnInfo: Use a [i:CalamityMod/MarkofProvidence] in the dungeon.
 	DespawnMessage: "[c/4B0082:The ancient spatial rift slips away to places unknown.]"
 }
 
@@ -180,7 +180,7 @@ Ravager: {
 
 Signus: {
 	EntryName: Signus
-	SpawnInfo: Use a [i:CalamityMod/RuneofKos] in the underworld.
+	SpawnInfo: Use a [i:CalamityMod/MarkofProvidence] in the underworld.
 	DespawnMessage: "[c/BA55D3:Signus inexplicably ceases to be where he once was.]"
 }
 
@@ -192,7 +192,7 @@ SlimeGod: {
 
 StormWeaver: {
 	EntryName: Storm Weaver
-	SpawnInfo: Use a [i:CalamityMod/RuneofKos] high in the sky or in space.
+	SpawnInfo: Use a [i:CalamityMod/MarkofProvidence] high in the sky or in space.
 	DespawnMessage: "[c/EE82EE:Storm Weaver hides itself within the fierce anvilhead clouds.]"
 }
 

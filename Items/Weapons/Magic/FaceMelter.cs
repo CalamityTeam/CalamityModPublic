@@ -19,9 +19,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 50;
             Item.damage = 130;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 10;
-            Item.useTime = 5;
-            Item.useAnimation = 10;
+            Item.mana = 14;
+            Item.useAnimation = Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 5f;
@@ -40,21 +39,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                Item.useTime = 20;
-                Item.useAnimation = 20;
-            }
-            else
-            {
-                Item.useTime = 5;
-                Item.useAnimation = 10;
-            }
-            return base.CanUseItem(player);
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse == 2)
@@ -64,19 +48,9 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             else
             {
-                int note = Main.rand.Next(2);
-                if (note == 0)
-                {
-                    damage = (int)(damage * 1.5f);
-                    type = ModContent.ProjectileType<MelterNote1>();
-                }
-                else
-                {
-                    velocity.X *= 1.5f;
-                    velocity.Y *= 1.5f;
-                    type = ModContent.ProjectileType<MelterNote2>();
-                }
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+                Vector2 offset = velocity.SafeNormalize(Vector2.UnitX) * 8f;
+                Projectile.NewProjectile(source, position + offset.RotatedBy(MathHelper.PiOver2), velocity, type, (int)(damage * 1.5f), knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position + offset.RotatedBy(-MathHelper.PiOver2), velocity * 1.5f, ModContent.ProjectileType<MelterNote2>(), damage, knockback, player.whoAmI);
                 return false;
             }
         }

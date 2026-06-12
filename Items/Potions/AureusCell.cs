@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Potions
         {
             // Eating animation but gulp sound? Sure
             Item.DefaultToFood(22, 38, BuffID.MagicPower, CalamityUtils.MinutesToFrames(8));
-            Item.healMana = 200;
             Item.UseSound = SoundID.Item3;
             Item.value = Item.sellPrice(silver: 50); // Based on material cost rather than potion cost
             Item.rare = ItemRarityID.Lime;
@@ -32,19 +31,6 @@ namespace CalamityMod.Items.Potions
 
         public override void OnConsumeItem(Player player)
         {
-            if (PlayerInput.Triggers.JustPressed.QuickBuff)
-            {
-                player.statMana += Item.healMana;
-                if (player.statMana > player.statManaMax2)
-                {
-                    player.statMana = player.statManaMax2;
-                }
-                player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
-                if (Main.myPlayer == player.whoAmI)
-                {
-                    player.ManaEffect(Item.healMana);
-                }
-            }
             player.AddBuff(BuffID.MagicPower, Item.buffTime);
             player.AddBuff(BuffID.ManaRegeneration, Item.buffTime);
         }

@@ -13,9 +13,8 @@ namespace CalamityMod.Items.Potions
     {
         public new string LocalizationCategory => "Items.Potions";
 
-        public static int ManaPerFrame = 2;
-        public static int SelfDamage = 5;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaPerFrame * 60, SelfDamage);
+        public static int ManaPerFrame = 1;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ManaPerFrame * 60);
 
         public override void SetStaticDefaults()
         {
@@ -28,40 +27,20 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            Item.DefaultToFood(14, 34, ModContent.BuffType<AstralInjectionBuff>(), CalamityUtils.SecondsToFrames(5), true);
+            Item.DefaultToFood(14, 34, ModContent.BuffType<AstralInjectionBuff>(), CalamityUtils.SecondsToFrames(6), true);
             Item.value = Item.sellPrice(silver: 2);
             Item.rare = ItemRarityID.Lime;
         }
 
-        public override void OnConsumeItem(Player player)
-        {
-            player.AddBuff(BuffID.ManaSickness, Player.manaSickTime / 2, true);
-            player.statLife -= SelfDamage;
-            if (Main.myPlayer == player.whoAmI)
-            {
-                player.HealEffect(-SelfDamage, true);
-            }
-            if (player.statLife <= 0)
-            {
-                player.KillMe(PlayerDeathReason.ByCustomReason(CalamityUtils.GetText("Status.Death.AstralInjection" + Main.rand.Next(1, 2 + 1)).ToNetworkText(player.name)), 1000.0, 0, false);
-            }
-        }
+        public override void OnConsumeItem(Player player) => player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
 
         public override void AddRecipes()
         {
             CreateRecipe(15).
-                AddIngredient(ItemID.BottledWater, 15).
+                AddIngredient(ItemID.SuperManaPotion, 15).
                 AddIngredient<StarblightSoot>(4).
                 AddIngredient<AureusCell>().
-                AddTile(TileID.AlchemyTable).
-                AddConsumeIngredientCallback(Recipe.IngredientQuantityRules.Alchemy).
-                Register();
-
-            CreateRecipe(15).
-                AddIngredient(ItemID.BottledWater, 15).
-                AddIngredient<BloodOrb>(5).
-                AddIngredient<AureusCell>().
-                AddTile(TileID.AlchemyTable).
+                AddTile(TileID.Bottles).
                 Register()
                 .DisableDecraft();
         }

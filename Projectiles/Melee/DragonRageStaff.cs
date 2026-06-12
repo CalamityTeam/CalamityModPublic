@@ -14,7 +14,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    [PierceResistException]
     public class DragonRageStaff : ModProjectile
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<DragonRage>();
@@ -30,13 +29,15 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.alpha = 255;
             Projectile.hide = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 5;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.ContinuouslyUpdateDamageStats = true;
         }
 
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
             float spinCycleTime = 50f;
+            Projectile.scale = 0.85f * player.GetMeleeScale();
 
             // If the player is dead, destroy the projectile
             if (player.dead || !player.channel)
@@ -69,6 +70,12 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.velocity = Vector2.UnitX * expectedDirection;
                 Projectile.rotation -= MathHelper.Pi;
                 Projectile.netUpdate = true;
+            }
+
+            if (Projectile.ai[0] % 5 == 0)
+            {
+                Projectile.numHits = 0;
+                Projectile.ResetLocalNPCHitImmunity();
             }
             SpawnDust(player, direction);
             PositionAndRotation(player);
@@ -143,9 +150,10 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.alpha = 0;
             }
         }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            if (target.Calamity().IsArmored())
+                Projectile.numHits--; //don't pierce falloff on targets it can't really damage
             target.AddBuff(ModContent.BuffType<Dragonfire>(), 180);
             OnHitEffects(target.Center);
         }
@@ -160,14 +168,12 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.owner == Main.myPlayer)
             {
                 CalamityPlayer modPlayer = Main.player[Projectile.owner].Calamity();
-                modPlayer.dragonRageHits++;
-                if (modPlayer.dragonRageHits >= 10 && modPlayer.dragonRageCooldown <= 0)
+                if (modPlayer.dragonRageCooldown <= 0)
                 {
                     SpawnFireballs();
-                    modPlayer.dragonRageHits = 0;
                 }
 
-                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(Projectile.damage * (1 - (0.25f * Projectile.numHits))*0.25f)  , Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 Main.projectile[proj].DamageType = DamageClass.Melee;
             }
         }
@@ -183,13 +189,15 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 velocity = new Vector2(0f, speed);
                 velocity = velocity.RotatedBy(angleStep * i * Main.rand.NextFloat(0.9f, 1.1f));
 
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DragonRageFireball>(), Projectile.damage / 8, Projectile.knockBack / 3f, Projectile.owner);
+                Projectile fire = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DragonRageFireball>(), Projectile.damage / 2, Projectile.knockBack / 3f, Projectile.owner);
+                fire.scale = Projectile.scale;
             }
-            Main.player[Projectile.owner].Calamity().dragonRageCooldown = 60;
+            Main.player[Projectile.owner].Calamity().dragonRageCooldown = 120;
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            modifiers.SourceDamage *= 1 - (0.25f * Projectile.numHits);
             Player player = Main.player[Projectile.owner];
             Rectangle myRect = Projectile.Hitbox;
             if (Projectile.owner == Main.myPlayer)
@@ -238,12 +246,14 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
+            Vector2 newSize = new Point(projHitbox.Width, projHitbox.Height).ToVector2() * Projectile.scale;
+            projHitbox = new Rectangle(projHitbox.X - (int)((newSize.X - projHitbox.Width) / 2f), projHitbox.Y - (int)((newSize.Y - projHitbox.Height) / 2f), (int)newSize.X, (int)newSize.Y);
             if (projHitbox.Intersects(targetHitbox))
             {
                 return true;
             }
             float spinning = Projectile.rotation - MathHelper.PiOver4 * (float)Math.Sign(Projectile.velocity.X);
-            float staffRadiusHit = 110f;
+            float staffRadiusHit = 110f * Projectile.scale;
             float useless = 0f;
             if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center + spinning.ToRotationVector2() * -staffRadiusHit, Projectile.Center + spinning.ToRotationVector2() * staffRadiusHit, 23f * Projectile.scale, ref useless))
             {

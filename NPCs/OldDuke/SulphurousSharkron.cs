@@ -15,6 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.OldDuke
 {
+    [HeavyKnockbackWhitelisted]
     public class SulphurousSharkron : ModNPC
     {
         public override void SetStaticDefaults()

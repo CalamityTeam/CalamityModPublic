@@ -34,6 +34,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.height = 30;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
         }
@@ -148,7 +149,7 @@ namespace CalamityMod.Projectiles.Magic
 
                 if (Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.MountedCenter + direction * 30f, direction * 35, ModContent.ProjectileType<ManaChargedCoral>(), (int)Projectile.damage * (ShotProjectiles + 1), Projectile.knockBack, Owner.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.MountedCenter + direction * 30f, direction * 35, ModContent.ProjectileType<ManaChargedCoral>(), (int)Projectile.damage * 7, Projectile.knockBack, Owner.whoAmI);
                 }
 
                 Color pulseColor = Main.rand.NextBool() ? Color.Coral : Color.DeepSkyBlue;

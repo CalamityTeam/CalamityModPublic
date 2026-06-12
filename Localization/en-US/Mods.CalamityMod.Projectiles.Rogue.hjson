@@ -78,19 +78,24 @@ DragonScalesInfernado.DisplayName: Infernado
 DragonShit.DisplayName: Fire
 DukesDecapitatorBubble.DisplayName: Duke Bubble
 DukesDecapitatorProj.DisplayName: Duke's Decapitator
-DuststormCloud.DisplayName: Dust Cloud
-DuststormCloudHitbox.DisplayName: Duststorm Cloud
+DuststormCloud.DisplayName: Dust Storm
 DuststormInABottleProj.DisplayName: Duststorm Bottle
+DuststormCloudExplosion.DisplayName: Dust Explosion
+DuststormInABottleHoldout.DisplayName: Duststorm Bottle
 DynamicPursuerElectricity.DisplayName: Dynamic Electricity
 DynamicPursuerLaser.DisplayName: Dynamic Laser
 DynamicPursuerProjectile.DisplayName: Dynamic Pursuer
 EclipseMirrorBurst.DisplayName: Eclipse Mirror Flash
-EclipsesFallMain.DisplayName: Eclipse's Fall
-EclipsesSmol.DisplayName: Eclipse's Small
-EclipsesStealth.DisplayName: Eclipse's Fall
-EclipseStealthBoom.DisplayName: Eclipse Blast
+EclipsesFall_Javelin.DisplayName: Eclipse's Fall
+EclipsesFall_LightFragment.DisplayName: Fragment of Primordial Light
+EclipsesFall_LightExplosion.DisplayName: Baily's Beads
+EclipsesFall_LightSpark.DisplayName: Spark of Primodial Light
+EclipsesFall_StealthSpear.DisplayName: Spear of Obscuration
+EclipsesFall_StealthSpearExplosion.DisplayName: Third Contact
 EGloveSpark.DisplayName: Electrician's Spark
 EnchantedAxe2.DisplayName: Enchanted Axe
+ElephantKillerElephant.DisplayName: Spectral Elephant
+ElephantKillerThrown.DisplayName: Elephant Killer
 EnchantedAxeProj.DisplayName: Enchanted Axe
 EpidemicShredderProjectile.DisplayName: Epidemic Shredder
 EquanimityDarkShard.DisplayName: Dark Shard
@@ -176,7 +181,6 @@ MetalShard.DisplayName: Metal Shard
 MeteorFistProj.DisplayName: Meteor Fist Gud For A Lot Of Shtuff
 MeteorFistMeteorite.DisplayName: Meteorite REALLY Gud For A Lot Of Shtuff
 MoltenAmputatorProj.DisplayName: Molten Amputator
-MoonSigil.DisplayName: Moon Sigil
 MycorootProj.DisplayName: Mycoroot
 MythrilKnifeProjectile.DisplayName: Mythril Knife
 
@@ -208,7 +212,8 @@ PrismallineProj.DisplayName: Prismalline
 PrismRocket.DisplayName: Prism Rocket
 PrismShurikenBlade.DisplayName: Refraction Blade
 ProfanedPartisanProj.DisplayName: Profaned Partisan
-ProfanedPartisanSpear.DisplayName: Profaned Spear
+ProfanedPartisanSpear.DisplayName: Holy Spear
+ProfanedPartisanFlare.DisplayName: Holy Light
 PumpkaboomSmall.DisplayName: Small Pumpkaboom
 PumpkaboomBoomSmall.DisplayName: Pump-kaboom!
 PumpkaboomBig.DisplayName: Big Pumpkaboom
@@ -244,14 +249,16 @@ ScourgeoftheSeasProjectile.DisplayName: Moist Scourge
 ScourgeVenomCloud.DisplayName: Venom Cloud
 SeafoamBombProj.DisplayName: Seafoam Bomb
 SeafoamBubble.DisplayName: Seafoam Bubble
-SealedSingularityBlackhole.DisplayName: Sealed Blackhole
+SealedSingularityRock.DisplayName: Sealed Singularity Rock
 SealedSingularityGore.DisplayName: Sealed Singularity Fragment
-SealedSingularityProj.DisplayName: Sealed Singularity
+SealedSingularityHoldout.DisplayName: Sealed Singularity
+SealedSingularityProjectile.DisplayName: Sealed Singularity
 SeraphimAngelicLight.DisplayName: Light Orb
 SeraphimAngelicLight2.DisplayName: Light Orb
 SeraphimBeamLarge.DisplayName: Holy Beam
 SeraphimDagger.DisplayName: Seraphim
 SeraphimProjectile.DisplayName: Seraphim
+ShadySalesmanGunshot.DisplayName: Elephant-Killing Round
 ShatteredExplosion.DisplayName: Shattered Dawn Blast
 ShatteredDawnKnife.DisplayName: Shattered Dawn
 ShatteredDawnScorchedBlade.DisplayName: Scorched Blade
@@ -272,6 +279,7 @@ SpearofDestinyProjectile.DisplayName: Destiny Spear
 SpearofDestinyStealth.DisplayName: Empowered Holy Lance
 SpearofDestinyStealthExplosion.DisplayName: Strong Burst
 SpearofPaleolithProj.DisplayName: Paleolith Spear
+PaleoShatterExplosion.DisplayName: Paleo Shatter Explosion
 SpentFuelContainerProjectile.DisplayName: Spent Fuel Container
 SphereBladed.DisplayName: Bladed Sphere
 SphereBlue.DisplayName: Blue Thruster Sphere
@@ -289,6 +297,7 @@ Stormfrontspark.DisplayName: Stormfront Spark
 SubductionFlameburst.DisplayName: Flame Pillar
 SubductionSlicerProj.DisplayName: Subduction Slicer
 SulphuricNukesplosion.DisplayName: Nuke
+SupernovaHoldout.DisplayName: Supernova
 SupernovaBomb.DisplayName: Supernova Bomb
 SupernovaBoom.DisplayName: Micro Supernova
 SupernovaStealthBoom.DisplayName: Exo Supernova
@@ -335,3 +344,7 @@ WrathwingFireball.DisplayName: Wrathwing Fireball
 WrathwingSpear.DisplayName: Wrathwing
 WulfrumKnifeProj.DisplayName: Wulfrum Knife
 NanoblackLightspeedCarveSlashVisual.DisplayName: Nanoblack Light-speed Carve Visuals
+LemonNadeHoldout.DisplayName: Lemon 'nade
+LemonNadeProjectile.DisplayName: Lemon 'nade
+SpadefishHoldout.DisplayName: Spinfish
+SpadefishThrown.DisplayName: Spadefish

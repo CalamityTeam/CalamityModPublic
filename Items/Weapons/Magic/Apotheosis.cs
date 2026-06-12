@@ -1,8 +1,10 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,13 +16,18 @@ namespace CalamityMod.Items.Weapons.Magic
     public class Apotheosis : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
+
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<GodSlayerInferno>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 30;
             Item.height = 34;
             Item.damage = 222;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 42;
+            Item.mana = 277;
             Item.useAnimation = Item.useTime = 167;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useTurn = false;

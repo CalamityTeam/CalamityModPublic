@@ -10,6 +10,32 @@ namespace CalamityMod.Tiles.Crags.Tree
 {
     public class SpineSapling : ModTile
     {
+        public override void Load()
+        {
+            On_Player.TryReplantingTree += LetAxeofRegrowthReplant;
+        }
+
+        private static void LetAxeofRegrowthReplant(On_Player.orig_TryReplantingTree orig, Player self, int x, int y)
+        {
+            if (Main.tile[x, y + 1].TileType == ModContent.TileType<BrimstoneSlag>())
+            {
+                // Destroy the Spine Tree tile above the base to give space for the Small Spine to place
+                WorldGen.KillTile(x, y - 1);
+                if (!TileObject.CanPlace(Player.tileTargetX, Player.tileTargetY, ModContent.TileType<SpineSapling>(), 0, self.direction, out var objectData))
+                    return;
+                bool placed = TileObject.Place(objectData);
+                WorldGen.SquareTileFrame(Player.tileTargetX, Player.tileTargetY);
+                if (placed)
+                {
+                    TileObjectData.CallPostPlacementPlayerHook(Player.tileTargetX, Player.tileTargetY, ModContent.TileType<SpineSapling>(), 0, self.direction, objectData.alternate, objectData);
+                    if (Main.netMode == NetmodeID.MultiplayerClient)
+                        NetMessage.SendObjectPlacement(-1, Player.tileTargetX, Player.tileTargetY, objectData.type, objectData.style, objectData.alternate, objectData.random, self.direction);
+                }
+            }
+            else
+                orig(self, x, y);
+        }
+
         public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;

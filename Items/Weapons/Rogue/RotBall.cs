@@ -1,5 +1,6 @@
-﻿using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -10,11 +11,16 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class RotBall : RogueWeapon
     {
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<BrainRot>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 30;
             Item.height = 30;
             Item.damage = 16;
+            Item.crit = 8;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 16;
@@ -29,9 +35,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 16f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

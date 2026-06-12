@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.SuperStarCannon).
                 AddIngredient<RuinousSoul>(4).
                 AddIngredient(ItemID.FallenStar, 15).
-                AddIngredient<GalacticaSingularity>(3).
+                AddIngredient(ItemID.FragmentStardust, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

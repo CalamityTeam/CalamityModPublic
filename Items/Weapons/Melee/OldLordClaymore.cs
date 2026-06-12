@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.BaseItems;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -12,13 +13,18 @@ namespace CalamityMod.Items.Weapons.Melee
     public class OldLordClaymore : CustomUseProjItem, ILocalizedModType, IHoldShiftTooltipItem
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.OnFire3];
+        }
 
         public override void SetDefaults()
         {
             Item.width = 76;
             Item.height = 76;
-            Item.damage = 144;
+            Item.damage = 100;
             Item.DamageType = TrueMeleeDamageClass.Instance;
+            Item.crit = 11;
             Item.useAnimation = Item.useTime = 90; // Yes it's actually supposed to be this slow
 
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -38,6 +44,5 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OldLordClaymoreGlow").Value);
         }
         public override bool MeleePrefix() => true;
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 11;
     }
 }

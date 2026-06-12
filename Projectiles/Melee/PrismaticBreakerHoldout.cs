@@ -25,6 +25,12 @@ namespace CalamityMod.Projectiles.Melee
         public float StarTimer = 0f;
         public float StarFrequency = 47f;
 
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            Projectile.DamageType = MeleeRangedHybridDamageClass.Instance;
+        }
+
         public override void HoldoutAI()
         {
             if (Owner.CantUseHoldout())

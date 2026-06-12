@@ -47,6 +47,10 @@ namespace CalamityMod.Items.Weapons.Melee
         }
         public override bool RangedPrefix() => true; //class identity is fake
         public override bool MeleePrefix() => false;
+        public override void ModifyItemScale(Player player, ref float scale)
+        {
+            scale = player.GetMeleeScale();
+        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

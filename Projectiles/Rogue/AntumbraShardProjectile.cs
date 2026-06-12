@@ -109,8 +109,7 @@ namespace CalamityMod.Projectiles.Rogue
                         Particle spark = new AltSparkParticle(Projectile.Center, -Projectile.velocity * randVel, false, lifetime, 1.2f, Color.Black);
                         GeneralParticleHandler.SpawnParticle(spark);
                         Particle spark2 = new SparkParticle(Projectile.Center, -Projectile.velocity * randVel, false, lifetime, 0.9f, Color.LightGreen);
-                        GeneralParticleHandler.SpawnParticle(spark2);
-                        spark2.DrawLayer = GeneralDrawLayer.AfterEverything;
+                        GeneralParticleHandler.SpawnParticle(spark2, false, GeneralDrawLayer.AfterEverything);
                         if (Main.rand.NextBool() && !Projectile.Calamity().stealthStrike)
                         {
                             Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.FireworksRGB);
@@ -127,8 +126,7 @@ namespace CalamityMod.Projectiles.Rogue
                         Particle spark = new AltSparkParticle(placement, -Projectile.velocity * speed, false, 11, 0.8f, Color.Black);
                         GeneralParticleHandler.SpawnParticle(spark);
                         Particle spark2 = new SparkParticle(placement, -Projectile.velocity * speed, false, 11, 0.5f, Color.LightGreen);
-                        GeneralParticleHandler.SpawnParticle(spark2);
-                        spark2.DrawLayer = GeneralDrawLayer.AfterEverything;
+                        GeneralParticleHandler.SpawnParticle(spark2, false, GeneralDrawLayer.AfterEverything);
                     }
                     if (closestTarget != null && Projectile.numHits < 1 && closestTarget.CanBeChasedBy(Projectile))
                     {
@@ -221,8 +219,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
 
                     Particle bolt2 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.LightGreen * 0.85f, "CalamityMod/Particles/BloomRing", Vector2.One, Main.rand.NextFloat(-10f, 10f), 0f, 1f, 18);
-                    GeneralParticleHandler.SpawnParticle(bolt2);
-                    bolt2.DrawLayer = GeneralDrawLayer.AfterEverything;
+                    GeneralParticleHandler.SpawnParticle(bolt2, false, GeneralDrawLayer.AfterEverything);
 
                     Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f * (storedVelocity.X > 0 ? 1 : -1));
                 }

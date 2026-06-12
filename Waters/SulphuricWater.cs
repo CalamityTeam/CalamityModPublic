@@ -59,9 +59,9 @@ namespace CalamityMod.Waters
             {
                 if (Main.dayTime && !Main.raining)
                 {
-                    float brightness = MathHelper.Clamp(0.2f - (j / 680), 0f, 0.2f);
-                    if (j > 580)
-                        brightness *= 1f - (j - 580) / 100f;
+                    float brightness = MathHelper.Clamp(0.2f - (j / ((int)Main.worldSurface + 120)), 0f, 0.2f);
+                    if (j > (int)Main.worldSurface + 20)
+                        brightness *= 1f - (j - ((int)Main.worldSurface + 20)) / 100f;
 
                     float time = Main.GameUpdateCount;
                     float waveScale1 = time * 0.014f;
@@ -83,9 +83,9 @@ namespace CalamityMod.Waters
 
                 if (!Main.dayTime && !Main.raining)
                 {
-                    float brightness = MathHelper.Clamp(0.17f - (j / 680), 0f, 0.17f);
-                    if (j > 580)
-                        brightness *= 1f - (j - 580) / 100f;
+                    float brightness = MathHelper.Clamp(0.17f - (j / ((int)Main.worldSurface + 120)), 0f, 0.17f);
+                    if (j > ((int)Main.worldSurface + 20))
+                        brightness *= 1f - (j - ((int)Main.worldSurface + 20)) / 100f;
 
                     float waveScale1 = Main.GameUpdateCount * 0.014f;
                     float waveScale2 = Main.GameUpdateCount * 0.1f;
@@ -106,9 +106,9 @@ namespace CalamityMod.Waters
 
                 if (Main.raining)
                 {
-                    float brightness = MathHelper.Clamp(1f - (j / 680), 0f, 1f);
-                    if (j > 580)
-                        brightness *= 1f - (j - 580) / 100f;
+                    float brightness = MathHelper.Clamp(1f - (j / ((int)Main.worldSurface + 120)), 0f, 1f);
+                    if (j > ((int)Main.worldSurface + 20))
+                        brightness *= 1f - (j - ((int)Main.worldSurface + 20)) / 100f;
 
                     outputColor = Vector3.Lerp(outputColor, Color.LightSeaGreen.ToVector3(), 0.41f);
                     outputColor *= brightness;

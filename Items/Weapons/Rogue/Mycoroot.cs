@@ -33,13 +33,14 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-            if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[ModContent.ProjectileType<ShroomerangSpore>()] < 20 && stealth.WithinBounds(Main.maxProjectiles))
+            Projectile root = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
+            if (player.Calamity().StealthStrikeAvailable())
             {
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                for (int i = 0; i < 8; i++)
+                root.Calamity().stealthStrike = true;
+                for (int i = 0; i < 12; i++)
                 {
-                    int spore = Projectile.NewProjectile(source, player.Center, velocity, ModContent.ProjectileType<ShroomerangSpore>(), damage, knockback, player.whoAmI, 0f, 1f);
+                    Vector2 spreadVelocity = velocity.RotatedByRandom(MathHelper.ToRadians(5f)) * Main.rand.NextFloat(0.8f, 1.2f);
+                    Projectile.NewProjectile(source, player.Center, spreadVelocity, ModContent.ProjectileType<ShroomerangSpore>(), damage, knockback, player.whoAmI, 0f, 1f, 1f);
                 }
                 foreach (Player other in Main.ActivePlayers)
                 {

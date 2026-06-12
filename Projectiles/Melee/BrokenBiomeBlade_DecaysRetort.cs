@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.myPlayer != Owner.whoAmI || CanBounce == 0f)
                 return;
 
-            Owner.DoLifestealDirect(target, BrokenBiomeBlade.EvilAttunement_Lifesteal, 1.25f); //Idk if its too much or what but at the same time its close range as fuck
+            Owner.DoLifestealDirect(target, BrokenBiomeBlade.EvilAttunement_Lifesteal, 1.5f); //Idk if its too much or what but at the same time its close range as fuck
 
             // Bounce off
             float bounceStrength = LungeSpeed / 2f;

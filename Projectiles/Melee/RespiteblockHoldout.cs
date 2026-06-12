@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Melee;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.ownerHitCheck = true;
             // No reason to ID-static the chainsaw -- multiple players can true melee simultaneously!
             Projectile.usesLocalNPCImmunity = true;

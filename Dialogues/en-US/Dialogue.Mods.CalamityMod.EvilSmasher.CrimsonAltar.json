@@ -1,0 +1,47 @@
+﻿{
+    "Revision": 1,
+    "DefaultColor": "FF0000",
+    "DefaultSpeaker": "DemonAltar",
+    "AlignType": 1,
+    "TextDelay": 2,
+    "BasePunctuationDelay": {
+        "Delay": 10,
+        "ForceSet": false,
+        "Locks": false
+    },
+    "PunctuationDelayCap": 30,
+    "PunctuationDelays": {
+        "!": {
+            "Delay": 20,
+            "ForceSet": true,
+            "Locks": true
+        },
+        "?": {
+            "Delay": 20,
+            "ForceSet": true,
+            "Locks": true
+        }
+    },
+    "Pages": [
+        {
+            "Lines": [
+                "You, slayer of the flesh tower...[Pause(0.25)] we have an offer fitting of your deeds."
+            ]
+        },
+        {
+            "Lines": [
+                "We can bestow you might untold...[Pause(0.25)] [Shaking:to grind your enemies to dust!]"
+            ]
+        },
+        {
+            "Lines": [
+                "Simply yield the holy hammer unto the altar."
+            ]
+        },
+        {
+            "Lines": [
+                "Kneel, and we shall render you the strength."
+            ]
+        }
+    ]
+}

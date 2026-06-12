@@ -1,6 +1,8 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
@@ -12,6 +14,10 @@ namespace CalamityMod.Items.Accessories
     public class StarTaintedGenerator : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<AstralInfectionDebuff>(), ModContent.BuffType<StaticDischarge>(), ModContent.BuffType<Irradiated>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 38;

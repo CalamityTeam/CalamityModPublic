@@ -52,7 +52,6 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.extraUpdates = 3;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 1;
-            Projectile.scale = 1.2f;
         }
 
         public override void AI()

@@ -33,8 +33,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Particle explosion = new DetailedExplosion(Projectile.Center, Vector2.Zero, color1, Vector2.One, Main.rand.NextFloat(-5, 5), 0f, ExplosionRadius * 0.0065f + 0.1f, Main.rand.Next(15, 22));
-            GeneralParticleHandler.SpawnParticle(explosion);
-            explosion.DrawLayer = GeneralDrawLayer.AfterEverything;
+            GeneralParticleHandler.SpawnParticle(explosion, false, GeneralDrawLayer.AfterEverything);
             Particle explosion2 = new DetailedExplosion(Projectile.Center, Vector2.Zero, Color.Black, Vector2.One, Main.rand.NextFloat(-5, 5), 0f, ExplosionRadius * 0.0045f + 0.1f, Main.rand.Next(15, 22), false);
             GeneralParticleHandler.SpawnParticle(explosion2);
             Particle explosion3 = new DetailedExplosion(Projectile.Center, Vector2.Zero, Color.Black, Vector2.One, Main.rand.NextFloat(-5, 5), 0f, ExplosionRadius * 0.0030f + 0.1f, Main.rand.Next(15, 22), false);
@@ -43,8 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < 4; i++)
             {
                 Particle blastRing = new CustomPulse(Projectile.Center, Vector2.Zero, color1, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 0, ExplosionRadius * 0.005f + 0.05f, 25);
-                GeneralParticleHandler.SpawnParticle(blastRing);
-                blastRing.DrawLayer = GeneralDrawLayer.AfterEverything;
+                GeneralParticleHandler.SpawnParticle(blastRing, false, GeneralDrawLayer.AfterEverything);
             }
 
             float numberOfDusts = ExplosionRadius * 0.1f + 10;

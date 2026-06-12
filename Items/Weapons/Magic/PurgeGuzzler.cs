@@ -1,6 +1,8 @@
-﻿using CalamityMod.Items.Weapons.Summon;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -13,15 +15,18 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
         private const float Spread = 0.025f;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<HolyFlames>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 64;
             Item.height = 48;
             Item.damage = 152;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 50;
-            Item.useTime = 38;
-            Item.useAnimation = 38;
+            Item.mana = 14;
+            Item.useAnimation = Item.useTime = 38;
             Item.autoReuse = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
@@ -34,6 +39,14 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
             Item.rare = ModContent.RarityType<Turquoise>();
         }
+
+        // Cancels out the mana used to summon the holdout
+        public override void OnConsumeMana(Player player, int manaConsumed)
+        {
+            if (player.ownedProjectileCounts[Item.shoot] <= 0)
+                player.statMana += manaConsumed;
+        }
+
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
         public override void HoldItem(Player player) => player.Calamity().mouseRotationListener = true;

@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Summon
                 else
                     Projectile.velocity = Projectile.SafeDirectionTo(destination) * Projectile.Distance(destination) / 36f;
 
-                int timeNeeded = (int)(MathHelper.Lerp(60f, 18f, MathHelper.Clamp(Projectile.localAI[1] / 320f, 0f, 1f)) * (player.strongBees ? 0.85f : 1f));
+                int timeNeeded = (int)(MathHelper.Lerp(60f, 18f, MathHelper.Clamp(Projectile.localAI[1] / 320f, 0f, 1f)) * (player.strongBees ? 0.75f : 1f));
                 if (Projectile.ai[0] >= timeNeeded && Main.myPlayer == Projectile.owner)
                 {
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,

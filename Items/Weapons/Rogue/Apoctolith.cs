@@ -1,6 +1,9 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Abyss;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,11 +16,16 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class Apoctolith : RogueWeapon
     {
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<CrushDepth>(), ModContent.BuffType<Eutrophication>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 66;
             Item.height = 64;
             Item.damage = 185;
+            Item.crit = 20;
             Item.shootSpeed = 18f;
             Item.shoot = ModContent.ProjectileType<ApoctolithProj>();
             Item.useAnimation = Item.useTime = 26;
@@ -31,9 +39,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
             Item.autoReuse = true;
         }
-
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 20;
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)
         {

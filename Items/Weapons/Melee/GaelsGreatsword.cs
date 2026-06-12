@@ -14,19 +14,19 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         // Weapon attribute constants
-        public static readonly int BaseDamage = 690;
-        public static readonly float GiantSkullDamageMultiplier = 1.7f;
-
+        public static int BaseDamage => 850;
+        public static float GiantSkullDamageMultiplier => 2.0f;
+        
         // Weapon projectile attribute constants
-        public static readonly int SearchDistance = 1450;
-        public static readonly int ImmunityFrames = 10;
+        public static int SearchDistance => 1450;
+        public static int ImmunityFrames => 10;
 
         // Skull ring attribute constants
-        public static readonly float SkullsplosionDamageMultiplier = 1.5f;
+        public static float SkullsplosionDamageMultiplier => 1.5f;
         internal static string SkullsplosionEntitySourceContext => "GaelsGreatswordRageSkullsplosion";
 
         // Rage gain attribute constant
-        public static readonly float RagePerSecond = 0.025f; // 2.5% rage per second
+        public static float RagePerSecond => 0.025f; // 2.5% rage per second
 
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
         public override void SetDefaults()

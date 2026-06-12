@@ -2,13 +2,19 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using CalamityMod.Systems.Collections;
 using Terraria.ID;
+using CalamityMod.Buffs.DamageOverTime;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class DukesDecapitator : RogueWeapon
     {
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<HeavyBleeding>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 60;

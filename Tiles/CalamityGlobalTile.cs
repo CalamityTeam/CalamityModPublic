@@ -291,7 +291,6 @@ namespace CalamityMod.Tiles
             // Handle for Demon Altar Drops
             // Drop:
             // - Soul of Night (x4) (Only if Early Hardmode Progression Rework is on)
-            // - Evil Smasher (x1) (Every 12th altar)
             if (type == TileID.DemonAltar && Main.hardMode)
             {
                 Vector2 spreadMinMax = new Vector2(-32.0f, 32.0f);
@@ -303,10 +302,6 @@ namespace CalamityMod.Tiles
                     WorldGen.altarCount++; // altarCount does not update automatically if ProgressionRework is enabled!
                     AchievementsHelper.NotifyProgressionEvent(6); // Gives the Begone, Evil! achievement
                 }
-
-                // Drop Evil Smasher on every 12 altar smashed
-                if (WorldGen.altarCount > 1 && WorldGen.altarCount % 12 == 0)
-                    DropItem(i, j, ItemType<EvilSmasher>(), quantity: 1, asStack: true, prefix: true);
             }
         }
 

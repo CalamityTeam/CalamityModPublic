@@ -59,7 +59,6 @@ namespace CalamityMod.Items.Armor.Reaver
         {
             CreateRecipe().
                 AddIngredient<PerennialBar>(7).
-                AddIngredient<LivingShard>().
                 AddTile(TileID.MythrilAnvil).
                 SortBeforeFirstRecipesOf(ModContent.ItemType<ReaverHeadExplore>()).
                 Register();

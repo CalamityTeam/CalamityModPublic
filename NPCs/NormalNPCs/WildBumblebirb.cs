@@ -80,6 +80,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             float rotationMult = 4f;
             float rotationAmt = 0.04f;
 
+            NPC.ai[3]++;
+
             if (Vector2.Distance(player.Center, NPC.Center) > 5600f)
             {
                 if (NPC.timeLeft > 5)
@@ -92,7 +94,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (i != NPC.whoAmI && Main.npc[i].active && Main.npc[i].type == NPC.type)
+                    if (i != NPC.whoAmI && Main.npc[i].active && Main.npc[i].type == NPC.type && NPC.ai[3] >= 2)
                     {
                         Vector2 otherSwarmerDirection = Main.npc[i].Center - NPC.Center;
                         if (otherSwarmerDirection.Length() < (NPC.width + NPC.height))
@@ -145,7 +147,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                     NPC.ai[0] = 1f;
                     NPC.ai[1] = 0f;
                     NPC.ai[2] = 0f;
-                    NPC.ai[3] = 0f;
                 }
                 else if (swarmerIdleTargetDist.Length() > 400f)
                 {
@@ -190,7 +191,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                         NPC.ai[0] = 0f;
                         NPC.ai[1] = 0f;
                         NPC.ai[2] = 0f;
-                        NPC.ai[3] = 0f;
                     }
 
                     NPC.ai[2] += 0.0166666675f;

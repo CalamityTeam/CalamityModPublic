@@ -1,8 +1,9 @@
-﻿using CalamityMod.Dusts;
+﻿using System;
+using CalamityMod.Dusts;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -78,17 +79,17 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (onKill && Projectile.numHits > 0)
                 Projectile.numHits--;
 
-            modifiers.SetCrit();
+            modifiers.ApplyScalingForcedCrit(Projectile);
+
             Player Owner = Main.player[Projectile.owner];
-            float critDamage = Math.Min(Owner.GetTotalCritChance(Projectile.DamageType) * 0.01f, 1f);
             float minMult = 0.25f;
             int hitsToMinMult = 7;
             float damageMult = Utils.Remap(Projectile.numHits, 0, hitsToMinMult, 1, minMult, true);
-            modifiers.SourceDamage *= damageMult + critDamage;
+            modifiers.SourceDamage *= damageMult;
 
             Vector2 launchVel = Projectile.velocity.SafeNormalize(Vector2.UnitX);
             float launchPower = 20;
-            target.MoveNPC(launchVel, launchPower, true);
+            target.MoveNPC(launchVel, launchPower, true, Owner);
         }
 
         public override void OnKill(int timeLeft)

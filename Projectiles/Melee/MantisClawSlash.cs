@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,6 +15,7 @@ namespace CalamityMod.Projectiles.Melee
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Particles/SlashSmear";
 
+        public float maxScale = 0;
         private const int TimerCap = 20;
         Color startColor;
         Color endColor;
@@ -35,6 +37,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.scale = 0f;
+
             Projectile.ai[2] = Main.rand.NextFloat(0.5f, 1.25f);
 
             if (Main.rand.NextBool(2)) dir = -1;
@@ -53,14 +56,21 @@ namespace CalamityMod.Projectiles.Melee
             startColor = ColorList[Main.rand.Next(ColorList.Count)];
             endColor = ColorList[Main.rand.Next(ColorList.Count)];
         }
-
-        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            hitbox = new Rectangle((int)Projectile.Center.X - 65, (int)Projectile.Center.Y - 65, 130, 130);
+            int size = 60;
+            int scale = (int)(size * Math.Max(Projectile.ai[2], 1));
+            Vector2 position = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.Zero) * size / 2;
+            return CalamityUtils.CircularHitboxCollision(position, scale, targetHitbox);
         }
 
         public override void AI()
         {
+            if (maxScale == 0)
+            {
+                maxScale = Projectile.localAI[0];
+                Projectile.ai[2] *= maxScale;
+            }
             Projectile.velocity *= 0.9f;
 
             if (Projectile.timeLeft > (TimerCap / 2))
@@ -88,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
             for (float i = 0; i < 1; i += 0.33f)
             {
                 Main.EntitySpriteDraw(tex.Value, Projectile.Center - Main.screenPosition, tex.Frame(), Color.Lerp(startColor, endColor, Projectile.ai[1] / TimerCap).MultiplyRGBA(new Color(255, 255, 255, 0f)),
-                    Projectile.rotation - (dir == -1 ? MathHelper.ToRadians(-135f) : MathHelper.ToRadians(180f)) + Projectile.ai[0], tex.Size() / 2, MathHelper.Lerp(0.6f, 1f, i) * Projectile.scale, dir == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
+                    Projectile.rotation - (dir == -1 ? MathHelper.ToRadians(-135f) : MathHelper.ToRadians(180f)) + Projectile.ai[0], tex.Size() / 2, MathHelper.Lerp(0.6f, 1f, i) * Math.Min(Projectile.scale, maxScale), dir == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
             }
             return false;
         }

@@ -75,13 +75,13 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             // Might launches enemies
-            if (SHPB.GetSoulEffects((int)Projectile.ai[0]) == SHPB.SoulType.Might && target.CanBeMoved(false))
+            if (SHPB.GetSoulEffects((int)Projectile.ai[0]) == SHPB.SoulType.Might && target.CanBeMoved())
             {
                 // 14NOV2024: Ozzatron: clamped mouse position unnecessary, only used for direction
                 Player owner = Main.player[Projectile.owner];
                 Vector2 launchVel = Utils.DirectionTo(owner.Center, owner.Calamity().mouseWorld) - Vector2.UnitY * 5f;
 
-                target.MoveNPC(launchVel, SHPC.MightKnockbackStrength, false);
+                target.MoveNPC(launchVel, SHPC.MightKnockbackStrength, false, owner);
             }
         }
 

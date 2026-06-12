@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public override void SetStaticDefaults()
         {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Frostburn2];
         }
         public override void SetDefaults()
         {
@@ -38,9 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             float SpeedX = velocity.X + (float)Main.rand.Next(-10, 11) * 0.05f;
             float SpeedY = velocity.Y + (float)Main.rand.Next(-10, 11) * 0.05f;
-            int index = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<IcicleArrowProj>(), (int)(damage * 0.7f), knockback, player.whoAmI);
-            Main.projectile[index].noDropItem = true;
-
+            Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<IcicleArrowProj>(), (int)(damage * 0.7f), knockback, player.whoAmI);
             return true;
         }
     }

@@ -14,7 +14,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override string ArmorSetName => "Crimson";
 
-        public const float ArmorPieceDamage = 0.06f;
         public const int ArmorPieceLifeRegen = 1;
 
         // Set bonus clarification
@@ -25,9 +24,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         private static void ApplyAnyPieceEffect(Player player)
         {
-            // Remove the vanilla +3% damage and add the new damage value at the same time
-            player.GetDamage<GenericDamageClass>() += ArmorPieceDamage - 0.03f;
-
             // Give life regen
             player.lifeRegen += ArmorPieceLifeRegen;
         }

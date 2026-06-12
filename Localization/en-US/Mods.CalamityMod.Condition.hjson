@@ -33,6 +33,7 @@ Drops: {
 	DownedExos: After defeating the Exo Mechs
 	DownedSCal: After defeating Calamitas
 	DownedAEW: After defeating the Primordial Wyrm
+	DownedHorribleHog: After defeating the Horrible Hog
 	DownedClam: After defeating the Giant Clam
 	DownedClamHM: After defeating the Giant Clam in Hardmode
 	DownedGSS: After defeating the Great Sand Shark
@@ -52,6 +53,8 @@ Drops: {
 // Other conditions
 HasFlareGun: While holding a Flare Gun upgrade
 LacewingBestiary: When at least 40% of the Bestiary has been completed
+CrescentMoons: During a crescent moon
+GibbousMoons: During a gibbous moon
 HasRogueArmor: While wearing rogue armor
 HasWings: While wearing wings
 InAstral: In the Astral Infection
@@ -60,3 +63,11 @@ InSulph: In the Sulphurous Sea
 InSunken: In the Sunken Sea
 InRev: In Revengeance Mode
 InRevOrMM: In Revengeance Mode or in Master Mode
+HasFoundCorruptionEffigy: After obtaining Corruption Effigy
+HasFoundCrimsonEffigy: After obtaining Crimson Effigy
+HasFoundUnstableGraniteCore: After obtaining Unstable Granite Core
+HasFoundGladiatorsLocket: After obtaining Gladiator's Locket
+HasFoundFrozenCube: After obtaining Frozen Cube
+HasFoundTrinketOfChi: After obtaining Trinket of Chi
+HasFoundFungalSymbiote: After obtaining Fungal Symbiote
+HasFoundLuxorsGift: After obtaining Luxor's Gift

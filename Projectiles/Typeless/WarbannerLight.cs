@@ -74,15 +74,16 @@ namespace CalamityMod.Projectiles.Typeless
             Texture2D rTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/ShatteredExplosion").Value;
             Texture2D bTexture = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle").Value;
             Color drawColor = bColor;
+            Vector2 baseDrawPos = Owner.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY);
 
             for (int i = 0; i < 5; i++)
             {
                 float bScale2 = 0.75f;
-                Main.EntitySpriteDraw(bTexture, Owner.Center - Main.screenPosition, null, Color.Lerp(drawColor, Color.White, i * 0.15f) with { A = 0 }, 0, bTexture.Size() * 0.5f, (bScale2 - i * 0.15f) * rot2 * Projectile.scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(bTexture, baseDrawPos, null, Color.Lerp(drawColor, Color.White, i * 0.15f) with { A = 0 }, 0, bTexture.Size() * 0.5f, (bScale2 - i * 0.15f) * rot2 * Projectile.scale, SpriteEffects.None, 0);
             }
 
-            Main.EntitySpriteDraw(rTexture, Owner.Center - Main.screenPosition, null, drawColor with { A = 0 }, Main.rand.NextFloat(-2, 2), rTexture.Size() * 0.5f, 0.03f * rot2 * Projectile.scale, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(rTexture, Owner.Center - Main.screenPosition, null, drawColor with { A = 0 }, Main.rand.NextFloat(-2, 2), rTexture.Size() * 0.5f, 0.04f * rot2 * Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(rTexture, baseDrawPos, null, drawColor with { A = 0 }, Main.rand.NextFloat(-2, 2), rTexture.Size() * 0.5f, 0.03f * rot2 * Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(rTexture, baseDrawPos, null, drawColor with { A = 0 }, Main.rand.NextFloat(-2, 2), rTexture.Size() * 0.5f, 0.04f * rot2 * Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
         public override bool? CanDamage() => false;

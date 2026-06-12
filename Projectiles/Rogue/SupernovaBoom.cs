@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC target = Main.npc[i];
-                    if (target.CanBeMoved(true) && target.CanBeChasedBy(Projectile, false))
+                    if (target.CanBeMoved() && target.CanBeChasedBy(Projectile, false))
                     {
                         if (Vector2.Distance(target.Center, Projectile.Center) > 40 && Vector2.Distance(target.Center, Projectile.Center) < 600)
                         {
@@ -212,7 +212,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Vector2 launchVel = Utils.DirectionTo(Projectile.Center, target.Center);
-            target.MoveNPC(launchVel, 30, true);
+            target.MoveNPC(launchVel, 30, true, Owner);
 
             target.AddBuff(ModContent.BuffType<MiracleBlight>(), 90);
         }

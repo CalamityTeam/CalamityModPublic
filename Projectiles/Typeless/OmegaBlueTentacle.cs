@@ -1,4 +1,5 @@
 ﻿using CalamityMod.NPCs;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -171,10 +172,10 @@ namespace CalamityMod.Projectiles.Typeless
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (Owner.Calamity().omegaBlueAbyssalMadness)
-                modifiers.SetCrit();
+                modifiers.ApplyScalingForcedCrit(Projectile);
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Owner.DoLifestealDirect(target, 10 * hit.Damage / Projectile.damage, 0.5f);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => Owner.DoLifestealDirect(target, 10 * hit.Damage / Projectile.damage, 0.33f);
 
         public override bool PreDraw(ref Color lightColor)
         {

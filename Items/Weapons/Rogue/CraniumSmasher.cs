@@ -1,6 +1,7 @@
-﻿using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
+using CalamityMod.Systems.Collections;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -11,6 +12,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class CraniumSmasher : RogueWeapon
     {
         private bool throwExplosive = false;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<HeavyBleeding>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 50;

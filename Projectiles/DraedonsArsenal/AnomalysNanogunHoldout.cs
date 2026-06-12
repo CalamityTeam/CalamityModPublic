@@ -51,6 +51,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.width = Projectile.height = 1;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
         }

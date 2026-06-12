@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
                     Vector2 targetDirection = Projectile.Center.DirectionTo(Main.MouseWorld).SafeNormalize(Vector2.UnitX);
 
                     spawnedProjectile = true;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, targetDirection * 18f, ModContent.ProjectileType<OrdoSigilBeam>(), (int) (Projectile.damage * 4.5f), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, targetDirection * 18f, ModContent.ProjectileType<OrdoSigilBeam>(), Projectile.damage * 6, Projectile.knockBack, Projectile.owner);
                 }
 
                 if (Projectile.localAI[0] >= 50)

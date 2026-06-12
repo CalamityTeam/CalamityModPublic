@@ -67,7 +67,6 @@ DrizzlefishFire.DisplayName: Drizzlefish Flames
 DrizzlefishFireball.DisplayName: Drizzlefish Fireball
 DrizzlefishFireSplit.DisplayName: Drizzlefish Flames
 DryadsTearMain.DisplayName: Dryad's Tear
-DryadsTearSplit.DisplayName: Dryad's Tear
 ElysianArrowProj.DisplayName: Elysian Arrow
 ElysianArrowRain.DisplayName: Elysian Light
 EmesisGore.DisplayName: Rotten Gore
@@ -189,7 +188,6 @@ ScorchedEarthClusterBomb.DisplayName: Cluster Bomb
 ScorchedEarthRocket.DisplayName: Rocket
 ScorpioRocket.DisplayName: Nano Missile
 ScorpioLargeRocket.DisplayName: Nano Nuke
-SeaDragonMuzzleBlast.DisplayName: Seadragon Muzzle Blast
 SeaDragonRocket.DisplayName: Seadragon RPG
 SeasSearingBubble.DisplayName: Searing Bubble
 SeasSearingSecondary.DisplayName: Hydroshower
@@ -261,9 +259,14 @@ VanquisherArrowMain.DisplayName: Vanquisher Arrow
 VanquisherArrowProj.DisplayName: Vanquisher Arrow Proj
 VeriumBoltProj.DisplayName: Verium Bolt
 VernalBolt.DisplayName: Vernal Bolt
-Voidragon.DisplayName: Voidragon Blast
-VoidragonTentacle.DisplayName: Voidragon Tentacle
 WaterSpout.DisplayName: Spout
 WildfireBloomFire.DisplayName: Wildfire Fire
 WildfireBloomFlare.DisplayName: Wildfire Flare
 WulfrumScrapBullet.DisplayName: High Speed Scrap
+AbyssalFire.DisplayName: Abyssal Fire
+BlahajBlast.DisplayName: Blahaj Blast
+MegalodonRocket.DisplayName: Megalodon Rocket
+VoidBlast.DisplayName: Void Blast
+OmniSniperShot.DisplayName: Omni Sniper Shot
+OmniGrenade.DisplayName: Omni Grenade
+OmniShotgunShot.DisplayName: Omni Shotgun Shot

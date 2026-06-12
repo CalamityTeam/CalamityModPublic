@@ -1,7 +1,9 @@
 ﻿using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,13 +16,14 @@ namespace CalamityMod.Items.Tools
         {
             Item.width = 80;
             Item.height = 66;
-            Item.damage = 110;
+            Item.damage = 55;
+            Item.crit = 10;
             Item.knockBack = 7f;
             Item.useTime = 8;
             Item.useAnimation = 12;
             Item.axe = 135 / 5;
             Item.tileBoost += 1;
-
+            Item.shoot = ProjectileID.Spark; // Dummy argument to ensure it doesn't get set to true melee
             Item.DamageType = DamageClass.Melee;
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -30,8 +33,7 @@ namespace CalamityMod.Items.Tools
             Item.autoReuse = true;
         }
 
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 10;
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback) => false;
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
@@ -114,7 +116,7 @@ namespace CalamityMod.Items.Tools
                     sparkXSpawn *= (float)player.direction;
                     sparkYSpawn *= player.gravDir;
                     var source = player.GetSource_ItemUse(Item);
-                    int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(Item.damage * 0.2f);
+                    int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(Item.damage * 0.5f);
                     int spark = Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + sparkXSpawn, (float)(hitbox.Y + hitbox.Height / 2) + sparkYSpawn, (float)player.direction * sparkXVel, sparkYVel * player.gravDir, ProjectileID.Spark, damage, 0f, player.whoAmI);
                     if (spark.WithinBounds(Main.maxProjectiles))
                         Main.projectile[spark].DamageType = DamageClass.Melee;
@@ -131,9 +133,10 @@ namespace CalamityMod.Items.Tools
             if (hit.Crit)
             {
                 var source = player.GetSource_ItemUse(Item);
-                int boom = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Item.damage, Item.knockBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                if (boom.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[boom].DamageType = DamageClass.Melee;
+                Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), 0, Item.knockBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int onHitDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage * 0.5f);
+                Projectile blast = Projectile.NewProjectileDirect(Item.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), onHitDamage, 0f, player.whoAmI, target.whoAmI);
+                blast.DamageType = Item.DamageType;
             }
             target.AddBuff(BuffID.OnFire3, 300);
         }

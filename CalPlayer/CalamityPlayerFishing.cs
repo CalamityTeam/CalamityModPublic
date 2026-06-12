@@ -326,7 +326,7 @@ namespace CalamityMod.CalPlayer
             // Lower chance of Spadefish in Hardmode
             if (underground) // Underground
             {
-                int chance = Main.hardMode ? 10 : 2;
+                int chance = Main.hardMode ? 10 : 4;
                 if (attempt.veryrare && Main.rand.NextBool(chance))
                 {
                     itemDrop = ModContent.ItemType<Spadefish>();
@@ -425,6 +425,10 @@ namespace CalamityMod.CalPlayer
                 fishingLevel = fishingLevel * VerstaltiteFishingRod.FishingPowerBiomeMult;
             if (Player.ZoneSkyHeight && fishingRod.type == ModContent.ItemType<HeronRod>())
                 fishingLevel = fishingLevel * HeronRod.FishingPowerBiomeMult;
+
+            // Rage bait gives free sonar effect
+            if (bait.type == ModContent.ItemType<RageBait>())
+                Player.sonarPotion = true;
 
             // Prevent the player from fishing if they have the Bloodworm
             if (bait.type == ModContent.ItemType<BloodwormItem>())

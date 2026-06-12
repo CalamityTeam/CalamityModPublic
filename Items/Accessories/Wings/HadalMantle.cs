@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override float MaxAscentSpeed => 1.805f;
         public override float BaseAscent => 0.125f;
 
-        public override void SetStaticDefaults() => ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(150, 8f, 2f);
+        public override void SetStaticDefaults() => ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(130, 8f, 2f);
 
         public override void SetDefaults()
         {

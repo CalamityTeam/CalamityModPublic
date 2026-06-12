@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Magic;
+﻿using System;
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -13,6 +14,9 @@ namespace CalamityMod.Projectiles.Magic
         public override string Texture => "CalamityMod/Items/Weapons/Magic/ValkyrieRay";
 
         private const float AimResponsiveness = 0.66f;
+        public ref float Timer => ref Projectile.ai[0];
+        public ref float Fired => ref Projectile.ai[1];
+        public ref float TimeRate => ref Projectile.ai[2];
 
         public override void SetDefaults()
         {
@@ -25,8 +29,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.timeLeft = 900;
         }
 
-        // ai[0] is a time-dilated frame counter. ai[1] is whether the beam has already fired.
-        // localAI[0] is the rate at which the "frame" counter increases.
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
@@ -34,20 +36,19 @@ namespace CalamityMod.Projectiles.Magic
 
             // Calculate how quickly the staff should charge. Charge increases by some number close to 1 every frame.
             // Speed increasing reforges make this number greater than 1. Slowing reforges make it smaller than 1.
-            if (Projectile.localAI[0] == 0f)
-                Projectile.localAI[0] = (ValkyrieRay.ChargeFrames + ValkyrieRay.CooldownFrames) / player.HeldItem.useTime;
+            if (TimeRate == 0f)
+                TimeRate = MathF.Round((float)(ValkyrieRay.ChargeFrames + ValkyrieRay.CooldownFrames) / player.HeldItem.useTime, 3);
 
             // Increment the timer for the staff. If the timer has passed the total time, destroy it.
-            Projectile.ai[0] += Projectile.localAI[0];
+            Timer += TimeRate;
             int maxTime = ValkyrieRay.ChargeFrames + ValkyrieRay.CooldownFrames;
-            if (Projectile.ai[0] > maxTime)
+            if (Timer > maxTime)
             {
                 Projectile.Kill();
                 return;
             }
-
             // Compute the weapon's charge.
-            float chargeLevel = MathHelper.Clamp(Projectile.ai[0] / ValkyrieRay.ChargeFrames, 0f, 1f);
+            float chargeLevel = MathHelper.Clamp(Timer / ValkyrieRay.ChargeFrames, 0f, 1f);
 
             // Common code among holdouts to keep the holdout projectile directly in the player's hand
             UpdatePlayerVisuals(player, rrp);
@@ -58,9 +59,9 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 gemPos = Projectile.Center + gemOffset.RotatedBy(angle);
 
             // Firing or charging?
-            if (chargeLevel >= 1f && Projectile.ai[1] == 0f)
+            if (chargeLevel >= 1f && Fired == 0f)
             {
-                Projectile.ai[1] = 1f; // so it never fires again
+                Fired = 1f; // so it never fires again
                 FiringEffects(gemPos);
                 if (Projectile.owner == Main.myPlayer)
                 {
@@ -68,7 +69,7 @@ namespace CalamityMod.Projectiles.Magic
                     laser.Center = gemPos;
                 }
             }
-            else if (Projectile.ai[1] == 0f)
+            else if (Fired == 0f)
             {
                 // The player can constantly re-aim the staff while it's charging, but once it fires it is locked in place.
                 UpdateAim(rrp, Projectile.velocity.Length());

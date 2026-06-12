@@ -1,12 +1,14 @@
-﻿using CalamityMod.Dusts;
-using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -14,6 +16,11 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class MoltenAmputator : RogueWeapon
     {
         public float speed = 16;
+        public static int FlurryCount => 30;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<HolyFlames>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 92;
@@ -36,9 +43,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             player.Calamity().mouseWorldListener = true;
             if (player.Calamity().mouseRight)
             {
-                if (player.Calamity().StealthStrikeAvailable())
+                if (player.Calamity().StealthStrikeAvailable() && player.Calamity().focusFlurryAttackCount < FlurryCount)
                 {
-                    player.Calamity().focusFlurryAttackCount = 30;
+                    player.Calamity().focusFlurryAttackCount = FlurryCount;
                     player.Calamity().ConsumeStealthByAttacking();
                     SoundStyle buff = new("CalamityMod/Sounds/Custom/ProfanedGuardians/GuardianRay");
                     SoundEngine.PlaySound(buff with { Volume = 1f, Pitch = Main.rand.NextFloat(0.2f, 0.3f) }, player.Center);
@@ -72,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool fastToss = player.Calamity().focusFlurryAttackCount > 0;
-            
+
             SoundStyle fire = new("CalamityMod/Sounds/Item/SpearofDestiny");
             SoundEngine.PlaySound(fire with { Volume = 0.5f, Pitch = (player.Calamity().focusFlurryAttackCount > 0 ? -0.4f + (player.Calamity().focusFlurryAttackCount * 0.02f) : Main.rand.NextFloat(-0.4f, -0.65f)) }, position);
             // Since the positioning of the scythe is important, its velocity is based on your mouse position
@@ -87,8 +94,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                 player.Calamity().focusFlurryAttackCount--;
             }
             player.Calamity().ConsumeStealthByAttacking();
-            
+
             return false;
         }
+
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(FlurryCount);
     }
 }

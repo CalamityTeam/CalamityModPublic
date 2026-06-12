@@ -30,6 +30,11 @@ namespace CalamityMod.Projectiles.Magic
         public float postShotFade = 0;
 
         public override void SetStaticDefaults() => Main.projFrames[Type] = 8;
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            Projectile.DamageType = DamageClass.Magic;
+        }
 
         public override void KillHoldoutLogic()
         {

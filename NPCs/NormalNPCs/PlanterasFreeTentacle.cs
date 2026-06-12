@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
+    [HeavyKnockbackWhitelisted]
     public class PlanterasFreeTentacle : ModNPC
     {
         public override string Texture => $"Terraria/Images/NPC_{NPCID.PlanterasTentacle}";

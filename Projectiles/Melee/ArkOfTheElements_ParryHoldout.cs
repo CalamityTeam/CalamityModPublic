@@ -146,9 +146,9 @@ namespace CalamityMod.Projectiles.Melee
                             Owner.velocity += Utils.SafeNormalize(Owner.Center - proj.Center, Vector2.Zero) * 2;
                     }
 
-                    //Reduce the projectile's damage by 100 for a second.
-                    if (proj.Calamity().flatDR < 100)
-                        proj.Calamity().flatDR = 100;
+                    //Reduce the projectile's damage by 60 for a second.
+                    if (proj.Calamity().flatDR < 60)
+                        proj.Calamity().flatDR = 60;
                     if (proj.Calamity().flatDRTimer < 60)
                         proj.Calamity().flatDRTimer = 60;
                     break;

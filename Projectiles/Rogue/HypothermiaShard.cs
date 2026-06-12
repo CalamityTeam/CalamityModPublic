@@ -59,8 +59,6 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<Voidfrost>(), 120);
-        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<Voidfrost>(), 120);
         public override void OnKill(int timeLeft)
         {
             for (int k = 0; k < 3; k++)

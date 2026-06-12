@@ -11,7 +11,7 @@ namespace CalamityMod.Prefixes.VanillaPrefixChanges
 
         public override IEnumerator<IVanillaPrefixStat> PopulateStats()
         {
-            yield return new PrefixDefenseStat(5);
+            yield return new PrefixDRStat(0.03f);
         }
     }
 
@@ -47,7 +47,6 @@ namespace CalamityMod.Prefixes.VanillaPrefixChanges
         public override IEnumerator<IVanillaPrefixStat> PopulateStats()
         {
             yield return new PrefixDefenseStat(4);
-            yield return new PrefixDRStat(0.01f);
         }
     }
 }

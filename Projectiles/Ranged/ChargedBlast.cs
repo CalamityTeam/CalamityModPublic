@@ -52,10 +52,6 @@ namespace CalamityMod.Projectiles.Ranged
                     baseColor = Color.MediumOrchid;
                 }
                 baseVel = Projectile.velocity;
-                if (Svant)
-                    Projectile.ArmorPenetration = 200;
-                if (Infinity)
-                    Projectile.ArmorPenetration = 20;
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             if (Projectile.timeLeft == 2)

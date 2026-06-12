@@ -11,9 +11,13 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
 
-        public static float Reach = 480f;
-        public static float Speed = 40f;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(Reach.ToTiles(), Speed);
+        //Changing these first 3 values requires restarting the game or hijacking some function to do the yoyo's SetStaticDefaults again.
+        public static float Lifetime => 15;
+        public static float Reach => 480f;
+        public static float Speed => 24f;
+        public static float DamageMultiplier(int count) => 1 + count * 0.2f;
+        public static float SizeMultiplier(int count) => 0.5f + DamageMultiplier(count) * 0.5f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(Reach.ToTiles(), Speed, Lifetime);
 
         public override void SetStaticDefaults()
         {
@@ -27,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.width = 30;
             Item.height = 32;
             Item.DamageType = DamageClass.MeleeNoSpeed;
-            Item.damage = 100;
+            Item.damage = 125;
             Item.knockBack = 2.5f;
             Item.useTime = 22;
             Item.useAnimation = 22;

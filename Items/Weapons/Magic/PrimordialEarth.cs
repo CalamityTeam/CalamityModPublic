@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
 
-        public static int BuffDefenseBoost = 12;
+        public static int BuffDefenseBoost = 4;
         public static float BuffDamageBoost = 0.12f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(BuffDefenseBoost, BuffDamageBoost.ToPercent());
 

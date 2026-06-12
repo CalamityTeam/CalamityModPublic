@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
     public class VegaStar : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
-        public static int lifetime = 300;
+        public static int lifetime => 600;
 
         public override void SetStaticDefaults()
         {
@@ -29,7 +29,6 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 5;
-            lifetime = 600;
             Projectile.timeLeft = lifetime;
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.localAI[0] = 20f;

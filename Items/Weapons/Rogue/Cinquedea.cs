@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.width = 32;
             Item.height = 32;
             Item.damage = 35;
+            Item.crit = 8;
             Item.rare = ItemRarityID.Orange;
             Item.knockBack = 5;
             Item.autoReuse = true;
@@ -28,9 +29,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = Item.buyPrice(gold: 10); // Sold by Bandit
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
 
         public override float StealthDamageMultiplier => 1.5f;
         public override float StealthVelocityMultiplier => 1.25f;

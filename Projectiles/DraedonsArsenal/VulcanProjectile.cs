@@ -60,11 +60,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            Player Owner = Main.player[Projectile.owner];
             impactDust();
 
             Vector2 launchVel = Projectile.velocity.SafeNormalize(Vector2.UnitX);
             float launchPower = 4;
-            target.MoveNPC(launchVel, launchPower, true);
+            target.MoveNPC(launchVel, launchPower, true, Owner);
         }
 
         public override void OnKill(int timeLeft)

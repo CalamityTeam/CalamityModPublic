@@ -1,22 +1,54 @@
-Venom.ItemTooltip: Sickness - 30 DPS
+Venom: {
+	ItemTooltipPlayer: Sickness - 15 DPS
+	ItemTooltipEnemy: Sickness - 30 DPS
+}
+
 BetsysCurse.ItemTooltip: -40 defense
-CursedInferno.ItemTooltip: Heat - 24 DPS
-Frostburn2.ItemTooltip: Cold - 50 DPS
-Frostburn.ItemTooltip: Cold - 8 DPS
-OnFire3.ItemTooltip: Heat - 15 DPS
-OnFire.ItemTooltip: Heat - 6 DPS
-Ichor.ItemTooltip: -10 defense
-Oiled.ItemTooltip:
+
+CursedInferno: {
+	ItemTooltipPlayer: Heat - 12 DPS
+	ItemTooltipEnemy: Heat - 24 DPS
+}
+
+Frostburn2: {
+	ItemTooltipPlayer: Cold - 8 DPS
+	ItemTooltipEnemy: Cold - 25 DPS
+}
+
+// Frostburn deals the same damage to players and enemies
+Frostburn: {
+	ItemTooltipPlayer: Cold - 8 DPS
+	ItemTooltipEnemy: Cold - 8 DPS
+}
+
+OnFire3.ItemTooltipEnemy: Heat - 15 DPS
+
+// On Fire deals the same damage to players and enemies
+OnFire: {
+	ItemTooltipPlayer: Heat - 6 DPS
+	ItemTooltipEnemy: Heat - 6 DPS
+}
+
+Ichor.ItemTooltipEnemy: -10 defense
+Oiled.ItemTooltipEnemy:
 	'''
 	Heat - 25 DPS. Recieves 2x the effect from Heat multipliers
 	Only does damage when paired with another Heat debuff
 	'''
-Poisoned.ItemTooltip: Sickness - 6 DPS
-PotionSickness.ItemTooltip: ""
-Slimed.ItemTooltip: Enhances Heat debuff damage
-Wet.ItemTooltip: Enhances Electric debuff damage
-Electrified.ItemTooltip: Electric - 10.5 DPS. Deals 4x damage to moving targets
-Honey.ItemTooltip:
+Poisoned.ItemTooltipEnemy: Sickness - 6 DPS
+PotionSickness.ItemTooltipPlayer: ""
+Slimed.ItemTooltipEnemy: Enhances Heat debuff damage
+Wet.ItemTooltipEnemy: Enhances Electric debuff damage
+Confused.ItemTooltipEnemy: Reverses movement
+Webbed.ItemTooltipEnemy: Slows enemies
+Frozen.ItemTooltipEnemy: Freezes enemies
+
+Electrified: {
+	ItemTooltipPlayer: Electric - 4 DPS. Deals 5x damage to moving players
+	ItemTooltipEnemy: Electric - 15 DPS. Deals 4x damage to moving targets
+}
+
+Honey.ItemTooltipPlayer:
 	'''
 	Increases health regeneration by 1 HP/s
 	Increases natural regeneration acceleration by 300%

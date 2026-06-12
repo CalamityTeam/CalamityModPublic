@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Projectile.timeLeft % 15 == 0 && Projectile.owner == Main.myPlayer)
                 {
                     Vector2 sporeVel = Utils.DirectionFrom(Projectile.Center, Main.player[Projectile.owner].Center).RotatedByRandom(MathHelper.Pi) * Main.rand.NextFloat(4.5f, 6.5f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sporeVel, ModContent.ProjectileType<ShroomerangSpore>(), (int)(Projectile.damage * 0.3f), 1f, Projectile.owner, -10f, 1f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sporeVel, ModContent.ProjectileType<ShroomerangSpore>(), (int)(Projectile.damage * 0.5f), 1f, Projectile.owner, -10f, 1f, 1f);
                 }
             }
         }

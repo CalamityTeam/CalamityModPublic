@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Materials
             Item.height = 80;
             Item.maxStack = Item.CommonMaxStack;
             Item.value = Item.sellPrice(platinum: 1);
-            Item.rare = ModContent.RarityType<BurnishedAuric>();
+            Item.rare = ModContent.RarityType<ExoticRainbow>();
         }
 
         public void DrawBackAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, Vector2 origin, float baseScale)
@@ -88,7 +88,11 @@ namespace CalamityMod.Items.Materials
                 AddIngredient<ExoPrism>(5).
                 AddIngredient<LifeAlloy>().
                 AddIngredient<AscendantSpiritEssence>().
-                AddIngredient<GalacticaSingularity>(3).
+                AddIngredient(ItemID.FragmentSolar, 3).
+                AddIngredient(ItemID.FragmentVortex, 3).
+                AddIngredient(ItemID.FragmentNebula, 3).
+                AddIngredient(ItemID.FragmentStardust, 3).
+                AddIngredient<MeldBlob>(3).
                 AddIngredient<CoreofCalamity>().
                 AddTile<DraedonsForge>().
                 Register();

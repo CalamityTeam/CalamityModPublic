@@ -11,7 +11,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    [PierceResistException]
     public class MurasamaSlash : ModProjectile, ILocalizedModType
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<Murasama>();
@@ -36,6 +35,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 6;
             Projectile.frameCounter = 0;
@@ -59,9 +59,10 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (time == 0)
             {
+                Projectile.scale = Owner.GetMeleeScale();
                 if (Main.zenithWorld)
                 {
-                    Projectile.scale = 2;
+                    Projectile.scale *= 2;
                     Projectile.damage = (int)(Projectile.damage * 2);
                 }
                 Projectile.frame = Main.zenithWorld ? 6 : 10;
@@ -92,15 +93,6 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
                 Slashing = false;
-
-            if (Projectile.frame == 5 && Projectile.frameCounter % 3 == 0)
-            {
-                Projectile.damage = (int)(Projectile.damage * 2);
-            }
-            if (Projectile.frame == 7 && Projectile.frameCounter % 3 == 0)
-            {
-                Projectile.damage = (int)(Projectile.damage * 0.5f);
-            }
 
             //Frames and crap
             Projectile.frameCounter++;
@@ -179,6 +171,11 @@ namespace CalamityMod.Projectiles.Melee
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Main.player[Projectile.owner].Center, lineEnd, lineWidth, ref _);
         }
 
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (Slash3)
+                modifiers.SourceDamage *= 2f;
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             if (target.Organic())
@@ -229,6 +226,6 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override Color? GetAlpha(Color lightColor) => new Color(100, 0, 0, 0);
 
-        public override bool? CanDamage() => Slashing == false ? false : null;
+        public override bool? CanDamage() => Slashing ? null : false;
     }
 }

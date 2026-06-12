@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.timeLeft = 300;
             Projectile.tileCollide = false;
-            Projectile.extraUpdates = 4;
+            Projectile.extraUpdates = 3;
             Projectile.Opacity = 1f;
         }
 

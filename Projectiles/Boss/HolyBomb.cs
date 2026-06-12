@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             CooldownSlot = ImmunityCooldownID.Bosses;
+            Projectile.scale = 0;
         }
 
         public override void OnSpawn(IEntitySource source)
@@ -46,6 +47,8 @@ namespace CalamityMod.Projectiles.Boss
         }
         public override void AI()
         {
+            if (Projectile.scale < 1)
+                Projectile.scale += 0.1f;
             ProvUtils.ApplyGFBDamage(Projectile, 120, 20);
 
             Lighting.AddLight(Projectile.Center, 0.45f, 0.35f, 0f);

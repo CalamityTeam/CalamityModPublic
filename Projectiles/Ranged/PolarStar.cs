@@ -34,7 +34,6 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.tileCollide = true;
-            Projectile.ArmorPenetration = 15;
         }
 
         public override void AI()

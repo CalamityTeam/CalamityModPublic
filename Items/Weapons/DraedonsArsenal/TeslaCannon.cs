@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.knockBack = 10f;
             Item.useTime = Item.useAnimation = 90;
             Item.autoReuse = true;
-            Item.mana = 60;
+            Item.mana = 120;
 
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = FireSound;

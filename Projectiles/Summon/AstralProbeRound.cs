@@ -31,6 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.alpha = 125;
 
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.MaxUpdates = 4;
             Projectile.netImportant = true;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;

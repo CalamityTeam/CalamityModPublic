@@ -18,6 +18,7 @@ AqueousHunterDrone: {
 		<right> while holding any summon weapon to command the shrimp to launch a vertical missile barrage
 		Vertical missiles aim towards your cursor and leave a lingering blast if they hit solid ground
 		Each shrimp uses 4 minion slots
+		{$Common.ArmorPenetration}
 		[c/1FFBFF:'When pursuing the adherents of gods, Yharim believed no stone should be left unturned.]
 		[c/1FFBFF:Weaponry for underwater contingencies was an unusually heavy focus, but no models ever saw deployment.']
 		'''
@@ -40,7 +41,7 @@ CountermeasureMitt: {
 		'''
 		A precision welding glove with laser emitters in each fingertip
 		<right> to focus all emitters into a short range palm blast that always critically strikes
-		Palm blasts have a cooldown which is significantly shorter if they miss
+		Palm blasts restore a large amount of mana on hit and have a cooldown which is significantly shorter if they miss
 		[c/1FFBFF:'Most battalions prefer to either spread attacks widely, or focus on a singular target.]
 		[c/1FFBFF:This glove caters to both, though it will never bridge the gap between their strategies.']
 		'''
@@ -65,7 +66,6 @@ HolofibreImmolator: {
 		Holding <left> quickly charges the bow, firing a high-speed plasma arrow
 		Plasma arrows will detonate after impact, creating stronger explosions if stuck into tiles
 		Holding <right> will repeatedly fire uncharged shots
-		Holding <right> and <left> will automatically fire charged arrows at a slightly slower rate
 		[c/1FFBFF:'The elegance of holofibre is unmatched.]
 		[c/1FFBFF:However, mechanical tension may have produced more consistent results.']
 		'''

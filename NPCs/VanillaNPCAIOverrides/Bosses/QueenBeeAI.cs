@@ -136,16 +136,6 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
             if (Main.player[NPC.target].dead)
                 NPC.ai[0] = 7f;
 
-            // Adjust slowing debuff immunity
-            bool immuneToSlowingDebuffs = NPC.ai[0] == 0f;
-            NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<GalvanicCorrosion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
-
             // Always start in enemy spawning phase
             if (calamityGlobalNPC.newAI[3] == 0f)
             {

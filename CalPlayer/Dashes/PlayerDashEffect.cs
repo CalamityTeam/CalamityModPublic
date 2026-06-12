@@ -20,6 +20,8 @@ namespace CalamityMod.CalPlayer.Dashes
 
         public abstract bool IsOmnidirectional { get; }
 
+        public virtual int ForceEndAt { get; } = -1;
+
         public abstract float CalculateDashSpeed(Player player);
         /// <summary>
         /// Effects that happen once when the main dash starts

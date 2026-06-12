@@ -107,7 +107,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Slimed, Empowered ? 480 : 180);
+            //Doze - Flamethrowers in vanilla are long debuff infliction tools (20 seconds of their debuff).
+            //I am applying this as the base for Cal flamethrowers, with shorter times being the exception instead of the rule
+            target.AddBuff(BuffID.Slimed, 1200);
             if (Empowered)
             {
                 Particle pulse2 = new DirectionalPulseRing(Projectile.Center, Vector2.Zero, SlimeColor, Vector2.One, 0f, 0f, 0.65f, 35);

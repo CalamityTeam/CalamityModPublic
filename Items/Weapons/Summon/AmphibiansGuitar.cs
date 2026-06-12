@@ -26,6 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.channel = true;
             Item.value = CalamityGlobalItem.RarityYellowBuyPrice;
             Item.rare = ItemRarityID.Yellow;
+            Item.Calamity().donorItem = true;
             Item.useStyle = ItemUseStyleID.HoldUp;
         }
 

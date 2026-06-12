@@ -66,6 +66,11 @@ namespace CalamityMod.Items.Weapons.Summon
                 EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Body}", EquipType.Body, this);
         }
 
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.StaffMinionSlotsRequired[Type] = 3;
+        }
+
         public override void SetDefaults()
         {
             Item.width = Item.height = 36;
@@ -78,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.knockBack = 1f;
 
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            Item.rare = ModContent.RarityType<BurnishedAuric>();
+            Item.rare = ModContent.RarityType<ExoticRainbow>();
 
             Item.UseSound = SoundID.Item117;
             Item.shoot = ModContent.ProjectileType<ExoskeletonPlasmaCannon>();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Terraria.Localization;
 
 namespace CalamityMod.Items
 {
@@ -75,6 +76,11 @@ namespace CalamityMod.Items
         #endregion
 
         #region Tooltip Extension Properties
+        /// <summary>
+        /// The localization text object itself. Override to allow text to be formatted.
+        /// </summary>
+        public virtual LocalizedText TooltipExtensionText => LocalizedText.Empty;
+
         /// <summary>
         /// The lang/localization key which this item uses for its tooltip extension.
         /// </summary>

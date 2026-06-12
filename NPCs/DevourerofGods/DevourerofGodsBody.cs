@@ -83,6 +83,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.boss = true;
             NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.dontCountMe = true;
+            NPC.Calamity().canBreakPlayerDefense = true;
 
             if (Main.zenithWorld)
                 NPC.scale *= 1.5f;

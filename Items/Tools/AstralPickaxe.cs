@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Tools
             Item.width = 50;
             Item.height = 60;
             Item.damage = 65;
+            Item.crit = 25;
             Item.knockBack = 5f;
             Item.useTime = 6;
             Item.useAnimation = 10;
@@ -30,9 +31,6 @@ namespace CalamityMod.Items.Tools
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
         }
-
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 25;
 
         public override void AddRecipes()
         {

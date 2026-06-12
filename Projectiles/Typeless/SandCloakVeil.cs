@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Typeless
     {
         public new string LocalizationCategory => "Projectiles.Typeless";
         private const float Radius = 360f;
-        private const int Duration = 900;
 
         public override void SetDefaults()
         {
@@ -22,7 +21,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = Duration;
+            Projectile.timeLeft = SandCloak.SandVeilDuration;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.scale = 1.5f;
@@ -52,7 +51,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Projectile.Center += Vector2.Normalize(Owner.Center - Projectile.Center) * (ownerDist > Radius * 0.5f ? 2.5f : 1.25f);
 
             // Kill the sand veil early if the owner dashes
-            if (Owner.dashDelay == -1 && Projectile.timeLeft < Duration - 45)
+            if (Owner.dashDelay == -1 && Projectile.timeLeft < SandCloak.SandVeilDuration - 45)
             {
                 if (Projectile.timeLeft > 25)
                     Projectile.timeLeft = 25;
@@ -74,7 +73,7 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
         // Add Sand Cloak cooldown after the sand veil dies
-        public override void OnKill(int timeLeft) => Main.player[Projectile.owner].AddCooldown(Cooldowns.SandCloak.ID, CalamityUtils.SecondsToFrames(15));
+        public override void OnKill(int timeLeft) => Main.player[Projectile.owner].AddCooldown(Cooldowns.SandCloak.ID, SandCloak.SandVeilCooldown);
 
         public override bool PreDraw(ref Color lightColor)
         {
@@ -85,8 +84,8 @@ namespace CalamityMod.Projectiles.Typeless
             Color drawCol = Projectile.GetAlpha(Color.Lerp(lightColor, Color.White, 0.5f));
             float drawTransparency = 0.1f;
 
-            if (Projectile.timeLeft > Duration - 10)
-                drawTransparency = (Duration - Projectile.timeLeft) * 0.01f;
+            if (Projectile.timeLeft > SandCloak.SandVeilDuration - 10)
+                drawTransparency = (SandCloak.SandVeilDuration - Projectile.timeLeft) * 0.01f;
             else if (Projectile.timeLeft < 25)
                 drawTransparency = Projectile.timeLeft * 0.004f;
 

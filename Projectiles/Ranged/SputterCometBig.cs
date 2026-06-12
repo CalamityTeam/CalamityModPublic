@@ -20,14 +20,13 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            Projectile.width = 8;
-            Projectile.height = 8;
+            Projectile.width = Projectile.height = 34;
             Projectile.aiStyle = ProjAIStyleID.Arrow;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 600;
-            Projectile.extraUpdates = 1;
+            Projectile.MaxUpdates = 3;
+            Projectile.timeLeft = 60 * Projectile.MaxUpdates;
             AIType = ProjectileID.Bullet;
         }
 
@@ -36,7 +35,7 @@ namespace CalamityMod.Projectiles.Ranged
             Lighting.AddLight(Projectile.Center, 0.3f, 0.5f, 0.1f);
             if (Main.rand.NextBool(3))
             {
-                int dust = Dust.NewDust(Projectile.position, 1, 1, ModContent.DustType<AstralOrange>(), 0f, 0f, 0, default, 0.5f);
+                int dust = Dust.NewDust(Projectile.Center, 1, 1, ModContent.DustType<AstralOrange>(), 0f, 0f, 0, default, 0.5f);
                 Main.dust[dust].alpha = Projectile.alpha;
                 Main.dust[dust].velocity *= 0f;
                 Main.dust[dust].noGravity = true;
@@ -46,10 +45,10 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
                 }
             }
-            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 150f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 400f, 12f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

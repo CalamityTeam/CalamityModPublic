@@ -2,6 +2,7 @@
 using CalamityMod.Cooldowns;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Particles;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -61,11 +62,7 @@ namespace CalamityMod.Projectiles.Typeless
             time++;
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            modifiers.SetCrit();
-            float critDamage = Math.Min(Owner.GetTotalCritChance(AverageDamageClass.Instance) * 0.01f, 1f);
-            modifiers.SourceDamage *= (1 + critDamage);
-        }
+            => modifiers.ApplyScalingForcedCrit(Projectile);
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             bool hasCD = Owner.Calamity().cooldowns.TryGetValue(GenericBandCooldown.ID, out CooldownInstance bandCD);

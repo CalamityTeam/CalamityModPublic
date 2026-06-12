@@ -1,18 +1,22 @@
-﻿using CalamityMod.Items.BaseItems;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Vanity
 {
-    public class LucisSight : TransformationAccessory, ILocalizedModType
+    [AutoloadEquip(EquipType.Face)]
+    public class LucisSight : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
 
-        public override (EquipType, string, string)[] EquipSlots =>
-        [
-            (EquipType.Face, "LucisSight", null),
-        ];
+        public override void SetStaticDefaults()
+        {
+            if (!Main.dedServ)
+            {
+                int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Face);
+                ArmorIDs.Face.Sets.DrawInFaceUnderHairLayer[equipSlot] = true;
+            }
+        }
 
         public override void SetDefaults()
         {

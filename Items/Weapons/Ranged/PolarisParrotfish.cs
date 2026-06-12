@@ -20,6 +20,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public static readonly SoundStyle Shot = new("CalamityMod/Sounds/Item/PolarisShot") { Volume = 0.6f };
         public static readonly SoundStyle Squeak = new("CalamityMod/Sounds/Custom/CuteSqueak") { Volume = 0.75f };
+
+        public static int ArmorPenetration = 15;
+
         public override void SetStaticDefaults()
         {
             ItemID.Sets.IsRangedSpecialistWeapon[Type] = true;
@@ -31,11 +34,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.width = 36;
             Item.height = 34;
             Item.damage = 35;
+            Item.ArmorPenetration = ArmorPenetration;
             Item.DamageType = DamageClass.Ranged;
-
-            Item.useTime = 9;
-            Item.useAnimation = 9;
-
+            Item.useAnimation = Item.useTime = 9;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 0.5f;
@@ -46,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shoot = ModContent.ProjectileType<PolarStar>();
             Item.shootSpeed = 10f;
         }
-        public override void ModifyTooltips(List<TooltipLine> list) => list.FindAndReplace("[GFB]", this.GetLocalizedValue(Main.zenithWorld ? "TooltipGFB" : "TooltipNormal"));
+        public override void ModifyTooltips(List<TooltipLine> list) => list.FindAndReplace("[GFB]", this.GetLocalization(Main.zenithWorld ? "TooltipGFB" : "TooltipNormal").Format(ArmorPenetration));
         public override bool AltFunctionUse(Player player) => Main.zenithWorld ? true : false;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -129,7 +130,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     SoundEngine.PlaySound(Shot, player.Center);
 
                 for (int i = 0; i < (Happy ? 3 : 1); i++)
-                    Projectile.NewProjectile(source, position + velocity * 5f, velocity.RotatedByRandom(0.05f * (i != 0 ? 6 : 1)), ModContent.ProjectileType<PolarStar>(), damage, knockback, player.whoAmI, 0f, ShotNumber);
+                    Projectile.NewProjectile(source, position + velocity * 5f, velocity.RotatedByRandom(0.05f * (i != 0 ? 6 : 1)), type, damage, knockback, player.whoAmI, 0f, ShotNumber);
 
                 if (ShotNumber >= 2) // Cycle the shot color
                     ShotNumber = 0;

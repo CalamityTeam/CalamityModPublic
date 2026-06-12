@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Melee
                         float spreadAmount = MathHelper.ToRadians(360);
                         for (var i = 0; i < orbAmount; i++)
                         {
-                            Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, -angle.RotatedByRandom(spreadAmount) * 3.5f * Main.rand.NextFloat(0.75f, 1.25f), ModContent.ProjectileType<BloodstoneHealOrb>(), 20, 0f, player.whoAmI);
+                            Projectile.NewProjectile(Projectile.GetSource_OnHit(target), target.Center, -angle.RotatedByRandom(spreadAmount) * 3f * Main.rand.NextFloat(0.75f, 1.25f), ModContent.ProjectileType<BloodstoneHealOrb>(), 20, 0f, player.whoAmI);
 
                         }
                         Particle bloodsplosion2 = new CustomPulse(target.Center, Vector2.Zero, (!ChildSafety.Disabled ? Color.CornflowerBlue : new Color(255, 32, 32)) * 0.75f, "CalamityMod/Particles/DustyCircleHardEdge", Vector2.One, Main.rand.NextFloat(-15f, 15f), 0.03f, 0.155f, 40);

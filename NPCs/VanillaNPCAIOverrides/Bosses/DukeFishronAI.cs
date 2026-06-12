@@ -24,9 +24,9 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
 
             // Variables
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool phase2 = lifeRatio < (death ? 0.6f : 0.7f);
-            bool phase3 = lifeRatio < (death ? 0.3f : 0.4f);
-            bool phase4 = lifeRatio < (death ? 0.1f : 0.2f);
+            bool phase2 = lifeRatio < 0.7f;
+            bool phase3 = lifeRatio < 0.4f;
+            bool phase4 = lifeRatio < 0.2f;
             bool phase2AI = NPC.ai[0] > 4f;
             bool phase3AI = NPC.ai[0] > 9f;
             bool charging = NPC.ai[3] < 10f;

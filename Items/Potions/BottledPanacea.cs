@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Systems.Collections;
 
 namespace CalamityMod.Items.Potions
 {
@@ -46,7 +47,7 @@ namespace CalamityMod.Items.Potions
                 for (int i = Player.MaxBuffs - 1; i >= 0; i--)
                 {
                     int buffType = player.buffType[i];
-                    if (BuffDatasets.DebuffDataset[buffType] is not null && (BuffDatasets.DebuffDataset[buffType].SicknessDebuffScaling > 0 || BuffDatasets.DebuffDataset[buffType].ElectricDebuffScaling > 0))
+                    if (CalamityBuffSets.DebuffDataset[buffType] is not null && (CalamityBuffSets.DebuffDataset[buffType].SicknessDebuffScaling > 0 || CalamityBuffSets.DebuffDataset[buffType].ElectricDebuffScaling > 0))
                         player.DelBuff(i);
                 }
 

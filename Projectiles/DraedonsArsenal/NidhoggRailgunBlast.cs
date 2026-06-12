@@ -52,6 +52,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            Player Owner = Main.player[Projectile.owner];
             Particle spark = new GlowSparkParticle(Projectile.Center, Projectile.velocity, false, 8, MathHelper.Clamp(0.06f - Projectile.numHits * 0.01f, 0f, 0.06f), Effects.ArsenalEffects.ArsenalGaussColor * 0.9f, new Vector2(1f, 0.5f), true, true, 0.9f);
             GeneralParticleHandler.SpawnParticle(spark);
 
@@ -74,7 +75,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
             Vector2 launchVel = Projectile.velocity.SafeNormalize(Vector2.UnitX);
             float launchPower = 6;
-            target.MoveNPC(launchVel, launchPower, true);
+            target.MoveNPC(launchVel, launchPower, true, Owner);
         }
 
         public override void OnKill(int timeLeft)

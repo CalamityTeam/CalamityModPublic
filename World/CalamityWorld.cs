@@ -79,6 +79,8 @@ namespace CalamityMod.World
         public static bool spawnedBandit = false;
         /// <summary> If true, the Archmage has lived in a house in this world. Solely used as a condition for dialogue. </summary>
         public static bool foundHomePermafrost = false;
+        /// <summary> If true, the Town Pig is able to move in. </summary>
+        public static bool unlockedTownPig = false;
 
         /// <summary> Used for allowing custom Town Cat patreon names. </summary>
         public static bool catName = false;

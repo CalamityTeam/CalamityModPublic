@@ -18,18 +18,16 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public int SineCounter = 0;
 
+        public static int ArmorPenetration = 200;
         public static int AmmoSavedPercent = 80;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(AmmoSavedPercent);
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ArmorPenetration, AmmoSavedPercent);
 
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
-        }
         public override void SetDefaults()
         {
             Item.width = 60;
             Item.height = 26;
             Item.damage = 232;
+            Item.ArmorPenetration = ArmorPenetration;
             Item.DamageType = DamageClass.Ranged;
             Item.useTime = 1;
             Item.useAnimation = 4;
@@ -51,11 +49,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
-        public override bool AltFunctionUse(Player player) => true;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int shotType = (player.altFunctionUse == 2 ? type : ModContent.ProjectileType<ChargedBlast>());
 
             // 14NOV2024: Ozzatron: clamped mouse position unnecessary, only used for direction
             position = position + (player.Calamity().mouseWorld - player.MountedCenter).SafeNormalize(Vector2.UnitX) * 65;
@@ -67,15 +63,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Vector2 helixVel1 = (velocity * Main.rand.NextFloat(0.9f, 1.1f)).RotatedBy(MathHelper.ToRadians(sine));
                 Vector2 helixVel2 = (velocity * Main.rand.NextFloat(0.9f, 1.1f)).RotatedBy(MathHelper.ToRadians(-sine));
                 Vector2 helixVel3 = (velocity * Main.rand.NextFloat(0.9f, 1.1f)).RotatedBy(MathHelper.ToRadians(sine2));
-                Projectile.NewProjectile(source, position.X, position.Y, helixVel1.X, helixVel1.Y, shotType, damage, knockback, player.whoAmI, 0f, 0, player.altFunctionUse != 2 ? 2f : 0);
-                Projectile.NewProjectile(source, position.X, position.Y, helixVel2.X, helixVel2.Y, shotType, damage, knockback, player.whoAmI, 0f, 0, player.altFunctionUse != 2 ? 4f : 0);
-                Projectile.NewProjectile(source, position.X, position.Y, helixVel3.X, helixVel3.Y, shotType, damage, knockback, player.whoAmI, 0f, 0, player.altFunctionUse != 2 ? 3f : 0);
+                Projectile.NewProjectile(source, position, helixVel1, ModContent.ProjectileType<ChargedBlast>(), damage, knockback, player.whoAmI, 0f, 0, 2f);
+                Projectile.NewProjectile(source, position, helixVel2, ModContent.ProjectileType<ChargedBlast>(), damage, knockback, player.whoAmI, 0f, 0, 4f);
+                Projectile.NewProjectile(source, position, helixVel3, ModContent.ProjectileType<ChargedBlast>(), damage, knockback, player.whoAmI, 0f, 0, 3f);
             }
-            else if (player.altFunctionUse != 2)
-            {
-                Particle spark2 = new LineParticle(position + Main.rand.NextVector2Circular(6, 6), (velocity * 4).RotatedByRandom(0.35f) * Main.rand.NextFloat(0.8f, 1.2f), false, Main.rand.Next(15, 25 + 1), Main.rand.NextFloat(1.5f, 2f), Main.rand.NextBool() ? Color.MediumOrchid : Color.DarkViolet);
-                GeneralParticleHandler.SpawnParticle(spark2);
-            }
+            Particle spark2 = new LineParticle(position + Main.rand.NextVector2Circular(6, 6), (velocity * 4).RotatedByRandom(0.35f) * Main.rand.NextFloat(0.8f, 1.2f), false, Main.rand.Next(15, 25 + 1), Main.rand.NextFloat(1.5f, 2f), Main.rand.NextBool() ? Color.MediumOrchid : Color.DarkViolet);
+            GeneralParticleHandler.SpawnParticle(spark2);
             return false;
         }
 

@@ -22,12 +22,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<StellarStriker>();
         public override string Texture => "CalamityMod/Items/Weapons/Melee/StellarStriker";
-        public override float HitboxOutset => 90;
-
-        public override Vector2 HitboxSize => new Vector2(130, 130);
+        public int size = 118;
+        public override float HitboxOutset => size * 0.85f;
+        public override Vector2 HitboxSize => new Vector2(size, size);
+        public override Vector2 SpriteOrigin => new(0, size);
         public override float HitboxRotationOffset => MathHelper.ToRadians(-45);
-
-        public override Vector2 SpriteOrigin => new(0, 118);
         public Vector2 mousePos;
         public Vector2 aimVel;
         public bool doSwing = true;
@@ -47,7 +46,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void WhenSpawned()
         {
             Projectile.knockBack = 0;
-            Projectile.scale = 1;
             Projectile.ai[1] = -1;
 
             // 14NOV2024: Ozzatron: clamped mouse position unnecessary, it does not influence Stellar Striker's projectile spawning
@@ -161,24 +159,24 @@ namespace CalamityMod.Projectiles.Melee
                     for (int i = 0; i < 3; i++)
                     {
                         Vector2 particleVel = new Vector2(0, 3 * -Projectile.ai[1] * Owner.direction).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
-                        Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(5, 130), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)));
-                        Particle orb = new CustomPulse(particlePos, -particleVel * Main.rand.NextFloat(1.1f, 3.2f), Main.rand.NextBool(4) ? Color.PaleTurquoise : Color.Turquoise, "CalamityMod/Particles/Sparkle", new Vector2(2f, 1f), particleVel.ToRotation(), Main.rand.NextFloat(0.4f, 1.1f), 0.2f, 23);
+                        Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(5, 130), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45))) * Projectile.scale;
+                        Particle orb = new CustomPulse(particlePos, -particleVel * Main.rand.NextFloat(1.1f, 3.2f), Main.rand.NextBool(4) ? Color.PaleTurquoise : Color.Turquoise, "CalamityMod/Particles/Sparkle", new Vector2(2f, 1f), particleVel.ToRotation(), Main.rand.NextFloat(0.4f, 1.1f) * Projectile.scale, 0.2f, 23);
                         GeneralParticleHandler.SpawnParticle(orb);
                     }
                     for (int i = 0; i < 4; i++)
                     {
                         float randRot = Main.rand.NextFloat(-30, -60);
                         Vector2 dustVel = (new Vector2(0, 15 * -Projectile.ai[1] * Owner.direction)).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot));
-                        Particle spark2 = new GlowSparkParticle(Owner.Center + (new Vector2(140, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.4f)), -dustVel, false, 20, Main.rand.NextFloat(0.007f, 0.012f), Color.Turquoise, new Vector2(1.3f, 0.5f), true, false, Main.rand.NextFloat(0.5f, 0.7f));
+                        Particle spark2 = new GlowSparkParticle(Owner.Center + (new Vector2(140 * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.4f)), -dustVel, false, 20, Main.rand.NextFloat(0.007f, 0.012f) * Projectile.scale, Color.Turquoise, new Vector2(1.3f, 0.5f), true, false, Main.rand.NextFloat(0.5f, 0.7f));
                         GeneralParticleHandler.SpawnParticle(spark2);
                     }
                 }
                 else if (Main.rand.NextBool(3))
                 {
                     Vector2 particleVel = new Vector2(0, 3 * -Projectile.ai[1] * Owner.direction).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
-                    Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(5, 130), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)));
+                    Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(5, 130), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45))) * Projectile.scale;
 
-                    Particle orb = new CustomPulse(particlePos, particleVel * Main.rand.NextFloat(0.8f, 1.2f), Main.rand.NextBool(4) ? Color.PaleTurquoise : Color.Turquoise, "CalamityMod/Particles/HealingPlus", new Vector2(1f, 1f), Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(0.8f, 1.2f), 0.2f, 23);
+                    Particle orb = new CustomPulse(particlePos, particleVel * Main.rand.NextFloat(0.8f, 1.2f), Main.rand.NextBool(4) ? Color.PaleTurquoise : Color.Turquoise, "CalamityMod/Particles/HealingPlus", new Vector2(1f, 1f), Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(0.8f, 1.2f) * Projectile.scale, 0.2f, 23);
                     GeneralParticleHandler.SpawnParticle(orb);
 
                     //GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(particlePos, -particleVel.RotatedByRandom(0.2f) * 2, Main.rand.NextBool(4) ? Color.PaleTurquoise : Color.Turquoise, 23, Main.rand.NextFloat(0.2f, 0.6f), 0.65f, 0, true));
@@ -202,7 +200,7 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(fire2 with { Volume = 0.55f, Pitch = 0.6f }, Projectile.Center);
 
             Vector2 launchVel = Utils.DirectionTo(Owner.Center, Owner.Calamity().mouseWorld);
-            target.MoveNPC(launchVel, 17, true);
+            target.MoveNPC(launchVel, 17, true, Owner);
 
             for (int i = 0; i < MathHelper.Clamp(10 - Projectile.numHits * 2, 2, 10); i++)
             {
@@ -220,7 +218,8 @@ namespace CalamityMod.Projectiles.Melee
             if (spawnBoom)
             {
                 Vector2 spawnSpot = target.Center + new Vector2(Main.rand.NextFloat(-550, 550), Main.rand.NextFloat(-750, -950));
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<StellarStrikerMeteor>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner, 0, 0, 7);
+                Projectile meteor = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<StellarStrikerMeteor>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner, 0, 0, 7);
+                meteor.scale = Projectile.scale;
                 spawnBoom = false;
             }
 

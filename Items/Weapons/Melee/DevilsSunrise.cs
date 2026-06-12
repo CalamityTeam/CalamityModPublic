@@ -1,7 +1,9 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Crags;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +13,10 @@ namespace CalamityMod.Items.Weapons.Melee
     public class DevilsSunrise : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<BrimstoneFlames>()];
+        }
 
         public override void SetDefaults()
         {
@@ -18,6 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 66;
             Item.damage = 420;
             Item.DamageType = DamageClass.MeleeNoSpeed;
+            Item.crit = 10;
             Item.useAnimation = 25;
             Item.useTime = 5;
             Item.noMelee = true;
@@ -35,8 +42,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 24f;
         }
 
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 10;
         // You can't use the sword if you've thrown it, silly
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<DevilsSunriseCyclone>()] <= 0;
         public override void HoldItem(Player player)

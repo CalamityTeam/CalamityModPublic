@@ -1,9 +1,11 @@
-﻿using CalamityMod.Items.Weapons.Melee;
+﻿using System;
+using CalamityMod.DataStructures;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
+using CalamityMod.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -60,6 +62,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void UseStyle()
         {
+            if (Owner.HeldItem.ModItem is not TrueBiomeBlade || (Owner.HeldItem.ModItem as TrueBiomeBlade).mainAttunement != AttunementSystem.FindOrNull(AttunementID.TrueDefault))
+            {
+                Projectile.Kill();
+                return;
+            }
+
             // If the player stops using the weapon after hitting with it three times, switch to lunge.
             if (Owner.CantUseHoldout())
             {

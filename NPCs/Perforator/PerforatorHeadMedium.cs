@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.Perforator
             NPC.height = 68;
             NPC.defense = 2;
 
-            NPC.LifeMaxNERB(130, 170, 7000);
+            NPC.LifeMaxNERB(120, 150, 7000);
             if (Main.zenithWorld)
                 NPC.lifeMax *= 4;
 
@@ -422,7 +422,7 @@ namespace CalamityMod.NPCs.Perforator
                 }
             }
 
-            if (NPC.Distance(player.Center) > 1280f)
+            if (NPC.Distance(player.Center) > 1120f)
                 NPC.velocity += (player.Center - NPC.Center).SafeNormalize(Vector2.UnitY) * turnSpeed;
 
             NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + MathHelper.PiOver2;
@@ -465,7 +465,7 @@ namespace CalamityMod.NPCs.Perforator
 
         public static int GetMediumPerforatorSegmentsCount()
         {
-            return Main.getGoodWorld ? 20 : (CalamityWorld.death || BossRushEvent.BossRushActive) ? 14 : CalamityWorld.revenge ? 13 : Main.expertMode ? 12 : 10;
+            return Main.getGoodWorld ? 20 : (CalamityWorld.death || BossRushEvent.BossRushActive) ? 14 : Main.expertMode ? 12 : 10;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

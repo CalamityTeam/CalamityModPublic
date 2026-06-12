@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Item.width = 30;
             Item.height = 34;
-            Item.damage = 2850;
+            Item.damage = 2000;
             Item.DamageType = RogueDamageClass.Instance;
             Item.useTime = 42;
             Item.useAnimation = 42;
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<DynamicPursuerProjectile>();
             Item.shootSpeed = 17f;
         }
-        public static float StealthDmgMult = 0.3f; //So I can edit it directly via DragonLens instead of having to do math with CalTestHelpers
+        public static float StealthDmgMult = 0.25f; //So I can edit it directly via DragonLens instead of having to do math with CalTestHelpers
         public override float StealthDamageMultiplier => StealthDmgMult;
         public override float StealthVelocityMultiplier => 0.8f;
 

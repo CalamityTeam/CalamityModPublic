@@ -43,12 +43,12 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 pos = Projectile.Center;
                 if (Projectile.timeLeft % 3 == 0)
                 {
-                    Particle spark2 = new BoltParticle(pos, -Projectile.velocity * 0.05f, false, 15, 0.4f, usedColor, new Vector2(1.8f, 0.8f), true, true, false, 0.5f);
+                    Particle spark2 = new BoltParticle(pos, -Projectile.velocity * 0.05f, false, 15, 0.4f * Projectile.scale, usedColor, new Vector2(1.8f, 0.8f), true, true, false, 0.5f);
                     GeneralParticleHandler.SpawnParticle(spark2);
                 }
                 if (Main.rand.NextBool(35))
                 {
-                    Particle spark2 = new BoltParticle(pos, Projectile.velocity.RotatedByRandom(0.6f) * Main.rand.NextFloat(0.3f, 1.9f), false, 23, Main.rand.NextFloat(0.2f, 0.25f), usedColor, new Vector2(1.8f, 0.8f), true, true, false, 0.3f);
+                    Particle spark2 = new BoltParticle(pos, Projectile.velocity.RotatedByRandom(0.6f) * Main.rand.NextFloat(0.3f, 1.9f), false, 23, Main.rand.NextFloat(0.2f, 0.25f) * Projectile.scale, usedColor, new Vector2(1.8f, 0.8f), true, true, false, 0.3f);
                     GeneralParticleHandler.SpawnParticle(spark2);
                 }
                 if (time % 5 == 0)
@@ -83,10 +83,10 @@ namespace CalamityMod.Projectiles.Melee
             if (time <= 1)
             {
                 float _ = float.NaN;
-                return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Owner.Center, 25, ref _);
+                return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Owner.Center, 25 * Projectile.scale, ref _);
             }
             else
-                return CalamityUtils.CircularHitboxCollision(Projectile.Center, 25, targetHitbox);
+                return CalamityUtils.CircularHitboxCollision(Projectile.Center, 25 * Projectile.scale, targetHitbox);
         }
         public override bool? CanCutTiles() => false;
     }

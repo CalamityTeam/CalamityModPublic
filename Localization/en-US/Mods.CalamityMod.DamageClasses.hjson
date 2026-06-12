@@ -4,3 +4,4 @@ RogueDamageClass.DisplayName: rogue damage
 StealthDamageClass.DisplayName: stealth damage
 TrueMeleeDamageClass.DisplayName: true melee damage
 TrueMeleeNoSpeedDamageClass.DisplayName: true melee damage
+VoidTagDmgType.DisplayName: void tag damage

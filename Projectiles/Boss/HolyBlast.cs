@@ -41,6 +41,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = 1;
             Projectile.timeLeft = TimeLeft;
             CooldownSlot = ImmunityCooldownID.Bosses;
+            Projectile.scale = 0;
         }
 
         public override void OnSpawn(IEntitySource source)
@@ -66,6 +67,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            if (Projectile.scale < 1)
+                Projectile.scale += 0.05f;
             ProvUtils.ApplyGFBDamage(Projectile, 180, 20);
 
             Lighting.AddLight(Projectile.Center, 0.9f, 0.7f, 0f);
@@ -162,7 +165,7 @@ namespace CalamityMod.Projectiles.Boss
                     totalProjectiles *= 2;
 
                 float radians = MathHelper.TwoPi / totalProjectiles;
-                int type = ModContent.ProjectileType<HolyFire2>();
+                int type = ModContent.ProjectileType<HolyBlastFrags>();
                 float velocity = 5f;
                 Vector2 spinningPoint = new Vector2(0f, -velocity);
                 Vector2 additionalVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitX) * 2.5f;

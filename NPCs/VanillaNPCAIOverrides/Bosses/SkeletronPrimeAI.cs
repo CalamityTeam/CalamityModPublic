@@ -147,16 +147,6 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                 SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
             }
 
-            // Adjust slowing debuff immunity
-            bool immuneToSlowingDebuffs = NPC.ai[1] == 5f;
-            NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<GalvanicCorrosion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
-
             bool normalLaserRotation = NPC.localAI[1] % 2f == 0f;
 
             // Float near player
@@ -165,18 +155,19 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                 // Start other phases; if arms are dead, start with spin phase
                 if (phase2 || Main.getGoodWorld || allArmsDead)
                 {
-                    // Start spin phase after 1.5 seconds
+                    // Start spin phase after 1.5 seconds if close enough; forced after 4.5 seconds
                     NPC.ai[2] += phase3 ? 1.5f : 1f;
                     if (NPC.ai[2] >= (90f - (death ? 15f * (1f - lifeRatio) : 0f)))
                     {
-                        bool shouldSpinAround = NPC.ai[1] == 4f && NPC.position.Y < Main.player[NPC.target].position.Y - 320f &&
-                            Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) < 600f && Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > 400f;
+                        bool shouldSpinAround = NPC.ai[1] == 4f && ((NPC.position.Y < Main.player[NPC.target].position.Y - 320f &&
+                            Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) < 600f && Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > 400f) ||
+                            NPC.ai[2] >= (270f - (death ? 15f * (1f - lifeRatio) : 0f)));
 
                         if (shouldSpinAround || NPC.ai[1] != 4f)
                         {
                             if (shouldSpinAround)
                             {
-                                NPC.localAI[3] = 300f;
+                                NPC.localAI[3] = 200f;
                                 NPC.localAI[1] = 0;
                                 NPC.SyncVanillaLocalAI();
                             }
@@ -319,7 +310,8 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                     {
                         CalamityUtils.CalamityTargeting(NPC, CalamityTargetingParameters.BossDefaults);
                         NPC.ai[2] = 0f;
-                        NPC.ai[1] = 4f;
+                        // Fly overhead and spit missiles if on low health
+                        NPC.ai[1] = phase3 ? 6f : 4f;
                         NPC.localAI[0] = 0f;
                     }
 
@@ -485,7 +477,7 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
 
                     // Spin for about 3 seconds
                     // Decreasing this number will INCREASE how fast he moves while spinning
-                    float spinVelocity = 30f;
+                    float spinVelocity = 25f;
                     if (NPC.ai[2] == 2f)
                     {
                         // Play angry noise
@@ -550,8 +542,7 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                             {
                                 NPC.velocity = NPC.velocity.SafeNormalize(Vector2.UnitY);
 
-                                // Fly overhead and spit missiles if on low health
-                                NPC.ai[1] = phase3 ? 6f : 1f;
+                                NPC.ai[1] = 1f;
                                 NPC.ai[2] = 0f;
                                 NPC.localAI[3] = 0f;
                                 NPC.localAI[0] = 0f;
@@ -600,8 +591,8 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
 
                             if (NPC.localAI[0] >= totalMissiles)
                             {
-                                NPC.ai[1] = 0f;
-                                NPC.ai[2] = 0f;
+                                NPC.ai[1] = 4f;
+                                NPC.ai[2] = -60f;
                                 NPC.localAI[3] = 0f;
                                 calamityGlobalNPC.newAI[0] = 0f;
                                 NPC.localAI[0] = 0f;

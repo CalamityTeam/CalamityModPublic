@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,88 +11,81 @@ namespace CalamityMod.Projectiles.Rogue
     public class ProfanedPartisanSpear : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
-        public int timer = 0;
-
-        public override void SetStaticDefaults() => ProjectileID.Sets.CultistIsResistantTo[Type] = true;
         public override void SetDefaults()
         {
+            ProjectileID.Sets.TrailCacheLength[Type] = 6;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
             Projectile.width = 10;
             Projectile.height = 10;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.DamageType = RogueDamageClass.Instance;
-            Projectile.penetrate = -1;
-            Projectile.extraUpdates = 3;
+            Projectile.penetrate = 5;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = -1;
             Projectile.timeLeft = 600;
+            Projectile.tileCollide = false;
         }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (Projectile.ai[1] != 1f)
-            {
-                if (Projectile.velocity.X != oldVelocity.X)
-                {
-                    Projectile.velocity.X = -oldVelocity.X;
-                }
-                if (Projectile.velocity.Y != oldVelocity.Y)
-                {
-                    Projectile.velocity.Y = -oldVelocity.Y;
-                }
-                Projectile.ai[1] = 1f;
-                Projectile.ai[0] = 1f;
-                Projectile.extraUpdates = 2;
-                if (Projectile.timeLeft > 280)
-                    Projectile.timeLeft = 280;
-            }
-            return false;
-        }
-
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-            OnHitEffects();
         }
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-            OnHitEffects();
-        }
-
-        private void OnHitEffects()
-        {
-            if (Projectile.ai[1] != 1f)
-            {
-                Projectile.velocity.X *= -1f;
-                Projectile.velocity.Y *= -1f;
-                Projectile.ai[1] = 1f;
-                Projectile.ai[0] = 1f;
-                Projectile.extraUpdates = 2;
-                if (Projectile.timeLeft > 280)
-                    Projectile.timeLeft = 280;
-            }
         }
 
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-
-            if (Projectile.ai[0] == 1f)
-                timer++;
-            if (timer >= 5)
-                Projectile.penetrate = 1;
-            if (timer >= 10)
+            if (Projectile.originalDamage == 0)
             {
-                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 7f, 20f);
+                Projectile.originalDamage = ProfanedPartisan.SpearBaseDamage;
+                Projectile.ContinuouslyUpdateDamageStats = true;
             }
+
+            float timeGateValue = 30f;
+            if (Projectile.ai[0] <= 0f) //Copied from HolySpear.cs
+            {
+                Projectile.ai[1] += 1f;
+
+                float slowGateValue = 25f;
+                float fastGateValue = 10f;
+                float minVelocity = 2f;
+                float maxVelocity = minVelocity * 5f;
+                float extremeVelocity = maxVelocity * 2f;
+                float deceleration = 0.9f;
+                float acceleration = 2f;
+
+                if (Projectile.localAI[1] >= timeGateValue)
+                {
+                    if (Projectile.velocity.Length() < extremeVelocity)
+                        Projectile.velocity *= acceleration;
+                }
+                else
+                {
+                    if (Projectile.ai[1] <= slowGateValue)
+                    {
+                        if (Projectile.velocity.Length() > minVelocity)
+                            Projectile.velocity *= deceleration;
+                    }
+                    else if (Projectile.ai[1] < slowGateValue + fastGateValue)
+                    {
+                        if (Projectile.velocity.Length() < maxVelocity)
+                            Projectile.velocity *= acceleration;
+                    }
+                    else
+                        Projectile.ai[1] = 0f;
+                }
+            }
+
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = Terraria.GameContent.TextureAssets.Projectile[Type].Value;
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            CalamityUtils.DrawAfterimagesCentered(Projectile, 2, Color.White);
             return false;
         }
     }

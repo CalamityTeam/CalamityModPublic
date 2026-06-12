@@ -9,13 +9,14 @@ namespace CalamityMod.Items.Accessories
     public class YharimsGift : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public int dragonTimer = 60;
+
+        public static int MeteorDamage => CalamityUtils.ScaleWithDifficulty(250);
 
         public override void SetDefaults()
         {
             Item.width = 20;
             Item.height = 22;
-            Item.defense = 12;
+            Item.defense = 10;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             Item.rare = ModContent.RarityType<BurnishedAuric>();
@@ -24,38 +25,20 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.Calamity().yharimsGift = true;
             var source = player.GetSource_Accessory(Item);
-            player.moveSpeed += 0.15f;
-            player.GetDamage<GenericDamageClass>() += 0.15f;
+            player.moveSpeed += 0.2f;
+            player.GetDamage<GenericDamageClass>() += 0.1f;
             player.noKnockback = true;
-            if (!player.StandingStill())
-            {
-                dragonTimer--;
-                if (dragonTimer <= 0)
-                {
-                    if (player.whoAmI == Main.myPlayer)
-                    {
-                        int damage = (int)player.GetBestClassDamage().ApplyTo(175);
-
-                        int projectile1 = Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), damage, 5f, player.whoAmI, 0f, 0f);
-                        Main.projectile[projectile1].timeLeft = 60;
-                    }
-                    dragonTimer = 60;
-                }
-            }
-            else
-            {
-                dragonTimer = 60;
-            }
-            if (player.immune)
+            if (player.HasIFrames())
             {
                 if (player.miscCounter % 8 == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        int damage = (int)player.GetBestClassDamage().ApplyTo(375);
+                        int damage = (int)player.GetBestClassDamage().ApplyTo(MeteorDamage);
 
-                        CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<SkyFlareFriendly>(), damage, 9f, player.whoAmI);
+                        CalamityUtils.ProjectileRain(source, player.Center, 400f, 400f, 500f, 800f, 22f, ModContent.ProjectileType<SkyFlareFriendly>(), damage, 9f, player.whoAmI).Calamity().conditionalHomingRange = 160;
                     }
                 }
             }

@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            Projectile.timeLeft = 180;
+            Projectile.timeLeft = 144;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.alpha = 255;
 
@@ -77,8 +77,9 @@ namespace CalamityMod.Projectiles.Magic
                 if (Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<AstralStarMagic>()] < 30)
                 {
                     float dmgKBMult = Main.rand.NextFloat(0.25f, 0.75f);
-                    Projectile star = CalamityUtils.ProjectileRain(source, Projectile.Center, Projectile.velocity.X, 100f, 500f, 800f, Main.rand.NextFloat(10f, 20f), ModContent.ProjectileType<AstralStarMagic>(), (int)(Projectile.damage * dmgKBMult), Projectile.knockBack * dmgKBMult, Projectile.owner);
-                    star.timeLeft = 120;
+                    Projectile star = CalamityUtils.ProjectileRain(source, Projectile.Center, Projectile.velocity.X, 100f, 500f, 640f, Main.rand.NextFloat(16f, 20f), ModContent.ProjectileType<AstralStarMagic>(), (int)(Projectile.damage * dmgKBMult), Projectile.knockBack * dmgKBMult, Projectile.owner);
+                    star.extraUpdates += Main.rand.Next(1, 3);
+                    star.timeLeft = 90;
                     star.ai[0] = 1f;
                 }
             }

@@ -292,27 +292,27 @@ namespace CalamityMod.Projectiles.Typeless
 
             Vector2 scale = new Vector2(width, height * spawnFadePow) * 0.12f * Projectile.scale;
             Vector2 scaleBack = new Vector2(width * 1.5f, height * 0.7f * spawnFadePow) * 0.07f * Projectile.scale;
-
+            Vector2 baseDrawPos = -Main.screenPosition + new Vector2(0, Owner.gfxOffY);
             if (dashfx > 0)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Main.EntitySpriteDraw(glow, expectedWingPosition1 - Main.screenPosition, null, (i < 2 ? Color.White : drawColor) with { A = 0 } * 0.65f, Projectile.rotation + (i % 2 == 0 ? MathHelper.PiOver2 : 0) + MathHelper.PiOver4, glow.Size() * 0.5f, new Vector2(0.2f, 1.2f) * (i < 2 ? 0.7f : 1) * Projectile.scale * (Main.rand.NextFloat(0.25f, 0.35f) + 0.02f * wingNum) * (float)Math.Pow(dashfx, 7), SpriteEffects.None, 0);
-                    Main.EntitySpriteDraw(glow, expectedWingPosition2 - Main.screenPosition, null, (i < 2 ? Color.White : drawColor) with { A = 0 } * 0.65f, backWingRot + (i % 2 == 0 ? MathHelper.PiOver2 : 0) + MathHelper.PiOver4, glow.Size() * 0.5f, new Vector2(0.2f, 1.2f) * (i < 2 ? 0.3f : 0.6f) * Projectile.scale * (Main.rand.NextFloat(0.25f, 0.35f) + 0.02f * wingNum) * (float)Math.Pow(dashfx, 7), SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(glow, expectedWingPosition1 + baseDrawPos, null, (i < 2 ? Color.White : drawColor) with { A = 0 } * 0.65f, Projectile.rotation + (i % 2 == 0 ? MathHelper.PiOver2 : 0) + MathHelper.PiOver4, glow.Size() * 0.5f, new Vector2(0.2f, 1.2f) * (i < 2 ? 0.7f : 1) * Projectile.scale * (Main.rand.NextFloat(0.25f, 0.35f) + 0.02f * wingNum) * (float)Math.Pow(dashfx, 7), SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(glow, expectedWingPosition2 + baseDrawPos, null, (i < 2 ? Color.White : drawColor) with { A = 0 } * 0.65f, backWingRot + (i % 2 == 0 ? MathHelper.PiOver2 : 0) + MathHelper.PiOver4, glow.Size() * 0.5f, new Vector2(0.2f, 1.2f) * (i < 2 ? 0.3f : 0.6f) * Projectile.scale * (Main.rand.NextFloat(0.25f, 0.35f) + 0.02f * wingNum) * (float)Math.Pow(dashfx, 7), SpriteEffects.None, 0);
                 }
                 int draws = 12;
                 for (int i = 0; i < draws; i++)
                 {
                     Vector2 addedPos = ((MathHelper.TwoPi * i / draws).ToRotationVector2() * 2.5f + Main.rand.NextVector2Circular(2, 2)) * dashfx;
-                    Main.EntitySpriteDraw(tex, expectedWingPosition1 - Main.screenPosition + addedPos, null, drawColor with { A = 0 } * spawnFadePow * 0.3f * dashfx, Projectile.rotation, new Vector2(tex.Width * 0.5f, 0), scale, lastDir == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                    Main.EntitySpriteDraw(tex, expectedWingPosition1 + baseDrawPos + addedPos, null, drawColor with { A = 0 } * spawnFadePow * 0.3f * dashfx, Projectile.rotation, new Vector2(tex.Width * 0.5f, 0), scale, lastDir == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
-                    Main.EntitySpriteDraw(tex, expectedWingPosition2 - Main.screenPosition + addedPos, null, drawColor with { A = 0 } * spawnFadePow * 0.3f * dashfx, backWingRot, new Vector2(tex.Width * 0.5f, 0), scaleBack, lastDir == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                    Main.EntitySpriteDraw(tex, expectedWingPosition2 + baseDrawPos + addedPos, null, drawColor with { A = 0 } * spawnFadePow * 0.3f * dashfx, backWingRot, new Vector2(tex.Width * 0.5f, 0), scaleBack, lastDir == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                 }
             }
 
-            Main.EntitySpriteDraw(tex, expectedWingPosition1 - Main.screenPosition, null, Color.Lerp(drawColor, Color.White, dashfx) with { A = 0 } * spawnFadePow * MathHelper.Lerp(1, 0.6f, dashfx), Projectile.rotation, new Vector2(tex.Width * 0.5f, 0), scale, lastDir == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.EntitySpriteDraw(tex, expectedWingPosition1 + baseDrawPos, null, Color.Lerp(drawColor, Color.White, dashfx) with { A = 0 } * spawnFadePow * MathHelper.Lerp(1, 0.6f, dashfx), Projectile.rotation, new Vector2(tex.Width * 0.5f, 0), scale, lastDir == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
-            Main.EntitySpriteDraw(tex, expectedWingPosition2 - Main.screenPosition, null, Color.Lerp(drawColor, Color.White, dashfx) with { A = 0 } * spawnFadePow * MathHelper.Lerp(1, 0.6f, dashfx), backWingRot, new Vector2(tex.Width * 0.5f, 0), scaleBack, lastDir == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.EntitySpriteDraw(tex, expectedWingPosition2 + baseDrawPos, null, Color.Lerp(drawColor, Color.White, dashfx) with { A = 0 } * spawnFadePow * MathHelper.Lerp(1, 0.6f, dashfx), backWingRot, new Vector2(tex.Width * 0.5f, 0), scaleBack, lastDir == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return false;
         }
         public int checkActiveWings()

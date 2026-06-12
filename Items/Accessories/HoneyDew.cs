@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -8,6 +9,9 @@ namespace CalamityMod.Items.Accessories
     public class HoneyDew : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+
+        public static float NaturalRegenPower => 1.5f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs((NaturalRegenPower - 1f).ToPercent());
         public override void SetDefaults()
         {
             Item.width = 20;
@@ -19,11 +23,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statLifeMax2 += 10;
-            if (!player.HasBuff(BuffID.Honey))
-                player.AddBuff(BuffID.Honey, 2);
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.honeyDewHalveDebuffs = true;
+            modPlayer.honeyDew = true;
         }
 
         public override void AddRecipes()

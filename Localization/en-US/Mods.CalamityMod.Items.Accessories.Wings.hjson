@@ -22,7 +22,7 @@ ExodusWings: {
 	Tooltip:
 		'''
 		{$CommonItemTooltip.FlightAndSlowfall}
-		Grants permanent Empyrean Wrath while wearing the Empyrean armor
+		Grants permanent [cbuffplr:CalamityMod/EmpyreanWrath] while wearing the Empyrean armor
 		Pulsing with an alien heartbeat
 		'''
 }

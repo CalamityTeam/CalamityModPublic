@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Boss
     public class SkyFlareRevenge : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Boss";
-        public override string Texture => "CalamityMod/Projectiles/Boss/SkyFlare";
 
         public static readonly SoundStyle FlareSound = new("CalamityMod/Sounds/Custom/Yharon/YharonInfernado");
 

@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Ranged
                     dust2.color = Main.rand.NextBool(3) ? EffectsColor : StaticEffectsColor;
                 }
                 var projAmount = isClusterRocket ? 3f : 2f;
-                if (Main.player[Projectile.owner].strongBees && Main.rand.NextBool())
+                if (Main.player[Projectile.owner].strongBees)
                     projAmount++;
                 for (int k = 0; k < projAmount; k++)
                 {

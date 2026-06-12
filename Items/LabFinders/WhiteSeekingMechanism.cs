@@ -32,7 +32,7 @@ namespace CalamityMod.Items.LabFinders
         {
             CreateRecipe().
                 AddIngredient<LabSeekingMechanism>().
-                AddIngredient(ItemID.IceBlock, 50).
+                AddRecipeGroup("AnyIceBlock", 50).
                 AddTile(TileID.Anvils).
                 Register();
         }

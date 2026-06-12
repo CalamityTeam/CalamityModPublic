@@ -46,7 +46,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
             modPlayer.bloodflareSummon = true;
             modPlayer.WearingPostMLSummonerSet = true;
             player.setBonus = this.GetLocalization("SetBonus").Format(SetBonusMinionSlotBoost, SetBonusSummonDamageBoost.ToPercent(), DefenseBoostBelowHealthThreshold, DefenseBoostHealthThreshold.ToPercent());
-            player.crimsonRegen = true;
             player.maxMinions += SetBonusMinionSlotBoost;
             player.GetDamage<SummonDamageClass>() += SetBonusSummonDamageBoost;
         }

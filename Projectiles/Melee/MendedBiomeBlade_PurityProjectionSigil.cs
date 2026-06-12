@@ -45,10 +45,6 @@ namespace CalamityMod.Projectiles.Melee
             if (target.CanBeChasedBy(Projectile))
             {
                 Projectile.Center = target.Center;
-
-                // TBB sigil marks the enemy with Armor Crunch
-                if (Projectile.ai[1] == 1f)
-                    target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 5);
             }
             else
                 Projectile.active = false;

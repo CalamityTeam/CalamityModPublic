@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     Projectile.height = 196;
                     Projectile.Center = Projectile.position;
                     Projectile.originalDamage = Projectile.damage;
-                    Projectile.damage = (int)(Projectile.damage * MathHelper.Lerp(0, 0.75f, chargeProgress));
+                    Projectile.damage = (int)(Projectile.damage * MathHelper.Lerp(0, 1f, chargeProgress));
                     sawHit = true;
                     Projectile.usesIDStaticNPCImmunity = true;
                     Projectile.aiStyle = -1;
@@ -113,10 +113,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
             if (sawHit)
             {
+                if (damageDone > 2 && !target.Calamity().IsArmored())
+                    Projectile.damage = (int)(Projectile.damage * 0.85f);
                 Vector2 bloodpos = Projectile.Center + Projectile.DirectionTo(target.Center) * 84;
-                if (!spawnedBlood && Main.rand.NextBool() && chargeProgress > 0.2f && target.Hitbox.Contains(bloodpos.ToPoint()))
+                if (!spawnedBlood && chargeProgress > Main.rand.NextFloat() && target.Hitbox.Contains(bloodpos.ToPoint()))
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), bloodpos, Projectile.DirectionTo(target.Center).RotatedBy(sawDir * MathHelper.PiOver2 * 0.9f).RotatedByRandom(0.1f) * Main.rand.NextFloat(3f, 5f), ModContent.ProjectileType<BloodstoneHealOrb>(), 4, 0f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_OnHit(target), bloodpos, Projectile.DirectionTo(target.Center).RotatedBy(sawDir * MathHelper.PiOver2 * 0.9f).RotatedByRandom(0.1f) * Main.rand.NextFloat(3f, 5f), ModContent.ProjectileType<BloodstoneHealOrb>(), 8, 0f, Projectile.owner);
                     spawnedBlood = true;
                 }
                 return;

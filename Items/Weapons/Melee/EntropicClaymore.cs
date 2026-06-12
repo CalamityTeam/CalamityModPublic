@@ -90,8 +90,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Particle spark3 = new AltSparkParticle(partPos, partVel, false, 24, partScale, Color.Black);
                 GeneralParticleHandler.SpawnParticle(spark3);
                 Particle spark2 = new SparkParticle(partPos, partVel, false, 24, partScale * 0.6f, Color.LightGreen);
-                GeneralParticleHandler.SpawnParticle(spark2);
-                spark2.DrawLayer = GeneralDrawLayer.AfterEverything;
+                GeneralParticleHandler.SpawnParticle(spark2, false, GeneralDrawLayer.AfterEverything);
             }
             Vector2 dustVel2 = new Vector2(5 * swordDirection, -5).RotatedBy(swingRotation - 1.7f * swordDirection);
 
@@ -104,7 +103,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<MeldConstruct>(15).
+                AddIngredient<MeldBlob>(18).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

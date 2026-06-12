@@ -70,7 +70,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<DubiousPlating>(25).
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<NightmareFuel>(20).
-                AddIngredient<GalacticaSingularity>(5).
                 AddTile<CosmicAnvil>().
                 Register();
         }

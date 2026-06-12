@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -8,8 +9,11 @@ namespace CalamityMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
 
-        public static int SandVeilDefenseBoost = 4;
-
+        public static int SandVeilDuration = CalamityUtils.SecondsToFrames(15);
+        public static int SandVeilDefenseBoost = 3;
+        public static float SandVeilAccelerationBoost = 0.75f;
+        public static int SandVeilCooldown = CalamityUtils.SecondsToFrames(15);
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(SandVeilDuration.FramesToSeconds(), SandVeilDefenseBoost, SandVeilAccelerationBoost.ToPercent(), SandVeilCooldown.FramesToSeconds());
         public override void SetDefaults()
         {
             Item.width = 30;

@@ -265,7 +265,7 @@ namespace CalamityMod.Projectiles.Magic
             else
                 texture = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Magic/WingmanAlt").Value;
 
-            Vector2 drawPosition = Projectile.Center - Main.screenPosition;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY);
             Color drawColor = Projectile.GetAlpha(lightColor);
             float drawRotation = Projectile.rotation + (Projectile.spriteDirection == -1 ? MathHelper.Pi : 0f);
             Vector2 rotationPoint = texture.Size() * 0.5f;

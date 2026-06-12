@@ -1,4 +1,3 @@
-AbaddonCrit.DisplayName: Brimstone Blast
 AeroExplosive.DisplayName: Aeroboom
 AllianceTriangle.DisplayName: Alliance Triangle
 AmuletEnergy.DisplayName: Sea Spirit
@@ -42,8 +41,8 @@ CursorProj.DisplayName: Aestheticus Crystal
 CursorProjSplit.DisplayName: Aestheticus Crystal
 CyanLabSeeker.DisplayName: Seeking Mechanism
 DarkIce.DisplayName: Dark Ice
+DebuffSpreadEffect.DisplayName: Debuff Spread Effect
 DeepseaBlaze.DisplayName: Deepsea Blaze
-DemonshadeRedDevil.DisplayName: Red Devil
 DevourerofCodsBobber.DisplayName: Devourer of Cods Bobber
 DiamondOfTheDeepProjectile.DisplayName: Abyss Spirit
 DirectStrike.DisplayName: Nondescript Damaging Entity
@@ -51,9 +50,10 @@ DragonDust.DisplayName: Dust
 DunesandBallFalling.DisplayName: Dunesand Ball
 DuneSandBallGun.DisplayName: Dunesand Ball
 EarlyBloomBobber.DisplayName: Early Bloom Bobber
+Elumphant.DisplayName: Elumphant
+ElumphantMist.DisplayName: Elumphant Mist
 EmpyreanBlast.DisplayName: Empyrean Blast
 EmpyreanEmber.DisplayName: Empyrean Ember
-EmpyreanGlob.DisplayName: Empyeran Glob
 EmpyreanMarble.DisplayName: Empyrean Marble
 EmpyreanStellarDetritus.DisplayName: Empyrean Stellar Detritus
 EnergyShell.DisplayName: Energy Shell
@@ -74,10 +74,12 @@ FungalClumpMinion.DisplayName: Fungal Clump
 GemTechArmorGem.DisplayName: Trireme's Gem
 GenericElectricSpark.DisplayName: Electric Spark
 GhostlyBolt.DisplayName: Bolt
+GluttonyBlenderAnimation.DisplayName: Gluttony Blender Animation
 GodKiller.DisplayName: God Killer
 GodSlayerShrapnel.DisplayName: Flame
 GodSlayerShrapnelRound.DisplayName: Round
 GreenLabSeeker.DisplayName: Seeking Mechanism
+Gunshot.DisplayName: Gunshot
 HeronBobber.DisplayName: Heron Bobber
 HideOfAstrumDeusExplosion.DisplayName: Explosion
 HolyExplosionSupreme.DisplayName: Explosion
@@ -109,6 +111,7 @@ PauldronDash.DisplayName: Pauldron Dash
 PauldronExplosion.DisplayName: Pauldron Explosion
 PearlAuraShard.DisplayName: Prism Shard
 PlaguePulse.DisplayName: Plague Pulse
+Pigion.DisplayName: Pigion
 PinkPearlFalling.DisplayName: Pink Pearl
 PoisonousSeawater.DisplayName: Seawater
 PolypSandBallFalling.DisplayName: Polyp Sand Ball
@@ -137,10 +140,13 @@ SkyFlareFriendly.DisplayName: Flare
 SlimeStream.DisplayName: Slime Stream
 SlurperBobber.DisplayName: Slurper Bobber
 SpiritOriginBullseye.DisplayName: Spirit Origin Bullseye
-StandingFire.DisplayName: Flame
+SpringStoolFX.DisplayName: Spring Stool
+StandingFire.DisplayName: Calamitous Flame
 StarStruckWaterBottle.DisplayName: Bottle
+StepStoolBonusFX.DisplayName: Step Stool Bonus
 StickyFeatherAero.DisplayName: Feather
 StomperSlam.DisplayName: Stomper Slam
+StratusBlackHole.DisplayName: Stratus Singularity
 SuicideBomberDemon.DisplayName: Demon
 SulphuricAcidBubbleFriendly.DisplayName: Acid Bubble
 SulphurousSandBallGun.DisplayName: Sulphurous Sand Ball
@@ -148,10 +154,13 @@ TarraEnergy.DisplayName: Tarra Energy
 TarragonAura.DisplayName: Tarragon Aura
 TatteredFairyDust.DisplayName: Tattered Fairy Dust
 TeslaAura.DisplayName: Tesla's Electricity
+TileSlamDamage.DisplayName: Grand Damage
 TitanHeartBoom.DisplayName: Titan Heart Boom
 TransformerAura.DisplayName: Transformer Aura
 TransformerBlob.DisplayName: Transformer Shard
+TrustyOldBobber.DisplayName: Trusty Old Bobber
 UrsaSlash.DisplayName: Ursa Slash
+V8000SoulVisual.DisplayName: V8000 Soul
 VerstaltiteBobber.DisplayName: Verstaltite Bobber
 VoidFieldGenerator.DisplayName: Void Field Generator
 VolcanicSandBallFalling.DisplayName: Volcanic Sand Ball
@@ -165,7 +174,5 @@ WulfrumDiggingTurtleProjectile.DisplayName: Digging Turtle
 WulfrumHook.DisplayName: Wulfrum Slingshot
 WulfrumLureSignal.DisplayName: Signal
 YellowLabSeeker.DisplayName: Seeking Mechanism
-VoidofExtinctionCrit.DisplayName: Void of Extinction Crit
 XykDeathAnim.DisplayName: Xyk Death Animation
 XykWings.DisplayName: Xyk Wings
-StratusBlackHole.DisplayName: Stratus Singularity

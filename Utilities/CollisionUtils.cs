@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
@@ -55,11 +56,45 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Creates an arc around an entity and returns true if a specific collision check is reached for a specific point along the arc.
+        /// <br>
+        /// By default, this will check if any individual point along the arc is stuck inside of a solid tile.
+        /// </br>
+        /// </summary>
+        /// <param name="minRadians">The minimum angle of the arc in radians.</param>
+        /// <param name="maxRadians">The maximum angle of the arc in radians.</param>
+        /// <param name="radiansIncrement">By how many radians should the loop increment by when looping between the two angles. This will affect how many points the arc has.</param>
+        /// <param name="basePosition">The base position the arc should be scribed from. Defaults to the entity's center.</param>
+        /// <param name="arcDirection">The direction of the arc. Defaults to the entity's velocity.</param>
+        /// <param name="arcRadius">The radius of the arc from the base position in pixels. Defaults to 32.</param>
+        /// <param name="optionalCollisionCheckOverride">An optional delegate parameter of two Vector2 inputs, the base position and the individual arc point, which can be used to
+        /// override the default collision check logic.</param>
+        public static bool ArcCollisionCheck(this Entity entity, float minRadians, float maxRadians, float radiansIncrement, Vector2? basePosition = null, Vector2? arcDirection = null, float arcRadius = 32f, Func<Vector2, Vector2, bool> optionalCollisionCheckOverride = null)
+        {
+            for (float i = minRadians; i < maxRadians; i += radiansIncrement)
+            {
+                Vector2 arcPointBase = basePosition ?? entity.Center;
+                Vector2 checkDirection = arcDirection ?? entity.velocity;
+                Vector2 arcPoint = arcPointBase + checkDirection.SafeNormalize(Vector2.Zero).RotatedBy(i) * arcRadius;
+
+                bool collisionCheck = !Collision.CanHitLine(arcPointBase, 1, 1, arcPoint, 1, 1);
+                if (optionalCollisionCheckOverride is not null)
+                    collisionCheck = optionalCollisionCheckOverride.Invoke(arcPointBase, arcPoint);
+
+                if (collisionCheck)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Determines the distance required before a ray in a given direction from a given starting position hits solid tiles. Gives up after a certain quantity of tiles, or when a world border is reached.
         /// </summary>
         /// <param name="startingPoint">The point to check from.</param>
         /// <param name="checkDirection">The direction in which tiles are checked. Will always be a unit vector.</param>
-        public static float? DistanceToTileCollisionHit(Vector2 startingPoint, Vector2 checkDirection, int giveUpLimit = 500)
+        /// <param name="optionalTileCheckOverride">An optional delegate function for overriding the base tile check logic with your own custom logic.</param>
+        public static float? DistanceToTileCollisionHit(Vector2 startingPoint, Vector2 checkDirection, int giveUpLimit = 500, Func<Tile, bool> optionalTileCheckOverride = null)
         {
             // Ensure that the check direction is normalized.
             checkDirection = checkDirection.SafeNormalize(Vector2.Zero);
@@ -78,12 +113,17 @@ namespace CalamityMod
                 // Since Terraria's tile coordinate system is discrete and does not care for more advanced concepts,
                 // the amount of tiles searched such far is a sufficient answer.
                 Tile tile = ParanoidTileRetrieval(checkPosition.X, checkPosition.Y);
-                if (WorldGen.SolidTile(tile) || (checkDirection.Y >= 0f && tile.HasTile && Main.tileSolidTop[tile.TileType]))
+                bool validTileHasBeenHit = WorldGen.SolidTile(tile) || (checkDirection.Y >= 0f && tile.HasTile && Main.tileSolidTop[tile.TileType]);
+                if (optionalTileCheckOverride is not null)
+                    validTileHasBeenHit = optionalTileCheckOverride.Invoke(tile);
+
+                if (validTileHasBeenHit)
                     return i;
             }
 
             return null;
         }
+
         /// <summary>
         /// Determines the distance required before a ray in a given direction from a given starting position hits solid tiles, taking slopes into account.
         /// </summary>

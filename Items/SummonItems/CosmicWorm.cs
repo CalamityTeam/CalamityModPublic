@@ -60,7 +60,11 @@ namespace CalamityMod.Items.SummonItems
             // sequence breaking recipe
             CreateRecipe().
                 AddIngredient(ItemID.LunarBar, 40).
-                AddIngredient<GalacticaSingularity>(10).
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddIngredient(ItemID.FragmentVortex, 10).
+                AddIngredient(ItemID.FragmentNebula, 10).
+                AddIngredient(ItemID.FragmentStardust, 10).
+                AddIngredient<MeldBlob>(10).
                 AddIngredient<Necroplasm>(40).
                 AddTile(TileID.MythrilAnvil).
                 Register();

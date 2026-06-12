@@ -1,8 +1,10 @@
-﻿using CalamityMod.NPCs;
+﻿using CalamityMod.DataStructures;
+using CalamityMod.NPCs;
 using CalamityMod.Systems.Collections;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Systems.Collections;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
@@ -14,13 +16,17 @@ namespace CalamityMod.Buffs.StatDebuffs
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
             BuffID.Sets.LongerExpertDebuff[Type] = true;
+            CalamityBuffSets.DebuffDataset[Type] = debuffData;
         }
+        // Purely to make it get electric color in tooltips
+        public static DebuffData debuffData = new DebuffData()
+        {
+            ElectricDebuffScaling = 1
+        };
 
         public override void Update(NPC npc, ref int buffIndex)
         {
             npc.Calamity().galvanicCorrosion = true;
-            if ((CalamityNPCSets.ResistSlowingDebuffsAndOtherSpecialEffects[npc.type] || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
-                npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.buffTime[buffIndex];
         }
 
         public override void Update(Player player, ref int buffIndex)

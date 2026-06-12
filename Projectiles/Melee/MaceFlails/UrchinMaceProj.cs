@@ -1,4 +1,5 @@
 ﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs;
 using CalamityMod.Particles;
@@ -13,7 +14,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.MaceFlails
 {
-    [PierceResistException]
     public class UrchinMaceProj : BaseMaceFlailProjectile
     {
         // The entire chain is on the mace sprite, in which the player swings
@@ -118,6 +118,7 @@ namespace CalamityMod.Projectiles.Melee.MaceFlails
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
+            target.AddBuff(ModContent.BuffType<RiptideDebuff>(), 300);
             for (int i = 0; i < 3; i++)
             {
                 float angle = Main.rand.NextFloat(MathHelper.TwoPi);

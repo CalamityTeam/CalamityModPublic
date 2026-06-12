@@ -83,13 +83,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
         }
 
-        public static int StingerDamage = 28; // 112
-        public static int NukeDamage = 35; // 140; Also applies to GFB Peanuts and Gauss Nukes
+        public static int StingerDamage = 25; // 100
+        public static int NukeDamage = 30; // 120; Also applies to GFB Peanuts and Gauss Nukes
 
         public override void SetDefaults()
         {
             NPC.Calamity().canBreakPlayerDefense = true;
-            NPC.damage = 90; // 180
+            NPC.damage = 75; // 150
             NPC.npcSlots = 64f;
             NPC.width = 198;
             NPC.height = 198;
@@ -179,16 +179,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 challengeAmt *= 1.5f;
                 nukeBarrageChallengeAmt *= 1.5f;
             }
-
-            // Adjust slowing debuff immunity
-            bool immuneToSlowingDebuffs = NPC.ai[0] == 0f || NPC.ai[0] == 4f;
-            NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<GalvanicCorrosion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
             // Light
             Lighting.AddLight((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f), 0.3f, 0.7f, 0f);
@@ -1337,7 +1327,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 int[] weapons = new int[]
                 {
                     ModContent.ItemType<Virulence>(),
-                    ModContent.ItemType<TheHive>(),
                     ModContent.ItemType<Malevolence>(),
                     ModContent.ItemType<PlagueStaff>(),
                     ModContent.ItemType<FuelCellBundle>(),
@@ -1389,7 +1378,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     target.AddBuff(BuffID.Poisoned, 480);
                     target.AddBuff(BuffID.Venom, 480);
                 }
-                target.AddBuff(ModContent.BuffType<Plague>(), 360);
+                target.AddBuff(ModContent.BuffType<Plague>(), 240);
             }
         }
     }

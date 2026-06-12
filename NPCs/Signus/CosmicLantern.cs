@@ -12,6 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Signus
 {
+    [HeavyKnockbackWhitelisted]
     public class CosmicLantern : ModNPC
     {
         public static Asset<Texture2D> GlowTexture;

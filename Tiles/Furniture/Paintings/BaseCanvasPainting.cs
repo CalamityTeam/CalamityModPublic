@@ -111,11 +111,11 @@ namespace CalamityMod.Tiles.Furniture.Paintings
                 DrawBorders(spriteBatch, pos - Main.screenPosition, new Point(i, j));
             return false;
         }
-        public static void DrawBorders(SpriteBatch spriteBatch, Vector2 pos, Point cords)
+        public void DrawBorders(SpriteBatch spriteBatch, Vector2 pos, Point cords)
         {
             var texture = border.Value;
             var cornerTex = corner.Value;
-            var canvasID = (ushort)Main.LocalPlayer.Calamity().CurrentlyViewedCanvasType;
+            var canvasID = Type;
             var commonDim = 8;
             var finalCord = 72;
             var size = 80;

@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,6 +53,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public static int BaseUseTime = 49;
         public static int BeamsPerSwing = 4;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<MiracleBlight>()];
+        }
 
         public override void SetDefaults()
         {
@@ -69,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             Item.shoot = ProjectileType<ExobladeProj>();
             Item.shootSpeed = 9f;
-            Item.rare = RarityType<BurnishedAuric>();
+            Item.rare = RarityType<ExoticRainbow>();
         }
 
         public override bool CanShoot(Player player)

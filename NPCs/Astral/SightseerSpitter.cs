@@ -16,6 +16,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Astral
 {
+    [HeavyKnockbackWhitelisted]
     public class SightseerSpitter : ModNPC
     {
         public static Asset<Texture2D> glowmask;

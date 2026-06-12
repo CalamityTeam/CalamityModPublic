@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.Perforator
                 if (!TailSpawned)
                 {
                     int Previous = NPC.whoAmI;
-                    int maxLength = death ? 9 : revenge ? 8 : expertMode ? 7 : 5;
+                    int maxLength = death ? 9 : expertMode ? 7 : 5;
                     for (int segments = 0; segments < maxLength; segments++)
                     {
                         int lol;
@@ -413,7 +413,7 @@ namespace CalamityMod.NPCs.Perforator
                 }
             }
 
-            if (NPC.Distance(player.Center) > 1280f)
+            if (NPC.Distance(player.Center) > 1120f)
                 NPC.velocity += (player.Center - NPC.Center).SafeNormalize(Vector2.UnitY) * turnSpeed;
 
             NPC.rotation = (float)Math.Atan2((double)NPC.velocity.Y, (double)NPC.velocity.X) + MathHelper.PiOver2;

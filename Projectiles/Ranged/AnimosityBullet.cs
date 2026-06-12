@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-            target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
 
             // Music easter egg in GFB, and more!
             if (Main.zenithWorld)

@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Magic
                     Owner.RemoveAllGrapplingHooks();
 
                     // 14NOV2024: Ozzatron: clamped mouse position unnecessary, only used for direction
-                    Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld) * 14f;
+                    Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld) * 12f;
                     Owner.velocity = Projectile.velocity;
                     Owner.ChangeDir(Math.Sign(Projectile.velocity.X) <= 0 ? -1 : 1);
 

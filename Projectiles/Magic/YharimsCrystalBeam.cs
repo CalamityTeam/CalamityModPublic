@@ -47,6 +47,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.width = 18;
             Projectile.height = 18;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
             // The beam itself still stops on tiles, but its invisible "source" projectile ignores them.

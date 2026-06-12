@@ -30,6 +30,11 @@ namespace CalamityMod.Projectiles.Magic
         private ref float ChargeTowardsNextShot => ref Projectile.ai[1];
 
         public override void SetStaticDefaults() => Main.projFrames[Type] = 4;
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            Projectile.DamageType = DamageClass.Magic;
+        }
 
         public float postShotFade = 0;
 

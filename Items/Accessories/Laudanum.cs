@@ -12,19 +12,13 @@ namespace CalamityMod.Items.Accessories
 
         public Color? TooltipExtensionColor => new(195, 223, 255);
 
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<HeartofDarkness>();
-        }
-
         public override void SetDefaults()
         {
             Item.width = 26;
             Item.height = 26;
-            Item.value = CalamityGlobalItem.RarityOrangeBuyPrice;
-            Item.rare = ItemRarityID.Orange;
+            Item.value = CalamityGlobalItem.RarityGreenBuyPrice;
+            Item.rare = ItemRarityID.Green;
             Item.accessory = true;
-            Item.SetRevExclusive();
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

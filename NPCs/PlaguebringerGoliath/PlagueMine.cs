@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void SetDefaults()
         {
             NPC.Calamity().canBreakPlayerDefense = true;
-            NPC.damage = 80; // 160
+            NPC.damage = 70; // 140
             NPC.width = 42;
             NPC.height = 42;
             NPC.defense = 20;

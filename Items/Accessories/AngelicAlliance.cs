@@ -48,8 +48,6 @@ namespace CalamityMod.Items.Accessories
             player.GetDamage<GenericDamageClass>() += DamageBoost;
             player.GetDamage<SummonDamageClass>() += TotalSummonDamageBoost - DamageBoost;
             player.maxMinions += MinionSlotBoost;
-            if (player.wingTime < player.wingTimeMax)
-                player.lifeRegen += RegenBoostDuringFlight;
         }
 
         public override void AddRecipes()

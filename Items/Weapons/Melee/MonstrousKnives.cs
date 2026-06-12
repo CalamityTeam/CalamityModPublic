@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Melee
             xDist *= speedMult;
             yDist *= speedMult;
 
-            int knifeAmt = Main.rand.Next(4, 7);
+            int knifeAmt = Main.rand.Next(3, 5);
             for (int i = 0; i < knifeAmt; i++)
             {
                 float xVec = xDist;

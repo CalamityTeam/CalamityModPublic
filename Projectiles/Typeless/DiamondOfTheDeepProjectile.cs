@@ -446,7 +446,7 @@ namespace CalamityMod.Projectiles.Typeless
                 // HADAL and VOID have knockback, GRAVEL has it's knockback on the explosion
                 Vector2 launchVel = Utils.DirectionTo(Projectile.Center, target.Center) - Vector2.UnitY;
                 float launchPower = 7f;
-                target.MoveNPC(launchVel, launchPower, false);
+                target.MoveNPC(launchVel, launchPower, false, Owner);
 
                 if (visuals)
                 {

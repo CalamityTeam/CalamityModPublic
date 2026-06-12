@@ -2,13 +2,16 @@ Accessory: {
 	Silent.DisplayName: Silent
 	Invigorating.DisplayName: Invigorating
 	Dauntless.DisplayName: Dauntless
+	Friendly.DisplayName: Friendly
 	// New modifier effects (this is only positive)
 	StealthGenTooltip: +{0}% stealth generation
 	LifeRegenTooltip: +{0} HP/s life regen
 	MaxLifeBoostTooltip: +{0} max life
+	FriendlyTooltip: +{0} Minion
 }
 
 Weapon: {
+	Horrible.DisplayName: Horrible
 	Atrocious.DisplayName: Atrocious
 	Blunt.DisplayName: Blunt
 	Feathered.DisplayName: Feathered

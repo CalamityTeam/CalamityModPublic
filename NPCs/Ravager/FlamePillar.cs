@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.Ravager
         public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
         {
             var item = Main.player[projectile.owner].HeldItem;
-            if (item.pick > 0 && projectile.CountsAsClass<MeleeDamageClass>())
+            if (item.pick > 0 && !projectile.CountsAsClass<SummonDamageClass>())
             {
                 modifiers.FlatBonusDamage += -10000;
                 modifiers.FinalDamage.Flat += item.pick-1;

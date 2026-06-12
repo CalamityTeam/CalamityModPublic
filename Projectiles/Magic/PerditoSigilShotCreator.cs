@@ -13,8 +13,8 @@ namespace CalamityMod.Projectiles.Magic
         public ref float FiringTimer => ref Projectile.ai[0];
         public ref float ShotsFiredCount => ref Projectile.ai[1];
 
-        private const int TotalShots = 13;
-        private const int DelayBetweenShots = 4;
+        private const int TotalShots = 18;
+        private const int DelayBetweenShots = 3;
         private const float ShotSpeed = 17f;
         private const float SpawnRadius = 150f; // Radius around the cursor where shots spawn
 
@@ -61,5 +61,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.Kill();
             }
         }
+
+        public override bool? CanDamage() => false;
     }
 }

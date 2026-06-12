@@ -7,6 +7,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -15,6 +16,13 @@ namespace CalamityMod.Items.Accessories
     public class EtherealTalisman : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+
+        public static int MaxManaBoost = 60;
+        public static float ManaCostReduction = 0.08f;
+        public static float MagicDamageBoost = 0.15f;
+        public static int MagicCritBoost = 5;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxManaBoost, ManaCostReduction.ToPercent(), MagicDamageBoost.ToPercent(), MagicCritBoost);
+
         public override void SetDefaults()
         {
             Item.width = 28;
@@ -72,10 +80,10 @@ namespace CalamityMod.Items.Accessories
             if (manaFlowerEnabled)
                 player.manaFlower = true;
 
-            player.statManaMax2 += 150;
-            player.GetDamage<MagicDamageClass>() += 0.15f;
-            player.manaCost -= 0.1f;
-            player.GetCritChance<MagicDamageClass>() += 5;
+            player.statManaMax2 += MaxManaBoost;
+            player.manaCost -= ManaCostReduction;
+            player.GetDamage<MagicDamageClass>() += MagicDamageBoost;
+            player.GetCritChance<MagicDamageClass>() += MagicCritBoost;
         }
 
         public override void AddRecipes()

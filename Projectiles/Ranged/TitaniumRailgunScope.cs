@@ -125,20 +125,8 @@ namespace CalamityMod.Projectiles.Ranged
                     GeneralParticleHandler.SpawnParticle(pulse);
 
                     // Play a sound with volume scaling with charge percent
-                    SoundEngine.PlaySound(SoundID.Item62 with { Volume = SoundID.Item62.Volume * ChargePercent }, Owner.MountedCenter);
-
-                    // Summon Luxor's gift manually, as channeling tends to be.... unbalanced, to say the least, if you don't
-                    if (Owner.Calamity().luxorsGift)
-                    {
-                        double rangedDamage = shotDamage * 0.15;
-                        if (rangedDamage >= 1D)
-                        {
-                            float speed = 24f * ChargePercent;
-                            int projectile = Projectile.NewProjectile(new EntitySource_ItemUse_WithAmmo(Owner, Owner.HeldItem, -1), Projectile.Center, direction * speed, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)rangedDamage, 0f, Projectile.owner);
-                            if (projectile.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile].DamageType = DamageClass.Generic;
-                        }
-                    }
+                    SoundStyle fire = new("CalamityMod/Sounds/Item/TitaniumRailgunShoot");
+                    SoundEngine.PlaySound(fire with { Volume = ChargePercent }, Owner.MountedCenter);
 
                     // Set the initial recoil, mark the projectile as fired, and set the target recoil
                     Owner.itemRotation = initialRecoil;

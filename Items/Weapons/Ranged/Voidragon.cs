@@ -1,6 +1,9 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,65 +14,57 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    [LegacyName("Megafleet")]
+    // Long live Megafleet. You will be missed. Maybe one day we can revive you.
+    [LegacyName("Megafleet")] 
     public class Voidragon : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
-        private int shotType = 1;
-
-        public static int AmmoSavedPercent = 50;
+        public int sharkGunDamageScaling = 0;
+        public static int AmmoSavedPercent = 66;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(AmmoSavedPercent);
-
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<DemonicFlames>(), ModContent.BuffType<WhisperingDeath>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 96;
             Item.height = 38;
-            Item.damage = 240;
+            Item.damage = 1400;
             Item.DamageType = DamageClass.Ranged;
-            Item.useTime = 5;
-            Item.useAnimation = 5;
+            Item.useTime = 3;
+            Item.useAnimation = 3;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 5f;
-            Item.UseSound = SoundID.Item11;
+            Item.UseSound = null;
             Item.autoReuse = true;
-            Item.shoot = ProjectileID.PurificationPowder;
+            Item.noUseGraphic = true;
+            Item.channel = true;
             Item.shootSpeed = 18f;
             Item.useAmmo = AmmoID.Bullet;
+            Item.shoot = ModContent.ProjectileType<VoidragonHoldout>();
 
             Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
             Item.rare = ModContent.RarityType<HotPink>();
             Item.Calamity().devItem = true;
         }
 
-        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
-
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+        public override bool RangedPrefix() => true; //Can't scale with attack speed, but should still be able to recieve Unreal
+        public override bool CanConsumeAmmo(Item ammo, Player player) => player.ownedProjectileCounts[Item.shoot] > 0 && Main.rand.Next(100) >= AmmoSavedPercent;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            float SpeedX = velocity.X + (float)Main.rand.Next(-5, 6) * 0.05f;
-            float SpeedY = velocity.Y + (float)Main.rand.Next(-5, 6) * 0.05f;
-
-            if (shotType > 2)
-                shotType = 1;
-
-            if (shotType == 1)
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
-            else
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.Ranged.Voidragon>(), damage, knockback, player.whoAmI);
-
-            shotType++;
-
-            Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<VoidragonTentacle>(), damage, knockback, player.whoAmI, (Main.rand.Next(-160, 160) * 0.001f), (Main.rand.Next(-160, 160) * 0.001f));
-
+            Projectile holdout = Projectile.NewProjectileDirect(source, position, velocity, Item.shoot, damage, knockback, player.whoAmI);
+            holdout.velocity = (player.Calamity().mouseWorld - player.MountedCenter).SafeNormalize(Vector2.Zero);
             return false;
         }
-
-        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.Next(100) >= AmmoSavedPercent && shotType % 2 == 1;
 
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<Seadragon>().
+                AddIngredient<DragonsBreath>().
                 AddIngredient<ShadowspecBar>(5).
                 AddTile<DraedonsForge>().
                 Register();

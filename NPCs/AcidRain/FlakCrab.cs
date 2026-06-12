@@ -15,6 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AcidRain
 {
+    [HeavyKnockbackWhitelisted]
     public class FlakCrab : ModNPC
     {
         public Player Target => Main.player[NPC.target];

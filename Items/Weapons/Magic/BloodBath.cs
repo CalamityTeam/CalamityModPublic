@@ -1,6 +1,7 @@
 ﻿using System;
-using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             Item.staff[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<BurningBlood>()];
         }
 
         public override void SetDefaults()
@@ -23,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 50;
             Item.damage = 24;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 10;
+            Item.mana = 12;
             Item.useTime = 15;
             Item.useAnimation = 30;
             Item.useStyle = ItemUseStyleID.Shoot;

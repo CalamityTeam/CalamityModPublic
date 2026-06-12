@@ -1,6 +1,8 @@
-﻿using CalamityMod.Items.Weapons.Summon;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -12,6 +14,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class CosmicKunai : RogueWeapon
     {
+        private bool stealthSalvo = false;
+
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Laceration>(), ModContent.BuffType<WhisperingDeath>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 26;
@@ -34,22 +42,30 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override float StealthDamageMultiplier => 1.5f;
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            Projectile kunai = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
             if (player.Calamity().StealthStrikeAvailable())
             {
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.projectile[stealth].penetrate = 3;
+                stealthSalvo = true;
+                kunai.Calamity().stealthStrike = true;
+                kunai.penetrate = 5;
+                kunai.ai[2] = 1f; // Actually dictates the "travels farther" part
                 SoundEngine.PlaySound(SoundID.Item73, player.Center);
-                for (float i = 0; i < 5; i++)
+                for (float i = 0; i < 9; i++)
                 {
-                    float angle = MathHelper.TwoPi / 5f * i;
-                    Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<CosmicScythe>(), (int)(damage * 1.55f), knockback, player.whoAmI, angle, 0f);
+                    float angle = MathHelper.TwoPi / 9f * i;
+                    Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<CosmicScythe>(), damage * 3, knockback, player.whoAmI, angle);
                 }
             }
+            else if (stealthSalvo)
+            {
+                kunai.penetrate = 5;
+                kunai.ai[2] = 1f;
+            }
+
+            if (player.ItemUsesThisAnimation == Item.useLimitPerAnimation)
+                stealthSalvo = false;
             return false;
         }
     }

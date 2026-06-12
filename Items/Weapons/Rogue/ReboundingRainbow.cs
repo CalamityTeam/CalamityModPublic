@@ -1,7 +1,9 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
+using CalamityMod.Systems.Collections;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +14,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class ReboundingRainbow : RogueWeapon
     {
         public static int stealthTimeMult = 2;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<ElementalMix>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 38;
@@ -56,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 AddIngredient<SamsaraSlicer>().
                 AddIngredient(ItemID.LunarBar, 5).
                 AddIngredient<LifeAlloy>(5).
-                AddIngredient<MeldConstruct>(5).
+                AddIngredient<MeldBlob>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

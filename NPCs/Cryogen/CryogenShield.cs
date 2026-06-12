@@ -32,8 +32,8 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.width = 216;
             NPC.height = 216;
             NPC.scale *= (CalamityWorld.death || BossRushEvent.BossRushActive || Main.getGoodWorld) ? 0.8f : 1f;
-            NPC.DR_NERD(0.4f);
-            NPC.LifeMaxNERB(2800, 3360, 33600);
+            NPC.DR_NERD(0.25f);
+            NPC.LifeMaxNERB(2500, 3000, 30000);
             NPC.Opacity = 0f;
             NPC.HitSound = Cryogen.HitSound;
             NPC.DeathSound = BreakSound;

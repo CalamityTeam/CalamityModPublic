@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            Projectile.width = 84;
-            Projectile.height = 64;
+            Projectile.width = 25;
+            Projectile.height = 25;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
@@ -31,7 +31,15 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 4;
         }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float _ = float.NaN;
+            float hitboxSize = Projectile.width * Projectile.scale;
+            Vector2 vel = Projectile.velocity.SafeNormalize(Vector2.UnitX) * 10;
+            Vector2 start = (Projectile.timeLeft == 6 ? Main.player[Projectile.owner].Center : Projectile.Center - vel);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), start, Projectile.Center + vel, hitboxSize * Projectile.scale, ref _);
 
+        }
         public override void AI()
         {
             Vector2 toMouse = Utils.DirectionTo(Owner.Center, Owner.ClampedMouseWorld() + MathHelper.Pi.ToRotationVector2());
@@ -39,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
             float rotation = toMouse.ToRotation();
 
             Projectile.rotation = rotation;
-            Projectile.velocity = toMouse * 34;
+            Projectile.velocity = toMouse * 34 * Projectile.scale;
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -50,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 gotEnergyThisSwing = true;
                 var player = Main.player[Projectile.owner];
-                var modPlayer = player.Calamity();
+                var modPlayer = player.GetModPlayer<LightspeedPlayer>();
 
                 // +4 energy on hit
                 modPlayer.elementalMastery += 4;

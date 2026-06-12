@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             if (target.life <= 0)
-                Main.player[Projectile.owner].SpawnLifeStealProjectile(target, Projectile, ModContent.ProjectileType<ShinobiHealOrb>(), 10, 0f);
+                Main.player[Projectile.owner].SpawnLifeStealProjectile(target, Projectile, ModContent.ProjectileType<ShinobiHealOrb>(), 5, 0f);
         }
 
         public override void OnKill(int timeLeft)

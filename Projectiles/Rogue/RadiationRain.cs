@@ -45,18 +45,15 @@ namespace CalamityMod.Projectiles.Rogue
                 Particle orb = new CustomPulse(Projectile.Center, Vector2.Zero, smokeColor * 0.7f, "CalamityMod/ExtraTextures/GreyscaleVortex", new Vector2(1, 1), Projectile.ai[2] * 0.45f, orbScale, orbScale * 1.1f, 12, false);
                 GeneralParticleHandler.SpawnParticle(orb);
                 Particle orb3 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.Chartreuse, "CalamityMod/Particles/LargeBloom", new Vector2(1, 1), Main.rand.NextFloat(-10, 10), 0.8f, 0.4f, 18);
-                GeneralParticleHandler.SpawnParticle(orb3);
-                orb3.DrawLayer = GeneralDrawLayer.AfterEverything;
+                GeneralParticleHandler.SpawnParticle(orb3, false, GeneralDrawLayer.AfterEverything);
                 Particle orb2 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.White, "CalamityMod/Particles/LargeBloom", new Vector2(1, 1), Main.rand.NextFloat(-10, 10), 0.4f, 0.2f, 18);
-                GeneralParticleHandler.SpawnParticle(orb2);
-                orb2.DrawLayer = GeneralDrawLayer.AfterEverything;
+                GeneralParticleHandler.SpawnParticle(orb2, false, GeneralDrawLayer.AfterEverything);
 
                 for (int i = 0; i < 2; i++)
                 {
                     int dir = (i == 0 ? 1 : -1);
                     Particle pulse3 = new GlowSparkParticle(Projectile.Center + new Vector2(20 * dir, 0), new Vector2(10 * dir, 0), false, 12, 0.087f, Color.Chartreuse, new Vector2(1.7f, 0.8f), true, true, 0.8f);
-                    GeneralParticleHandler.SpawnParticle(pulse3);
-                    pulse3.DrawLayer = GeneralDrawLayer.AfterEverything;
+                    GeneralParticleHandler.SpawnParticle(pulse3, false, GeneralDrawLayer.AfterEverything);
                 }
 
                 for (int i = 0; i < 3; i++)

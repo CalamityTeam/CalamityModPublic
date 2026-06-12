@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
+    [HeavyKnockbackWhitelisted]
     public class ScornEater : ModNPC
     {
 

@@ -30,10 +30,10 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
 
             //Stealth strike behavior
-            if (!Projectile.Calamity().stealthStrike || Projectile.owner != Main.myPlayer || Projectile.ai[2] >= 2)
+            if (!Projectile.Calamity().stealthStrike || Projectile.owner != Main.myPlayer || Projectile.ai[2] > 0)
                 return;
             Projectile.localAI[0]++;
-            if (Projectile.localAI[0] >= 12f)
+            if (Projectile.localAI[0] == 12f)
             {
                 Vector2 vector2 = new Vector2(20f, 20f);
                 for (int index1 = 0; index1 < 10; ++index1)
@@ -47,14 +47,12 @@ namespace CalamityMod.Projectiles.Rogue
                     Dust.NewDust(Projectile.Center - vector2 / 2f, (int)vector2.X, (int)vector2.Y, DustID.Palladium, 0f, 0f, 0, default, 1f);
                 }
 
-                int javelin = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(MathHelper.ToRadians(3f)), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, ai2: Projectile.ai[2] + 1);
-                int javelin2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(MathHelper.ToRadians(-3f)), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, ai2: Projectile.ai[2] + 1);
+                int javelin = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(MathHelper.ToRadians(3f)), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, ai2: 1);
+                int javelin2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(MathHelper.ToRadians(-3f)), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, ai2: 1);
                 if (javelin.WithinBounds(Main.maxProjectiles))
                     Main.projectile[javelin].Calamity().stealthStrike = true;
                 if (javelin2.WithinBounds(Main.maxProjectiles))
                     Main.projectile[javelin2].Calamity().stealthStrike = true;
-
-                Projectile.Kill();
             }
         }
 

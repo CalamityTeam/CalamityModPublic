@@ -33,6 +33,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.ArmorPenetration = 15;
+            Projectile.Calamity().CannotProc = true;
         }
         public override bool ShouldUpdatePosition() => (time < 120);
         public override void AI()
@@ -79,12 +80,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 
                 if (time == 250 || Utils.Distance(Projectile.Center, Owner.Center) < 10)
                 {
-                    if (Projectile.ai[2] == 0 && Owner.HeldItem.type == ModContent.ItemType<PulseGrenade>())
+                    if (Projectile.ai[2] == 0 && Owner.HeldItem.type == ModContent.ItemType<PulseGrenade>() && Owner.controlUseItem)
                     {
-                        Projectile reformGrenade = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), goal, Vector2.Zero, ModContent.ProjectileType<PulseGrenadeProjectile>(), Projectile.damage, 0f, Owner.whoAmI, 0);
+                        Projectile reformGrenade = Projectile.NewProjectileDirect(Owner.GetSource_ItemUse(Owner.HeldItem), goal, Vector2.Zero, ModContent.ProjectileType<PulseGrenadeProjectile>(), (int)Owner.GetTotalDamage<RogueDamageClass>().ApplyTo(Owner.HeldItem.damage), 0f, Owner.whoAmI, 0);
                         reformGrenade.ai[1] = 5;
                         reformGrenade.ai[0] = Owner.HeldItem.useTime * 0.7f;
                         reformGrenade.Opacity = 0;
+                        //Doze Apr 15 2026 - Because this isn't being spawnwed from the shoot, these bools break. Manually fixing here.
+                        reformGrenade.Calamity().extorterBoost = true;
+                        reformGrenade.Calamity().stealthStrikeSubProjectile = false;
 
                         SoundStyle grab = new("CalamityMod/Sounds/Item/LightCatch");
                         SoundEngine.PlaySound(grab with { Volume = 1f, Pitch = 0 }, Projectile.Center);

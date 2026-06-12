@@ -63,7 +63,5 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[dustParticle].velocity = Projectile.oldVelocity;
             }
         }
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffType<Crumbling>(), 90);
     }
 }

@@ -6,9 +6,6 @@ namespace CalamityMod.Projectiles.Typeless
     public class JewelSpike : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Typeless";
-        public ref float RealPenetrate => ref Projectile.ai[0];
-        public const int MaxPenetrate = 2;
-
         public override void SetStaticDefaults()
         {
             Main.projFrames[Type] = 5;
@@ -19,12 +16,14 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.width = 36;
             Projectile.height = 44;
             Projectile.friendly = true;
-            Projectile.penetrate = -1; // For the animation, only hits up to 3 times though
+            Projectile.penetrate = 3;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 80;
             Projectile.DamageType = DamageClass.Generic;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.usesIDStaticNPCImmunity = true;
+            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.stopsDealingDamageAfterPenetrateHits = true;
+            Projectile.appliesImmunityTimeOnSingleHits = true;
         }
 
         public override void AI()
@@ -46,10 +45,6 @@ namespace CalamityMod.Projectiles.Typeless
             if (Projectile.frame < 0)
                 Projectile.frame = 0;
         }
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => RealPenetrate++;
-
-        public override bool? CanHitNPC(NPC target) => RealPenetrate > MaxPenetrate - 1f ? false : (bool?)null;
 
         public override void OnKill(int timeLeft)
         {

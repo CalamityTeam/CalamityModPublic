@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -71,38 +72,69 @@ namespace CalamityMod.Projectiles.Melee
             }
             return base.CanHitNPC(target);
         }
-        public override void AI()
+
+        void SpawnLogic()
         {
-            player.Calamity().mouseWorldListener = true;
-            if (!hasSpawned)
+            Projectile.netUpdate = true;
+            //This is used when spawned by Evolution.
+            //Set here instead of on spawn so it all syncs in MP
+            if (Projectile.ai[0] != 0)
             {
-                Projectile.netUpdate = true;
-                if (Projectile.ai[0] != 0)
+                //Setting AP so high guarantees we get the full dmg of the projectile
+                //We also want to guarantee the proj doesn't crit ever
+                Projectile.ArmorPenetration = 1000;
+                Projectile.DamageType = DamageClass.Generic;
+                Projectile.CritChance = 0;
+
+                //When not holding Mirror Blade, shards launch instantly
+                if (Main.player[Projectile.owner].HeldItem.type != ModContent.ItemType<MirrorBlade>())
                 {
-                    //This is used when spawned by Evolution.
-                    //Setting AP so high guarantees we get the full dmg of the projectile.
-                    Projectile.ArmorPenetration = 1000;
+                    shardShield = 10;
                     hasSpawned = true;
                     shardShield = 0;
                     isShard = false;
                     Projectile.timeLeft = 1200;
                     Projectile.velocity = Projectile.DirectionTo(player.Center) * -20f;
-                    Projectile.DamageType = DamageClass.Generic;
-                    Projectile.CritChance = 0;
                     return;
                 }
-                shardNum = player.ownedProjectileCounts[Projectile.type];
-                hasSpawned = true;
-                shardNum = 0;
-                foreach (var proj in Main.projectile)
+                //When holding Mirror Blade, the shards orbit the player like the blade shards.
+                //Evoultion shards insert themselves at the *end* of the shard list. This means they will launch themselves before any Mirror Blade shards are launched
+                //This is done because Evolution shards don't get the 2/3x dmg from shattering the mirror shield, so they're less valuable to be stored.
+                else
                 {
-                    if (proj.active && proj.type == ModContent.ProjectileType<MirrorBlast>() && proj.owner == Projectile.owner)
+
+                    shardNum = player.ownedProjectileCounts[Projectile.type];
+                    hasSpawned = true;
+                    shardNum = 0;
+                    foreach (var proj in Main.projectile)
                     {
-                        (proj.ModProjectile as MirrorBlast).shardNum++;
-                        proj.netUpdate = true;
+                        if (proj.active && proj.type == ModContent.ProjectileType<MirrorBlast>() && proj.owner == Projectile.owner && proj.ModProjectile<MirrorBlast>().shardNum > -1)
+                        {
+                            shardNum++;
+                        }
                     }
+                    return;
                 }
             }
+
+            //If not from The Evolution, run normal spawn logic
+            shardNum = player.ownedProjectileCounts[Projectile.type];
+            hasSpawned = true;
+            shardNum = 0;
+            foreach (var proj in Main.projectile)
+            {
+                if (proj.active && proj.type == ModContent.ProjectileType<MirrorBlast>() && proj.owner == Projectile.owner)
+                {
+                    (proj.ModProjectile as MirrorBlast).shardNum++;
+                    proj.netUpdate = true;
+                }
+            }
+        }
+        public override void AI()
+        {
+            player.Calamity().mouseWorldListener = true;
+            if (!hasSpawned)
+                SpawnLogic();
             if (isShield)
             {
                 if (shardNum > 10 || Projectile.timeLeft < 2)

@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee.MaceFlails
             {
                 Vector2 velocity = Projectile.DirectionFrom(Owner.MountedCenter).SafeNormalize(Vector2.Zero).RotatedByRandom(MathHelper.ToRadians(15f)) * Main.rand.NextFloat(4.5f, 6.5f);
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(Projectile.damage * SpikeDamage), Projectile.knockBack * SpikeKnockback, Projectile.owner);
-                SpikeTimer = MaxSpikeTime + Main.rand.Next(5);
+                SpikeTimer = MaxSpikeTime + Main.rand.Next((int)SpikeRate - 3);
             }
             base.SpinAI(launchSpeed);
         }

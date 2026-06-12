@@ -42,6 +42,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.width = Projectile.height = 32;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 5;

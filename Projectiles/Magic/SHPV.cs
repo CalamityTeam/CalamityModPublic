@@ -49,6 +49,8 @@ namespace CalamityMod.Projectiles.Magic
         {
             Projectile.width = Projectile.height = 70;
             Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Magic;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
         }

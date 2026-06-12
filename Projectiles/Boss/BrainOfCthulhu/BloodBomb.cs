@@ -29,6 +29,7 @@ public class BloodBomb : ModNPC, ILocalizedModType
     {
         NPCID.Sets.ProjectileNPC[Type] = true;
         BloodBombYellow = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/BrainOfCthulhu/BloodBomb2");
+        this.HideFromBestiary();
     }
 
     internal static Texture2D GetBombGlow()

@@ -86,12 +86,6 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shootSpeed = 13.5f;
         }
 
-        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
-        {
-            if (player.ownedProjectileCounts[Item.shoot] <= 0)
-                mult *= 0;
-        }
-
         public override void AddRecipes()
         {
             CreateRecipe().

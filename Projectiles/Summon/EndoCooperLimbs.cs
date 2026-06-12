@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+            target.AddBuff(BuffID.Frozen, 60);
             target.AddBuff(ModContent.BuffType<Voidfrost>(), 180);
         }
 

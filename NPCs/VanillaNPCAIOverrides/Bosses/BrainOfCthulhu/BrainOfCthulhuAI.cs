@@ -569,7 +569,9 @@ public class BrainOfCthulhuAI : VanillaAIOverride
             if (d > 592900) //770^2
                 distanceScaleFactor = 1 / (1 + (((float)Math.Sqrt(d) - 770) / 32f));
 
-            float spawnCounter = Time - Math.Abs(SpawnTime);
+            // Time spent in the spawn animation is shortened when summoned via item
+            float spawnAnimTimeReduction = (SummonedViaItem || BossRushEvent.BossRushActive) ? 120 : 0;
+            float spawnCounter = Time - Math.Abs(SpawnTime) + spawnAnimTimeReduction;
 
             if (spawnCounter < 180)
             {
@@ -686,7 +688,7 @@ public class BrainOfCthulhuAI : VanillaAIOverride
                     AttackCounter++;
 
                     if (SummonedViaItem || BossRushEvent.BossRushActive)
-                        SpawnDelay = 2;
+                        SpawnDelay = 1;
                     else
                         SpawnDelay = AttackCounter switch
                         {
@@ -3096,7 +3098,7 @@ public class BrainOfCthulhuAI : VanillaAIOverride
         return false;
     }
 
-    public static int GetBrainOfCthuluCreepersCountRevDeath() => CalamityWorld.death ? 30 : 21;
+    public static int GetBrainOfCthuluCreepersCountRevDeath() => CalamityWorld.death ? 27 : 18;
 
     public static List<int> GetAllValidTargets(Vector2 brainPosition)
     {

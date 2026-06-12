@@ -12,7 +12,6 @@ namespace CalamityMod.Tiles.Ores
         {
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileOreFinderPriority[Type] = 690;
 

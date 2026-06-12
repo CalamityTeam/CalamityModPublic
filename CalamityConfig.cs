@@ -47,6 +47,10 @@ namespace CalamityMod
         public bool Photosensitivity { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(false)]
+        public bool BoCSpriteChange { get; set; }
+
+        [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         public bool EnableVanillaTextureEdits { get; set; }
 

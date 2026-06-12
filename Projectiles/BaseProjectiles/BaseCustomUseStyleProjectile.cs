@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
         public override void OnSpawn(IEntitySource source)
         {
-            Projectile.timeLeft = Owner.HeldItem.useAnimation + 1;
+            Projectile.timeLeft = (int)(Owner.HeldItem.useAnimation * (Owner.HeldItem.CountsAsClass<MeleeDamageClass>() ? Owner.inverseMeleeSpeed : 1)) + 1;
         }
 
         #region Fields
@@ -47,12 +47,20 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public virtual Player Owner => Main.player[Projectile.owner];
 
         /// <summary>
-        /// The amount of pixels out the center of the projectile's hitbox is.
+        /// The amount of extra size added to the projectile's scale.
+        /// </summary>
+        public virtual float AdditionalScale => 0;
+        /// <summary>
+        /// If the projectile should auto scale to it's Projectile.scale to 1 (or greater if it is a melee item)
+        /// </summary>
+        public virtual bool IgnoreAutoScale => false;
+        /// <summary>
+        /// The amount of pixels out the center of the projectile's hitbox is. Scales with Projectile.scale.
         /// </summary>
         public virtual float HitboxOutset => 30;
 
         /// <summary>
-        /// The projectile's hitbox size in pixels.
+        /// The projectile's hitbox size in pixels. Scales with Projectile.scale.
         /// </summary>
         public virtual Vector2 HitboxSize => new Vector2(30, 30);
 
@@ -177,7 +185,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             {
                 WhenSpawned();
                 whenSpawned = false;
-                Projectile.timeLeft = Owner.HeldItem.useAnimation + 1;
+                Projectile.timeLeft = (int)(Owner.HeldItem.useAnimation * (Owner.HeldItem.CountsAsClass<MeleeDamageClass>() ? Owner.inverseMeleeSpeed : 1)) + 1;
                 Projectile.netUpdate = true;
             }
 
@@ -190,6 +198,10 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
             Owner.Calamity().mouseWorldListener = true;
             Owner.Calamity().rightClickListener = true;
+
+            float finalScale = (Owner.HeldItem.CountsAsClass<MeleeDamageClass>() ? Owner.GetMeleeScale() : Owner.HeldItem.scale) + AdditionalScale;
+            if (!IgnoreAutoScale)
+                Projectile.scale = MathHelper.Lerp(Projectile.scale, finalScale, 0.3f / Projectile.MaxUpdates);
 
             if (ItemAnimationActive || IgnoreActiveAnimation)
             {
@@ -235,7 +247,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
             if (Owner.itemAnimation == Owner.itemAnimationMax - 1)
             {
-                Projectile.timeLeft = Owner.HeldItem.useAnimation + 1;
+                Projectile.timeLeft = (int)(Owner.HeldItem.useAnimation * (Owner.HeldItem.CountsAsClass<MeleeDamageClass>() ? Owner.inverseMeleeSpeed : 1)) + 1;
                 OnBeginUse();
             }
 
@@ -263,8 +275,9 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
-            Vector2 cen = Projectile.Center + new Vector2(HitboxOutset, 0).RotatedBy(FinalRotation + HitboxRotationOffset);
-            hitbox = new Rectangle((int)cen.X - (int)(HitboxSize.X / 2), (int)cen.Y - (int)(HitboxSize.Y / 2), (int)HitboxSize.X, (int)HitboxSize.Y);
+            Vector2 hitboxScale = HitboxSize * Projectile.scale;
+            Vector2 cen = Projectile.Center + new Vector2(HitboxOutset * Projectile.scale, 0).RotatedBy(FinalRotation + HitboxRotationOffset);
+            hitbox = new Rectangle((int)cen.X - (int)(hitboxScale.X / 2), (int)cen.Y - (int)(hitboxScale.Y / 2), (int)hitboxScale.X, (int)hitboxScale.Y);
 
             // Turn this on to show the hitbox, useful for testing if it's working how you want
             /*Particle blastRing = new CustomPulse(hitbox.TopLeft(), Vector2.Zero, Color.Red, "CalamityMod/Particles/LargeBloom", Vector2.One, Main.rand.NextFloat(-10, 10), 0.2f, 0.2f, 4);

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Tools
         public new string LocalizationCategory => "Items.Tools";
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/MarniteObliteratorUse") { PitchVariance = 0.3f };
 
-        public static int ArmorPenetration = 5;
+        public static int ArmorPenetration = 15;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ArmorPenetration);
 
         public override void SetDefaults()

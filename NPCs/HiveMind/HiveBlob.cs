@@ -19,7 +19,11 @@ namespace CalamityMod.NPCs.HiveMind
         private const float TelegraphDuration = 120f;
         private bool FastVariant => NPC.ai[2] > 0f;
 
-        public override void SetStaticDefaults() => NPCID.Sets.NeedsExpertScaling[Type] = true;
+        public override void SetStaticDefaults()
+        {
+            NPCID.Sets.NeedsExpertScaling[Type] = true;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+        }
 
         public static int VileClotDamage = 8; // 32
 
@@ -54,6 +58,7 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[ModContent.NPCType<HiveMind>()], quickUnlock: true);
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,

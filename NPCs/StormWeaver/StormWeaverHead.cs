@@ -116,11 +116,11 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.netAlways = true;
 
             if (CalamityWorld.death || BossRushEvent.BossRushActive)
-                NPC.scale *= 1.2f;
-            else if (CalamityWorld.revenge)
                 NPC.scale *= 1.15f;
-            else if (Main.expertMode)
+            else if (CalamityWorld.revenge)
                 NPC.scale *= 1.1f;
+            else if (Main.expertMode)
+                NPC.scale *= 1.05f;
 
             if (Main.getGoodWorld)
                 NPC.scale *= 0.7f;
@@ -186,7 +186,7 @@ namespace CalamityMod.NPCs.StormWeaver
             // Start calling down frost waves from the sky in sheets and stop firing lightning during the charge
             bool phase3 = lifeRatio < 0.55f;
 
-            // Lightning strike flash phase, stop charging and start summoning tornadoes
+            // Lightning strike flash phase, start summoning tornadoes
             bool phase4 = lifeRatio < 0.3f;
 
             // Update armored settings to naked settings
@@ -336,33 +336,21 @@ namespace CalamityMod.NPCs.StormWeaver
             // Start charging at the player when in phase 2
             if (phase2)
             {
-                if (!phase4)
-                {
-                    calamityGlobalNPC.newAI[0] += 1f;
-                }
-                else
-                {
-                    NPC.localAI[1] = 0f;
-                    if (NPC.localAI[3] > 0f)
-                        NPC.localAI[3] -= 1f;
-
-                    calamityGlobalNPC.newAI[0] = 0f;
-                }
-
+                calamityGlobalNPC.newAI[0] += 1f;
                 calamityGlobalNPC.newAI[2] += 1f;
 
                 // Only use tornadoes in phase 4 and swap between using them or the frost waves
                 bool useTornadoes = calamityGlobalNPC.newAI[3] % 2f != 0f;
 
                 // Gate value that decides when Storm Weaver will charge
-                float chargePhaseGateValue = death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
+                float attackGateValue = death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
                 if (!phase3)
-                    chargePhaseGateValue *= 0.5f;
+                    attackGateValue *= 0.5f;
                 if (phase4 && expertMode)
-                    chargePhaseGateValue *= 0.9f;
+                    attackGateValue *= 0.9f;
 
                 // Gate value for when Storm Weaver fires projectiles
-                float projectileGateValue = (int)(chargePhaseGateValue * 0.25f);
+                float resetGateValue = attackGateValue + 100f;
 
                 // Call down frost waves from the sky
                 if (phase3 && !useTornadoes)
@@ -436,10 +424,8 @@ namespace CalamityMod.NPCs.StormWeaver
                         }
                     }
 
-                    if (calamityGlobalNPC.newAI[2] >= projectileGateValue)
+                    if (calamityGlobalNPC.newAI[2] == attackGateValue)
                     {
-                        calamityGlobalNPC.newAI[2] = -projectileGateValue * 4f;
-
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         if (phase4)
                         {
@@ -471,14 +457,14 @@ namespace CalamityMod.NPCs.StormWeaver
 
                             // Start fast at index 0, become slower as each projectile spawns and then become faster past the central wave
                             int centralWave = totalWaves / 2;
-                            float velocityY = 8f;
+                            float velocityY = revenge ? 10f : expertMode ? 9f : 8f;
                             int wavePatternType = revenge ? Main.rand.Next(3) : expertMode ? Main.rand.Next(2) + 1 : 2;
-                            float delayBeforeFiring = -60f;
+                            float delayBeforeFiring = -70f; // Note the actual delay is half of this number since frost waves have an extra update
                             for (int x = 0; x < totalWaves; x++)
                             {
                                 switch (wavePatternType)
                                 {
-                                    // Starts at 8, central point is 6 and the end is 8
+                                    // Arrow shape
                                     case 0:
 
                                         if (x != 0)
@@ -491,7 +477,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
                                         break;
 
-                                    // Starts at 8 and alternates between 6 and 8
+                                    // Alternating waves that arrive at different times
                                     case 1:
 
                                         if (x != 0)
@@ -504,16 +490,13 @@ namespace CalamityMod.NPCs.StormWeaver
 
                                         break;
 
-                                    // Flat line of slower waves
+                                    // Flat line
                                     case 2:
-
-                                        velocityY = 7f;
-
                                         break;
                                 }
 
                                 // Telegraph is active for 60 frames
-                                // Frost Waves start moving after 30 frames
+                                // Frost Waves start moving after 35 frames
                                 // Frost Waves take 30 frames to reach full velocity
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnX, Main.player[NPC.target].Center.Y - 1600f, 0f, velocityY * 0.5f, ModContent.ProjectileType<StormWeaverFrostWaveTelegraph>(), 0, 0f, Main.myPlayer, 0f, velocityY);
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnX, Main.player[NPC.target].Center.Y - 1600f, 0f, velocityY * 0.1f, type, FrostWaveDamage, 0f, Main.myPlayer, delayBeforeFiring, velocityY);
@@ -526,94 +509,97 @@ namespace CalamityMod.NPCs.StormWeaver
                 // Summon tornadoes
                 if (useTornadoes)
                 {
-                    if (calamityGlobalNPC.newAI[2] >= projectileGateValue)
+                    if (calamityGlobalNPC.newAI[2] == attackGateValue)
                     {
-                        calamityGlobalNPC.newAI[2] = -projectileGateValue * 4f;
-
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         calamityGlobalNPC.newAI[3] += 1f;
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             int projectileType = ModContent.ProjectileType<StormMarkHostile>();
-                            int totalTornadoes = revenge ? 7 : expertMode ? 5 : 3;
-                            float spawnDistance = revenge ? 750f : expertMode ? 900f : 1050f;
-                            for (int i = 0; i < totalTornadoes; i++)
+                            int totalTornadoes = death ? 10 : revenge ? 6 : expertMode ? 4 : 2;
+                            float spawnDistance = revenge ? 720f : expertMode ? 800f : 880f; // Distance to first tornado from the center point, so actual space is twice this number
+                            for (int i = -totalTornadoes / 2; i <= totalTornadoes / 2; i++)
                             {
-                                Vector2 spawnPosition = Main.player[NPC.target].Center + Vector2.UnitX * spawnDistance * (i - totalTornadoes / 2);
+                                if (i == 0)
+                                    continue;
+
+                                Vector2 spawnPosition = Main.player[NPC.target].Center + Vector2.UnitX * (spawnDistance * Math.Sign(i) + (i - Math.Sign(i)) * spawnDistance * 0.4f);
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnPosition, Vector2.Zero, projectileType, 0, 0f, Main.myPlayer, TornadoDamage, 1f);
                             }
                         }
                     }
                 }
 
+                if (calamityGlobalNPC.newAI[2] >= resetGateValue)
+                    calamityGlobalNPC.newAI[2] = 0f;
+
                 // Charge
-                if (!phase4)
+                if (calamityGlobalNPC.newAI[0] == attackGateValue - 70)
                 {
-                    if (calamityGlobalNPC.newAI[0] == chargePhaseGateValue - 70)
+                    Vector2 soundCenter = Main.player[NPC.target].Center;
+                    SoundStyle lightning = new("CalamityMod/Sounds/Custom/LightningTelegraph") { Volume = 0.7f };
+                    SoundEngine.PlaySound(lightning, soundCenter);
+                }
+                if (calamityGlobalNPC.newAI[0] >= attackGateValue)
+                {
+                    NPC.localAI[3] = 60f;
+
+                    if (NPC.localAI[1] == 0f)
+                        NPC.localAI[1] = 1f;
+
+                    if (calamityGlobalNPC.newAI[0] >= resetGateValue)
                     {
-                        Vector2 soundCenter = Main.player[NPC.target].Center;
-                        SoundStyle lightning = new("CalamityMod/Sounds/Custom/LightningTelegraph") { Volume = 0.7f };
-                        SoundEngine.PlaySound(lightning, soundCenter);
+                        NPC.TargetClosest();
+                        NPC.localAI[1] = 0f;
+                        calamityGlobalNPC.newAI[0] = 0f;
                     }
-                    if (calamityGlobalNPC.newAI[0] >= chargePhaseGateValue)
+
+                    if (NPC.localAI[1] == 2f)
                     {
-                        NPC.localAI[3] = 60f;
+                        velocity += Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) * 0.01f * (1f - (lifeRatio / 0.8f));
+                        acceleration += Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) * 0.0001f * (1f - (lifeRatio / 0.8f));
+                        velocity *= 2f;
+                        acceleration *= 0.85f;
 
-                        if (NPC.localAI[1] == 0f)
-                            NPC.localAI[1] = 1f;
-
-                        if (calamityGlobalNPC.newAI[0] >= chargePhaseGateValue + 100f)
+                        float stopChargeDistance = 800f * NPC.localAI[2];
+                        if (stopChargeDistance < 0)
                         {
-                            NPC.TargetClosest();
-                            NPC.localAI[1] = 0f;
-                            calamityGlobalNPC.newAI[0] = 0f;
-                        }
-
-                        if (NPC.localAI[1] == 2f)
-                        {
-                            velocity += Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) * 0.01f * (1f - (lifeRatio / 0.8f));
-                            acceleration += Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) * 0.0001f * (1f - (lifeRatio / 0.8f));
-                            velocity *= 2f;
-                            acceleration *= 0.85f;
-
-                            float stopChargeDistance = 800f * NPC.localAI[2];
-                            if (stopChargeDistance < 0)
+                            if (NPC.Center.X < Main.player[NPC.target].Center.X + stopChargeDistance)
                             {
-                                if (NPC.Center.X < Main.player[NPC.target].Center.X + stopChargeDistance)
-                                {
-                                    NPC.localAI[1] = 0f;
-                                    calamityGlobalNPC.newAI[0] = 0f;
-                                }
-                            }
-                            else
-                            {
-                                if (NPC.Center.X > Main.player[NPC.target].Center.X + stopChargeDistance)
-                                {
-                                    NPC.localAI[1] = 0f;
-                                    calamityGlobalNPC.newAI[0] = 0f;
-                                }
+                                NPC.localAI[1] = 0f;
+                                // Prevent the timers from desyncing
+                                calamityGlobalNPC.newAI[0] = calamityGlobalNPC.newAI[2] - resetGateValue;
                             }
                         }
-
-                        int dustAmt = 5;
-                        for (int k = 0; k < dustAmt; k++)
+                        else
                         {
-                            Vector2 dustRotation = Vector2.Normalize(NPC.velocity) * new Vector2((NPC.width + 50) / 2f, NPC.height) * 0.75f;
-                            dustRotation = dustRotation.RotatedBy((k - (dustAmt / 2 - 1)) * (double)MathHelper.Pi / (float)dustAmt) + NPC.Center;
-                            Vector2 randDustMovement = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
-                            int bluishDust = Dust.NewDust(dustRotation + randDustMovement, 0, 0, DustID.UnusedWhiteBluePurple, randDustMovement.X, randDustMovement.Y, 100, default, 3f);
-                            Main.dust[bluishDust].noGravity = true;
-                            Main.dust[bluishDust].noLight = true;
-                            Main.dust[bluishDust].velocity /= 4f;
-                            Main.dust[bluishDust].velocity -= NPC.velocity;
+                            if (NPC.Center.X > Main.player[NPC.target].Center.X + stopChargeDistance)
+                            {
+                                NPC.localAI[1] = 0f;
+                                // Prevent the timers from desyncing
+                                calamityGlobalNPC.newAI[0] = calamityGlobalNPC.newAI[2] - resetGateValue;
+                            }
                         }
                     }
-                    else
+
+                    int dustAmt = 5;
+                    for (int k = 0; k < dustAmt; k++)
                     {
-                        if (NPC.localAI[3] > 0f)
-                            NPC.localAI[3] -= 1f;
+                        Vector2 dustRotation = Vector2.Normalize(NPC.velocity) * new Vector2((NPC.width + 50) / 2f, NPC.height) * 0.75f;
+                        dustRotation = dustRotation.RotatedBy((k - (dustAmt / 2 - 1)) * (double)MathHelper.Pi / (float)dustAmt) + NPC.Center;
+                        Vector2 randDustMovement = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
+                        int bluishDust = Dust.NewDust(dustRotation + randDustMovement, 0, 0, DustID.UnusedWhiteBluePurple, randDustMovement.X, randDustMovement.Y, 100, default, 3f);
+                        Main.dust[bluishDust].noGravity = true;
+                        Main.dust[bluishDust].noLight = true;
+                        Main.dust[bluishDust].velocity /= 4f;
+                        Main.dust[bluishDust].velocity -= NPC.velocity;
                     }
+                }
+                else
+                {
+                    if (NPC.localAI[3] > 0f)
+                        NPC.localAI[3] -= 1f;
                 }
             }
 
@@ -640,7 +626,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
             }
 
-            if (phase2 && !phase4)
+            if (phase2)
             {
                 if (NPC.localAI[1] == 1f)
                 {
@@ -830,16 +816,19 @@ namespace CalamityMod.NPCs.StormWeaver
 
             bool phase2 = lifeRatio < 0.8f && !Main.zenithWorld;
             bool phase3 = lifeRatio < 0.55f;
+            bool phase4 = lifeRatio < 0.3f;
 
             // Gate value that decides when Storm Weaver will charge
-            float chargePhaseGateValue = death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
+            float attackGateValue = death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
             if (!phase3)
-                chargePhaseGateValue *= 0.5f;
+                attackGateValue *= 0.5f;
+            if (phase4 && expertMode)
+                attackGateValue *= 0.9f;
 
             Texture2D texture = phase2 ? Phase2Texture.Value : TextureAssets.Npc[Type].Value;
             Vector2 halfSizeTexture = new Vector2(texture.Width / 2, texture.Height / 2);
             float chargeTelegraphTime = 120f;
-            float chargeTelegraphGateValue = chargePhaseGateValue - chargeTelegraphTime;
+            float chargeTelegraphGateValue = attackGateValue - chargeTelegraphTime;
 
             Vector2 drawLocation = NPC.Center - screenPos;
             drawLocation -= new Vector2(texture.Width, texture.Height) * NPC.scale / 2f;
@@ -865,13 +854,16 @@ namespace CalamityMod.NPCs.StormWeaver
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             bool phase3 = lifeRatio < 0.55f;
+            bool phase4 = lifeRatio < 0.3f;
 
             // Gate value that decides when Storm Weaver will charge
-            float chargePhaseGateValue = death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
+            float attackGateValue = death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
             if (!phase3)
-                chargePhaseGateValue *= 0.5f;
+                attackGateValue *= 0.5f;
+            if (phase4 && expertMode)
+                attackGateValue *= 0.9f;
 
-            int buffDuration = NPC.Calamity().newAI[0] >= chargePhaseGateValue ? 360 : 240;
+            int buffDuration = NPC.Calamity().newAI[0] >= attackGateValue ? 360 : 240;
             if (hurtInfo.Damage > 0)
                 target.AddBuff(BuffID.Electrified, buffDuration);
         }

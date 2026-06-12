@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Item.width = 54;
             Item.height = 54;
-            Item.damage = 118;
+            Item.damage = 81;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = Item.useTime = 24;
@@ -27,11 +27,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DamageType = RogueDamageClass.Instance;
         }
 
-        public override float StealthDamageMultiplier => 0.8f;
+        public override float StealthDamageMultiplier => 0.9f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            int javelin = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
+            float aiVal = player.Calamity().StealthStrikeAvailable() ? -12f : 0f;
+            int javelin = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, ai1: aiVal);
             if (javelin.WithinBounds(Main.maxProjectiles))
                 Main.projectile[javelin].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
 

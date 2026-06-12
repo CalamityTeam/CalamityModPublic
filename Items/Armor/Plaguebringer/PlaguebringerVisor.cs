@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor.Plaguebringer
         public new string LocalizationCategory => "Items.Armor.Hardmode";
 
         public static int MinionSlotBoost = 1;
-        public static float SummonDamageBoost = 0.15f;
+        public static float SummonDamageBoost = 0.20f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MinionSlotBoost, SummonDamageBoost.ToPercent());
 
         // Set Bonus

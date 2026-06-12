@@ -1,8 +1,13 @@
-﻿using CalamityMod.Items.Materials;
+﻿using System.Collections.Generic;
+using System.IO;
+using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace CalamityMod.Items.Armor.Astral
 {
@@ -30,6 +35,42 @@ namespace CalamityMod.Items.Armor.Astral
             Item.rare = ItemRarityID.Cyan;
             Item.defense = 17; //63
         }
+        #region Toggleable Omniscience effect
+
+        bool toggleEnabled = true;
+
+        public override bool CanRightClick() => Main.keyState.PressingShift();
+        public override void RightClick(Player player)
+        {
+            toggleEnabled = !toggleEnabled;
+            Item.NetStateChanged();
+        }
+        public override bool ConsumeItem(Player player) => false;
+        public override void SaveData(TagCompound tag)
+        {
+            tag.Add("toggleEffect", toggleEnabled);
+        }
+
+        public override void LoadData(TagCompound tag)
+        {
+            toggleEnabled = tag.GetBool("toggleEffect");
+        }
+
+        public override void NetSend(BinaryWriter writer)
+        {
+            writer.Write(toggleEnabled);
+        }
+
+        public override void NetReceive(BinaryReader reader)
+        {
+            toggleEnabled = reader.ReadBoolean();
+        }
+
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            CalamityUtils.DrawInventoryDot(spriteBatch, position, new Vector2(16, 16) * Main.inventoryScale, toggleEnabled);
+        }
+        #endregion
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -46,7 +87,6 @@ namespace CalamityMod.Items.Armor.Astral
             player.setBonus = this.GetLocalization("SetBonus").Format(SetBonusMinionSlotBoost, SetBonusDamageBoost.ToPercent(), StarRainCooldown.FramesToSeconds());
             var modPlayer = player.Calamity();
             modPlayer.astralStarRain = true;
-            modPlayer.omniscience = true;
             player.maxMinions += SetBonusMinionSlotBoost;
             player.GetDamage<GenericDamageClass>() += SetBonusDamageBoost;
             player.GetCritChance<GenericDamageClass>() += SetBonusCritBoost;
@@ -57,6 +97,14 @@ namespace CalamityMod.Items.Armor.Astral
         {
             player.GetDamage<GenericDamageClass>() += DamageBoost;
             player.GetCritChance<GenericDamageClass>() += CritBoost;
+            var modPlayer = player.Calamity();
+            modPlayer.omniscience = toggleEnabled;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (!toggleEnabled)
+                tooltips.RemoveAll(x => x.Name == "Tooltip1");
         }
 
         public override void AddRecipes()

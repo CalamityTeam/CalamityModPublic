@@ -20,12 +20,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<CometQuasher>();
         public override string Texture => "CalamityMod/Items/Weapons/Melee/CometQuasher";
-        public override float HitboxOutset => 90;
-
-        public override Vector2 HitboxSize => new Vector2(110, 110);
+        public int size = 94;
+        public override float HitboxOutset => size * 0.85f;
+        public override Vector2 HitboxSize => new Vector2(size, size);
+        public override Vector2 SpriteOrigin => new(-4, size);
         public override float HitboxRotationOffset => MathHelper.ToRadians(-45);
-
-        public override Vector2 SpriteOrigin => new(-5, 96);
         public Vector2 mousePos;
         public Vector2 aimVel;
         public bool doSwing = true;
@@ -45,7 +44,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void WhenSpawned()
         {
             Projectile.knockBack = 0;
-            Projectile.scale = 1;
             Projectile.ai[1] = -1;
 
             // 14NOV2024: Ozzatron: clamped mouse position unnecessary, it does not influence Comet Quasher's projectile spawning
@@ -159,20 +157,20 @@ namespace CalamityMod.Projectiles.Melee
                     for (int i = 0; i < 4; i++)
                     {
                         Vector2 particleVel = new Vector2(0, 3 * -Projectile.ai[1] * Owner.direction).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
-                        Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(5, 110), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)));
-                        Vector2 particlePos2 = Owner.Center + (new Vector2(Main.rand.Next(80, 110), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)));
+                        Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(5, 110), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45))) * Projectile.scale;
+                        Vector2 particlePos2 = Owner.Center + (new Vector2(Main.rand.Next(80, 110), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45))) * Projectile.scale;
                         if (i % 2 == 0)
                         {
-                            Particle orb = new CustomPulse(particlePos, particleVel * Main.rand.NextFloat(0.8f, 1.2f), Main.rand.NextBool(4) ? Color.AliceBlue : Color.DodgerBlue, "CalamityMod/Particles/HealingPlus", new Vector2(1f, 1f), Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(0.8f, 1.2f), 0.2f, 23);
+                            Particle orb = new CustomPulse(particlePos, particleVel * Main.rand.NextFloat(0.8f, 1.2f), Main.rand.NextBool(4) ? Color.AliceBlue : Color.DodgerBlue, "CalamityMod/Particles/HealingPlus", new Vector2(1f, 1f), Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(0.8f, 1.2f) * Projectile.scale, 0.2f, 23);
                             GeneralParticleHandler.SpawnParticle(orb);
                         }
                         else
                         {
-                            GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(particlePos2, -particleVel.RotatedByRandom(0.2f) * 2, Main.rand.NextBool(4) ? Color.AliceBlue : Color.DodgerBlue, 23, Main.rand.NextFloat(0.3f, 0.7f), 0.75f, 0, true));
+                            GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(particlePos2, -particleVel.RotatedByRandom(0.2f) * 2, Main.rand.NextBool(4) ? Color.AliceBlue : Color.DodgerBlue, 23, Main.rand.NextFloat(0.3f, 0.7f) * Projectile.scale, 0.75f, 0, true));
                         }
                     }
 
-                    Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(120, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), DustID.FireworksRGB, Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(0.5f, 1));
+                    Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(120 * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), DustID.FireworksRGB, Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(0.5f, 1));
                     dust2.scale = Main.rand.NextFloat(0.55f, 0.85f);
                     dust2.noGravity = true;
                     dust2.color = Main.rand.NextBool(3) ? Color.AliceBlue : Color.DodgerBlue;
@@ -205,7 +203,7 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(fire2 with { Volume = 0.55f, Pitch = 0.7f }, Projectile.Center);
 
             Vector2 launchVel = Utils.DirectionTo(Owner.Center, Owner.Calamity().mouseWorld);
-            target.MoveNPC(launchVel, 7, true);
+            target.MoveNPC(launchVel, 7, true, Owner);
 
             for (int i = 0; i < MathHelper.Clamp(6 - Projectile.numHits * 2, 2, 6); i++)
             {
@@ -221,7 +219,8 @@ namespace CalamityMod.Projectiles.Melee
             if (spawnBoom)
             {
                 Vector2 spawnSpot = target.Center + new Vector2(Main.rand.NextFloat(-550, 550), Main.rand.NextFloat(-750, -950));
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<CometQuasherMeteor>(), (int)(Projectile.damage * 1.5f), 0, Projectile.owner, 0, Main.rand.Next(3), 4);
+                Projectile meteor = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<CometQuasherMeteor>(), (int)(Projectile.damage * 1.5f), 0, Projectile.owner, 0, Main.rand.Next(3), 4);
+                meteor.scale = Projectile.scale; 
                 spawnBoom = false;
             }
         }

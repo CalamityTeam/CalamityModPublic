@@ -15,6 +15,7 @@ using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.Abyss
 {
+    [HeavyKnockbackWhitelisted]
     public class ChaoticPuffer : ModNPC
     {
         public bool puffedUp = false;

@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Turret;
 using CalamityMod.Tiles.PlayerTurrets;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.TileEntities
@@ -71,7 +72,7 @@ namespace CalamityMod.TileEntities
             //This turret can switch targets at any time
             foreach (NPC npc in Main.ActiveNPCs)
             {
-                if (npc.friendly || npc.CountsAsACritter)
+                if (npc.friendly || npc.CountsAsACritter || NPCID.Sets.CountsAsCritter[npc.type])
                     continue;
 
                 float distSQ = npc.DistanceSQ(targetingCenter);

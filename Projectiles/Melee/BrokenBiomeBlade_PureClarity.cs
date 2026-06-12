@@ -1,6 +1,8 @@
-﻿using CalamityMod.Items.Weapons.Melee;
+﻿using CalamityMod.DataStructures;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
+using CalamityMod.Systems;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -48,6 +50,12 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void UseStyle()
         {
+            if (Owner.HeldItem.ModItem is not BrokenBiomeBlade || (Owner.HeldItem.ModItem as BrokenBiomeBlade).mainAttunement != AttunementSystem.FindOrNull(AttunementID.Default))
+            {
+                Projectile.Kill();
+                return;
+            }
+
             if (CanHit || postSwing)
                 mousePos = Owner.Center - aimPos;
             else

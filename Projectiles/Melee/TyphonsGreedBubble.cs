@@ -28,7 +28,13 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
         }
-
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            Player Owner = Main.player[Projectile.owner];
+            float scale = Projectile.scale;
+            Vector2 newSize = new Point(hitbox.Width, hitbox.Height).ToVector2() * scale;
+            hitbox = new Rectangle(hitbox.X - (int)((newSize.X - hitbox.Width) / 2f), hitbox.Y - (int)((newSize.Y - hitbox.Height) / 2f), (int)newSize.X, (int)newSize.Y);
+        }
         public override void AI()
         {
             Projectile.frameCounter++;
@@ -95,9 +101,9 @@ namespace CalamityMod.Projectiles.Melee
         {
             SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
             Projectile.position = Projectile.Center;
-            Projectile.width = Projectile.height = 64;
-            Projectile.position.X -= (float)(Projectile.width / 2);
-            Projectile.position.Y -= (float)(Projectile.height / 2);
+            Projectile.width *= (int)(2 * Projectile.scale); Projectile.height *= (int)(2 * Projectile.scale);
+            Projectile.position.X -= (float)(Projectile.width / (int)(2 * Projectile.scale));
+            Projectile.position.Y -= (float)(Projectile.height / (int)(2 * Projectile.scale));
             for (int i = 0; i < 2; i++)
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Water, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);

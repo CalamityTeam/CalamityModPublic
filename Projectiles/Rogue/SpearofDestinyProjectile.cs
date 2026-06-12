@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
     public class SpearofDestinyProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Rogue";
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SpearofDestiny";
         public static readonly SoundStyle Hitsound = new("CalamityMod/Sounds/Item/WulfrumKnifeTileHit2") { PitchVariance = 0.3f, Volume = 0.5f };
 
         public int framesInAir = 0;

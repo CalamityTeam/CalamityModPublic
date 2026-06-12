@@ -3,6 +3,7 @@ using CalamityMod.Balancing;
 using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.EntitySources;
 using CalamityMod.Enums;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -132,6 +133,10 @@ namespace CalamityMod.CalPlayer
                     dashDelayToApply = BalancingConstants.UniversalShieldBonkCooldown;
                 if (DashID == DeepDiverDash.ID || (evasionScarf && DashID == CounterScarfDash.ID))
                     dashDelayToApply = (int)(dashDelayToApply * 0.75f);
+                if (DashID == V8EngineDash.ID)
+                    dashDelayToApply = (int)(dashDelayToApply * V8Engine.DashDelayModifier);
+                if (DashID == V8000EngineDash.ID)
+                    dashDelayToApply = (int)(dashDelayToApply * V8000Engine.DashDelayModifier);
                 if (DashID == StatisNinjaBeltDash.ID || DashID == StatisVoidSashDash.ID || Player.dashType == 1)
                     dashDelayToApply = BalancingConstants.UniversalSashDashCooldown;
 
@@ -144,15 +149,11 @@ namespace CalamityMod.CalPlayer
 
                 // Handle mid-dash effects.
                 UsedDash.MidDashEffects(Player, ref dashSpeed, ref dashSpeedDecelerationFactor, ref runSpeedDecelerationFactor);
-                int VerticalOmnidashCap = DashID == GodslayerArmorDash.ID ? 75 : 25;
-                if (UsedDash.IsOmnidirectional && VerticalOmnidashTimer < VerticalOmnidashCap)
+                if (UsedDash.ForceEndAt > 0)
                 {
-                    VerticalOmnidashTimer++;
-                    if (VerticalOmnidashTimer >= VerticalOmnidashCap)
+                    if (UsedDash.dashTime >= UsedDash.ForceEndAt)
                     {
                         Player.dashDelay = dashDelayToApply;
-                        // Stop the player from going flying
-                        Player.velocity *= 0.2f;
                     }
                 }
 
@@ -231,7 +232,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Handle first-frame effects.
-            else if (HasCustomDash && !Player.mount.Active)
+            else if (HasCustomDash && (!Player.mount.Active || DashID == V8EngineDash.ID || DashID == V8000EngineDash.ID))
             {
                 UsedDash.dashTime = 0;
                 if (DoADash(UsedDash.CalculateDashSpeed(Player)))

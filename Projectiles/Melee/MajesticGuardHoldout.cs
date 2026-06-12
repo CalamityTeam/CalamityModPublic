@@ -20,12 +20,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<MajesticGuard>();
         public override string Texture => "CalamityMod/Items/Weapons/Melee/MajesticGuard";
-        public override float HitboxOutset => 105;
-
-        public override Vector2 HitboxSize => new Vector2(140, 140);
+        public int size = 100 + 10;
+        public override float HitboxOutset => size * 0.85f;
+        public override Vector2 HitboxSize => new Vector2(size, size);
+        public override Vector2 SpriteOrigin => new(0, size - 10);
         public override float HitboxRotationOffset => MathHelper.ToRadians(-45);
-
-        public override Vector2 SpriteOrigin => new(-5, 100);
         public Vector2 mousePos;
         public Vector2 aimVel;
         public bool doSwing = true;
@@ -46,7 +45,6 @@ namespace CalamityMod.Projectiles.Melee
         public override void WhenSpawned()
         {
             Projectile.knockBack = 0;
-            Projectile.scale = 1;
             Projectile.ai[1] = 1;
 
             // 14NOV2024: Ozzatron: clamped mouse position unnecessary, as Majestic Guard has no projectiles
@@ -148,8 +146,8 @@ namespace CalamityMod.Projectiles.Melee
                         CanHit = true;
 
                         Vector2 particleVel = new Vector2(0, 10 * -Projectile.ai[1] * Owner.direction).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
-                        Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(30, 170), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)));
-                        GeneralParticleHandler.SpawnParticle(new AltLineParticle(particlePos, -particleVel.RotatedByRandom(0.2f), false, 19, Main.rand.NextFloat(0.3f, 0.7f), Main.rand.NextBool(3) ? Color.Silver : Color.Goldenrod));
+                        Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(30, 170), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45))) * Projectile.scale;
+                        GeneralParticleHandler.SpawnParticle(new AltLineParticle(particlePos, -particleVel.RotatedByRandom(0.2f), false, 19, Main.rand.NextFloat(0.3f, 0.7f) * Projectile.scale, Main.rand.NextBool(3) ? Color.Silver : Color.Goldenrod));
                     }
                     else
                         CanHit = false;
@@ -166,7 +164,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         for (int i = 0; i < 2; i++)
                         {
-                            Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(150, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), DustID.FireworksRGB, Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(0.5f, 2));
+                            Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(150 * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), DustID.FireworksRGB, Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(0.5f, 2));
                             dust2.scale = Main.rand.NextFloat(0.55f, 0.85f);
                             dust2.noGravity = true;
                             dust2.color = Main.rand.NextBool() ? Color.Silver : Color.Gold;
@@ -197,7 +195,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             Vector2 launchVel = Utils.DirectionTo(Owner.Center, Owner.Calamity().mouseWorld);
-            target.MoveNPC(launchVel, 15, true);
+            target.MoveNPC(launchVel, 15, true, Owner);
 
             for (int i = 0; i < MathHelper.Clamp(6 - Projectile.numHits * 2, 2, 6); i++)
             {

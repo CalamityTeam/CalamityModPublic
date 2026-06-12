@@ -52,21 +52,21 @@ namespace CalamityMod.Projectiles.Melee
                     if (time < 120)
                     {
                         float velMult = (Projectile.ai[1] == 0.5f ? 0.2f : 3 * sizeMult);
-                        Particle spark3 = new CustomSpark(pos, Projectile.velocity * 1.2f * velMult, "CalamityMod/Particles/GlowSpark", false, 11, 0.15f * sizeMult, usedColor, new Vector2(2f, 0.8f), true, true, shrinkSpeed: 1f);
+                        Particle spark3 = new CustomSpark(pos, Projectile.velocity * 1.2f * velMult, "CalamityMod/Particles/GlowSpark", false, 11, 0.15f * sizeMult * Projectile.scale, usedColor, new Vector2(2f, 0.8f), true, true, shrinkSpeed: 1f);
                         GeneralParticleHandler.SpawnParticle(spark3);
                         sizeMult *= 0.97f;
                     }
-                    Particle spark2 = new BoltParticle(pos, -Projectile.velocity * 0.05f, false, 30, 0.6f, usedColor, new Vector2(1.8f, 0.8f), true, true, false, 0.3f);
+                    Particle spark2 = new BoltParticle(pos, -Projectile.velocity * 0.05f, false, 30, 0.6f * Projectile.scale, usedColor, new Vector2(1.8f, 0.8f), true, true, false, 0.3f);
                     GeneralParticleHandler.SpawnParticle(spark2);
                 }
                 if (Main.rand.NextBool(35))
                 {
-                    Particle spark2 = new BoltParticle(pos, Projectile.velocity.RotatedByRandom(0.6f) * Main.rand.NextFloat(0.3f, 1.9f), false, 23, Main.rand.NextFloat(0.2f, 0.25f), usedColor, new Vector2(1.8f, 0.8f), true, true, false, 0.3f);
+                    Particle spark2 = new BoltParticle(pos, Projectile.velocity.RotatedByRandom(0.6f) * Main.rand.NextFloat(0.3f, 1.9f), false, 23, Main.rand.NextFloat(0.2f, 0.25f) * Projectile.scale, usedColor, new Vector2(1.8f, 0.8f), true, true, false, 0.3f);
                     GeneralParticleHandler.SpawnParticle(spark2);
                 }
                 if (Main.rand.NextBool(10))
                 {
-                    Particle spark2 = new CustomSpark(pos, Projectile.velocity * Main.rand.NextFloat(-0.4f, 0.4f), "CalamityMod/Particles/DrainLineBloom", false, 80, Main.rand.NextFloat(1.2f, 1.3f) * sizeMult, usedColor, new Vector2(1, 4), true, true);
+                    Particle spark2 = new CustomSpark(pos, Projectile.velocity * Main.rand.NextFloat(-0.4f, 0.4f), "CalamityMod/Particles/DrainLineBloom", false, 80, Main.rand.NextFloat(1.2f, 1.3f) * sizeMult * Projectile.scale, usedColor, new Vector2(1, 4), true, true);
                     GeneralParticleHandler.SpawnParticle(spark2);
                 }
                 if (time % 5 == 0)
@@ -80,9 +80,9 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    Particle orb = new CustomPulse(Projectile.Center, Vector2.Zero, Color.Cyan, "CalamityMod/Particles/BloomCircle", new Vector2(1, 1), Main.rand.NextFloat(-10, 10), 0.1f, 1.48f, 15);
+                    Particle orb = new CustomPulse(Projectile.Center, Vector2.Zero, Color.Cyan, "CalamityMod/Particles/BloomCircle", new Vector2(1, 1), Main.rand.NextFloat(-10, 10), 0.1f * Projectile.scale, 1.48f * Projectile.scale, 15);
                     GeneralParticleHandler.SpawnParticle(orb);
-                    Particle orb2 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.White, "CalamityMod/Particles/BloomCircle", new Vector2(1, 1), Main.rand.NextFloat(-10, 10), 0.1f, 0.925f, 15);
+                    Particle orb2 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.White, "CalamityMod/Particles/BloomCircle", new Vector2(1, 1), Main.rand.NextFloat(-10, 10), 0.1f * Projectile.scale, 0.925f * Projectile.scale, 15);
                     GeneralParticleHandler.SpawnParticle(orb2);
                 }
             }
@@ -127,12 +127,12 @@ namespace CalamityMod.Projectiles.Melee
                 }
 
                 Vector2 launchVel = Utils.DirectionTo(Projectile.Center, target.Center);
-                target.MoveNPC(launchVel, 20, true);
+                target.MoveNPC(launchVel, 20, true, Owner);
             }
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            float size = 45 * sizeMult * (Projectile.numHits > 0 ? 6 : 1);
+            float size = 45 * sizeMult * (Projectile.numHits > 0 ? 6 : 1) * Projectile.scale;
             Player Owner = Main.player[Projectile.owner];
             if (time <= 1 && Projectile.ai[1] != 0.5f)
             {

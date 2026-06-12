@@ -17,7 +17,6 @@ using static Terraria.Player;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    [PierceResistException]
     public class CountermeasureMittHoldout : BaseGunHoldoutProjectile
     {
         public new string LocalizationCategory => "Projectiles.Misc";
@@ -74,7 +73,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public float alteredRotationRot = 0.7f; // Alteration to the holdout rotation so it's not directly to the mouse, changes with the attack cycle
         public float alteredRotation => Projectile.rotation + (f2r * alteredRotationRot * -Projectile.direction);
         public Vector2 palmBlastPos => Owner.Center + alteredRotation.ToRotationVector2() * 55 * Projectile.scale;
-        public int palmManaCost => HeldItem.mana * 30;
+        public int palmManaCost => HeldItem.mana * 15;
         public int hitTimer = 0;
         public override void SetDefaults()
         {

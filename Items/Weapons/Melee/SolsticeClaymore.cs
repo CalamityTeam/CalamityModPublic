@@ -78,7 +78,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemID.BeamSword).
                 AddIngredient<AstralBar>(20).
                 AddIngredient(ItemID.LunarBar, 5).
-                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.FragmentSolar, 5).
+                AddIngredient(ItemID.FragmentStardust, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

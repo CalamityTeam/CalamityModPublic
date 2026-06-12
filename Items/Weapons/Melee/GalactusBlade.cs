@@ -132,7 +132,10 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.StarWrath).
                 AddIngredient<DivineGeode>(10).
-                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.FragmentSolar, 5).
+                AddIngredient(ItemID.FragmentVortex, 5).
+                AddIngredient(ItemID.FragmentNebula, 5).
+                AddIngredient(ItemID.FragmentStardust, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

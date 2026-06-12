@@ -133,7 +133,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             for (int i = 0; i< 2; i++)
             {
                 Color color = AetherfluxCannon.accentColor;
@@ -147,7 +146,6 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.damage = (int)(Projectile.damage * 0.865f);
         }
 
-        public override void OnHitPlayer(Player target, Player.HurtInfo info) => target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
         public override Color? GetAlpha(Color lightColor) => new Color(222, 166, 44, 0);
 

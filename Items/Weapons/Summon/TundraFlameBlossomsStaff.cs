@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -11,11 +12,16 @@ namespace CalamityMod.Items.Weapons.Summon
     public class TundraFlameBlossomsStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.OnFire3, BuffID.Frostburn2];
+            ItemID.Sets.StaffMinionSlotsRequired[Type] = 3f;
+        }
         public override void SetDefaults()
         {
             Item.width = 50;
             Item.height = 60;
-            Item.damage = 40;
+            Item.damage = 56;
             Item.mana = 10;
             Item.useAnimation = Item.useTime = 36;
             Item.useStyle = ItemUseStyleID.Swing;

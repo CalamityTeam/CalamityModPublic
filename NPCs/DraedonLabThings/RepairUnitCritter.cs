@@ -15,6 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DraedonLabThings
 {
+    [HeavyKnockbackWhitelisted]
     public class RepairUnitCritter : ModNPC
     {
         public enum BehaviorState

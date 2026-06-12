@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             CreateRecipe().
                 AddIngredient<AerialiteBar>(5).
-                AddIngredient(ItemID.SunplateBlock, 5).
                 AddIngredient(ItemID.Feather, 5).
                 AddTile(TileID.Anvils).
                 Register();

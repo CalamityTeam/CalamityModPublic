@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.CustomRecipes;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -31,9 +32,17 @@ namespace CalamityMod.Items.Accessories
         {
             Item.width = 66;
             Item.height = 46;
-            Item.value = CalamityGlobalItem.RarityOrangeBuyPrice;
+            Item.value = Item.buyPrice(gold: 15); // Sold by Shady Salesman
             Item.rare = ItemRarityID.Orange;
             Item.accessory = true;
+        }
+        public override void UpdateInventory(Player player)
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient && !RecipeUnlockHandler.HasFoundLuxorsGift)
+            {
+                RecipeUnlockHandler.HasFoundLuxorsGift = true;
+                CalamityNetcode.SyncWorld();
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

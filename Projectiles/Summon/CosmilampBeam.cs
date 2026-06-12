@@ -105,8 +105,6 @@ namespace CalamityMod.Projectiles.Summon
             return MathHelper.Lerp(0f, maxWidth, expansionCompletion);
         }
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<Nightwither>(), 240);
-
         public override bool PreDraw(ref Color lightColor)
         {
             Projectile.localAI[0] = 0f;

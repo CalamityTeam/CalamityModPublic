@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         private bool BigSpear = false;
         public override void SetDefaults()
         {
-            Item.width = 52;
-            Item.height = 52;
+            Item.width = 100;
+            Item.height = 100;
             Item.damage = 70;
             Item.noMelee = true;
             Item.noUseGraphic = true;

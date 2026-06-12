@@ -18,19 +18,12 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override string ArmorSetName => "Mythril";
 
-        public const int MaxManaBoost = 20;
         public const int FlareFrameSpawnDelay = 12;
         public const int FlareDamageSoftcap = 40;
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             setBonusText += $"\n{CalamityUtils.GetText($"Vanilla.Armor.SetBonus.{ArmorSetName}").Format(FlareFrameSpawnDelay)}";
-        }
-
-        public override void ApplyHeadPieceEffect(Player player)
-        {
-            if (player.armor[0].type == ItemID.MythrilHood)
-                player.statManaMax2 += MaxManaBoost;
         }
 
         public override void ApplyArmorSetBonus(Player player)

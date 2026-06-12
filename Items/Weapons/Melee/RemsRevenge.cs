@@ -1,5 +1,7 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.MaceFlails;
+using CalamityMod.Systems.Collections;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -13,7 +15,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public static int WitherDefenseReduction = 20;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(WitherDefenseReduction);
 
-        public override void SetStaticDefaults() => ItemID.Sets.ToolTipDamageMultiplier[Type] = 2f;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Laceration>()];
+            ItemID.Sets.ToolTipDamageMultiplier[Type] = 2f;
+        }
         public override void SetDefaults()
         {
             Item.width = 44;

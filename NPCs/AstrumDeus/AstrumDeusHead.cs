@@ -122,7 +122,6 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[]
             {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
                 new FlavorTextBestiaryInfoElement("Mods.CalamityMod.Bestiary.AstrumDeus")
             });
         }
@@ -341,7 +340,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                             }
                         }
 
-                        SoundEngine.PlaySound(AstrumDeusHead.SplitSound, player.Center);
+                        SoundEngine.PlaySound(SplitSound, player.Center);
                     }
                     return;
                 }
@@ -401,10 +400,18 @@ namespace CalamityMod.NPCs.AstrumDeus
                     for (int segments = 0; segments < maxLength; segments++)
                     {
                         int lol;
+                        
+                        // Spawn offsets prevent the body segments from spawning bunched on top of each other, which is exploitable
                         if (segments >= 0 && segments < maxLength - 1)
-                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, bodyType, NPC.whoAmI);
+                        {
+                            Vector2 bodySpawnOffset = NPC.velocity.SafeNormalize(Vector2.UnitY) * NPC.height * (segments + 1) / 2;
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X - bodySpawnOffset.X), (int)(NPC.Center.Y - bodySpawnOffset.Y), bodyType, NPC.whoAmI);
+                        }
                         else
-                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, tailType, NPC.whoAmI);
+                        {
+                            Vector2 tailSpawnOffset = NPC.velocity.SafeNormalize(Vector2.UnitY) * NPC.height * maxLength / 2;
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X - tailSpawnOffset.X), (int)(NPC.Center.Y - tailSpawnOffset.Y), tailType, NPC.whoAmI);
+                        }
 
                         if (segments % 2 == 0)
                             Main.npc[lol].localAI[3] = 1f;
@@ -760,13 +767,6 @@ namespace CalamityMod.NPCs.AstrumDeus
                 NPC.ForceNetUpdate(false);
 
             NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + MathHelper.PiOver2;
-
-            // Play spawn sound on Deus on the first frame because otherwise the sound wouldn't play properly in multiplayer
-            if (calamityGlobalNPC.newAI[1] == 0f && !doubleWormPhase)
-            {
-                SoundEngine.PlaySound(SpawnSound, NPC.Center);
-                calamityGlobalNPC.newAI[1] = 1f;
-            }
 
             // 5 seconds of resistance in phase 2, 10 seconds in phase 1, to prevent spawn killing
             if (calamityGlobalNPC.newAI[1] < resistanceTime && ((NPC.position - NPC.oldPosition).Length() > 2f || calamityGlobalNPC.newAI[1] > 1f))

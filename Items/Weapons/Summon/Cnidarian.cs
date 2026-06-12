@@ -26,7 +26,6 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             summonTag.TagItem = Type;
-            CalamityBuffSets.SummonTagDebuff.Add(BuffType<CnidarianSummonTagBuff>(), summonTag);
         }
 
         public override void SetDefaults()

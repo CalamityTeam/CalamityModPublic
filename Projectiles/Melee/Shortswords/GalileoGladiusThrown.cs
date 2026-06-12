@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
                 Particle boostRing = new CustomSpark(position, velocity, "CalamityMod/Particles/HighResHollowCircleHardEdgeAlt", false, lifetime, scale, color, stretch, shrinkSpeed: shrink);
                 GeneralParticleHandler.SpawnParticle(boostRing);
 
-                if (stabbedNPC.CanBeMoved(true))
+                if (stabbedNPC.CanBeMoved())
                 {
                     stabbedNPC.velocity = -Owner.velocity;
                 }

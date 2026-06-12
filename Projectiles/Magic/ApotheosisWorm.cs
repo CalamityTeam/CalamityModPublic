@@ -258,7 +258,6 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
-            target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 300, true);
         }
 
         public override bool PreDraw(ref Color lightColor)

@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DraedonLabThings
 {
+    [HeavyKnockbackWhitelisted]
     public class Androomba : ModNPC
     {
 

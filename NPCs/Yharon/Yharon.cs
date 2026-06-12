@@ -845,6 +845,10 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.spriteDirection = -NPC.direction;
                 }
 
+                // Play a roar sound before charging out of bullet hell
+                if (NPC.ai[2] == -45f)
+                    RoarSoundSlot = SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
+
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= phaseSwitchTimer || slowChargeAfterBulletHell)
                 {
@@ -1210,6 +1214,10 @@ namespace CalamityMod.NPCs.Yharon
 
                     NPC.spriteDirection = -NPC.direction;
                 }
+
+                // Play a roar sound before charging out of bullet hell
+                if (NPC.ai[2] == -45f)
+                    RoarSoundSlot = SoundEngine.PlaySound(ShortRoarSound, NPC.Center);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= phaseSwitchTimer || slowChargeAfterBulletHell)

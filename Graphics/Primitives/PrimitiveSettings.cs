@@ -309,7 +309,7 @@ namespace CalamityMod.Graphics.Primitives
             SmoothingTension = smoothingTension;
             FrameTransportMode = frameTransportMode;
             Topology = topology;
-            CapStyle = PrimitiveCapStyle.Flat;
+            CapStyle = capStyle;
         }
     }
 }

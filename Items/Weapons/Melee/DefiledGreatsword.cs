@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -21,6 +22,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public const float ProjectileFullyVisibleDurationIncreasePerAdditionalProjectile = 8f;
 
         public const float ShootSpeed = 16f;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.OnFire3, BuffID.Venom];
+        }
 
         public override void SetDefaults()
         {

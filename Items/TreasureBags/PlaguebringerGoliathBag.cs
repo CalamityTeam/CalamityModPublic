@@ -67,7 +67,6 @@ namespace CalamityMod.Items.TreasureBags
             itemLoot.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, new int[]
             {
                 ModContent.ItemType<Virulence>(),
-                ModContent.ItemType<TheHive>(),
                 ModContent.ItemType<Malevolence>(),
                 ModContent.ItemType<PlagueStaff>(),
                 ModContent.ItemType<FuelCellBundle>(),

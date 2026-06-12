@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.width = 32;
             Item.height = 46;
             Item.damage = 1700;
+            Item.crit = 55;
             Item.useAnimation = Item.useTime = 35;
             Item.reuseDelay = 15;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -37,9 +38,6 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             itemGroup = (ContentSamples.CreativeHelper.ItemGroup)CalamityResearchSorting.ToolsOther;
         }
-
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 55;
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.Calamity().DashID != GodslayerArmorDash.ID;
     }

@@ -1,7 +1,9 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -18,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             Item.staff[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Dragonfire>()];
         }
 
         public override void SetDefaults()
@@ -25,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.width = 40;
             Item.height = 36;
             Item.damage = 14; // same as 1.4 Wand of Sparking
-            Item.mana = 150;
+            Item.mana = 200;
             Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
             Item.useAnimation = 19;

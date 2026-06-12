@@ -55,6 +55,8 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.timeLeft == 5 && Owner.channel)
                 Projectile.timeLeft++;
             Owner.Calamity().sarosEclipseBeamUsage += 2;
+            if (Owner.itemTime <= 1)
+                Owner.itemTime++;
             }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

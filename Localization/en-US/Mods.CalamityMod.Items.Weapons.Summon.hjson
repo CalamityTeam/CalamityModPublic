@@ -2,7 +2,7 @@ AbandonedSlimeStaff: {
 	DisplayName: Abandoned Slime Staff
 	Tooltip:
 		'''
-		Summons an astral slime that inflicts [cbuff:CalamityMod/AstralInfectionDebuff]
+		Summons an astral slime that spreads the [cbuff:CalamityMod/AstralInfectionDebuff]
 		Consumes all of the remaining minion slots on use
 		Must be used from the hotbar
 		Increased power and size based on the number of minion slots used
@@ -48,7 +48,6 @@ AresExoskeleton: {
 		Creates a panel with four slots and four choices above it: Plasma, Tesla, Laser, and Gauss
 		Clicking one of the choices and then clicking one of the slots summons a cannon of that type
 		Clicking on a slot that's already occupied destroys its associated cannon and clears the slot
-		Cannons take 3 minion slots each
 		'''
 }
 
@@ -73,7 +72,7 @@ AtlasMunitionsBeacon: {
 
 BelladonnaSpiritStaff: {
 	DisplayName: Belladonna Spirit Staff
-	Tooltip: Summons a cute forest spirit that flings magical toxic petals
+	Tooltip: Summons a cute forest spirit that flings magical petals
 }
 
 BlackHawkRemote: {
@@ -91,7 +90,7 @@ BorealisBomber: {
 	Tooltip:
 		'''
 		Summons aureus bombers to chase down your enemies
-		Aureus bombers explode violently on enemy impact
+		Aureus bombers explode violently on enemy impact, spreading the [cbuff:CalamityMod/AstralInfectionDebuff]
 		Does not consume minion slots
 		'''
 }
@@ -103,7 +102,7 @@ BrittleStarStaff: {
 		Summons a small brittle starfish that will dash through enemies until it shatters
 		Starfish will quickly regenerate after shattering
 		Holding <right> will swap starfish between dashing and circling you
-		When the starfish are circling, each one provides you with 4 defense
+		When the starfish are circling, each one provides you with {0} defense
 		'''
 }
 
@@ -144,8 +143,14 @@ CausticStaff: {
 	Tooltip:
 		'''
 		Summons a mini dragon to fight for you
-		The dragon inflicts several debilitating debuffs
-		The debuffs are only applied if you are holding a summon weapon or tool
+		The dragon attacks faster and inflicts more debuffs the more are summoned
+		'''
+	HoldShiftTooltip:
+		'''
+		Always inflicts [cbuff:OnFire3]
+		Inflicts [cbuff:CursedInferno] with 2 dragons summoned
+		Inflicts [cbuff:Venom] with 3 dragons summoned
+		Inflicts [cbuff:Ichor] and [cbuff:CalamityMod/MarkedforDeath] with 4 dragons summoned
 		'''
 }
 
@@ -205,8 +210,9 @@ CosmicImmaterializer: {
 	Tooltip:
 		'''
 		Summons a cosmic energy spiral to fight for you
-		The orb will fire swarms of homing energy bolts when enemies are detected by it
-		Requires 10 minion slots to use and there can only be one energy spiral
+		The spiral will fire swarms of homing energy bolts when enemies are detected by it
+		Struck enemies are cleansed by [cbuff:CalamityMod/MiracleBlight]
+		There can only be one energy spiral
 		'''
 }
 
@@ -224,11 +230,7 @@ CosmicViperEngine: {
 
 Cosmilamp: {
 	DisplayName: Cosmilamp
-	Tooltip:
-		'''
-		Summons a cosmic lantern above your head to fight for you
-		Each lantern takes up 2 minion slots
-		'''
+	Tooltip: Summons a cosmic lantern above your head to fight for you
 }
 
 CrimslimeStaff: {
@@ -292,7 +294,7 @@ DormantBrimseeker: {
 		'''
 		Summons a brimseeker to keep you company
 		Firing another brimseeker when all minion slots are filled summons a brimstone aura
-		The aura empowers your brimseeker summons and produces damaging fireballs
+		The aura empowers your brimseeker summons and produces damaging [cbuff:CalamityMod/BrimstoneFlames] fireballs
 		Only one aura can persist at a time
 		You could've sworn that they turned even scarier when you looked at their reflections in a mirror
 		'''
@@ -304,8 +306,7 @@ DragonbloodDisgorger: {
 		'''
 		Summons a skeletal dragon and her two children
 		Baby spits burst into blood orbs upon hitting an enemy
-		Picking up these blood orbs reduces the duration of [cbuff:PotionSickness]
-		Requires 6 minion slots to be summoned
+		Picking up these blood orbs reduces the duration of [cbuffplr:PotionSickness]
 		There can only be one family at a time
 		'''
 }
@@ -338,8 +339,7 @@ Endogenesis: {
 		The first mode makes it shoot sweeping lasers aimed at the enemy 
 		The second mode sacrifices its limbs to shoot out homing projectiles 
 		The third mode allows it to aggressively tackle its enemies 
-		The fourth mode makes the limbs function as endothermic flamethrowers 
-		Requires 10 minion slots to be summoned 
+		The fourth mode makes the limbs function as endothermic flamethrowers
 		There can only be one construct at a time
 		[c/B0FBFF:'Ice puns not included']
 		'''
@@ -356,11 +356,7 @@ EndoHydraStaff: {
 
 EntropysVigil: {
 	DisplayName: Entropy's Vigil
-	Tooltip:
-		'''
-		Summons a mini Calamitas Clone and her brothers to protect you
-		One minion trio takes two minion slots
-		'''
+	Tooltip: Summons a mini Calamitas Clone and her brothers to protect you
 }
 
 EtherealSubjugator: {
@@ -399,11 +395,7 @@ FleshOfInfidelity: {
 
 FlowersOfMortality: {
 	DisplayName: Flowers of Mortality
-	Tooltip:
-		'''
-		Summons five rainbow flowers over your head
-		The combined flowers consume three minion slots
-		'''
+	Tooltip: Summons five rainbow flowers over your head
 }
 
 ForgottenApexWand: {
@@ -493,6 +485,7 @@ HivePod: {
 		'''
 		{$CommonItemTooltip.Sentry}
 		Summons an astraglomerate to spawn glomerings at your enemies
+		      Glomerings spread the [cbuff:CalamityMod/AstralInfectionDebuff] on impact
 		'''
 }
 
@@ -512,9 +505,9 @@ InfectedRemote: {
 	Tooltip:
 		'''
 		Summons a humanoid-hybrid Plaguebringer, codenamed 'Virili', to aid you in battle
-		Virili requires 3 minion slots to summon, and can only be summoned once
+		Virili can only be summoned once
 		Virili uses a variety of attacks which she cycles through on a timer
-		All attacks spread the plague, as was her original design intention
+		All attacks spread the [cbuff:CalamityMod/Plague], as was her original design intention
 		'There's a single label on the back:
 		[c/1FFBFF:WARNING: Subject is extremely corrosive and contagious. Avoid direct contact.']
 		'''
@@ -524,7 +517,7 @@ KingofConstellationsTenryu: {
 	DisplayName: King of Constellations, Tenryū
 	Tooltip:
 		'''
-		Uses 4 minion slots to summon a pair of celestial dragons to fight for you
+		Summons a pair of celestial dragons to fight for you
 		There can only be one pair of dragons at a time
 		'The ones who will devour the Unmoving Star'
 		'''
@@ -539,7 +532,6 @@ LiliesOfFinality: {
 	DisplayName: Lilies of Finality
 	Tooltip:
 		'''
-		Requires 2 minion slots to use
 		Can only be summoned once
 		'Wake up'
 		'''
@@ -553,7 +545,7 @@ Metastasis: {
 		While the Sepulcher is active, brimstone hearts will begin to appear and orbit you
 		When too many hearts are present, it will interrupt attacking to attack the hearts instead
 		This happens more frequently depending on how many hearts are present
-		Requires 4 minion slots to use and can only be summoned once
+		Can only be summoned once
 		'''
 	Calamitas:
 		'''
@@ -589,7 +581,6 @@ MutatedTruffle: {
 		'''
 		Summons a younger fishron to irradiate your foes
 		The fishron will cycle between charging, projectiles, and a typhoon
-		Requires 3 minion slots to be used
 		There can only be one minion
 		'''
 }
@@ -599,7 +590,7 @@ OrthoceraShell: {
 	Tooltip:
 		'''
 		{$CommonItemTooltip.Sentry}
-		Summons a flying orthocera to spit acid streams at your enemies
+		Summons a flying orthocera to spit [cbuff:CalamityMod/Irradiated] and [cbuff:Venom] streams at your enemies
 		'''
 }
 
@@ -610,7 +601,7 @@ Perdition: {
 		{$CommonItemTooltip.Sentry}
 		Summons a beacon at the position of the mouse
 		When a target is manually selected via <right> it releases torrents of souls from below onto the target
-		Requires one sentry slot to summon, and only one beacon may exist at a time
+		Only one beacon may exist at a time
 		'''
 }
 
@@ -619,7 +610,7 @@ PlantationStaff: {
 	Tooltip:
 		'''
 		Summons a miniature Plantera to devastate enemies with floral fury
-		Occupies 3 minion slots and there can only be one Mini Plantera at a time
+		There can only be one Mini Plantera at a time
 		'''
 }
 
@@ -652,7 +643,7 @@ RustyBeaconPrototype: {
 	Tooltip:
 		'''
 		{$CommonItemTooltip.Sentry}
-		Summons a long-abandoned drone that passively emits irradiated waves
+		Summons a long-abandoned drone that passively emits [cbuff:CalamityMod/Irradiated] waves
 		'''
 }
 
@@ -662,7 +653,7 @@ SanctifiedSpark: {
 		'''
 		{$CommonItemTooltip.Sentry}
 		Summons a friendly immolator that will float towards you
-		Immolators rapidly fire homing flares at nearby enemies, before continuing to float near you again
+		Immolators rapidly fire homing flares of [cbuff:CalamityMod/HolyFlames] at nearby enemies, before continuing to float near you again
 		After firing, Immolators will fire one healing bolt at you for every 4 summon slots you have
 		'They might be a bit clingy, but at least they're warm'
 		'''
@@ -679,8 +670,9 @@ SarosPossession: {
 		'''
 		Summons a radiant aura harnessing the power of primordial light
 		Repeated summons increase the power of the aura
-		<left> with full summon slots to channel an eclipse beam that decays over time
-		This beam recharges when not in use
+		<left> with full summon slots to channel [ceffect/darksun:Totality Ray]
+		[ceffect/darksun:Totality Ray] decays while in use and recharges when not in use
+		[ceffect/darksun:'A ballet of light and shadow, torn from the sky']
 		'''
 }
 
@@ -691,11 +683,7 @@ ScabRipper: {
 
 ShellfishStaff: {
 	DisplayName: Shellfish Staff
-	Tooltip:
-		'''
-		Summons a shellfish to fight for you
-		Each shellfish takes 2 minion slots
-		'''
+	Tooltip: Summons a shellfish to latch onto enemies and inflict [cbuff:CalamityMod/ShellfishClaps]
 }
 
 Sirius: {
@@ -757,7 +745,7 @@ StaffOfNecrosteocytes: {
 
 StarspawnHelixStaff: {
 	DisplayName: Starspawn Helix Staff
-	Tooltip: Summons astral probes that inflict [cbuff:CalamityMod/AstralInfectionDebuff]
+	Tooltip: Summons astral probes that spread the [cbuff:CalamityMod/AstralInfectionDebuff]
 }
 
 StellarTorusStaff: {
@@ -783,7 +771,7 @@ TacticalPlagueEngine: {
 	DisplayName: Tactical Plague Engine
 	Tooltip:
 		'''
-		Summons a plague jet to pummel your enemies into submission
+		Summons a [cbuff:CalamityMod/Plague] jet to pummel your enemies into submission
 		Jets will fire bullets from your inventory
 		Sometimes shoots a missile instead of a bullet
 		50% chance to save ammo
@@ -802,7 +790,7 @@ TemporalUmbrella: {
 			- A cyan umbrella to beat down your foes with grace
 			- A lavender rifle to snipe those who stand in your way
 		Best of all, you get to wear a top hat
-		Requires 5 minion slots to use and there can only be one set of tools at a time
+		There can only be one set of tools at a time
 		'Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow'
 		'''
 }
@@ -865,7 +853,7 @@ ViridVanguard: {
 		Alternates between summoning axes and swords, both laced with a powerful poison
 		Axes orbit the player, dealing high damage at a close range
 		Swords chase down enemies with extreme precision, tearing them to shreds
-		All weapons inflict [cbuff:CalamityMod/Sage Poison], which becomes more powerful the more weapons are summoned
+		All weapons inflict [cbuff:CalamityMod/SagePoison], which becomes more powerful the more weapons are summoned
 		When all minion slots are full, <left> again to spin up a flurry of slashes aimed at your cursor
 		This ability has a five-second cooldown that requires holding this item
 		Shift-<right> this item in your inventory to change the rotation direction
@@ -876,11 +864,11 @@ VoidConcentrationStaff: {
 	DisplayName: Void Concentration Staff
 	Tooltip:
 		'''
-		Summons a foreboding aura that attacks by firing void orbs
-		Minion damage is increased by 5% while the aura is active
-		Requires three minion slots to use
-		There can only be one aura at a time
-		<right> to launch a black hole that grows in size
+		Surrounds you with dark energy, which makes all attacks deal 15% less damage
+		<right> to condense the energy onto a target, focusing your minions on them and creating homing beams
+		When the focused enemy takes damage from any source, they will be struck by additional dark energies
+		These dark energy are twice as strong when the strike was from a minion or sentry
+		After 10 seconds, the dark energy will resume orbiting you
 		'''
 }
 
@@ -890,7 +878,7 @@ VoidEaterMarionette: {
 		'''
 		Contains the power to control a miniature Devourer
 		Repeated summons increase the length and power of the Devourer
-		The Devourer attacks with [c/ff00ff:Divinity Devourer], [c/ff00ff:Faith Incinerator] and [c/ff00ff:Ultracosmic Maelstrom]
+		The Devourer attacks with [ceffect/dog:Divinity Devourer], [ceffect/dog:Faith Incinerator] and [ceffect/dog:Ultracosmic Maelstrom]
 		Can play fetch with dropped items 
 		Shift-<right> this item in your inventory when the Devourer has been spawned to prioritize fetching
 		'''
@@ -898,20 +886,12 @@ VoidEaterMarionette: {
 
 WarloksMoonFist: {
 	DisplayName: Warloks' Moon Fist
-	Tooltip:
-		'''
-		Summons a celestial fist to punch enemies for you
-		Requires 4 minion slots to use
-		'''
+	Tooltip: Summons a celestial fist to punch enemies for you
 }
 
 WitherBlossomsStaff: {
 	DisplayName: Wither Blossoms Staff
-	Tooltip:
-		'''
-		Summons four decaying flowers over your head
-		The combined flowers consume two minion slots
-		'''
+	Tooltip: Summons four decaying [cbuff:CalamityMod/Plague] flowers over your head
 }
 
 WulfrumController: {
@@ -921,16 +901,12 @@ WulfrumController: {
 		Summons a wulfrum droid to fight for you
 		Hold <right> while holding the remote to switch all of your drones between regular and supercharge mode
 		Supercharged droids will stop attacking and focus wulfrum energy onto you
-		Supercharged droids provide +0.5 HP/s life regen and 3 defense per droid
+		Supercharged droids provide +{0} HP/s life regen and {1} defense per droid
 		Can also be used to heal other players by keeping your mouse cursor close enough to them
 		'''
 }
 
 YharonsKindleStaff: {
 	DisplayName: Yharon's Kindle Staff
-	Tooltip:
-		'''
-		Summons a fiery draconid to fight for you
-		Requires 5 minion slots to use
-		'''
+	Tooltip: Summons a fiery draconid to fight for you
 }

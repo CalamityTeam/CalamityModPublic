@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.Pylons
 
         public override NPCShop.Entry GetNPCShopEntry()
         {
-            return new NPCShop.Entry(AssociatedItem, CalamityConditions.InCrag);
+            return null;
         }
 
         //Doesnt require npcs to function

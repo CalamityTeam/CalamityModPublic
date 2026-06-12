@@ -16,7 +16,6 @@ namespace CalamityMod.Tiles.Ores
         {
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileOreFinderPriority[Type] = 710;
             Main.tileShine[Type] = 2500;
@@ -37,10 +36,6 @@ namespace CalamityMod.Tiles.Ores
             this.RegisterBlendMergeWith(TileID.Stone);
             this.RegisterBlendMergeWith(TileID.Mud);
         }
-
-
-
-
 
         public override bool CanExplode(int i, int j)
         {

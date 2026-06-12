@@ -42,7 +42,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             velocity = position.DirectionTo(Main.MouseWorld) * velocity.Length()*2;
             type = ModContent.ProjectileType<BloodfireArrowProj>();
             Projectile shotArrow = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
-            shotArrow.noDropItem = true;
             shotArrow.tileCollide = false;
             (shotArrow.ModProjectile as BloodfireArrowProj).DisableEffects = true;
             shotArrow.Calamity().conditionalHomingRange = 175f;

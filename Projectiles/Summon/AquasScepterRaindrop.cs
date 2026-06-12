@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
@@ -10,6 +11,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             // Sets the amount of frames this minion has on its spritesheet
             Main.projFrames[Type] = 1;
+            ProjectileID.Sets.SentryShot[Type] = true;
         }
 
         public sealed override void SetDefaults() //If you want to change the damage of this projectile, just change the base damage of AquasScepter, the item. Note that this will affect the damage of AquasScepterTeslaAura as well, because the damage of said projectile is set as a multiple of the base damage at the bottom of AquasScepterCloud.cs

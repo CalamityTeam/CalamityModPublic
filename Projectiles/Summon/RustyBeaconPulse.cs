@@ -4,6 +4,7 @@ using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
@@ -13,6 +14,10 @@ namespace CalamityMod.Projectiles.Summon
         public new string LocalizationCategory => "Projectiles.Summon";
         public float LifetimeCompletion => 1f - Projectile.timeLeft / (float)RustyBeaconPrototype.PulseLifetime;
 
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.SentryShot[Type] = true;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 96;
@@ -21,6 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 30;
             Projectile.timeLeft = RustyBeaconPrototype.PulseLifetime;

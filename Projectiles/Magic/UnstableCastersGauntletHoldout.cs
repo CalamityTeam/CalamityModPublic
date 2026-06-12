@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Magic
 
                         // Spawn needle
                         if (Main.myPlayer == Projectile.owner)
-                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, (Projectile.velocity * 35f).RotatedBy(Main.rand.NextFloat(-0.07f, 0.07f)), ModContent.ProjectileType<VisNeedle>(), (int) (Projectile.damage * 0.8f), Projectile.knockBack, Projectile.owner);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, (Projectile.velocity * 35f).RotatedBy(Main.rand.NextFloat(-0.07f, 0.07f)), ModContent.ProjectileType<VisNeedle>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         shootingTimer = 0f;
                     }
                     else

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Systems.Collections;
 
 namespace CalamityMod.Buffs.DamageOverTime
 {
@@ -12,7 +13,7 @@ namespace CalamityMod.Buffs.DamageOverTime
     {
         public static DebuffData debuffData = new DebuffData()
         {
-            EnemyLostRegen = 400,
+            EnemyLostRegen = 350, //175 dps
             WaterDebuffScaling = 1
         };
         public override void SetStaticDefaults()
@@ -21,7 +22,7 @@ namespace CalamityMod.Buffs.DamageOverTime
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
             BuffID.Sets.LongerExpertDebuff[Type] = true;
-            BuffDatasets.DebuffDataset[Type] = debuffData;
+            CalamityBuffSets.DebuffDataset[Type] = debuffData;
         }
 
         public override void Update(Player player, ref int buffIndex)
@@ -70,7 +71,7 @@ namespace CalamityMod.Buffs.DamageOverTime
                 Particle smoke = new HeavySmokeParticle(npcSize, new Vector2(2f, 2f).RotatedByRandom(100) * Main.rand.NextFloat(0.3f, 0.7f), smokeColor, 40, Main.rand.NextFloat(0.3f, 0.4f) + (0.00000013f * npc.width * npc.height), 0.5f, Main.rand.NextFloat(-0.2f, 0.2f), false, required: true);
                 GeneralParticleHandler.SpawnParticle(smoke);
             }
-            Dust water = Dust.NewDustDirect(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, 360, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.4f);
+            Dust water = Dust.NewDustDirect(npc.position - new Vector2(2f), npc.width + 4, npc.height + 4, 390, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.4f);
             water.noGravity = true;
             water.velocity *= 0.75f;
             water.velocity.X = water.velocity.X * 0.75f;

@@ -1,5 +1,7 @@
 ﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -14,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             Item.staff[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<WindChilled>()];
         }
 
         public override void SetDefaults()
@@ -22,9 +25,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 74;
             Item.damage = 65;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 10;
-            Item.useTime = 23;
-            Item.useAnimation = 23;
+            Item.mana = 14;
+            Item.useAnimation = Item.useTime = 23;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 4.75f;

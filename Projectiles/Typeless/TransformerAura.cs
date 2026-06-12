@@ -90,19 +90,20 @@ namespace CalamityMod.Projectiles.Typeless
             Texture2D b2Texture = ModContent.Request<Texture2D>("CalamityMod/Particles/Light").Value;
             Color drawColor = bColor;
             float deathLerp = (float)Math.Pow(Utils.GetLerpValue(10, 300, Projectile.timeLeft), 2);
+            Vector2 baseDrawPos = Owner.Center - Main.screenPosition + new Vector2(0, Owner.gfxOffY);
 
             float bScale2 = 0.95f;
-            Main.EntitySpriteDraw(bTexture, Owner.Center - Main.screenPosition, null, drawColor with { A = 0 } * deathLerp, 0, bTexture.Size() * 0.5f, (bScale2 * rot2 * Projectile.scale * deathLerp) + 2.5f * (fullChargeMult - 1), SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(bTexture, baseDrawPos, null, drawColor with { A = 0 } * deathLerp, 0, bTexture.Size() * 0.5f, (bScale2 * rot2 * Projectile.scale * deathLerp) + 2.5f * (fullChargeMult - 1), SpriteEffects.None, 0);
 
-            Main.EntitySpriteDraw(b2Texture, Owner.Center - Main.screenPosition, null, new Color(30, 30, 30) * deathLerp, Main.rand.NextFloat(-2, 2), b2Texture.Size() * 0.5f, bScale2 * Projectile.scale * deathLerp * 1.2f * rot2, SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(b2Texture, Owner.Center - Main.screenPosition, null, Color.Black * deathLerp, Main.rand.NextFloat(-2, 2), b2Texture.Size() * 0.5f, bScale2 * Projectile.scale * deathLerp * 0.8f * rot2, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(b2Texture, baseDrawPos, null, new Color(30, 30, 30) * deathLerp, Main.rand.NextFloat(-2, 2), b2Texture.Size() * 0.5f, bScale2 * Projectile.scale * deathLerp * 1.2f * rot2, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(b2Texture, baseDrawPos, null, Color.Black * deathLerp, Main.rand.NextFloat(-2, 2), b2Texture.Size() * 0.5f, bScale2 * Projectile.scale * deathLerp * 0.8f * rot2, SpriteEffects.None, 0);
 
             for (int i = 0; i < 2; i++)
             {
                 float subsine = rot2;
                 float rot = (MathHelper.TwoPi * i / 3f) + Main.GlobalTimeWrappedHourly;
-                Main.EntitySpriteDraw(vTexture, Owner.Center - Main.screenPosition, null, drawColor with { A = 0 } * 0.08f * deathLerp, rot + MathHelper.ToRadians(-105), vTexture.Size() * 0.5f, new Vector2(1f, 0.96f) * 0.16f * deathLerp * fullChargeMult, SpriteEffects.None, 0);
-                Main.EntitySpriteDraw(vTexture, Owner.Center - Main.screenPosition, null, drawColor with { A = 0 } * 0.08f * deathLerp, rot * 2 + MathHelper.ToRadians(-105), vTexture.Size() * 0.5f, new Vector2(1f, 0.96f) * 0.157f * deathLerp * fullChargeMult, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(vTexture, baseDrawPos, null, drawColor with { A = 0 } * 0.08f * deathLerp, rot + MathHelper.ToRadians(-105), vTexture.Size() * 0.5f, new Vector2(1f, 0.96f) * 0.16f * deathLerp * fullChargeMult, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(vTexture, baseDrawPos, null, drawColor with { A = 0 } * 0.08f * deathLerp, rot * 2 + MathHelper.ToRadians(-105), vTexture.Size() * 0.5f, new Vector2(1f, 0.96f) * 0.157f * deathLerp * fullChargeMult, SpriteEffects.None, 0);
             }
             return false;
         }

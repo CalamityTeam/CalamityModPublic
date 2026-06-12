@@ -1,4 +1,5 @@
 ﻿using System;
+using CalamityMod.DataStructures;
 using CalamityMod.NPCs;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles;
@@ -19,7 +20,10 @@ namespace CalamityMod.Buffs.DamageOverTime
         // This deals 600 DPS per stack, is boosted by ranged stats and can supercrit.
         internal static int BaseDamage = 120;
         internal static int FramesPerDamageTick = 12;
-
+        public static DebuffData debuffData = new DebuffData()
+        {
+            EnemyLostRegen = BaseDamage
+        };
         public override void SetStaticDefaults()
         {
             Main.debuff[Type] = true;

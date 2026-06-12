@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Magic
             // The beam itself still stops on tiles, but its invisible "source" projectile ignores them.
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -1;
+            Projectile.localNPCHitCooldown = Lifetime / 2;
 
             // The beam lasts for only some frames and fades out over that time.
             Projectile.timeLeft = Lifetime;

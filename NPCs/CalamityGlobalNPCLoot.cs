@@ -14,6 +14,7 @@ using CalamityMod.Items.Placeables.Furniture.Paintings;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -266,11 +267,11 @@ namespace CalamityMod.NPCs
 
                 // Sand Elemental
                 // Elemental in a Bottle @ 20% Normal, 33.33% Expert+
-                // Rare Elemental in a Bottle @ 10% Normal, 16.67% Expert+
+                // Oasis Elemental in a Bottle @ 10% Normal, 16.67% Expert+
                 // Desert Key @ 10%
                 case NPCID.SandElemental:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<ElementalinaBottle>(), 5, 3));
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<RareElementalinaBottle>(), 10, 6));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<OasisElementalinaBottle>(), 10, 6));
                     npcLoot.Add(ItemID.DungeonDesertKey, 10);
                     break;
 
@@ -496,36 +497,6 @@ namespace CalamityMod.NPCs
                 case NPCID.BigMimicHallow:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<CelestialClaymore>(), 7, 4));
                     npcLoot.Add(ItemID.HallowedKey, 10);
-                    break;
-
-                // World Feeder
-                // 6-15 Cursed Flame INSTEAD OF 2-5 in Death Mode
-                // 4-8 Souls of Night in Death Mode
-                // Also let World Feeders drop their other loot in Death Mode, as only the Head contains loot normally but it may not be killed last
-                // Monster Meat is already dropped by all 3 segments
-                case NPCID.SeekerHead:
-                    npcLoot.RemoveWhere(
-                        // The following expression returns true if the following conditions are met:
-                        rule => rule is CommonDrop drop // If the rule is an CommonDrop instance
-                            && drop.itemId == ItemID.CursedFlame // And that instance drops a Cursed Flame
-                    );
-                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => !CalamityWorld.death, () => !CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 2, 5);
-                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 6, 15);
-                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death, CalamityUtils.GetTextValue("Condition.Drops.IsDeath"))).Add(ItemID.SoulofNight, 1, 4, 8);
-                    break;
-                case NPCID.SeekerBody:
-                case NPCID.SeekerTail:
-                    npcLoot.RemoveWhere(
-                        // The following expression returns true if the following conditions are met:
-                        rule => rule is CommonDrop drop // If the rule is an CommonDrop instance
-                            && drop.itemId == ItemID.CursedFlame // And that instance drops a Cursed Flame
-                    );
-                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => !CalamityWorld.death, () => !CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 2, 5);
-                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death)).Add(ItemID.CursedFlame, 1, 6, 15);
-                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, () => CalamityWorld.death, CalamityUtils.GetTextValue("Condition.Drops.IsDeath"))).Add(ItemID.SoulofNight, 1, 4, 8);
-
-                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death, false)).Add(ItemID.MeatGrinder, 200);
-                    npcLoot.DefineConditionalDropSet(DropHelper.If(() => CalamityWorld.death && Main.WindyEnoughForKiteDrops, false)).Add(ItemID.KiteWorldFeeder, 25);
                     break;
                 #endregion
 
@@ -1897,6 +1868,13 @@ DukeEditFailed:
         #region Pre Kill
         public override bool PreKill(NPC npc)
         {
+            if (npc.Calamity().preventDrops)
+            {
+                // This NEEDS to have an exception to function, so I put a very unlikely item to ever drop from an enemy
+                DropHelper.BlockEverything(ModContent.ItemType<AbyssalWarhammer>());
+                npc.value = 0;
+            }
+
             // Stop Eater of Worlds segments and Brain of Cthulhu Creepers from dropping partial loot in Rev+
             if (CalamityWorld.revenge && (CalamityNPCTypeSets.EaterOfWorlds.Contains(npc.type) || npc.type == NPCID.Creeper))
                 DropHelper.BlockDrops(ItemID.DemoniteOre, ItemID.ShadowScale, ItemID.CrimtaneOre, ItemID.TissueSample);
@@ -1914,6 +1892,9 @@ DukeEditFailed:
         #region On Kill Main Hook
         public override void OnKill(NPC npc)
         {
+            if (npc.Calamity().coinDropMult != 1)
+                npc.value = (int)(npc.value * npc.Calamity().coinDropMult);
+
             // Boss Rush on-kill effects
             if (BossRushEvent.BossRushActive)
             {

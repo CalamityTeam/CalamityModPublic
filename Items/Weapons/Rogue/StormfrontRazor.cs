@@ -1,6 +1,8 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.SunkenSea;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -17,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetStaticDefaults()
         {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<StaticDischarge>()];
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
@@ -35,14 +38,12 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useAnimation = 20;
             Item.useTime = 20;
             Item.damage = 38;
+            Item.crit = 8;
             Item.knockBack = 7f;
             Item.shoot = ModContent.ProjectileType<StormfrontRazorProjectile>();
             Item.shootSpeed = 8.2f;
             Item.DamageType = RogueDamageClass.Instance;
         }
-
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
 
         public override float StealthDamageMultiplier => 1.2f;
         public override float StealthVelocityMultiplier => 1.5f;

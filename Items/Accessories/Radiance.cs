@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
@@ -7,14 +8,23 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
     [LegacyName("AstralArcanum", "Purity")]
-    public class Radiance : ModItem, ILocalizedModType, IHoldShiftTooltipItem
+    public class Radiance : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
+
+        public static int MinRegenBoost => 2;
+        public static int MaxRegenBoost => 8;
+        public static int ReducedDoTAmount => 20;
+        public static int PostDebuffRegenTimeBoost => CalamityUtils.SecondsToFrames(10);
+        public static float RegenTimeBoost => 1;
+        public static float NaturalRegenPower => 1.5f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MinRegenBoost.ToRegenPerSecond(),MaxRegenBoost.ToRegenPerSecond(),ReducedDoTAmount.ToRegenPerSecond(), (NaturalRegenPower - 1f).ToPercent(),RegenTimeBoost.ToPercent());
         public override void SetStaticDefaults()
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
@@ -25,7 +35,6 @@ namespace CalamityMod.Items.Accessories
         {
             Item.width = 18;
             Item.height = 44;
-            Item.defense = 5;
             Item.accessory = true;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             Item.rare = ModContent.RarityType<BurnishedAuric>();
@@ -34,19 +43,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.statLifeMax2 += 70;
-            if (!player.HasBuff(BuffID.Honey))
-                player.AddBuff(BuffID.Honey, 2);
-
-            // Abyss light, debuff near-immunity, life regen effects, and massively enhances debuff halving
             modPlayer.purity = true;
-
-            // Inherits effects from Honey Dew and Living Dew
-            modPlayer.honeyDewHalveDebuffs = true;
-            modPlayer.livingDewHalveDebuffs = true;
-
-            // Add light if the other accessories aren't equipped and visibility is turned on
-            if (!(modPlayer.rOoze || modPlayer.aAmpoule) && !hideVisual)
+            if (!hideVisual)
                 Lighting.AddLight(player.Center, new Vector3(1.32f, 1.32f, 1.82f));
         }
 
@@ -56,8 +54,7 @@ namespace CalamityMod.Items.Accessories
             var player = Main.LocalPlayer;
             if (player != null)
             {
-                list.FindAndReplace("[REGEN]", player.Calamity().purityRegen.ToString("0.##"));
-                list.FindAndReplace("[DEFENSE]", player.Calamity().jewelBonusDefense.ToString());
+                list.FindAndReplace("[REGEN]", ((int)MathF.Round(MathHelper.Lerp(MaxRegenBoost, MinRegenBoost, (player.statLife / (float)player.statLifeMax2)))).ToRegenPerSecond());
             }
         }
 

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<SilencingSheath>().
                 AddIngredient<RuinMedallion>().
-                AddIngredient<MeldConstruct>(5).
+                AddIngredient<MeldBlob>(14). //Consistent with Vanilla lunar wing costs
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

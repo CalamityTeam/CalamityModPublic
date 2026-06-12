@@ -91,12 +91,14 @@ namespace CalamityMod
         public static string ToMphps(this float velocity) => Round(velocity * 60f * 216000f / 42240f, "N2");
         public static string ToTiles(this float pixel) => Round(pixel / 16f);
 
-        public static string ToRegenPerSecond(this int regen) => Round(regen * 0.5f, "N2");
+        public static string ToRegenPerSecond(this float partialRegen) => Round(partialRegen * 0.5f, "N2");
+        public static string ToRegenPerSecond(this int regen, float partialRegen = 0f) => Round((regen + partialRegen) * 0.5f, "N2");
         public static string ToJumpSpeedPercent(this float boost) => Round(boost * 20f, "N2");
         public static string ToStealth(this float stealth) => Round(stealth * 100f, "N0");
 
         public static string GetChanceFromDenominator(this int denominator) => ToPercent(1 / (float)denominator);
 
+        public static string ToPercent(this int percent) => (percent * 100).ToString();
         public static string ToPercent(this float percent, string precision = "N1") => Round(percent * 100f, precision);
         public static string ToPercent(this double percent, string precision = "N1") => Round(percent * 100D, precision);
         // Double-rounded for proper digit cutoffs

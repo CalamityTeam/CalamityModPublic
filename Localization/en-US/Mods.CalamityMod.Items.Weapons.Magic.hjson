@@ -10,7 +10,7 @@ AbyssShocker: {
 
 AcidGun: {
 	DisplayName: Acid Gun
-	Tooltip: Releases three streams of acid
+	Tooltip: Releases three streams of irradiated acid
 }
 
 AetherfluxCannon: {
@@ -20,16 +20,12 @@ AetherfluxCannon: {
 
 AethersWhisper: {
 	DisplayName: Aether's Whisper
-	Tooltip:
-		'''
-		Inflicts long-lasting shadowflame and splits on tile hits
-		Projectiles gain damage as they travel
-		'''
+	Tooltip: Fires void beams that gain damage as they travel and split on tile hits
 }
 
 AlulaAustralis: {
 	DisplayName: Alula Australis
-	Tooltip: Fires a beautiful aurora that inflicts [cbuff:CalamityMod/AstralInfectionDebuff] trailed by a star shower
+	Tooltip: Fires a beautiful aurora that spreads the [cbuff:CalamityMod/AstralInfectionDebuff] and is trailed by a star shower
 }
 
 AlphaDraconis: {
@@ -122,12 +118,12 @@ ArtAttack: {
 
 AstralachneaStaff: {
 	DisplayName: Astralachnea Staff
-	Tooltip: Fires a spread of homing astral spider fangs that inflict [cbuff:CalamityMod/AstralInfectionDebuff]
+	Tooltip: Fires a spread of homing astral spider fangs that spread the [cbuff:CalamityMod/AstralInfectionDebuff]
 }
 
 AstralStaff: {
 	DisplayName: Astral Staff
-	Tooltip: Summons a large crystal from the sky that has a large area of effect on impact and inflicts [cbuff:CalamityMod/AstralInfectionDebuff]
+	Tooltip: Summons a large crystal from the sky that has a large area of effect on impact and spreads the [cbuff:CalamityMod/AstralInfectionDebuff]
 }
 
 Atlantis: {
@@ -166,16 +162,16 @@ BloodBath: {
 
 BrimroseStaff: {
 	DisplayName: Brimrose Staff
-	Tooltip: Fires a spread of brimstone beams
+	Tooltip: Fires a spread of splitting brimstone beams
 }
 
 BurningSea: {
 	DisplayName: Burning Sea
 	Tooltip:
 		'''
-		Conjures a massive brimstone fireball that hovers near you and incinerates foes
+		Conjures a massive fireball that hovers near you and incinerates foes with [cbuff:CalamityMod/BrimstoneFlames]
 		Holding the fireball for too long causes it to burn out
-		This burns you with Brimstone Flames and gives a long delay before another can be cast
+		This sets you alight with [cbuffplr:CalamityMod/BrimstoneFlames] and gives a long delay before another can be cast
 		'''
 }
 
@@ -183,7 +179,7 @@ ChronomancersScythe: {
 	DisplayName: Chronomancer's Scythe
 	Tooltip:
 		'''
-		Rapidly fires icicles
+		Rapidly fires icicles that cause [cbuff:CalamityMod/TimeDistortion] on enemies
 		Press <right> to swing the scythe around you, creating a clock pattern of homing icicles
 		Direct hits with the scythe have a chance to spawn clocks
 		Collecting the clocks increases movement speed and acceleration by 5% for each clock collected
@@ -202,9 +198,10 @@ CoralSpout: {
 		'''
 		Casts a shotgun-like blast of coral shards
 		Keep the attack button held down to narrow the spread
+		Coral shards ignore 5 points of enemy defense
 		Fully charging the attack releases a single, bigger chunk of coral that sticks to enemies
 		Grabbing the chunk of coral after it falls from the enemy replenishes 150 mana
-		The mana-charged coral also provides a buff that increases the coral's damage and the convergence speed
+		The mana-charged coral also provides the [cbuffplr:CalamityMod/CoralSymbiosis] buff
 		[c/5C95A1:'Knowledge is important, and the Old Sea Kingdom's many scribes knew it had to be preserved at any cost.]
 		[c/5C95A1:Their libraries were much larger than most, because of the water-proof stone tablets occupying them.']
 		'''
@@ -238,8 +235,7 @@ DeathValleyDuster: {
 	Tooltip:
 		'''
 		Casts an enchanted blast of sand that passes through enemies and tiles
-		Casting this spell at max mana while without mana sickness will cause it to give you and any player it hits the Sand's Wind Buff
-		The {$Buffs.SandsWindBuff.DisplayName} buff increases your defense by {0}, damage by {1}%, and greatly buffs mana regen
+		Casting this spell at max mana while without mana sickness will cause it to give you and any player it hits the [cbuffplr:CalamityMod/SandsWindBuff] buff
 		'''
 }
 
@@ -411,6 +407,7 @@ HeliumFlash: {
 	Tooltip:
 		'''
 		Launches volatile star cores which erupt into colossal fusion blasts
+		Always critically strikes, with critical strike chance increasing critical strike damage
 		'The power of a galaxy, if only for mere moments'
 		'''
 }
@@ -436,7 +433,7 @@ Heresy: {
 
 HyperdeathRiftScepter: {
 	DisplayName: Hyperdeath Rift Scepter
-	Tooltip: Tears space in two with [c/ff00ff:Hyperdeath Rift Ripper]
+	Tooltip: Tears space in two with [ceffect/dog:Hyperdeath Rift Ripper]
 }
 
 HyphaeRod: {
@@ -511,7 +508,7 @@ MadAlchemistsCocktailGlove: {
 	Tooltip:
 		'''
 		Fires a variety of high-velocity flasks
-		Press <right> to throw a prismatic flask that inflicts Elemental Mix
+		Press <right> to throw a prismatic flask that inflicts [cbuff:CalamityMod/ElementalMix]
 		Red flasks explode violently
 		Blue flasks contain poison gas
 		Green flasks summon lunar flares
@@ -592,7 +589,11 @@ Omicron: {
 
 ParasiticSceptor: {
 	DisplayName: Parasitic Scepter
-	Tooltip: Fires a spread of radioactive water leeches that latch onto enemies, increasing damage over time per leech
+	Tooltip:
+		'''
+		Fires a spread of radioactive water leeches that latch onto enemies
+		Deals stacking [cbuff:CalamityMod/Irradiated] damage over time per leech
+		'''
 }
 
 PhantasmalFury: {
@@ -604,7 +605,7 @@ PhoenixFlameBarrage: {
 	DisplayName: Phoenix Flame Barrage
 	Tooltip:
 		'''
-		Casts a barrage of fire from the sky
+		Casts a barrage of [cbuff:CalamityMod/Dragonfire] from the sky
 		'Baptism by draconic fire'
 		'''
 }
@@ -616,7 +617,7 @@ Photosynthesis: {
 
 PlagueStaff: {
 	DisplayName: Plague Staff
-	Tooltip: Fires a tight spread of 4 plague fangs
+	Tooltip: Fires a tight spread of 4 [cbuff:CalamityMod/Plague] fangs
 }
 
 PlasmaRifle: {
@@ -634,7 +635,7 @@ PlasmaRod: {
 		'''
 		Casts a low-damage plasma bolt
 		Shooting a tile will cause several bolts with increased damage to fire
-		Shooting an enemy will inflict shadowflame
+		Shooting an enemy will inflict [cbuff:CalamityMod/Shadowflame]
 		'''
 }
 
@@ -648,8 +649,7 @@ PrimordialAncient: {
 	Tooltip:
 		'''
 		Casts five primordial sand blasts that converge at your cursor after a moment and create a giant explosion
-		Casting this spell at max mana while without mana sickness will cause it to give you and any player it hits the {$Buffs.AeolianEarthBuff.DisplayName} buff
-		The {$Buffs.AeolianEarthBuff.DisplayName} buff increases your damage reduction by {0}%, damage by {1}%, and massively buffs mana regen
+		Casting this spell at max mana while without mana sickness will cause it to give you and any player it hits the [cbuffplr:CalamityMod/AeolianEarthBuff] buff
 		'''
 }
 
@@ -657,9 +657,8 @@ PrimordialEarth: {
 	DisplayName: Primordial Earth
 	Tooltip:
 		'''
-		Casts two enchanted blasts of sand that coverge with each other and explode
-		Casting this spell at max mana while without mana sickness will cause it to give you and any player it hits the {$Buffs.SandsWindBuff.DisplayName} buff
-		The {$Buffs.SandsWindBuff.DisplayName} buff increases your defense by {0}, damage by {1}%, and greatly buffs mana regen
+		Casts two enchanted blasts of sand that converge with each other and explode
+		Casting this spell at max mana while without mana sickness will cause it to give you and any player it hits the [cbuffplr:CalamityMod/SandsWindBuff] buff
 		'''
 }
 
@@ -697,8 +696,8 @@ RecitationoftheBeast: {
 	DisplayName: Recitation of the Beast
 	Tooltip:
 		'''
-		Summons beast scythes around the player in a small circle,
-		before firing toward the cursor and home in to nearby enemies
+		Summons beast scythes around the player in a small circle
+		Beast scythes fire toward the cursor and home in to nearby enemies
 		'''
 }
 
@@ -727,7 +726,7 @@ SanguineFlare: {
 		'''
 		Charges up a sanguine flare that gains power over time
 		When striking an enemy, this flare causes a bloodsplosion and splits into blood orbs
-		Picking up these blood orbs reduces the duration of [cbuff:PotionSickness]
+		Picking up these blood orbs reduces the duration of [cbuffplr:PotionSickness]
 		'''
 }
 
@@ -781,6 +780,7 @@ SHPC: {
 		{0}
 		Press <right> to use the machine as a vacuum, pulling in lingering souls
 		Once released, a torrent of soul lasers is discharged scaling with the number of souls pulled in
+		Shift-<right> this item in your inventory to eject the currently loaded Soul
 		'''
 	// These are the soul effect descriptions, the number is the item ID of the soul
 	NoSoul: "[c/808080:There is currently no soul type injected into the weapon]"
@@ -831,7 +831,7 @@ StaffofBlushie: {
 
 StarShower: {
 	DisplayName: Star Shower
-	Tooltip: Casts a spread of astral stars from the sky that converge at the cursor
+	Tooltip: Casts a spread of astral stars from the sky that converge at the cursor and spread the [cbuff:CalamityMod/AstralInfectionDebuff]
 }
 
 SubsumingVortex: {
@@ -843,6 +843,7 @@ SubsumingVortex: {
 		When enemies are near the vortex, it sends multiple fast-moving smaller vortices towards them
 		Releasing <right> fires the vortex towards the mouse if enough time has passed
 		Damage scales based on how long the vortex was held out
+		Struck enemies are completely consumed by [cbuff:CalamityMod/MiracleBlight]
 		'''
 }
 
@@ -859,7 +860,7 @@ TacticiansTrumpCard: {
 	DisplayName: Tactician's Trump Card
 	Tooltip:
 		'''
-		Fires a sword beam that electrifies enemies on hit
+		Fires an [cbuff:Electrified] sword beam
 		'Faint memories of a Princess from the future cross your mind...'
 		'''
 }
@@ -961,8 +962,8 @@ UnstableCastersGauntlet: {
 		'''
 		[c/DBD7CA:Ordo] sigils always land critical strikes
 		[c/ABB6D4:Perdito] sigils ignore 25 points of enemy defense
-		[c/E89B8E:Ignis] sigils inflict Daybroken
-		[c/8ECBE8:Aqua] sigils inflict Crush Depth
+		[c/E89B8E:Ignis] sigils inflict [cbuff:CalamityMod/Daybroken]
+		[c/8ECBE8:Aqua] sigils inflict [cbuff:CalamityMod/CrushDepth]
 		[c/E1E88E:Aer] sigils boast substantial knockback
 		[c/ACCF9F:Terra] sigils split into sharp rocks
 		'''
@@ -989,7 +990,11 @@ Vehemence: {
 
 VenusianTrident: {
 	DisplayName: Venusian Trident
-	Tooltip: Casts an infernal trident that erupts into a gigantic explosion of fire and magma shards
+	Tooltip:
+		'''
+		Casts an infernal trident that erupts into a gigantic explosion of fire and magma shards
+		Always critically strikes, with critical strike chance increasing critical strike damage
+		'''
 }
 
 Vesuvius: {
@@ -1007,7 +1012,7 @@ Viscera: {
 		'''
 		Fires a rapid barrage of piercing blood beams
 		The first enemy struck by each beam will burst into blood orbs
-		Picking up these blood orbs reduces the duration of [cbuff:PotionSickness]
+		Picking up these blood orbs reduces the duration of [cbuffplr:PotionSickness]
 		Each successive beam in the barrage deals more damage
 		The last beam of the barrage instead explodes upon hitting an enemy
 		'''
@@ -1018,7 +1023,7 @@ VitriolicViper: {
 	Tooltip:
 		'''
 		Charges up and fires a slithering beam of radiation
-		If fully charged, instead fires a huge spread of short range fangs which quickly vanish
+		If fully charged, instead fires a huge spread of short range fangs
 		'''
 }
 
@@ -1027,8 +1032,8 @@ VividClarity: {
 	Tooltip:
 		'''
 		Fires five randomized rays of exo-energy towards the cursor
-		On enemy and tile hits, beams either explode into a big flash,
-		summon an additonal laser from the sky, or split into energy orbs
+		Enemy and tile hits either cause a big flash explosion, an additional laser from the sky, or split into energy orbs
+		Struck enemies are liquified by [cbuff:CalamityMod/MiracleBlight]
 		'Its majesty inspires a stroke of unparalleled genius'
 		'''
 }
@@ -1100,6 +1105,6 @@ YharimsCrystal: {
 	DisplayName: Yharim's Crystal
 	GFBName: yermes christal
 	Tooltip: "[GFB]"
-	TooltipNormal: Fires draconic beams of total annihilation
+	TooltipNormal: Fires [cbuff:CalamityMod/Dragonfire] beams of total annihilation
 	TooltipGFB: ...throughs a pice of dnimite
 }

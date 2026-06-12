@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 Projectile.Center = Owner.Center;
                 Projectile.extraUpdates = (Projectile.Calamity().stealthStrike ? 22 : 5);
                 Projectile.rotation += Main.rand.NextFloat(-4, 4);
-                Vector2 velocity = Utils.DirectionTo(Owner.Center, Owner.Calamity().mouseWorld) * 9;
+                Vector2 velocity = Utils.DirectionTo(Owner.Center, Owner.Calamity().mouseWorld) * 9 * Owner.Calamity().rogueVelocity;
                 Projectile.velocity = velocity;
 
                 if (Projectile.Calamity().stealthStrike)
@@ -300,11 +300,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 
                 // Do NOT change the damage of these here, do it on the on hit
                 Projectile orb = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, (vel * 7f).RotatedBy(MathHelper.PiOver4 / 2), ModContent.ProjectileType<PulseGrenadeOrb>(), Projectile.damage, 0f, Owner.whoAmI, 0, spin, i);
-                orb.Calamity().stealthStrike = Projectile.Calamity().stealthStrike;
                 if (Projectile.Calamity().stealthStrike)
                 {
                     Projectile orb2 = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, (vel * 10f), ModContent.ProjectileType<PulseGrenadeOrb>(), Projectile.damage, 0f, Owner.whoAmI, 0, -spin, i + 1);
-                    orb2.Calamity().stealthStrike = Projectile.Calamity().stealthStrike;
                 }
             }
 
@@ -338,15 +336,17 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             float fade = 1;
             float reformMult = Utils.GetLerpValue(1, 0, Projectile.Opacity) * 3.5f;
             Texture2D tex = pullPin ? ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/DraedonsArsenal/PulseGrenade").Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/DraedonsArsenal/PulseGrenadeNoPin").Value;
+            Vector2 baseDrawPos = Projectile.Center - Main.screenPosition + 
+                ((!flung || catching) ? new Vector2(0, Owner.gfxOffY) : Vector2.Zero);
             for (int i = 0; i < 15; i++)
             {
                 Color auraColor = col with { A = 0 } * 0.25f * fade * fxScale;
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 15f).ToRotationVector2() * 2 * Math.Max(fxScale, reformMult);
-                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition + drawOffset, null, auraColor, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
+                Main.EntitySpriteDraw(tex, baseDrawPos + drawOffset, null, auraColor, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
             }
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, lightColor * fade * Projectile.Opacity, Projectile.rotation, tex.Size() / 2f, Projectile.scale, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(tex, baseDrawPos, null, lightColor * fade * Projectile.Opacity, Projectile.rotation, tex.Size() / 2f, Projectile.scale, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/DraedonsArsenal/PulseGrenadeGlow").Value, Projectile.Center - Main.screenPosition, null, Color.White * fade * Projectile.Opacity, Projectile.rotation, tex.Size() * 0.5f, 1f, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/DraedonsArsenal/PulseGrenadeGlow").Value, baseDrawPos, null, Color.White * fade * Projectile.Opacity, Projectile.rotation, tex.Size() * 0.5f, 1f, (!flung ? Owner.direction : Projectile.direction) != 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             return false;
         }
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)

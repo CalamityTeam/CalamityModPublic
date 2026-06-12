@@ -7,6 +7,7 @@ using CalamityMod.Items.Placeables.Abyss;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -20,6 +21,7 @@ using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.Abyss
 {
+    [HeavyKnockbackWhitelisted]
     public class ReaperShark : ModNPC
     {
         public static Asset<Texture2D> ManTexture;
@@ -101,10 +103,14 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            bool phase1 = NPC.life > NPC.lifeMax * 0.5;
-            bool phase2 = NPC.life <= NPC.lifeMax * 0.5;
+            bool phase1 = NPC.localAI[2] != 5 && NPC.life > NPC.lifeMax * 0.5;
+            bool phase2 = NPC.localAI[2] == 5 || NPC.life <= NPC.lifeMax * 0.5;
             bool phase3 = NPC.life <= NPC.lifeMax * 0.1;
             NPC.chaseable = hasBeenHit;
+            if (hasBeenHit == false)
+                NPC.TargetClosest(false);
+            // If fished out, get mad
+            if (Main.player[NPC.target].ownedProjectileCounts[ModContent.ProjectileType<TrustyOldBobber>()] > 0) { NPC.localAI[2] = 5; hasBeenHit = true; }
             if (NPC.soundDelay <= 0)
             {
                 NPC.soundDelay = 360;

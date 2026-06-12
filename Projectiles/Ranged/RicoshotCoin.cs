@@ -34,21 +34,22 @@ namespace CalamityMod.Projectiles.Ranged
         // Because ricoshots have slight frame delays for dramatic effect, setting this too high will make them miss hilariously.
         public static float SuperpredictionRatio = 0.1f;
 
-        // The first copper coin struck adds +70% damage. Copper coins beyond the first add +20% damage.
-        // Maximum: 4 copper coins = +130%
+        // The first copper coin struck adds +125% damage. Copper coins beyond the first add +25% damage.
+        // Maximum: 4 copper coins = +200%
         //
-        // The copper numbers are intentionally significantly lower because Crackshot Colt is pre-boss.
-        // That, and the mechanic will always be available because they're dirt cheap. Killing a single enemy lets you perform dozens more ricoshots.
-        public static float CopperBonus = 0.7f;
-        public static float CopperMulticoinBonus = 0.2f;
+        // Cost is virtually unaccounted for as even in early game, 4 copper coins is dirt cheap.
+        // Despite this, the gimmick exclusively used for early game Crackshot Colt needs to not be outperformed by just firing normally.
+        // Therefore, its bonuses cannot drop much lower than this despite being significantly cheaper.
+        public static float CopperBonus = 1.25f;
+        public static float CopperMulticoinBonus = 0.25f;
 
-        // The first silver coin struck adds +150% damage. Silver coins beyond the first add +50% damage.
-        // Maximum: 4 silver coins = +300%
+        // The first silver coin struck adds +175% damage. Silver coins beyond the first add +50% damage.
+        // Maximum: 4 silver coins = +325%
         //
         // Midas Prime uses coins from the piggy bank, so you will almost always be using gold.
         // Silver is not much worse than gold, because if you're broke and can't use gold you shouldn't be significantly penalized.
         // However, spending multiple silver on a multi-ricoshot is not too expensive, so the multicoin bonus is much lower.
-        public static float SilverBonus = 1.5f;
+        public static float SilverBonus = 1.75f;
         public static float SilverMulticoinBonus = 0.5f;
 
         // The first gold coin struck adds +200% damage. Gold coins beyond the first add +85% damage.

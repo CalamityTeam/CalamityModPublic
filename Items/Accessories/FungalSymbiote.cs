@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.CustomRecipes;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,9 +13,18 @@ namespace CalamityMod.Items.Accessories
         {
             Item.width = 38;
             Item.height = 36;
-            Item.value = CalamityGlobalItem.RarityOrangeBuyPrice;
+            Item.value = Item.buyPrice(gold: 15); // Sold by Shady Salesman
             Item.rare = ItemRarityID.Orange;
             Item.accessory = true;
+        }
+
+        public override void UpdateInventory(Player player)
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient && !RecipeUnlockHandler.HasFoundFungalSymbiote)
+            {
+                RecipeUnlockHandler.HasFoundFungalSymbiote = true;
+                CalamityNetcode.SyncWorld();
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

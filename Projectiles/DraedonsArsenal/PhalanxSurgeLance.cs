@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Player Owner = Main.player[Projectile.owner];
             float distMult = Utils.GetLerpValue(400, 10, Utils.Distance(target.Center, Projectile.Center), true);
             Vector2 launchVel = startVel;
-            target.MoveNPC(launchVel, 10 + 35 * distMult, true);
+            target.MoveNPC(launchVel, 10 + 35 * distMult, true, Owner);
 
             if (Projectile.numHits == 0)
             {

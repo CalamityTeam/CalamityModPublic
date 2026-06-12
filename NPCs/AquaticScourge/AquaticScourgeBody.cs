@@ -105,8 +105,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                     NPC.timeLeft *= 20;
                     NPC.npcSlots = 16f;
                     NPC.damage = NPC.defDamage;
-                    CalamityGlobalNPC.BossKillTimes.TryGetValue(NPC.type, out int revKillTime);
-                    calamityGlobalNPC.KillTime = revKillTime;
+                    calamityGlobalNPC.KillTime = CalamityNPCSets.BossKillTimes[NPC.type];
                     calamityGlobalNPC.newAI[0] = 1f;
                     nonHostile = false;
                     NPC.chaseable = true;
@@ -154,16 +153,6 @@ namespace CalamityMod.NPCs.AquaticScourge
                 NPC.Calamity().CurrentlyEnraged = true;
                 enrageScale += 2f;
             }
-
-            // Adjust slowing debuff immunity
-            bool immuneToSlowingDebuffs = getFuckedAI;
-            NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<GalvanicCorrosion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
             // Fire teeth
             if (calamityGlobalNPC.newAI[0] == 1f && (!phase3 || phase4))

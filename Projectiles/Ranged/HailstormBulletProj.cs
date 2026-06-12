@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Ranged
                 SoundEngine.PlaySound(crit with { Volume = 0.35f, Pitch = 1f }, Projectile.Center);
 
                 if (!target.boss)
-                    target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+                    target.AddBuff(BuffID.Frozen, 120);
 
                 int points = 6;
                 float radians = MathHelper.TwoPi / points;

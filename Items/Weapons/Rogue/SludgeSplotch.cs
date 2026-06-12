@@ -2,6 +2,7 @@
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
+using CalamityMod.Systems.Collections;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -11,6 +12,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class SludgeSplotch : RogueWeapon
     {
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Slimed];
+        }
         public override void SetDefaults()
         {
             Item.width = 32;

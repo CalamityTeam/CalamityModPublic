@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.manaOverloader = true;
-            player.statManaMax2 += 50;
+            player.statManaMax2 += 40;
         }
     }
 }

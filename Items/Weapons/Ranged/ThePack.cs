@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.height = 46;
             Item.damage = 1000;
             Item.DamageType = DamageClass.Ranged;
+            Item.crit = 8;
             Item.useTime = Item.useAnimation = 53;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
@@ -33,9 +34,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ModContent.RarityType<CosmicPurple>();
             Item.Calamity().donorItem = true;
         }
-
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
 
         public override Vector2? HoldoutOffset() => new Vector2(-40, 0);
 

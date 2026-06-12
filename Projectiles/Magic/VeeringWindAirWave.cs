@@ -34,6 +34,11 @@ namespace CalamityMod.Projectiles.Magic
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 0.3f);
+            if (Collision.SolidCollision(Projectile.Center, Projectile.width / 2, Projectile.height / 2))
+            {
+                Projectile.velocity *= 0.97f;
+                Projectile.timeLeft--;
+            }
         }
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)

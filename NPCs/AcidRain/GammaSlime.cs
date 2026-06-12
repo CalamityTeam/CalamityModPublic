@@ -15,6 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AcidRain
 {
+    [HeavyKnockbackWhitelisted]
     public class GammaSlime : ModNPC
     {
         public float DustAngleMultiplier1;

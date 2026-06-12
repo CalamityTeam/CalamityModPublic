@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < Main.maxNPCs; i++)
                     {
                         NPC target = Main.npc[i];
-                        if (target != null && target.active && target.CanBeMoved(true) && Collision.CanHit(Projectile.Center, 1, 1, target.Center, 1, 1) && Vector2.Distance(target.Center, Projectile.Center) < maxPullDistance)
+                        if (target != null && target.active && target.CanBeMoved() && Collision.CanHit(Projectile.Center, 1, 1, target.Center, 1, 1) && Vector2.Distance(target.Center, Projectile.Center) < maxPullDistance)
                         {
                             if (target.whoAmI == stuckNPC)
                                 continue;
@@ -254,8 +254,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.localAI[1] = 5; // Reset firing state
             if (flungState != -1f)
             {
-                SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/PumpkinExplode1") with { Pitch = 0f, Volume = 0.75f }, Projectile.Center);
-                SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Item/FlakKrakenShoot") with { Pitch = 0f, Volume = 0.6f }, Projectile.Center);
+                SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/PumpkinExplode1") with { Pitch = 0f, Volume = 0.6f }, Projectile.Center);
+                SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Item/FlakKrakenShoot") with { Pitch = 0f, Volume = 0.5f }, Projectile.Center);
 
                 if (Main.myPlayer == Projectile.owner)
                 {
@@ -384,7 +384,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                 Vector2 grenadePos = Owner.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, grenadeRot) + new Vector2(Owner.direction == 1 ? 5 : 5, Owner.direction == 1 ? -38 : 22).RotatedBy(grenadeRot);
 
-                drawPosition = grenadePos - Main.screenPosition;
+                drawPosition = grenadePos - Main.screenPosition + new Vector2(0, Owner.gfxOffY);
                 drawRotation = grenadeRot + (Owner.direction == 1 ? MathHelper.ToRadians(180) : 0);
             }
 

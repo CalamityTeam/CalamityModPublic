@@ -27,6 +27,12 @@ namespace CalamityMod.Projectiles.Magic
         public float Windup { get; set; } = StarterWinup;
         public Color EffectsColor { get; set; } = Color.MediumVioletRed;
 
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            Projectile.DamageType = DamageClass.Magic;
+        }
+
         public override void KillHoldoutLogic()
         {
             if (Owner.CantUseHoldout() && PostFireCooldown <= 0)

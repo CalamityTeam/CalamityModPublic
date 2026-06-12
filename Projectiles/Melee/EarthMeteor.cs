@@ -45,7 +45,6 @@ namespace CalamityMod.Projectiles.Melee
             float targetDist = Vector2.Distance(Owner.Center, Projectile.Center);
             NPC targeted = Projectile.ai[1] == 0 ? Owner.ClampedMouseWorld().ClosestNPCAt(1000) : Main.npc[(int)Projectile.ai[1]];
 
-            Projectile.scale = 1.2f;
             randomColor = Main.rand.Next(3) switch
             {
                 0 => Color.OrangeRed,
@@ -90,7 +89,8 @@ namespace CalamityMod.Projectiles.Melee
                 else
                     spawnSpot = targeted.Center + new Vector2(Main.rand.NextFloat(-450, 450), Main.rand.NextFloat(-450, -650));
 
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<EarthMeteor>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, Projectile.ai[1], Projectile.ai[2] - 1);
+                Projectile meteor = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), spawnSpot, Vector2.Zero, ModContent.ProjectileType<EarthMeteor>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, Projectile.ai[1], Projectile.ai[2] - 1);
+                meteor.scale = Projectile.scale;
             }
             if (time == fallTime)
             {
@@ -120,26 +120,29 @@ namespace CalamityMod.Projectiles.Melee
                 // Spawn in a helix-style pattern
                 float sine = (float)Math.Sin(Projectile.timeLeft * 0.475f / MathHelper.Pi);
 
-                Vector2 offset = Projectile.velocity.SafeNormalize(Vector2.UnitX).RotatedBy(MathHelper.PiOver2) * sine * (16f + 34 * fadeIn);
+                Vector2 offset = Projectile.velocity.SafeNormalize(Vector2.UnitX).RotatedBy(MathHelper.PiOver2) * sine * (16f + 34 * fadeIn) * Projectile.scale;
                 if (targetDist < 1400f && time % 2 == 0)
                 {
-                    CustomSpark orb = new(Projectile.Center + offset, -Projectile.velocity * 0.5f, "CalamityMod/Particles/BloomCircle", false, 10, 0.3f + (0.4f * fadeIn), mainColor, new Vector2(0.5f, 1f), true, false);
+                    CustomSpark orb = new(Projectile.Center + offset, -Projectile.velocity * 0.5f, "CalamityMod/Particles/BloomCircle", false, 10, (0.3f + (0.4f * fadeIn)) * Projectile.scale, mainColor, new Vector2(0.5f, 1f), true, false);
                     GeneralParticleHandler.SpawnParticle(orb);
 
-                    CustomSpark orb2 = new(Projectile.Center - offset, -Projectile.velocity * 0.5f, "CalamityMod/Particles/BloomCircle", false, 10, 0.3f + (0.4f * fadeIn), mainColor, new Vector2(0.5f, 1f), true, false);
+                    CustomSpark orb2 = new(Projectile.Center - offset, -Projectile.velocity * 0.5f, "CalamityMod/Particles/BloomCircle", false, 10, (0.3f + (0.4f * fadeIn)) * Projectile.scale, mainColor, new Vector2(0.5f, 1f), true, false);
                     GeneralParticleHandler.SpawnParticle(orb2);
                 }
             }
             else
             {
-                float randSize = Main.rand.NextFloat(0.8f, 1.2f);
-                for (int i = 0; i < 2; i++)
+                float randSize = Main.rand.NextFloat(0.8f, 1.2f) * Projectile.scale;
+                if (!CalamityClientConfig.Instance.Photosensitivity)
                 {
-                    Particle bloom = new CustomPulse(Projectile.Center, Vector2.Zero, mainColor * (float)Math.Pow(Utils.Remap(time, 0, fallTime, 0f, 1f), 3), "CalamityMod/Particles/LargeBloom", new Vector2(Utils.Remap(time, 0, fallTime, 0.3f, 4), Utils.Remap(time, fallTime * 0.6f, fallTime, 1, 4)), 0, 0.8f * randSize, 0f, 3);
-                    GeneralParticleHandler.SpawnParticle(bloom);
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Particle bloom = new CustomPulse(Projectile.Center, Vector2.Zero, mainColor * (float)Math.Pow(Utils.Remap(time, 0, fallTime, 0f, 1f), 3), "CalamityMod/Particles/LargeBloom", new Vector2(Utils.Remap(time, 0, fallTime, 0.3f, 4), Utils.Remap(time, fallTime * 0.6f, fallTime, 1, 4)), 0, 0.8f * randSize, 0f, 3);
+                        GeneralParticleHandler.SpawnParticle(bloom);
+                    }
+                    Particle bloom3 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.White * (float)Math.Pow(Utils.Remap(time, 0, fallTime, 0f, 1f), 3), "CalamityMod/Particles/LargeBloom", new Vector2(Utils.Remap(time, 0, fallTime, 0.3f, 4), Utils.Remap(time, fallTime * 0.6f, fallTime, 1, 4)), 0, 0.65f * randSize, 0f, 3);
+                    GeneralParticleHandler.SpawnParticle(bloom3);
                 }
-                Particle bloom3 = new CustomPulse(Projectile.Center, Vector2.Zero, Color.White * (float)Math.Pow(Utils.Remap(time, 0, fallTime, 0f, 1f), 3), "CalamityMod/Particles/LargeBloom", new Vector2(Utils.Remap(time, 0, fallTime, 0.3f, 4), Utils.Remap(time, fallTime * 0.6f, fallTime, 1, 4)), 0, 0.65f * randSize, 0f, 3);
-                GeneralParticleHandler.SpawnParticle(bloom3);
             }
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             time++;
@@ -149,10 +152,12 @@ namespace CalamityMod.Projectiles.Melee
             Asset<Texture2D> tex = ModContent.Request<Texture2D>("CalamityMod/Particles/VerticalSmearRagged");
             if (time <= fallTime)
                 return false;
-
-            for (int i = 0; i < 10; i++)
+            if (!CalamityClientConfig.Instance.Photosensitivity)
             {
-                Main.EntitySpriteDraw(tex.Value, Projectile.Center - Main.screenPosition + Projectile.velocity.SafeNormalize(Vector2.UnitX) * (i - 110), null, mainColor with { A = 0 }, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale * new Vector2(0.4f - i * 0.05f, 1.3f + i * 0.1f) * 0.4f, i % 2 == 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
+                for (int i = 0; i < 10; i++)
+                {
+                    Main.EntitySpriteDraw(tex.Value, Projectile.Center - Main.screenPosition + Projectile.velocity.SafeNormalize(Vector2.UnitX) * (i - 110), null, mainColor with { A = 0 }, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale * new Vector2(0.4f - i * 0.05f, 1.3f + i * 0.1f) * 0.4f, i % 2 == 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
+                }
             }
 
             return false;
@@ -169,7 +174,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Player Owner = Main.player[Projectile.owner];
                 Owner.SetScreenshake(4.5f);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<EarthBoom>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
+                Projectile boom = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<EarthBoom>(), (int)(Projectile.damage * 0.75f), Projectile.knockBack, Projectile.owner);
+                boom.scale = Projectile.scale;
                 for (int i = 0; i < 15; i++)
                 {
                     randomColor = Main.rand.Next(3) switch
@@ -183,29 +189,30 @@ namespace CalamityMod.Projectiles.Melee
                     dust2.noGravity = false;
                     dust2.color = Color.Lerp(Color.White, randomColor, 0.5f);
 
-                    Particle sparker = new CustomSpark(target.Center, Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(5.5f, 20), "CalamityMod/Particles/Sparkle", false, 38, Main.rand.NextFloat(2.2f, 4.8f), randomColor, new Vector2(0.4f, Main.rand.NextFloat(0.9f, 1.4f)), true, true);
+                    Particle sparker = new CustomSpark(target.Center, Vector2.One.RotatedByRandom(100) * Main.rand.NextFloat(5.5f, 20), "CalamityMod/Particles/Sparkle", false, 38, Main.rand.NextFloat(2.2f, 4.8f) * Projectile.scale, randomColor, new Vector2(0.4f, Main.rand.NextFloat(0.9f, 1.4f)), true, true);
                     GeneralParticleHandler.SpawnParticle(sparker);
                 }
-                
-                for (int i = 0; i < 3; i++)
-                {
-                    string tex = "CalamityMod/Particles/ShatteredExplosion";
-                    Particle bolt1 = new CustomSpark(target.Center, Vector2.Zero, tex, false, 12, 0.5f - i * 0.08f, Color.OrangeRed * 0.8f, Vector2.One * 0.65f, extraRotation: Main.rand.NextFloat(-10f, 10f), shrinkSpeed: (i == 0 ? 0.6f : 0.8f));
-                    GeneralParticleHandler.SpawnParticle(bolt1);
-                    Particle bolt2 = new CustomSpark(target.Center, Vector2.Zero, tex, false, 10, 0.4f - i * 0.08f, Color.MediumTurquoise * 0.8f, Vector2.One * 0.65f, extraRotation: Main.rand.NextFloat(-10f, 10f), shrinkSpeed: (i == 0 ? 0.6f : 0.8f));
-                    GeneralParticleHandler.SpawnParticle(bolt2);
-                    Particle bolt3 = new CustomSpark(target.Center, Vector2.Zero, tex, false, 8, 0.35f - i * 0.08f, Color.LawnGreen * 0.8f, Vector2.One * 0.65f, extraRotation: Main.rand.NextFloat(-10f, 10f), shrinkSpeed: (i == 0 ? 0.6f : 0.8f));
-                    GeneralParticleHandler.SpawnParticle(bolt3);
 
-                }
                 SoundStyle fire2 = new("CalamityMod/Sounds/Item/EarthMeteor");
                 SoundEngine.PlaySound(fire2 with { Volume = 0.9f }, target.Center);
 
                 if (!CalamityClientConfig.Instance.Photosensitivity)
                 {
-                    Particle blastRing = new CustomPulse(target.Center, Vector2.Zero, mainColor, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 4f, 3f, 18, true);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        string tex = "CalamityMod/Particles/ShatteredExplosion";
+                        Particle bolt1 = new CustomSpark(target.Center, Vector2.Zero, tex, false, 12, (0.5f - i * 0.08f) * Projectile.scale, Color.OrangeRed * 0.8f, Vector2.One * 0.65f, extraRotation: Main.rand.NextFloat(-10f, 10f), shrinkSpeed: (i == 0 ? 0.6f : 0.8f));
+                        GeneralParticleHandler.SpawnParticle(bolt1);
+                        Particle bolt2 = new CustomSpark(target.Center, Vector2.Zero, tex, false, 10, (0.4f - i * 0.08f) * Projectile.scale, Color.MediumTurquoise * 0.8f, Vector2.One * 0.65f, extraRotation: Main.rand.NextFloat(-10f, 10f), shrinkSpeed: (i == 0 ? 0.6f : 0.8f));
+                        GeneralParticleHandler.SpawnParticle(bolt2);
+                        Particle bolt3 = new CustomSpark(target.Center, Vector2.Zero, tex, false, 8, (0.35f - i * 0.08f) * Projectile.scale, Color.LawnGreen * 0.8f, Vector2.One * 0.65f, extraRotation: Main.rand.NextFloat(-10f, 10f), shrinkSpeed: (i == 0 ? 0.6f : 0.8f));
+                        GeneralParticleHandler.SpawnParticle(bolt3);
+
+                    }
+
+                    Particle blastRing = new CustomPulse(target.Center, Vector2.Zero, mainColor, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 4f * Projectile.scale, 3f * Projectile.scale, 18, true);
                     GeneralParticleHandler.SpawnParticle(blastRing);
-                    Particle blastRing2 = new CustomPulse(target.Center, Vector2.Zero, Color.White, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 3f, 2f, 18, true);
+                    Particle blastRing2 = new CustomPulse(target.Center, Vector2.Zero, Color.White, "CalamityMod/Particles/BloomCircle", Vector2.One, Main.rand.NextFloat(-10, 10), 3f * Projectile.scale, 2f * Projectile.scale, 18, true);
                     GeneralParticleHandler.SpawnParticle(blastRing2);
                 }
             }

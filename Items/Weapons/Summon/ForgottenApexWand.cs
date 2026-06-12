@@ -1,7 +1,10 @@
-﻿using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
+using CalamityMod.Buffs.StatDebuffs;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +14,10 @@ namespace CalamityMod.Items.Weapons.Summon
     public class ForgottenApexWand : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<HeavyBleeding>(), ModContent.BuffType<ArmorCrunch>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 44;
@@ -25,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             Item.knockBack = 4f;
             Item.mana = 10;
-            Item.damage = 28;
+            Item.damage = 46;
             Item.useAnimation = Item.useTime = 36;
             Item.buffType = ModContent.BuffType<AncientMineralSharkBuff>();
             Item.shoot = ModContent.ProjectileType<ApexShark>();

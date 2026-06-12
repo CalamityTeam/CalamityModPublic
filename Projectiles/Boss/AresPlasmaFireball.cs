@@ -34,6 +34,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.Opacity = 0f;
             CooldownSlot = ImmunityCooldownID.Bosses;
             Projectile.timeLeft = timeLeft;
+            Projectile.Calamity().DealsDefenseDamage = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

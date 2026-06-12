@@ -1,6 +1,8 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -12,16 +14,19 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class FreedomStar : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Ranged";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Nightwither>()];
+        }
 
         public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();
             Item.width = 54;
             Item.height = 28;
-            Item.damage = 100;
+            Item.damage = 120;
             Item.DamageType = DamageClass.Ranged;
-            Item.useTime = 10;
-            Item.useAnimation = 10;
+            Item.useAnimation = Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.channel = true;

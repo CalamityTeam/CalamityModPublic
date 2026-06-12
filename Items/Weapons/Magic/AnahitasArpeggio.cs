@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -19,6 +21,10 @@ namespace CalamityMod.Items.Weapons.Magic
         public static readonly SoundStyle CapSound = new("CalamityMod/Sounds/Item/HarpLV6");
         public static readonly SoundStyle EndSound = new("CalamityMod/Sounds/Item/HarpEnd");
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/HarpNoteHit");
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Wet, BuffID.Confused];
+        }
         public override void SetDefaults()
         {
             Item.width = 56;

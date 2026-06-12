@@ -20,6 +20,23 @@ namespace CalamityMod.World
             int placementPositionY = (int)Main.worldSurface - 300;
             int offset = 28;
 
+            int width = schematic.GetLength(0);
+            int height = schematic.GetLength(1);
+            // If the point directly above the shimmer is blocked by something, try to move to the side a bit
+            if (!structures.CanPlace(new Rectangle(placementPositionX - width, placementPositionY - height, width, height)))
+            {
+                int attempts = 0;
+                while (attempts < 1000)
+                {
+                    attempts++;
+                    placementPositionX = Main.rand.Next((int)GenVars.shimmerPosition.X - 100, (int)GenVars.shimmerPosition.X + 100);
+                    if (structures.CanPlace(new Rectangle(placementPositionX - width, placementPositionY - height, width, height)))
+                        break;
+                }
+                // If still not good, just give up and place it directly above the shimmer regardless
+                placementPositionX = (int)GenVars.shimmerPosition.X;
+            }
+
             while (!Main.tile[placementPositionX, placementPositionY].HasTile)
                 placementPositionY++;
 

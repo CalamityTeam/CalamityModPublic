@@ -1,5 +1,6 @@
 ﻿using System;
 using CalamityMod.Dusts;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -31,6 +32,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void AI()
         {
             Player Owner = Main.player[Projectile.owner];
+            Projectile.scale = Projectile.localAI[0];
             float targetDist = Vector2.Distance(Owner.Center, Projectile.Center);
             fade = (float)Math.Pow(Utils.GetLerpValue(lifetime * 0.1f, lifetime * 0.5f, Projectile.timeLeft, true), 4);
             if (Projectile.velocity.Length() > 0.1f)
@@ -47,15 +49,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     float rotScaling = 1 - Math.Abs(rot);
                     Vector2 vel = Projectile.velocity.SafeNormalize(Vector2.UnitX).RotatedBy(rot) * (70 / scaleFx + 80 * (float)Math.Pow(rotScaling, 1.5f) * Main.rand.NextFloat(0.85f, 1f)) * scaleFx;
                     Vector2 finalDustVel = (vel * (float)Math.Pow(rotScaling, 1.5f) + (vel.RotatedBy(-MathHelper.PiOver2 * rot) * 1.5f)) * 0.03f;
-                    Dust s = Dust.NewDustPerfect(Projectile.Center + vel - Projectile.velocity.SafeNormalize(Vector2.UnitX) * 45 * scaleFx, ModContent.DustType<SquashDust>(), finalDustVel / scaleFx);
-                    s.scale = scale * scaleFx;
+                    Dust s = Dust.NewDustPerfect(Projectile.Center + (vel - Projectile.velocity.SafeNormalize(Vector2.UnitX) * 45 * scaleFx) * Projectile.scale, ModContent.DustType<SquashDust>(), finalDustVel / scaleFx);
+                    s.scale = scale * scaleFx * Projectile.scale;
                     s.noGravity = true;
                     s.color = Color.Lerp(Effects.ArsenalEffects.ArsenalGaussColor, Color.White, Math.Max(0, swingDirScale - 0.35f));
-                    s.fadeIn = 0.1f + swingDirScale;
+                    s.fadeIn = 0.1f + swingDirScale * Projectile.scale;
                 }
             }
 
-            Lighting.AddLight(Projectile.Center, Color.Lerp(Effects.ArsenalEffects.ArsenalGaussColor, Color.White, 0.3f).ToVector3() * 0.7f);
+            Lighting.AddLight(Projectile.Center, Color.Lerp(Effects.ArsenalEffects.ArsenalGaussColor, Color.White, 0.3f).ToVector3() * 0.7f * Projectile.scale);
             time++;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -81,16 +83,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
             Vector2 launchVel = Projectile.velocity.SafeNormalize(Vector2.UnitX);
             float launchPower = (Projectile.ai[2] == 5 ? 35 : 14);
-            target.MoveNPC(launchVel, launchPower, true);
+            target.MoveNPC(launchVel, launchPower, true, Owner);
 
             if (Projectile.ai[2] == 5)
-                modifiers.SetCrit();
+                modifiers.ApplyScalingForcedCrit(Projectile);
 
-            float critDamage = Math.Min(Owner.GetTotalCritChance(Projectile.DamageType) * 0.01f, 1f);
             float minMult = 0.3f;
             int hitsToMinMult = 7;
             float damageMult = Utils.Remap(Projectile.numHits, 0, hitsToMinMult, 1, minMult, true);
-            modifiers.SourceDamage *= (Projectile.ai[2] == 5 ? (1f + critDamage) : 1) * damageMult;
+            modifiers.SourceDamage *= damageMult;
 
             if (Projectile.numHits == 0)
             {
@@ -138,7 +139,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             float length = 135 * scale;
             float size = 135 * scale;
             float _ = float.NaN;
-            bool hit = Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), start, start + Projectile.velocity.SafeNormalize(Vector2.UnitX) * length, size, ref _);
+            bool hit = Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), start, start + Projectile.velocity.SafeNormalize(Vector2.UnitX) * length * Projectile.scale, size * Projectile.scale, ref _);
             return (hit);
         }
         public override bool PreDraw(ref Color lightColor)
@@ -154,7 +155,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             float sizeLerp = (float)Math.Pow((Utils.GetLerpValue(lifetime, lifetime * 0.2f, time, true)), 5f);
             Vector2 squash = new Vector2(1 + lerp * 0.5f, 1.25f - lerp * 1.1f) * 0.08f * sizeLerp;
             Vector2 rotationPoint = new Vector2(proj.Width * 0.85f, proj.Height / 2);
-            Vector2 drawPosition = Projectile.Center - Main.screenPosition + Projectile.velocity.SafeNormalize(Vector2.UnitX) * 105;
+            Vector2 drawPosition = Projectile.Center - Main.screenPosition + Projectile.velocity.SafeNormalize(Vector2.UnitX) * 105 * Projectile.scale;
 
             SpriteEffects spfx = (Projectile.ai[1] != 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
             if (Projectile.direction == -1)

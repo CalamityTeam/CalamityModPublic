@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CalamityMod.Graphics.Primitives;
 using CalamityMod.Particles;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -45,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
                 GeneralParticleHandler.SpawnParticle(blastG);
                 Particle blastB = new CustomPulse(Projectile.Center, Vector2.Zero, TriactisHammerFlare.GetColor(3f) * 0.7f, "CalamityMod/Particles/ShatteredExplosion", Vector2.One, rotation + MathHelper.ToRadians(240f), 0f, 0.4f, 24);
                 GeneralParticleHandler.SpawnParticle(blastB);
-                Owner.SetScreenshake(40f);
+                Owner.SetScreenshake(15f);
             }
 
             if (Timer % 4f == 0f)
@@ -84,6 +85,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            modifiers.ApplyScalingForcedCrit(Projectile);
             modifiers.HitDirectionOverride = (Owner.Center.X < target.Center.X).ToDirectionInt();
             modifiers.SourceDamage *= Utils.Remap(Projectile.numHits, 0, 10, 1f, 0.1f, true);
         }

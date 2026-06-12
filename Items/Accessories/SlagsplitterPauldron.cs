@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Accessories
     public class SlagsplitterPauldron : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Accessories";
-        public static int PauldronSlamDamage = 330;
+        public static int PauldronSlamDamage => 250;
         public override void SetDefaults()
         {
-            Item.width = 54;
-            Item.height = 56;
+            Item.width = 42;
+            Item.height = 34;
             Item.value = CalamityGlobalItem.RarityLightRedBuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.accessory = true;

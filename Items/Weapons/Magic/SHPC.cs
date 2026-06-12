@@ -1,10 +1,10 @@
-﻿using CalamityMod.Items.Materials;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 52;
             Item.damage = 117;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 15;
+            Item.mana = 30;
             Item.useAnimation = Item.useTime = 60;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
@@ -91,6 +91,23 @@ namespace CalamityMod.Items.Weapons.Magic
 
             return soul;
         }
+
+        public override bool CanRightClick()
+        {
+            if (!Main.keyState.PressingShift())
+                return false;
+            return true;
+        }
+
+        public override void RightClick(Player player)
+        {
+            if (storedSoulpower > 0)
+            {
+                storedSoulpower = 0;
+            }
+        }
+
+        public override bool ConsumeItem(Player player) => false;
 
         public Color FindColorForSoul()
         {

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shoot = ModContent.ProjectileType<MagnomalyRocket>();
             Item.shootSpeed = 15f;
             Item.useAmmo = AmmoID.Rocket;
-            Item.rare = ModContent.RarityType<BurnishedAuric>();
+            Item.rare = ModContent.RarityType<ExoticRainbow>();
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-30, -10);

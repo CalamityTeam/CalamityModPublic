@@ -146,8 +146,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                     NPC.timeLeft *= 20;
                     NPC.npcSlots = 16f;
                     NPC.damage = NPC.defDamage;
-                    CalamityGlobalNPC.BossKillTimes.TryGetValue(NPC.type, out int revKillTime);
-                    calamityGlobalNPC.KillTime = revKillTime;
+                    calamityGlobalNPC.KillTime = CalamityNPCSets.BossKillTimes[NPC.type];
                     calamityGlobalNPC.newAI[0] = 1f;
                     nonHostile = false;
                     NPC.boss = true;
@@ -290,16 +289,6 @@ namespace CalamityMod.NPCs.AquaticScourge
                     NPC.localAI[1] = NPC.Center.X - player.Center.X < 0 ? 1f : -1f;
                 }
             }
-
-            // Adjust slowing debuff immunity
-            bool immuneToSlowingDebuffs = doSpiral || getFuckedAI;
-            NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<GalvanicCorrosion>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
-            NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
             // Spawn segments
             if (calamityGlobalNPC.newAI[2] == 0f && NPC.ai[0] == 0f)

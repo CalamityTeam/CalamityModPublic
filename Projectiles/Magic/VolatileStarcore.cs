@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Particles;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -107,6 +108,11 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(BuffID.Daybreak, 180);
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            modifiers.ApplyScalingForcedCrit(Projectile);
         }
 
         public override void OnKill(int timeLeft)

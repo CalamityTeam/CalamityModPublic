@@ -1,5 +1,7 @@
 ﻿using System;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -13,14 +15,17 @@ namespace CalamityMod.Items.Weapons.Magic
         public new string LocalizationCategory => "Items.Weapons.Magic";
         public const int BaseDamage = 32;
         private int counter = 0;
-
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Irradiated>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 46;
             Item.height = 22;
             Item.damage = BaseDamage;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 10;
+            Item.mana = 16;
             Item.useTime = 12;
             Item.useAnimation = 24;
             Item.useStyle = ItemUseStyleID.Shoot;

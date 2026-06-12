@@ -133,6 +133,16 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.FinalExtraUpdate())
                 Time++;
 
+            if (Time % 12f == 11f)
+            {
+                if (!Owner.CheckMana(Owner.HeldItem, -1, true))
+                {
+                    DeathCounter = 1f;
+                    Projectile.netUpdate = true;
+                    return;
+                }
+            }
+
             // Set the hover offset to a zero vector after enough time has passed and the projectile is powerful/tame enough.
             bool tame = CurrentPower > 0.97f;
             if (tame)

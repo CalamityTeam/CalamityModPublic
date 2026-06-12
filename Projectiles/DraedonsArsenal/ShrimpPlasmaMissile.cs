@@ -32,7 +32,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.timeLeft = 300;
             Projectile.extraUpdates = 3;
             Projectile.penetrate = -1;
-            Projectile.ArmorPenetration = 15;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
         }

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Item.width = 100;
             Item.height = 46;
-            Item.damage = 77;
+            Item.damage = 60;
             Item.DamageType = DamageClass.Ranged;
             Item.useTime = 3;
             Item.useAnimation = 15;
@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (player.Calamity().furyFuel > 0)
                 {
                     Vector2 newVel = velocity.RotatedByRandom(MathHelper.ToRadians(5f));
-                    Projectile.NewProjectile(source, position, newVel, ModContent.ProjectileType<PristineSecondary>(), (int)(damage * 0.25f), knockback, player.whoAmI); //.25x base damage
+                    Projectile.NewProjectile(source, position, newVel, ModContent.ProjectileType<PristineSecondary>(), (int)(damage * 0.2f), knockback, player.whoAmI); //.2x base damage
 
                     Dust dust = Dust.NewDustPerfect(position + velocity * 3f + new Vector2(0, -3), ModContent.DustType<LightDust>(), velocity.RotatedBy(0.25f * player.direction).RotatedByRandom(0.35f) * Main.rand.NextFloat(0.5f, 2.5f), 0, default, Main.rand.NextFloat(0.4f, 0.8f));
                     dust.noGravity = true;

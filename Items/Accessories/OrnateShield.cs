@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Items.Materials;
+using CalamityMod.Systems.Collections;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +14,10 @@ namespace CalamityMod.Items.Accessories
         public const int ShieldSlamDamage = 50;
         public const float ShieldSlamKnockback = 3f;
         public const int ShieldSlamIFrames = 12;
-
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Frostburn2];
+        }
         public override void SetDefaults()
         {
             Item.width = 36;

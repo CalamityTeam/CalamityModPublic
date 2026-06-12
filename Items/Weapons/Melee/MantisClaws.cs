@@ -1,5 +1,7 @@
-﻿using CalamityMod.Items.BaseItems;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.BaseItems;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Systems.Collections;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +11,10 @@ namespace CalamityMod.Items.Weapons.Melee
     public class MantisClaws : CustomUseProjItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<HeavyBleeding>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 26;

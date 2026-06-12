@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Ranged
             revFrames++;
             shineScale *= 0.77f;
 
-            if ((revFrames >= maxFrames && !isTired || (Owner.Calamity().mouseRight && revFrames > 2 )) && Owner.whoAmI == Main.myPlayer)
+            if (revFrames >= maxFrames && !isTired && Owner.whoAmI == Main.myPlayer)
             {
                 Owner.SetScreenshake(6.5f);
                 OffsetLengthFromArm -= 35f;

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 3));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
             ItemID.Sets.ItemNoGravity[Type] = true;
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 6.25f, 1f);
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(160, 7.5f, 1f);
         }
 
         public override void SetDefaults()

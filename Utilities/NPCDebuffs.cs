@@ -136,7 +136,7 @@ namespace CalamityMod
 
         #region Standard Enemy Immunity Sets
         private static readonly int[] slimeEnemyImmunities = new int[1] { BuffID.Poisoned };
-        private static readonly int[] iceEnemyImmunities = new int[3] { BuffID.Frostburn, BuffID.Frostburn2, ModContent.BuffType<GlacialState>() };
+        private static readonly int[] iceEnemyImmunities = new int[3] { BuffID.Frostburn, BuffID.Frostburn2, BuffID.Frozen };
         private static readonly int[] sulphurEnemyImmunities = new int[4] { BuffID.Poisoned, BuffID.Venom, ModContent.BuffType<SulphuricPoisoning>(), ModContent.BuffType<Irradiated>() };
         private static readonly int[] sunkenSeaEnemyImmunities = new int[2] { ModContent.BuffType<Eutrophication>(), ModContent.BuffType<PearlAura>() };
         private static readonly int[] abyssEnemyImmunities = new int[2] { ModContent.BuffType<CrushDepth>(), ModContent.BuffType<RiptideDebuff>() };
@@ -279,7 +279,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsBody>(), immuneToEverything },
                 { ModContent.NPCType<DevourerofGodsTail>(), immuneToEverything },
 
-                { ModContent.NPCType<Yharon>(), new(GeneralImmunityStatus.None, new int[] { BuffID.OnFire, ModContent.BuffType<Dragonfire>() }) },
+                { ModContent.NPCType<Yharon>(), new(GeneralImmunityStatus.None, new int[] { BuffID.OnFire, ModContent.BuffType<Dragonfire>(), ModContent.BuffType<AuricRebuke>() }) },
 
                 { ModContent.NPCType<ThanatosHead>(), immuneToEverything },
                 { ModContent.NPCType<ThanatosBody1>(), immuneToEverything },

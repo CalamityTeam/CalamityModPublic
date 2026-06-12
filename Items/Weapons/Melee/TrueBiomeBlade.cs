@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float ColdAttunement_ThirdSwingBoost = 1.25f;
         public static float ColdAttunement_MistDamageReduction = 0.11f;
 
-        public static int HotAttunement_BaseDamage = 126;
+        public static int HotAttunement_BaseDamage = 115;
         public static int HotAttunement_PlayerShredIFrames = 8;
         public static float HotAttunement_ShotDamageBoost = 4.5f;
         public static int HotAttunement_LocalIFrames = 24; //Be warned its got one extra update so all the iframes should be divided in 2
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float TropicalAttunement_SweetSpotDamageMultiplier = 1.5f; //It also crits, so be mindful of that
         public static int TropicalAttunement_LocalIFrames = 60; //Be warned its got 2 extra updates so all the iframes should be divided in 3
 
-        public static int HolyAttunement_BaseDamage = 84;
+        public static int HolyAttunement_BaseDamage = 88;
         public static float HolyAttunement_BaseSwingDamageMult = 0.5f;
         public static float HolyAttunement_FullSwingDamageMult = 1f;
         public static float HolyAttunement_ThrowDamageBoost = 3f;

@@ -40,6 +40,20 @@ namespace CalamityMod
         };
 
         /// <summary>
+        /// A custom <see cref="BlendState"/> which subtracts overlapping colors instead of adding them. <br></br>
+        /// This uses the same settings as the blending used for the Light's Bane projectile.
+        /// </summary>
+        public static readonly BlendState SubtractiveBlending = new()
+        {
+            ColorBlendFunction = BlendFunction.ReverseSubtract,
+            ColorDestinationBlend = Blend.One,
+            ColorSourceBlend = Blend.SourceAlpha,
+            AlphaBlendFunction = BlendFunction.ReverseSubtract,
+            AlphaDestinationBlend = Blend.One,
+            AlphaSourceBlend = Blend.SourceAlpha
+        };
+
+        /// <summary>
         /// The transformation matrix used for drawing backgrounds in Vanilla Terraria. Should be used for any custom background drawing or CustomSky
         /// drawing, such as independent sky entities or background shader effects. 
         /// </summary>

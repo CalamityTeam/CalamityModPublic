@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 40;
             Item.damage = BaseDamage;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 30;
+            Item.mana = 300;
             Item.useAnimation = Item.useTime = 120;
             Item.knockBack = 0.25f;
             Item.shoot = ModContent.ProjectileType<EternityBook>();

@@ -110,8 +110,7 @@ namespace CalamityMod.Projectiles.Ranged
                             randNormalize = -Vector2.UnitY;
                         }
                         Vector2 projRandomPos = playerRotation + Utils.RandomVector2(Main.rand, -15f, 15f);
-                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), projRandomPos, randNormalize, ammoType, weaponDamage2, weaponKnockback2, Projectile.owner);
-                        Main.projectile[proj].noDropItem = true;
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), projRandomPos, randNormalize, ammoType, weaponDamage2, weaponKnockback2, Projectile.owner);
                     }
                 }
                 else

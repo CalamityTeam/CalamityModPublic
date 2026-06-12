@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < 8; i++)
                 {
                     Vector2 velocity = (MathHelper.TwoPi * i / 8f).ToRotationVector2() * 4f;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<KelvinCatalystStar>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<KelvinCatalystStar>(), (int)(Projectile.damage * 0.8), Projectile.knockBack, Projectile.owner);
                 }
             }
         }

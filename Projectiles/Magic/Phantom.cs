@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Magic
             Player Owner = Main.player[Projectile.owner];
 
             Vector2 launchVel = Utils.DirectionTo(Owner.Center, target.Center);
-            target.MoveNPC(launchVel, 10 * (launched ? 0.5f : 1), true);
+            target.MoveNPC(launchVel, 10 * (launched ? 0.5f : 1), true, Owner);
             
         }
         public override bool? CanHitNPC(NPC target)

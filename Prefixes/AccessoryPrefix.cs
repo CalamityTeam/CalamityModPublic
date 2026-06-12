@@ -11,9 +11,10 @@ namespace CalamityMod.Prefixes
         public new string LocalizationCategory => "Prefixes.Accessory";
         public override PrefixCategory Category => PrefixCategory.Accessory;
 
+        public static float GetPartialLifeRegenAmount = 0.5f;
         public override void ApplyAccessoryEffects(Player player)
         {
-            player.lifeRegen += GetLifeRegenAmount();
+            player.Calamity().partialLifeRegen += GetPartialLifeRegenAmount;
         }
 
         public override void ModifyValue(ref float valueMult)
@@ -24,16 +25,10 @@ namespace CalamityMod.Prefixes
         public LocalizedText LifeRegenTooltip => CalamityUtils.GetText($"{LocalizationCategory}.LifeRegenTooltip");
         public override IEnumerable<TooltipLine> GetTooltipLines(Item item)
         {
-            var perSecHP = (GetLifeRegenAmount() / 2.0f).ToString("0.#");
-            yield return new TooltipLine(Mod, "CalamityMod:PrefixLifeRegenBoost", LifeRegenTooltip.Format(perSecHP))
+            yield return new TooltipLine(Mod, "CalamityMod:PrefixLifeRegenBoost", LifeRegenTooltip.Format(GetPartialLifeRegenAmount.ToRegenPerSecond()))
             {
                 IsModifier = true
             };
-        }
-
-        public static int GetLifeRegenAmount()
-        {
-            return 1;
         }
     }
 
@@ -63,7 +58,36 @@ namespace CalamityMod.Prefixes
 
         public static int GetHealthBoostAmount()
         {
-            return 15;
+            return 20;
+        }
+    }
+
+    public class Friendly : ModPrefix, ILocalizedModType
+    {
+        public new string LocalizationCategory => "Prefixes.Accessory";
+        public override PrefixCategory Category => PrefixCategory.Accessory;
+
+        public override void ApplyAccessoryEffects(Player player)
+        {
+            // give Minion
+            player.Calamity().friendlyMinions++;
+        }
+        public override void ModifyValue(ref float valueMult)
+        {
+            valueMult = 2.5f;
+        }
+        public override float RollChance(Item item) => 0; // Is manually applied by an item, can't be rerolled normally
+        public override bool CanRoll(Item item)
+        {
+            return true;
+        }
+        public LocalizedText FriendlyTooltip => CalamityUtils.GetText($"{LocalizationCategory}.FriendlyTooltip");
+        public override IEnumerable<TooltipLine> GetTooltipLines(Item item)
+        {
+            yield return new TooltipLine(Mod, "CalamityMod:PrefixFriendly", FriendlyTooltip.Format(1))
+            {
+                IsModifier = true
+            };
         }
     }
 }

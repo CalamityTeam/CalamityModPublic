@@ -8,6 +8,7 @@ namespace CalamityMod.Items.Critters
     public class PiggyItem : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Misc";
+
         public override void SetStaticDefaults()
         {
             Item.ResearchUnlockCount = 5;
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Critters
         public override void SetDefaults()
         {
             Item.DefaultToCapturedCritter(ModContent.NPCType<Piggy>());
-            Item.value = Item.sellPrice(gold: 10);
+            Item.value = Item.sellPrice(silver: 5);
             Item.rare = ItemRarityID.Blue;
             Item.Calamity().donorItem = true;
         }

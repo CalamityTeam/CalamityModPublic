@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
+    [HeavyKnockbackWhitelisted]
     public class AuroraSpirit : ModNPC
     {
         public override void SetStaticDefaults()

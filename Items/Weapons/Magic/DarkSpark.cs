@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 16;
             Item.damage = 60;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 10;
+            Item.mana = 12;
             Item.useAnimation = Item.useTime = 10;
             Item.knockBack = 0.25f;
             Item.shoot = ModContent.ProjectileType<DarkSparkPrism>();

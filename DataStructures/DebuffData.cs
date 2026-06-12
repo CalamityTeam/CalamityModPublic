@@ -1,32 +1,13 @@
 ﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.WorldBuilding;
 
 namespace CalamityMod.DataStructures
 {
-    [ReinitializeDuringResizeArrays]
-    public static class BuffDatasets
-    {
-        public static DebuffData[] DebuffDataset = BuffID.Sets.Factory.CreateNamedSet("DebuffData")
-            .Description("Stores DebuffData for a particular debuff")
-            .RegisterCustomSet<DebuffData>(null,
-                BuffID.OnFire, DebuffData.OnFire,
-                BuffID.OnFire3, DebuffData.Hellfire,
-                BuffID.CursedInferno, DebuffData.CursedInferno,
-                BuffID.ShadowFlame, DebuffData.Shadowflame,
-                BuffID.Daybreak, DebuffData.Daybroken,
-                BuffID.Burning, DebuffData.Burning,
-                BuffID.Frostburn, DebuffData.Frostburn,
-                BuffID.Frostburn2, DebuffData.Frostbite,
-                BuffID.Poisoned, DebuffData.Poisoned,
-                BuffID.Venom, DebuffData.AcidVenom,
-                BuffID.Electrified, DebuffData.Electrified,
-                BuffID.Oiled, DebuffData.Oiled
-            );
-    }
     public class DebuffData
     {
         /// <summary>
@@ -113,11 +94,10 @@ namespace CalamityMod.DataStructures
         public bool GearCanModifyDebuff = true;
 
         /// <summary>
-        /// UNIMPLEMENTED. WILL BE DONE IN A FUTURE PR
         /// How much alcohol this counts as.
         /// Default is 0, most alcohol is 1, and Everclear is 2
         /// </summary>
-        public float AlcoholLevel = 0f;
+        public int AlcoholLevel = 0;
 
         /// <summary>
         /// UNIMPLEMENTED. WILL BE DONE IN A FUTURE PR
@@ -176,8 +156,8 @@ namespace CalamityMod.DataStructures
         public static StatModifier ApplyScalingToStatModifer(StatModifier Modifer, float scaling)
         {
             StatModifier output = new();
-            output += (Modifer.Additive-1) * scaling;
-            output *= 1 + (Modifer.Multiplicative-1) * scaling;
+            output += (Modifer.Additive - 1) * scaling;
+            output *= 1 + (Modifer.Multiplicative - 1) * scaling;
             output.Base = Modifer.Base * scaling;
             output.Flat = Modifer.Flat * scaling;
             return output;
@@ -191,9 +171,9 @@ namespace CalamityMod.DataStructures
         public static StatModifier ForceModifierPositiveWithScaling(StatModifier Modifer, float scaling)
         {
             StatModifier output = new();
-            output += MathHelper.Max((Modifer.Additive - 1) * scaling,0);
-            output *= MathHelper.Max(1 + (Modifer.Multiplicative - 1) * scaling,1);
-            output.Base = MathHelper.Max(Modifer.Base * scaling,0);
+            output += MathHelper.Max((Modifer.Additive - 1) * scaling, 0);
+            output *= MathHelper.Max(1 + (Modifer.Multiplicative - 1) * scaling, 1);
+            output.Base = MathHelper.Max(Modifer.Base * scaling, 0);
             output.Flat = MathHelper.Max(Modifer.Flat * scaling, 0);
             return output;
         }
@@ -204,7 +184,7 @@ namespace CalamityMod.DataStructures
         /// </summary>
         public void DefaultUpdateOnPlayer(Player player, int buffType, ref int buffIndex, ref int damage)
         {
-            
+
         }
 
         /// <summary>
@@ -224,17 +204,18 @@ namespace CalamityMod.DataStructures
                     .CombineWith(ApplyScalingToStatModifer(cnpc.ActiveElectricDebuffMultiplier, ElectricDebuffScaling)
                  ))))
                  :
-                 cnpc.ActiveTypelessDebuffMultiplier;
+                 // Bane doesn't scale with debuff multipliers. This should be implemented as a default feature you can apply to debuffs at some point.
+                 buffType == ModContent.BuffType<Bane>() ? StatModifier.Default : cnpc.ActiveTypelessDebuffMultiplier;
 
             //Ensure at least 25% effectiveness
             if (totalScaling.Multiplicative <= 0.25f)
-                totalScaling.Multiplicative = 0.25f; 
+                totalScaling.Multiplicative = 0.25f;
             if (totalScaling.Additive < 0.25f)
                 totalScaling.Additive = 0.25f;
 
             totalDPS = totalScaling.ApplyTo(totalDPS);
-            var totalDPSAdjusted = totalDPS-EnemyVanillaRegenToCancelOut;
-            npc.Calamity().ApplyDPSDebuff((int)(totalDPSAdjusted), (int)Math.Max(totalDPS*MultiplierDamageTickSize,MinimumDamageTickSize), ref npc.lifeRegen, ref damage);
+            var totalDPSAdjusted = totalDPS - EnemyVanillaRegenToCancelOut;
+            npc.Calamity().ApplyDPSDebuff((int)(totalDPSAdjusted), (int)Math.Max(totalDPS * MultiplierDamageTickSize, MinimumDamageTickSize), ref npc.lifeRegen, ref damage);
         }
         /// <summary>
         /// DoT functionality that takes into account Electric debuff's 4x DPS when moving
@@ -257,7 +238,8 @@ namespace CalamityMod.DataStructures
                     .CombineWith(ApplyScalingToStatModifer(cnpc.ActiveElectricDebuffMultiplier, ElectricDebuffScaling)
                  ))))
                  :
-                 cnpc.ActiveTypelessDebuffMultiplier;
+                 // Bane doesn't scale with debuff multipliers. This should be implemented as a default feature you can apply to debuffs at some point.
+                 buffType == ModContent.BuffType<Bane>() ? cnpc.ActiveTypelessDebuffMultiplier : StatModifier.Default;
 
             //Ensure at least 25% effectiveness
             if (totalScaling.Multiplicative <= 0.25f)
@@ -295,7 +277,7 @@ namespace CalamityMod.DataStructures
             // If there are no Daybreak impaled spears, Daybroken has 1x potency (it was applied some other way)
             int adjustedSpears = Math.Max(1, numImpaledSpears);
             int baseDaybreakDoTValue = (int)(npc.Calamity().ActiveHeatDebuffMultiplier.ApplyTo(Daybroken.EnemyLostRegen) + (Daybroken.EnemyLostRegen * (adjustedSpears - 1)));
-            int totalDPSAdjusted = baseDaybreakDoTValue - Daybroken.EnemyVanillaRegenToCancelOut*numImpaledSpears;
+            int totalDPSAdjusted = baseDaybreakDoTValue - Daybroken.EnemyVanillaRegenToCancelOut * numImpaledSpears;
             if (numImpaledSpears == 0)
             {
                 totalDPSAdjusted -= Daybroken.EnemyVanillaRegenToCancelOut;
@@ -308,10 +290,10 @@ namespace CalamityMod.DataStructures
         public static void OiledNPCMethod(NPC npc, int buffType, ref int buffIndex, ref int damage)
         {
             var cnpc = npc.Calamity();
-            double totalDPS = ApplyScalingToStatModifer(cnpc.ActiveHeatDebuffMultiplier,Oiled.HeatDebuffScaling).ApplyTo(Oiled.EnemyLostRegen);
+            double totalDPS = ApplyScalingToStatModifer(cnpc.ActiveHeatDebuffMultiplier, Oiled.HeatDebuffScaling).ApplyTo(Oiled.EnemyLostRegen);
             if (totalDPS <= 0)
                 return;
-            npc.Calamity().ApplyDPSDebuff((int)(totalDPS), damage+(int)Math.Max(totalDPS * Oiled.MultiplierDamageTickSize, Oiled.MinimumDamageTickSize), ref npc.lifeRegen, ref damage);
+            npc.Calamity().ApplyDPSDebuff((int)(totalDPS), damage + (int)Math.Max(totalDPS * Oiled.MultiplierDamageTickSize, Oiled.MinimumDamageTickSize), ref npc.lifeRegen, ref damage);
         }
         /// <summary>
         /// Has Dryad's Bane scale with Calamity's town NPC buffs
@@ -419,7 +401,7 @@ namespace CalamityMod.DataStructures
         };
         public static DebuffData Electrified = new DebuffData(DebuffBehavior.Electric)
         {
-            EnemyLostRegen = 21,
+            EnemyLostRegen = 30, // 15 dps stationary, 60 dps moving
             EnemyVanillaRegenToCancelOut = 8,
             ElectricDebuffScaling = 1
         };
@@ -435,6 +417,39 @@ namespace CalamityMod.DataStructures
             EnemyLostRegen = 8, //This is not used in the method, serves as a token amount for anything that may need to interface in the future.
             NPCLifeRegenMethod = DryadsBaneNPCMethod
         };
+        #endregion
+
+        #region Helpers
+        public static int GetDebuffRegenValue(NPC npc, int type)
+        {
+            var debuffData = CalamityBuffSets.DebuffDataset[type];
+            if (debuffData == null)
+                return 0;
+
+            var oldRegen = npc.lifeRegen;
+            var oldCount = npc.lifeRegenCount;
+            int dmg = 1;
+            npc.lifeRegenCount = 0;
+            npc.lifeRegen = 0;
+
+            int index = npc.FindBuffIndex(type);
+
+            if (debuffData == Oiled)
+            {
+                bool hasVanillaOil = npc.onFrostBurn || npc.onFrostBurn2 || npc.onFire || npc.onFire2 || npc.onFire3 || npc.shadowFlame;
+                if (hasVanillaOil)
+                    npc.lifeRegen -= Oiled.EnemyVanillaRegenToCancelOut;
+                Oiled.NPCLifeRegenMethod(npc, BuffID.Oiled, ref index, ref dmg);
+            }
+
+            debuffData.NPCLifeRegenMethod(npc, type, ref index, ref dmg);
+
+            int done = npc.lifeRegen;
+            npc.lifeRegen = oldRegen;
+            npc.lifeRegenCount = oldCount;
+            return done;
+        }
+
         #endregion
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Reflection;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -34,6 +36,10 @@ namespace CalamityMod.Items.Weapons.Typeless
         public int CooldownMax => 600;
 
         public float baseUseDir = 0;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Laceration>(), BuffID.BetsysCurse];
+        }
         public override void SetDefaults()
         {
             Item.width = 48;

@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
             int intendedDamage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
 
             modifiers.SourceDamage *= 0f;
-            modifiers.SourceDamage.Flat += intendedDamage * (Main.masterMode ? 2.4f : Main.expertMode ? 1.6f : 1f);
+            modifiers.SourceDamage.Flat += intendedDamage.ScaleWithDifficulty();
             if (Projectile.ai[0] == 1f)
                 modifiers.SourceDamage.Flat /= 2;
         }
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Magic
                 int intendedDamage = Main.rand.Next(GloriousEnd.PlayerExplosionDmgMin, GloriousEnd.PlayerExplosionDmgMax + 1);
 
                 modifiers.SourceDamage *= 0f;
-                modifiers.SourceDamage.Flat += intendedDamage * (Main.masterMode ? 2.4f : Main.expertMode ? 1.6f : 1f);
+                modifiers.SourceDamage.Flat += intendedDamage.ScaleWithDifficulty();
                 if (Projectile.ai[0] == 1f)
                     modifiers.SourceDamage.Flat /= 2;
             }

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             Item.width = 26;
             Item.height = 26;
-            Item.damage = 68;
+            Item.damage = 60;
             Item.DamageType = TrueMeleeDamageClass.Instance;
             Item.useTime = Item.useAnimation = 12;
             Item.knockBack = 12f;

@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (Projectile.ai[2] != 1)
             {
                 for (var i = 0; i < 4; i++)
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(0.75f) * Main.rand.NextFloat(0.5f,0.75f), ModContent.ProjectileType<AstralSandBallGun>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner, ai2: 1);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(0.75f) * Main.rand.NextFloat(0.5f,0.75f), ModContent.ProjectileType<AstralSandBallGun>(), (int)(Projectile.damage), Projectile.knockBack, Projectile.owner, ai2: 1);
             }
         }
 
@@ -233,7 +233,7 @@ namespace CalamityMod.Projectiles.Typeless
     public class VolcanicSandBallGun : SandBall
     {
         public override string Texture => "CalamityMod/Projectiles/Typeless/SandBallVolcanic";
-        public override int TileType => ModContent.TileType<Tiles.SunkenSea.EutrophicSand>();
+        public override int TileType => ModContent.TileType<Tiles.SunkenSea.VolcanicSand>();
         public override int ItemType => ModContent.ItemType<Items.Placeables.SunkenSea.VolcanicSand>();
         public override int DustType => -1;
 

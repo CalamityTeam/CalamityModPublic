@@ -19,6 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.height = 22;
             Projectile.friendly = true;
             Projectile.aiStyle = ProjAIStyleID.MechanicalPiranha;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 6;

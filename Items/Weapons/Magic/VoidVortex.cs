@@ -1,6 +1,8 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -17,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             Item.staff[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<AuricRebuke>()];
         }
 
         public override void SetDefaults()
@@ -25,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 130;
             Item.damage = 210;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 60;
+            Item.mana = 70;
             Item.useAnimation = Item.useTime = 49;
             Item.knockBack = 0.25f;
             Item.shoot = ModContent.ProjectileType<VoidVortexProj>();

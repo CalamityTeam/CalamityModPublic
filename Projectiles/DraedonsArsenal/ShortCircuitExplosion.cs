@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
             Player Owner = Main.player[Projectile.owner];
 
             Vector2 launchVel = Utils.DirectionTo(Owner.Center, target.Center);
-            target.MoveNPC(launchVel, 12, true);
+            target.MoveNPC(launchVel, 12, true, Owner);
         }
 
         public override void AI()

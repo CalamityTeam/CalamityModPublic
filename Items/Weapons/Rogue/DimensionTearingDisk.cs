@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.NPCs.DevourerofGods;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -16,14 +15,18 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class DimensionTearingDisk : RogueWeapon
     {
         public static float Speed = 10.5f;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<GodSlayerInferno>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 62;
             Item.height = 58;
             Item.DamageType = RogueDamageClass.Instance;
-            Item.useTime = Item.useAnimation = 24;
+            Item.useTime = Item.useAnimation = 27;
             Item.knockBack = 7f;
-            Item.damage = 980;
+            Item.damage = 725;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
@@ -34,11 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<DimensionTearingDiskProjectile>();
             Item.shootSpeed = Speed;
         }
-
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        { 
-            tooltips.FindAndReplaceAll("ff00ff", Utils.Hex3(DevourerofGodsHead.SpecialMoveColor));
-        }
+        public override float StealthDamageMultiplier => 1.3f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

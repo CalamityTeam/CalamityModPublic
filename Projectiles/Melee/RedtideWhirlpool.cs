@@ -28,14 +28,14 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 40;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.timeLeft = 30;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()
         {
-            Projectile.velocity *= 0.97f;
+            Projectile.velocity *= 0.93f;
             Projectile.rotation += MathHelper.PiOver4 / 2.4f * Math.Sign(Projectile.velocity.X);
 
             int dustCount = Main.rand.Next(4);
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Melee
                 Dust dust = Dust.NewDustPerfect(offset + dustDirection, DustID.DungeonWater, Vector2.Zero, 100, default, 1.4f);
                 dust.noGravity = true;
                 dust.noLight = true;
-                dust.velocity = dustDirection;
+                dust.velocity = dustDirection * 0.5f;
             }
         }
     }

@@ -35,6 +35,12 @@ namespace CalamityMod.Projectiles.Magic
         public int shotNum = 0;
         public SlotId ionHum { get; set; }
 
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            Projectile.DamageType = DamageClass.Magic;
+        }
+
         public override void KillHoldoutLogic()
         {
             if (Owner.dead)

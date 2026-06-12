@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Typeless
             modifiers.SourceDamage *= damageMult;
 
             Vector2 launchVel = Utils.DirectionTo(Owner.Center, Owner.Calamity().mouseWorld);
-            target.MoveNPC(launchVel, 15, true);
+            target.MoveNPC(launchVel, 15, true, Owner);
         }
 
         public override bool? CanCutTiles() => false;

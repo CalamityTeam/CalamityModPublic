@@ -3,6 +3,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -14,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
     public class GildedProboscisProj : BaseSwordHoldoutProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Melee";
-        public override bool useMeleeSpeed => false;
+        public override bool useAttackSpeed => false;
         public override bool useMeleeSize => false;
         public override int swingWidth => 360;
         public override Item BaseItem => ModContent.GetModItem(ModContent.ItemType<GildedProboscis>()).Item;
@@ -90,7 +91,10 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 else
                 {
                     if (timer == StartupTime - 1)
-                        Projectile.damage = (int)(Projectile.damage * 0.75 * (channelCharge / 75f)); //scales from 0x to 3x power
+                    {
+                        Projectile.originalDamage = (int)(Projectile.originalDamage * 0.75 * (channelCharge / 75f)); //scales from 0x to 3x power
+                        Projectile.damage = (int)(Projectile.damage * 0.75 * (channelCharge / 75f)); //Both are needed 
+                    }
                 }
                 //Make the sprite rotation look right in game
                 Projectile.rotation -= (MathHelper.PiOver2) * (angle.X > 0 ? 1 : -1);
@@ -260,15 +264,11 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(ModContent.BuffType<VermillionFlux>(), 900);
-            Main.player[Projectile.owner].SpawnLifeStealProjectile(target, Projectile, ProjectileID.VampireHeal, (int)Math.Round(hit.Damage * 0.0015));
-            if (Projectile.damage > 1)
-                Projectile.damage = (int)(Projectile.damage * 0.925f);
+            Main.player[Projectile.owner].SpawnLifeStealProjectile(target, Projectile, ProjectileID.VampireHeal, (int)Math.Round(hit.Damage * 0.0015), 0.5f);
+            Projectile.originalDamage = (int)(Projectile.originalDamage * 0.925f);
+            Projectile.damage = (int)(Projectile.damage * 0.925f); //Both are needed as it doesn't recalculate till next frame
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            modifiers.SetCrit();
-            float critDamage = Main.player[Projectile.owner].GetTotalCritChance(Projectile.DamageType) * 0.02f;
-            modifiers.CritDamage += critDamage;
-        }
+            => modifiers.ApplyScalingForcedCrit(Projectile);
     }
 }

@@ -35,6 +35,13 @@ namespace CalamityMod.Projectiles.Magic
 
         public Color color1 = Color.Goldenrod;
         public Color color2 = Color.Orange;
+
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            Projectile.DamageType = DamageClass.Magic;
+        }
+
         public override void KillHoldoutLogic()
         {
             if (!isOnCooldown && (Owner.CantUseHoldout(false) || HeldItem.type != Owner.HeldItem.type))
@@ -49,6 +56,15 @@ namespace CalamityMod.Projectiles.Magic
             {
                 PostFiringCooldown();
                 return;
+            }
+
+            if ((shootingTimer >= 10 && revFrames < 150) || (revFrames >= 150 && !isOnCooldown))
+            {
+                if (!Owner.CheckMana(Owner.HeldItem, -1, true))
+                {
+                    Projectile.Kill();
+                    return;
+                }
             }
 
             revSpeed = Utils.Remap(revFrames, 0, 150, 1, 3, true);

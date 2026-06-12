@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
 
-        public static int MaxDefenseBoost = 20;
+        public static int MaxDefenseBoost = 15;
         public static float MaxMoveSpeedReduction = 0.1f;
         public static int TimeToReachMaxBoost = CalamityUtils.SecondsToFrames(10);
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(TimeToReachMaxBoost.FramesToSeconds(), MaxDefenseBoost, MaxMoveSpeedReduction.ToPercent());

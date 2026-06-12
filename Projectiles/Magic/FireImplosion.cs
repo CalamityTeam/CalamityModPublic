@@ -98,6 +98,7 @@ namespace CalamityMod.Projectiles.Magic
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            Player Owner = Main.player[Projectile.owner];
             if (frigidFlash)
             {
                 target.AddBuff(BuffID.OnFire3, 30);
@@ -112,7 +113,7 @@ namespace CalamityMod.Projectiles.Magic
             modifiers.SourceDamage *= damageMult * (frigidFlash ? 0.5f : 1); // Frigidflash explosion are spawned at full power, so their damage is reduced here
 
             // The vortex sucks in enemies
-            target.MoveNPC(-pushVelocity, customKnockback, frigidFlash);
+            target.MoveNPC(-pushVelocity, customKnockback, frigidFlash, Owner);
         }
         public override void OnKill(int timeLeft)
         {

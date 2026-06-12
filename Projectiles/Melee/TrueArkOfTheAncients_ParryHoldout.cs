@@ -128,9 +128,9 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         GeneralParryEffects();
 
-                        //Reduce the projectile's damage by 80 for a second.
-                        if (proj.Calamity().flatDR < 80)
-                            proj.Calamity().flatDR = 80;
+                        //Reduce the projectile's damage by 30 for a second.
+                        if (proj.Calamity().flatDR < 30)
+                            proj.Calamity().flatDR = 30;
                         if (proj.Calamity().flatDRTimer < 60)
                             proj.Calamity().flatDRTimer = 60;
 

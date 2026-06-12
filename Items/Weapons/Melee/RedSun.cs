@@ -3,6 +3,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -15,11 +16,15 @@ namespace CalamityMod.Items.Weapons.Melee
     public class RedSun : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Daybroken>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 62;
             Item.height = 62;
-            Item.damage = 350;
+            Item.damage = 400;
             Item.DamageType = DamageClass.Melee;
             Item.useTime = 10;
             Item.useAnimation = 40;

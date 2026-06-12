@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             Item.staff[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Electrified];
         }
 
         public override void SetDefaults()
@@ -26,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 78;
             Item.damage = 215;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 32;
+            Item.mana = 45;
             Item.useTime = Item.useAnimation = 34;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;

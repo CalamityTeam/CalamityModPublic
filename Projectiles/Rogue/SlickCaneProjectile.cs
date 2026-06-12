@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ownerHitCheck = true;
             Projectile.hide = true;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 5;
+            Projectile.localNPCHitCooldown = -1;
             Projectile.alpha = 180;
             Projectile.scale = 1.25f;
         }
@@ -64,12 +64,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            float f2 = Projectile.rotation - MathHelper.PiOver4 *
-                Math.Sign(Projectile.velocity.X) + (Projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
+            float spearLengthMult = 2.5f;
             float velocityMagnitude = 0f;
-            float scaleFactor = 18f;
             if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(),
-                Main.player[Projectile.owner].Center, Projectile.Center + f2.ToRotationVector2() * scaleFactor,
+                Main.player[Projectile.owner].Center, Main.player[Projectile.owner].Center + Projectile.velocity * spearLengthMult,
                 (TravelSpeed + 1f) * Projectile.scale, ref velocityMagnitude))
             {
                 return true;

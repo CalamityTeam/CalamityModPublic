@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public const int TrueMeleeHitHeal = 4;
 
-        public const int TrueMeleeGlacialStateTime = 30;
+        public const int TrueMeleeFrozenTime = 30;
 
         public const float SmallSlashDamageFactor = 0.4f;
 

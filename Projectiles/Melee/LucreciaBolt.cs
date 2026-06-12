@@ -46,7 +46,11 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 12;
         }
-
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float hitboxSize = Projectile.width * Projectile.ai[2];
+            return CalamityUtils.CircularHitboxCollision(Projectile.Center, hitboxSize, targetHitbox);
+        }
         public override void AI()
         {
             // Little bit of ambient lighting as it travels
@@ -54,7 +58,7 @@ namespace CalamityMod.Projectiles.Melee
 
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.velocity *= 1.01f;
-            Projectile.scale = Utils.GetLerpValue(0f, 0.1f, Projectile.timeLeft / 600f, true);
+            Projectile.scale = Utils.GetLerpValue(0f, 0.1f, Projectile.timeLeft / 600f, true) * Projectile.ai[2];
 
             if (Projectile.FinalExtraUpdate())
                 Time++;
@@ -103,7 +107,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public float TrailWidth(float completionRatio, Vector2 vertexPos)
         {
-            float width = Utils.GetLerpValue(1f, 0.4f, completionRatio, true) * (float)Math.Sin(Math.Acos(1 - Utils.GetLerpValue(0f, 0.08f, completionRatio, true)));
+            float sine = MathF.Sin(Main.GlobalTimeWrappedHourly * 9 - completionRatio * 6);
+            float newSine = 0.7f - sine * 0.3f;
+            float width = newSine * (completionRatio < 0.4f ? 1 - MathF.Pow(Utils.GetLerpValue(0.4f, 0f, completionRatio, true), 3) : Utils.GetLerpValue(1f, 0.4f, completionRatio, true)) * (float)Math.Sin(Math.Acos(1 - Utils.GetLerpValue(0f, 0.08f, completionRatio, true))) * MathF.Pow(Projectile.ai[2], 0.4f);
 
             width *= Utils.GetLerpValue(0f, 0.1f, Projectile.timeLeft / 600f, true);
 
@@ -123,7 +129,7 @@ namespace CalamityMod.Projectiles.Melee
             return baseColor * Projectile.Opacity;
         }
 
-        public float MiniTrailWidth(float completionRatio, Vector2 vertexPos) => TrailWidth(completionRatio, vertexPos) * 5.5f;
+        public float MiniTrailWidth(float completionRatio, Vector2 vertexPos) => TrailWidth(completionRatio, vertexPos) * 5.5f * Projectile.ai[2];
 
         public override bool PreDraw(ref Color lightColor)
         {

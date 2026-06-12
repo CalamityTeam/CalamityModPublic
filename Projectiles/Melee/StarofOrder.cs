@@ -35,14 +35,18 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 7;
         }
-
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float hitboxSize = Projectile.width * Projectile.scale;
+            return CalamityUtils.CircularHitboxCollision(Projectile.Center, hitboxSize, targetHitbox);
+        }
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
             mainColor = player.Calamity().lightRGB;
-            if (time == 0)
+            if (time == 0 && Projectile.numHits == 0)
             {
-                Projectile.scale = Main.rand.NextFloat(0.65f, 0.8f);
+                Projectile.scale *= Main.rand.NextFloat(0.65f, 0.8f);
             }
             float sine = (float)Math.Sin(time * 0.575f * Projectile.scale / MathHelper.Pi);
 
@@ -59,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (time % 2 == 0 && Projectile.numHits < 1)
             {
-                Particle spark = new CustomSpark(Projectile.Center, Projectile.velocity * 0.2f, "CalamityMod/Particles/BloomCircle", false, 13, 0.35f, mainColor * 0.75f, new Vector2(0.8f, 1.35f), true, false, shrinkSpeed: 0.3f);
+                Particle spark = new CustomSpark(Projectile.Center, Projectile.velocity * 0.2f, "CalamityMod/Particles/BloomCircle", false, 13, 0.35f, mainColor * 0.75f, new Vector2(0.8f, 1.35f) * Projectile.scale, true, false, shrinkSpeed: 0.3f);
                 GeneralParticleHandler.SpawnParticle(spark);
             }
             
@@ -107,10 +111,10 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 velocity = spinningPoint.RotatedBy(radians * k).RotatedBy(-0.45f);
                 Dust dust = Dust.NewDustPerfect(Projectile.Center + velocity * 2, ModContent.DustType<SquashDust>(), velocity * 8);
-                dust.scale = 3.5f;
+                dust.scale = 3.5f * Projectile.scale;
                 dust.color = mainColor;
                 dust.noGravity = true;
-                dust.fadeIn = 6f;
+                dust.fadeIn = 6f * Projectile.scale;
             }
         }
     }

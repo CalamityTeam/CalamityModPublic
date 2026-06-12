@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (Projectile.localAI[0] >= 25 && !spawnedProjectile)
                 {
                     // ai[1] and ai[2] will inherit this sigil's position and timeLeft as its own
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<WarpSigilShotCreator>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, Projectile.whoAmI, Projectile.timeLeft);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<WarpSigilShotCreator>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner, 0, Projectile.whoAmI, Projectile.timeLeft);
                     spawnedProjectile = true;
                 }
 

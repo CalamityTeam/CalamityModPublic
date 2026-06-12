@@ -221,7 +221,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC target = Main.npc[i];
-                    if (target.CanBeMoved(true) && target.CanBeChasedBy(Projectile, false))
+                    if (target.CanBeMoved() && target.CanBeChasedBy(Projectile, false))
                     {
                         if (target != null && !CalamityPlayer.areThereAnyDamnBosses)
                         {
@@ -284,7 +284,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
 
                 Vector2 launchVel = Utils.DirectionTo(Projectile.Center, target.Center);
-                target.MoveNPC(launchVel, 60, true);
+                target.MoveNPC(launchVel, 60, true, Owner);
             }
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers) // Add to regular plz

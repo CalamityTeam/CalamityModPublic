@@ -1,5 +1,6 @@
 ﻿using System;
 using CalamityMod.Particles;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -45,26 +46,38 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 Vector2 launchVel = Projectile.velocity.SafeNormalize(Vector2.UnitX);
                 float launchPower = 25;
-                targeted.MoveNPC(launchVel, launchPower, true);
+                targeted.MoveNPC(launchVel, launchPower, true, Owner);
             }
             time++;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            Player player = Main.player[Projectile.owner];
+            int manaGained = 250;
+            player.statMana += manaGained;
+            if (Main.myPlayer == player.whoAmI)
+                player.ManaEffect(manaGained);
+
+            if (player.statMana > player.statManaMax2)
+                player.statMana = player.statManaMax2;
         }
 
         public override bool? CanHitNPC(NPC target) => (target == targeted) ? null : false;
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            modifiers.SetCrit();
+            modifiers.ApplyScalingForcedCrit(Projectile);
+
             Player Owner = Main.player[Projectile.owner];
-            float critDamage = Math.Min(Owner.GetTotalCritChance(Projectile.DamageType) * 0.01f, 1f);
             float minMult = 0.25f;
             int hitsToMinMult = 7;
             float damageMult = Utils.Remap(Projectile.numHits, 0, hitsToMinMult, 1, minMult, true);
-            modifiers.SourceDamage *= damageMult + critDamage;
+            modifiers.SourceDamage *= damageMult;
 
             Vector2 launchVel = Projectile.velocity.SafeNormalize(Vector2.UnitX);
             float launchPower = 40;
-            target.MoveNPC(launchVel, launchPower, true);
+            target.MoveNPC(launchVel, launchPower, true, Owner);
         }
         public override bool PreDraw(ref Color lightColor)
         {

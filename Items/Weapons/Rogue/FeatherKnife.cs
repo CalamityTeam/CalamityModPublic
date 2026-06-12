@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.noMelee = true;
             Item.noUseGraphic = true;
 
-            Item.damage = 25;
-            Item.useAnimation = Item.useTime = 20;
+            Item.damage = 22;
+            Item.useAnimation = Item.useTime = 30;
             Item.knockBack = 2f;
             Item.autoReuse = true;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = CalamityGlobalItem.RarityOrangeBuyPrice;
             Item.rare = ItemRarityID.Orange;
         }
-        public override float StealthDamageMultiplier => 0.7f;
+        public override float StealthDamageMultiplier => 0.6f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -54,8 +54,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<AerialiteBar>(6).
-                AddIngredient(ItemID.SunplateBlock, 4).
+                AddIngredient<AerialiteBar>(7).
                 AddTile(TileID.Anvils).
                 Register();
         }

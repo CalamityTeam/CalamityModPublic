@@ -46,7 +46,6 @@ namespace CalamityMod.Items.Armor.Bloodflare
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareMage = true;
             player.setBonus = this.GetLocalization("SetBonus").Format(GhostBoltCooldown.FramesToSeconds(), BloodsplosionCooldown.FramesToSeconds());
-            player.crimsonRegen = true;
         }
 
         public override void UpdateEquip(Player player)

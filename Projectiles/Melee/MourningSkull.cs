@@ -23,7 +23,9 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 26;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 5;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
             Projectile.timeLeft = 600;
             Projectile.alpha = 255;
             Projectile.tileCollide = false;
@@ -59,36 +61,31 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Projectile.ai[0] >= 0f && Projectile.ai[0] < 200f)
             {
-                int npcTracker = (int)Projectile.ai[0];
-                if (Main.npc[npcTracker].active)
-                {
-                    Vector2 projPos = Projectile.Center;
-                    float npcXDist = Main.npc[npcTracker].position.X - projPos.X;
-                    float npcYDist = Main.npc[npcTracker].position.Y - projPos.Y;
-                    float npcDistance = (float)Math.Sqrt((double)(npcXDist * npcXDist + npcYDist * npcYDist));
-                    npcDistance = 8f / npcDistance;
-                    npcXDist *= npcDistance;
-                    npcYDist *= npcDistance;
-                    Projectile.velocity.X = (Projectile.velocity.X * 14f + npcXDist) / 15f;
-                    Projectile.velocity.Y = (Projectile.velocity.Y * 14f + npcYDist) / 15f;
-                }
+                NPC potentialTarget = null;
+                if (Main.npc[(int)Projectile.ai[0]].active && Projectile.localNPCImmunity[(int)Projectile.ai[0]] == 0)
+                    potentialTarget = Main.npc[(int)Projectile.ai[0]];
                 else
                 {
-                    float homingRange = 1000f;
-                    foreach (NPC n in Main.ActiveNPCs)
+                    float range = 1600f;
+                    foreach (NPC target in Main.ActiveNPCs)
                     {
-                        if (n.CanBeChasedBy(Projectile, false))
+                        if (target.CanBeChasedBy(Projectile) && Projectile.localNPCImmunity[target.whoAmI] == 0)
                         {
-                            float targetX = n.position.X + (float)(n.width / 2);
-                            float targetY = n.position.Y + (float)(n.height / 2);
-                            float targetDist = Math.Abs(Projectile.position.X + (float)(Projectile.width / 2) - targetX) + Math.Abs(Projectile.position.Y + (float)(Projectile.height / 2) - targetY);
-                            if (targetDist < homingRange && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, n.position, n.width, n.height))
+                            float distance = Vector2.Distance(target.Center, Projectile.Center);
+                            if (distance < range)
                             {
-                                homingRange = targetDist;
-                                Projectile.ai[0] = (float)n.whoAmI;
+                                range = distance;
+                                potentialTarget = target;
                             }
                         }
                     }
+                }
+
+                if (potentialTarget != null)
+                {
+                    Projectile.alpha = 0;
+                    Vector2 idealVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 18f;
+                    Projectile.velocity = (Projectile.velocity * 14f + idealVelocity) / 15f;
                 }
 
                 if (Projectile.velocity.X < 0f)
@@ -154,7 +151,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Daybreak, 300);
-            if (Projectile.owner == Main.myPlayer)
+            if (Projectile.owner == Main.myPlayer && Projectile.numHits == 0)
             {
                 for (int k = 0; k < 2; k++)
                 {

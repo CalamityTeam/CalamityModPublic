@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using CalamityMod.Dusts;
+using CalamityMod.Enums;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Particles;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
@@ -30,6 +36,7 @@ namespace CalamityMod.NPCs
         private bool hitVoid = false;
         private Player attacker;
         private int packetTimer = 0;
+        private bool GrandDad = false;
 
         public int PotentialEnergyDamage
         {
@@ -76,12 +83,8 @@ namespace CalamityMod.NPCs
         /// <param name="potentialDamage">The maximum fall damage taken by the npc once they hit the ground</param>
         /// <param name="terminalVelocityForFullDamage">The downwards velocity necessary to recieve the full fall damage. By default 10, the npc max fall speed</param>
         /// <param name="checkTiles">Will check for tiles in the collision instead of velocity</param>
-        public void ApplyCollisionDamage(NPC npc, Player player, int potentialDamage, Vector2 forcedVel, float terminalVelocityForFullDamage = 10f, bool checkTiles = false)
+        public void ApplyCollisionDamage(NPC npc, Player player, int potentialDamage, Vector2 forcedVel, float terminalVelocityForFullDamage = 10f, bool checkTiles = false, bool grandDad = false)
         {
-            //NPCs that don't collide with tiles simply don't get fall damage, lol.
-            if (npc.noTileCollide)
-                return;
-
             PotentialEnergyDamage = potentialDamage;
             OldVelocity = npc.velocity;
             OlderVelocity = npc.velocity;
@@ -89,6 +92,7 @@ namespace CalamityMod.NPCs
             CheckTiles = checkTiles;
             ForcedVel = forcedVel;
             attacker = player;
+            GrandDad = grandDad;
         }
 
         /// <summary>
@@ -100,10 +104,6 @@ namespace CalamityMod.NPCs
         /// <param name="checkTiles">Will check for tiles in the collision instead of velocity</param>
         public void ApplyForcedVelocity(NPC npc, Player player, Vector2 forcedVel, bool checkTiles = false)
         {
-            // NPCs that don't collide with tiles simply don't get velocity, lol.
-            if (npc.noTileCollide)
-                return;
-
             OldVelocity = npc.velocity;
             OlderVelocity = npc.velocity;
             CheckTiles = checkTiles;
@@ -118,17 +118,69 @@ namespace CalamityMod.NPCs
             {
                 if (CheckTiles)
                 {
-                    float oldVelocity = OldVelocity.Length();
-
                     npc.Center += ForcedVel;
                     ForcedVel *= 0.995f;
+                    Vector2 safeVel = ForcedVel.SafeNormalize(Vector2.UnitX);
 
-                    if (Collision.SolidCollision(npc.Center, (int)(npc.width * 0.5f), (int)(npc.height * 0.5f)) || !WorldGen.InWorld(npc.Center.ToTileCoordinates().X, npc.Center.ToTileCoordinates().Y, 40))
+                    if (npc.velocity == Vector2.Zero || ForcedVel.Length() < 2 || Collision.SolidCollision(npc.Center, (int)(npc.width * 0.5f), (int)(npc.height * 0.5f)) || !WorldGen.InWorld(npc.Center.ToTileCoordinates().X, npc.Center.ToTileCoordinates().Y, 40))
                     {
-                        if (!ForceVelocityOnly)
+                        if (!ForceVelocityOnly && potentialEnergyDamage > 0)
                         {
+                            float oldVelocity = OldVelocity.Length();
+                            if (GrandDad)
+                            {
+                                float scale = (npc.boss ? 1.35f : 1) + Utils.GetLerpValue(20, 800, Math.Max(npc.width, npc.height));
+
+                                attacker.SetScreenshake(7f * scale);
+                                if (!CalamityClientConfig.Instance.Photosensitivity)
+                                {
+                                    Vector2 pulseVel = -safeVel;
+                                    Particle pulse1 = new CustomSpark(npc.Center, pulseVel * 2, "CalamityMod/Particles/BloomCircle", false, (int)(23 * MathF.Pow(scale, 2)), 0.6f * MathF.Pow(scale, 2), Color.DodgerBlue, new Vector2(2f, 1f), shrinkSpeed: -0.1f / scale, noShrink: true, glowCenter: true, glowOpacity: 0.8f);
+                                    GeneralParticleHandler.SpawnParticle(pulse1, true);
+                                    Particle pulse2 = new CustomSpark(npc.Center, pulseVel, "CalamityMod/Particles/BloomRing", false, (int)(18 * MathF.Pow(scale, 2)), 0.5f * MathF.Pow(scale, 2), Color.Blue, new Vector2(4f, 0.7f), shrinkSpeed: -0.3f / scale, noShrink: true);
+                                    GeneralParticleHandler.SpawnParticle(pulse2, true);
+                                }
+
+
+                                for (int i = 0; i < 2; i++)
+                                {
+                                    SoundStyle die = new("CalamityMod/Sounds/Item/HolyFireBulletExplosion");
+                                    SoundEngine.PlaySound(die with { Pitch = 0.5f, Volume = Math.Min(0.6f * scale, 1f), MaxInstances = 2 }, npc.Center);
+                                    if (npc.boss)
+                                    {
+                                        SoundStyle dieHard = new("CalamityMod/Sounds/Item/HellkiteSmallHit3");
+                                        SoundEngine.PlaySound(dieHard with { Pitch = -1f, Volume = Math.Min(0.5f * scale, 1f), MaxInstances = 2 }, npc.Center);
+                                    }
+                                    SoundStyle dieHarder = new("CalamityMod/Sounds/Item/HeliumFlashCoreImpact");
+                                    SoundEngine.PlaySound(dieHarder with { Pitch = -1.8f, Volume = Math.Min(0.6f * scale, 1f), MaxInstances = 2 }, npc.Center);
+                                }
+                                for (int i = 0; i < 30; i++)
+                                {
+                                    float variance = Main.rand.NextFloat(-0.8f, 0.8f);
+                                    Dust dust = Dust.NewDustPerfect(npc.Center, ModContent.DustType<VoidDustPixelated>(),
+                                        -safeVel.RotatedBy(variance * 2).RotatedByRandom(MathF.Abs(variance) / 3) * scale * Main.rand.NextFloat(30.0f, 33.0f) * MathF.Pow((1 - MathF.Abs(variance)), 2), 0, default, scale * Main.rand.NextFloat(2.3f, 3.2f) - MathF.Abs(variance));
+                                    dust.noGravity = true;
+                                    dust.color = Main.rand.NextBool() ? Color.DodgerBlue : Color.Blue;
+                                    dust.customData = 2;
+                                    dust.fadeIn = 0.5f * scale;
+                                }
+                                for (int i = 0; i < 15; i++)
+                                {
+                                    float variance = Main.rand.NextFloat(-0.8f, 0.8f);
+                                    Vector2 vel = -safeVel.RotatedBy(variance / 2).RotatedByRandom(MathF.Abs(variance) / 3) * Main.rand.NextFloat(20.0f, 23.0f) * MathF.Pow((1 - MathF.Abs(variance)), 2);
+                                    Dust dust2 = Dust.NewDustPerfect(npc.Center + vel * 13, ModContent.DustType<SquashDustPixelated>(),
+                                        vel, 0, default, 2 * Main.rand.NextFloat(2.3f, 3.2f) - MathF.Abs(variance));
+                                    dust2.noGravity = true;
+                                    dust2.color = Main.rand.NextBool() ? Color.Gold : Color.Goldenrod;
+                                    dust2.customData = new Vector2(0.2f, 1.6f);
+                                    dust2.fadeIn = 2.5f;
+
+                                }
+                            }
+
+                            bool instakill = (GrandDad && potentialEnergyDamage != 1);
                             int wallImpactDamage = (int)(PotentialEnergyDamage * Math.Clamp(oldVelocity / terminalVelocityForFullFallDamage, (ForcedVel.Length() > 0 ? 1f : 0f), 1f));
-                            Projectile wallImpact = Projectile.NewProjectileDirect(attacker.GetSource_FromThis(), npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), wallImpactDamage, 0f, attacker.whoAmI, npc.whoAmI);
+                            Projectile wallImpact = Projectile.NewProjectileDirect(attacker.GetSource_FromThis(), npc.Center, Vector2.Zero, instakill ? ModContent.ProjectileType<TileSlamDamage>() : ModContent.ProjectileType<DirectStrike>(), wallImpactDamage, 0f, attacker.whoAmI, npc.whoAmI);
                             wallImpact.DamageType = DamageClass.Melee;
                             wallImpact.CritChance = (int)attacker.GetCritChance(DamageClass.Melee) + attacker.HeldItem.crit;
                         }

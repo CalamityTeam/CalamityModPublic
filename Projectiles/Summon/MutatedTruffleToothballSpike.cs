@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Summon;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -49,6 +50,8 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.ForceNetUpdate();
             }
         }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
 
         public override bool? CanDamage() => (TimerForHitbox >= TimeForHitbox && Projectile.getRect().Intersects(TargetShot.getRect())) ? null : false;
     }

@@ -16,7 +16,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Item.width = 108;
             Item.height = 108;
-            Item.damage = 10000;
+            Item.damage = 8800;
+            Item.crit = 20;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = Item.useTime = 60;
@@ -40,9 +41,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
-
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 20;
 
         public override void AddRecipes()
         {

@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.Crags
             if (DownedBossSystem.downedProvidence)
             {
                 NPC.damage = 80;
-                NPC.defense = 20;
+                NPC.defense = 40;
                 NPC.lifeMax = 3500;
             }
             Banner = NPC.type;

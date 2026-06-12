@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.Summon.Whips;
 using CalamityMod.CalPlayer;
@@ -12,6 +13,7 @@ using CalamityMod.NPCs.Providence;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,7 +38,11 @@ namespace CalamityMod.Items.Accessories
 
         public const int maxMinionRequirement = 10;
         public const int maxPscAnimTime = 120;
-        public static SummonTag SummonTag = new() { MultiplicativeTagDamage = 0.2f, TagModifyHitEffects = ApplyTagModifyHit, AutoDrawTooltip = false };
+        public static SummonTag SummonTag = new() {
+            MultiplicativeTagDamage = 0.2f,
+            TagModifyHitEffects = ApplyTagModifyHit,
+            AutoDrawTooltip = false
+        };
 
         public static void ApplyTagModifyHit(Projectile proj, NPC npc, ref NPC.HitModifiers modifiers, ref float tagDamageMult, ref float critChance)
         {
@@ -215,13 +221,13 @@ namespace CalamityMod.Items.Accessories
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
-
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<HolyFlames>()];
             base.SetStaticDefaults();
         }
 
         public override void SetDefaults()
         {
-            SummonTag.TagItem = Item.type;
+            SummonTag.TagItem = Type;
             SummonTag.TagTexture = TextureAssets.Item[Type];
             Item.width = 50;
             Item.height = 50;

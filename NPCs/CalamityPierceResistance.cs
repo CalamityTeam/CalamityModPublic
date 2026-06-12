@@ -50,19 +50,15 @@ namespace CalamityMod.NPCs
             pierceResistNPC.Add(NPCID.TheDestroyerTail);
 
             // Specific vanilla projectile exemptions
-            exemptProjectiles.Add(ProjectileID.Arkhalis);
             exemptProjectiles.Add(ProjectileID.ChargedBlasterLaser);
             exemptProjectiles.Add(ProjectileID.ClingerStaff);
             exemptProjectiles.Add(ProjectileID.FinalFractal);
             exemptProjectiles.Add(ProjectileID.FlyingKnife);
-            exemptProjectiles.Add(ProjectileID.HallowJoustingLance);
+            exemptProjectiles.Add(ProjectileID.HallowJoustingLance); // "Why not make jousting lances exempt via AI style?" Because they use spear AI. Thanks vanilla!
             exemptProjectiles.Add(ProjectileID.JoustingLance);
             exemptProjectiles.Add(ProjectileID.LastPrismLaser);
             exemptProjectiles.Add(ProjectileType<MarniteRepulsionHitbox>()); // Included here as it does not have a projectile
-            exemptProjectiles.Add(ProjectileID.MonkStaffT3);
-            exemptProjectiles.Add(ProjectileID.PiercingStarlight);
             exemptProjectiles.Add(ProjectileID.ShadowJoustingLance);
-            exemptProjectiles.Add(ProjectileID.Terragrim);
 
             // Specific vanilla projectile single hitbox exemptions
             singleHitboxExemptProjectiles[ProjectileID.NettleBurstEnd] = true;
@@ -134,6 +130,11 @@ namespace CalamityMod.NPCs
             if (singleHitboxExemptProjectiles.TryGetValue(projectile.type, out bool isSingleHitboxExempt) && isSingleHitboxExempt && singleHitboxNPC.Contains(npc.type))
                 return;
 
+            // Skip specific vanilla AI styles, or if the projectile sets heldProj (meaning it's a holdout).
+            if (projectile.aiStyle == ProjAIStyleID.Flail || projectile.aiStyle == ProjAIStyleID.MechanicalPiranha || projectile.aiStyle == ProjAIStyleID.Yoyo ||
+                Main.player[projectile.owner].heldProj == projectile.whoAmI)
+                return;
+
             PierceResistGlobal(projectile, npc, ref modifiers);
         }
 
@@ -150,8 +151,7 @@ namespace CalamityMod.NPCs
 
             modifiers.FinalDamage *= 1f - damageReduction;
 
-            bool aiStyleExempt = projectile.aiStyle == ProjAIStyleID.Flail || projectile.aiStyle == ProjAIStyleID.MechanicalPiranha || projectile.aiStyle == ProjAIStyleID.Yoyo;
-            if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !projectile.CountsAsClass<SummonDamageClass>() && !aiStyleExempt)
+            if ((projectile.penetrate > 1 || projectile.penetrate == -1) && !projectile.CountsAsClass<SummonDamageClass>())
                 projectile.Calamity().timesPierced++;
         }
     }

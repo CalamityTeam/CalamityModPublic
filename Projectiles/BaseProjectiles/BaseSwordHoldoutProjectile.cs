@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CalamityMod.Graphics.Primitives;
-using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -73,7 +72,6 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         }
     }
 
-    [PierceResistException]
     //Doze 24apr2025 - Not a child of BaseCustomUseStyleProjectile because this doesn't use any of it's functionality. Comes from my melee rework mod.
     public abstract class BaseSwordHoldoutProjectile : ModProjectile
     {
@@ -118,7 +116,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         /// Whether or not this should get melee speed bonuses
         /// Defaults to TRUE
         /// </summary>
-        public virtual bool useMeleeSpeed { get; set; } = true;
+        public virtual bool useAttackSpeed { get; set; } = true;
 
         /// <summary>
         /// Whether or not this should get melee size bonuses (Titan Glove)
@@ -297,6 +295,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             Projectile.extraUpdates = 0;
             Projectile.aiStyle = -2;
             Projectile.DamageType = ModLoader.GetMod("CalamityMod").Find<DamageClass>("TrueMeleeDamageClass");
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.tileCollide = false;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 2;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 100;
@@ -333,9 +332,9 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             StartupTime *= Projectile.MaxUpdates;
             CooldownTime *= Projectile.MaxUpdates;
             swingTime *= Projectile.MaxUpdates;
-            if (useMeleeSpeed)
+            if (useAttackSpeed)
             {
-                var speed = Main.player[Projectile.owner].GetAttackSpeed<MeleeDamageClass>();
+                var speed = Main.player[Projectile.owner].GetTotalAttackSpeed(Projectile.DamageType);
                 if (speed > 3f)
                     speed = 3f;
 
@@ -352,8 +351,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             }
             if (useMeleeSize)
             {
-                if (player.meleeScaleGlove) Projectile.scale *= 1.1f;
-                Projectile.scale *= player.HeldItem.scale;
+                Projectile.scale *= player.GetMeleeScale();
             }
             baseScale = Projectile.scale;
             ExistsTime = swingTime + StartupTime + CooldownTime;

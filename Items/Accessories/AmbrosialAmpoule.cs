@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
@@ -13,8 +14,11 @@ namespace CalamityMod.Items.Accessories
     {
         public new string LocalizationCategory => "Items.Accessories";
 
-        public static int MaxLifeBoost = 50;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MaxLifeBoost, RadiantOoze.MinRegenBoost.ToRegenPerSecond(), RadiantOoze.MaxRegenBoost.ToRegenPerSecond());
+        public static int MinRegenBoost => 2;
+        public static int MaxRegenBoost => 6;
+        public static float RegenTimeBoost => 1;
+        public static float NaturalRegenPower => 1.5f;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(MinRegenBoost.ToRegenPerSecond(), MaxRegenBoost.ToRegenPerSecond(), (NaturalRegenPower - 1f).ToPercent(), RegenTimeBoost.ToPercent());
 
         public override void SetDefaults()
         {
@@ -28,19 +32,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.statLifeMax2 += MaxLifeBoost;
-            if (!player.HasBuff(BuffID.Honey))
-                player.AddBuff(BuffID.Honey, 2);
-
-            // bool left in for abyss light purposes and life regen effects
             modPlayer.aAmpoule = true;
-
-            // Inherits all effects of Honey Dew and Living Dew
-            modPlayer.honeyDewHalveDebuffs = true;
-            modPlayer.livingDewHalveDebuffs = true;
-
-            // Add light if the other accessories aren't equipped and visibility is turned on
-            if (!(modPlayer.rOoze || modPlayer.purity) && !hideVisual)
+            if (!modPlayer.purity && !hideVisual)
                 Lighting.AddLight(player.Center, new Vector3(1.2f, 1.2f, 0.72f));
         }
 
@@ -49,7 +42,7 @@ namespace CalamityMod.Items.Accessories
             var player = Main.LocalPlayer;
             if (player != null)
             {
-                list.FindAndReplace("[REGEN]", player.Calamity().radiantOozeRegen.ToString("0.##"));
+                list.FindAndReplace("[REGEN]", ((int)MathF.Round(MathHelper.Lerp(MaxRegenBoost, MinRegenBoost, (player.statLife / (float)player.statLifeMax2)))).ToRegenPerSecond());
             }
         }
 

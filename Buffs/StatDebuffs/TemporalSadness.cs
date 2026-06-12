@@ -17,8 +17,6 @@ namespace CalamityMod.Buffs.StatDebuffs
         public override void Update(NPC npc, ref int buffIndex)
         {
             npc.Calamity().temporalSadness = true;
-            if ((CalamityNPCSets.ResistSlowingDebuffsAndOtherSpecialEffects[npc.type] || npc.boss) && npc.Calamity().debuffResistanceTimer <= 0)
-                npc.Calamity().debuffResistanceTimer = CalamityGlobalNPC.slowingDebuffResistanceMin + npc.buffTime[buffIndex];
         }
     }
 }

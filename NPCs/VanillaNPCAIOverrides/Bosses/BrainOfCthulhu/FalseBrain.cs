@@ -166,7 +166,7 @@ public class FalseBrain : ModNPC, ILocalizedModType
         float endLerp = AttackTime / 60f;
         float startLerp = SpawnTime / 60f;
 
-        if (BrainOfCthulhuSystem.IsBrainOfCthulhuTextureVanilla)
+        if (BrainOfCthulhuSystem.IsBrainOfCthulhuTextureVanilla && !CalamityClientConfig.Instance.BoCSpriteChange)
         {
             tex = TextureAssets.Npc[Type].Value;
             frame = tex.Frame(7, 4, Variant, (int)NPC.frameCounter);

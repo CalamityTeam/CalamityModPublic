@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
@@ -14,6 +15,8 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public new string LocalizationCategory => "Items.Weapons.Summon";
         public float Knockback = 2f;
+        public static int DefenseBoostPerBuffStar = 3;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DefenseBoostPerBuffStar);
         public override void SetDefaults()
         {
             Item.width = 44;

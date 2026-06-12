@@ -21,7 +21,6 @@ namespace CalamityMod.NPCs.SulphurousSea
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 16;
-            NPCID.Sets.NeedsExpertScaling[Type] = true;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 SpriteDirection = 1
@@ -34,7 +33,7 @@ namespace CalamityMod.NPCs.SulphurousSea
         public override void SetDefaults()
         {
             NPC.noGravity = true;
-            NPC.damage = 0; // 0 contact damage, projectile damage is handled separately
+            NPC.damage = 45;
             NPC.width = 56;
             NPC.height = 42;
             NPC.defense = 22;

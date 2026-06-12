@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Projectile.height = 40;
             Projectile.penetrate = -1;
             Projectile.DamageType = DamageClass.Melee;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;

@@ -15,9 +15,9 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override string ArmorSetName => "Frost";
 
-        public const float ProximityBoost = 0.2f;
-        public const float MinDistance = 160f;
-        public const float MaxDistance = 800f;
+        public const float ProximityBoost = 0.25f;
+        public const float MinDistance = 80f;
+        public const float MaxDistance = 720f;
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {

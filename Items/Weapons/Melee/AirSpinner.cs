@@ -49,8 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<AerialiteBar>(6).
-                AddIngredient(ItemID.SunplateBlock, 3).
+                AddIngredient<AerialiteBar>(7).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.ai[1] == 0)
                 target.AddBuff(BuffID.Daybreak, 300);
             if (Projectile.ai[1] == 1)
-                    target.AddBuff(BuffID.Electrified, 300);
+                target.AddBuff(BuffID.Electrified, 300);
             if (Projectile.ai[1] == 2)
                 target.AddBuff(ModContent.BuffType<Plague>(), 300);
 

@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<Baroclaw>().
                 AddIngredient<GiantTortoiseShell>().
                 AddIngredient<MolluskHusk>(5).
-                AddIngredient<MeldConstruct>(6).
+                AddIngredient<MeldBlob>(14). //Consistent with Vanilla lunar wing costs
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

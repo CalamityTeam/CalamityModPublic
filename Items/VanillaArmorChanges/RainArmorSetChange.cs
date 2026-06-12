@@ -29,7 +29,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public static void SpawnRainArmorJump(Player Player)
         {
             bool rainBoost = Player.Center.Y < Main.worldSurface * 16.0 && Main.raining;
-            int damage = (int)Player.GetBestClassDamage().ApplyTo(30 * (rainBoost ? 2f : 1));
+            int damage = (int)Player.GetBestClassDamage().ApplyTo(30 * (rainBoost ? 1.5f : 1));
             Projectile.NewProjectile(Player.GetSource_FromThis(), Player.Center + Vector2.UnitY * 26, Vector2.Zero, ModContent.ProjectileType<PuddleSplash>(), damage, 0, Main.myPlayer);
         }
     }

@@ -1,5 +1,7 @@
-﻿using CalamityMod.Projectiles.Summon;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -15,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ShimmerTransformToItem[Type] = ModContent.ItemType<EntropysVigil>();
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<VulnerabilityHex>()];
         }
 
         public override void SetDefaults()

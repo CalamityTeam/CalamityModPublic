@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -19,10 +18,9 @@ namespace CalamityMod.Items.Weapons.Summon
         public new string LocalizationCategory => "Items.Weapons.Summon";
 
         public bool FocusFetch = false;
-
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        public override void SetStaticDefaults()
         {
-            tooltips.FindAndReplaceAll("ff00ff", Utils.Hex3(DevourerofGodsHead.SpecialMoveColor));
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<GodSlayerInferno>()];
         }
         public override void SetDefaults()
         {

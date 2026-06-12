@@ -161,7 +161,6 @@ namespace CalamityMod
                     projectile.tileCollide = true;
             }
         }
-
         public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float inertia, bool respectIFrames = false)
         {
             if (!projectile.friendly)

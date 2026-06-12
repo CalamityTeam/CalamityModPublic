@@ -27,7 +27,8 @@ namespace CalamityMod.CalPlayer.Dashes
 
         public override bool IsOmnidirectional => true;
 
-        public int Time = 0;
+        public override int ForceEndAt => 75;
+
         public float Size = 2.2f;
         public bool SoundOnce = true;
 
@@ -40,7 +41,7 @@ namespace CalamityMod.CalPlayer.Dashes
 
         public override void OnDashEffects(Player player)
         {
-            Time = 0;
+            dashTime = 0;
             Size = 2.2f;
             GSDashSlot = SoundEngine.PlaySound(DevourerofGodsHead.DeathAnimationSound, player.Center);
             SoundOnce = true;
@@ -60,24 +61,36 @@ namespace CalamityMod.CalPlayer.Dashes
             if (SoundEngine.TryGetActiveSound(GSDashSlot, out var Dashsound) && Dashsound.IsPlaying)
                 Dashsound.Position = player.Center;
 
-            Time++;
             Size -= 0.01f;
 
-            const int totalDashTime = 75;
-
             // Constantly update the player's velocity direction.
-            float progress = MathHelper.Clamp(Time / (float)totalDashTime, 0f, 1f);
+            float progress = MathHelper.Clamp(dashTime / (float)ForceEndAt, 0f, 1f);
             float ease = 1f - (float)Math.Pow(1f - progress, 0.2f);
             float finalSpeed = MathHelper.Lerp(32f, 11f, ease);
 
             Vector2 dashVel = Main.MouseWorld - player.Center;
-            Vector2 targetDirection = player.velocity.ToRotation().AngleTowards(dashVel.ToRotation(), 0.175f).ToRotationVector2();
-            player.velocity = targetDirection * finalSpeed;
+
+            Vector2 direction = Vector2.Zero;
+            if (player.controlLeft)
+                direction.X -= 1;
+            if (player.controlRight)
+                direction.X += 1;
+            if (player.controlUp)
+                direction.Y -= 1;
+            if (player.controlDown)
+                direction.Y += 1;
+
+            Vector2 targetDirection = direction == Vector2.Zero ? player.velocity.SafeNormalize(Vector2.Zero) : player.velocity.ToRotation().AngleTowards(direction.ToRotation(), 0.175f).ToRotationVector2();
+
+            if (targetDirection == Vector2.Zero)
+                targetDirection = new(player.direction, 0);
+
+            player.velocity = ((dashTime == 1 && direction != Vector2.Zero) ? direction : targetDirection) * finalSpeed;
 
             // Fall way, way, faster than usual.
             player.maxFallSpeed = 50f;
 
-            if (Time < 75)
+            if (dashTime < ForceEndAt)
             {
                 Particle jaws = new Jaws(player.Center + player.velocity * 0.5f, player.velocity, Color.Fuchsia, new Vector2(0.8f, 1f), player.velocity.ToRotation() + MathHelper.PiOver2, Size, Size, 2);
                 GeneralParticleHandler.SpawnParticle(jaws);
@@ -85,11 +98,11 @@ namespace CalamityMod.CalPlayer.Dashes
                 GeneralParticleHandler.SpawnParticle(jaws2);
             }
 
-            float radiusFactor = MathHelper.Lerp(0f, 1f, Utils.GetLerpValue(2f, 2.5f, Time, true));
+            float radiusFactor = MathHelper.Lerp(0f, 1f, Utils.GetLerpValue(2f, 2.5f, dashTime, true));
             for (int i = 0; i < 3; i++)
             {
-                float offsetRotationAngle = player.velocity.ToRotation() + Time / 20f;
-                float radius = (30f + (float)Math.Cos(Time / 3f) * 24f) * radiusFactor;
+                float offsetRotationAngle = player.velocity.ToRotation() + dashTime / 20f;
+                float radius = (30f + (float)Math.Cos(dashTime / 3f) * 24f) * radiusFactor;
                 Vector2 dustPosition = player.Center + player.velocity * 0.8f;
                 dustPosition += offsetRotationAngle.ToRotationVector2().RotatedBy(i / 5f * MathHelper.TwoPi) * radius;
                 Dust dust = Dust.NewDustPerfect(dustPosition, Main.rand.NextBool(5) ? 181 : 295);
@@ -100,7 +113,7 @@ namespace CalamityMod.CalPlayer.Dashes
                 dust2.noGravity = true;
             }
 
-            if (Time % 2 == 0)
+            if (dashTime % 2 == 0)
             {
                 float sparkscale = Size * 1.3f;
                 Vector2 SparkVelocity1 = player.velocity.RotatedBy(player.direction * -4, default) * 0.08f - player.velocity / 2f;
@@ -111,14 +124,12 @@ namespace CalamityMod.CalPlayer.Dashes
                 GeneralParticleHandler.SpawnParticle(spark2);
             }
 
-            if (Time > 75 && Time < 78)
+            if (dashTime >= ForceEndAt)
             {
                 Particle pulse = new DirectionalPulseRing(player.Center - player.velocity * 0.52f, player.velocity / 1.5f, Color.Fuchsia, new Vector2(1f, 2f), player.velocity.ToRotation(), 0.82f, 0.32f, 60);
                 GeneralParticleHandler.SpawnParticle(pulse);
                 Particle pulse2 = new DirectionalPulseRing(player.Center - player.velocity * 0.40f, player.velocity / 1.5f * 0.9f, Color.Aqua, new Vector2(0.8f, 1.5f), player.velocity.ToRotation(), 0.58f, 0.28f, 50);
                 GeneralParticleHandler.SpawnParticle(pulse2);
-
-                Time = 95;
             }
 
             // Dash at a much, much faster speed than the default value.

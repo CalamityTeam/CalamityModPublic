@@ -3,6 +3,7 @@ using CalamityMod.Items.Pets;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -20,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 14));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Electrified];
         }
 
         public override void SetDefaults()

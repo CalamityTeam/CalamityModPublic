@@ -12,6 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override string Texture => "CalamityMod/Projectiles/Ranged/FungiOrb";
 
         private bool initialized = false;
+        public override float HomeSpeed => 1.2f;
         public override Color? LightColor => new Color(0f, 0.35f, 0.5f);
         public override void SetDefaults()
         {
@@ -39,7 +40,6 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnKill(int timeLeft)
         {
-            Projectile.ExpandHitboxBy(56);
             int constant = 36;
             for (int i = 0; i < constant; i++)
             {

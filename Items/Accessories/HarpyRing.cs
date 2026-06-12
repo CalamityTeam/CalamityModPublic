@@ -28,8 +28,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<AerialiteBar>(2).
-                AddIngredient(ItemID.SunplateBlock, 2).
+                AddIngredient<AerialiteBar>(5).
                 AddIngredient(ItemID.Feather, 5).
                 AddTile(TileID.Anvils).
                 Register();

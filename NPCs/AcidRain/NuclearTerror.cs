@@ -19,6 +19,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.NPCs.AcidRain
 {
     [AutoloadBossHead]
+    [HeavyKnockbackWhitelisted]
     public class NuclearTerror : ModNPC
     {
         public enum SpecialAttackState

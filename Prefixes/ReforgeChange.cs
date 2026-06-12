@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Packets;
@@ -29,6 +30,14 @@ namespace CalamityMod.Prefixes
 
         public override int ChoosePrefix(Item item, UnifiedRandom rand)
         {
+            // Voucher override
+            if (VoucherReforgeSystem.ForcedPrefix != -1)
+            {
+                int forced = VoucherReforgeSystem.ForcedPrefix;
+                VoucherReforgeSystem.ForcedPrefix = -1;
+                return forced;
+            }
+
             if (storedPrefix == -1 && item.CountsAsClass<RogueDamageClass>() && (item.maxStack == 1 || item.AllowReforgeForStackableItem))
             {
                 // Crafting (or first reforge of) a rogue weapon has a 75% chance for a random modifier, this check is done by vanilla
@@ -194,7 +203,7 @@ namespace CalamityMod.Prefixes
 
             // MELEE (includes tools and whips)
             // Melee-ranged hybrid weapons prioritize Legendary if available, otherwise go for Unreal
-            if ((item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<SummonMeleeSpeedDamageClass>()) && !(item.CountsAsClass<MeleeRangedHybridDamageClass>() && !supportsLegendary) && !(item.type == ItemType<TheBurningSky>()))
+            if ((item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<SummonMeleeSpeedDamageClass>() || item.type == ItemType<EvilSmasher>()) && !(item.CountsAsClass<MeleeRangedHybridDamageClass>() && !supportsLegendary) && !(item.type == ItemType<TheBurningSky>()))
             {
                 // Terrarian (has its own special "Legendary" for marketing reasons)
                 // Other items that want to use Legendary2 are also compatible

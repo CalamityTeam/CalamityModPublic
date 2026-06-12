@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddRecipeGroup("AnyQuiver").
-                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.FragmentVortex, 5).
                 AddIngredient<DarkPlasma>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();

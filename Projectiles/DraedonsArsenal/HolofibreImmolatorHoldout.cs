@@ -62,8 +62,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 spamDelay--;
             // Fire if the owner stops channeling or otherwise cannot use the weapon.
             bool autoSpam = (Owner.Calamity().mouseRight && !Main.mouseLeft);
-            bool chargeSpam = (Owner.Calamity().mouseRight && Main.mouseLeft && ChargeLV1 && spamDelay == 0);
-            if ((!Main.mouseLeft || autoSpam || chargeSpam) && downtime == 0 && time >= 1)
+            if ((!Main.mouseLeft || autoSpam) && downtime == 0 && time >= 1)
             {
                 KeepRefreshingLifetime = false;
 

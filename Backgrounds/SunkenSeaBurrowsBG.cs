@@ -182,15 +182,17 @@ namespace CalamityMod.Backgrounds
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, distortionShader.Shader, CalamityUtils.BackgroundMatrix);
 
-                const float distortionXSpeed = -0.012f;
-                const float distortionYSpeed = 0.02f;
-                const float noiseScale = 0.075f;
-                const float noiseStrength = 0.035f;
-                Vector2 timeOffset = new Vector2(distortionXSpeed, distortionYSpeed) * Main.GlobalTimeWrappedHourly * noiseScale;
-                Vector2 noiseScaleStrength = new Vector2(noiseScale, noiseStrength);
-                distortionShader.Shader.Parameters["timeOffset"].SetValue(timeOffset);
-                distortionShader.Shader.Parameters["noiseScaleStrength"].SetValue(noiseScaleStrength);
-                distortionShader.SetShaderTexture(distortionTexture);
+                float distortionXSpeed = -0.012f;
+                float distortionYSpeed = 0.02f;
+                float noiseScale = 0.075f;
+                float noiseStrength = 0.035f;
+
+                distortionShader.Shader.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly);
+                distortionShader.Shader.Parameters["noiseScale"].SetValue(noiseScale);
+                distortionShader.Shader.Parameters["distortionStrength"].SetValue(noiseStrength);
+                distortionShader.Shader.Parameters["timeOffset"].SetValue(new Vector2(distortionXSpeed, distortionYSpeed));
+                Main.graphics.GraphicsDevice.Textures[1] = distortionTexture.Value;
+                Main.graphics.GraphicsDevice.SamplerStates[1] = SamplerState.LinearWrap;
 
                 Main.spriteBatch.Draw(WaterDistortionTarget.Target, new Rectangle(16, 16, Main.screenWidth, Main.screenHeight), Color.White);
             }

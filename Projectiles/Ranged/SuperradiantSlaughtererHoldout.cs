@@ -81,12 +81,12 @@ namespace CalamityMod.Projectiles.Ranged
                     Owner.AddCooldown(SuperradiantSawBoost.ID, SuperradiantSlaughterer.DashCooldown);
                     SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/MeatySlash"), GunTipPosition);
 
-                    // Throws a lingering saw at the cursor that deals 3x damage (since the holdout already deals 2x)
+                    // Throws a lingering saw at the cursor that deals 2x damage (since the holdout already deals 1.5x)
                     if (Main.myPlayer == Projectile.owner)
                     {
                         float clampedMouseDist = MathHelper.Clamp(Vector2.Distance(GunTipPosition, Owner.Calamity().mouseWorld), 0f, 960f);
                         float adjustedMouseDist = clampedMouseDist / 21f;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), GunTipPosition, Projectile.velocity.SafeNormalize(Vector2.UnitY) * adjustedMouseDist, ModContent.ProjectileType<SuperradiantSawLingering>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), GunTipPosition, Projectile.velocity.SafeNormalize(Vector2.UnitY) * adjustedMouseDist, ModContent.ProjectileType<SuperradiantSawLingering>(), (int)(Projectile.damage * 4f / 3f), Projectile.knockBack, Projectile.owner);
                     }
 
                     // End animation early
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Ranged
                 SoundStyle ShootSound = new("CalamityMod/Sounds/Item/SawShot", 2) { PitchVariance = 0.1f, Volume = 0.4f + SawPower * 0.5f };
                 SoundEngine.PlaySound(ShootSound, GunTipPosition);
 
-                float sawDamageMult = MathHelper.Lerp(1f, 5f, SawPower) / 2f; // The damage must be divided by 2 to offset the holdout having 2x base damage.
+                float sawDamageMult = MathHelper.Lerp(1f, 5f, SawPower) / 1.5f; // The damage must be divided by 1.5 to offset the holdout having 1.5x base damage.
                 int sawPierce = (int)MathHelper.Lerp(2f, 7f, SawPower);
                 int sawLevel = (SawPower >= 1f).ToInt() + (SawPower >= 0.25f).ToInt();
 
@@ -240,7 +240,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         // The holdout can deal damage; you're literally spinning up a buzzsaw at the end, after all.
-        public override bool? CanDamage() => !NoSawOnHoldout;
+        public override bool? CanDamage() => !NoSawOnHoldout && Time % Projectile.localNPCHitCooldown == 0;
 
         public override void ModifyDamageHitbox(ref Rectangle hitbox)
         {
@@ -257,6 +257,9 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(ModContent.BuffType<Laceration>(), 300);
             target.AddBuff(ModContent.BuffType<ElementalMix>(), 150);
             SoundEngine.PlaySound(new SoundStyle("CalamityMod/Sounds/Custom/SwiftSlice") { Volume = 0.7f }, GunTipPosition);
+
+            if (damageDone > 2 && !target.Calamity().IsArmored())
+                Projectile.damage = (int)(Projectile.damage * 0.8f);
 
             // EPIC AND COOL RAINBOW PARTICLES WOOOO
             int SawLevel = (Time / ChargeupTime >= 1f).ToInt() + (Time / ChargeupTime >= 0.25f).ToInt();

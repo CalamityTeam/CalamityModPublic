@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Player Owner = Main.player[Projectile.owner];
                 Vector2 launchVel = Utils.DirectionTo(Owner.Center, Projectile.Center);
-                target.MoveNPC(launchVel, 5, false);
+                target.MoveNPC(launchVel, 5, false, Owner);
 
                 Vector2 dustVel = Utils.DirectionTo(Projectile.Center, target.Center);
                 for (int i = 0; i < 3; i++)

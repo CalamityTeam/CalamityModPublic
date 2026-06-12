@@ -51,6 +51,10 @@ namespace CalamityMod.Projectiles.Summon
             }
             Lighting.AddLight(Projectile.Center, 0f, 0f, 1.2f);
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.Confused, 30);
+        }
 
         public override Color? GetAlpha(Color lightColor)
         {

@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
         public override bool AlternateSwings => false;
         public bool SpawnShards = true;
 
-        public override bool useMeleeSpeed => true;
+        public override bool useAttackSpeed => true;
 
         public override int swingTime { get; set; } = 8;
 

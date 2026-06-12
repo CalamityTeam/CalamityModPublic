@@ -31,7 +31,13 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.timeLeft = 180;
             Projectile.ignoreWater = true;
         }
-
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            Player Owner = Main.player[Projectile.owner];
+            float scale = Projectile.scale = Owner.GetMeleeScale();
+            Vector2 newSize = new Point(hitbox.Width, hitbox.Height).ToVector2() * scale;
+            hitbox = new Rectangle(hitbox.X - (int)((newSize.X - hitbox.Width) / 2f), hitbox.Y - (int)((newSize.Y - hitbox.Height) / 2f), (int)newSize.X, (int)newSize.Y);
+        }
         public override void AI()
         {
             int randomToSubtract = Main.rand.Next(1, 4);

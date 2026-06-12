@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
 
     public class ScionsCurio : ModItem, ILocalizedModType
     {
-        public static int postHitDamage = 45;
+        public static int postHitDamage = 20;
         public new string LocalizationCategory => "Items.Accessories";
         public override void SetDefaults()
         {

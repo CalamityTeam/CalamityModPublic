@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using System;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
@@ -8,7 +9,6 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    [PierceResistException]
     public class OmnibladeSwing : ModProjectile, ILocalizedModType
     {
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<Omniblade>();
@@ -28,13 +28,20 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.ownerHitCheck = true;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 3;
+            Projectile.idStaticNPCHitCooldown = 5;
         }
-
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            float scale = Owner.GetMeleeScale();
+            Vector2 newSize = new Point(hitbox.Width, hitbox.Height).ToVector2() * scale;
+            hitbox = new Rectangle(hitbox.X - (int)((newSize.X - hitbox.Width) / 2f), hitbox.Y - (int)((newSize.Y - hitbox.Height) / 2f), (int)newSize.X, (int)newSize.Y);
+        }
         public override void AI()
         {
+            Projectile.scale = Owner.GetMeleeScale();
             Projectile.frameCounter++;
             Projectile.frame = Projectile.frameCounter / 3;
             if (Projectile.frame >= Main.projFrames[Type])
@@ -51,16 +58,8 @@ namespace CalamityMod.Projectiles.Melee
 
             // Rotation and directioning.
             Projectile.rotation = Owner.gravDir == -1f ? MathHelper.Pi : 0f;
-            Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
-
-            // Sprite and player directioning.
-            Projectile.spriteDirection = Projectile.direction * (int)(Owner.gravDir);
-            if (Projectile.direction == 1)
-                Projectile.Left = Owner.MountedCenter;
-            else
-                Projectile.Right = Owner.MountedCenter;
-            Projectile.position.X += (Projectile.spriteDirection == 1 ? -92f : 96f) * Owner.gravDir;
-            Projectile.position.Y -= 80f * Owner.gravDir;
+            Projectile.direction = Projectile.spriteDirection = MathF.Sign(Owner.Center.DirectionTo(Owner.ClampedMouseWorld()).X);
+            Projectile.Center = Owner.MountedCenter + new Vector2(Projectile.width * 0.1f * Projectile.scale * Projectile.direction, -Projectile.height * 0.5f * Projectile.scale);
             Owner.ChangeDir(Projectile.direction);
 
             // Prevents the projectile from dying
@@ -82,16 +81,6 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.netUpdate = true;
 
             Projectile.velocity = newVelocity;
-        }
-
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 300);
-        }
-
-        public override void OnHitPlayer(Player target, Player.HurtInfo info)
-        {
-            target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 300);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 170);

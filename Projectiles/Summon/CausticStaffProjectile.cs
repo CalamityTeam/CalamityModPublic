@@ -8,6 +8,7 @@ namespace CalamityMod.Projectiles.Summon
     public class CausticStaffProjectile : ModProjectile, ILocalizedModType
     {
         public new string LocalizationCategory => "Projectiles.Summon";
+        public ref float MinionCount => ref Projectile.ai[0];
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.MinionShot[Type] = true;
@@ -18,68 +19,55 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = Projectile.height = 10;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
+            Projectile.MaxUpdates = 3;
             Projectile.penetrate = 3;
-            Projectile.timeLeft = 360;
+            Projectile.timeLeft = 45 * Projectile.MaxUpdates;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
-            Projectile.extraUpdates = 1;
+            Projectile.localNPCHitCooldown = -1;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Summon;
         }
         public override void AI()
         {
-            int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 0, default, 0.5f);
-            Dust dust = Main.dust[fire];
+            Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, GetDust(MinionCount), 0f, 0f, 0, default, 0.5f);
             dust.velocity *= 0.1f;
             dust.scale = 1.3f;
             dust.noGravity = true;
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Projectile.velocity.X *= 0.99f;
-            if (Projectile.velocity.Y < 9f)
-                Projectile.velocity.Y += 0.085f;
         }
         public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 5; i++)
             {
-                Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Torch);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center, GetDust(MinionCount));
                 dust.noGravity = true;
                 dust.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f);
             }
         }
+
+        public static int GetDust(float type)
+        {
+            if (type >= 4f && Main.rand.NextBool(5))
+                return DustID.IchorTorch;
+            if (type >= 3f && Main.rand.NextBool(4))
+                return DustID.VenomStaff;
+            if (type >= 2f && Main.rand.NextBool(3))
+                return DustID.CursedTorch;
+            return DustID.Torch;
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Player player = Main.player[Projectile.owner];
-            Item heldItem = player.HeldItem;
-            if (!CalamityUtils.ShouldTriggerSummonPenalty(player, heldItem))
+            target.AddBuff(BuffID.OnFire3, 30);
+
+            if (MinionCount >= 2f)
+                target.AddBuff(BuffID.CursedInferno, 30);
+            if (MinionCount >= 3f)
+                target.AddBuff(BuffID.Venom, 30);
+            if (MinionCount >= 4f)
             {
-                int duration = Main.rand.Next(60, 181); // Anywhere between 1 and 3 seconds
-                switch ((int)Projectile.ai[0])
-                {
-                    case 0:
-                        if (target.Calamity().markedForDeath)
-                            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), duration);
-                        break;
-                    case 1:
-                        if (!target.ichor)
-                            target.AddBuff(BuffID.Ichor, duration);
-                        break;
-                    case 2:
-                        if (!target.venom)
-                            target.AddBuff(BuffID.Venom, duration);
-                        break;
-                    case 3:
-                        if (!target.onFire2)
-                            target.AddBuff(BuffID.CursedInferno, duration);
-                        break;
-                    case 4:
-                        if (!target.onFire3)
-                            target.AddBuff(BuffID.OnFire3, duration);
-                        break;
-                    default:
-                        break;
-                }
+                target.AddBuff(BuffID.Ichor, 30);
+                target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 30);
             }
         }
     }

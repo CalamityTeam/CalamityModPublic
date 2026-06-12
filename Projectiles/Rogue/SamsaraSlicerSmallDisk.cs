@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 5;
             Projectile.ArmorPenetration = 20;
+            Projectile.Calamity().CannotProc = true;
         }
 
         public override void AI()

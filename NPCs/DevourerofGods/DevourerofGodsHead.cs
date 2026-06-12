@@ -249,12 +249,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public static int LaserWallDamage = 75; // 300
         public static int LaserWallMiddleBeamDamage = 85; // 340
-        public static int FireballDamage = 60; // 240
+        public static int FireballDamage = 55; // 220
 
         public override void SetDefaults()
         {
             NPC.Calamity().canBreakPlayerDefense = true;
-            NPC.damage = 250; // 500
+            NPC.damage = 235; // 470
             NPC.npcSlots = 5f;
             NPC.width = 104;
             NPC.height = 104;
@@ -2678,6 +2678,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                 GFBOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<NavyPrismTorch>(), dropRate, dropMin, dropMax), true);
                 GFBOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<RefractivePrismTorch>(), dropRate, dropMin, dropMax), true);
                 GFBOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<SulphurousTorch>(), dropRate, dropMin, dropMax), true);
+                GFBOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<ThermalTorch>(), dropRate, dropMin, dropMax), true);
+                GFBOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<CausticTorch>(), dropRate, dropMin, dropMax), true);
+                GFBOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<KelpTorch>(), dropRate, dropMin, dropMax), true);
             }
 
             // Trophy (always directly from boss, never in bag)

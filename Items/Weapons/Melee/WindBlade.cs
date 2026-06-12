@@ -1,6 +1,8 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Systems.Collections;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -11,15 +13,18 @@ namespace CalamityMod.Items.Weapons.Melee
     public class WindBlade : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<WindChilled>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 58;
             Item.height = 58;
-            Item.damage = 38;
+            Item.damage = 30;
             Item.DamageType = DamageClass.Melee;
-            Item.useAnimation = 20;
+            Item.useTime = Item.useAnimation = 22;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 20;
             Item.useTurn = true;
             Item.knockBack = 5f;
             Item.UseSound = SoundID.Item1;
@@ -32,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity, type, damage / 2, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity, type, damage * 6 / 10, knockback, player.whoAmI);
             return false;
         }
 
@@ -45,8 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<AerialiteBar>(9).
-                AddIngredient(ItemID.SunplateBlock, 3).
+                AddIngredient<AerialiteBar>(7).
                 AddTile(TileID.Anvils).
                 Register();
         }

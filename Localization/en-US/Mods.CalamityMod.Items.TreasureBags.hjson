@@ -105,7 +105,7 @@ RavagerBag: {
 }
 
 SignusBag: {
-	DisplayName: Treasure Bag (Signus, Envoy of the Devourer)
+	DisplayName: Treasure Bag (Signus)
 	Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
 }
 

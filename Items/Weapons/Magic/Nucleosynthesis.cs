@@ -1,5 +1,7 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -16,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             Item.staff[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<ElementalMix>()];
         }
 
         public override void SetDefaults()
@@ -24,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 116;
             Item.damage = 70;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 18;
+            Item.mana = 30;
             Item.useTime = 4;
             Item.useAnimation = 16;
             Item.reuseDelay = 14;

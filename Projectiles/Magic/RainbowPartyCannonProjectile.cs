@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.height = 66;
             Projectile.penetrate = -1;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.ContinuouslyUpdateDamageStats = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
         }

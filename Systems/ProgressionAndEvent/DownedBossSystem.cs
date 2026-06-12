@@ -45,6 +45,7 @@ namespace CalamityMod
 
         // Minibosses
         internal static bool _downedGSS = false;
+        internal static bool _downedHorribleHog = false;
         internal static bool _downedCLAM = false;
         internal static bool _downedCLAMHardMode = false;
         internal static bool _downedCragmawMire = false;
@@ -381,6 +382,17 @@ namespace CalamityMod
                     NPC.SetEventFlagCleared(ref _downedPrimordialWyrm, -1);
             }
         }
+        public static bool downedHorribleHog
+        {
+            get => _downedHorribleHog;
+            set
+            {
+                if (!value)
+                    _downedHorribleHog = false;
+                else
+                    NPC.SetEventFlagCleared(ref _downedHorribleHog, -1);
+            }
+        }
         public static bool downedCLAM
         {
             get => _downedCLAM;
@@ -548,6 +560,7 @@ namespace CalamityMod
 
             downedSecondSentinels = false;
 
+            downedHorribleHog = false;
             downedCLAM = false;
             downedEoCAcidRain = false;
 
@@ -563,9 +576,9 @@ namespace CalamityMod
             downedBossRush = false;
         }
 
-        public override void OnWorldLoad() => ResetAllFlags();
+        //public override void OnWorldLoad() => ResetAllFlags();
 
-        public override void OnWorldUnload() => ResetAllFlags();
+        //public override void OnWorldUnload() => ResetAllFlags();
 
         public override void SaveWorldData(TagCompound tag)
         {
@@ -644,6 +657,8 @@ namespace CalamityMod
                 downed.Add("adultEidolonWyrm");
 
             // Minibosses and events
+            if (downedHorribleHog)
+                downed.Add("horribleHog");
             if (downedCLAM)
                 downed.Add("clam");
             if (downedEoCAcidRain)
@@ -711,6 +726,7 @@ namespace CalamityMod
             downedCalamitas = downed.Contains("supremeCalamitas");
             downedPrimordialWyrm = downed.Contains("adultEidolonWyrm");
 
+            downedHorribleHog = downed.Contains("horribleHog");
             downedCLAM = downed.Contains("clam");
             downedEoCAcidRain = downed.Contains("eocRain");
 

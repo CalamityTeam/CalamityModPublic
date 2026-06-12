@@ -1,6 +1,8 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.SunkenSea;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -23,9 +25,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 84;
             Item.damage = 17;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 3;
-            Item.useTime = 22;
-            Item.useAnimation = 22;
+            Item.mana = 10;
+            Item.useAnimation = Item.useTime = 22;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 2.5f;

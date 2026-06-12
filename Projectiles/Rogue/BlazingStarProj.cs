@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Projectile.damage = (int)(Projectile.damage * 0.9f);
+            Projectile.damage = (int)(Projectile.damage * 0.8f);
             if (Projectile.Calamity().stealthStrike)
             {
                 if (!hasHit)
@@ -123,6 +123,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             Projectile.ResetLocalNPCHitImmunity();
             Ricochet();
+            Projectile.damage = (int)(Projectile.damage * 0.8f);
             if (Projectile.penetrate > 0)
                 Projectile.penetrate--;
             return false;

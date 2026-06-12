@@ -1,5 +1,5 @@
 author = The Calamity Dev Team
-version = 2.1.2
+version = 2.2
 displayName = Calamity Mod
 modReferences = CalamityModMusic
 homepage = https://calamitymod.com

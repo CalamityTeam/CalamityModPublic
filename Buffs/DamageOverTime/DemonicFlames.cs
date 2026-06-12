@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Systems.Collections;
 
 namespace CalamityMod.Buffs.DamageOverTime
 {
@@ -16,11 +17,11 @@ namespace CalamityMod.Buffs.DamageOverTime
         {
             EnemyLostRegen = 60, //Unused in the method, this is the amount of DoT from Forbidden Oathblade demon flames
             HeatDebuffScaling = 1, //Unused in the method, but kept so other things can know this is a heat debuff
-            NPCLifeRegenMethod = DemonFlamesNPCLifeRegen
+            NPCLifeRegenMethod = DemonicFlamesNPCLifeRegen
         };
-        public static void DemonFlamesNPCLifeRegen(NPC npc, int buffType, ref int buffIndex, ref int damage)
+        public static void DemonicFlamesNPCLifeRegen(NPC npc, int buffType, ref int buffIndex, ref int damage)
         {
-            int baseDemonicFlamesDoTValue = (int)Math.Max(npc.Calamity().ActiveHeatDebuffMultiplier.ApplyTo(npc.Calamity().demonicFlamesBonusDamage), npc.Calamity().demonicFlamesBonusDamage);
+            int baseDemonicFlamesDoTValue = (int)Math.Max(Math.Max(npc.Calamity().ActiveHeatDebuffMultiplier.ApplyTo(npc.Calamity().demonicFlamesBonusDamage), npc.Calamity().demonicFlamesBonusDamage), (int)debuffData.EnemyLostRegen);
             npc.Calamity().ApplyDPSDebuff(baseDemonicFlamesDoTValue, baseDemonicFlamesDoTValue / 15, ref npc.lifeRegen, ref damage);
         }
         public override void SetStaticDefaults()
@@ -29,8 +30,7 @@ namespace CalamityMod.Buffs.DamageOverTime
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
             BuffID.Sets.LongerExpertDebuff[Type] = true;
-            BuffDatasets.DebuffDataset[Type] = debuffData;
-
+            CalamityBuffSets.DebuffDataset[Type] = debuffData;
         }
 
         public override void Update(Player player, ref int buffIndex)

@@ -161,10 +161,11 @@ namespace CalamityMod.Projectiles.Boss
             int blobAmt = !ProvUtils.StandardAI() ? 9 : 6;
             if (Projectile.owner == Main.myPlayer)
             {
-                Vector2 additionalBlobVelocity = new Vector2(Projectile.velocity.X * 0.1f, Projectile.velocity.Y);
+                Vector2 additionalBlobVelocity = new Vector2(Projectile.velocity.X, Projectile.velocity.Y);
                 for (int b = 0; b < blobAmt; b++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f) + additionalBlobVelocity;
+                    velocity.Y = -Math.Abs(velocity.Y);
                     if (Main.getGoodWorld)
                         velocity *= 2f;
 

@@ -2,8 +2,8 @@ Aestheticus: {
 	DisplayName: Aestheticus
 	Tooltip:
 		'''
-		Fires crystals that explode and slow enemies down
-		This weapon scales with all your damage stats at once
+		Fires crystals that explode and inflict [cbuff:CalamityMod/Vaporfied]
+		{$Common.AverageDamageInfo}
 		'''
 }
 
@@ -13,10 +13,11 @@ ClaretCannon: {
 		'''
 		Fires a hypercondensed claret round
 		The round explodes upon striking an enemy and releases blood orbs
-		The explosion shreds enemies, inflicting [cbuff:CalamityMod/Laceration] and dramatically reducing their defense
-		Picking up the blood orbs will reduce [cbuff:PotionSickness] when possible
-		If you do not have [cbuff:PotionSickness], your natural regeneration will be enhanced
+		The explosion shreds enemies, dramatically reducing their defense
+		Picking up the blood orbs will reduce [cbuffplr:PotionSickness] when possible
+		If you do not have [cbuffplr:PotionSickness], your natural regeneration will be enhanced
 		Can only fire once every 10 seconds
+		{$Common.AverageDamageInfo}
 		'''
 }
 
@@ -30,8 +31,8 @@ EyeofMagnus: {
 	Tooltip:
 		'''
 		Fires seeking cosmic masses that restore health and mana on hit
-		Explodes into a nebula cloud which reduces enemy protection
-		This weapon scales with the average of all your damage stats
+		Explodes into a nebula cloud that cause enemies to become [cbuff:CalamityMod/MarkedforDeath]
+		{$Common.AverageDamageInfo}
 		'''
 }
 
@@ -39,8 +40,8 @@ LunicEye: {
 	DisplayName: Lunic Eye
 	Tooltip:
 		'''
-		Fires seeking energy bolts that reduce enemy protection
-		This weapon scales with the average of all your damage stats
+		Fires seeking energy bolts that cause enemies to become [cbuff:CalamityMod/MarkedforDeath]
+		{$Common.AverageDamageInfo}
 		'''
 }
 
@@ -55,6 +56,7 @@ RelicOfDeliverance: {
 		Being inside tiles for too long will warp you back to where you entered
 		Press <right> to dismount
 		Holding out the spear heavily reduces the damage of all summons
+		{$Common.AverageDamageInfo}
 		[c/FF8C00:Vengeance fueled me, I had no thought other than exactment.]
 		[c/FF8C00:The dragon took everything from me, leaving my broken pieces strewn on the ground.]
 		[c/FF8C00:But when I danced by Her side, I knew there was still something worth fighting for.]
@@ -83,6 +85,7 @@ StratusSphere: {
 		Influenced players gain Starbursts over time and will consume Starbursts to fly when out of flight time
 		<right> to cause Starbursts to form a barrier, causing you to lose Starbursts instead of health
 		Launching the singularity deactivates the barrier, and creating a barrier deactivates the singularity
+		{$Common.AverageDamageInfo}
 		'Channeling souls into stars, an inane concept'
 		'''
 }

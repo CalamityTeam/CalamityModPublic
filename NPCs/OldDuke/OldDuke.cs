@@ -1860,6 +1860,12 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                NPC.alpha = 0;
+                return true;
+            }
+
             Color finalDrawColor = Color.Lerp(drawColor, Color.White, NuclearOverlayVisual);
             Color overlayDrawColor = Color.Lerp(Color.Transparent, Color.LimeGreen.MultiplyRGBA(new Color(255, 255, 255, 0)), NuclearOverlayVisual);
             finalDrawColor = Color.Lerp(finalDrawColor, Color.LimeGreen.MultiplyRGBA(new Color(255, 255, 255, 0)), NuclearOverlayVisual);

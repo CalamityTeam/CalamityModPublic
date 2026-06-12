@@ -1,6 +1,6 @@
 BeeWings: Decreases fall speed while not pressing {$Key.DOWN}
 BoneWings: Halves flight time when taking a hit
-DemonWings: Increases fall speed
+DemonWings: Increases fall speed and accelerates up faster while falling
 FestiveWings: Spawns ornaments which restore flight time
 FinWings: Allows quick travel in water
 TatteredFairyWings: Leaves a trail of flight draining fairy dust

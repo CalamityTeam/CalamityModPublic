@@ -177,7 +177,8 @@ public class CreeperAI : VanillaAIOverride
 
         if (bocAI.SpawnTime != 0 && Time >= 0) //Brain has appeared
         {
-            float brainTime = bossCounter - Math.Abs(bocAI.SpawnTime);
+            float spawnAnimTimeReduction = (SummonedViaItem || BossRushEvent.BossRushActive) ? 120 : 0;
+            float brainTime = bossCounter - Math.Abs(bocAI.SpawnTime) + spawnAnimTimeReduction;
 
             if (brainTime < 180)
             {

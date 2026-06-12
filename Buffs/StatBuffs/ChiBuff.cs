@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Accessories;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
@@ -15,7 +16,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.endurance += 0.08f;
+            player.endurance += TrinketofChi.ChiBuffDamageReductionBoost;
         }
     }
 }

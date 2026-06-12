@@ -10,6 +10,8 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PrimordialWyrm;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,6 +28,7 @@ using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.Abyss
 {
     [LongDistanceNetSync]
+    [HeavyKnockbackWhitelisted]
     public class EidolonWyrmHead : ModNPC
     {
         private Vector2 patrolSpot = Vector2.Zero;
@@ -114,7 +117,7 @@ namespace CalamityMod.NPCs.Abyss
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
                 NPC.TargetClosest();
 
-            if (NPC.justHit || detectsPlayer || Main.player[NPC.target].chaosState || adultWyrmAlive || (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(160f))
+            if (NPC.justHit || detectsPlayer || Main.player[NPC.target].ownedProjectileCounts[ModContent.ProjectileType<TrustyOldBobber>()] > 0 || Main.player[NPC.target].chaosState || adultWyrmAlive || (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(160f))
             {
                 detectsPlayer = true;
                 NPC.damage = Main.expertMode ? 340 : 170;
@@ -462,9 +465,9 @@ namespace CalamityMod.NPCs.Abyss
             // Post-Polterghast: Soul Edge, Eidolic Wail, Stardust Staff
             LeadingConditionRule postPolter = new LeadingConditionRule(DropHelper.If(() => DownedBossSystem.downedPolterghast));
             aewMinionCondition.Add(postPolter);
-            postPolter.Add(ModContent.ItemType<VoidEdge>(), 3);
             postPolter.Add(ModContent.ItemType<EidolicWail>(), 3);
             postPolter.Add(ModContent.ItemType<EidolonStaff>(), 3);
+            postPolter.Add(ModContent.ItemType<GrandDad>(), 3);
 
             // Post-Leviathan: 6-8 Lumenyl (8-11 on Expert)
             LeadingConditionRule postLevi = new LeadingConditionRule(DropHelper.If(() => DownedBossSystem.downedLeviathan));

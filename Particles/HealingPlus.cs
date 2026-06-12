@@ -12,11 +12,8 @@ namespace CalamityMod.Particles
         public override bool UseCustomDraw => true;
         public override bool SetLifetime => true;
 
-        public Player Owner;
         public Color StartColor;
         public Color EndColor;
-        public Vector2 OverridePosition;
-        public float Opacity;
 
         public HealingPlus(Vector2 position, float scale, Vector2 velocity, Color colorStart, Color colorEnd, int lifetime)
         {
@@ -34,20 +31,15 @@ namespace CalamityMod.Particles
         {
             Color = Color.Lerp(StartColor, EndColor, LifetimeCompletion);
             Lighting.AddLight(Position, Color.ToVector3() * 0.2f);
-            Opacity -= 0.5f;
         }
 
         public override void CustomDraw(SpriteBatch spriteBatch)
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
-
             Vector2 Size = new Vector2(Scale);
+            Vector2 origin = new Vector2(tex.Width, tex.Height) * 0.5f;
 
-            Vector2 origin = new Vector2(tex.Width, tex.Height);
-
-            Vector2 PositionAdjust = new Vector2(-16, -40);
-
-            spriteBatch.Draw(tex, Position - Main.screenPosition - PositionAdjust, null, Color, Rotation, origin, Size, SpriteEffects.None, 0);
+            spriteBatch.Draw(tex, Position - Main.screenPosition, null, Color, Rotation, origin, Size, SpriteEffects.None, 0);
 
         }
     }

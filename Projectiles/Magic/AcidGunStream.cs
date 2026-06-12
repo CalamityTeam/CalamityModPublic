@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = 3;
+            Projectile.penetrate = 2;
             Projectile.extraUpdates = 2;
             Projectile.tileCollide = false;
             Projectile.usesIDStaticNPCImmunity = true;

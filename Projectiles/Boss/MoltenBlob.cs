@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 12;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 900;
+            Projectile.timeLeft = 120;
             Projectile.scale = 1.5f;
             CooldownSlot = ImmunityCooldownID.Bosses;
         }
@@ -65,9 +65,6 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (!inLava)
                 {
-                    if (Projectile.velocity.Y < 0f)
-                        Projectile.velocity.Y = 0f;
-
                     Projectile.velocity.Y += 0.15f;
                 }
             }

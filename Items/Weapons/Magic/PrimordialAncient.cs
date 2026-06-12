@@ -17,18 +17,17 @@ namespace CalamityMod.Items.Weapons.Magic
         public new string LocalizationCategory => "Items.Weapons.Magic";
 
         public static float BuffDamageReductionBoost = 0.08f;
-        public static float BuffDamageBoost = 0.18f;
+        public static float BuffDamageBoost = 0.15f;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(BuffDamageReductionBoost.ToPercent(), BuffDamageBoost.ToPercent());
 
         public override void SetDefaults()
         {
             Item.width = 40;
             Item.height = 56;
-            Item.damage = 4350;
+            Item.damage = 3825;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 95;
-            Item.useTime = 78;
-            Item.useAnimation = 78;
+            Item.mana = 104;
+            Item.useTime = Item.useAnimation = 72;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 14;

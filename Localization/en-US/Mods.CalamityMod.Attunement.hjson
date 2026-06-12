@@ -1,7 +1,7 @@
 // Broken Biome Blade
 DefaultAttunement: {
 	Name: Pure Clarity
-	Function: Fires a weak sword beam that crushes enemy defenses
+	Function: Fires a weak sword beam
 }
 
 HotAttunement: {
@@ -28,7 +28,7 @@ TrueDefaultAttunement: {
 	Name: Pure Clarity
 	Function:
 		'''
-		Fires a weak sword beam that crushes enemy defenses
+		Fires a weak sword beam
 		Landing three true melee hits charges a powerful lunge, unleashed when you stop swinging the sword
 		Enemies struck by the lunge are marked with a sigil that sword beams will home in on
 		'''
@@ -124,7 +124,7 @@ ShockwaveAttunement: {
 		'''
 		Charge an earth-shattering lunge, release to unleash a devastating blow
 		Homing sword beams are emitted as the sword charges up
-		Striking an enemy with the lunge creates a shockwave and marks them with an armor crunching sigil that attracts sword beam homing
+		Striking an enemy with the lunge creates a shockwave and marks them with a sigil that attracts sword beam homing
 		Striking the earth with the lunge will cause several blasts of dust to erupt around you
 		'''
 	PassiveDesc: Periodically emit large shock waves while attacking

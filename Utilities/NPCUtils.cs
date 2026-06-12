@@ -1,12 +1,18 @@
 ﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
+using CalamityMod.Balancing;
 using CalamityMod.Balancing;
 using CalamityMod.CalPlayer;
 using CalamityMod.DataStructures;
 using CalamityMod.Enums;
 using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
@@ -16,17 +22,22 @@ using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Packets;
 using CalamityMod.Systems.Collections;
+using CalamityMod.Systems.Collections;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria;
 using Terraria.Audio;
 using Terraria.Chat;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
@@ -732,14 +743,11 @@ namespace CalamityMod
         /// </summary>
         /// <param name="target">The NPC attacked.</param>
         /// <returns>Whether or not the NPC can be moved around.</returns>
-        public static bool CanBeMoved(this NPC target, bool ignoreKBImmune = false)
+        public static bool CanBeMoved(this NPC target)
         {
-            // Ideally we can replace [!CalamityPlayer.areThereAnyDamnBosses] with a check for problematic boss minions so that you can knock back regular ones in bossfights.
-            // For now at least, when a boss is alive it will always fail to knockback enemies with 100% kb resist.
-            if (CalamityPlayer.areThereAnyDamnBosses)
-                ignoreKBImmune = false;
-            bool isAPillar = target.type == NPCID.LunarTowerSolar || target.type == NPCID.LunarTowerVortex || target.type == NPCID.LunarTowerNebula || target.type == NPCID.LunarTowerStardust;
-            if (!isAPillar && !target.boss && target.IsAnEnemy(true, true, false) && (ignoreKBImmune || target.knockBackResist > 0))
+            bool whitelisted = CalamityHeavyKnockbackWhitelist.whitelistNPC.Contains(target.type);
+
+            if ((target.knockBackResist != 0 || whitelisted) && target.IsAnEnemy(true, true, false))
                 return true;
             return false;
         }
@@ -748,13 +756,14 @@ namespace CalamityMod
         /// </summary>
         /// <param name="target">The NPC being moved.</param>
         /// <param name="ignoreKBImmune">Whether or not NPC's that normally have knockback immunity can be moved around.</param>
-        public static void MoveNPC(this NPC target, Vector2 direction, float strength, bool ignoreKBImmune = false)
+        public static void MoveNPC(this NPC target, Vector2 direction, float strength, bool heavyKnockback = false, Player attacker = null)
         {
-            if (target.CanBeMoved(ignoreKBImmune))
+            if (target.CanBeMoved())
             {
                 Vector2 launchVel = direction.SafeNormalize(Vector2.UnitX) * strength;
-                float knockbackMult = Utils.Remap(target.knockBackResist, 0, 1, 0.5f, 1f, false);
-                target.velocity = launchVel * (knockbackMult > 1 ? (float)Math.Pow(knockbackMult, 10) : knockbackMult);
+                float playerKnockbackMult = 1; // Xyk 19MARCH2026: If we ever make knockback a real stat, it can go here. It's much too messy right now to work with, but at least the player is already supported.
+                float knockbackMult = playerKnockbackMult * (heavyKnockback ? Math.Max(target.knockBackResist, 1) : target.knockBackResist); // Heavy knockback ignores knockback resist (but not knockback weakness)
+                target.velocity = launchVel * knockbackMult;
                 target.SyncMotionToServer();
             }
         }

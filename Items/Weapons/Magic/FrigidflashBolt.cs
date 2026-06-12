@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
+using CalamityMod.Systems.Collections;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -20,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.OnFire3, BuffID.Frostburn2];
         }
         public override void SetDefaults()
         {
@@ -27,9 +29,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 42;
             Item.damage = 95;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 13;
-            Item.useTime = 20;
-            Item.useAnimation = 20;
+            Item.mana = 20;
+            Item.useAnimation = Item.useTime = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 6f;

@@ -120,8 +120,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float SpeedX = velocity.X + Main.rand.NextFloat(-3f, 3f);
                 float SpeedY = velocity.Y + Main.rand.NextFloat(-3f, 3f);
-                int index = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
-                Main.projectile[index].noDropItem = true;
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI);
             }
             Vector2 realPlayerPos = player.RotatedRelativePoint(player.MountedCenter, true);
             Vector2 arrowVel = velocity;

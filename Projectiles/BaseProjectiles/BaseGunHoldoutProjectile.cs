@@ -154,8 +154,10 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             Projectile.width = Projectile.height = ItemTexture is null ? 1 : ItemTexture.Width();
             Projectile.tileCollide = false;
             Projectile.netImportant = true;
-            // While having this enabled would be good, it seems to mess with crits on all holdout when applied, so it will stay disabled
-            //Projectile.ContinuouslyUpdateDamageStats = true;
+            // Base class assumes that the weapon is a ranged weapon. If it's not a ranged weapon, be sure to override this in its own SetDefaults
+            // This is necessary in order for dynamic stat updating to function properly!
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.ContinuouslyUpdateDamageStats = true;
         }
 
         public override void OnSpawn(IEntitySource source) => OffsetLengthFromArm = MaxOffsetLengthFromArm;

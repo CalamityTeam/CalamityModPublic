@@ -171,14 +171,14 @@ namespace CalamityMod.Tiles.Crags.Tree
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            //kill the tree tiles if there are no tiles below it
-            if (!Framing.GetTileSafely(i, j + 1).HasTile)
+            // Kill the tree tiles if there are no tiles below it or if a Sapling is below it
+            // The Sapling check exists for Axe of Regrowth sapling replanting
+            Tile belowTile = Framing.GetTileSafely(i, j + 1);
+            if (!belowTile.HasTile || belowTile.TileType == ModContent.TileType<SpineSapling>())
             {
-                WorldGen.KillTile(i, j, false, false, false);
+                WorldGen.KillTile(i, j);
                 if (Main.netMode == NetmodeID.MultiplayerClient)
-                {
                     NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, i, j);
-                }
             }
         }
 

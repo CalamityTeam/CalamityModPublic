@@ -132,6 +132,6 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         public override bool? CanDamage() => Timer == 140f ? null : false;
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(BuffID.Frozen, 60);
     }
 }

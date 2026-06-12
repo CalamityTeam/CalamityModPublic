@@ -269,7 +269,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Vector2 drawPos = Projectile.Center - Main.screenPosition;
+            Vector2 drawPos = Projectile.Center - Main.screenPosition + (!spinning ? new Vector2(0, Owner.gfxOffY) : Vector2.Zero);
             Asset<Texture2D> tex = ModContent.Request<Texture2D>(Texture);
             Main.EntitySpriteDraw(tex.Value, drawPos, null, spinning ? Color.White : Color.Lerp(lightColor, Color.White, Utils.GetLerpValue(0, ChargeupTime, time, true)), Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, Projectile.spriteDirection > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
 

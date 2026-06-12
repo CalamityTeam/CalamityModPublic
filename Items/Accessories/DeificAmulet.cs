@@ -83,6 +83,13 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<AstralBar>(10).
                 AddTile(TileID.TinkerersWorkbench).
                 Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BeeCloak).
+                AddIngredient(ItemID.CrossNecklace).
+                AddIngredient(ItemID.PanicNecklace).
+                AddIngredient<AstralBar>(10).
+                AddTile(TileID.TinkerersWorkbench).
+                Register();
         }
     }
 }

@@ -66,8 +66,8 @@ namespace CalamityMod.TileEntities
             {
                 Player p = Main.player[PlayerTargetIndex];
 
-                // If they don't exist, or are dead, then unmark them as a target and search for a new one.
-                if (!p.active || p.dead)
+                // If they don't exist, are dead, or are using an invis pot then unmark them as a target and search for a new one.
+                if (!p.active || p.dead || p.invis)
                     indexToSet = -1;
                 else
                 {
@@ -87,7 +87,7 @@ namespace CalamityMod.TileEntities
 
             foreach (Player p in Main.ActivePlayers)
             {
-                if (p.dead)
+                if (p.dead || p.invis)
                     continue;
 
                 float distSQ = p.DistanceSQ(targetingCenter);

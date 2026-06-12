@@ -1,6 +1,8 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.DataStructures;
@@ -21,6 +23,7 @@ namespace CalamityMod.Items.Accessories
         {
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(9, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<BrainRot>(), ModContent.BuffType<BrimstoneFlames>(), ModContent.BuffType<CrushDepth>(), ModContent.BuffType<Plague>(), BuffID.Electrified, BuffID.Frostburn2];
         }
 
         public override void SetDefaults()
@@ -51,11 +54,11 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<AmalgamatedBrain>().
                 AddIngredient<AscendantSpiritEssence>(4).
-                AddIngredient(ItemID.LunarBar, 10).
-                AddIngredient(ItemID.FragmentSolar, 10).
+                AddIngredient<AshesofCalamity>(12).
+                AddIngredient<EssenceofEleum>(15).
                 AddIngredient<PlagueCellCanister>(15).
                 AddIngredient<DepthCells>(15).
-                AddIngredient<EffulgentFeather>(8).
+                AddIngredient<ArmoredShell>(4).
                 AddTile<CosmicAnvil>().
                 Register();
         }

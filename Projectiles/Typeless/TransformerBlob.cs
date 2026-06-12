@@ -237,7 +237,7 @@ namespace CalamityMod.Projectiles.Typeless
             else
                 modifiers.SourceDamage *= 0.2f;
 
-            target.MoveNPC(Utils.DirectionTo(Owner.Center, target.Center), (poweredTimer == 0 ? 7 : 3));
+            target.MoveNPC(Utils.DirectionTo(Owner.Center, target.Center), (poweredTimer == 0 ? 7 : 3), false, Owner);
 
             if (Projectile.numHits == 0 && poweredTimer == 0)
             {
@@ -269,22 +269,25 @@ namespace CalamityMod.Projectiles.Typeless
             Rectangle frame = orbTexture.Frame(1, 16, 0, Projectile.frame);
             Vector2 origin = frame.Size() * 0.5f;
 
+            Vector2 baseDrawPos = Projectile.Center - Main.screenPosition + 
+                (poweredTimer != 0 ? new Vector2(0, Owner.gfxOffY) : Vector2.Zero);
+
             if (powered)
             {
                 Color auraColor = cl1 with { A = 0 } * poweredLerp * visualMult;
                 for (int i = 0; i < 2; i++) 
                 {
                     float bScale2 = 0.25f;
-                    Main.EntitySpriteDraw(bTexture, Projectile.Center - Main.screenPosition, null, cl2 with { A = 0 } * Utils.GetLerpValue(poweredTimerMax, 180, poweredTimer, true) * visualMult, Projectile.rotation, bTexture.Size() * 0.5f, Vector2.Lerp(new Vector2(0.6f, 1.4f), Vector2.One, MathHelper.Min(Utils.GetLerpValue(8, 15, Projectile.frame, true), Utils.GetLerpValue(8, 0, Projectile.frame, true))) * bScale2 * Projectile.scale, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(bTexture, baseDrawPos, null, cl2 with { A = 0 } * Utils.GetLerpValue(poweredTimerMax, 180, poweredTimer, true) * visualMult, Projectile.rotation, bTexture.Size() * 0.5f, Vector2.Lerp(new Vector2(0.6f, 1.4f), Vector2.One, MathHelper.Min(Utils.GetLerpValue(8, 15, Projectile.frame, true), Utils.GetLerpValue(8, 0, Projectile.frame, true))) * bScale2 * Projectile.scale, SpriteEffects.None, 0);
                 }
             }
-            Main.EntitySpriteDraw(orbTexture, Projectile.Center - Main.screenPosition, frame, Color.White * visualMult, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(orbTexture, baseDrawPos, frame, Color.White * visualMult, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
 
             for (int i = 0; i < 10; i++)
             {
                 Color auraColor = cl1 with { A = 0 } * (powered ? (float)Math.Pow(Utils.GetLerpValue(poweredTimerMax, 20, poweredTimer, true), 3) : sine) * 0.6f * visualMult;
                 Vector2 drawOffset = (MathHelper.TwoPi * i / 10f).ToRotationVector2() * 4;
-                Main.EntitySpriteDraw(orbTexture, Projectile.Center - Main.screenPosition + drawOffset, frame, auraColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None);
+                Main.EntitySpriteDraw(orbTexture, baseDrawPos + drawOffset, frame, auraColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None);
             }
             return false;
         }

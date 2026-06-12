@@ -1,5 +1,7 @@
-﻿using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -12,6 +14,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class TheFinalDawn : RogueWeapon
     {
         public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/FinalDawnSlash");
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Dragonfire>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 78;

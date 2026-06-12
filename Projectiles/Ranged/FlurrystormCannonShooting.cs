@@ -131,7 +131,6 @@ namespace CalamityMod.Projectiles.Ranged
                     int snowball = Projectile.NewProjectile(Projectile.GetSource_FromThis(), sourceS, snowballVel, projType, dmg, kBack, Projectile.owner);
                     if (snowball.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[snowball].noDropItem = true;
                         Main.projectile[snowball].DamageType = DamageClass.Ranged;
                         Main.projectile[snowball].extraUpdates += Main.rand.Next(0, 2);
                     }

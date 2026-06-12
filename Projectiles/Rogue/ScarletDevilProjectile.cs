@@ -24,20 +24,24 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 45;
             Projectile.width = 108;
             Projectile.height = 108;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 5;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 300;
             Projectile.extraUpdates = 1;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()
         {
+            if (Projectile.timeLeft == 300 && Projectile.Calamity().stealthStrike)
+                Projectile.penetrate = 1;
+
             Lighting.AddLight(Projectile.Center, 0.55f, 0.25f, 0f);
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
 
@@ -52,7 +56,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (!Projectile.Calamity().stealthStrike && Projectile.oldPos.Length != 6)
                 Projectile.oldPos = new Vector2[6];
 
-            if ((ShootTimer %= 5f) == 0f && !Projectile.Calamity().stealthStrike)
+            if ((ShootTimer %= 4f) == 0f && !Projectile.Calamity().stealthStrike)
             {
                 if (Projectile.owner == Main.myPlayer)
                     GenerateSideBullets(2, MathHelper.ToRadians(15f));
@@ -66,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 perturbedSpeed = new Vector2(-Projectile.velocity.X / 3, -Projectile.velocity.Y / 3).RotatedBy(MathHelper.Lerp(-rotationalOffset, rotationalOffset, i / (totalBullets - 1)));
                 for (int j = 0; j < 2; j++)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(Projectile.damage * 0.03), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(Projectile.damage * 0.035), 0f, Projectile.owner, 0f, 0f);
                     perturbedSpeed *= 1.05f;
                 }
             }
@@ -97,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
                         nextAngle = MathHelper.Pi * 1.5f - (i + 2) * MathHelper.TwoPi / pointsOnStar;
                     Vector2 start = angle.ToRotationVector2();
                     Vector2 end = nextAngle.ToRotationVector2();
-                    int pointsOnStarSegment = 18;
+                    int pointsOnStarSegment = 12;
                     for (int j = 0; j < pointsOnStarSegment; j++)
                     {
                         Vector2 shootVelocity = Vector2.Lerp(start, end, j / (float)pointsOnStarSegment) * starSpeed;
@@ -122,7 +126,9 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.ExpandHitboxBy(150);
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(Projectile.damage * 0.0075), 0f, Projectile.owner);
+            if (Projectile.numHits == 0)
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(Projectile.damage * 0.0075), 0f, Projectile.owner);
+
             if (!Projectile.Calamity().stealthStrike)
                 return;
 

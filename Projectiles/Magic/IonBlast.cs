@@ -28,7 +28,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.ArmorPenetration = 40;
         }
 
         public override void AI()
@@ -105,7 +104,6 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile blast = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BasicBurst>(), (int)(Projectile.damage * 0.5f), 0, Projectile.owner, blastSize, minMultiplier, hitsToMinMult);
                 blast.timeLeft = 10;
                 blast.DamageType = DamageClass.Magic;
-                blast.ArmorPenetration = 40;
             }
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

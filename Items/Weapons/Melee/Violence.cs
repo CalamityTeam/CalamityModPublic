@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            Item.rare = ModContent.RarityType<BurnishedAuric>();
+            Item.rare = ModContent.RarityType<CalamityRed>();
             Item.shoot = ModContent.ProjectileType<ViolenceThrownProjectile>();
             Item.shootSpeed = 15f;
             Item.channel = true;

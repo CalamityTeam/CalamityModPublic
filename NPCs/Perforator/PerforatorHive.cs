@@ -162,9 +162,9 @@ namespace CalamityMod.NPCs.Perforator
             // Phases based on life percentage
             bool phase2 = lifeRatio < 0.7f;
 
-            bool spawnSmall = Main.getGoodWorld ? lifeRatio < 0.85f : lifeRatio < 0.75f;
-            bool spawnMedium = Main.getGoodWorld ? lifeRatio < 0.60f : lifeRatio < 0.50f;
-            bool spawnLarge = Main.getGoodWorld ? lifeRatio < 0.45f : lifeRatio < 0.25f;
+            bool spawnSmall = lifeRatio < 0.75f;
+            bool spawnMedium = lifeRatio < 0.50f;
+            bool spawnLarge = lifeRatio < 0.25f;
 
             if (!player.active || player.dead || Vector2.Distance(player.Center, NPC.Center) > 5600f || !(player.ZoneCrimson || BossRushEvent.BossRushActive))
             {
@@ -332,16 +332,6 @@ namespace CalamityMod.NPCs.Perforator
                         GeneralParticleHandler.SpawnParticle(blood);
                     }
 
-
-                    if (Main.getGoodWorld && lifeRatio < 0.5f && Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        if (lifeRatio > 0.35f)
-                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + Main.rand.Next(-25, 26), (int)NPC.Center.Y + Main.rand.Next(-25, 26), ModContent.NPCType<PerforatorHeadLarge>(), 1);
-                        else if (lifeRatio > 0.2f)
-                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + Main.rand.Next(-25, 26), (int)NPC.Center.Y + Main.rand.Next(-25, 26), ModContent.NPCType<PerforatorHeadMedium>(), 1);
-                        else if (lifeRatio > 0.05f)
-                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X + Main.rand.Next(-25, 26), (int)NPC.Center.Y + Main.rand.Next(-25, 26), ModContent.NPCType<PerforatorHeadSmall>(), 1);
-                    }
                     if (wormType != -1)
                     {
                         squashTimer = squashInterval; // Start scaling animation

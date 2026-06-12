@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -12,7 +13,10 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class CrushsawCrasher : RogueWeapon
     {
         bool HasHoveredOverNameInGFB = false;
-
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<HeavyBleeding>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 38;

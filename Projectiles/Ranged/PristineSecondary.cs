@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Ranged
         public Color FogColor = Color.Orchid;
         public float FogRotation = 0;
         public int boomTime = PristineFury.boomTime;
+        public int fullDamageHitCooldown = 0;
 
         public bool Ignited = false;
 
@@ -34,8 +35,9 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 230;
-            Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+            Projectile.ArmorPenetration = 30;
         }
 
         public override void AI()
@@ -46,11 +48,13 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 if (Projectile.ai[2] == boomTime)
                 {
-                    // Xyk: "This is probably too much lol"
-                    // Yeah I'd say 7x base damage is a bit much
-                    // Xyk: Follow up, the inital damage is nerfed AND it has a "cooldown" 7x should now be fine...
-                    Projectile.damage *= (int)7;
+                    Projectile.damage = (int)(Projectile.damage * 7.2f);
                     FogColor = Color.Lerp(Color.OrangeRed, Color.Goldenrod, Main.rand.NextFloat());
+
+                    Projectile.localNPCHitCooldown = -1;
+                    for (int i = 0; i < Main.maxNPCs; i++)
+                        Projectile.localNPCImmunity[i] = 0;
+                    fullDamageHitCooldown = 0;
 
                     SoundStyle ignite = new("CalamityMod/Sounds/Custom/Providence/ProvidenceHolyBlastImpact");
                     SoundEngine.PlaySound(ignite with { Volume = 0.4f, Pitch = Main.rand.NextFloat(0.5f, 0.6f) }, Projectile.Center);
@@ -77,6 +81,9 @@ namespace CalamityMod.Projectiles.Ranged
 
             Projectile.velocity *= Main.rand.NextFloat(0.95f, 0.99f);
             Projectile.Opacity = Utils.GetLerpValue(280f, 135f, Projectile.timeLeft, true) * Utils.GetLerpValue(0f, 90f, Projectile.timeLeft, true);
+
+            if (fullDamageHitCooldown > 0)
+                fullDamageHitCooldown--;
 
             // 08DEC2023: Ozzatron: All below code does not run on dedicated servers as it requires clientside lighting information.
             if (Main.dedServ)
@@ -120,8 +127,15 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => Projectile.Opacity < 0.3f ? false : CalamityUtils.CircularHitboxCollision(Projectile.Center, Projectile.width * ScaleFactor * 0.5f, targetHitbox);
 
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            if (fullDamageHitCooldown == 0 && !target.Calamity().IsArmored()) // Deal full damage
+            {
+                fullDamageHitCooldown = Projectile.localNPCHitCooldown;
+            }
+            else // Deal partial damage
+                modifiers.SourceDamage *= 0.06f;
+
             if (Ignited)
             {
 

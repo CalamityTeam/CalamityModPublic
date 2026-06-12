@@ -57,9 +57,9 @@ namespace CalamityMod.Projectiles.Typeless
             if (projHitbox.Intersects(targetHitbox))
             {
                 NPC target = Main.npc[(int)Projectile.ai[0]];
-                if (pushVelocity != Vector2.Zero && pushVelocity.X < 255f && !invalidTarget && target.CanBeMoved(hasStongDisplacement))
+                if (pushVelocity != Vector2.Zero && pushVelocity.X < 255f && !invalidTarget)
                 {
-                    target.velocity = (pushVelocity * (target.knockBackResist == 0 ? 0.5f : 1));
+                    target.MoveNPC(pushVelocity, pushVelocity.Length(), hasStongDisplacement, Main.player[Projectile.owner]);
                 }
                 return true;
             }

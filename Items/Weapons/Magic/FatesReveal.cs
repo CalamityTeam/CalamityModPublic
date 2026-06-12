@@ -25,8 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.damage = 120;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 20;
-            Item.useTime = 16;
-            Item.useAnimation = 16;
+            Item.useAnimation = Item.useTime = 16;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 5.5f;
@@ -66,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             realPlayerPos += new Vector2(mouseXDist, mouseYDist);
 
-            int numProjectiles = 5;
+            int numProjectiles = 6;
             for (int i = 0; i < numProjectiles; i++)
             {
                 realPlayerPos.X += (float)Main.rand.Next(-100, 101);

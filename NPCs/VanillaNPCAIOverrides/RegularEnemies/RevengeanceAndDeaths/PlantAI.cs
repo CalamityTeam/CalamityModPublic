@@ -140,7 +140,7 @@ public static partial class RevengeanceAndDeathAI
                     NPC.velocity.Y = -2f;
             }
 
-            if ((NPC.type == NPCID.GiantFungiBulb || NPC.type == NPCID.FungiBulb) && !Main.player[NPC.target].DeadOrGhost)
+            if (NPC.type == NPCID.GiantFungiBulb && !Main.player[NPC.target].DeadOrGhost)
             {
                 if (NPC.localAI[0] > ((NPC.type == NPCID.GiantFungiBulb ? (CalamityWorld.revenge ? GiantFungiBulbSporeShootGateValue_Rev : GiantFungiBulbSporeShootGateValue) : FungiBulbSporeShootGateValue) - FungiBulbSporeTelegraphTime))
                 {

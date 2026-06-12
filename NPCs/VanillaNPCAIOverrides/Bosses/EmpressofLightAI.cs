@@ -243,30 +243,22 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                             attackType = 2;
 
                         if (attackPatternLength % attackIncrement == phase1Attack2)
-                            attackType = 6;
-
-                        if (attackPatternLength % attackIncrement == phase1Attack3)
                             attackType = 8;
 
+                        if (attackPatternLength % attackIncrement == phase1Attack3)
+                            attackType = 6;
+
                         if (attackPatternLength % attackIncrement == phase1Attack4)
-                        {
-                            attackType = 4;
-
-                            // Adjust the upcoming Ethereal Lance attack depending on what random variable is chosen here.
-                            calamityGlobalNPC.newAI[3] = Main.rand.Next(2);
-
-                            // Sync the Calamity AI variables.
-                            NPC.SyncExtraAI();
-                        }
+                            attackType = 8;
 
                         if (attackPatternLength % attackIncrement == phase1Attack5)
                             attackType = 5;
 
                         if (attackPatternLength % attackIncrement == phase1Attack6)
-                            attackType = 8;
+                            attackType = 2;
 
                         if (attackPatternLength % attackIncrement == phase1Attack7)
-                            attackType = 2;
+                            attackType = 8;
 
                         if (attackPatternLength % attackIncrement == phase1Attack8)
                         {
@@ -319,27 +311,14 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                         if (attackPatternLength % attackIncrement == phase2Attack3)
                             attackType = 8;
 
+                        if (attackPatternLength % attackIncrement == phase2Attack4)
+                            attackType = 11;
+
                         if (attackPatternLength % attackIncrement == phase2Attack5)
                             attackType = 5;
 
                         if (attackPatternLength % attackIncrement == phase2Attack6)
                             attackType = 2;
-
-                        if (attackPatternLength % attackIncrement == phase2Attack7)
-                        {
-                            if (phase3)
-                            {
-                                attackType = 7;
-
-                                // Adjust the upcoming Ethereal Lance attack depending on what random variable is chosen here.
-                                calamityGlobalNPC.newAI[2] = Main.rand.Next(2);
-
-                                // Sync the Calamity AI variables.
-                                NPC.SyncExtraAI();
-                            }
-                            else
-                                attackType = 6;
-                        }
 
                         if (attackPatternLength % attackIncrement == phase2Attack7)
                         {
@@ -371,9 +350,6 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                         if (attackPatternLength % attackIncrement == phase2Attack9)
                             attackType = 8;
 
-                        if (attackPatternLength % attackIncrement == phase2Attack4)
-                            attackType = 11;
-
                         if (attackPatternLength % attackIncrement == phase2Attack10)
                             attackType = 12;
                     }
@@ -403,7 +379,7 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
 
                     NPC.ai[0] = attackType;
                     NPC.ai[1] = 0f;
-                    NPC.ai[2] += Main.rand.Next(2) + 1f;
+                    NPC.ai[2] += 1f;
                     NPC.netUpdate = true;
 
                     break;
@@ -744,8 +720,8 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                     // Expert attack or not.
                     bool expertAttack = calamityGlobalNPC.newAI[2] == 0f;
 
-                    int numLanceWalls = expertAttack ? 6 : 4;
-                    float lanceWallSpawnGateValue = expertAttack ? (death ? 42f : 36f) : 54f;
+                    int numLanceWalls = (death && !expertAttack) ? 9 : 6;
+                    float lanceWallSpawnGateValue = expertAttack ? 50f : (death ? 32f : 45f);
                     if (dayTimeEnrage)
                         lanceWallSpawnGateValue -= expertAttack ? 4f : 6f;
 
@@ -760,73 +736,26 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                     {
                         SoundEngine.PlaySound(SoundID.Item162, NPC.Center);
 
-                        float totalProjectiles = death ? 18f : 15f;
-                        float lanceSpacing = death ? 150f : 175f;
+                        float totalProjectiles = death ? 19f : 15f;
+                        float lanceSpacing = death ? (expertAttack ? 150f : 200f) : 175f;
                         float lanceWallSize = totalProjectiles * lanceSpacing;
 
                         Vector2 lanceSpawnOffset = targetData9.Center;
                         if (NPC.Distance(lanceSpawnOffset) <= 3200f)
                         {
-                            Vector2 lanceWallStartingPosition = Vector2.Zero;
-                            Vector2 lanceWallDirection = Vector2.UnitY;
-                            float lanceWallConvergence = 0.4f;
-                            float lanceWallSizeMult = 1.4f;
                             totalProjectiles += 5f;
-                            lanceSpacing += 50f;
-                            lanceWallSize *= (death ? 0.7f : 0.5f);
-                            float direction = 1f;
+                            lanceWallSize *= (death && expertAttack) ? 0.7f : 0.5f;
 
-                            int randomLanceWallType;
-                            do randomLanceWallType = Main.rand.Next(numLanceWalls);
-                            while (randomLanceWallType == calamityGlobalNPC.newAI[3]);
-
-                            // This is set so that Empress doesn't use the same wall type twice in a row.
-                            calamityGlobalNPC.newAI[3] = randomLanceWallType;
-
+                            // Used to give the lance walls a random rotation.
+                            calamityGlobalNPC.newAI[3] = Main.rand.NextFloat(MathHelper.TwoPi);
                             // Keeps track of the total number of lance walls used.
                             calamityGlobalNPC.newAI[1] += 1f;
-
                             // Sync the Calamity AI variables.
                             NPC.SyncExtraAI();
 
-                            switch (randomLanceWallType)
-                            {
-                                case 0:
-                                    lanceSpawnOffset += new Vector2((0f - lanceWallSize) / 2f, 0f) * direction;
-                                    lanceWallStartingPosition = new Vector2(0f, lanceWallSize);
-                                    lanceWallDirection = Vector2.UnitX;
-                                    break;
-
-                                case 1:
-                                    lanceSpawnOffset += new Vector2(lanceWallSize / 2f, lanceSpacing / 2f) * direction;
-                                    lanceWallStartingPosition = new Vector2(0f, lanceWallSize);
-                                    lanceWallDirection = -Vector2.UnitX;
-                                    break;
-
-                                case 2:
-                                    lanceSpawnOffset += new Vector2(0f - lanceWallSize, 0f - lanceWallSize) * lanceWallConvergence * direction;
-                                    lanceWallStartingPosition = new Vector2(lanceWallSize * lanceWallSizeMult, 0f);
-                                    lanceWallDirection = new Vector2(1f, 1f);
-                                    break;
-
-                                case 3:
-                                    lanceSpawnOffset += new Vector2(lanceWallSize * lanceWallConvergence + lanceSpacing / 2f, (0f - lanceWallSize) * lanceWallConvergence) * direction;
-                                    lanceWallStartingPosition = new Vector2((0f - lanceWallSize) * lanceWallSizeMult, 0f);
-                                    lanceWallDirection = new Vector2(-1f, 1f);
-                                    break;
-
-                                case 4:
-                                    lanceSpawnOffset += new Vector2(0f - lanceWallSize, lanceWallSize) * lanceWallConvergence * direction;
-                                    lanceWallStartingPosition = new Vector2(lanceWallSize * lanceWallSizeMult, 0f);
-                                    lanceWallDirection = lanceSpawnOffset.DirectionTo(targetData9.Center);
-                                    break;
-
-                                case 5:
-                                    lanceSpawnOffset += new Vector2(lanceWallSize * lanceWallConvergence + lanceSpacing / 2f, lanceWallSize * lanceWallConvergence) * direction;
-                                    lanceWallStartingPosition = new Vector2((0f - lanceWallSize) * lanceWallSizeMult, 0f);
-                                    lanceWallDirection = lanceSpawnOffset.DirectionTo(targetData9.Center);
-                                    break;
-                            }
+                            lanceSpawnOffset += -Vector2.UnitX.RotatedBy(calamityGlobalNPC.newAI[3]) * (lanceWallSize / 2f);
+                            Vector2 lanceWallStartingPosition = Vector2.UnitY.RotatedBy(calamityGlobalNPC.newAI[3]) * lanceWallSize;
+                            Vector2 lanceWallDirection = calamityGlobalNPC.newAI[3].ToRotationVector2();
 
                             int projectileType = ProjectileID.FairyQueenLance;
                             int projectileDamage = lanceDamage;
@@ -845,13 +774,6 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnLocation, Vector2.Zero, projectileType, projectileDamage, 0f, Main.myPlayer, v2.ToRotation(), i);
                             }
-                        }
-
-                        // Chance to stop using the lance walls and switch to a different attack after 3 lance walls are used.
-                        if (Main.rand.NextBool(5 - ((int)calamityGlobalNPC.newAI[1] - 2)) && calamityGlobalNPC.newAI[1] >= 2f)
-                        {
-                            NPC.ai[1] = lanceWallPhaseTime;
-                            NPC.netUpdate = true;
                         }
                     }
 
@@ -927,9 +849,7 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, rainbowStreakVelocity, projectileType, projectileDamage, 0f, Main.myPlayer, NPC.target, ai3);
-                                if (Main.getGoodWorld)
-                                    Main.projectile[proj].extraUpdates += 1;
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, rainbowStreakVelocity, projectileType, projectileDamage, 0f, Main.myPlayer, NPC.target, ai3);
                             }
 
                             // Spawn extra homing Rainbow Streaks per player.
@@ -1163,12 +1083,7 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + projRandomOffset, vector, projectileType, projectileDamage, 0f, Main.myPlayer, NPC.target, streakHomeTime);
                             if (phase3)
                             {
-                                int proj2 = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + projRandomOffset, -vector, projectileType, projectileDamage, 0f, Main.myPlayer, NPC.target, 1f - streakHomeTime);
-                                if (Main.getGoodWorld)
-                                {
-                                    Main.projectile[proj2].extraUpdates += 1;
-                                    Main.projectile[proj2].netUpdate = true;
-                                }
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + projRandomOffset, -vector, projectileType, projectileDamage, 0f, Main.myPlayer, NPC.target, 1f - streakHomeTime);
                             }
                         }
 

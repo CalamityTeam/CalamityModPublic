@@ -28,7 +28,9 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 2;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
             Projectile.timeLeft = 90;
             Projectile.noEnchantments = true;
         }
@@ -39,7 +41,21 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.alpha = (int)Utils.Remap(Time, 0f, 12f, 255f, 0f);
 
-            NPC potentialTarget = Projectile.Center.ClosestNPCAt(256f);
+            NPC potentialTarget = null;
+            float range = 256f;
+            foreach (NPC target in Main.ActiveNPCs)
+            {
+                if (target.CanBeChasedBy(Projectile) && Projectile.localNPCImmunity[target.whoAmI] == 0)
+                {
+                    float distance = Vector2.Distance(target.Center, Projectile.Center);
+                    if (distance < range)
+                    {
+                        range = distance;
+                        potentialTarget = target;
+                    }
+                }
+            }
+
             if (potentialTarget != null && Time >= 12f)
             {
                 Vector2 idealVelocity = Projectile.SafeDirectionTo(potentialTarget.Center) * 12f;

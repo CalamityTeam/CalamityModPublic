@@ -46,6 +46,7 @@ public class TelekineticEnemyGrab : ModProjectile, ILocalizedModType
         Projectile.hostile = true;
         if(NPC.crimsonBoss != -1)
             MyTarget = Main.npc[NPC.crimsonBoss].target;
+        Projectile.Calamity().DealsDefenseDamage = true;
     }
 
     public override void OnSpawn(IEntitySource source)

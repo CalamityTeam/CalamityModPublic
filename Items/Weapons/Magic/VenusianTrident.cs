@@ -1,6 +1,9 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -15,17 +18,17 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             Item.staff[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Daybroken>()];
         }
 
         public override void SetDefaults()
         {
             Item.width = 70;
             Item.height = 68;
-            Item.damage = 2800;
+            Item.damage = 1150;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 40;
-            Item.useTime = 65;
-            Item.useAnimation = 65;
+            Item.mana = 90;
+            Item.useAnimation = Item.useTime = 65;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 9f;

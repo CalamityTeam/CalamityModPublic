@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int i = end - 1; i >= start; i--)
                 {
                     float distanceFromStar = Vector2.Distance(Projectile.position, Projectile.oldPos[i]);
-                    if (distanceFromStar < (distanceTraveled * 0.7f + 30f)) 
+                    if (distanceFromStar < (distanceTraveled * 0.7f + 20f)) 
                     {
                         shapeIsComplete = true;
 
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
                 averageDistanceFromStar /= end - start;
 
                 // Cancel out intersection "completions" if the velocity is slow enough to be rebounding or the shape is relatively small.
-                if (averageDistanceFromStar < distanceTraveled + 70f)
+                if (averageDistanceFromStar < distanceTraveled + 100f)
                     shapeIsComplete = false;
             }
 
@@ -182,6 +182,10 @@ namespace CalamityMod.Projectiles.Magic
                     if (Main.myPlayer == Projectile.owner)
                     {
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), n.Center, Vector2.Zero, ModContent.ProjectileType<ArtAttackStrike>(), damage, 0f, Projectile.owner, n.whoAmI);
+
+                        damage /= 2;
+                        if (damage < 1)
+                            damage = 1;
                     }
                 }
             }

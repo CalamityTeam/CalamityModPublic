@@ -14,7 +14,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
         {
             Player drawPlayer = drawInfo.drawPlayer;
             CalamityPlayer modPlayer = drawPlayer.Calamity();
-            return drawInfo.shadow == 0f && !drawPlayer.dead && (modPlayer.voidAura || modPlayer.voidAuraDamage);
+            return drawInfo.shadow == 0f && !drawPlayer.dead && modPlayer.VoidConcentrationStaff;
         }
 
         protected override void Draw(ref PlayerDrawSet drawInfo)

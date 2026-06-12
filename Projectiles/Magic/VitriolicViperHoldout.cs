@@ -38,6 +38,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public float vortexRotation = 0;
 
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            Projectile.DamageType = DamageClass.Magic;
+        }
+
         public override void KillHoldoutLogic()
         {
             if (Owner.CantUseHoldout(false) || HeldItem.type != Owner.HeldItem.type)

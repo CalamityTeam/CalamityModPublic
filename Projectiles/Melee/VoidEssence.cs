@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[idx].scale = scale;
             }
 
-            target.AddBuff(ModContent.BuffType<Nightwither>(), 30);
+            target.AddBuff(ModContent.BuffType<Voidfrost>(), 30);
         }
 
         public override void OnKill(int timeLeft)

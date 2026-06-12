@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
         public override bool drawSwordTrail => false;
         public override bool AlternateSwings => false;
 
-        public override bool useMeleeSpeed => true;
+        public override bool useAttackSpeed => true;
 
         public override int swingTime { get; set; } = 8;
 
@@ -102,7 +102,11 @@ namespace CalamityMod.Projectiles.Melee.Shortswords
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            Owner.Calamity().StratusStarburst++;
+            if (Projectile.numHits == 0)
+                Owner.Calamity().StratusStarburst++;
+            else
+                Owner.Calamity().StarburstSpawnFrameCounter += 0.25f;
+
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

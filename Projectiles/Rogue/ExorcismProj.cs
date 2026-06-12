@@ -439,6 +439,8 @@ namespace CalamityMod.Projectiles.Rogue
             Asset<Texture2D> glowBottom = ModContent.Request<Texture2D>("CalamityMod/Particles/SquareRotated");
             Asset<Texture2D> woosh = ModContent.Request<Texture2D>("CalamityMod/Particles/VerticalSmearLarge");
 
+            Vector2 drawAdjust = -Main.screenPosition + (!flung ? new Vector2(0, Owner.gfxOffY) : Vector2.Zero);
+
             if (hitTiles || falling || stealth)
             {
                 for (int i = 0; i < 25; i++)
@@ -446,7 +448,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 drawPos = Projectile.Center;
                     Color auraColor = glowColor with { A = 0 } * 0.05f * glowUp;
                     Vector2 drawOffset = (MathHelper.TwoPi * i / 25f).ToRotationVector2() * glowUp * 2;
-                    Main.EntitySpriteDraw(tex, drawPos - Main.screenPosition + drawOffset + Main.rand.NextVector2Circular(6, 6) * (1 - glowUp), null, auraColor with { A = 0 } * Projectile.Opacity, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
+                    Main.EntitySpriteDraw(tex, drawPos + drawAdjust + drawOffset + Main.rand.NextVector2Circular(6, 6) * (1 - glowUp), null, auraColor with { A = 0 } * Projectile.Opacity, Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, SpriteEffects.None);
                 }
             }
             if (stealth)
@@ -458,19 +460,19 @@ namespace CalamityMod.Projectiles.Rogue
 
                     if (i == 0 && Projectile.timeLeft > 240)
                     {
-                        Main.EntitySpriteDraw(woosh.Value, Projectile.Center - Main.screenPosition, null, Color.Khaki with { A = 0 } * 0.1f, fxVel.ToRotation() + Projectile.rotation + Main.GlobalTimeWrappedHourly * Projectile.direction * 27, woosh.Size() / 2f, Projectile.scale * 0.45f * throwCompletion, SpriteEffects.None, 0);
-                        Main.EntitySpriteDraw(woosh.Value, Projectile.Center - Main.screenPosition, null, mainColor with { A = 0 } * 0.15f, fxVel.ToRotation() - 1.3f * Projectile.direction + Projectile.rotation + Main.GlobalTimeWrappedHourly * Projectile.direction * 27, woosh.Size() / 2f, Projectile.scale * 0.41f * throwCompletion, SpriteEffects.None, 0);
+                        Main.EntitySpriteDraw(woosh.Value, Projectile.Center + drawAdjust, null, Color.Khaki with { A = 0 } * 0.1f, fxVel.ToRotation() + Projectile.rotation + Main.GlobalTimeWrappedHourly * Projectile.direction * 27, woosh.Size() / 2f, Projectile.scale * 0.45f * throwCompletion, SpriteEffects.None, 0);
+                        Main.EntitySpriteDraw(woosh.Value, Projectile.Center + drawAdjust, null, mainColor with { A = 0 } * 0.15f, fxVel.ToRotation() - 1.3f * Projectile.direction + Projectile.rotation + Main.GlobalTimeWrappedHourly * Projectile.direction * 27, woosh.Size() / 2f, Projectile.scale * 0.41f * throwCompletion, SpriteEffects.None, 0);
                     }
 
                     for (int y = 0; y < 2; y++)
-                        Main.EntitySpriteDraw(glowBlade.Value, fxPos - Main.screenPosition, null, (y != 0 ? Color.White : mainColor) with { A = 0 } * (0.3f * glowUp), fxVel.ToRotation() + MathHelper.PiOver2, glowBlade.Size() / 2f, new Vector2(0.4f * (y != 0 ? 0.65f : 1f), 1f * throwCompletion * glowUp * (i == 0 ? 1.5f : 1)) * Projectile.scale * 0.04f, SpriteEffects.None, 0);
+                        Main.EntitySpriteDraw(glowBlade.Value, fxPos + drawAdjust, null, (y != 0 ? Color.White : mainColor) with { A = 0 } * (0.3f * glowUp), fxVel.ToRotation() + MathHelper.PiOver2, glowBlade.Size() / 2f, new Vector2(0.4f * (y != 0 ? 0.65f : 1f), 1f * throwCompletion * glowUp * (i == 0 ? 1.5f : 1)) * Projectile.scale * 0.04f, SpriteEffects.None, 0);
                     float softGlowUp = (float)Math.Pow(glowUp, 0.15f);
                     for (int y = 0; y < 3; y++)
-                        Main.EntitySpriteDraw(glowBottom.Value, fxPos - Main.screenPosition - fxVel * 0.55f, null, (y != 0 ? Color.White : mainColor) with { A = 0 } * (0.1f * glowUp), fxVel.ToRotation() + MathHelper.PiOver2, glowBottom.Size() / 2f, new Vector2(1f * (y != 0 ? 0.65f : 1f) * softGlowUp, 1.7f * throwCompletion * softGlowUp * (i == 0 ? 1.5f : 1)) * Projectile.scale * (y == 2 ? 0.3f : 0.25f), SpriteEffects.None, 0);
+                        Main.EntitySpriteDraw(glowBottom.Value, fxPos + drawAdjust - fxVel * 0.55f, null, (y != 0 ? Color.White : mainColor) with { A = 0 } * (0.1f * glowUp), fxVel.ToRotation() + MathHelper.PiOver2, glowBottom.Size() / 2f, new Vector2(1f * (y != 0 ? 0.65f : 1f) * softGlowUp, 1.7f * throwCompletion * softGlowUp * (i == 0 ? 1.5f : 1)) * Projectile.scale * (y == 2 ? 0.3f : 0.25f), SpriteEffects.None, 0);
                 }
             }
             
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.White with { A = 0 }, lightColor, (2 - glowUp)) * (inSky ? 0 : 1), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(tex, Projectile.Center + drawAdjust, null, Color.Lerp(Color.White with { A = 0 }, lightColor, (2 - glowUp)) * (inSky ? 0 : 1), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
 
             return false;
         }

@@ -253,7 +253,7 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                         else
                             NPC.rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
 
-                        float delayBeforeChargingAgain = death ? 48f : 56f;
+                        float delayBeforeChargingAgain = death ? 50f : 60f;
                         if (NPC.ai[2] >= delayBeforeChargingAgain)
                         {
                             NPC.ai[3] += 1f;
@@ -314,21 +314,6 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                     NPC.rotation += NPC.ai[2];
 
                     NPC.ai[1] += 1f;
-                    if (death && NPC.ai[2] >= 0.2f)
-                    {
-                        if (NPC.ai[1] % 10f == 0f)
-                        {
-                            SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
-                            {
-                                int type = ProjectileID.DeathLaser;
-
-                                Vector2 projectileVelocity = NPC.rotation.ToRotationVector2() * 7f;
-                                float offset = 90f;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(projectileVelocity) * offset, projectileVelocity, type, LaserDamage.CalculateMechDamage(), 0f, Main.myPlayer);
-                            }
-                        }
-                    }
 
                     if (NPC.ai[1] == 100f)
                     {
@@ -620,7 +605,7 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                         else if (NPC.ai[1] == 4f)
                         {
                             float chargeLineUpDistance = spazAlive ? 600f : 500f;
-                            float chargeSpeed = (death ? 20f : 18f) + (death ? 1.5f * ((phase2LifeRatio - lifeRatio) / phase2LifeRatio) : 0f);
+                            float chargeSpeed = death ? 5f : 3f;
                             float chargeAcceleration = death ? 0.495f : 0.45f;
 
                             if (spazAlive)
@@ -844,7 +829,9 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                         // Rotation and velocity
                         NPC.rotation = hoverRotation;
 
-                        float chargeSpeed = death ? 19.25f + (phase1MaxChargeSpeedIncrease * ((1f - lifeRatio) / (1f - phase2LifeRatio))) : 18f;
+                        float chargeSpeed = 16f;
+                        if (death)
+                            chargeSpeed += (phase1MaxChargeSpeedIncrease * ((1f - lifeRatio) / (1f - phase2LifeRatio)));
                         if (Main.getGoodWorld)
                             chargeSpeed *= 1.2f;
 
@@ -935,20 +922,6 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
                     NPC.rotation += NPC.ai[2];
 
                     NPC.ai[1] += 1f;
-                    if (death && NPC.ai[2] >= 0.2f)
-                    {
-                        if (NPC.ai[1] % 10f == 0f)
-                        {
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
-                            {
-                                int type = NPC.ai[1] % 20f == 0f ? ProjectileID.CursedFlameHostile : ModContent.ProjectileType<ShadowflameFireball>();
-
-                                Vector2 projectileVelocity = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.UnitY) * 16f + Main.rand.NextVector2CircularEdge(3f, 3f);
-                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + projectileVelocity.SafeNormalize(Vector2.UnitY) * 50f, projectileVelocity, type, FireballDamage.CalculateMechDamage(), 0f, Main.myPlayer, 0f, 1f);
-                                Main.projectile[proj].tileCollide = false;
-                            }
-                        }
-                    }
 
                     if (NPC.ai[1] == 100f)
                     {
@@ -1025,10 +998,6 @@ namespace CalamityMod.NPCs.VanillaNPCAIOverrides.Bosses
 
                         if (!NPC.IsMechQueenUp)
                         {
-                            // Boost speed if too far from target
-                            if (distanceFromDestination > distanceFromTarget)
-                                maxVelocity += MathHelper.Lerp(0f, 6f, MathHelper.Clamp((distanceFromDestination - distanceFromTarget) / 1000f, 0f, 1f));
-
                             if (Main.getGoodWorld)
                             {
                                 maxVelocity *= 1.15f;

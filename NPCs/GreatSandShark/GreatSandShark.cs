@@ -20,6 +20,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.NPCs.GreatSandShark
 {
     [AutoloadBossHead]
+    [HeavyKnockbackWhitelisted]
     public class GreatSandShark : ModNPC
     {
         private bool resetAI = false;

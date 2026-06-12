@@ -20,7 +20,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 30;
             Item.damage = 63;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 20;
+            Item.crit = 12;
+            Item.mana = 26;
             Item.useTime = 8;
             Item.useAnimation = 20;
             Item.reuseDelay = 8;
@@ -37,9 +38,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void HoldItem(Player player) => player.Calamity().mouseRotationListener = true;
 
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 12;
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile.NewProjectileDirect(source, position, velocity.RotatedByRandom(0.7f), ModContent.ProjectileType<CosmicTentacle>(), damage, knockback, player.whoAmI);
@@ -50,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.SpellTome).
-                AddIngredient<MeldConstruct>(9).
+                AddIngredient<MeldBlob>(18).
                 AddTile(TileID.Bookcases).
                 Register();
         }

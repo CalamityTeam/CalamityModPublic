@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
+            Player Owner = Main.player[Projectile.owner];
             float minMult = 0.35f;
             int hitsToMinMult = 15;
             float damageMult = Utils.Remap(Projectile.numHits, 0, hitsToMinMult, 1, minMult, true);
@@ -32,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             Vector2 launchVel = Utils.DirectionTo(Projectile.Center, target.Center) - Vector2.UnitY;
             float launchPower = (Projectile.Calamity().stealthStrike ? 4f : 1) * 10;
-            target.MoveNPC(launchVel, launchPower, true);
+            target.MoveNPC(launchVel, launchPower, true, Owner);
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

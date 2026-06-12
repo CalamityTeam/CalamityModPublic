@@ -18,6 +18,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AcidRain
 {
+    [HeavyKnockbackWhitelisted]
     public class SulphurousSkater : ModNPC
     {
         public bool Flying = false;

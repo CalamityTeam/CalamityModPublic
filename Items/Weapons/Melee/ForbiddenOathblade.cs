@@ -1,8 +1,10 @@
-﻿using CalamityMod.Cooldowns;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Cooldowns;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -16,11 +18,16 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
         public int throwCount = 0;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<DemonicFlames>()];
+        }
         public override void SetDefaults()
         {
             Item.width = 74;
             Item.height = 74;
             Item.damage = 58;
+            Item.crit = 21;
             Item.useAnimation = Item.useTime = 50;
 
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -38,7 +45,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Pink;
         }
         public override bool MeleePrefix() => true;
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 21;
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ForbiddenOathbladeHoldout>()] <= 0 && !player.Calamity().mouseRight;
         public override void HoldItem(Player player)
         {

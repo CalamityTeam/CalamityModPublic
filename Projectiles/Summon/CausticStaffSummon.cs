@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Summon
     {
         public new string LocalizationCategory => "Projectiles.Summon";
         public bool initialized = false;
-        private float debuffToInflict = 0f;
 
         public override void SetStaticDefaults()
         {
@@ -227,7 +226,8 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             //Occasionally spawn fiery dust
-            if (Main.rand.NextBool(6))
+            int minionCount = player.ownedProjectileCounts[Type];
+            if (Main.rand.NextBool(15))
             {
                 int fire = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, 0f, 0f, 100, new Color(), 2f);
                 Main.dust[fire].velocity *= 0.3f;
@@ -245,11 +245,23 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.ai[1] > 0f)
             {
                 Projectile.ai[1] += Main.rand.Next(1, 4);
-                if (Main.rand.NextBool(3))
-                    ++Projectile.ai[1];
+
+                // Faster depending on minion count
+                // Calculated average firing rate:
+                // 1.23 attacks per second at 1 minion
+                // 1.67 attacks per second at 2 minions
+                // 1.9 attacks per second at 3 minions
+                // 2 attacks per second at 4+ minions
+                if (minionCount - Main.rand.Next(2) > 0)
+                    Projectile.ai[1]++;
+                if (minionCount - Main.rand.Next(3) > 0)
+                    Projectile.ai[1]++;
+                if (minionCount - Main.rand.Next(4) > 0)
+                    Projectile.ai[1]++;
             }
+
             //Determine if it should shoot
-            if (Projectile.ai[1] > 90f)
+            if (Projectile.ai[1] > 150f)
             {
                 Projectile.ai[1] = 0f;
                 Projectile.netUpdate = true;
@@ -277,10 +289,7 @@ namespace CalamityMod.Projectiles.Summon
             float speedMult = 16f;
             targetVec.Normalize();
             targetVec *= speedMult;
-            int spike = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, debuffToInflict, 0f);
-            debuffToInflict++;
-            if (debuffToInflict >= 5f)
-                debuffToInflict = 0f;
+            int spike = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, minionCount);
             Main.projectile[spike].netUpdate = true;
             Projectile.netUpdate = true;
         }

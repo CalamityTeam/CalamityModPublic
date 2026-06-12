@@ -38,15 +38,11 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
-            int frameAmt = 34;
+            int frameAmt = 18;
             int timeNeeded = 6;
-            if (frame == 0)
+            if (frame == 0 || frame == 9)
             {
                 timeNeeded = 90;
-            }
-            if (frame == 25)
-            {
-                timeNeeded = 30;
             }
             frameCounter++;
             if (frameCounter >= timeNeeded)

@@ -215,7 +215,7 @@ namespace CalamityMod.Projectiles.Summon
             modifiers.SourceDamage *= damageMult;
 
             Vector2 launchVel = Utils.DirectionTo(Owner.Center, target.Center);
-            target.MoveNPC(launchVel, (MinionBuffMode ? 5f : 0.5f), false);
+            target.MoveNPC(launchVel, (MinionBuffMode ? 5f : 0.5f), false, Owner);
         }
         public override bool MinionContactDamage() => !Reforming;
     }

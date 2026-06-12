@@ -269,7 +269,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.netUpdate = true;
 
             int numFlares = EmpoweredHammer + 1;
-            int flareDamage = (int)(0.1f * Projectile.damage);
+            int flareDamage = (int)(0.05f * Projectile.damage);
             float flareKB = 4f;
             for (int i = 0; i < numFlares; ++i)
             {

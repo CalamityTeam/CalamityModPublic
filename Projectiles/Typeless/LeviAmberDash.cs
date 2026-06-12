@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Typeless
             target.AddBuff(ModContent.BuffType<Buffs.DamageOverTime.RiptideDebuff>(), 180);
 
             Vector2 launchVel = Utils.DirectionTo(Owner.Center, Owner.Calamity().mouseWorld);
-            target.MoveNPC(launchVel, 20, true);
+            target.MoveNPC(launchVel, 20, true, Owner);
 
             for (int i = 0; i <= 17; i++)
             {

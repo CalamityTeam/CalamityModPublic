@@ -100,6 +100,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.LunarBar, 5).
                 AddIngredient<LifeAlloy>(10).
                 AddIngredient<EffulgentFeather>(15).
                 AddTile(TileID.MythrilAnvil).

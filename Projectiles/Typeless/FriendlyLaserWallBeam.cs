@@ -1,5 +1,6 @@
 ﻿using System;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -129,6 +130,12 @@ namespace CalamityMod.Projectiles.Typeless
 
                 return hitCheck;
             }
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (Projectile.CountsAsClass(DamageClass.Ranged)) //Thread of Eradication
+                modifiers.ApplyScalingForcedCrit(Projectile);
         }
         public override bool PreDraw(ref Color lightColor)
         {

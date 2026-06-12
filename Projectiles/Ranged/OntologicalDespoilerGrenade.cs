@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CalamityMod.Dusts;
 using CalamityMod.Particles;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -200,12 +201,7 @@ namespace CalamityMod.Projectiles.Ranged
             return useColor;
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            modifiers.SetCrit();
-            Player Owner = Main.player[Projectile.owner];
-            float critDamage = Math.Min(Owner.GetTotalCritChance(Projectile.DamageType) * 0.01f, 1f);
-            modifiers.SourceDamage *= 1 + critDamage;
-        }
+            => modifiers.ApplyScalingForcedCrit(Projectile);
         public override bool PreDraw(ref Color lightColor)
         {
             if (time < 2)

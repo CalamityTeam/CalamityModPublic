@@ -1,5 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Systems.Collections;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,6 +8,10 @@ namespace CalamityMod.Items.Weapons.Magic
     public class SnowstormStaff : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Magic";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.Frostburn2];
+        }
         public override void SetDefaults()
         {
             Item.width = 66;
@@ -15,9 +19,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.damage = 39;
             Item.DamageType = DamageClass.Magic;
             Item.channel = true;
-            Item.mana = 18;
-            Item.useTime = 70;
-            Item.useAnimation = 70;
+            Item.mana = 40;
+            Item.useAnimation = Item.useTime = 70;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.noMelee = true;
             Item.knockBack = 5;

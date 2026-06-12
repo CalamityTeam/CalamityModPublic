@@ -34,7 +34,11 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.DamageType = DamageClass.MeleeNoSpeed;
             Projectile.alpha = 255;
         }
-
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float hitboxSize = Projectile.width * Projectile.scale;
+            return CalamityUtils.CircularHitboxCollision(Projectile.Center, hitboxSize, targetHitbox);
+        }
         public override void AI()
         {
             Player owner = Main.player[Projectile.owner];
@@ -70,9 +74,9 @@ namespace CalamityMod.Projectiles.Melee
                 middleStreakTimer = 6;
 
                 // Spawn the main trail
-                Particle spark = new CustomSpark(Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(MathHelper.ToRadians(-170f)), "CalamityMod/Particles/BloomCircle", false, 18, 0.24f, Color.MediumPurple * 1.3f, new Vector2(1f, 2.5f), true, true, shrinkSpeed: 0.25f, glowOpacity: 0.4f);
+                Particle spark = new CustomSpark(Projectile.Center, Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(MathHelper.ToRadians(-170f)), "CalamityMod/Particles/BloomCircle", false, 18, 0.24f * Projectile.scale, Color.MediumPurple * 1.3f, new Vector2(1f, 2.5f), true, true, shrinkSpeed: 0.25f, glowOpacity: 0.4f);
                 GeneralParticleHandler.SpawnParticle(spark);
-                Particle spark2 = new CustomSpark(Projectile.Center + perpendicular, Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(MathHelper.ToRadians(170f)), "CalamityMod/Particles/BloomCircle", false, 18, 0.24f, Color.CornflowerBlue * 1.3f, new Vector2(1f, 2.5f), true, true, shrinkSpeed: 0.25f, glowOpacity: 0.4f);
+                Particle spark2 = new CustomSpark(Projectile.Center + perpendicular, Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(MathHelper.ToRadians(170f)), "CalamityMod/Particles/BloomCircle", false, 18, 0.24f * Projectile.scale, Color.CornflowerBlue * 1.3f, new Vector2(1f, 2.5f), true, true, shrinkSpeed: 0.25f, glowOpacity: 0.4f);
                 GeneralParticleHandler.SpawnParticle(spark2);
             }
 
@@ -83,8 +87,8 @@ namespace CalamityMod.Projectiles.Melee
                 Vector2 purpleTrailOrigin = Projectile.Center + offsetLeft;
                 Vector2 blueTrailOrigin = Projectile.Center + offsetRight;
 
-                Particle purpleLightEmission = new SquishyLightParticle(purpleTrailOrigin, -Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(2f, 4f), Main.rand.NextFloat(0.3f, 0.6f), Color.MediumPurple, Main.rand.Next(18, 46), 1, 1.5f);
-                Particle blueLightEmission = new SquishyLightParticle(blueTrailOrigin, -Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(2f, 4f), Main.rand.NextFloat(0.3f, 0.6f), Color.CornflowerBlue, Main.rand.Next(18, 46), 1, 1.5f);
+                Particle purpleLightEmission = new SquishyLightParticle(purpleTrailOrigin, -Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(2f, 4f), Main.rand.NextFloat(0.3f, 0.6f) * Projectile.scale, Color.MediumPurple, Main.rand.Next(18, 46), 1, 1.5f);
+                Particle blueLightEmission = new SquishyLightParticle(blueTrailOrigin, -Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(2f, 4f), Main.rand.NextFloat(0.3f, 0.6f) * Projectile.scale, Color.CornflowerBlue, Main.rand.Next(18, 46), 1, 1.5f);
 
                 GeneralParticleHandler.SpawnParticle(blueLightEmission);
                 GeneralParticleHandler.SpawnParticle(purpleLightEmission);
@@ -100,7 +104,7 @@ namespace CalamityMod.Projectiles.Melee
 
         private float WidthFunction(float completionRatio, Vector2 vertexPos)
         {
-            return MathHelper.Lerp(12f, 0f, completionRatio);
+            return MathHelper.Lerp(12f * Projectile.scale, 0f, completionRatio);
         }
 
 
@@ -126,8 +130,8 @@ namespace CalamityMod.Projectiles.Melee
             trailShader.SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/SylvestaffStreak"));
 
             // Use the separate color functions for each trail
-            PrimitiveRenderer.RenderTrail(oldPositionsLeft, new PrimitiveSettings(WidthFunction, LeftColorFunction, (_,_) => Projectile.Size * 1f, pixelate: false, shader: trailShader));
-            PrimitiveRenderer.RenderTrail(oldPositionsRight, new PrimitiveSettings(WidthFunction, RightColorFunction, (_,_) => Projectile.Size * 1f, pixelate: false, shader: trailShader));
+            PrimitiveRenderer.RenderTrail(oldPositionsLeft, new PrimitiveSettings(WidthFunction, LeftColorFunction, (_,_) => Projectile.Size, pixelate: false, shader: trailShader));
+            PrimitiveRenderer.RenderTrail(oldPositionsRight, new PrimitiveSettings(WidthFunction, RightColorFunction, (_,_) => Projectile.Size, pixelate: false, shader: trailShader));
             return false;
         }
     }

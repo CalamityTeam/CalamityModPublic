@@ -2,6 +2,7 @@
 using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
@@ -10,12 +11,15 @@ namespace CalamityMod.Items.Tools
     public class WulfrumDrill : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Tools";
+        public static int ArmorPenetration = 15;
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(ArmorPenetration);
         public override void SetDefaults()
         {
             Item.width = 46;
             Item.height = 38;
             Item.damage = 5;
             Item.DamageType = DamageClass.Melee;
+            Item.ArmorPenetration = ArmorPenetration;
             Item.pick = 35;
             Item.tileBoost += 1;
             Item.useAnimation = 16;

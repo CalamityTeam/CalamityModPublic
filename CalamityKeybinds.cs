@@ -18,6 +18,7 @@ namespace CalamityMod
         public static ModKeybind NormalityRelocatorHotKey { get; private set; }
         public static ModKeybind RageHotKey { get; private set; }
         public static ModKeybind SpectralVeilHotKey { get; private set; }
+        public static ModKeybind SpringStoolJumpHotKey { get; private set; }
         public static ModKeybind TransformerHotKey { get; private set; }
         public static ModKeybind SwitchGravityHotkey {get; private set;}
         public static ModKeybind ExpandDebuffInfo { get; private set; }
@@ -40,6 +41,7 @@ namespace CalamityMod
             NormalityRelocatorHotKey = KeybindLoader.RegisterKeybind(Mod, "NormalityRelocator", "Z");
             RageHotKey = KeybindLoader.RegisterKeybind(Mod, "RageMode", "V");
             SpectralVeilHotKey = KeybindLoader.RegisterKeybind(Mod, "SpectralVeilTeleport", "Z");
+            SpringStoolJumpHotKey = KeybindLoader.RegisterKeybind(Mod, "SpringStoolJumpHotKey", "U");
             TransformerHotKey = KeybindLoader.RegisterKeybind(Mod, "TransformerHotKey", "K");
             SwitchGravityHotkey = KeybindLoader.RegisterKeybind(Mod, "GravitySwapOverride", "T");
             ExpandDebuffInfo = KeybindLoader.RegisterKeybind(Mod, "ExpandDebuffInfo", "LeftControl");
@@ -62,6 +64,7 @@ namespace CalamityMod
             NormalityRelocatorHotKey = null;
             RageHotKey = null;
             SpectralVeilHotKey = null;
+            SpringStoolJumpHotKey = null;
             TransformerHotKey = null;
             ExpandDebuffInfo = null;
         }

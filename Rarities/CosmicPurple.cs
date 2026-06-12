@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
-using Terraria.GameContent;
 using Terraria;
+using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using Terraria.Utilities;
-using Terraria.ID;
 
 namespace CalamityMod.Rarities
 {
@@ -19,56 +20,75 @@ namespace CalamityMod.Rarities
         public static float MaxY = 4.5f;
         public static Color BloomClr = new Color(65, 38, 87, 0);
         public static Color TextClr = new Color(103, 66, 138, 255);
+        public static UnifiedRandom rand = new UnifiedRandom(1);
+
+        public sealed class CustomTextSnippet(string text) : TextSnippet
+        {
+            public override bool UniqueDraw(bool justCheckingString, out Vector2 size, SpriteBatch spriteBatch, Vector2 position = new Vector2(), Color color = new Color(), float scale = 1)
+            {
+                size = new Vector2(GetStringLength(FontAssets.MouseText.Value), FontAssets.MouseText.Value.MeasureString(" ").Y * scale);
+
+                if (color == default || color == Main.MouseTextColorReal)
+                {
+                    color = Colors.AlphaDarken(TextClr);
+                }
+
+                if (!justCheckingString && (color.R != 0 || color.G != 0 || color.B != 0))
+                {
+                    var font = FontAssets.MouseText.Value;
+                    color.A = 255;
+                    float pulsing = 2.5f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 5f);
+                    for (float f = 0f; f < MathHelper.TwoPi; f += 0.79f)
+                    {
+                        ChatManager.DrawColorCodedString(spriteBatch, font, text, position + new Vector2(pulsing, 0f).RotatedBy(f + Main.GlobalTimeWrappedHourly * 2f % MathHelper.TwoPi), color with { A = 0 } * 0.5f, 0, Vector2.Zero, new(scale));
+                    }
+                    ChatManager.DrawColorCodedStringShadow(spriteBatch, font, text, position, color * 2f, 0, Vector2.Zero, new(scale));
+                    ChatManager.DrawColorCodedString(spriteBatch, font, text, position, Color.Black, 0, Vector2.Zero, new(scale));
+                }
+                return true;
+            }
+            public override float GetStringLength(DynamicSpriteFont font)
+            {
+                float size = font.MeasureString(text).X;
+                return size * Scale;
+            }
+        }
 
         public static void Draw(Item Item, SpriteBatch spriteBatch, string text, int X, int Y, Color textColor, Color lightColor, float rotation,
             Vector2 origin, Vector2 baseScale, float time, bool renderTextSparkles, DynamicSpriteFont font)
         {
             var crystalTextGlow = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CrystalTextGlow").Value;
             var sparkle = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/CrystalTextSparkle").Value;
-            var fontSize = font.MeasureString(text);
+            var fontSize = ChatManager.GetStringSize(font, text, new Vector2(1));
             var center = fontSize / 2f;
+            if (Item.expert) textColor = Main.DiscoColor;
 
-            // this was intended behavior. i'm commenting it out for now because it seems like people do not like it.
-            /*
-            if (Item.expert)
-                textColor = Main.DiscoColor;
-            */
-            
-            var glowPosition = new Vector2(X + center.X, Y + center.Y / 1.5f);
-            textColor.A = 0;
-            float pulsing = 2.5f + (float)Math.Sin(time * 5f);
-            for (float f = 0f; f < MathHelper.TwoPi; f += 0.79f)
+            // Get all snippets and convert all plain text snippets to the custom rarity snippet
+            TextSnippet[] snippets = ChatManager.ParseMessage(text, textColor).ToArray();
+            for (int i = 0; i < snippets.Length; i++)
             {
-                ChatManager.DrawColorCodedString(spriteBatch, font, text, new Vector2(X, Y) + new Vector2(pulsing, 0f).RotatedBy(f + time * 2f % MathHelper.TwoPi), textColor * 0.5f, rotation, origin, baseScale);
+                TextSnippet textSnippet = snippets[i];
+                if (snippets[i].GetType() == typeof(TextSnippet))
+                {
+                    snippets[i] = new CustomTextSnippet(textSnippet.Text);
+                }
             }
 
-            textColor.A = 255;
-
-            ChatManager.DrawColorCodedStringShadow(spriteBatch, font, text, new Vector2(X, Y), textColor * 2f, rotation, origin, baseScale);
-
-            var bloomColor = ColorTool.Rainbowing(time * 4 - 0.9f);
-
+            //Draw backglow
+            var glowPosition = new Vector2(X + center.X, Y + center.Y / 1.5f);
             spriteBatch.Draw(crystalTextGlow, glowPosition, null, lightColor, rotation + MathHelper.PiOver2, new Vector2(6f, 33f),
                new Vector2(1.6f, fontSize.X / crystalTextGlow.Height * 1.2f), SpriteEffects.None, 0f);
 
-            ChatManager.DrawColorCodedString(spriteBatch, font, text, new Vector2(X, Y), Color.Black, rotation, origin, baseScale);
+            //Draw text
+            ChatManager.DrawColorCodedString(spriteBatch, font, snippets, new(X,Y), textColor, 0, Vector2.Zero, baseScale, out _, -1, true);
 
+            //Draw sparkles
             if (!renderTextSparkles)
                 return;
 
-            static int Hash(int x)
-            {
-                x ^= x >> 16;
-                x *= unchecked((int)0x7feb352d);
-                x ^= x >> 15;
-                x *= unchecked((int)0x846ca68b);
-                x ^= x >> 16;
-                return x;
-            }
 
-            // why was this using a string hash previously??????
-            var rand = new UnifiedRandom(Hash((int)(center.X + center.Y)));
-
+            rand.SetSeed(1);
+            
             int sparkleCount = rand.Next((int)fontSize.X / 7, (int)fontSize.X / 5) + 1;
             var color2 = lightColor;
             color2.A = 0;

@@ -12,16 +12,16 @@ namespace CalamityMod.Items.Armor.GodSlayer
     {
         public new string LocalizationCategory => "Items.Armor.PostMoonLord";
 
-        public static float DamageBoost = 0.15f;
-        public static int CritBoost = 11;
+        public static float DamageBoost => 0.15f;
+        public static int CritBoost => 11;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(DamageBoost.ToPercent(), CritBoost);
 
         // Common Set Bonus
-        public static int DashCooldown = CalamityUtils.SecondsToFrames(45);
-        public static int DashDamage = 3000;
-        public static float DashKnockback = 15f;
-        public static int DashIFrames = 12;
-        public static int DashGodSlayerInfernoDuration = CalamityUtils.SecondsToFrames(5);
+        public static int DashCooldown => CalamityUtils.SecondsToFrames(45);
+        public static int DashDamage => 3000;
+        public static float DashKnockback => 15f;
+        public static int DashIFrames => 12;
+        public static int DashGodSlayerInfernoDuration => CalamityUtils.SecondsToFrames(5);
 
         public override void SetDefaults()
         {

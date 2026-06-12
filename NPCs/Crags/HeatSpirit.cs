@@ -12,6 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
 {
+    [HeavyKnockbackWhitelisted]
     public class HeatSpirit : ModNPC
     {
         public override void SetStaticDefaults()

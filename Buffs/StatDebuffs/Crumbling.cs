@@ -6,8 +6,6 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class Crumbling : ModBuff
     {
-        public static int DefenseReduction = 10;
-        public static float MultiplicativeDamageReductionPlayer = 0.7f;
         // 8% DR reduction
         public static float MultiplicativeDamageReductionEnemy = 0.92f;
 
@@ -23,11 +21,6 @@ namespace CalamityMod.Buffs.StatDebuffs
         public override void Update(NPC npc, ref int buffIndex)
         {
             npc.Calamity().crumble = true;
-        }
-
-        public override void Update(Player player, ref int buffIndex)
-        {
-            player.Calamity().crumble = true;
         }
     }
 }

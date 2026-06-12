@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
 
             if (spawnDust)
             {
-                Projectile.ai[1] = -1;
+                Projectile.ai[2] = -1;
                 int dustAmt = 36;
                 for (int d = 0; d < dustAmt; d++)
                 {
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     spawnDust = true;
                 }
-                int npcIndex = (int)Projectile.ai[1];
+                int npcIndex = (int)Projectile.ai[2];
                 if (Projectile.localAI[0] >= 600000f) //tryna make it stay on there "forever" without glitching
                 {
                     breakAway = true;
@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles.Summon
 
                                 //let the projectile know it is sticking and the npc it is sticking too
                                 Projectile.ai[0] = 3f;
-                                Projectile.ai[1] = npcIndex;
+                                Projectile.ai[2] = npcIndex;
 
                                 //follow the NPC
                                 Projectile.velocity = (npc.Center - Projectile.Center) * 0.75f;
@@ -203,12 +203,11 @@ namespace CalamityMod.Projectiles.Summon
                                 //Count how many projectiles are attached, delete as necessary
                                 Point[] array2 = new Point[10];
                                 int projCount = 0;
-                                for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
+                                foreach (Projectile p in Main.ActiveProjectiles)
                                 {
-                                    Projectile proj = Main.projectile[projIndex];
-                                    if (projIndex != Projectile.whoAmI && proj.active && proj.owner == Main.myPlayer && proj.type == Projectile.type && proj.ai[0] == 3f && proj.ai[1] == npcIndex)
+                                    if (p.whoAmI != Projectile.whoAmI && p.owner == Main.myPlayer && p.type == Projectile.type && p.ai[0] == 3f && p.ai[2] == npcIndex)
                                     {
-                                        array2[projCount++] = new Point(projIndex, proj.timeLeft);
+                                        array2[projCount++] = new Point(p.whoAmI, p.timeLeft);
                                         if (projCount >= array2.Length)
                                         {
                                             break;

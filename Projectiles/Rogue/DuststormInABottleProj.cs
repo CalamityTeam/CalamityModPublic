@@ -1,9 +1,6 @@
-﻿using System;
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Particles;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
@@ -13,64 +10,100 @@ namespace CalamityMod.Projectiles.Rogue
         public new string LocalizationCategory => "Projectiles.Rogue";
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/DuststormInABottle";
 
-        public override void SetDefaults()
+        int lifetime => AIState == 1 ? 300 : 150;
+        public override void SetStaticDefaults()
         {
-            Projectile.width = 20;
-            Projectile.height = 20;
-            Projectile.friendly = true;
-            Projectile.ignoreWater = true;
-            Projectile.penetrate = 1;
-            Projectile.aiStyle = ProjAIStyleID.ThrownProjectile;
-            Projectile.timeLeft = 180;
-            AIType = ProjectileID.ThrowingKnife;
-            Projectile.DamageType = RogueDamageClass.Instance;
+            ProjectileID.Sets.TrailCacheLength[Type] = 3;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
         }
 
-        public override void OnKill(int timeLeft)
+        public override void SetDefaults()
         {
-            bool stealth = Projectile.Calamity().stealthStrike;
-            SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
-            double cloudAmt = Main.rand.Next(40, 50);
-            if (stealth)
-            {
-                //DUST STORM
-                for (int dustexplode = 0; dustexplode < 180; dustexplode++)
-                {
-                    Vector2 dustd = new Vector2(DuststormInABottle.DustRadius, DuststormInABottle.DustRadius).RotatedBy(MathHelper.ToRadians(dustexplode * 2));
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.tileCollide = true;
+            Projectile.penetrate = -1;
+            Projectile.MaxUpdates = 2;
+            Projectile.timeLeft = lifetime;
+            Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
+        }
+        ref float Timer => ref Projectile.ai[0];
+        ref float TimerMax => ref Projectile.ai[1];
+        ref float AIState => ref Projectile.ai[2];
 
-                    Particle dust = new SandyDustParticle(Projectile.Center, dustd * Main.rand.NextFloat(0.25f, 1f), Color.Beige, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.Next(30, 50));
-                    GeneralParticleHandler.SpawnParticle(dust);
+        int gravTimer = 0;
+        bool Stealth => Projectile.Calamity().stealthStrike;
 
-                    int d = Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, Main.rand.NextBool(5) ? 32 : 85, dustd.X, dustd.Y, 50, default, 2f);
-                    Main.dust[d].noGravity = true;
-                    Main.dust[d].velocity *= Main.rand.NextFloat(0.25f, 1f);
-                    Main.dust[d].scale *= Main.rand.NextFloat(0.5f, 0.8f);
-                }
-                cloudAmt *= 2.75;
-                cloudAmt = Math.Round(cloudAmt);
-            }
-            else
-            {
-                //DUST STORM but smaller
-                for (int dustexplode = 0; dustexplode < 120; dustexplode++)
-                {
-                    Vector2 dustd = new Vector2(DuststormInABottle.DustRadius, DuststormInABottle.DustRadius - 2).RotatedBy(MathHelper.ToRadians(dustexplode * 3));
+        public override void AI()
+        {
+            Timer++;
+            gravTimer++;
 
-                    Particle dust = new SandyDustParticle(Projectile.Center, dustd * Main.rand.NextFloat(0.25f, 1f), Color.Beige, Main.rand.NextFloat(0.7f, 1.2f), Main.rand.Next(30, 50));
-                    GeneralParticleHandler.SpawnParticle(dust);
-                }
-            }
-            if (Projectile.owner == Main.myPlayer)
+            Projectile.rotation += 0.175f * Projectile.direction * Projectile.velocity.Length();
+            if (gravTimer > 20)
             {
-                for (int index = 0; index < cloudAmt; index++)
-                {
-                    Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, stealth ? velocity * 1.2f : velocity, ModContent.ProjectileType<DuststormCloud>(), 0, 0, Projectile.owner, stealth ? 1f : 0f, (float)Main.rand.Next(-45, 1));
-                }
-                int hitbox = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DuststormCloudHitbox>(), Projectile.damage, Projectile.knockBack * 0.5f, Projectile.owner);
-                if (hitbox.WithinBounds(Main.maxProjectiles) && Projectile.Calamity().stealthStrike) //Inherit stealth flag
-                    Main.projectile[hitbox].ai[1] = 1;
+                Projectile.velocity.Y += 0.22f;
             }
+
+            if (AIState == 1)
+            {
+                if (Timer % 10 == 0 && Main.myPlayer == Projectile.owner)
+                {
+                    Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Circular(5, 5), ModContent.ProjectileType<DuststormCloud>(), (int)(Projectile.damage * 0.5f), Projectile.knockBack, Projectile.owner);
+                }
+            }
+            if (Timer > TimerMax && AIState == 0)
+            {
+                if (!Stealth)
+                {
+                    if (Main.myPlayer == Projectile.owner)
+                        Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DuststormCloudExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.Kill();
+                    return;
+                }
+                AIState = 1;
+                Timer = 0;
+                Projectile.timeLeft = lifetime;
+            }
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Main.EntitySpriteDraw(TextureAssets.Projectile[Type].Value, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, TextureAssets.Projectile[Type].Size() * 0.5f, Projectile.scale, 0);
+            return false;
+        }
+
+        public override bool? CanHitNPC(NPC target)
+        {
+            return Projectile.velocity.Length() > 1f;
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (!Stealth)
+            {
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DuststormCloudExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.Kill();
+                return;
+            }
+            if (Projectile.numHits == 0)
+            {
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DuststormCloudExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            }
+            return;
+        }
+
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            if (gravTimer > 25)
+                fallThrough = false;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Projectile.velocity *= 0.95f;
+            return false;
         }
     }
 }

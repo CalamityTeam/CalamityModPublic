@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             target.AddBuff(ModContent.BuffType<StaticDischarge>(), 40);
 
             Vector2 launchVel = Utils.DirectionTo(Owner.Center, target.Center);
-            target.MoveNPC(launchVel, 8, false);
+            target.MoveNPC(launchVel, 8, false, Owner);
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {

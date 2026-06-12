@@ -30,377 +30,359 @@ namespace CalamityMod.Items
             IItemTweak[] trueMelee = Do(TrueMelee);
             IItemTweak[] trueMeleeNoSpeed = Do(TrueMeleeNoSpeed);
             IItemTweak[] nonConsumableBossSummon = Do(MaxStack(1), NotConsumable);
-            IItemTweak[] phaseblade = Do(UseTurn, DamageExact(36));
-            IItemTweak[] phasesaber = Do(DamageExact(132));
+            IItemTweak[] phaseblade = Do(UseTurn, DamageExact(36)); // VANILLA: 26 DMG
+            IItemTweak[] phasesaber = Do(DamageExact(132)); // VANILLA: 48 DMG
 
             // SORTING NOTES:
             // 1. Sort tweaks by categories first, then sort by the internal name in alphabetical order. Navigate through categories and names using the search function.
             // 2. Higher categories hold priority over lower ones (ie. Balancing with price tweaks belong in balancing, rather than price)
-            // 3. Items with different display names as opposed to internal ones should have comments for display names for ease of access.
+            // 3. All balancing tweaks should have comments with the vanilla stats for convenience and reference.
+            // 4. Items whose internal names are vastly different from their actual names should have comments for ease of access.
             currentTweaks = new SortedDictionary<int, IItemTweak[]>
             {
                 #region CATEGORY 1: Weapon Balancing
-                { ItemID.AdamantiteGlaive, Do(TrueMelee, DamageExact(69), UseExact(7), ShootSpeedExact(18f)) },
-                { ItemID.AdamantiteRepeater, Do(UseExact(14)) },
-                { ItemID.AdamantiteSword, Do(UseTurn, DamageExact(75), UseExact(7)) },
-                { ItemID.AmberStaff, Do(UseTimeExact(15), UseAnimationExact(45), ReuseDelayExact(15)) },
-                { ItemID.AmethystStaff, Do(ManaExact(2)) },
-                { ItemID.Anchor, Do(DamageExact(107), UseExact(30)) },
-                { ItemID.AntlionClaw, Do(UseExact(10)) }, // Mandible Blade
-                { ItemID.AquaScepter, Do(DamageRatio(0.9f)) }, // Uses ratios due to remix seed
-                { ItemID.Bananarang, Do(DamageExact(76), UseExact(14)) },
-                { ItemID.BatScepter, Do(DamageExact(50)) },
-                { ItemID.BeamSword, Do(UseMeleeSpeed, DamageExact(131), UseAnimationExact(40), KnockbackExact(8)) },
-                { ItemID.BeeGun, Do(DamageExact(11), ManaExact(4)) },
-                { ItemID.BeeKeeper, Do(UseTurn, DamageExact(32)) },
-                { ItemID.Beenade, Do(DamageExact(11), UseTimeExact(22), ShootSpeedExact(10f)) },
-                { ItemID.BeesKnees, Do(DamageExact(21), UseExact(38)) },
-                { ItemID.Bladetongue, Do(UseTurn, UseRatio(0.8f), DamageExact(120)) },
-                { ItemID.BlizzardStaff, Do(DamageExact(41), ManaExact(7)) },
-                { ItemID.BloodyMachete, Do(DamageExact(24)) },
-                { ItemID.Blowgun, Do(DamageExact(40), ShootSpeedExact(15f)) },
+                { ItemID.AdamantiteGlaive, Do(TrueMelee, DamageExact(66), UseExact(7), ShootSpeedExact(18f)) }, // VANILLA: 49 DMG, 25 UT, 5 VEL
+                { ItemID.AdamantiteRepeater, Do(UseExact(14)) }, // VANILLA: 18 UT
+                { ItemID.AdamantiteSword, Do(UseTurn, DamageExact(72), UseExact(7)) }, // VANILLA: 61 DMG, 21 UT
+                { ItemID.AmberStaff, Do(UseTimeExact(18), UseAnimationExact(36), ReuseDelayExact(15)) }, // VANILLA: 28 UT/UA, 0 RUD
+                { ItemID.AmethystStaff, Do(ManaExact(2)) }, // VANILLA: 5 MANA
+                { ItemID.Anchor, Do(DamageExact(107)) }, // VANILLA: 70 DMG
+                { ItemID.AntlionClaw, Do(UseExact(10)) }, // Mandible Blade. VANILLA: 18 UT
+                { ItemID.AquaScepter, Do(DamageRatio(0.9f)) }, // VANILLA: 27 DMG. Uses ratios due to remix seed
+                { ItemID.Bananarang, Do(DamageExact(60)) }, // VANILLA: 45 DMG
+                { ItemID.BatScepter, Do(DamageExact(50)) }, // VANILLA: 45 DMG
+                { ItemID.BeamSword, Do(UseMeleeSpeed, DamageExact(131), UseAnimationExact(40), KnockbackExact(8)) }, // VANILLA: 52 DMG, 20 UT, 6.5 KB
+                { ItemID.BeeGun, Do(DamageExact(11)) }, // VANILLA: 9 DMG
+                { ItemID.Beenade, Do(UseTimeExact(22), ShootSpeedExact(10f)) }, // VANILLA: 15 UT, 6 VEL
+                { ItemID.BeesKnees, Do(DamageExact(21), UseExact(35)) }, // VANILLA: 23 DMG, 23 UT
+                { ItemID.Bladetongue, Do(UseTurn, DamageExact(120), UseExact(22)) }, // VANILLA: 55 DMG, 28 UT
+                { ItemID.BlizzardStaff, Do(DamageExact(41)) }, // VANILLA: 58 DMG
+                { ItemID.BloodyMachete, Do(DamageExact(24)) }, // VANILLA: 20 DMG
+                { ItemID.Blowgun, Do(DamageExact(40), ShootSpeedExact(15f)) }, // VANILLA: 27 DMG, 13 VEL
                 { ItemID.BluePhaseblade, phaseblade },
                 { ItemID.BluePhasesaber, phasesaber },
-                { ItemID.BoneSword, Do(UseTurn, DamageExact(25)) },
-                { ItemID.BookofSkulls, Do(DamageExact(27), ManaExact(13), ShootSpeedExact(5.5f)) },
-                { ItemID.BookStaff, Do(ManaExact(14)) }, // Tome of Infinite Wisdom
-                { ItemID.Boomstick, Do(DamageExact(11)) },
-                { ItemID.BreakerBlade, Do(UseTurn, DamageExact(140)) },
-                { ItemID.CandyCornRifle, Do(DamageExact(66)) },
-                { ItemID.Cascade, Do(DamageExact(31)) },
-                { ItemID.ChainGuillotines, Do(DamageExact(100)) },
-                { ItemID.ChainGun, Do(DamageExact(35)) },
-                { ItemID.ChainKnife, Do(DamageRatio(1.34f)) },  // Uses ratios due to remix seed
-                { ItemID.ChlorophyteClaymore, Do(UseMeleeSpeed, DamageExact(180), UseExact(45), ShootSpeedExact(22f)) },
-                { ItemID.ChlorophytePartisan, Do(UseMeleeSpeed, DamageExact(95)) },
-                { ItemID.ChlorophyteSaber, Do(UseMeleeSpeed, DamageExact(92), UseExact(10)) },
-                { ItemID.ChristmasTreeSword, Do(UseTurn, UseMeleeSpeed, DamageExact(80), UseExact(30)) },
-                { ItemID.ClingerStaff, Do(DamageExact(63)) },
-                { ItemID.ClockworkAssaultRifle, Do(DamageExact(21)) },
-                { ItemID.CobaltNaginata, Do(TrueMelee, DamageExact(55), UseExact(9), ShootSpeedExact(12f)) },
-                { ItemID.CobaltRepeater, Do(UseExact(18)) },
-                { ItemID.CobaltSword, Do(DamageExact(60), UseExact(9)) },
-                { ItemID.Code2, Do(DamageExact(43)) },
-                { ItemID.CoinGun, Do(UseExact(12)) },
-                { ItemID.CorruptYoyo, Do(DamageExact(20)) }, // Malaise
-                { ItemID.CrimsonYoyo, Do(DamageExact(20)) }, // Artery
-                { ItemID.CrystalBullet, Do(DamageExact(6)) },
-                { ItemID.CrystalDart, Do(DamageExact(20)) },
-                { ItemID.CrystalStorm, Do(DamageExact(40)) },
-                { ItemID.CrystalVileShard, Do(DamageExact(35)) },
-                { ItemID.CursedArrow, Do(DamageExact(14)) },
-                { ItemID.CursedDart, Do(DamageExact(25)) },
-                { ItemID.Cutlass, Do(UseRatio(0.9f), DamageExact(90)) },
-                { ItemID.DaedalusStormbow, Do(DamageExact(30)) },
-                { ItemID.DaoofPow, Do(DamageExact(85)) }, // Displays as 170 damage
-                { ItemID.DarkLance, Do(TrueMelee, DamageExact(40)) },
-                { ItemID.DartRifle, Do(DamageExact(58)) },
-                { ItemID.DayBreak, Do(DamageExact(125), UseExact(22)) },
-                { ItemID.DD2BetsyBow, Do(DamageExact(42)) }, // Aerial Bane's ridiculous multiplier is removed, so this compensates for that
-                { ItemID.DD2SquireBetsySword, Do(UseMeleeSpeed, DamageExact(150)) }, // Flying Dragon
-                { ItemID.DeadlySphereStaff, Do(DamageExact(50)) },
-                { ItemID.DeathSickle, Do(UseMeleeSpeed, DamageExact(65), ShootSpeedExact(15f)) },
-                { ItemID.DemonBow, Do(DamageExact(12)) },
-                { ItemID.DemonScythe, Do(DamageExact(28)) },
-                { ItemID.DyeTradersScimitar, Do(UseTurn, DamageExact(24)) }, // Exotic Scimitar
-                { ItemID.ElfMelter, Do(ShootSpeedDelta(+5f)) },
-                { ItemID.EmeraldStaff, Do(DamageExact(27)) },
-                { ItemID.EmpressBlade, Do(DamageExact(68)) }, // Terraprisma
-                { ItemID.EnchantedBoomerang, Do(DamageExact(24)) },
-                { ItemID.EnchantedSword, Do(UseMeleeSpeed, DamageExact(30), ShootSpeedExact(15f)) },
-                { ItemID.EndlessMusketPouch, Do(DamageExact(8)) },
-                { ItemID.Excalibur, Do(TrueMelee, DamageExact(170)) },
-                { ItemID.FairyQueenMagicItem, Do(DamageExact(54)) }, // Nightglow
-                { ItemID.FalconBlade, Do(UseTurn, UseExact(13)) },
-                { ItemID.FireworksLauncher, Do(DamageExact(50), UseExact(25)) }, // Celebration
-                { ItemID.Flamarang, Do(DamageExact(37)) },
-                { ItemID.Flamelash, Do(DamageExact(36), ManaExact(18)) },
-                { ItemID.Flamethrower, Do(DamageExact(21), ShootSpeedDelta(+3f)) },
-                { ItemID.FlowerofFire, Do(ManaExact(7), DamageRatio(0.78f)) }, // Uses ratios due to remix seed
-                { ItemID.FlowerofFrost, Do(ManaExact(7), UseExact(22), DamageExact(70), ShootSpeedExact(14)) },
-                { ItemID.FlyingKnife, Do(DamageExact(53)) },
-                { ItemID.Frostbrand, Do(UseMeleeSpeed, DamageExact(88)) },
-                { ItemID.Gatligator, Do(UseExact(6)) },
-                { ItemID.GoldShortsword, Do(TrueMelee, DamageExact(17)) },
-                { ItemID.GolemFist, Do(DamageExact(150)) },
-                { ItemID.Gradient, Do(DamageExact(39)) },
+                { ItemID.BoneSword, Do(UseTurn, DamageExact(25)) }, // VANILLA: 19 DMG
+                { ItemID.BookofSkulls, Do(ShootSpeedExact(5.5f)) }, // VANILLA: 3.5 VEL
+                { ItemID.Boomstick, Do(DamageExact(11)) }, // VANILLA: 14 DMG
+                { ItemID.BreakerBlade, Do(UseTurn, DamageExact(160)) }, // VANILLA: 70 DMG
+                { ItemID.CandyCornRifle, Do(DamageExact(80)) }, // VANILLA: 44 DMG
+                { ItemID.Cascade, Do(DamageExact(31)) }, // VANILLA: 27 DMG
+                { ItemID.ChainGuillotines, Do(DamageExact(75)) }, // VANILLA: 59 DMG
+                { ItemID.ChainGun, Do(DamageExact(35)) }, // VANILLA: 31 DMG
+                { ItemID.ChainKnife, Do(DamageRatio(1.34f)) },  // VANILLA: 12 DMG. Uses ratios due to remix seed
+                { ItemID.ChlorophyteClaymore, Do(UseMeleeSpeed, DamageExact(180), UseExact(45), ShootSpeedExact(22f)) }, // VANILLA: 95 DMG, 26 UT, 8 VEL
+                { ItemID.ChlorophytePartisan, Do(UseMeleeSpeed, DamageExact(80)) }, // VANILLA: 49 DMG
+                { ItemID.ChlorophyteSaber, Do(UseMeleeSpeed, DamageExact(92), UseExact(10)) }, // VANILLA: 57 DMG, 16 UT
+                { ItemID.ChristmasTreeSword, Do(UseTurn, UseMeleeSpeed, DamageExact(80), UseExact(30)) }, // VANILLA: 86 DMG, 23 UT
+                { ItemID.ClockworkAssaultRifle, Do(DamageExact(24)) }, // VANILLA: 17 DMG
+                { ItemID.CobaltNaginata, Do(TrueMelee, DamageExact(60), UseExact(9), ShootSpeedExact(12f)) }, // VANILLA: 44 DMG, 28 UT, 4.3 VEL
+                { ItemID.CobaltRepeater, Do(UseExact(17)) }, // VANILLA: 23 UT
+                { ItemID.CobaltSword, Do(DamageExact(69), UseExact(9)) }, // VANILLA: 40 DMG, 19 UT
+                { ItemID.Code2, Do(DamageExact(43)) }, // VANILLA: 54 DMG
+                { ItemID.CoinGun, Do(UseExact(12)) }, // VANILLA: 8 UT
+                { ItemID.CorruptYoyo, Do(DamageExact(20)) }, // Malaise. VANILLA: 16 DMG
+                { ItemID.CrimsonYoyo, Do(DamageExact(20)) }, // Artery. VANILLA: 17 DMG
+                { ItemID.CrystalBullet, Do(DamageExact(6)) }, // VANILLA: 9 DMG
+                { ItemID.CrystalDart, Do(DamageExact(20)) }, // VANILLA: 14 DMG
+                { ItemID.CrystalStorm, Do(DamageExact(40)) }, // VANILLA: 32 DMG
+                { ItemID.CrystalVileShard, Do(DamageExact(35)) }, // VANILLA: 25 DMG
+                { ItemID.CursedArrow, Do(DamageExact(14)) }, // VANILLA: 17 DMG
+                { ItemID.CursedDart, Do(DamageExact(25)) }, // VANILLA: 9 DMG
+                { ItemID.Cutlass, Do(DamageExact(90), UseExact(11)) }, // VANILLA: 53 DMG, 16 UT
+                { ItemID.DaedalusStormbow, Do(DamageExact(30)) }, // VANILLA: 38 DMG
+                { ItemID.DaoofPow, Do(DamageExact(85)) }, // Displays as 170 damage. VANILLA: 50 DMG (displays as 100)
+                { ItemID.DayBreak, Do(DamageExact(125), UseExact(22)) }, // VANILLA: 150 DMG, 16 UT
+                { ItemID.DD2BetsyBow, Do(DamageExact(42)) }, // Aerial Bane. VANILLA: 39 DMG. Compensation for removing aerial multiplier
+                { ItemID.DD2SquireBetsySword, Do(UseMeleeSpeed, DamageExact(150)) }, // Flying Dragon. VANILLA: 180 DMG
+                { ItemID.DeadlySphereStaff, Do(DamageExact(50)) }, // VANILLA: 40 DMG
+                { ItemID.DeathSickle, Do(UseMeleeSpeed, DamageExact(65), ShootSpeedExact(15f)) }, // VANILLA: 57 DMG, 9 VEL
+                { ItemID.DemonBow, Do(DamageExact(12)) }, // VANILLA: 14 DMG
+                { ItemID.DemonScythe, Do(DamageExact(28)) }, // VANILLA: 35 DMG
+                { ItemID.DyeTradersScimitar, Do(UseTurn, DamageExact(24)) }, // Exotic Scimitar. VANILLA: 20 DMG
+                { ItemID.ElfMelter, Do(ShootSpeedDelta(+5f)) }, // VANILLA: 8.5 VEL
+                { ItemID.EmeraldStaff, Do(DamageExact(27)) }, // VANILLA: 19 DMG
+                { ItemID.EmpressBlade, Do(DamageExact(68)) }, // Terraprisma. VANILLA: 90 DMG
+                { ItemID.EnchantedBoomerang, Do(DamageExact(21)) }, // VANILLA: 17 DMG
+                { ItemID.EnchantedSword, Do(UseMeleeSpeed) },
+                { ItemID.EndlessMusketPouch, Do(DamageExact(8)) }, // VANILLA: 7 DMG. Gives it the same damage as Tungsten Bullet
+                { ItemID.Excalibur, Do(TrueMelee, DamageExact(170)) }, // VANILLA: 72 DMG
+                { ItemID.FairyQueenMagicItem, Do(DamageExact(54)) }, // Nightglow. VANILLA: 50 DMG
+                { ItemID.FalconBlade, Do(UseTurn, UseExact(13)) }, // VANILLA: 20 UT
+                { ItemID.FireworksLauncher, Do(DamageExact(50), UseExact(25)) }, // Celebration. VANILLA: 25 DMG, 30 UT
+                { ItemID.Flamarang, Do(DamageExact(40)) }, // VANILLA: 49 DMG
+                { ItemID.Flamelash, Do(DamageExact(36)) }, // VANILLA: 32 DMG
+                { ItemID.Flamethrower, Do(DamageExact(21), ShootSpeedDelta(+3f)) }, // VANILLA: 35 DMG, 7 VEL
+                { ItemID.FlowerofFire, Do(DamageRatio(0.78f)) }, // VANILLA: 48 DMG. Uses ratios due to remix seed
+                { ItemID.FlowerPow, Do(DamageExact(80)) }, // Displays as 160 damage. VANILLA: 65 DMG (displays as 130)
+                { ItemID.FlyingKnife, Do(DamageExact(53)) }, // VANILLA: 40 DMG
+                { ItemID.Frostbrand, Do(UseMeleeSpeed, DamageExact(110)) }, // VANILLA: 49 DMG
+                { ItemID.Gatligator, Do(UseExact(6)) }, // VANILLA: 7 UT
+                { ItemID.GoldShortsword, Do(TrueMelee, DamageExact(17)) }, // VANILLA: 12 DMG
+                { ItemID.GolemFist, Do(DamageExact(150)) }, // VANILLA: 90 DMG
+                { ItemID.Gradient, Do(DamageExact(39)) }, // VANILLA: 49 DMG
                 { ItemID.GreenPhaseblade, phaseblade },
                 { ItemID.GreenPhasesaber, phasesaber },
-                { ItemID.GrenadeLauncher, Do(DamageExact(105)) },
-                { ItemID.Gungnir, Do(TrueMelee, DamageExact(130), ShootSpeedExact(7f)) },
-                { ItemID.HallowedRepeater, Do(UseExact(12)) },
-                { ItemID.Handgun, Do(UseExact(20)) },
-                { ItemID.HighVelocityBullet, Do(DamageExact(13)) },
-                { ItemID.HiveFive, Do(DamageExact(27)) },
-                { ItemID.HornetStaff, Do(DamageExact(18)) },
+                { ItemID.GrenadeLauncher, Do(DamageExact(105)) }, // VANILLA: 60 DMG
+                { ItemID.Gungnir, Do(TrueMelee, DamageExact(130), ShootSpeedExact(7f)) }, // VANILLA: 61 DMG, 5.6 VEL
+                { ItemID.HallowedRepeater, Do(UseExact(12)) }, // VANILLA: 17 UT
+                { ItemID.Handgun, Do(UseExact(20)) }, // VANILLA: 15 UT
+                { ItemID.HighVelocityBullet, Do(DamageExact(13)) }, // VANILLA: 11 DMG
+                { ItemID.HiveFive, Do(DamageExact(27)) }, // VANILLA: 24 DMG
+                { ItemID.HornetStaff, Do(DamageExact(18)) }, // VANILLA: 12 DMG
                 { ItemID.IceBlade, Do(UseMeleeSpeed) },
-                { ItemID.IceBoomerang, Do(UseExact(25), ShootSpeedExact(9)) },
-                { ItemID.IceRod, Do(UseExact(6), ShootSpeedExact(20)) },
-                { ItemID.IceSickle, Do(UseMeleeSpeed, DamageExact(75), ShootSpeedExact(20f)) },
-                { ItemID.IchorArrow, Do(DamageExact(13)) },
-                { ItemID.IchorBullet, Do(DamageExact(11)) },
-                { ItemID.ImpStaff, Do(DamageExact(25)) },
-                { ItemID.InfernoFork, Do(DamageExact(83), ShootSpeedExact(11)) },
-                { ItemID.InfluxWaver, Do(UseMeleeSpeed, DamageExact(80), UseExact(25)) },
-                { ItemID.IronShortsword, Do(TrueMelee, DamageExact(10)) },
+                { ItemID.IceBoomerang, Do(ShootSpeedExact(9), UseExact(25)) }, // VANILLA: 20 UT, 11.5 VEL
+                { ItemID.IceRod, Do(ShootSpeedExact(20), UseExact(6)) }, // VANILLA: 9 UT, 12 VEL
+                { ItemID.IceSickle, Do(UseMeleeSpeed, DamageExact(75), ShootSpeedExact(20f)) }, // VANILLA: 50 DMG, 12 VEL
+                { ItemID.IchorArrow, Do(DamageExact(13)) }, // VANILLA: 16 DMG
+                { ItemID.IchorBullet, Do(DamageExact(11)) }, // VANILLA: 13 DMG
+                { ItemID.ImpStaff, Do(DamageExact(25)) }, // VANILLA: 17 DMG
+                { ItemID.InfernoFork, Do(DamageExact(83), ShootSpeedExact(11)) }, // VANILLA: 70 DMG, 8 VEL
+                { ItemID.InfluxWaver, Do(UseMeleeSpeed, DamageExact(80), UseExact(25)) }, // VANILLA: 100 DMG, 20 UT
+                { ItemID.IronShortsword, Do(TrueMelee, DamageExact(10)) }, // VANILLA: 8 DMG
                 { ItemID.Keybrand, Do(UseTurn) },
-                { ItemID.KOCannon, Do(DamageRatio(2.65f)) }, // Uses ratios due to remix seed
-                { ItemID.Kraken, Do(DamageExact(65)) },
-                { ItemID.LaserMachinegun, Do(DamageExact(49)) },
-                { ItemID.LaserRifle, Do(DamageExact(46), UseExact(10), ManaExact(4)) },
-                { ItemID.LastPrism, Do(DamageExact(57), ManaExact(10)) },
-                { ItemID.LeadShortsword, Do(TrueMelee, DamageExact(11)) },
-                { ItemID.LeafBlower, Do(DamageExact(61)) },
-                { ItemID.LightDisc, Do(DamageExact(80), ShootSpeedExact(18)) },
-                { ItemID.LunarFlareBook, Do(DamageExact(110)) },
-                { ItemID.MagicalHarp, Do(DamageExact(50), ShootSpeedExact(12f)) },
-                { ItemID.MagicMissile, Do(DamageExact(23), ManaExact(10), UseAnimationExact(20), UseTimeExact(10)) },
-                { ItemID.Marrow, Do(DamageExact(60)) },
-                { ItemID.MedusaHead, Do(ManaExact(6), DamageExact(75)) },
-                { ItemID.Meowmere, Do(UseMeleeSpeed, DamageExact(240)) },
-                { ItemID.MeteorStaff, Do(DamageExact(58), ManaExact(7), ShootSpeedExact(13f)) },
-                { ItemID.MiniNukeI, Do(DamageExact(90)) },
+                { ItemID.KOCannon, Do(DamageRatio(3f)) }, // VANILLA: 40 DMG. Uses ratios due to remix seed
+                { ItemID.Kraken, Do(DamageExact(65)) }, // VANILLA: 95 DMG
+                { ItemID.LaserMachinegun, Do(DamageExact(49)) }, // VANILLA: 60 DMG
+                { ItemID.LaserRifle, Do(DamageExact(46)) }, // VANILLA: 29 DMG
+                { ItemID.LastPrism, Do(DamageExact(57)) }, // VANILLA: 100 DMG
+                { ItemID.LeadShortsword, Do(TrueMelee, DamageExact(11)) }, // VANILLA: 9 DMG
+                { ItemID.LeafBlower, Do(DamageExact(61)) }, // VANILLA: 48 DMG
+                { ItemID.LightDisc, Do(DamageExact(80), ShootSpeedExact(18)) }, // VANILLA: 60 DMG, 16 VEL
+                { ItemID.LunarFlareBook, Do(DamageExact(110)) }, // VANILLA: 100 DMG
+                { ItemID.MagicalHarp, Do(DamageExact(50), ShootSpeedExact(12f)) }, // VANILLA: 42 DMG, 4.5 VEL
+                { ItemID.MagicMissile, Do(DamageExact(23), UseAnimationExact(20), UseTimeExact(10)) }, // VANILLA: 35 DMG, 22 UT/UA
+                { ItemID.Marrow, Do(DamageExact(60)) }, // VANILLA: 53 DMG
+                { ItemID.MedusaHead, Do(DamageExact(75)) }, // VANILLA: 40 DMG
+                { ItemID.Meowmere, Do(UseMeleeSpeed) },
+                { ItemID.MiniNukeI, Do(DamageExact(90)) }, // VANILLA: 75 DMG
                 { ItemID.MiniNukeII, Do(DamageExact(90)) },
-                { ItemID.Minishark, Do(DamageExact(4)) },
-                { ItemID.MoltenFury, Do(UseExact(28)) },
-                { ItemID.MonkStaffT1, Do(TrueMeleeNoSpeed, DamageExact(83)) }, // Sleepy Octopod
-                { ItemID.MonkStaffT2, Do(TrueMelee, DamageExact(90)) }, // Ghastly Glaive
-                { ItemID.MonkStaffT3, Do(DamageExact(225)) }, // Sky Dragon's Fury
-                { ItemID.MoonlordBullet, Do(DamageExact(17)) }, // Luminite Bullet
-                { ItemID.MoonlordTurretStaff, Do(DamageExact(50)) }, // Lunar Portal Staff
-                { ItemID.Muramasa, Do(CritDelta(+10)) },
-                { ItemID.MushroomSpear, Do(TrueMelee, UseRatio(0.8f), DamageExact(100)) },
-                { ItemID.Musket, Do(DamageExact(22)) },
-                { ItemID.MythrilHalberd, Do(TrueMelee, DamageExact(65), UseExact(8), ShootSpeedExact(15f)) },
-                { ItemID.MythrilRepeater, Do(UseExact(16)) },
-                { ItemID.MythrilSword, Do(UseTurn, DamageExact(70), UseExact(8)) },
-                { ItemID.NailGun, Do(DamageExact(77)) },
-                { ItemID.NettleBurst, Do(ManaExact(10), DamageExact(65)) },
-                { ItemID.NightsEdge, Do(TrueMelee, DamageExact(45)) },
+                { ItemID.Minishark, Do(DamageExact(4)) }, // VANILLA: 6 DMG
+                { ItemID.MoltenFury, Do(UseExact(28)) }, // VANILLA: 22 UT
+                { ItemID.MonkStaffT1, Do(TrueMeleeNoSpeed, DamageExact(83)) }, // Sleepy Octopod. VANILLA: 50 DMG
+                { ItemID.MonkStaffT2, Do(TrueMelee, DamageExact(90)) }, // Ghastly Glaive. VANILLA: 45 DMG
+                { ItemID.MonkStaffT3, Do(DamageExact(225)) }, // Sky Dragon's Fury. VANILLA: 140 DMG
+                { ItemID.MoonlordBullet, Do(DamageExact(17)) }, // Luminite Bullet. VANILLA: 20 DMG
+                { ItemID.MoonlordTurretStaff, Do(DamageExact(50)) }, // Lunar Portal Staff. VANILLA: 100 DMG
+                { ItemID.MushroomSpear, Do(TrueMelee, DamageExact(100), UseExact(32)) }, // VANILLA: 60 DMG, 40 UT
+                { ItemID.Musket, Do(DamageExact(22)) }, // VANILLA: 31 DMG
+                { ItemID.MythrilHalberd, Do(TrueMelee, DamageExact(65), UseExact(8), ShootSpeedExact(15f)) }, // VANILLA: 45 DMG, 26 UT, 4.5 VEL
+                { ItemID.MythrilRepeater, Do(UseExact(16)) }, // VANILLA: 20 UT
+                { ItemID.MythrilSword, Do(UseTurn, DamageExact(70), UseExact(8)) }, // VANILLA: 50 DMG, 20 UT
+                { ItemID.NailGun, Do(DamageExact(77)) }, // VANILLA: 85 DMG
+                { ItemID.NettleBurst, Do(DamageExact(65)) }, // VANILLA: 35 DMG
+                { ItemID.NightsEdge, Do(TrueMelee, DamageExact(45)) }, // VANILLA: 40 DMG
                 { ItemID.NorthPole, Do(UseMeleeSpeed) },
                 { ItemID.OrangePhaseblade, phaseblade },
                 { ItemID.OrangePhasesaber, phasesaber },
-                { ItemID.OrichalcumHalberd, Do(TrueMelee, DamageExact(128), ShootSpeedExact(6f)) },
-                { ItemID.OrichalcumRepeater, Do(DamageExact(48)) },
-                { ItemID.OrichalcumSword, Do(UseTurn, DamageExact(175)) },
-                { ItemID.PaladinsHammer, Do(DamageExact(95), ShootSpeedExact(28)) },
-                { ItemID.PalladiumPike, Do(TrueMelee, DamageExact(120), ShootSpeedExact(5.4f)) },
-                { ItemID.PalladiumRepeater, Do(DamageExact(45)) },
-                { ItemID.PalladiumSword, Do(DamageExact(150)) },
-                { ItemID.PearlwoodBow, Do(DamageExact(32)) },
-                { ItemID.PearlwoodSword, Do(UseTurn, DamageExact(45)) },
-                { ItemID.PewMaticHorn, Do(DamageExact(25), ShootSpeedExact(15)) },
-                { ItemID.PhoenixBlaster, Do(UseExact(20)) },
-                { ItemID.PlatinumShortsword, Do(TrueMelee, DamageExact(18)) },
-                { ItemID.PoisonStaff, Do(DamageExact(57)) },
-                { ItemID.PossessedHatchet, Do(DamageExact(135)) },
-                { ItemID.PrincessWeapon, Do(DamageExact(80)) }, // Resonance Scepter
-                { ItemID.PsychoKnife, Do(UseTurn, UseExact(11), DamageExact(200)) },
-                { ItemID.PurpleClubberfish, Do(UseTurn, KnockbackExact(10f)) },
+                { ItemID.OrichalcumHalberd, Do(TrueMelee, DamageExact(128), ShootSpeedExact(6f)) }, // VANILLA: 46 DMG, 4.5 VEL
+                { ItemID.OrichalcumRepeater, Do(DamageExact(50)) }, // VANILLA: 40 DMG
+                { ItemID.OrichalcumSword, Do(UseTurn, DamageExact(175)) }, // VANILLA: 59 DMG
+                { ItemID.PaladinsHammer, Do(DamageExact(95), ShootSpeedExact(28)) }, // VANILLA: 90 DMG, 14 VEL
+                { ItemID.PalladiumPike, Do(TrueMelee, DamageExact(120), ShootSpeedExact(5.4f)) }, // VANILLA: 44 DMG, 4.4 VEL
+                { ItemID.PalladiumRepeater, Do(DamageExact(48)) }, // VANILLA: 37 DMG
+                { ItemID.PalladiumSword, Do(DamageExact(150)) }, // VANILLA: 49 DMG
+                { ItemID.PearlwoodBow, Do(DamageExact(32)) }, // VANILLA: 12 DMG
+                { ItemID.PearlwoodSword, Do(UseTurn, DamageExact(45)) }, // VANILLA: 30 DMG
+                { ItemID.PewMaticHorn, Do(DamageExact(25), ShootSpeedExact(15)) }, // VANILLA: 20 DMG, 14 VEL
+                { ItemID.PhoenixBlaster, Do(UseExact(20)) }, // VANILLA: 14 UT
+                { ItemID.PlatinumShortsword, Do(TrueMelee, DamageExact(18)) }, // VANILLA: 13 DMG
+                { ItemID.PoisonStaff, Do(DamageExact(57)) }, // VANILLA: 43 DMG
+                { ItemID.PossessedHatchet, Do(DamageExact(135)) }, // VANILLA: 80 DMG
+                { ItemID.PrincessWeapon, Do(DamageExact(80)) }, // Resonance Scepter. VANILLA: 70 DMG
+                { ItemID.PsychoKnife, Do(UseTurn, DamageExact(200), UseExact(11)) }, // VANILLA: 85 DMG, 8 UT
+                { ItemID.PurpleClubberfish, Do(UseTurn, KnockbackExact(10f)) }, // VANILLA: 8 KB
                 { ItemID.PurplePhaseblade, phaseblade },
                 { ItemID.PurplePhasesaber, phasesaber },
-                { ItemID.PygmyStaff, Do(DamageExact(63)) },
-                { ItemID.RainbowGun, Do(DamageExact(60), ManaExact(40)) },
-                { ItemID.RainbowRod, Do(DamageExact(40), ManaExact(13), KnockbackExact(8f)) },
-                { ItemID.Rally, Do(DamageExact(18)) },
-                { ItemID.RavenStaff, Do(DamageExact(36)) },
-                { ItemID.RazorbladeTyphoon, Do(DamageExact(103)) },
-                { ItemID.Razorpine, Do(DamageExact(40)) },
+                { ItemID.PygmyStaff, Do(DamageExact(60)) }, // VANILLA: 40 DMG
+                { ItemID.RainbowGun, Do(DamageExact(60)) }, // VANILLA: 45 DMG
+                { ItemID.RainbowRod, Do(DamageExact(40), KnockbackExact(8f)) }, // VANILLA: 50 DMG, 6 KB
+                { ItemID.Rally, Do(DamageExact(18)) }, // VANILLA: 14 DMG
+                { ItemID.RavenStaff, Do(DamageExact(36)) }, // VANILLA: 55 DMG
+                { ItemID.RazorbladeTyphoon, Do(DamageExact(103)) }, // VANILLA: 85 DMG
+                { ItemID.Razorpine, Do(DamageExact(40)) }, // VANILLA: 48 DMG
                 { ItemID.RedPhaseblade, phaseblade },
                 { ItemID.RedPhasesaber, phasesaber },
-                { ItemID.RedRyder, Do(DamageExact(24)) },
-                { ItemID.RedsYoyo, Do(DamageExact(48)) }, // Red's Throw and Valkyrie Yoyo have the same stats
-                { ItemID.RocketLauncher, Do(DamageExact(60), ShootSpeedExact(9)) },
-                { ItemID.Sandgun, Do(DamageExact(22), UseExact(20)) },
-                { ItemID.SapphireStaff, Do(DamageExact(25)) },
-                { ItemID.ScourgeoftheCorruptor, Do(DamageExact(63)) },
-                { ItemID.Seedler, Do(UseMeleeSpeed, DamageExact(45), ShootSpeedExact(16)) },
-                { ItemID.ShadowbeamStaff, Do(DamageExact(100)) },
-                { ItemID.ShadowFlameBow, Do(DamageExact(55)) },
-                { ItemID.ShadowFlameHexDoll, Do(DamageExact(40), ShootSpeedExact(30)) },
-                { ItemID.ShadowFlameKnife, Do(DamageExact(50)) },
-                { ItemID.SharpTears, Do(DamageExact(49)) }, // Blood Thorn
-                { ItemID.Shotgun, Do(DamageExact(36)) },
-                { ItemID.Shroomerang, Do(ShootSpeedExact(11)) },
-                { ItemID.SilverBullet, Do(DamageExact(8)) },
-                { ItemID.SilverShortsword, Do(TrueMelee, DamageExact(14)) },
-                { ItemID.SkyFracture, Do(DamageExact(46)) },
-                { ItemID.SlapHand, Do(UseTurn, DamageExact(120)) },
-                { ItemID.Smolstar, Do(DamageExact(9)) }, // Blade Staff
-                { ItemID.SniperRifle, Do(DamageExact(200), UseExact(40)) },
-                { ItemID.SolarEruption, Do(DamageExact(122)) },
-                { ItemID.SoulDrain, Do(DamageExact(38)) }, // Life Drain
-                { ItemID.SpaceGun, Do(DamageExact(23)) },
-                { ItemID.Spear, Do(TrueMelee, DamageExact(14)) },
-                { ItemID.SpectreStaff, Do(DamageExact(72)) },
-                { ItemID.SpiritFlame, Do(UseExact(20), ManaExact(11), ShootSpeedExact(2f)) },
-                { ItemID.StaffofEarth, Do(DamageExact(150)) },
-                { ItemID.StarCannon, Do(UseExact(18)) },
-                { ItemID.StardustDragonStaff, Do(DamageExact(20)) },
-                { ItemID.StormTigerStaff, Do(DamageExact(49)) }, // Desert Tiger Staff
-                { ItemID.StylistKilLaKillScissorsIWish, Do(UseTurn, DamageExact(21)) }, // Stylish Scissors
-                { ItemID.Stynger, Do(DamageExact(75)) },
-                { ItemID.SuperStarCannon, Do(DamageExact(55)) },
-                { ItemID.Swordfish, Do(TrueMelee, DamageExact(24)) },
-                { ItemID.TacticalShotgun, Do(DamageExact(34)) },
-                { ItemID.TaxCollectorsStickOfDoom, Do(UseTurn, UseRatio(0.8f), DamageExact(70)) }, // Classy Cane
-                { ItemID.TendonBow, Do(DamageExact(17)) },
-                { ItemID.TerraBlade, Do(DamageExact(95)) },
-                { ItemID.Terragrim, Do(TrueMeleeNoSpeed, DamageExact(13)) },
-                // Vanilla damage 190. After fixing iframes so yoyo and shots can hit simultaneously,
-                // Terrarian is extremely overpowered and requires a heavy nerf.
-                { ItemID.Terrarian, Do(DamageExact(90)) },
-                { ItemID.TheEyeOfCthulhu, Do(DamageExact(80)) },
-                { ItemID.TheMeatball, Do(DamageExact(24)) },
-                { ItemID.TheRottedFork, Do(TrueMelee, DamageExact(20)) },
-                { ItemID.TheUndertaker, Do(DamageExact(15)) },
+                { ItemID.RedRyder, Do(DamageExact(24)) }, // VANILLA: 20 DMG
+                { ItemID.RedsYoyo, Do(DamageExact(48)) }, // VANILLA: 70 DMG. Has the same stats as Valkyrie Yoyo
+                { ItemID.RocketLauncher, Do(DamageExact(60), ShootSpeedExact(9)) }, // VANILLA: 55 DMG, 5 VEL
+                { ItemID.Sandgun, Do(UseExact(20)) }, // VANILLA: 16 UT
+                { ItemID.SapphireStaff, Do(DamageExact(25)) }, // VANILLA: 18 DMG
+                { ItemID.ScourgeoftheCorruptor, Do(DamageExact(63)) }, // VANILLA: 70 DMG
+                { ItemID.Seedler, Do(UseMeleeSpeed, DamageExact(45), ShootSpeedExact(16)) }, // VANILLA: 50 DMG, 12 VEL
+                { ItemID.ShadowbeamStaff, Do(DamageExact(100)) }, // VANILLA: 80 DMG
+                { ItemID.ShadowFlameBow, Do(DamageExact(55)) }, // VANILLA: 47 DMG
+                { ItemID.ShadowFlameHexDoll, Do(DamageExact(40), ShootSpeedExact(30)) }, // VANILLA: 32 DMG, 9 VEL
+                { ItemID.ShadowFlameKnife, Do(DamageExact(50)) }, // VANILLA: 38 DMG
+                { ItemID.SharpTears, Do(DamageExact(49)) }, // Blood Thorn. VANILLA: 34 DMG
+                { ItemID.Shotgun, Do(DamageExact(36)) }, // VANILLA: 24 DMG
+                { ItemID.SilverBullet, Do(DamageExact(8)) }, // VANILLA: 9 DMG
+                { ItemID.SilverShortsword, Do(TrueMelee, DamageExact(14)) }, // VANILLA: 9 DMG
+                { ItemID.SkyFracture, Do(DamageExact(46)) }, // VANILLA: 38 DMG
+                { ItemID.SlapHand, Do(UseTurn, DamageExact(120)) }, // VANILLA: 55 DMG
+                { ItemID.Smolstar, Do(DamageExact(9)) }, // Blade Staff. VANILLA: 6 DMG
+                { ItemID.SniperRifle, Do(DamageExact(200), UseExact(40)) }, // VANILLA: 185 DMG, 36 UT
+                { ItemID.SoulDrain, Do(DamageExact(38)) }, // Life Drain. VANILLA: 35 DMG
+                { ItemID.SpaceGun, Do(DamageExact(23)) }, // VANILLA: 17 DMG
+                { ItemID.Spear, Do(TrueMelee, DamageExact(14)) }, // VANILLA: 8 DMG
+                { ItemID.SpectreStaff, Do(DamageExact(72)) }, // VANILLA: 65 DMG
+                { ItemID.SpiritFlame, Do(UseExact(20), ShootSpeedExact(2f)) }, // VANILLA: 22 UT, 3 VEL
+                { ItemID.StaffofEarth, Do(DamageExact(150)) }, // VANILLA: 125 DMG
+                { ItemID.StarCannon, Do(UseExact(18)) }, // VANILLA: 12 UT
+                { ItemID.StardustDragonStaff, Do(DamageExact(24)) }, // VANILLA: 40 DMG
+                { ItemID.StormTigerStaff, Do(DamageExact(49)) }, // Desert Tiger Staff. VANILLA: 41 DMG
+                { ItemID.StylistKilLaKillScissorsIWish, Do(UseTurn, DamageExact(21)) }, // Stylish Scissors. VANILLA: 14 DMG
+                { ItemID.Stynger, Do(DamageExact(75)) }, // VANILLA: 45 DMG
+                { ItemID.Swordfish, Do(TrueMelee, DamageExact(21)) }, // VANILLA: 19 DMG
+                { ItemID.TacticalShotgun, Do(DamageExact(34)) }, // VANILLA: 29 DMG
+                { ItemID.TaxCollectorsStickOfDoom, Do(UseTurn, DamageExact(80), UseExact(10)) }, // Classy Cane. VANILLA: 16 DMG, 15 UT
+                { ItemID.TendonBow, Do(DamageExact(17)) }, // VANILLA: 19 DMG
+                { ItemID.TerraBlade, Do(DamageExact(95)) }, // VANILLA: 85 DMG
+                { ItemID.Terragrim, Do(TrueMeleeNoSpeed, DamageExact(13)) }, // VANILLA: 17 DMG
+                { ItemID.Terrarian, Do(DamageExact(90)) }, // VANILLA: 190 DMG. Required due to fixing iframes so yoyo and shots can hit simultaneously
+                { ItemID.TheEyeOfCthulhu, Do(DamageExact(80)) }, // VANILLA: 115 DMG
+                { ItemID.TheMeatball, Do(DamageExact(24)) }, // Displays as 48 damage. VANILLA: 17 DMG (displays as 34)
+                { ItemID.TheRottedFork, Do(TrueMelee, DamageExact(20)) }, // VANILLA: 17 DMG
+                { ItemID.TheUndertaker, Do(DamageExact(15)) }, // VANILLA: 19 DMG
                 { ItemID.ThunderSpear, Do(UseMeleeSpeed) }, // Storm Spear
-                { ItemID.ThunderStaff, Do(DamageExact(18)) }, //Thunder Zapper
-                { ItemID.TitaniumRepeater, Do(DamageExact(52)) },
-                { ItemID.TitaniumSword, Do(UseTurn, DamageExact(192)) },
-                { ItemID.TitaniumTrident, Do(TrueMelee, DamageExact(144), ShootSpeedExact(6.5f)) },
-                { ItemID.TopazStaff, Do(ManaExact(2)) },
-                { ItemID.ToxicFlask, Do(DamageExact(62), UseExact(33), ManaExact(20)) },
-                { ItemID.Toxikarp, Do(UseExact(9)) },
-                { ItemID.Trident, Do(TrueMelee, DamageExact(20)) },
-                { ItemID.Trimarang, Do(DamageExact(24)) },
-                { ItemID.TrueExcalibur, Do(TrueMelee, DamageExact(112)) },
-                { ItemID.TrueNightsEdge, Do(DamageExact(105)) },
-                { ItemID.Tsunami, Do(DamageExact(45)) },
-                { ItemID.TungstenBullet, Do(DamageExact(8)) },
-                { ItemID.TungstenShortsword, Do(TrueMelee, DamageExact(15)) },
-                { ItemID.UnholyArrow, Do(DamageExact(11)) },
-                { ItemID.UnholyTrident, Do(ManaRatio(0.78f), DamageRatio(0.91f)) },  // Uses ratios due to remix seed
-                { ItemID.Uzi, Do(UseExact(8)) },
-                { ItemID.VampireKnives, Do(DamageExact(38)) },
-                { ItemID.ValkyrieYoyo, Do(DamageExact(48)) }, // Red's Throw and Valkyrie Yoyo have the same stats
-                { ItemID.VenomStaff, Do(UseExact(27)) },
-                { ItemID.WaspGun, Do(DamageExact(44)) },
-                { ItemID.WaterBolt, Do(DamageExact(23)) },
+                { ItemID.ThunderStaff, Do(DamageExact(15)) }, // Thunder Zapper. VANILLA: 20 DMG
+                { ItemID.TitaniumRepeater, Do(DamageExact(52)) }, // VANILLA: 43 DMG
+                { ItemID.TitaniumSword, Do(UseTurn, DamageExact(185)) }, // VANILLA: 61 DMG
+                { ItemID.TitaniumTrident, Do(TrueMelee, DamageExact(144), ShootSpeedExact(6.5f)) }, // VANILLA: 48 DMG, 5 VEL
+                { ItemID.TopazStaff, Do(ManaExact(2)) }, // VANILLA: 5 MANA
+                { ItemID.ToxicFlask, Do(DamageExact(62), UseExact(33)) }, // VANILLA: 52 DMG, 45 UT
+                { ItemID.Toxikarp, Do(UseExact(9)) }, // VANILLA: 10 UT
+                { ItemID.Trident, Do(TrueMelee, DamageExact(20)) }, // VANILLA: 14 DMG
+                { ItemID.TrueExcalibur, Do(TrueMelee, DamageExact(112)) }, // VANILLA: 72 DMG
+                { ItemID.TrueNightsEdge, Do(DamageExact(105)) }, // VANILLA: 70 DMG
+                { ItemID.Tsunami, Do(DamageExact(45)) }, // VANILLA: 53 DMG
+                { ItemID.TungstenBullet, Do(DamageExact(8)) }, // VANILLA: 9 DMG
+                { ItemID.TungstenShortsword, Do(TrueMelee, DamageExact(15)) }, // VANILLA: 10 DMG
+                { ItemID.UnholyArrow, Do(DamageExact(11)) }, // VANILLA: 12 DMG
+                { ItemID.UnholyTrident, Do(DamageRatio(0.91f)) }, // VANILLA: 88 DMG. Uses ratios due to remix seed
+                { ItemID.Uzi, Do(UseExact(8)) }, // VANILLA: 9 UT
+                { ItemID.ValkyrieYoyo, Do(DamageExact(48)) }, // VANILLA: 70 DMG. Has the same stats as Red's Throw
+                { ItemID.WaspGun, Do(DamageExact(41)) }, // VANILLA: 31 DMG
+                { ItemID.WaterBolt, Do(DamageExact(23)) }, // VANILLA: 19 DMG
                 { ItemID.WhitePhaseblade, phaseblade },
                 { ItemID.WhitePhasesaber, phasesaber },
-                { ItemID.WoodenBoomerang, Do(DamageExact(16), Value(Item.sellPrice(copper: 20))) },
-                { ItemID.Yelets, Do(DamageExact(53)) },
+                { ItemID.WoodenBoomerang, Do(DamageExact(16), Value(Item.sellPrice(copper: 20))) }, // VANILLA: 10 DMG
+                { ItemID.Yelets, Do(DamageExact(53)) }, // VANILLA: 60 DMG
                 { ItemID.YellowPhaseblade, phaseblade },
                 { ItemID.YellowPhasesaber, phasesaber },
-                { ItemID.Zenith, Do(DamageExact(210)) },
-                { ItemID.ZombieArm, Do(UseTurn, KnockbackExact(12f)) },
+                { ItemID.Zenith, Do(DamageExact(210)) }, // VANILLA: 190 DMG
+                { ItemID.ZombieArm, Do(UseTurn, KnockbackExact(12f)) }, // VANILLA: 5.5 KB
                 #endregion
 
                 #region CATEGORY 2: Defense Balancing
-                { ItemID.LavaSkull, Do(DefenseExact(3)) }, // Magma Skull
-                { ItemID.MoltenCharm, Do(DefenseExact(3)) }, //Magma Charm
-                { ItemID.MoltenSkullRose, Do(DefenseExact(4)) },
-                { ItemID.ObsidianSkull, Do(DefenseExact(2)) },
-                { ItemID.ObsidianSkullRose, Do(DefenseExact(3)) },
-                { ItemID.Shackle, Do(DefenseExact(3)) },
-                { ItemID.SquireAltHead, Do(DefenseDelta(-2)) }, // Valhalla Knight set
-                { ItemID.SquireAltPants, Do(DefenseDelta(-3)) },
-                { ItemID.SquireAltShirt, Do(DefenseDelta(-3)) },
-                { ItemID.SquireGreatHelm, Do(DefenseDelta(-1)) },
-                { ItemID.SquireGreaves, Do(DefenseDelta(-2)) },
-                { ItemID.SquirePlating, Do(DefenseDelta(-4)) },
+                // Valhalla Knight armor
+                { ItemID.SquireAltHead, Do(DefenseDelta(-2)) }, // VANILLA: 20 DEF
+                { ItemID.SquireAltPants, Do(DefenseDelta(-3)) }, // VANILLA: 24 DEF
+                { ItemID.SquireAltShirt, Do(DefenseDelta(-3)) }, // VANILLA: 24 DEF
+                { ItemID.SquireGreatHelm, Do(DefenseDelta(-1)) }, // VANILLA: 13 DEF
+                { ItemID.SquireGreaves, Do(DefenseDelta(-2)) }, // VANILLA: 18 DEF
+                { ItemID.SquirePlating, Do(DefenseDelta(-4)) }, // VANILLA: 27 DEF
                 #endregion
 
                 #region CATEGORY 3: Tool Balancing
-                { ItemID.AcornAxe, Do(AxePower(100)) }, // Axe of Regrowth
-                { ItemID.AdamantiteChainsaw, Do(TrueMeleeNoSpeed, AxePower(90), TileBoostExact(+0), DamageExact(75)) },
-                { ItemID.AdamantiteDrill, Do(TrueMeleeNoSpeed, TileBoostExact(+1), DamageExact(32)) },
-                { ItemID.AdamantitePickaxe, Do(TileBoostExact(+1)) },
-                { ItemID.AdamantiteWaraxe, Do(AxePower(160), UseTimeExact(10), TileBoostExact(+1)) },
-                { ItemID.BloodLustCluster, Do(AxePower(100), UseTimeExact(13)) },
-                { ItemID.BonePickaxe, Do(UseTimeExact(6)) },
-                { ItemID.BorealWoodHammer, Do(HammerPower(25), UseTimeExact(11)) },
-                { ItemID.ButchersChainsaw, Do(TrueMeleeNoSpeed, UseTimeExact(3), TileBoostExact(+0)) },
-                { ItemID.CactusPickaxe, Do(UseTimeExact(9)) },
-                { ItemID.CnadyCanePickaxe, Do(UseTimeExact(9), TileBoostExact(+1)) }, // Candy Cane Pickaxe
-                { ItemID.ChlorophyteChainsaw, Do(TrueMeleeNoSpeed, AxePower(120), UseTimeExact(3), DamageExact(112)) },
-                { ItemID.ChlorophyteDrill, Do(TrueMeleeNoSpeed, TileBoostExact(+2), DamageExact(43)) },
-                { ItemID.ChlorophyteGreataxe, Do(AxePower(165), TileBoostExact(+2)) },
-                { ItemID.ChlorophyteJackhammer, Do(TrueMeleeNoSpeed, UseTimeExact(5)) },
-                { ItemID.ChlorophytePickaxe, Do(TileBoostExact(+2)) },
-                { ItemID.ChlorophyteWarhammer, Do(UseTimeExact(8), TileBoostExact(+2)) },
-                { ItemID.CobaltChainsaw, Do(TrueMeleeNoSpeed, UseTimeExact(4), DamageExact(51)) },
-                { ItemID.CobaltDrill, Do(TrueMeleeNoSpeed, PickPower(130), UseTimeExact(5), DamageExact(21)) },
-                { ItemID.CobaltPickaxe, Do(PickPower(130), UseTimeExact(9)) },
-                { ItemID.CobaltWaraxe, Do(AxePower(125), UseTimeExact(12)) },
-                { ItemID.CopperAxe, Do(AxePower(50), UseTimeExact(16), TileBoostExact(+0)) },
-                { ItemID.CopperHammer, Do(UseTimeExact(12), TileBoostExact(+0)) },
-                { ItemID.CopperPickaxe, Do(UseTimeExact(10), TileBoostExact(+0)) },
-                { ItemID.DeathbringerPickaxe, Do(UseTimeExact(10)) },
-                { ItemID.Drax, Do(TrueMeleeNoSpeed, TileBoostExact(+1), DamageExact(80)) },
-                { ItemID.EbonwoodHammer, Do(HammerPower(25), UseTimeExact(9)) },
-                { ItemID.FleshGrinder, Do(HammerPower(70), UseTimeExact(13)) },
-                { ItemID.GoldAxe, Do(AxePower(80), UseTimeExact(14)) },
-                { ItemID.GoldHammer, Do(HammerPower(60), UseTimeExact(9)) },
-                { ItemID.GoldPickaxe, Do(UseTimeExact(9)) },
-                { ItemID.Hammush, Do(UseTimeExact(10), TileBoostExact(+1)) },
-                { ItemID.IronAxe, Do(AxePower(60), UseTimeExact(15)) },
-                { ItemID.IronHammer, Do(HammerPower(45), UseTimeExact(11)) },
-                { ItemID.IronPickaxe, Do(UseTimeExact(8)) },
-                { ItemID.LaserDrill, Do(PickPower(220), AxePower(120), UseTimeExact(4), DamageExact(54)) },
-                { ItemID.LeadAxe, Do(AxePower(60), UseTimeExact(15)) },
-                { ItemID.LeadHammer, Do(HammerPower(45), UseTimeExact(11)) },
-                { ItemID.LeadPickaxe, Do(PickPower(40), UseTimeExact(8)) },
-                { ItemID.LucyTheAxe, Do(UseExact(13), TileBoostExact(+1)) },
-                { ItemID.LunarHamaxeNebula, Do(AxePower(175), UseTimeExact(5)) },
-                { ItemID.LunarHamaxeSolar, Do(AxePower(175), UseTimeExact(5)) },
-                { ItemID.LunarHamaxeStardust, Do(AxePower(175), UseTimeExact(5)) },
-                { ItemID.LunarHamaxeVortex, Do(AxePower(175), UseTimeExact(5)) },
-                { ItemID.MeteorHamaxe, Do(HammerPower(70)) },
-                { ItemID.MoltenHamaxe, Do(HammerPower(75), AxePower(125)) },
-                { ItemID.MoltenPickaxe, Do(UseTimeExact(10)) },
-                { ItemID.MythrilChainsaw, Do(TrueMeleeNoSpeed, AxePower(80), UseTimeExact(4), DamageExact(63)) },
-                { ItemID.MythrilDrill, Do(TrueMeleeNoSpeed, PickPower(160), UseTimeExact(4), DamageExact(26)) },
-                { ItemID.MythrilPickaxe, Do(PickPower(160), UseTimeExact(8)) },
-                { ItemID.MythrilWaraxe, Do(AxePower(140), UseTimeExact(11)) },
-                { ItemID.NebulaDrill, Do(TrueMeleeNoSpeed, UseTimeExact(3), TileBoostExact(+4), DamageExact(95)) },
-                { ItemID.NightmarePickaxe, Do(PickPower(66), UseTimeExact(9)) },
-                { ItemID.OrichalcumChainsaw, Do(TrueMeleeNoSpeed, AxePower(80), UseTimeExact(4), DamageExact(63)) },
-                { ItemID.OrichalcumDrill, Do(TrueMeleeNoSpeed, PickPower(160), UseTimeExact(4), DamageExact(26)) },
-                { ItemID.OrichalcumPickaxe, Do(PickPower(160), UseTimeExact(8)) },
-                { ItemID.OrichalcumWaraxe, Do(AxePower(140), UseTimeExact(11)) },
-                { ItemID.PalladiumChainsaw, Do(TrueMeleeNoSpeed, AxePower(70), UseTimeExact(4), DamageExact(51)) },
-                { ItemID.PalladiumDrill, Do(TrueMeleeNoSpeed, UseTimeExact(5), DamageExact(21)) },
-                { ItemID.PalladiumPickaxe, Do(UseTimeExact(9)) },
-                { ItemID.PalladiumWaraxe, Do(AxePower(125)) },
-                { ItemID.PalmWoodHammer, Do(HammerPower(25), UseTimeExact(11)) },
-                { ItemID.PearlwoodHammer, Do(HammerPower(25), UseTimeExact(4), UseAnimationExact(20), DamageExact(36)) },
-                { ItemID.PickaxeAxe, Do(TileBoostExact(+1)) },
-                { ItemID.PlatinumAxe, Do(AxePower(80), UseTimeExact(14)) },
-                { ItemID.PlatinumHammer, Do(HammerPower(60), UseTimeExact(9)) },
-                { ItemID.PlatinumPickaxe, Do(PickPower(55), UseTimeExact(9)) },
-                { ItemID.Pwnhammer, Do(UseTimeExact(11), TileBoostExact(+1)) },
-                { ItemID.RichMahoganyHammer, Do(HammerPower(25), UseTimeExact(10)) },
-                { ItemID.Rockfish, Do(HammerPower(50), UseTimeExact(10)) },
-                { ItemID.SawtoothShark, Do(TrueMeleeNoSpeed, AxePower(45)) },
-                { ItemID.ShadewoodHammer, Do(HammerPower(25), UseTimeExact(9)) },
-                { ItemID.SilverAxe, Do(AxePower(70), UseTimeExact(14)) },
-                { ItemID.SilverHammer, Do(HammerPower(55), UseTimeExact(10)) },
-                { ItemID.SilverPickaxe, Do(PickPower(50)) },
-                { ItemID.SolarFlareDrill, Do(TrueMeleeNoSpeed, UseTimeExact(3), TileBoostExact(+4), DamageExact(95)) },
-                { ItemID.SpectreHamaxe, Do(AxePower(170), TileBoostExact(+4)) },
-                { ItemID.SpectrePickaxe, Do(TileBoostExact(+4)) },
-                { ItemID.StardustDrill, Do(TrueMeleeNoSpeed, UseTimeExact(3), TileBoostExact(+4), DamageExact(95)) },
-                { ItemID.TheBreaker, Do(HammerPower(70), UseTimeExact(13)) },
-                { ItemID.TinAxe, Do(AxePower(50), UseTimeExact(16)) },
-                { ItemID.TinHammer, Do(HammerPower(35), UseTimeExact(12)) },
-                { ItemID.TinPickaxe, Do(UseTimeExact(10)) },
-                { ItemID.TitaniumChainsaw, Do(TrueMeleeNoSpeed, AxePower(90), TileBoostExact(+0), DamageExact(75)) },
-                { ItemID.TitaniumDrill, Do(TrueMeleeNoSpeed, PickPower(180), TileBoostExact(+1), DamageExact(32)) },
-                { ItemID.TitaniumPickaxe, Do(PickPower(180), UseTimeExact(8), TileBoostExact(+1)) },
-                { ItemID.TitaniumWaraxe, Do(AxePower(160), UseTimeExact(10), TileBoostExact(+1)) },
-                { ItemID.TungstenAxe, Do(AxePower(70), UseTimeExact(14)) },
-                { ItemID.TungstenHammer, Do(HammerPower(55), UseTimeExact(10)) },
-                { ItemID.TungstenPickaxe, Do(UseTimeExact(11)) },
-                { ItemID.VortexDrill, Do(TrueMeleeNoSpeed, UseTimeExact(3), TileBoostExact(+4), DamageExact(95)) },
-                { ItemID.WarAxeoftheNight, Do(AxePower(100), UseTimeExact(13)) },
-                { ItemID.WoodenHammer, Do(UseTimeExact(11), TileBoostExact(+0)) },
+                { ItemID.AcornAxe, Do(AxePower(100)) }, // Axe of Regrowth. VANILLA: 150% AXE
+                { ItemID.AdamantiteChainsaw, Do(TrueMeleeNoSpeed, DamageExact(58), AxePower(90), TileBoostExact(+0)) }, // VANILLA: 33 DMG, 100 AXE, -1 TILE
+                { ItemID.AdamantiteDrill, Do(TrueMeleeNoSpeed, DamageExact(33), TileBoostExact(+0)) }, // VANILLA: 20 DMG, -1 TILE
+                { ItemID.AdamantitePickaxe, Do(TileBoostExact(+1)) }, // VANILLA: 0 TILE
+                { ItemID.AdamantiteWaraxe, Do(UseTimeExact(10), AxePower(160), TileBoostExact(+1)) }, // VANILLA: 8 SPD, 100 AXE, 0 TILE
+                { ItemID.BloodLustCluster, Do(UseTimeExact(13), AxePower(100)) }, // VANILLA: 15 SPD, 75 AXE
+                { ItemID.BonePickaxe, Do(UseTimeExact(6)) }, // VANILLA: 11 SPD
+                { ItemID.BorealWoodHammer, Do(UseTimeExact(11), HammerPower(25)) }, // VANILLA: 23 SPD, 35 HAM
+                { ItemID.ButchersChainsaw, Do(TrueMeleeNoSpeed, DamageExact(100), UseTimeExact(3), TileBoostExact(+0)) }, // VANILLA: 4 SPD, -1 TILE
+                { ItemID.CactusPickaxe, Do(UseTimeExact(9)) }, // VANILLA: 16 SPD
+                { ItemID.CnadyCanePickaxe, Do(UseTimeExact(9), TileBoostExact(+1)) }, // Candy Cane Pickaxe. VANILLA: 16 SPD
+                { ItemID.ChlorophyteChainsaw, Do(TrueMeleeNoSpeed, DamageExact(88), UseTimeExact(3), AxePower(120), TileBoostExact(+1)) }, // VANILLA: 50 DMG, 4 SPD, 115 AXE, 0 TILE
+                { ItemID.ChlorophyteDrill, Do(TrueMeleeNoSpeed, DamageExact(45), TileBoostExact(+1)) }, // VANILLA: 35 DMG, 0 TILE
+                { ItemID.ChlorophyteGreataxe, Do(AxePower(165), TileBoostExact(+2)) }, // VANILLA: 115 AXE, +1 TILE
+                { ItemID.ChlorophyteJackhammer, Do(TrueMeleeNoSpeed, DamageExact(58), UseTimeExact(5), TileBoostExact(+1)) }, // VANILLA: 45 DMG, 4 SPD, 0 TILE
+                { ItemID.ChlorophytePickaxe, Do(TileBoostExact(+2)) }, // VANILLA: +1 TILE
+                { ItemID.ChlorophyteWarhammer, Do(UseTimeExact(8), TileBoostExact(+2)) }, // VANILLA: 14 SPD, +1 TILE
+                { ItemID.CobaltChainsaw, Do(TrueMeleeNoSpeed, DamageExact(42), UseTimeExact(4)) }, // VANILLA: 23 DMG, 7 SPD
+                { ItemID.CobaltDrill, Do(TrueMeleeNoSpeed, DamageExact(13), UseTimeExact(5), PickPower(130)) }, // VANILLA: 10 DMG, 7 SPD, 110 PICK
+                { ItemID.CobaltPickaxe, Do(UseTimeExact(9), PickPower(130)) }, // VANILLA: 13 SPD, 110 PICK
+                { ItemID.CobaltWaraxe, Do(UseTimeExact(12), AxePower(125)) }, // VANILLA: 13 SPD, 70 AXE
+                { ItemID.CopperAxe, Do(UseTimeExact(16), AxePower(50), TileBoostExact(+0)) }, // VANILLA: 21 SPD, 35 AXE, -1 TILE
+                { ItemID.CopperHammer, Do(UseTimeExact(12), TileBoostExact(+0)) }, // VANILLA: 23 SPD, -1 TILE
+                { ItemID.CopperPickaxe, Do(UseTimeExact(10), TileBoostExact(+0)) }, // VANILLA: 15 SPD, -1 TILE
+                { ItemID.DeathbringerPickaxe, Do(UseTimeExact(10)) }, // VANILLA: 14 SPD
+                { ItemID.Drax, Do(TrueMeleeNoSpeed, DamageExact(62), TileBoostExact(+0)) }, // VANILLA: 35 DMG, -1 TILE
+                { ItemID.EbonwoodHammer, Do(UseTimeExact(9), HammerPower(25)) }, // VANILLA: 20 SPD, 40 HAM
+                { ItemID.FleshGrinder, Do(UseTimeExact(13), HammerPower(70)) }, // VANILLA: 19 SPD, 55 HAM
+                { ItemID.GoldAxe, Do(UseTimeExact(14), AxePower(80)) }, // VANILLA: 18 SPD, 55 AXE
+                { ItemID.GoldHammer, Do(UseTimeExact(9), HammerPower(60)) }, // VANILLA: 23 SPD, 55 HAM
+                { ItemID.GoldPickaxe, Do(UseTimeExact(9)) }, // VANILLA: 17 SPD
+                { ItemID.Hammush, Do(UseTimeExact(10), TileBoostExact(+1)) }, // VANILLA: 14 SPD, 0 TILE
+                { ItemID.IronAxe, Do(UseTimeExact(15), AxePower(60)) }, // VANILLA: 19 SPD, 45 AXE
+                { ItemID.IronHammer, Do(UseTimeExact(11), HammerPower(45)) }, // VANILLA: 20 SPD, 40 HAM
+                { ItemID.IronPickaxe, Do(UseTimeExact(8)) }, // VANILLA: 13 SPD
+                { ItemID.LaserDrill, Do(DamageExact(50), UseTimeExact(4), PickPower(220)) }, // VANILLA: 35 DMG, 6 SPD, 230 PICK
+                { ItemID.LeadAxe, Do(UseTimeExact(15), AxePower(60)) }, // VANILLA: 19 SPD, 50 AXE
+                { ItemID.LeadHammer, Do(UseTimeExact(11), HammerPower(45)) }, // VANILLA: 19 SPD, 43 HAM
+                { ItemID.LeadPickaxe, Do(UseTimeExact(8), PickPower(40)) }, // VANILLA: 12 SPD, 43 PICK
+                { ItemID.LucyTheAxe, Do(UseExact(13), TileBoostExact(+1)) }, // VANILLA: 15 SPD/UT, 0 TILE
+                { ItemID.LunarHamaxeNebula, Do(UseTimeExact(5), AxePower(175)) }, // VANILLA: 7 SPD, 150 AXE
+                { ItemID.LunarHamaxeSolar, Do(UseTimeExact(5), AxePower(175)) },
+                { ItemID.LunarHamaxeStardust, Do(UseTimeExact(5), AxePower(175)) },
+                { ItemID.LunarHamaxeVortex, Do(UseTimeExact(5), AxePower(175)) },
+                { ItemID.MeteorHamaxe, Do(HammerPower(70)) }, // VANILLA: 60 HAM
+                { ItemID.MoltenHamaxe, Do(AxePower(125), HammerPower(75)) }, // VANILLA: 150 AXE, 70 HAM
+                { ItemID.MoltenPickaxe, Do(UseTimeExact(10)) }, // VANILLA: 18 SPD
+                { ItemID.MythrilChainsaw, Do(TrueMeleeNoSpeed, DamageExact(52), UseTimeExact(4), AxePower(80)) }, // VANILLA: 29 DMG, 6 SPD, 85 AXE
+                { ItemID.MythrilDrill, Do(TrueMeleeNoSpeed, DamageExact(20), UseTimeExact(4), PickPower(160)) }, // VANILLA: 15 DMG, 6 SPD, 150 PICK
+                { ItemID.MythrilPickaxe, Do(UseTimeExact(8), PickPower(160)) }, // VANILLA: 10 SPD, 150 PICK
+                { ItemID.MythrilWaraxe, Do(UseTimeExact(11), AxePower(140)) }, // VANILLA: 10 SPD, 85 AXE
+                { ItemID.NebulaDrill, Do(TrueMeleeNoSpeed, DamageExact(70), UseTimeExact(3), TileBoostExact(+3)) }, // VANILLA: 50 DMG, 2 SPD, +2 TILE
+                { ItemID.NightmarePickaxe, Do(UseTimeExact(9), PickPower(66)) }, // VANILLA: 15 SPD, 65 PICK
+                { ItemID.OrichalcumChainsaw, Do(TrueMeleeNoSpeed, DamageExact(54), UseTimeExact(4), AxePower(80)) }, // VANILLA: 31 DMG, 5 SPD, 90 AXE
+                { ItemID.OrichalcumDrill, Do(TrueMeleeNoSpeed, DamageExact(22), UseTimeExact(4), PickPower(160)) }, // VANILLA: 17 DMG, 5 SPD, 165 PICK
+                { ItemID.OrichalcumPickaxe, Do(UseTimeExact(8), PickPower(160)) }, // VANILLA: 9 SPD, 165 PICK
+                { ItemID.OrichalcumWaraxe, Do(UseTimeExact(11), AxePower(140)) }, // VANILLA: 9 SPD, 90 AXE
+                { ItemID.PalladiumChainsaw, Do(TrueMeleeNoSpeed, DamageExact(44), UseTimeExact(4), AxePower(70)) }, // VANILLA: 26 DMG, 7 SPD, 75 AXE
+                { ItemID.PalladiumDrill, Do(TrueMeleeNoSpeed, DamageExact(15), UseTimeExact(5)) }, // VANILLA: 12 DMG, 7 SPD
+                { ItemID.PalladiumPickaxe, Do(UseTimeExact(9)) }, // VANILLA: 12 SPD
+                { ItemID.PalladiumWaraxe, Do(AxePower(125)) }, // VANILLA: 75 AXE
+                { ItemID.PalmWoodHammer, Do(UseTimeExact(11), HammerPower(25)) }, // VANILLA: 23 SPD, 35 HAM
+                { ItemID.PearlwoodHammer, Do(DamageExact(36), UseTimeExact(4), UseAnimationExact(20), HammerPower(25)) }, // VANILLA: 10 DMG, 19 SPD/UT, 55 HAM
+                { ItemID.PickaxeAxe, Do(TileBoostExact(+1)) }, // VANILLA: 0 TILE
+                { ItemID.PlatinumAxe, Do(UseTimeExact(14), AxePower(80)) }, // VANILLA: 17 SPD, 60 AXE
+                { ItemID.PlatinumHammer, Do(UseTimeExact(9), HammerPower(60)) }, // VANILLA: 21 SPD, 59 HAM
+                { ItemID.PlatinumPickaxe, Do(UseTimeExact(9), PickPower(55)) }, // VANILLA: 15 SPD, 59 PICK
+                { ItemID.Pwnhammer, Do(UseTimeExact(11), TileBoostExact(+1)) }, // VANILLA: 14 SPD, 0 TILE
+                { ItemID.RichMahoganyHammer, Do(UseTimeExact(10), HammerPower(25)) }, // VANILLA: 23 SPD, 35 HAM
+                { ItemID.Rockfish, Do(UseTimeExact(10), HammerPower(50)) }, // VANILLA: 14 SPD, 70 HAM
+                { ItemID.SawtoothShark, Do(TrueMeleeNoSpeed, AxePower(45)) }, // VANILLA: 70 AXE
+                { ItemID.ShadewoodHammer, Do(UseTimeExact(9), HammerPower(25)) }, // VANILLA: 20 SPD, 40 HAM
+                { ItemID.SilverAxe, Do(UseTimeExact(14), AxePower(70)) }, // VANILLA: 18 SPD, 50 AXE
+                { ItemID.SilverHammer, Do(UseTimeExact(10), HammerPower(55)) }, // VANILLA: 19 SPD, 45 HAM
+                { ItemID.SilverPickaxe, Do(PickPower(50)) }, // VANILLA: 45 PICK
+                { ItemID.SolarFlareDrill, Do(TrueMeleeNoSpeed, DamageExact(70), UseTimeExact(3), TileBoostExact(+3)) }, // VANILLA: 50 DMG, 2 SPD, +2 TILE
+                { ItemID.SpectreHamaxe, Do(AxePower(170), TileBoostExact(+4)) }, // VANILLA: 150 AXE, +3 TILE
+                { ItemID.SpectrePickaxe, Do(TileBoostExact(+4)) }, // VANILLA: +3 TILE
+                { ItemID.StardustDrill, Do(TrueMeleeNoSpeed, DamageExact(70), UseTimeExact(3), TileBoostExact(+3)) }, // VANILLA: 50 DMG, 2 SPD, +2 TILE
+                { ItemID.TheBreaker, Do(UseTimeExact(13), HammerPower(70)) }, // VANILLA: 19 SPD, 55 HAM
+                { ItemID.TinAxe, Do(UseTimeExact(16), AxePower(50)) }, // VANILLA: 20 SPD, 40 AXE
+                { ItemID.TinHammer, Do(UseTimeExact(12), HammerPower(35)) }, // VANILLA: 21 SPD, 38 HAM
+                { ItemID.TinPickaxe, Do(UseTimeExact(10)) }, // VANILLA: 14 SPD
+                { ItemID.TitaniumChainsaw, Do(TrueMeleeNoSpeed, DamageExact(60), AxePower(90), TileBoostExact(+0)) }, // VANILLA: 34 DMG, 105 AXE, -1 TILE
+                { ItemID.TitaniumDrill, Do(TrueMeleeNoSpeed, DamageExact(35), PickPower(180), TileBoostExact(+0)) }, // VANILLA: 27 DMG, 190 PICK, -1 TILE
+                { ItemID.TitaniumPickaxe, Do(PickPower(180), UseTimeExact(8), TileBoostExact(+1)) }, // VANILLA: 7 SPD, 190 PICK, 0 TILE
+                { ItemID.TitaniumWaraxe, Do(AxePower(160), UseTimeExact(10), TileBoostExact(+1)) }, // VANILLA: 7 SPD, 105 AXE, 0 TILE
+                { ItemID.TungstenAxe, Do(UseTimeExact(14), AxePower(70)) }, // VANILLA: 18 SPD, 55 AXE
+                { ItemID.TungstenHammer, Do(UseTimeExact(10), HammerPower(55)) }, // VANILLA: 25 SPD, 50 HAM
+                { ItemID.TungstenPickaxe, Do(UseTimeExact(11)) }, // VANILLA: 19 SPD
+                { ItemID.VortexDrill, Do(TrueMeleeNoSpeed, DamageExact(70), UseTimeExact(3), TileBoostExact(+3)) }, // VANILLA: 50 DMG, 2 SPD, +2 TILE
+                { ItemID.WarAxeoftheNight, Do(UseTimeExact(13), AxePower(100)) }, // VANILLA: 15 SPD, 75 AXE
+                { ItemID.WoodenHammer, Do(UseTimeExact(11), TileBoostExact(+0)) }, // VANILLA: 25 SPD, -1 TILE
                 #endregion
 
                 #region CATEGORY 4: True Melee support
                 { ItemID.Arkhalis, trueMeleeNoSpeed },
                 { ItemID.CopperShortsword, trueMelee },
+                { ItemID.DarkLance, trueMelee },
                 { ItemID.Gladius, trueMelee },
                 { ItemID.HallowJoustingLance, trueMelee },
                 { ItemID.JoustingLance, trueMelee },
@@ -417,6 +399,7 @@ namespace CalamityMod.Items
                 #endregion
 
                 #region CATEGORY 5: UseTurn
+                { ItemID.BeeKeeper, Do(UseTurn) },
                 { ItemID.BladeofGrass, Do(UseTurn) },
                 { ItemID.BloodButcherer, Do(UseTurn) },
                 { ItemID.BorealWoodSword, Do(UseTurn) },

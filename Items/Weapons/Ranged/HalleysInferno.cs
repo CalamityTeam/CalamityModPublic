@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.damage = 444;
             Item.knockBack = 5.5f;
             Item.DamageType = DamageClass.Ranged;
+            Item.crit = 20;
 
             // Burst of 5, one every 5 frames for 25 total. Cooldown of 39 frames.
             Item.useTime = 5;
@@ -58,8 +59,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
         }
 
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 20;
         public override void HoldItem(Player player)
         {
             if (player.mount.Type == MountID.Drill)

@@ -38,7 +38,7 @@ namespace CalamityMod.World.Planets
                 // Create walls.
                 WorldUtils.Gen(offsetedOrigin, new Shapes.Circle(radius - 4), Actions.Chain(new GenAction[]
                 {
-                    new Actions.PlaceWall(WallID.Stone)
+                    new Actions.PlaceWall(WallID.RocksUnsafe1)
                 }));
 
                 // Place an inner luminite core.

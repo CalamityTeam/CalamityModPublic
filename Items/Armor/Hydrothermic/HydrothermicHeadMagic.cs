@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
         public static float OrbDamageCooldownMult = 0.5f;
         public static double OrbHealingRatio = 0.1D;
         public static double OrbHealingRatioLossPerPierce = 0.05D;
-        public static float OrbHealingCooldownMult = 1.25f;
+        public static float OrbHealingCooldownMult = 1f;
 
         public override void SetDefaults()
         {
@@ -62,7 +62,6 @@ namespace CalamityMod.Items.Armor.Hydrothermic
         {
             CreateRecipe().
                 AddIngredient<ScoriaBar>(7).
-                AddIngredient<EssenceofHavoc>().
                 AddTile(TileID.MythrilAnvil).
                 SortBeforeFirstRecipesOf(ModContent.ItemType<HydrothermicArmor>()).
                 Register();

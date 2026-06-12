@@ -230,7 +230,7 @@ namespace CalamityMod.NPCs.Perforator
                 if (!TailSpawned)
                 {
                     int Previous = NPC.whoAmI;
-                    int maxLength = death ? 27 : revenge ? 24 : expertMode ? 21 : 15;
+                    int maxLength = death ? 27 : expertMode ? 21 : 15;
                     for (int segments = 0; segments < maxLength; segments++)
                     {
                         int lol;
@@ -337,26 +337,11 @@ namespace CalamityMod.NPCs.Perforator
             // This is possibly the best or worst idea ever conceived
             if (Main.zenithWorld)
             {
-                float laserOffset = 1500f;
-                float laserVelocity = 4f;
-                int type = ModContent.ProjectileType<DoGDeath>();
-                int damage = LaserWallDamage;
-
                 NPC.Calamity().newAI[3]++;
                 if (NPC.Calamity().newAI[3] > 180f) // Effectively 10 seconds but give a little headstart in case players kill it too fast
                 {
                     if (NPC.Calamity().newAI[3] % 60 == 59)
-                    {
-                        SoundEngine.PlaySound(SoundID.Item12, player.Center);
-                        for (int i = -7; i < 8; i++) // 15 lasers
-                        {
-                            float laserGap = (i * 128f);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + laserOffset, player.Center.Y + laserGap, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - laserOffset, player.Center.Y + laserGap, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + laserGap, player.Center.Y + laserOffset, 0f, -laserVelocity, type, damage, 0f, Main.myPlayer);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + laserGap, player.Center.Y + laserOffset, 0f, laserVelocity, type, damage, 0f, Main.myPlayer);
-                        }
-                    }
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center + Main.rand.NextVector2CircularEdge(600, 600), Vector2.Zero, ModContent.ProjectileType<DoGLaserWalls>(), LaserWallDamage, 0, Main.myPlayer, 0.45f, 180, Main.rand.Next(5));
 
                     if (NPC.Calamity().newAI[3] >= 300f)
                         NPC.Calamity().newAI[3] = -300f;
@@ -509,7 +494,7 @@ namespace CalamityMod.NPCs.Perforator
                 }
             }
 
-            if (NPC.Distance(player.Center) > 1280f)
+            if (NPC.Distance(player.Center) > 1120f)
                 NPC.velocity += (player.Center - NPC.Center).SafeNormalize(Vector2.UnitY) * turnSpeed;
 
             NPC.rotation = (float)Math.Atan2((double)NPC.velocity.Y, (double)NPC.velocity.X) + MathHelper.PiOver2;

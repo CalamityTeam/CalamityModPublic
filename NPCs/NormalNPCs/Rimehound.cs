@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
@@ -179,6 +180,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.Leather, 1, 1, 2); // 100% chance of 1-2 leather
+            npcLoot.Add(ModContent.ItemType<TundraLeash>(), 12); // 8% chance to drop Tundra Leash
             LeadingConditionRule postCryo = npcLoot.DefineConditionalDropSet(DropHelper.PostCryo());
             postCryo.Add(ModContent.ItemType<EssenceofEleum>());
         }

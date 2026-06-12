@@ -29,6 +29,12 @@ namespace CalamityMod.Projectiles.Magic
         public int starcoreFrameCounter = 0;
         public int starcoreFrame = 0;
 
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+            Projectile.DamageType = DamageClass.Magic;
+        }
+
         public override void KillHoldoutLogic()
         {
             if (Owner.CantUseHoldout(false) || HeldItem.type != Owner.HeldItem.type)

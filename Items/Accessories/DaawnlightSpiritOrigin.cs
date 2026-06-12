@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
         /// The amount of critical strike chance bonus where crit starts decaying faster.<br/>
         /// When the crit bonus reaches this value, the decay rate increases by one tier.
         /// </summary>
-        public static readonly int CritDecayThreshold = 60;
+        public static readonly int CritDecayThreshold = 50;
 
         /// <summary>
         /// When the critical strike chance bonus has exceeded <see cref="CritDecayThreshold"/>, it continues to decay faster for every <see cref="CritDecayEchelon"/> more.
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Accessories
         /// <summary>
         /// The maximum amount of extra critical strike chance you can get from this accessory.
         /// </summary>
-        public static readonly int CritHardCap = 100;
+        public static readonly int CritHardCap = 75;
 
         #endregion
 
@@ -151,7 +151,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<MysteriousCircuitry>(15).
                 AddIngredient<DubiousPlating>(15).
                 AddIngredient(ItemID.LunarBar, 10).
-                AddIngredient<GalacticaSingularity>(4).
+                AddIngredient(ItemID.FragmentVortex, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

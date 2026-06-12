@@ -58,8 +58,7 @@ namespace CalamityMod.Projectiles.Magic
                     Particle blastRing = new CustomPulse(Projectile.Center, Vector2.Zero, Color.Black, "CalamityMod/Particles/LargeBloom", Vector2.One, Main.rand.NextFloat(-10, 10), 0.6f * scaler, 0f, 4, false);
                     GeneralParticleHandler.SpawnParticle(blastRing);
                     Particle blastRing2 = new CustomPulse(Projectile.Center, Vector2.Zero, InnerColor * 0.6f, "CalamityMod/Particles/LargeBloom", Vector2.One, Main.rand.NextFloat(-10, 10), 0.48f * scaler, 0f, 4, true);
-                    GeneralParticleHandler.SpawnParticle(blastRing2);
-                    blastRing2.DrawLayer = GeneralDrawLayer.AfterEverything;
+                    GeneralParticleHandler.SpawnParticle(blastRing2, false, GeneralDrawLayer.AfterEverything);
                 }
                 Projectile.velocity *= 0.96f;
                 if (time == 3)
@@ -90,8 +89,7 @@ namespace CalamityMod.Projectiles.Magic
                         Particle spark = new CustomSpark(Projectile.Center, -Projectile.velocity * 0.05f, "CalamityMod/Particles/GlowSpark2", false, 12, 0.07f * scaling, Color.Black * 0.85f, new Vector2(1.7f - (1 - sharpScaling), 0.9f + (1 - sharpScaling) * 2), false);
                         GeneralParticleHandler.SpawnParticle(spark);
                         Particle spark2 = new CustomSpark(Projectile.Center, -Projectile.velocity * 0.05f, "CalamityMod/Particles/GlowSpark", false, 12, 0.035f * scaling, Color.LightGreen * 0.75f, new Vector2(1.7f - (1 - sharpScaling), 0.9f + (1 - sharpScaling) * 2));
-                        GeneralParticleHandler.SpawnParticle(spark2);
-                        spark2.DrawLayer = GeneralDrawLayer.AfterEverything;
+                        GeneralParticleHandler.SpawnParticle(spark2, false, GeneralDrawLayer.AfterEverything);
                     }
                     if (Main.rand.NextBool(6))
                     {
@@ -113,8 +111,7 @@ namespace CalamityMod.Projectiles.Magic
                             for (int i = 0; i < 2; i++)
                             {
                                 Particle blastRing2 = new CustomPulse(Projectile.Center, Vector2.Zero, InnerColor, "CalamityMod/Particles/LargeBloom", Vector2.One, Main.rand.NextFloat(-10, 10), 0.36f, 0f, scalingTimerMax / 2, true);
-                                GeneralParticleHandler.SpawnParticle(blastRing2);
-                                blastRing2.DrawLayer = GeneralDrawLayer.AfterEverything;
+                                GeneralParticleHandler.SpawnParticle(blastRing2, false, GeneralDrawLayer.AfterEverything);
                             }
                             Projectile.velocity = Vector2.Zero;
                         }

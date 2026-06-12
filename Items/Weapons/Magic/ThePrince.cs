@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Systems.Collections;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -16,18 +18,19 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             Item.staff[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<HolyFlames>()];
         }
 
         public override void SetDefaults()
         {
             Item.width = 102;
             Item.height = 112;
-            Item.damage = 166;
+            Item.damage = 180;
             Item.knockBack = 4.25f;
             Item.shootSpeed = 23.5f;
             Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
-            Item.mana = 12;
+            Item.mana = 16;
             Item.useAnimation = Item.useTime = 21;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.autoReuse = true;

@@ -559,8 +559,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.Calamity().sagePoisonDamage = (int)(SagePoison.debuffData.EnemyLostRegen * SagePoison.ViridVanguardPoisonMultiplier * CurrentViridCount);
-            target.AddBuff(ModContent.BuffType<SagePoison>(), 60);
+            target.AddBuff(ModContent.BuffType<SagePoison>(), 300);
             if (ActiveAttacking)
             {
                 Vector2 vel = new Vector2(0.1f, 0.1f).RotatedByRandom(100);

@@ -25,24 +25,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static readonly SoundStyle JackpotGFB = new("CalamityMod/Sounds/Item/SevensStrikerJackpotGFB");
         public static readonly SoundStyle CoinSound = new("CalamityMod/Sounds/Item/SevensStrikerCoinShot") { MaxInstances = 0, PitchVariance = 0.5f };
 
-        public static int ShotCoin = 0; // projectile ID to use for right click, affects damage multiplier
-        public static readonly float RightClickCopperMultiplier = 0.04f;
-        public static readonly float RightClickSilverMultiplier = 0.08f;
-        public static readonly float RightClickGoldMultiplier = 0.16f;
-        public static int RightClickAmmoSavedPercent = 80;
-        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(RightClickAmmoSavedPercent);
-
         public static readonly float DoublesMultiplier = 1f; // Unfortunately doubles can't be doubles. Balancing!
         public static readonly float TriplesCherryMultiplier = 1f;
         public static readonly float TriplesCherrySplitMultiplier = 0.333f;
         public static readonly float TriplesGrapeMultiplier = 0.333f; // fixed the grapes interfering with each other's iframes
         public static readonly float JackpotMultiplier = 0.5f; // Jackpot fires 49 shots total and thus needs to be reduced somehow...
         public static readonly float JackpotMultiplierGFB = 7f; // ...Unless you simply cannot stop winning
-
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
-        }
 
         public override void SetDefaults()
         {
@@ -57,114 +45,25 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.channel = true;
             Item.useTurn = true;
             Item.autoReuse = true;
+            Item.UseSound = null;
+            Item.noUseGraphic = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAmmo = AmmoID.Coin;
+            Item.shoot = ModContent.ProjectileType<SevensStrikerHoldout>();
             Item.shootSpeed = 24f;
             Item.shoot = ProjectileID.PlatinumCoin;
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
             Item.rare = ModContent.RarityType<Turquoise>();
             Item.Calamity().donorItem = true;
         }
-
-        public override bool AltFunctionUse(Player player) => true;
-
-        public override bool? UseItem(Player player)
-        {
-            // Right click has a chance to save money
-            if (player.altFunctionUse == 2)
-            {
-                bool consumeCoin = Main.rand.Next(100) >= RightClickAmmoSavedPercent;
-                long coinCount = Utils.CoinsCount(out bool overflow, player.inventory);
-                int price;
-
-                if (overflow || coinCount > 10000)
-                {
-                    price = 10000;
-                    ShotCoin = ProjectileID.GoldCoin;
-                }
-                else if (coinCount > 100)
-                {
-                    price = 100;
-                    ShotCoin = ProjectileID.SilverCoin;
-                }
-                else
-                {
-                    price = 1;
-                    ShotCoin = ProjectileID.CopperCoin;
-                }
-
-                if (consumeCoin)
-                    player.BuyItem(price);
-            }
-
-            // Left click does nothing, it just spawns the holdout
-            else
-                Item.shoot = ModContent.ProjectileType<SevensStrikerHoldout>();
-
-            return base.UseItem(player);
-        }
-
         public override Vector2? HoldoutOffset() => new Vector2(-30, -11);
-
-        // Left click spawns a holdout, so the item must not appear normally.
-        // Right click uses the item like a standard gun, so draw it normally.
-        public override void UseAnimation(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                Item.UseSound = CoinSound;
-                Item.noUseGraphic = false;
-            }
-            else
-            {
-                Item.UseSound = null;
-                Item.noUseGraphic = true;
-            }
-        }
-
-        // Right click fires coins extremely rapidly (3 use time)
-        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 0.1f : 1f;
-
-        // Right click consumes coins manually instead of using Terraria's ammo system
-        // (otherwise it could shoot Platinum Coins)
-        public override bool CanConsumeAmmo(Item ammo, Player player) => player.altFunctionUse == 2 ? false : true;
-
-        public override bool CanUseItem(Player player)
-        {
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<SevensStrikerHoldout>()] <= 0)
-                return true;
-
-            if (player.altFunctionUse == 2)
-            {
-                Utils.CoinsCount(out bool overflow, player.inventory);
-                return overflow;
-            }
-            return true;
-        }
-
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            // Right click damage multiplier varies by coin type
-            if (player.altFunctionUse == 2)
-            {
-                Vector2 shootDirection = velocity.SafeNormalize(Vector2.UnitX * player.direction);
-                Vector2 gunTip = position + shootDirection * Item.scale * 90f;
-                gunTip.Y -= 20f;
+            Projectile holdout = Projectile.NewProjectileDirect(source, player.MountedCenter, Vector2.Zero, ModContent.ProjectileType<SevensStrikerHoldout>(), damage, knockback, player.whoAmI);
 
-                // spread copied from Onyxia, angular conic spread instead of Terraria's square spread
-                float randAngle = Main.rand.NextFloat(-0.05f, 0.05f);
-                float randVelMultiplier = Main.rand.NextFloat(0.92f, 1.08f);
-                Vector2 finalVelocity = velocity.RotatedBy(randAngle) * randVelMultiplier;
-                float damageMult = ShotCoin == ProjectileID.GoldCoin
-                    ? RightClickGoldMultiplier : ShotCoin == ProjectileID.SilverCoin
-                    ? RightClickSilverMultiplier : RightClickCopperMultiplier;
-                int finalDamage = (int)(damage * damageMult);
-                Projectile.NewProjectile(source, gunTip, finalVelocity, ShotCoin, finalDamage, knockback, player.whoAmI);
-            }
-
-            // Left click just spawns the holdout
-            else
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<SevensStrikerHoldout>(), damage, knockback, player.whoAmI, type, 0f);
+            // We set the rotation to the direction to the mouse so the first frame doesn't appear bugged out.
+            holdout.velocity = (player.Calamity().mouseWorld - player.MountedCenter).SafeNormalize(Vector2.Zero);
             return false;
         }
 

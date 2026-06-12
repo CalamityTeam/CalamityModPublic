@@ -143,11 +143,6 @@ ExoPrism: {
 	Tooltip: Fractal energies shimmer across its surface
 }
 
-GalacticaSingularity: {
-	DisplayName: Galactica Singularity
-	Tooltip: A shard of the cosmos
-}
-
 GrandScale: {
 	DisplayName: Grand Scale
 	Tooltip: Large scale of an apex predator
@@ -175,12 +170,7 @@ Lumenyl: {
 
 MeldBlob: {
 	DisplayName: Meld Blob
-	Tooltip: ""
-}
-
-MeldConstruct: {
-	DisplayName: Meld Construct
-	Tooltip: ""
+	Tooltip: "'Shrieks of distorted memories echo within this mass' "
 }
 
 MiracleMatter: {

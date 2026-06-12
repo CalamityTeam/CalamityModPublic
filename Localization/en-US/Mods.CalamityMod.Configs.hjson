@@ -208,6 +208,15 @@ CalamityClientConfig: {
 			'''
 	}
 
+	BoCSpriteChange: {
+		Label: "[i:BrainOfConfusion] Remove Potentially Disturbing Imagery"
+		Tooltip:
+			'''
+			Replaces some boss sprites to remove potentially upsetting imagery that could trigger phobias.
+			Highly recommended if you are uncomfortable with body horror or have trypophobia.
+			'''
+	}
+
 	RageMeterPosX: {
 		Label: "[i:LaserRuler] Rage Meter X Position"
 		Tooltip:

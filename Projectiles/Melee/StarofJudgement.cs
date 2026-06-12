@@ -21,6 +21,11 @@ namespace CalamityMod.Projectiles.Melee
             ProjectileID.Sets.TrailCacheLength[Type] = 12;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float hitboxSize = Projectile.width * Projectile.scale;
+            return CalamityUtils.CircularHitboxCollision(Projectile.Center, hitboxSize, targetHitbox);
+        }
         public override void SetDefaults()
         {
             Projectile.width = 44;
@@ -40,7 +45,8 @@ namespace CalamityMod.Projectiles.Melee
             if (time == 0)
             {
                 mainColor = Main.rand.NextBool() ? Color.MediumPurple : Color.MediumOrchid;
-                Projectile.scale = (Projectile.ai[2] == 1 ? 0.75f : 0.5f);
+                if (Projectile.numHits == 0)
+                    Projectile.scale *= (Projectile.ai[2] == 1 ? 0.75f : 0.5f);
                 if (Projectile.ai[2] == 1)
                 {
                     Projectile.localNPCHitCooldown = -1;
@@ -60,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile.velocity = Projectile.velocity.RotatedBy(0.085f * Projectile.ai[1]);
                 if (time % 2 == 0)
                 {
-                    Particle spark = new CustomSpark(Projectile.Center, Projectile.velocity * 0.2f, "CalamityMod/Particles/BloomCircle", false, 13, 0.35f, mainColor * 0.75f, new Vector2(0.8f, 1.35f), true, false, shrinkSpeed: 0.3f);
+                    Particle spark = new CustomSpark(Projectile.Center, Projectile.velocity * 0.2f, "CalamityMod/Particles/BloomCircle", false, 13, 0.35f, mainColor * 0.75f, new Vector2(0.8f, 1.35f) * Projectile.scale, true, false, shrinkSpeed: 0.3f);
                     GeneralParticleHandler.SpawnParticle(spark);
                 }
             }
@@ -70,10 +76,11 @@ namespace CalamityMod.Projectiles.Melee
                 if (Main.rand.NextBool(3))
                 {
                     Dust trailDust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(5, 5) - Projectile.velocity, ModContent.DustType<SquashDust>());
-                    trailDust.scale = Main.rand.NextFloat(0.7f, 0.85f);
+                    trailDust.scale = Main.rand.NextFloat(0.9f, 1.05f) * Projectile.scale;
                     trailDust.velocity = -Projectile.velocity * Main.rand.NextFloat(0.3f, 0.5f);
                     trailDust.color = Main.rand.NextBool() ? Color.MediumPurple : Color.MediumOrchid;
                     trailDust.noGravity = true;
+                    trailDust.fadeIn = Projectile.scale - 1;
                 }
             }
 

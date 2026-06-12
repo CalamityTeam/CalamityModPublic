@@ -18,6 +18,7 @@ using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.Abyss
 {
+    [HeavyKnockbackWhitelisted]
     public class SlabCrab : ModNPC
     {
         enum AIState

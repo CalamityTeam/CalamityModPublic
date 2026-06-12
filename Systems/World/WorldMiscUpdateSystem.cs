@@ -619,7 +619,10 @@ namespace CalamityMod.Systems
 
             bool adultWyrmAlive = CalamityGlobalNPC.adultEidolonWyrmHead != -1 && Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active;
             if (!adultWyrmAlive)
+            {
+                CalamityUtils.BroadcastLocalizedText("Mods.CalamityMod.Status.Boss.PrimordialWyrmSpawn", Color.Cyan);
                 NPC.SpawnOnPlayer(player.whoAmI, NPCType<PrimordialWyrmHead>());
+            }
         }
         #endregion
     }

@@ -37,7 +37,10 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.ignoreWater = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = Projectile.MaxUpdates * 9;
-            Projectile.minionSlots = 5f;
+            if (!Main.gameMenu && Main.player[Projectile.owner].Calamity().fadedIdolatry)
+                Projectile.minionSlots = 4f;
+            else
+                Projectile.minionSlots = 5f;
             Projectile.timeLeft = 90000;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
@@ -63,6 +66,12 @@ namespace CalamityMod.Projectiles.Summon
 
             // Perform minion checks.
             PerformMinionChecks();
+
+            //Update slots to match Faded Idolatry equip state
+            if (Main.player[Projectile.owner].Calamity().fadedIdolatry)
+                Projectile.minionSlots = 4f;
+            else
+                Projectile.minionSlots = 5f;
 
             // Handle frame logic.
             if (Projectile.FinalExtraUpdate())

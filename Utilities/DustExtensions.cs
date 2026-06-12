@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Terraria;
 
 namespace CalamityMod.Utilities
@@ -7,6 +8,13 @@ namespace CalamityMod.Utilities
     {
         extension(Dust dust)
         {
+            public float dataAsFloat
+            {
+                get => (float)dust.customData;
+                set => dust.customData = value;
+            }
+
+
             [Obsolete("DO NOT USE. It is an unsafe fix to an even more unsafe vanilla method.")]
             public static Dust BetterCloneDust(Dust rf)
             {

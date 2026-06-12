@@ -11,6 +11,8 @@ NoArmorSetBonusKey: Press the Armor Set Bonus key
 ArmorSetBonusKey: Press {0}
 DoubleTapDown: Double tap {0}
 // Miscellaneous stats/info
+MinionSlotCost: Uses {0} minion slots
+MinionSlotCostSingle: Uses {0} minion slot
 AggroBoost: Enemies are more likely to target you
 AggroReduction: Enemies are less likely to target you
 KnockbackImmunity: Grants immunity to knockback
@@ -22,6 +24,12 @@ AbyssBreathLevel2: Moderately reduces breath loss in the abyss
 AbyssBreathLevel3: Greatly reduces breath loss in the abyss
 AlcoholWarning: Drinking more than 3 different alcohols might not end well with your liver
 ArmorPenetration: Ignores {0} points of enemy Defense
+SalesmanShrinePitch:
+	'''
+	'You know that neat treasure you found when I was definitely not following you?'
+	'Turns out there was a whole pile of those trinkets, stashed conveniently close to the treasure chest! Finders keepers - or perhaps you wanna seal a deal?'
+	'''
+AverageDamageInfo: This weapon scales with the average of all your damage stats
 CanMineUelibloom: Can mine Uelibloom Ore
 NotConsumable: Not consumable
 SummonTagDamageFlat: "{0} summon tag damage"
@@ -47,19 +55,30 @@ GrappleStats:
 	Reelback Velocity: {2}
 	Pull Velocity: {3}
 	'''
+StatsAwful: Awful
+StatsPoor: Poor
+StatsAverage: Average
+StatsGood: Good
+StatsGreat: Great
+StatsExcellent: Excellent
 WingStats:
 	'''
 	Flight time: {0} seconds
-	Max horizontal speed: {1} mph
-	Max vertical speed: {2} mph
+	Max horizontal speed: {1}
+	Max vertical speed: {2}
+	Horizontal acceleration: {3}
+	Vertical acceleration: {4}
 	'''
-WingStatsAcceleration:
+WingStatsFull:
 	'''
-	Horizontal acceleration: {0} mph/s
-	Vertical acceleration:
-	{1} mph/s
-	{2} mph/s if ascending slower than {3} mph
-	{4} mph/s if ascending while falling
+	Flight time: {0} seconds
+	Max horizontal speed: {1} ({2} mph)
+	Max vertical speed: {3} ({4} mph)
+	Horizontal acceleration: {5} ({6} mph/s)
+	Vertical acceleration: {7}
+	- {8} mph/s
+	- {9} mph/s if ascending slower than {10} mph
+	- {11} mph/s if ascending while falling
 	'''
 WingStatsHover:
 	'''

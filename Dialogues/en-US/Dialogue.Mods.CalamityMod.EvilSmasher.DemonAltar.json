@@ -1,0 +1,47 @@
+﻿{
+    "Revision": 1,
+    "DefaultColor": "FF00FF",
+    "DefaultSpeaker": "DemonAltar",
+    "AlignType": 1,
+    "TextDelay": 2,
+    "BasePunctuationDelay": {
+        "Delay": 10,
+        "ForceSet": false,
+        "Locks": false
+    },
+    "PunctuationDelayCap": 30,
+    "PunctuationDelays": {
+        "!": {
+            "Delay": 20,
+            "ForceSet": true,
+            "Locks": true
+        },
+        "?": {
+            "Delay": 20,
+            "ForceSet": true,
+            "Locks": true
+        }
+    },
+    "Pages": [
+        {
+            "Lines": [
+                "Bearer of the Holy Hammer...[Pause(0.25)] [Wavy:desirest thou to taste true power?]"
+            ]
+        },
+        {
+            "Lines": [
+                "Thine eyes shall be opened...[Pause(0.25)] [Shaking:thou shalt be even as the gods!]"
+            ]
+        },
+        {
+            "Lines": [
+                "Yield the hammer unto us upon the altar."
+            ]
+        },
+        {
+            "Lines": [
+                "Surrender, and thou shalt surely receive our might."
+            ]
+        }
+    ]
+}

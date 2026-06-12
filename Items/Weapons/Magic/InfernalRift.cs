@@ -1,5 +1,7 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -14,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             Item.staff[Type] = true;
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [BuffID.OnFire3];
         }
 
         public override void SetDefaults()
@@ -22,7 +25,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.height = 16;
             Item.damage = 50;
             Item.DamageType = DamageClass.Magic;
-            Item.mana = 15;
+            Item.crit = 25;
+            Item.mana = 25;
             Item.useTime = 2;
             Item.useAnimation = 30;
             Item.reuseDelay = Item.useAnimation + 6;
@@ -37,10 +41,6 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<InfernalBlade>();
             Item.shootSpeed = 28f;
         }
-
-        // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 25;
-
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

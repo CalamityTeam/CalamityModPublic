@@ -58,8 +58,9 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SandstoneBrick, 20).
-                AddIngredient<StormlionMandible>(2).
+                AddIngredient(ItemID.Amber, 5).
+                AddIngredient(ItemID.AntlionMandible, 3).
+                AddIngredient(ItemID.PalmWood, 10).
                 AddTile(TileID.Anvils).
                 Register();
         }

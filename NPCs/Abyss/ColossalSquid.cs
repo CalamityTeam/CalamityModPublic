@@ -19,6 +19,7 @@ using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.Abyss
 {
+    [HeavyKnockbackWhitelisted]
     public class ColossalSquid : ModNPC
     {
         public bool hasBeenHit = false;

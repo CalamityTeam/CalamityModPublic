@@ -2,6 +2,7 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Particles;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -107,12 +108,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
-        {
-            modifiers.SetCrit();
-            Player Owner = Main.player[Projectile.owner];
-            float critDamage = Math.Min(Owner.GetTotalCritChance(Projectile.DamageType) * 0.01f, 1f);
-            modifiers.SourceDamage *= 1 + critDamage;
-        }
+            => modifiers.ApplyScalingForcedCrit(Projectile);
         public override bool? CanDamage() => base.CanDamage();
     }
 }

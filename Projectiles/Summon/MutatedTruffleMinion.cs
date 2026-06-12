@@ -1,4 +1,5 @@
 ﻿using System;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.BaseProjectiles;
@@ -246,7 +247,7 @@ namespace CalamityMod.Projectiles.Summon
 
         private void SyncVariables() => Projectile.ForceNetUpdate(false);
         #endregion
-
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) => target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
         public override bool MinionContactDamage() => State == AIState.Dashing;
 
         // The minion while dashing does 1.25x more damge.

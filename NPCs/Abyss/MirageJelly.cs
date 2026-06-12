@@ -16,6 +16,7 @@ using Terraria.ModLoader.Utilities;
 
 namespace CalamityMod.NPCs.Abyss
 {
+    [HeavyKnockbackWhitelisted]
     public class MirageJelly : ModNPC
     {
         private bool teleporting = false;

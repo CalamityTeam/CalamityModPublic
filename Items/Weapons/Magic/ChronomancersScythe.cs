@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.autoReuse = false;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item71;
-            Item.mana = 10;
+            Item.mana = 30;
 
             Item.value = CalamityGlobalItem.RarityPurpleBuyPrice;
             Item.rare = ItemRarityID.Purple;

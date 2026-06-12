@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.alpha = 255;
             Projectile.timeLeft = 360;
             Projectile.penetrate = 1;
+            Projectile.Calamity().CannotProc = true;
         }
 
         public override void AI()
@@ -137,7 +138,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
             int inc;
             //For use with Contaminated Bile's Stealth Strike
-            if (Projectile.Calamity().stealthStrike)
+            if (Projectile.ai[2] > 0)
             {
                 for (int k = 0; k < 15; k++)
                 {

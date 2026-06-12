@@ -14,6 +14,7 @@ namespace CalamityMod.Tiles.FurnitureWulfrum
 
         public override void SetStaticDefaults()
         {
+            this.SetUpTable(ModContent.ItemType<Items.Placeables.FurnitureWulfrum.WulfrumLabstationItem>(), true);
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.addTile(Type);

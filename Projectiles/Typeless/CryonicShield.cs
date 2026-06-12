@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (!player.Calamity().CryoStoneVanity)
             {
                 target.AddBuff(BuffID.Frostburn2, 180);
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
+                target.AddBuff(BuffID.Frozen, 30);
             }
         }
         // CIT 2MAY2025: Replaced old manual knockback code with setting HitDirectionOverride

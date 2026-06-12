@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
@@ -29,7 +30,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void AI()
         {
-            float projTimer = Projectile.ai[1] == 1f ? 900f : 600f;
+            float projTimer = Projectile.ai[1] == 1f ? 795f : 600f;
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = -1;
@@ -40,8 +41,8 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 Projectile.Kill();
             }
-            float expandSizeX = Projectile.ai[1] == 1f ? 90f : 15f;
-            float expandSizeY = Projectile.ai[1] == 1f ? 90f : 15f;
+            float expandSizeX = Projectile.ai[1] == 1f ? 150f : 15f;
+            float expandSizeY = Projectile.ai[1] == 1f ? 150f : 15f;
             Point projCenterTile = Projectile.Center.ToTileCoordinates();
             int sizeMod;
             int sizeMod2;
@@ -101,13 +102,19 @@ namespace CalamityMod.Projectiles.Enemy
             }
         }
 
-        public override bool CanHitPlayer(Player target) => Projectile.ai[0] >= 60f && Projectile.ai[0] <= (Projectile.ai[1] == 1f ? 840f : 540f);
+        public override bool CanHitPlayer(Player target) => Projectile.ai[0] >= 60f && Projectile.ai[0] <= (Projectile.ai[1] == 1f ? 735f : 540f);
+
+        public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
+        {
+            if (hurtInfo.Damage > 0)
+                target.AddBuff(ModContent.BuffType<WindChilled>(), 120, true);
+        }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            float aiTrackCheck = Projectile.ai[1] == 1f ? 900f : 600f;
-            float expandSizeX2 = Projectile.ai[1] == 1f ? 90f : 15f;
-            float expandSizeY2 = Projectile.ai[1] == 1f ? 90f : 15f;
+            float aiTrackCheck = Projectile.ai[1] == 1f ? 795f : 600f;
+            float expandSizeX2 = Projectile.ai[1] == 1f ? 150f : 15f;
+            float expandSizeY2 = Projectile.ai[1] == 1f ? 150f : 15f;
             float aiTracker = Projectile.ai[0];
             float trackerClamp = MathHelper.Clamp(aiTracker / 30f, 0f, 1f);
             if (aiTracker > aiTrackCheck - 60f)

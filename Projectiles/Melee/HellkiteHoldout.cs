@@ -3,6 +3,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.NPCs;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -24,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
         public override string Texture => "CalamityMod/Items/Weapons/Melee/Hellkite";
         public override float HitboxOutset => 100;
 
-        public override Vector2 HitboxSize => new Vector2(185, 185) * Projectile.scale;
+        public override Vector2 HitboxSize => new Vector2(185, 185);
         public override float HitboxRotationOffset => MathHelper.ToRadians(-45);
 
         public override Vector2 SpriteOrigin => new(-3, 124);
@@ -55,7 +56,6 @@ namespace CalamityMod.Projectiles.Melee
         {
             CanHit = false;
             Projectile.knockBack = 0;
-            Projectile.scale = 1;
             Projectile.ai[1] = -1;
 
             // 14NOV2024: Ozzatron: clamped mouse position unnecessary, as Hellkite has no projectiles
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
                 FlipAsSword = Owner.direction == -1 ? true : false;
 
                 Vector2 bladePos = new Vector2(60, 0);
-                Vector2 particlePos = Owner.Center + (bladePos).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
+                Vector2 particlePos = Owner.Center + (bladePos).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)) * Projectile.scale;
 
                 if (Projectile.ai[2] == 5)
                 {
@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 if (chargeTimer == chargeTimerMax)
                 {
-                    particlePos = Owner.Center + (bladePos).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
+                    particlePos = Owner.Center + (bladePos).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)) * Projectile.scale;
                     SoundEngine.PlaySound(Hellkite.FullChargeSound with { Volume = 0.9f, PitchVariance = 0.2f }, Projectile.Center);
                     chargedSwing = true;
                     useAnim = storedUseAnim / 3;
@@ -164,7 +164,7 @@ namespace CalamityMod.Projectiles.Melee
 
                     for (int i = 0; i < 20; i++)
                     {
-                        Particle spark2 = new LineParticle(particlePos, new Vector2(8, 8).RotatedByRandom(100) * Main.rand.NextFloat(0.5f, 1f), false, 30, Main.rand.NextFloat(0.3f, 0.8f), Main.rand.NextBool(3) ? Color.Red : Color.OrangeRed);
+                        Particle spark2 = new LineParticle(particlePos, new Vector2(8, 8).RotatedByRandom(100) * Main.rand.NextFloat(0.5f, 1f), false, 30, Main.rand.NextFloat(0.3f, 0.8f) * Projectile.scale, Main.rand.NextBool(3) ? Color.Red : Color.OrangeRed);
                         GeneralParticleHandler.SpawnParticle(spark2);
                         Dust dust2 = Dust.NewDustPerfect(particlePos, DustID.RainbowMk2, new Vector2(8, 8).RotatedByRandom(100) * Main.rand.NextFloat(0.5f, 1f));
                         dust2.scale = Main.rand.NextFloat(0.65f, 1.15f) * fadeIn;
@@ -211,7 +211,6 @@ namespace CalamityMod.Projectiles.Melee
                     postSwing = false;
                     if (AnimationProgress == 0)
                     {
-                        Projectile.scale = 1;
                         Animation = 0;
                         doSwing = false;
                         chargeTimer = 0;
@@ -247,13 +246,13 @@ namespace CalamityMod.Projectiles.Melee
                         CanHit = true;
 
                         Vector2 particleVel = new Vector2(0, 10 * -Projectile.ai[1] * Owner.direction).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
-                        Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(30, 170), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)));
+                        Vector2 particlePos = Owner.Center + (new Vector2(Main.rand.Next(30, 170), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45))) * Projectile.scale;
                         if (chargedSwing)
                         {
                             for (int i = 0; i < 3; i++)
                             {
                                 particleVel = (new Vector2(0, 15 * -Projectile.ai[1] * Owner.direction) * Main.rand.NextFloat(0.3f, 1f)).RotatedBy(FinalRotation + MathHelper.ToRadians(-45));
-                                particlePos = Owner.Center + (new Vector2(Main.rand.Next(30, 170), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)));
+                                particlePos = Owner.Center + (new Vector2(Main.rand.Next(30, 170), 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45))) * Projectile.scale;
                                 GeneralParticleHandler.SpawnParticle(new AltSparkParticle(particlePos, -particleVel.RotatedByRandom(0.4f), false, 24, Main.rand.NextFloat(0.3f, 0.7f), Main.rand.NextBool(3) ? Color.OrangeRed : Color.DarkRed));
                                 GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(particlePos, -particleVel.RotatedByRandom(0.4f), Main.rand.NextBool(4) ? Color.Red : Color.DarkRed, 23, Main.rand.NextFloat(0.5f, 1f), 0.65f));
                                 GeneralParticleHandler.SpawnParticle(new HeavySmokeParticle(particlePos, -particleVel.RotatedByRandom(0.4f) * 2, Main.rand.NextBool(4) ? Color.Crimson : Color.Red, 23, Main.rand.NextFloat(0.5f, 1f), 0.65f, 0, true));
@@ -286,13 +285,13 @@ namespace CalamityMod.Projectiles.Melee
                             {
                                 float randRot = Main.rand.NextFloat(-10, -45);
                                 Vector2 dustVel = (new Vector2(0, 15 * -Projectile.ai[1] * Owner.direction)).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot));
-                                GeneralParticleHandler.SpawnParticle(new PointParticle(Owner.Center + (new Vector2(170, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot)).RotatedByRandom(0.4f)), -dustVel * Main.rand.NextFloat(0.4f, 0.7f), false, Main.rand.Next(15, 18 + 1), Main.rand.NextFloat(0.7f, 1.2f), (Main.rand.NextBool(4) ? Color.Orange : Color.OrangeRed) * 0.8f));
+                                GeneralParticleHandler.SpawnParticle(new PointParticle(Owner.Center + (new Vector2(170 * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot)).RotatedByRandom(0.4f)), -dustVel * Main.rand.NextFloat(0.4f, 0.7f), false, Main.rand.Next(15, 18 + 1), Main.rand.NextFloat(0.7f, 1.2f), (Main.rand.NextBool(4) ? Color.Orange : Color.OrangeRed) * 0.8f));
                             }
                             for (int i = 0; i < 4; i++)
                             {
                                 float randRot = Main.rand.NextFloat(-30, -60);
                                 Vector2 dustVel = (new Vector2(0, 15 * -Projectile.ai[1] * Owner.direction)).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot));
-                                Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(170, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), DustID.FireworksRGB, dustVel * Main.rand.NextFloat(0.3f, 0.9f));
+                                Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(170 * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), DustID.FireworksRGB, dustVel * Main.rand.NextFloat(0.3f, 0.9f));
                                 dust2.scale = Main.rand.NextFloat(0.65f, 0.95f);
                                 dust2.noGravity = true;
                                 dust2.color = Main.rand.NextBool(3) ? Color.Orange : Color.OrangeRed;
@@ -304,7 +303,7 @@ namespace CalamityMod.Projectiles.Melee
                             {
                                 float randRot = Main.rand.NextFloat(-30, -60);
                                 Vector2 dustVel = (new Vector2(0, 15 * -Projectile.ai[1] * Owner.direction)).RotatedBy(FinalRotation + MathHelper.ToRadians(randRot));
-                                Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(170, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), DustID.FireworksRGB, dustVel * Main.rand.NextFloat(0.1f, 0.5f));
+                                Dust dust2 = Dust.NewDustPerfect(Owner.Center + (new Vector2(170 * Projectile.scale, 0).RotatedBy(FinalRotation + MathHelper.ToRadians(-45)).RotatedByRandom(0.3f)), DustID.FireworksRGB, dustVel * Main.rand.NextFloat(0.1f, 0.5f));
                                 dust2.scale = Main.rand.NextFloat(0.55f, 0.85f);
                                 dust2.noGravity = true;
                                 dust2.color = Main.rand.NextBool(3) ? Color.Orange : Color.OrangeRed;
@@ -390,18 +389,17 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             Vector2 launchVel = Utils.DirectionTo(Owner.Center, Owner.Calamity().mouseWorld);
-            target.MoveNPC(launchVel, (chargedSwing ? 24 : 19), true);
+            target.MoveNPC(launchVel, (chargedSwing ? 24 : 19), true, Owner);
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
             if (chargedSwing)
-                modifiers.SetCrit();
+                modifiers.ApplyScalingForcedCrit(Projectile);
 
-            float critDamage = Math.Min(Owner.GetTotalCritChance(Projectile.DamageType) * 0.01f, 1f);
             float minMult = 0.25f;
             int hitsToMinMult = 10;
             float damageMult = Utils.Remap(pierceReduction, 0, hitsToMinMult, 1, minMult, true);
-            modifiers.SourceDamage *= (chargedSwing ? (2.9f + critDamage) : 1) * damageMult;
+            modifiers.SourceDamage *= (chargedSwing ? 2.9f : 1) * damageMult;
         }
         public override bool PreDraw(ref Color lightColor)
         {

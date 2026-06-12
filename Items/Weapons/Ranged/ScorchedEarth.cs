@@ -1,6 +1,8 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Rarities;
+using CalamityMod.Systems.Collections;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -24,6 +26,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static int OriginalUseTime = 60;
         public static int TimeBetweenBursts = 10;
         public static int ProjectilesPerBurst = 4;
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<Daybroken>(), BuffID.Oiled];
+        }
         public override void SetDefaults()
         {
             Item.damage = 550;

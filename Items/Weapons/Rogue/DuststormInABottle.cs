@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             Item.width = 20;
             Item.height = 24;
-            Item.damage = 65;
+            Item.damage = 85;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 28;
@@ -25,38 +25,21 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
             Item.value = CalamityGlobalItem.RarityLimeBuyPrice;
             Item.rare = ItemRarityID.Lime;
-            Item.shoot = ModContent.ProjectileType<DuststormInABottleProj>();
+            Item.shoot = ModContent.ProjectileType<DuststormInABottleHoldout>();
             Item.shootSpeed = 14f;
             Item.DamageType = RogueDamageClass.Instance;
+            Item.channel = true;
         }
-
-        public override float StealthDamageMultiplier => 0.6f;
-
-        public static int CloudLifetime = 200;
-        public static float DustRadius = 11f;
-
-        //Cloud hitbox size manipulation
-        public static float MaxSize = 3.2f;
-        public static float MaxSizeStealth = 3.6f;
-        public static float GrowthRate = 0.025f;
-        public static float StealthGrowthRate = 0.035f;
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void HoldItem(Player player)
         {
-            if (player.Calamity().StealthStrikeAvailable())
-            {
-                int stealth = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
-                if (stealth.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[stealth].Calamity().stealthStrike = true;
-                return false;
-            }
-            return true;
+            if (player.ownedProjectileCounts[Item.shoot] <= 0)
+                player.Calamity().rogueStealth = 0;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SandstorminaBottle).
+                AddIngredient<LemonNade>().
                 AddIngredient(ItemID.AncientCloth,5).
                 AddIngredient<GrandScale>().
                 AddTile(TileID.MythrilAnvil).

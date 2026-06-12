@@ -1,6 +1,8 @@
-﻿using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Rarities;
 using Microsoft.Xna.Framework;
+using CalamityMod.Systems.Collections;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -11,12 +13,16 @@ namespace CalamityMod.Items.Weapons.Melee
     public class SpineOfThanatos : ModItem, ILocalizedModType
     {
         public new string LocalizationCategory => "Items.Weapons.Melee";
+        public override void SetStaticDefaults()
+        {
+            CalamityItemSets.ExtraDebuffTooltip_Enemy[Type] = [ModContent.BuffType<MiracleBlight>()];
+        }
         public override void SetDefaults()
         {
             Item.width = Item.height = 28;
             Item.damage = 128;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            Item.rare = ModContent.RarityType<BurnishedAuric>();
+            Item.rare = ModContent.RarityType<ExoticRainbow>();
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;

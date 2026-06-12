@@ -14,11 +14,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         public new string LocalizationCategory => "Items.Weapons.Ranged";
         public static int MaxLoadedArrows = 9;
 
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
-        }
-
         public override void SetDefaults()
         {
             Item.width = 130;
@@ -31,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 5f;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-            Item.rare = ModContent.RarityType<BurnishedAuric>();
+            Item.rare = ModContent.RarityType<CalamityRed>();
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<CondemnationArrow>();
             Item.shootSpeed = 16f;
@@ -40,26 +35,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-50f, 0f);
 
-        public override bool AltFunctionUse(Player player) => true;
-
         public override void HoldItem(Player player)
         {
             var calPlayer = player.Calamity();
 
             if (Main.myPlayer == player.whoAmI)
             {
-                calPlayer.rightClickListener = true;
                 calPlayer.mouseRotationListener = true;
             }
-
-            if (calPlayer.mouseRight && player.ownedProjectileCounts[ModContent.ProjectileType<CondemnationHoldout>()] <= 0)
-            {
-                Item.noUseGraphic = false;
-            }
-            else
-            {
-                Item.noUseGraphic = true;
-            }
+            Item.noUseGraphic = true;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<CondemnationHoldout>()] <= 0;
@@ -71,17 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Vector2 shootVelocity = velocity;
             Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
-
-            // Single arrow firing.
-            if (player.Calamity().mouseRight)
-            {
-                Vector2 tipPosition = position + shootDirection * 110f;
-                Projectile.NewProjectile(source, tipPosition, shootVelocity, Item.shoot, damage, knockback, player.whoAmI);
-            }
-
-            // Charge-up. Done via a holdout projectile.
-            else
-                Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<CondemnationHoldout>(), 0, 0f, player.whoAmI);
+            Projectile.NewProjectile(source, position, shootDirection, ModContent.ProjectileType<CondemnationHoldout>(), 0, 0f, player.whoAmI);
             return false;
         }
     }

@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Accessories
 {
     public class VampiricTalisman : ModItem, ILocalizedModType, IHoldShiftTooltipItem
     {
-        internal const int ArmorCrunchDebuffTime = 150;
-        internal const int HeavyBleedingDebuffTime = 300;
-        public const float RaiderBonus = 15f;
+        internal static int ArmorCrunchDebuffTime => 150;
+        internal static int HeavyBleedingDebuffTime => 300;
+        public static int RaiderBonus => 15;
 
         public bool ShowExtensionIndicator => false;
 
