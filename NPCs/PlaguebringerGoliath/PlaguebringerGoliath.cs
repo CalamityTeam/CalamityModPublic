@@ -1309,8 +1309,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // Mark PBG as dead
             DownedBossSystem.downedPlaguebringer = true;
             CalamityNetcode.SyncWorld();

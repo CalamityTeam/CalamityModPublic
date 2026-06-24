@@ -1562,8 +1562,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(npc);
-
             switch (mechType)
             {
                 case MechType.Thanatos:

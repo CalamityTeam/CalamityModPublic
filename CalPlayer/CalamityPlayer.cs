@@ -249,16 +249,6 @@ namespace CalamityMod.CalPlayer
 
         #endregion
 
-        #region Speedrun Timer
-        // The Calamity Speedrun Timer uses the highest precision timing available to .NET and thus to the system hardware.
-        // Current session time is maintained by CalamityMod.SpeedrunTimer, which is a C# Stopwatch running constantly while a player is loaded.
-        // Total time is calculated on demand by adding the current stopwatch time to the previous session total.
-        // This allows time to be tracked accurately through multiple save and quits.
-        internal TimeSpan previousSessionTotal;
-        internal int lastSplitType = -1;
-        internal TimeSpan lastSplit;
-        #endregion
-
         #region Tile Entity Trackers
         public int CurrentlyViewedFactoryID = -1;
         public int CurrentlyViewedChargerID = -1;
@@ -1963,10 +1953,6 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("HasTalkedAtCodebreaker", HasTalkedAtCodebreaker);
             boost.AddWithCondition("HasCraftedDraedonsForge", HasCraftedDraedonsForge);
 
-            // Calculate the new total time of all sessions at the instant of this player save.
-            TimeSpan newSessionTotal = previousSessionTotal.Add(SpeedrunTimerSystem.Elapsed);
-            long totalTicks = newSessionTotal.Ticks;
-
             // Save all cooldowns which are marked as persisting through save/load.
             TagCompound cooldownsTag = new TagCompound();
             var cdIterator = cooldowns.GetEnumerator();
@@ -1994,9 +1980,6 @@ namespace CalamityMod.CalPlayer
             tag["moveSpeedBonus"] = moveSpeedBonus;
             tag["defenseDamage"] = totalDefenseDamage;
             tag["defenseDamageRecoveryFrames"] = defenseDamageRecoveryFrames;
-            tag["totalSpeedrunTicks"] = totalTicks;
-            tag["lastSplitType"] = lastSplitType;
-            tag["lastSplitTicks"] = lastSplit.Ticks;
             tag["cooldowns"] = cooldownsTag;
             tag["SeenDraedonDialogs"] = SeenDraedonDialogs;
         }
@@ -2084,13 +2067,6 @@ namespace CalamityMod.CalPlayer
             if (totalDefenseDamageRecoveryFrames <= 0)
                 totalDefenseDamageRecoveryFrames = DefenseDamageBaseRecoveryTime;
 
-            // Load the previous total elapsed time to know where to start the timer when it starts.
-            long ticks = tag.GetLong("totalSpeedrunTicks");
-            previousSessionTotal = new TimeSpan(ticks);
-            // Also load the last split, so it will show up.
-            lastSplitType = tag.GetInt("lastSplitType");
-            ticks = tag.GetLong("lastSplitTicks");
-            lastSplit = new TimeSpan(ticks);
             SeenDraedonDialogs = tag.GetList<ulong>("SeenDraedonDialogs").ToList();
 
             // Clear the player's cooldowns in preparation for loading.
@@ -6604,7 +6580,6 @@ namespace CalamityMod.CalPlayer
         private static int startMessageDisplayDelay = -1;
 
         // Triggers effects that must occur when the player enters the world. This sends a bunch of packets in multiplayer.
-        // It also starts the speedrun timer if applicable.
         public override void OnEnterWorld()
         {
             if (CalamityClientConfig.Instance.StutterFix)
@@ -6612,11 +6587,6 @@ namespace CalamityMod.CalPlayer
 
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 EnterWorldSync();
-
-            // Enabling the config while a player is loaded will show the timer immediately.
-            // But it won't start running until you save and quit and re-enter a world.
-            if (CalamityClientConfig.Instance.SpeedrunTimer)
-                SpeedrunTimerSystem.Restart();
 
             bool showWikiMessage = CalamityClientConfig.Instance.WikiStatusMessage;
             bool showVCMMMessage = CalamityClientConfig.Instance.VCMMStatusMessage && !ExternalMods.VCMMAvailable;

@@ -148,10 +148,6 @@ namespace CalamityMod
         public float RipperMeterShake { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(false)]
-        public bool SpeedrunTimer { get; set; }
-
-        [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         public bool FlightBar { get; set; }
         #endregion
@@ -218,18 +214,6 @@ namespace CalamityMod
         [Range(0f, 100f)]
         [DefaultValue(RipperUI.DefaultAdrenPosY)]
         public float AdrenalineMeterPosY { get; set; }
-
-        [BackgroundColor(192, 54, 64, 192)]
-        [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 100f)]
-        [DefaultValue(SpeedrunTimerUI.DefaultTimerPosX)]
-        public float SpeedrunTimerPosX { get; set; }
-
-        [BackgroundColor(192, 54, 64, 192)]
-        [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 100f)]
-        [DefaultValue(SpeedrunTimerUI.DefaultTimerPosY)]
-        public float SpeedrunTimerPosY { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]

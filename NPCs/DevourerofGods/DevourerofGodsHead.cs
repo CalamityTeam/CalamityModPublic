@@ -2562,8 +2562,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<Bandit>() }, DownedBossSystem.downedDoG);
 
             // If DoG has not been killed yet, notify players that the holiday moons are buffed

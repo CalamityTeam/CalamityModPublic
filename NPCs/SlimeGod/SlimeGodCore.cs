@@ -628,8 +628,6 @@ IL_6899:
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // Mark the Slime God as dead
             DownedBossSystem.downedSlimeGod = true;
             CalamityNetcode.SyncWorld();

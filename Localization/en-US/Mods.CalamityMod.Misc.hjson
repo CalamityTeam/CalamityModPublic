@@ -128,3 +128,42 @@ GFBRougeUppercase: Rouge
 GFBRogueLowercase: rogue
 GFBRougeLowercase: rouge
 HotkeyNotBound: "[None]"
+
+SpeedrunDisplay: {
+	DesertScourge: DS
+	Crabulon: Crab
+	HiveMind: Hive
+	Perforators: Perfs
+	SlimeGod: SG
+	Cryogen: Cryogen
+	AquaticScourge: AS
+	BrimstoneElemental: Brimmy
+	CalamitasClone: CalClone
+	Leviathan: Levi
+	AstrumAureus: Aureus
+	PlaguebringerGoliath: PBG
+	Ravager: Rav
+	AstrumDeus: Deus
+	ProfanedGuardians: PG
+	Dragonfolly: Folly
+	Providence: Provi
+	CeaselessVoid: CV
+	StormWeaver: SW
+	Signus: Signus
+	Polterghast: Polter
+	OldDuke: OD
+	DevourerOfGods: DoG
+	Yharon: Yharon
+	SupremeCalamitas: SCal
+	ExoMechs: Exos
+	PrimordialWyrm: Wyrm
+	Cynosure: Cynosure
+	AllCalamityBosses: All Bosses
+
+    DoGPumpkinMoon: PumpMoon2
+    DoGFrostMoon: FrostMoon2
+    DoGEclipse: Eclipse2
+
+	CalamityCynosure: Calamity: Cynosure
+	CalamityAllBosses: Calamity: All Bosses
+}

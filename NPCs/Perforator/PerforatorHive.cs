@@ -639,8 +639,6 @@ namespace CalamityMod.NPCs.Perforator
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
             if (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator)
             {

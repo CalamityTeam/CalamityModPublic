@@ -40,6 +40,7 @@ using CalamityMod.NPCs.Other;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.PrimordialWyrm;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
@@ -57,7 +58,9 @@ using CalamityMod.Systems;
 using CalamityMod.Systems.Graphic.LiquidSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.IO;
 using Terraria.Localization;
@@ -194,11 +197,8 @@ namespace CalamityMod
             SummonersAssociationSupport();
             ColoredDamageTypesSupport();
             LuminanceSupport();
-
-            if (!Main.dedServ)
-            {
-                WikiThisSupport();
-            }
+            WikiThisSupport();
+            SpeedrunDisplaySupport();
         }
 
         #region BiomeLava
@@ -244,117 +244,6 @@ namespace CalamityMod
                     biomelava.Call("ModLavaStyle", calamity, lavaStyle.Name, lavaStyle.Texture, lavaStyle.BlockTexture, lavaStyle.SlopeTexture, lavaStyle.WaterfallTexture, GetSplashDust, GetDropletGore, ModifyLightFunc, IsLavaActive, lavafallGlowmask, InflictDebuffFunc, yes);
                 }
             }
-        }
-        #endregion
-
-        #region WikiThis
-        // This is a separate function because it only runs clientside
-        private static void WikiThisSupport()
-        {
-            // Wikithis is a clientside mod
-            if (Main.dedServ)
-                return;
-
-            CalamityMod calamity = GetInstance<CalamityMod>();
-            Mod wiki = ExternalMods.wikithis;
-            if (wiki is null)
-                return;
-
-            bool oldVersion = wiki.Version < new Version(2, 4, 7, 5);
-
-            wiki.Call("AddModURL", calamity, oldVersion ? CalamityWikiURLOld : CalamityWikiURL);
-            wiki.Call(0, calamity, oldVersion ? CalamityWikiURLOld : CalamityWikiURL);
-            wiki.Call("AddWikiTexture", calamity, Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
-            wiki.Call(3, calamity, Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
-
-            // Clear up name conflicts
-            void ItemRedirect(int item, string pageName) => wiki.Call(1, item, pageName);
-            void EnemyRedirect(int item, string pageName) => wiki.Call(2, item, pageName);
-
-            // Items
-            ItemRedirect(ItemType<PineapplePet>(), "Pineapple (calamity)");
-            ItemRedirect(ItemType<TrashmanTrashcan>(), "Trash Can (pet)");
-            // Lore items
-            ItemRedirect(ItemType<LoreAstralInfection>(), loreItemPage);
-            ItemRedirect(ItemType<LoreAbyss>(), loreItemPage);
-            ItemRedirect(ItemType<LoreAquaticScourge>(), loreItemPage);
-            ItemRedirect(ItemType<LoreArchmage>(), loreItemPage);
-            ItemRedirect(ItemType<LoreAstrumAureus>(), loreItemPage);
-            ItemRedirect(ItemType<LoreAstrumDeus>(), loreItemPage);
-            ItemRedirect(ItemType<LoreAwakening>(), loreItemPage);
-            ItemRedirect(ItemType<LoreAzafure>(), loreItemPage);
-            ItemRedirect(ItemType<LoreBloodMoon>(), loreItemPage);
-            ItemRedirect(ItemType<LoreBrainofCthulhu>(), loreItemPage);
-            ItemRedirect(ItemType<LoreBrimstoneElemental>(), loreItemPage);
-            ItemRedirect(ItemType<LoreCalamitas>(), loreItemPage);
-            ItemRedirect(ItemType<LoreCalamitasClone>(), loreItemPage);
-            ItemRedirect(ItemType<LoreCeaselessVoid>(), loreItemPage);
-            ItemRedirect(ItemType<LoreCorruption>(), loreItemPage);
-            ItemRedirect(ItemType<LoreCrabulon>(), loreItemPage);
-            ItemRedirect(ItemType<LoreCrimson>(), loreItemPage);
-            ItemRedirect(ItemType<LoreCynosure>(), loreItemPage);
-            ItemRedirect(ItemType<LoreDesertScourge>(), loreItemPage);
-            ItemRedirect(ItemType<LoreDestroyer>(), loreItemPage);
-            ItemRedirect(ItemType<LoreDevourerofGods>(), loreItemPage);
-            ItemRedirect(ItemType<LoreDragonfolly>(), loreItemPage);
-            ItemRedirect(ItemType<LoreDukeFishron>(), loreItemPage);
-            ItemRedirect(ItemType<LoreEaterofWorlds>(), loreItemPage);
-            ItemRedirect(ItemType<LoreEmpressofLight>(), loreItemPage);
-            ItemRedirect(ItemType<LoreExoMechs>(), loreItemPage);
-            ItemRedirect(ItemType<LoreEyeofCthulhu>(), loreItemPage);
-            ItemRedirect(ItemType<LoreGolem>(), loreItemPage);
-            ItemRedirect(ItemType<LoreHiveMind>(), loreItemPage);
-            ItemRedirect(ItemType<LoreKingSlime>(), loreItemPage);
-            ItemRedirect(ItemType<LoreLeviathanAnahita>(), loreItemPage);
-            ItemRedirect(ItemType<LoreMechs>(), loreItemPage);
-            ItemRedirect(ItemType<LoreOldDuke>(), loreItemPage);
-            ItemRedirect(ItemType<LorePerforators>(), loreItemPage);
-            ItemRedirect(ItemType<LorePlaguebringerGoliath>(), loreItemPage);
-            ItemRedirect(ItemType<LorePlantera>(), loreItemPage);
-            ItemRedirect(ItemType<LorePolterghast>(), loreItemPage);
-            ItemRedirect(ItemType<LorePrelude>(), loreItemPage);
-            ItemRedirect(ItemType<LoreProfanedGuardians>(), loreItemPage);
-            ItemRedirect(ItemType<LoreProvidence>(), loreItemPage);
-            ItemRedirect(ItemType<LoreQueenBee>(), loreItemPage);
-            ItemRedirect(ItemType<LoreQueenSlime>(), loreItemPage);
-            ItemRedirect(ItemType<LoreRavager>(), loreItemPage);
-            ItemRedirect(ItemType<LoreRequiem>(), loreItemPage);
-            ItemRedirect(ItemType<LoreSignus>(), loreItemPage);
-            ItemRedirect(ItemType<LoreSkeletron>(), loreItemPage);
-            ItemRedirect(ItemType<LoreSkeletronPrime>(), loreItemPage);
-            ItemRedirect(ItemType<LoreSlimeGod>(), loreItemPage);
-            ItemRedirect(ItemType<LoreStormWeaver>(), loreItemPage);
-            ItemRedirect(ItemType<LoreSulphurSea>(), loreItemPage);
-            ItemRedirect(ItemType<LoreTwins>(), loreItemPage);
-            ItemRedirect(ItemType<LoreUnderworld>(), loreItemPage);
-            ItemRedirect(ItemType<LoreWallofFlesh>(), loreItemPage);
-            ItemRedirect(ItemType<LoreYharon>(), loreItemPage);
-
-            // Enemies
-            EnemyRedirect(NPCType<KingSlimeJewelRuby>(), "Crown Jewels");
-            EnemyRedirect(NPCType<OldDukeToothBall>(), "Tooth Ball (Old Duke)");
-            EnemyRedirect(NPCType<CalamitasEnchantDemon>(), "Enchantment");
-            EnemyRedirect(NPCType<LeviathanStart>(), "%3F%3F%3F");
-        }
-        #endregion
-
-        #region Subworld Library
-        // Wrapper function to detect if a subworld is in use for Subworld Library.
-        internal static bool InAnySubworld()
-        {
-            if (ExternalMods.subworldLibrary is null)
-                return false;
-
-            foreach (Mod mod in ModLoader.Mods)
-            {
-                if (mod.Name.Equals(ExternalMods.subworldLibrary.Name))
-                    continue;
-
-                bool anySubworldForMod = (ExternalMods.subworldLibrary.Call("AnyActive", mod) as bool?) ?? false;
-                if (anySubworldForMod)
-                    return true;
-            }
-            return false;
         }
         #endregion
 
@@ -1104,6 +993,62 @@ namespace CalamityMod
         #endregion
         #endregion
 
+        #region Colored Damage Types
+        // These are vanilla Terraria's colors for tooltips and damage
+        private static Color DefaultTooltipColor = Color.White;
+        private static Color DefaultDamageColor = new(255, 160, 80);
+        private static Color DefaultCritColor = new(255, 100, 30);
+
+        // These are Colored Damage Types' colors for the Melee class
+        private static Color MeleeTooltipColor = new(254, 121, 2);
+        private static Color MeleeDamageColor = new(254, 121, 2);
+        private static Color MeleeCritColor = new(253, 62, 3);
+
+        private static Color MeleeRangedTooltipColor = new(144, 171, 76);
+        private static Color MeleeRangedDamageColor = new(144, 171, 76);
+        private static Color MeleeRangedCritColor = new(86, 102, 46);
+
+        private static Color RogueTooltipColor = new(206, 132, 227);
+        private static Color RogueDamageColor = new(206, 132, 227);
+        private static Color RogueCritColor = new(194, 38, 212);
+        private static Color StealthTooltipColor = RogueTooltipColor;
+        private static Color StealthDamageColor = new(185, 105, 250);
+        private static Color StealthCritColor = new(144, 33, 235);
+
+        private static void ColoredDamageTypesSupport()
+        {
+            Mod coloredDamageTypes = ExternalMods.coloredDamageTypes;
+            if (coloredDamageTypes is null)
+                return;
+
+            // Anything that directly uses AverageDamageClass uses the default vanilla colors.
+            coloredDamageTypes.Call("AddDamageType", AverageDamageClass.Instance, DefaultTooltipColor, DefaultDamageColor, DefaultCritColor);
+
+            // True melee uses the same colorations as regular Melee.
+            coloredDamageTypes.Call("AddDamageType", TrueMeleeDamageClass.Instance, MeleeTooltipColor, MeleeDamageColor, MeleeCritColor);
+            coloredDamageTypes.Call("AddDamageType", TrueMeleeNoSpeedDamageClass.Instance, MeleeTooltipColor, MeleeDamageColor, MeleeCritColor);
+
+            // Melee-ranged hybrid damage uses a 50% blend between Melee and Ranged, turning into Olive green
+            coloredDamageTypes.Call("AddDamageType", MeleeRangedHybridDamageClass.Instance, MeleeRangedTooltipColor, MeleeRangedDamageColor, MeleeRangedCritColor);
+
+            // Rogue has its own lavender color. Stealth strikes are hued towards violet so they stick out more.
+            // They would be hued towards magenta, but that would make them collide with Nebula-colored Magic in Colored Damage Types config.
+            coloredDamageTypes.Call("AddDamageType", RogueDamageClass.Instance, RogueTooltipColor, RogueDamageColor, RogueCritColor);
+            coloredDamageTypes.Call("AddDamageType", StealthDamageClass.Instance, StealthTooltipColor, StealthDamageColor, StealthCritColor);
+        }
+        #endregion
+
+        #region Dialogue Tweaks
+        private static void DialogueTweakSupport()
+        {
+            Mod dialogueMod = ExternalMods.dialogueTweak;
+            if (dialogueMod != null)
+            {
+                dialogueMod.Call("ReplaceShopButtonIcon", NPCType<BrimstoneWitch>(), "Head");
+            }
+        }
+        #endregion
+
         #region Fargo's Mutant Mod
         private static void FargosSupport()
         {
@@ -1134,14 +1079,165 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Dialogue Tweaks
-        private static void DialogueTweakSupport()
+        #region Luminance
+        private static void RegisterWorldInfoIcon(Mod luminance, string texturePath, string hoverTextKey, Func<WorldFileData, bool> shouldAppear, byte priority)
+            => luminance.Call("RegisterWorldInfoIcon", texturePath, hoverTextKey, shouldAppear, priority);
+
+        private static void LuminanceSupport()
         {
-            Mod dialogueMod = ExternalMods.dialogueTweak;
-            if (dialogueMod != null)
+            Mod luminance = ExternalMods.luminance;
+            if (luminance is null)
+                return;
+
+            Func<WorldFileData, bool> deathEnabled = data =>
             {
-                dialogueMod.Call("ReplaceShopButtonIcon", NPCType<BrimstoneWitch>(), "Head");
+                if (!data.TryGetHeaderData<WorldSelectionDifficultySystem>(out var tagData))
+                    return false;
+
+                return tagData.ContainsKey("DeathMode") && tagData.GetBool("DeathMode");
+            };
+
+            Func<WorldFileData, bool> revengeanceEnabled = data =>
+            {
+                if (!data.TryGetHeaderData<WorldSelectionDifficultySystem>(out var tagData))
+                    return false;
+
+                return tagData.ContainsKey("RevengeanceMode") && tagData.GetBool("RevengeanceMode") && !(tagData.ContainsKey("DeathMode") && tagData.GetBool("DeathMode"));
+            };
+
+            RegisterWorldInfoIcon(luminance, "CalamityMod/UI/ModeIndicator/ModeIndicator_Death", "Mods.CalamityMod.UI.Death", deathEnabled, 50);
+            RegisterWorldInfoIcon(luminance, "CalamityMod/UI/ModeIndicator/ModeIndicator_Rev", "Mods.CalamityMod.UI.Revengeance", revengeanceEnabled, 50);
+        }
+        #endregion
+
+        #region Speedrun Display
+        private static bool cachedPumpkinMoon = false;
+        private static bool cachedFrostMoon = false;
+        private static bool cachedEclipse = false;
+
+        private static void SpeedrunDisplaySupport()
+        {
+            if (Main.dedServ)
+                return;
+
+            Mod speedrunDisplay = ExternalMods.speedrunDisplay;
+            if (speedrunDisplay is null)
+                return;
+
+            static string Localize(string key) => $"Mods.CalamityMod.Misc.SpeedrunDisplay.{key}";
+            static Asset<Texture2D> BossHead<T>() where T : ModNPC => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[NPCType<T>()]];
+
+            object GetSplit(string splitKey) => speedrunDisplay.Call("GetSplit", splitKey);
+            object AddSplit(string splitKey, Asset<Texture2D> splitIcon, Func<bool> completionCheck) => speedrunDisplay.Call("AddSplit", splitKey, Localize(splitKey), splitIcon, completionCheck);
+            object AddCategory(string categoryKey, object completionSplit) => speedrunDisplay.Call("AddCategory", categoryKey, Localize(categoryKey), completionSplit);
+
+            AddSplit("DesertScourge", BossHead<DesertScourgeHead>(), DownedDesertScourge);
+            AddSplit("Crabulon", BossHead<Crabulon>(), DownedCrabulon);
+            AddSplit("HiveMind", Request<Texture2D>("CalamityMod/NPCs/HiveMind/HiveMindP2_Head_Boss"), DownedHiveMind);
+            AddSplit("Perforators", BossHead<PerforatorHive>(), DownedPerforators);
+            AddSplit("SlimeGod", BossHead<SlimeGodCore>(), DownedSlimeGod);
+            AddSplit("Cryogen", Request<Texture2D>("CalamityMod/NPCs/Cryogen/Cryogen_Phase1_Head_Boss"), DownedCryogen);
+            AddSplit("AquaticScourge", BossHead<AquaticScourgeHead>(), DownedAquaticScourge);
+            AddSplit("BrimstoneElemental", BossHead<NPCs.BrimstoneElemental.BrimstoneElemental>(), DownedBrimstoneElemental);
+            AddSplit("CalamitasClone", BossHead<CalamitasClone>(), DownedCalClone);
+            AddSplit("Leviathan", BossHead<Leviathan>(), DownedLeviathan);
+            AddSplit("AstrumAureus", BossHead<AstrumAureus>(), DownedAureus);
+            AddSplit("PlaguebringerGoliath", BossHead<PlaguebringerGoliath>(), DownedPBG);
+            AddSplit("Ravager", BossHead<RavagerBody>(), DownedRavager);
+            AddSplit("AstrumDeus", BossHead<AstrumDeusHead>(), DownedDeus);
+            AddSplit("ProfanedGuardians", BossHead<ProfanedGuardianCommander>(), DownedGuardians);
+            AddSplit("Dragonfolly", BossHead<Dragonfolly>(), DownedDragonfolly);
+            AddSplit("Providence", BossHead<Providence>(), DownedProvidence);
+            AddSplit("CeaselessVoid", BossHead<CeaselessVoid>(), DownedCeaselessVoid);
+            AddSplit("StormWeaver", Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverHead_Head_Boss"), DownedStormWeaver);
+            AddSplit("Signus", BossHead<Signus>(), DownedSignus);
+            AddSplit("Polterghast", Request<Texture2D>("CalamityMod/NPCs/Polterghast/Necroplasm_Head_Boss"), DownedPolterghast);
+            AddSplit("OldDuke", BossHead<OldDuke>(), DownedOldDuke);
+            AddSplit("DevourerOfGods", Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHead_Head_Boss"), DownedDoG);
+            AddSplit("Yharon", BossHead<Yharon>(), DownedYharon);
+            AddSplit("SupremeCalamitas", Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/HoodlessHeadIcon"), DownedCalamitas);
+            AddSplit("ExoMechs", Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Ares/AresBody_Head_Boss"), DownedExoMechs);
+            AddSplit("PrimordialWyrm", BossHead<PrimordialWyrmHead>(), DownedPrimordialWyrm);
+
+            AddSplit("DoGPumpkinMoon", Request<Texture2D>("Terraria/Images/Extra_12"), () =>
+            {
+                bool moonEnded = cachedPumpkinMoon && !Main.pumpkinMoon;
+                cachedPumpkinMoon = Main.pumpkinMoon;
+                return moonEnded && DownedBossSystem.downedDoG;
+            });
+
+            AddSplit("DoGFrostMoon", Request<Texture2D>("Terraria/Images/Extra_8"), () =>
+            {
+                bool moonEnded = cachedFrostMoon && !Main.snowMoon;
+                cachedFrostMoon = Main.snowMoon;
+                return moonEnded && DownedBossSystem.downedDoG;
+            });
+
+            AddSplit("DoGEclipse", Request<Texture2D>("SpeedrunDisplay/Assets/Textures/SolarEclipse"), () =>
+            {
+                bool eclipseEnded = cachedEclipse && !Main.eclipse;
+                cachedEclipse = Main.eclipse;
+                return eclipseEnded && DownedBossSystem.downedDoG;
+            });
+
+            // Re-use the vanilla "AllBosses%" completion check
+            object allBosses = GetSplit("AllBosses");
+            var completionCheckProperty = allBosses.GetType().GetProperty("CompletionCheck", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            Func<bool> allBossesCheck = (Func<bool>)completionCheckProperty.GetValue(allBosses);
+
+            // Cynosure is only available in the "Calamity: Any%" category
+            AddSplit("Cynosure", Request<Texture2D>("CalamityMod/Items/LoreItems/LoreCynosure"), () => (string)speedrunDisplay.Call("runcategory") == "CalamityAny%" && DownedBossSystem.downedCalamitas && DownedBossSystem.downedExoMechs);
+            AddSplit("AllCalamityBosses", Request<Texture2D>("CalamityMod/icon_small"), () =>
+                // Descending order is used because it is microseconds faster (important performance difference)
+                DownedBossSystem.downedExoMechs &&
+                DownedBossSystem.downedCalamitas &&
+                DownedBossSystem.downedYharon &&
+                DownedBossSystem.downedDoG &&
+                DownedBossSystem.downedBoomerDuke &&
+                DownedBossSystem.downedPolterghast &&
+                DownedBossSystem.downedSignus &&
+                DownedBossSystem.downedStormWeaver &&
+                DownedBossSystem.downedCeaselessVoid &&
+                DownedBossSystem.downedProvidence &&
+                DownedBossSystem.downedDragonfolly &&
+                DownedBossSystem.downedGuardians &&
+                allBossesCheck() && // Placed where ML would be
+                DownedBossSystem.downedAstrumDeus &&
+                DownedBossSystem.downedRavager &&
+                DownedBossSystem.downedPlaguebringer &&
+                DownedBossSystem.downedAstrumAureus &&
+                DownedBossSystem.downedLeviathan &&
+                DownedBossSystem.downedCalamitasClone &&
+                DownedBossSystem.downedBrimstoneElemental &&                
+                DownedBossSystem.downedAquaticScourge &&
+                DownedBossSystem.downedCryogen &&
+                DownedBossSystem.downedSlimeGod &&
+                (DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator) &&
+                DownedBossSystem.downedCrabulon &&
+                DownedBossSystem.downedDesertScourge);
+
+            AddCategory("CalamityCynosure", GetSplit("Cynosure"));
+            AddCategory("CalamityAllBosses", GetSplit("CalamityAllBosses"));
+        }
+        #endregion
+
+        #region Subworld Library
+        // Wrapper function to detect if a subworld is in use for Subworld Library.
+        internal static bool InAnySubworld()
+        {
+            if (ExternalMods.subworldLibrary is null)
+                return false;
+
+            foreach (Mod mod in ModLoader.Mods)
+            {
+                if (mod.Name.Equals(ExternalMods.subworldLibrary.Name))
+                    continue;
+
+                bool anySubworldForMod = (ExternalMods.subworldLibrary.Call("AnyActive", mod) as bool?) ?? false;
+                if (anySubworldForMod)
+                    return true;
             }
+            return false;
         }
         #endregion
 
@@ -1266,79 +1362,94 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Colored Damage Types
-        // These are vanilla Terraria's colors for tooltips and damage
-        private static Color DefaultTooltipColor = Color.White;
-        private static Color DefaultDamageColor = new(255, 160, 80);
-        private static Color DefaultCritColor = new(255, 100, 30);
-
-        // These are Colored Damage Types' colors for the Melee class
-        private static Color MeleeTooltipColor = new(254, 121, 2);
-        private static Color MeleeDamageColor = new(254, 121, 2);
-        private static Color MeleeCritColor = new(253, 62, 3);
-
-        private static Color MeleeRangedTooltipColor = new(144, 171, 76);
-        private static Color MeleeRangedDamageColor = new(144, 171, 76);
-        private static Color MeleeRangedCritColor = new(86, 102, 46);
-
-        private static Color RogueTooltipColor = new(206, 132, 227);
-        private static Color RogueDamageColor = new(206, 132, 227);
-        private static Color RogueCritColor = new(194, 38, 212);
-        private static Color StealthTooltipColor = RogueTooltipColor;
-        private static Color StealthDamageColor = new(185, 105, 250);
-        private static Color StealthCritColor = new(144, 33, 235);
-
-        private static void ColoredDamageTypesSupport()
+        #region WikiThis
+        // This is a separate function because it only runs clientside
+        private static void WikiThisSupport()
         {
-            Mod coloredDamageTypes = ExternalMods.coloredDamageTypes;
-            if (coloredDamageTypes is null)
+            // Wikithis is a clientside mod
+            if (Main.dedServ)
                 return;
 
-            // Anything that directly uses AverageDamageClass uses the default vanilla colors.
-            coloredDamageTypes.Call("AddDamageType", AverageDamageClass.Instance, DefaultTooltipColor, DefaultDamageColor, DefaultCritColor);
-
-            // True melee uses the same colorations as regular Melee.
-            coloredDamageTypes.Call("AddDamageType", TrueMeleeDamageClass.Instance, MeleeTooltipColor, MeleeDamageColor, MeleeCritColor);
-            coloredDamageTypes.Call("AddDamageType", TrueMeleeNoSpeedDamageClass.Instance, MeleeTooltipColor, MeleeDamageColor, MeleeCritColor);
-
-            // Melee-ranged hybrid damage uses a 50% blend between Melee and Ranged, turning into Olive green
-            coloredDamageTypes.Call("AddDamageType", MeleeRangedHybridDamageClass.Instance, MeleeRangedTooltipColor, MeleeRangedDamageColor, MeleeRangedCritColor);
-
-            // Rogue has its own lavender color. Stealth strikes are hued towards violet so they stick out more.
-            // They would be hued towards magenta, but that would make them collide with Nebula-colored Magic in Colored Damage Types config.
-            coloredDamageTypes.Call("AddDamageType", RogueDamageClass.Instance, RogueTooltipColor, RogueDamageColor, RogueCritColor);
-            coloredDamageTypes.Call("AddDamageType", StealthDamageClass.Instance, StealthTooltipColor, StealthDamageColor, StealthCritColor);
-        }
-        #endregion
-
-        #region Luminance
-        private static void RegisterWorldInfoIcon(Mod luminance, string texturePath, string hoverTextKey, Func<WorldFileData, bool> shouldAppear, byte priority)
-            => luminance.Call("RegisterWorldInfoIcon", texturePath, hoverTextKey, shouldAppear, priority);
-
-        private static void LuminanceSupport()
-        {
-            Mod luminance = ExternalMods.luminance;
-            if (luminance is null)
+            CalamityMod calamity = GetInstance<CalamityMod>();
+            Mod wiki = ExternalMods.wikithis;
+            if (wiki is null)
                 return;
 
-            Func<WorldFileData, bool> deathEnabled = data =>
-            {
-                if (!data.TryGetHeaderData<WorldSelectionDifficultySystem>(out var tagData))
-                    return false;
+            bool oldVersion = wiki.Version < new Version(2, 4, 7, 5);
 
-                return tagData.ContainsKey("DeathMode") && tagData.GetBool("DeathMode");
-            };
+            wiki.Call("AddModURL", calamity, oldVersion ? CalamityWikiURLOld : CalamityWikiURL);
+            wiki.Call(0, calamity, oldVersion ? CalamityWikiURLOld : CalamityWikiURL);
+            wiki.Call("AddWikiTexture", calamity, Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
+            wiki.Call(3, calamity, Request<Texture2D>("CalamityMod/ModSupport/WikiThisIcon"));
 
-            Func<WorldFileData, bool> revengeanceEnabled = data =>
-            {
-                if (!data.TryGetHeaderData<WorldSelectionDifficultySystem>(out var tagData))
-                    return false;
+            // Clear up name conflicts
+            void ItemRedirect(int item, string pageName) => wiki.Call(1, item, pageName);
+            void EnemyRedirect(int item, string pageName) => wiki.Call(2, item, pageName);
 
-                return tagData.ContainsKey("RevengeanceMode") && tagData.GetBool("RevengeanceMode") && !(tagData.ContainsKey("DeathMode") && tagData.GetBool("DeathMode"));
-            };
+            // Items
+            ItemRedirect(ItemType<PineapplePet>(), "Pineapple (calamity)");
+            ItemRedirect(ItemType<TrashmanTrashcan>(), "Trash Can (pet)");
+            // Lore items
+            ItemRedirect(ItemType<LoreAstralInfection>(), loreItemPage);
+            ItemRedirect(ItemType<LoreAbyss>(), loreItemPage);
+            ItemRedirect(ItemType<LoreAquaticScourge>(), loreItemPage);
+            ItemRedirect(ItemType<LoreArchmage>(), loreItemPage);
+            ItemRedirect(ItemType<LoreAstrumAureus>(), loreItemPage);
+            ItemRedirect(ItemType<LoreAstrumDeus>(), loreItemPage);
+            ItemRedirect(ItemType<LoreAwakening>(), loreItemPage);
+            ItemRedirect(ItemType<LoreAzafure>(), loreItemPage);
+            ItemRedirect(ItemType<LoreBloodMoon>(), loreItemPage);
+            ItemRedirect(ItemType<LoreBrainofCthulhu>(), loreItemPage);
+            ItemRedirect(ItemType<LoreBrimstoneElemental>(), loreItemPage);
+            ItemRedirect(ItemType<LoreCalamitas>(), loreItemPage);
+            ItemRedirect(ItemType<LoreCalamitasClone>(), loreItemPage);
+            ItemRedirect(ItemType<LoreCeaselessVoid>(), loreItemPage);
+            ItemRedirect(ItemType<LoreCorruption>(), loreItemPage);
+            ItemRedirect(ItemType<LoreCrabulon>(), loreItemPage);
+            ItemRedirect(ItemType<LoreCrimson>(), loreItemPage);
+            ItemRedirect(ItemType<LoreCynosure>(), loreItemPage);
+            ItemRedirect(ItemType<LoreDesertScourge>(), loreItemPage);
+            ItemRedirect(ItemType<LoreDestroyer>(), loreItemPage);
+            ItemRedirect(ItemType<LoreDevourerofGods>(), loreItemPage);
+            ItemRedirect(ItemType<LoreDragonfolly>(), loreItemPage);
+            ItemRedirect(ItemType<LoreDukeFishron>(), loreItemPage);
+            ItemRedirect(ItemType<LoreEaterofWorlds>(), loreItemPage);
+            ItemRedirect(ItemType<LoreEmpressofLight>(), loreItemPage);
+            ItemRedirect(ItemType<LoreExoMechs>(), loreItemPage);
+            ItemRedirect(ItemType<LoreEyeofCthulhu>(), loreItemPage);
+            ItemRedirect(ItemType<LoreGolem>(), loreItemPage);
+            ItemRedirect(ItemType<LoreHiveMind>(), loreItemPage);
+            ItemRedirect(ItemType<LoreKingSlime>(), loreItemPage);
+            ItemRedirect(ItemType<LoreLeviathanAnahita>(), loreItemPage);
+            ItemRedirect(ItemType<LoreMechs>(), loreItemPage);
+            ItemRedirect(ItemType<LoreOldDuke>(), loreItemPage);
+            ItemRedirect(ItemType<LorePerforators>(), loreItemPage);
+            ItemRedirect(ItemType<LorePlaguebringerGoliath>(), loreItemPage);
+            ItemRedirect(ItemType<LorePlantera>(), loreItemPage);
+            ItemRedirect(ItemType<LorePolterghast>(), loreItemPage);
+            ItemRedirect(ItemType<LorePrelude>(), loreItemPage);
+            ItemRedirect(ItemType<LoreProfanedGuardians>(), loreItemPage);
+            ItemRedirect(ItemType<LoreProvidence>(), loreItemPage);
+            ItemRedirect(ItemType<LoreQueenBee>(), loreItemPage);
+            ItemRedirect(ItemType<LoreQueenSlime>(), loreItemPage);
+            ItemRedirect(ItemType<LoreRavager>(), loreItemPage);
+            ItemRedirect(ItemType<LoreRequiem>(), loreItemPage);
+            ItemRedirect(ItemType<LoreSignus>(), loreItemPage);
+            ItemRedirect(ItemType<LoreSkeletron>(), loreItemPage);
+            ItemRedirect(ItemType<LoreSkeletronPrime>(), loreItemPage);
+            ItemRedirect(ItemType<LoreSlimeGod>(), loreItemPage);
+            ItemRedirect(ItemType<LoreStormWeaver>(), loreItemPage);
+            ItemRedirect(ItemType<LoreSulphurSea>(), loreItemPage);
+            ItemRedirect(ItemType<LoreTwins>(), loreItemPage);
+            ItemRedirect(ItemType<LoreUnderworld>(), loreItemPage);
+            ItemRedirect(ItemType<LoreWallofFlesh>(), loreItemPage);
+            ItemRedirect(ItemType<LoreYharon>(), loreItemPage);
 
-            RegisterWorldInfoIcon(luminance, "CalamityMod/UI/ModeIndicator/ModeIndicator_Death", "Mods.CalamityMod.UI.Death", deathEnabled, 50);
-            RegisterWorldInfoIcon(luminance, "CalamityMod/UI/ModeIndicator/ModeIndicator_Rev", "Mods.CalamityMod.UI.Revengeance", revengeanceEnabled, 50);
+            // Enemies
+            EnemyRedirect(NPCType<KingSlimeJewelRuby>(), "Crown Jewels");
+            EnemyRedirect(NPCType<OldDukeToothBall>(), "Tooth Ball (Old Duke)");
+            EnemyRedirect(NPCType<CalamitasEnchantDemon>(), "Enchantment");
+            EnemyRedirect(NPCType<LeviathanStart>(), "%3F%3F%3F");
         }
         #endregion
     }

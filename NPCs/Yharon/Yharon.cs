@@ -3027,7 +3027,6 @@ namespace CalamityMod.NPCs.Yharon
                 return;
 
             CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<Bandit>() }, DownedBossSystem.downedYharon);
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
             // If Yharon has not been killed yet, notify players of Auric Ore
             if (!DownedBossSystem.downedYharon)

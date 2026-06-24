@@ -1206,8 +1206,6 @@ namespace CalamityMod.NPCs.Crabulon
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // Start the Goblin Invasion if the player hasn't gotten one yet (this also gives players more of a reason to fight this boss)
             if (!NPC.downedGoblins && Main.netMode != NetmodeID.MultiplayerClient && !Main.snowMoon && !Main.pumpkinMoon && !DD2Event.Ongoing && !Main.ShouldNormalEventsBeAbleToStart() && Main.invasionType != 1)
                 Main.StartInvasion();

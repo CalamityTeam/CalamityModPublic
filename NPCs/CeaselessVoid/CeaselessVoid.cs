@@ -737,7 +737,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
             DownedBossSystem.downedCeaselessVoid = true;
             CalamityNetcode.SyncWorld();
         }

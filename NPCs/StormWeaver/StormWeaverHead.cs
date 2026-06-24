@@ -949,7 +949,6 @@ namespace CalamityMod.NPCs.StormWeaver
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
             DownedBossSystem.downedStormWeaver = true;
             CalamityNetcode.SyncWorld();
         }

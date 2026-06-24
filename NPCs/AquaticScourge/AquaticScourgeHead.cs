@@ -702,8 +702,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // If Aquatic Scourge has not yet been killed, notify players of buffed Acid Rain
             if (!DownedBossSystem.downedAquaticScourge)
             {

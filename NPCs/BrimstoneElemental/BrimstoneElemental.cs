@@ -926,8 +926,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // Mark brimmy as dead
             DownedBossSystem.downedBrimstoneElemental = true;
             CalamityNetcode.SyncWorld();

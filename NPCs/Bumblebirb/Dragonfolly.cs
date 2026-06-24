@@ -1270,8 +1270,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             if (BossRushEvent.BossRushActive)
                 return;
 
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
             // Mark The Dragonfolly as dead
             DownedBossSystem.downedDragonfolly = true;
             CalamityNetcode.SyncWorld();
