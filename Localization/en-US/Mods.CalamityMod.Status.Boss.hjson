@@ -82,7 +82,7 @@ DraedonEndKillAttemptText: ...Quite unnecessary.
 // Draedon (GFB)
 DraedonMechdusaBeginText: ...Die.
 DraedonMechdusaEndText1: Wait, what? How?
-DraedonMechdusaEndText2: No
+DraedonMechdusaEndText2: No.
 // SCal (First Battle)
 SCalSummonText: Do you enjoy going through hell?
 SCalStartText: You should have just died...
@@ -120,7 +120,7 @@ SCalDesparationText4Rematch: I can't imagine what your future holds now.
 PermafrostSummonText: Are you prepared for a task most Sisyphean?
 PermafrostBirbSwarmText: Those hearts were a bit too brutal for my taste. How about some lovely birds instead?
 PermafrostBH2Text: Getting tired from the battle, adventurer? Hungry? How does some Delicious Meat sound?
-PermafrostBH3Text: Suprised at how I am holding my own again you? I did train Calamitas, after all!
+PermafrostBH3Text: Surprised at how I am holding my own again you? I did train Calamitas, after all!
 PermafrostDoGText: The serpent!? How!? What is HE doing here!? Is he here to torment me further!? Kill it, adventurer!
 PermafrostPhase2Text: Ha! I suppose I can no longer be "chill" about this duel! Get it?
 PermafrostBH4Text: Need a break? Can you not even keep up with an old man?
