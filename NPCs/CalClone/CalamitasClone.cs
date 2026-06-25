@@ -94,9 +94,9 @@ namespace CalamityMod.NPCs.CalClone
                 baseSize *= 1.25f;
             if (NPC.AnyNPCs(ModContent.NPCType<SoulSeeker>()))
                 baseSize *= new Vector4(1.5f, 0.75f, 1.5f, 0.75f);
-            if (!CalamityWorld.death)
+            if (!(CalamityWorld.death || BossRushEvent.BossRushActive))
                 baseSize *= 1.25f;
-            if (lifeRatio < 0.1f && !inBulletHell && CalamityWorld.death)
+            if (lifeRatio < 0.1f && !inBulletHell && (CalamityWorld.death || BossRushEvent.BossRushActive))
                 baseSize *= MathHelper.Lerp(Main.getGoodWorld ? 0.22f : 0.4f, 1f, lifeRatio * 10f); // Scale down the lower health calclone has. Much lower bound on FTW.
 
             return baseSize + new Vector4(-22, 0, 22, 0);
