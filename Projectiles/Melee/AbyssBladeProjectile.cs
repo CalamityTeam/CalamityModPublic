@@ -16,6 +16,9 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class AbyssBladeProjectile : ModProjectile, ILocalizedModType
     {
+        private static Asset<Texture2D> _cachedTexCircularSmearSmokey;
+        private static Asset<Texture2D> _cachedTexSemiCircularSmearSwipe;
+
         public new string LocalizationCategory => "Projectiles.Melee";
         public override string Texture => "CalamityMod/Items/Weapons/Melee/AbyssBlade";
 
@@ -242,8 +245,8 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Asset<Texture2D> p = ModContent.Request<Texture2D>("CalamityMod/Particles/CircularSmearSmokey");
-            Asset<Texture2D> p2 = ModContent.Request<Texture2D>("CalamityMod/Particles/SemiCircularSmearSwipe");
+            Asset<Texture2D> p = (_cachedTexCircularSmearSmokey ??= ModContent.Request<Texture2D>("CalamityMod/Particles/CircularSmearSmokey"));
+            Asset<Texture2D> p2 = (_cachedTexSemiCircularSmearSwipe ??= ModContent.Request<Texture2D>("CalamityMod/Particles/SemiCircularSmearSwipe"));
             Vector2 generalDrawPos = Projectile.Center - Main.screenPosition;
             if (spinMode && Time < 9000)
             {

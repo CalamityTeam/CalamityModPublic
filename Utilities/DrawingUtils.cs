@@ -18,6 +18,18 @@ namespace CalamityMod
 {
     public static partial class CalamityUtils
     {
+        // Counts non-Vector2.Zero entries without allocating, for use with Projectile.oldPos-style trail arrays.
+        public static int CountNonZeroVectors(Vector2[] positions)
+        {
+            int count = 0;
+            for (int i = 0; i < positions.Length; i++)
+            {
+                if (positions[i] != Vector2.Zero)
+                    count++;
+            }
+            return count;
+        }
+
         internal static Texture2D AuroraTexture
         {
             get

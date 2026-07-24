@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -10,6 +11,9 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CometQuasherMeteor : ModProjectile, ILocalizedModType
     {
+        private static Asset<Texture2D> _cachedTexCometQuasherMeteor2;
+        private static Asset<Texture2D> _cachedTexCometQuasherMeteor3;
+
         public new string LocalizationCategory => "Projectiles.Melee";
         public ref float time => ref Projectile.ai[0];
         public Color mainColor = Color.DodgerBlue;
@@ -92,10 +96,10 @@ namespace CalamityMod.Projectiles.Melee
                     tex = Terraria.GameContent.TextureAssets.Projectile[Type].Value;
                     break;
                 case 1:
-                    tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/CometQuasherMeteor2").Value;
+                    tex = (_cachedTexCometQuasherMeteor2 ??= ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/CometQuasherMeteor2")).Value;
                     break;
                 case 2:
-                    tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/CometQuasherMeteor3").Value;
+                    tex = (_cachedTexCometQuasherMeteor3 ??= ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/CometQuasherMeteor3")).Value;
                     break;
             }
 

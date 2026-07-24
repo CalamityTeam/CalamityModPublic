@@ -16,6 +16,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BalefulHarvesterHoldout : BaseCustomUseStyleProjectile, ILocalizedModType
     {
+        private static Asset<Texture2D> _cachedTexSemiCircularSmearSwipe;
+        private static Asset<Texture2D> _cachedTexBloomCircle;
+        private static Asset<Texture2D> _cachedTexFullStar;
+
         public override int AssignedItemID => ModContent.ItemType<BalefulHarvester>();
         public override LocalizedText DisplayName => CalamityUtils.GetItemName<BalefulHarvester>();
         public override string Texture => "CalamityMod/Items/Weapons/Melee/BalefulHarvester";
@@ -218,7 +222,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Asset<Texture2D> vanillaSmear = TextureAssets.Projectile[997];
                 Rectangle vanillaSmearFrame = vanillaSmear.Frame(1, 4, 0, 0);
-                Asset<Texture2D> smear = ModContent.Request<Texture2D>("CalamityMod/Particles/SemiCircularSmearSwipe");
+                Asset<Texture2D> smear = (_cachedTexSemiCircularSmearSwipe ??= ModContent.Request<Texture2D>("CalamityMod/Particles/SemiCircularSmearSwipe"));
                 float smearOpacity = CalamityUtils.Convert01To010(time / timeMax);
                 Main.EntitySpriteDraw(vanillaSmear.Value, Projectile.Center - Main.screenPosition, vanillaSmearFrame, new Color(193, 83, 43) * smearOpacity * 0.75f, FinalRotation - MathHelper.PiOver2, vanillaSmearFrame.Size() / 2f, 1.25f * Projectile.scale, SpriteEffects.None);
                 Main.EntitySpriteDraw(smear.Value, Projectile.Center - Main.screenPosition, null, new Color(247, 115, 0) * smearOpacity, FinalRotation, smear.Size() / 2f, 1.8f * Projectile.scale, SpriteEffects.None);
@@ -226,9 +230,9 @@ namespace CalamityMod.Projectiles.Melee
                 if (smearOpacity > 0.65f)
                 {
                     Vector2 sparklePos = Projectile.Center - Main.screenPosition - (Vector2.UnitY.RotatedBy(FinalRotation + MathHelper.PiOver4 * Owner.direction) * 120f);
-                    Asset<Texture2D> bloom = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
+                    Asset<Texture2D> bloom = (_cachedTexBloomCircle ??= ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle"));
                     Main.EntitySpriteDraw(bloom.Value, sparklePos, null, Color.White * 0.75f, 0f, bloom.Size() / 2f, 0.2f * Projectile.scale, SpriteEffects.None);
-                    Asset<Texture2D> sparkle = ModContent.Request<Texture2D>("CalamityMod/Particles/FullStar");
+                    Asset<Texture2D> sparkle = (_cachedTexFullStar ??= ModContent.Request<Texture2D>("CalamityMod/Particles/FullStar"));
                     Main.EntitySpriteDraw(sparkle.Value, sparklePos, null, Color.Orange, 0f, sparkle.Size() / 2f, 2f * Projectile.scale, SpriteEffects.None);
                 }
             }

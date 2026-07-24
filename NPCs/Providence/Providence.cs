@@ -56,6 +56,12 @@ namespace CalamityMod.NPCs.Providence
     [AutoloadBossHead]
     public class Providence : ModNPC
     {
+        private static Asset<Texture2D> _cachedTexBloomCircle;
+        private static Asset<Texture2D> _cachedTexStarProj;
+        private static Asset<Texture2D> _cachedTexGreyscaleOpenCircleButBigger;
+        private static Asset<Texture2D> _cachedTexNeurons2;
+        private static Asset<Texture2D> _cachedTexProvidenceDeathSilhouette;
+
         private enum Phase : sbyte
         {
             PhaseChange = -1,
@@ -2127,7 +2133,7 @@ namespace CalamityMod.NPCs.Providence
                 // Okay it should also appear in Boss Rush as well
                 if (spawnAnimation && (NPC.localAI[1] == (float)BossMode.Normal || BossRushEvent.BossRushActive))
                 {
-                    Asset<Texture2D> orbTex = ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle");
+                    Asset<Texture2D> orbTex = (_cachedTexBloomCircle ??= ModContent.Request<Texture2D>("CalamityMod/Particles/BloomCircle"));
                     float sc = CalamityUtils.CircInEasing((float)NPC.Calamity().newAI[3] / (float)spawnAnimationTime, 1);
 
                     for (int i = 0; i < 3; i++)
@@ -2329,7 +2335,7 @@ namespace CalamityMod.NPCs.Providence
             if (NPC.localAI[0] > 0f && NPC.localAI[0] < TimeForStarDespawn)
             {
                 float lerpMult = MathHelper.Lerp(0.5f, 1.5f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * MathHelper.TwoPi) / 2f + 1f);
-                Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarProj").Value;
+                Texture2D tex = (_cachedTexStarProj ??= ModContent.Request<Texture2D>("CalamityMod/Projectiles/StarProj")).Value;
                 float drawOffsetAmt = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? 20f : 64f;
                 Vector2 drawPos = NPC.Center + Vector2.UnitY * drawOffsetAmt * NPC.scale - Main.screenPosition;
                 Color baseColor = Color.Lerp(Color.Yellow, Color.OrangeRed, (float)Math.Sin(Main.GlobalTimeWrappedHourly) / 2f + 1f);
@@ -2380,7 +2386,7 @@ namespace CalamityMod.NPCs.Providence
                 float invertedSmallerOscillationRatio = 1f - (1f - smallerRemappedOscillation) * (1f - smallerRemappedOscillation);
                 float smallerOscillationScale = 1f - (1f - invertedSmallerOscillationRatio) * (1f - invertedSmallerOscillationRatio);
                 float shieldScale2 = (minScale + maxPulseScale * smallerOscillationScale) * invertedOscillationUsedForScale;
-                Texture2D shieldTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleOpenCircleButBigger").Value;
+                Texture2D shieldTexture = (_cachedTexGreyscaleOpenCircleButBigger ??= ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleOpenCircleButBigger")).Value;
                 Rectangle shieldFrame = shieldTexture.Frame();
                 Vector2 origin = shieldFrame.Size() * 0.5f;
                 Vector2 shieldDrawPos = NPC.Center - screenPos;
@@ -2429,7 +2435,7 @@ namespace CalamityMod.NPCs.Providence
                 {
                     Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.None, Main.Rasterizer, shieldEffect, matrix);
                     // Fetch shield heat overlay texture (this is the neutrons fed to the shader)
-                    Texture2D heatTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons2").Value;
+                    Texture2D heatTex = (_cachedTexNeurons2 ??= ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/Neurons2")).Value;
                     Vector2 pos = NPC.Center + NPC.gfxOffY * Vector2.UnitY - Main.screenPosition;
                     Main.spriteBatch.Draw(heatTex, shieldDrawPos, null, Color.White, 0, heatTex.Size() / 2f, shieldScale * scaleMult * 0.5f, 0, 0);
                     Main.spriteBatch.End();
@@ -2445,7 +2451,7 @@ namespace CalamityMod.NPCs.Providence
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/NPCs/Providence/Providence_DeathSilhouette").Value;
+            Texture2D tex = (_cachedTexProvidenceDeathSilhouette ??= ModContent.Request<Texture2D>("CalamityMod/NPCs/Providence/Providence_DeathSilhouette")).Value;
 
             if (Dying)
             {

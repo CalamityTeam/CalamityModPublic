@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReLogic.Content;
+using System;
 using System.Linq;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Graphics.Primitives;
@@ -17,6 +18,9 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SiriusBeam : ModProjectile, ILocalizedModType
     {
+        private static Asset<Texture2D> _cachedTexScarletDevilStreak;
+        private static Asset<Texture2D> _cachedTexSylvestaffStreak;
+
         public new string LocalizationCategory => "Projectiles.Summon";
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -96,11 +100,11 @@ namespace CalamityMod.Projectiles.Summon
 
             using (lease.Scope(clearColor: Color.Transparent))
             {
-                GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
+                GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture((_cachedTexScarletDevilStreak ??= ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak")));
                 PrimitiveRenderer.RenderTrail(Projectile.oldPos, new(FireWidthFunction, FireColorFunction, (_, _) => Projectile.Size * 0.5f, smoothen: true, pixelate: false, shader: GameShaders.Misc["CalamityMod:ImpFlameTrail"], useUnscaledMatrices: true), Projectile.oldPos.Length + 32);
 
                 Vector2[] fireCoreLength = Projectile.oldPos.Take(8).ToArray();
-                GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/SylvestaffStreak"));
+                GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture((_cachedTexSylvestaffStreak ??= ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/SylvestaffStreak")));
                 PrimitiveRenderer.RenderTrail(fireCoreLength, new(FireCoreWidthFunction, FireCoreColorFunction, (_, _) => Projectile.Size * 0.5f, smoothen: true, pixelate: false, shader: GameShaders.Misc["CalamityMod:ImpFlameTrail"], useUnscaledMatrices: true), fireCoreLength.Length + 24);
             }
 
@@ -118,8 +122,6 @@ namespace CalamityMod.Projectiles.Summon
             float width;
             float maxBodyWidth = 38f * Projectile.scale;
             float curveRatio = 0.2f;
-            var positions = Projectile.oldPos.ToList();
-            positions.RemoveAll(x => x == Vector2.Zero);
             // Crop the tip of the trail into a conic shape.
             if (completion < curveRatio)
                 width = MathF.Pow(completion / curveRatio, 0.5f) * maxBodyWidth;
@@ -129,7 +131,7 @@ namespace CalamityMod.Projectiles.Summon
             // Pulse inwards and outwards over time.
             float pulseInterpolant = MathF.Cos(MathHelper.Pi * completion - Main.GlobalTimeWrappedHourly * 20f) * 0.5f + 0.5f;
             float additionalPulseWidth = MathHelper.Lerp(0f, 12f, pulseInterpolant);
-            return  (width + additionalPulseWidth ) * positions.Count() / (float)ProjectileID.Sets.TrailCacheLength[Type] ;
+            return  (width + additionalPulseWidth ) * CalamityUtils.CountNonZeroVectors(Projectile.oldPos) / (float)ProjectileID.Sets.TrailCacheLength[Type] ;
         }
 
         public Color FireColorFunction(float completion, Vector2 pos)
@@ -144,14 +146,11 @@ namespace CalamityMod.Projectiles.Summon
             float width;
             float maxBodyWidth = Projectile.scale * 16;
             float curveRatio = 0.25f;
-            var positions = Projectile.oldPos.ToList();
-            positions.RemoveAll(x => x == Vector2.Zero);
-
             if (completion < curveRatio)
                 width = MathF.Sin(completion / curveRatio * MathHelper.PiOver2) * maxBodyWidth + curveRatio;
             else
                 width = Utils.Remap(completion, curveRatio, 1f, maxBodyWidth, 0f);
-            return  width * positions.Count() / (float)ProjectileID.Sets.TrailCacheLength[Type];
+            return  width * CalamityUtils.CountNonZeroVectors(Projectile.oldPos) / (float)ProjectileID.Sets.TrailCacheLength[Type];
         }
 
         public Color FireCoreColorFunction(float completion, Vector2 pos)

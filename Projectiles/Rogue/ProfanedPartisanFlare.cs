@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReLogic.Content;
+using System;
 using System.Linq;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Graphics.Primitives;
@@ -19,6 +20,9 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ProfanedPartisanFlare : ModProjectile, ILocalizedModType
     {
+        private static Asset<Texture2D> _cachedTexScarletDevilStreak;
+        private static Asset<Texture2D> _cachedTexGlowOrbParticle;
+
         public new string LocalizationCategory => "Projectiles.Rogue";
         public int timer = 0;
         public override string Texture => "CalamityMod/Projectiles/Boss/HolyFire";
@@ -125,7 +129,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 using (trailLease.Scope(clearColor: Color.Transparent))
                 {
-                    GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
+                    GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture((_cachedTexScarletDevilStreak ??= ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak")));
                     PrimitiveRenderer.RenderTrail(Projectile.oldPos.Take(5).ToArray(), new(FireWidthFunction, FireColorFunction, (_, _) => Projectile.Size * 0.5f, smoothen: true, pixelate: false, shader: GameShaders.Misc["CalamityMod:ImpFlameTrail"], useUnscaledMatrices: true), Projectile.oldPos.Length + 32);
                 }
 
@@ -165,7 +169,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.EntitySpriteDraw(texture, drawPos, null, baseColor2, left - Projectile.rotation, origin, scale * 0.36f, spriteEffects, 0);
 
                 scale = new Vector2(1f, 1f);
-                texture = ModContent.Request<Texture2D>("CalamityMod/Particles/GlowOrbParticle").Value;
+                texture = (_cachedTexGlowOrbParticle ??= ModContent.Request<Texture2D>("CalamityMod/Particles/GlowOrbParticle")).Value;
                 using (Main.spriteBatch.Scope())
                 {
 
@@ -188,8 +192,6 @@ namespace CalamityMod.Projectiles.Rogue
             float width;
             float maxBodyWidth = 16f * Projectile.scale;
             float curveRatio = 0.2f;
-            var positions = Projectile.oldPos.ToList();
-            positions.RemoveAll(x => x == Vector2.Zero);
             // Crop the tip of the trail into a conic shape.
             if (completion < curveRatio)
                 width = MathF.Pow(completion / curveRatio, 0.5f) * maxBodyWidth;
@@ -199,7 +201,7 @@ namespace CalamityMod.Projectiles.Rogue
             // Pulse inwards and outwards over time.
             float pulseInterpolant = MathF.Cos(MathHelper.Pi * completion - Main.GlobalTimeWrappedHourly * 20f) * 0.5f + 0.5f;
             float additionalPulseWidth = MathHelper.Lerp(0f, 12f, pulseInterpolant);
-            return (width + additionalPulseWidth) * positions.Count() / (float)ProjectileID.Sets.TrailCacheLength[Type];
+            return (width + additionalPulseWidth) * CalamityUtils.CountNonZeroVectors(Projectile.oldPos) / (float)ProjectileID.Sets.TrailCacheLength[Type];
         }
 
         public Color FireColorFunction(float completion, Vector2 pos)

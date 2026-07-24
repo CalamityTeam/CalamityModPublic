@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReLogic.Content;
+using System;
 using System.Linq;
 using CalamityMod.Graphics.Primitives;
 using CalamityMod.NPCs.Providence;
@@ -18,6 +19,9 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBlastFrags : ModProjectile, ILocalizedModType
     {
+        private static Asset<Texture2D> _cachedTexScarletDevilStreak;
+        private static Asset<Texture2D> _cachedTexHolyFire2Night;
+
         public override string Texture => "CalamityMod/Projectiles/Boss/HolyFire2";
 
         public new string LocalizationCategory => "Projectiles.Boss";
@@ -104,7 +108,7 @@ namespace CalamityMod.Projectiles.Boss
 
                 list.Insert(0, Projectile.position + (Projectile.rotation+MathHelper.PiOver2 * Projectile.spriteDirection).ToRotationVector2() * 16f);
 
-                GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak"));
+                GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture((_cachedTexScarletDevilStreak ??= ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Trails/ScarletDevilStreak")));
                 PrimitiveRenderer.RenderTrail(list.ToArray(), new(FireWidthFunction, FireColorFunction, (_, _) => Projectile.Size * 0.5f, smoothen: true, pixelate: false, shader: GameShaders.Misc["CalamityMod:ImpFlameTrail"], useUnscaledMatrices: true), Projectile.oldPos.Length + 32);
             }
 
@@ -113,7 +117,7 @@ namespace CalamityMod.Projectiles.Boss
             Main.spriteBatch.End();
 
             Main.spriteBatch.Begin(ss);
-            Texture2D texture = ProvUtils.StandardAI() ? Terraria.GameContent.TextureAssets.Projectile[Type].Value : ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyFire2Night").Value;
+            Texture2D texture = ProvUtils.StandardAI() ? Terraria.GameContent.TextureAssets.Projectile[Type].Value : (_cachedTexHolyFire2Night ??= ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/HolyFire2Night")).Value;
             int framing = texture.Height / Main.projFrames[Type];
             int y6 = framing * Projectile.frame;
             Projectile.DrawBackglow(ProvUtils.GetProjectileColor(lightColor, true), 4f, texture);
@@ -125,8 +129,6 @@ namespace CalamityMod.Projectiles.Boss
             float width;
             float maxBodyWidth = 38f * Projectile.scale;
             float curveRatio = 0.2f;
-            var positions = Projectile.oldPos.ToList();
-            positions.RemoveAll(x => x == Vector2.Zero);
             // Crop the tip of the trail into a conic shape.
             if (completion < curveRatio)
                 width = MathF.Pow(completion / curveRatio, 0.5f) * maxBodyWidth;
@@ -136,7 +138,7 @@ namespace CalamityMod.Projectiles.Boss
             // Pulse inwards and outwards over time.
             float pulseInterpolant = MathF.Cos(MathHelper.Pi * completion - Main.GlobalTimeWrappedHourly * 20f) * 0.5f + 0.5f;
             float additionalPulseWidth = MathHelper.Lerp(0f, 12f, pulseInterpolant);
-            return (width + additionalPulseWidth) * positions.Count() / (float)ProjectileID.Sets.TrailCacheLength[Type];
+            return (width + additionalPulseWidth) * CalamityUtils.CountNonZeroVectors(Projectile.oldPos) / (float)ProjectileID.Sets.TrailCacheLength[Type];
         }
 
         public Color FireColorFunction(float completion, Vector2 pos)

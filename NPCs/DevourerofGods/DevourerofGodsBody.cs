@@ -19,6 +19,7 @@ namespace CalamityMod.NPCs.DevourerofGods
     [LongDistanceNetSync(SyncWith = typeof(DevourerofGodsHead))]
     public class DevourerofGodsBody : ModNPC
     {
+        private static Asset<Texture2D> _cachedTexHarshNoise;
         public static int phase2IconIndex;
 
         public override void Load()
@@ -296,7 +297,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
                 MiscShaderData dissolveShader = GameShaders.Misc["CalamityMod:Dissolve"];
-                Texture2D dissolveTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/HarshNoise").Value;
+                Texture2D dissolveTexture = (_cachedTexHarshNoise ??= ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/HarshNoise")).Value;
 
                 dissolveShader.Shader.Parameters["noiseScale"].SetValue(0.25f);
                 dissolveShader.Shader.Parameters["dissolveIntensity"].SetValue(CalamityDrawParameterNPC.DoGDeathAnimationTimer / 600f);
