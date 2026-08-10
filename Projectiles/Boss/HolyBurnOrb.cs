@@ -284,11 +284,16 @@ namespace CalamityMod.Projectiles.Boss
                     Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
                     using (TrailPixelationLease.Scope(clearColor: Color.Transparent))
                     {
-                        foreach (var item in HolyBurnOrbs)
-                            item.ModProjectile<HolyBurnOrb>().DrawTrail();
-
-                        foreach (var item in HolyLights)
-                            item.ModProjectile<HolyLight>().DrawTrail();
+                         foreach (var item in HolyBurnOrbs)
+                        {
+                            if (item.ModProjectile is HolyBurnOrb orb)
+                                orb.DrawTrail();
+                        }
+                         foreach (var item in HolyLights)
+                        {
+                            if (item.ModProjectile is HolyLight light)
+                                light.DrawTrail();
+                        }
                     }
 
                     Main.spriteBatch.End();
