@@ -129,6 +129,10 @@ namespace CalamityMod.Projectiles.Ranged
                 collisionDust.noGravity = true;
             }
 
+            // Gores are not loaded on dedicated servers, so Mod.Find would throw there.
+            if (Main.dedServ)
+                return;
+
             int goreToExclude = Main.rand.Next(3);
             switch (goreToExclude)
             {
