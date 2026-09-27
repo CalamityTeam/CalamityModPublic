@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         public new string LocalizationCategory => "Items.Placeables";
         public static int SignalTime = 30 * 60;
         public static int SpawnIntervals = 4 * 60;
-        public static int MaxEnemiesPerWave = 3;
+        public static int MaxEnemiesPerWave = 5;
         public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(SignalTime.FramesToSeconds());
 
         public override void SetDefaults()

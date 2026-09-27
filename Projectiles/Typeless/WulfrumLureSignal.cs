@@ -2,6 +2,7 @@
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Tools;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.Packets.Entities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -37,28 +38,14 @@ namespace CalamityMod.Projectiles.Typeless
         {
             Time++;
 
-            if (Time % WulfrumLureItem.SpawnIntervals == 0)
+            // Only the server (or singleplayer) may spawn NPCs. Clients spawning them would create local-only enemies the server never knows about.
+            if (Time % WulfrumLureItem.SpawnIntervals == 0 && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                WulfrumLureItem.MaxEnemiesPerWave = 5;
                 int enemiesToSpawn = Main.rand.Next(1, WulfrumLureItem.MaxEnemiesPerWave);
 
-                Player player = Main.LocalPlayer;
+                Player player = Main.player[Player.FindClosest(Projectile.position, Projectile.width, Projectile.height)];
 
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    float closestPlayerDistance = (Main.LocalPlayer.Center - Projectile.Center).Length();
-                    foreach (Player plr in Main.ActivePlayers)
-                    {
-                        float newDistance = (plr.Center - Projectile.Center).Length();
-                        if (newDistance < closestPlayerDistance)
-                        {
-                            closestPlayerDistance = newDistance;
-                            player = plr;
-                        }
-                    }
-                }
-
-                if ((player.Center - Projectile.Center).Length() > 3500)
+                if (!player.active || (player.Center - Projectile.Center).Length() > 3500)
                     return;
 
                 for (int i = 0; i < enemiesToSpawn; i++)
@@ -83,12 +70,14 @@ namespace CalamityMod.Projectiles.Typeless
                     {
                         int npcToSpawn = LureSpawnPool[Main.rand.Next(LureSpawnPool.Count)];
                         int index = NPC.NewNPC(Projectile.GetSource_FromAI(), (int)spawnPosition.X, (int)spawnPosition.Y, npcToSpawn, Target: player.whoAmI);
-
-                        for (int iy = 0; iy < 16; iy++)
+                        if (Main.netMode == NetmodeID.Server)
                         {
-                            Dust zapDust = Dust.NewDustPerfect(spawnPosition + Main.rand.NextVector2Circular(1f, 1f) * 20f, DustID.Electric, Main.rand.NextVector2Circular(1f, 1f) * Main.rand.NextFloat(1f, 2.3f) - Vector2.UnitY * 6f);
-                            zapDust.noGravity = true;
+                            if (index < Main.maxNPCs)
+                                NetMessage.SendData(MessageID.SyncNPC, number: index);
+                            WulfrumLureSpawnSparksPacket.Send(spawnPosition);
                         }
+                        else
+                            SpawnArrivalSparks(spawnPosition);
                     }
                 }
             }
@@ -105,6 +94,15 @@ namespace CalamityMod.Projectiles.Typeless
                     dust.noGravity = true;
                     dust.velocity = Projectile.velocity;
                 }
+            }
+        }
+
+        public static void SpawnArrivalSparks(Vector2 position)
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                Dust zapDust = Dust.NewDustPerfect(position + Main.rand.NextVector2Circular(1f, 1f) * 20f, DustID.Electric, Main.rand.NextVector2Circular(1f, 1f) * Main.rand.NextFloat(1f, 2.3f) - Vector2.UnitY * 6f);
+                zapDust.noGravity = true;
             }
         }
 
