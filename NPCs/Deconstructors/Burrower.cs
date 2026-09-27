@@ -487,9 +487,9 @@ namespace CalamityMod.NPCs.Deconstructors
         }
         public override void HitEffect(NPC.HitInfo hit)
         {
-            if (NPC.life <= 0)
+            // Gores are not loaded on dedicated servers, so Mod.Find would throw there and abort the kill before loot drops.
+            if (NPC.life <= 0 && !Main.dedServ)
             {
-
                 Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Mod.Find<ModGore>("DeconstructorMK1_Head").Type, NPC.scale);
                 Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Mod.Find<ModGore>("DeconstructorMK1_Head2").Type, NPC.scale);
                 foreach (var item in Segments)
