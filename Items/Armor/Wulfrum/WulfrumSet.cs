@@ -317,7 +317,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
         {
             if (wulfrumSet && Player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out var cd) && cd.timeLeft == WulfrumHat.BastionCooldown)
             {
-                SetBonusEndEffect(false);
+                if (!Main.dedServ)
+                    SetBonusEndEffect(false);
             }
         }
 
