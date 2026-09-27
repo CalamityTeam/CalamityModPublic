@@ -34,7 +34,19 @@ namespace CalamityMod.Projectiles.Ranged
 
         public Player Owner => Main.player[Projectile.owner];
 
-        public Projectile VoidragonHoldout => Main.projectile[(int)Projectile.ai[0]];
+        // ai[0] is the holdout's index on the owner's client, which is a different slot on the server and other clients.
+        // Resolve it through the owner's projectile identity instead, and return null if the holdout is gone.
+        public Projectile VoidragonHoldout
+        {
+            get
+            {
+                int holdoutIndex = Projectile.GetByUUID(Projectile.owner, Projectile.ai[0]);
+                if (holdoutIndex < 0 || Main.projectile[holdoutIndex].type != ModContent.ProjectileType<VoidragonHoldout>())
+                    return null;
+
+                return Main.projectile[holdoutIndex];
+            }
+        }
 
         public ref float LaserLength => ref Projectile.ai[1];
 
@@ -158,12 +170,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(ref Color lightColor)
         {
+            if (ControlPoints is null || VoidragonHoldout is null)
+                return false;
+
             Asset<Texture2D> mainStreakTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GreyscaleGradients/HarshNoise");
             int beamTimer = VoidragonHoldout.ModProjectile<VoidragonHoldout>().beamTimer;
             float beamWidthInterpolant = Utils.GetLerpValue(500, 460, beamTimer, true);
-
-            if (ControlPoints is null)
-                return false;
 
             Main.spriteBatch.End(out var snapshot);
 
