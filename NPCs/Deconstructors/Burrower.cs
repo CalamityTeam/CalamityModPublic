@@ -60,6 +60,11 @@ namespace CalamityMod.NPCs.Deconstructors
         public override void AI()
         {
             base.AI();
+
+            // The base AI deactivates this hitbox when the head is gone, and a dead head may have no global NPC data to read.
+            if (!NPC.active)
+                return;
+
             if (Main.npc.IndexInRange((int)NPC.ai[0]))
             {
                 NPC headNPC = Main.npc[(int)NPC.ai[0]];
