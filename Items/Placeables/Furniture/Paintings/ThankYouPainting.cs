@@ -98,6 +98,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Paintings
             "Xyk",
             "YuH",
             "Zarachard",
+            "Natedogwoof",
         };
 
         public static IList<string> formerDevList = new List<string>()

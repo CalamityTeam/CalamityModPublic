@@ -1,8 +1,6 @@
 # Calamity Mod
-[![Discord](https://img.shields.io/discord/225030931008847874)](https://discord.gg/calamity)
 - [Official site](https://calamitymod.com/)
 - [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2824688072)
-- [Discord](https://discord.gg/calamity)
 - [Official Wiki](https://calamitymod.wiki.gg/)
 - [Patreon](https://patreon.com/CalamityMod)
 
@@ -14,8 +12,6 @@ The Calamity Mod and all associated source code, visual assets, audio assets, ch
 
 Active development by Calamity developers occurs on a separate, private repository. Contributions made here will be cherry picked into that repository. When an update is released to the Steam Workshop, the `1.4.4-release` branch is replaced with the matching branch from the private repository.
 
-Issues are disabled on this repository. To report a bug, please join the [Calamity Discord](https://discord.gg/calamity) and use the `#bug-reports-read-pins` forum therein.
-
-Please do not submit resprites via pull requests. Instead, go to the [Calamity Art Discord](https://discord.gg/CKByxd5) and use the Asset Submission system if you want to propose a resprite for Calamity.
+Issues Please do not submit resprites via pull requests. Instead, go to the [Calamity Art Discord](https://discord.gg/CKByxd5) and use the Asset Submission system if you want to propose a resprite for Calamity.
 
 **Do not redistribute the Calamity Mod.** Creating your own builds of the mod from an in-development sourcetree may cause confusion in the community and make players' mods fail to sync in multiplayer. Azafure will remove any unauthorized copies of the Calamity Mod published to the Steam Workshop or rehosted elsewhere, and reserves all rights and remedies available to Azafure.
